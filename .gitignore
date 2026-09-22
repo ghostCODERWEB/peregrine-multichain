@@ -32,9 +32,16 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
 
 # vercel
 .vercel
+
+# local SQLite cache/ledger/scanner db — runtime state, not source
+/data/*.db
+/data/*.db-journal
+/data/*.db-wal
+/data/*.db-shm
 
 # typescript
 *.tsbuildinfo

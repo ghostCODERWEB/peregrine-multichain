@@ -1,0 +1,48 @@
+[
+  {
+    "requestHash": "24389a33917270b9d22d2dbc01e3b13db4ff37bd",
+    "request": {
+      "search_query": "AAVE",
+      "result_type": "token",
+      "chain": "ethereum",
+      "limit": 3
+    },
+    "response": {
+      "tokens": [
+        {
+          "name": "AAVE",
+          "symbol": "AAVE",
+          "chain": "ethereum",
+          "address": "0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9",
+          "price": 144.028820652565,
+          "volume_24h": 6471944.141893273,
+          "market_cap": 2222208974.51887,
+          "rank": 672
+        },
+        {
+          "name": "Wrapped Aave Ethereum WETH",
+          "symbol": "WAETHWETH",
+          "chain": "ethereum",
+          "address": "0x0bfc9d54fc184518a81162f8fb99c2eaca081202",
+          "price": 2946.06799228521,
+          "volume_24h": 165.24840350066722,
+          "market_cap": 33358054.1346905,
+          "rank": 1173
+        },
+        {
+          "name": "Aave Ethereum WETH",
+          "symbol": "AETHWETH",
+          "chain": "ethereum",
+          "address": "0x4d5f47fa6a74757f35c14fd3a6ef8e3c9bc514e8",
+          "price": 2756.3638785792,
+          "volume_24h": 4090301.37942674,
+          "market_cap": 6384542985.12034,
+          "rank": 1237
+        }
+      ],
+      "entities": [],
+      "total_results": 3
+    },
+    "recordedAt": 1790110722058
+  }
+]
