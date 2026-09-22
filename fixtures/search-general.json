@@ -44,5 +44,505 @@
       "total_results": 3
     },
     "recordedAt": 1790110722058
+  },
+  {
+    "requestHash": "8c343c111358c1e230cf894b921931ce11ceaa02",
+    "request": {
+      "search_query": "token0",
+      "result_type": "token",
+      "limit": 1
+    },
+    "response": {
+      "tokens": [
+        {
+          "name": "Shitzu",
+          "symbol": "SHITZU",
+          "chain": "near",
+          "address": "token.0xshitzu.near",
+          "price": 0.002007935816936105,
+          "volume_24h": 142935.22941738943,
+          "market_cap": 615785,
+          "rank": 1697
+        }
+      ],
+      "entities": [],
+      "total_results": 1
+    },
+    "recordedAt": 1790110908239
+  },
+  {
+    "requestHash": "f1243dddd2616f49d0b018a6f5448f056628e279",
+    "request": {
+      "search_query": "token5",
+      "result_type": "token",
+      "limit": 1
+    },
+    "response": {
+      "tokens": [
+        {
+          "name": "Zcash Token",
+          "symbol": "ZEC",
+          "chain": "bnb",
+          "address": "0x1ba42e5193dfa8b03d15dd1b86a3113bbbef8eeb",
+          "price": 1506.59268701421,
+          "volume_24h": 5619677.155661994,
+          "market_cap": 332625312.321198,
+          "rank": 318
+        }
+      ],
+      "entities": [],
+      "total_results": 1
+    },
+    "recordedAt": 1790110909148
+  },
+  {
+    "requestHash": "60bd88b246e4705d757b6229051ddf20e1114a97",
+    "request": {
+      "search_query": "token4",
+      "result_type": "token",
+      "limit": 1
+    },
+    "response": {
+      "tokens": [
+        {
+          "name": "Zcash Token",
+          "symbol": "ZEC",
+          "chain": "bnb",
+          "address": "0x1ba42e5193dfa8b03d15dd1b86a3113bbbef8eeb",
+          "price": 1506.59268701421,
+          "volume_24h": 5619677.155661994,
+          "market_cap": 332625312.321198,
+          "rank": 318
+        }
+      ],
+      "entities": [],
+      "total_results": 1
+    },
+    "recordedAt": 1790110908708
+  },
+  {
+    "requestHash": "f5f3f8325b7e17bd163d2da6dee3764bf9985afb",
+    "request": {
+      "search_query": "token9",
+      "result_type": "token",
+      "limit": 1
+    },
+    "response": {
+      "tokens": [
+        {
+          "name": "Zcash Token",
+          "symbol": "ZEC",
+          "chain": "bnb",
+          "address": "0x1ba42e5193dfa8b03d15dd1b86a3113bbbef8eeb",
+          "price": 1506.59268701421,
+          "volume_24h": 5619677.155661994,
+          "market_cap": 332625312.321198,
+          "rank": 318
+        }
+      ],
+      "entities": [],
+      "total_results": 1
+    },
+    "recordedAt": 1790110907181
+  },
+  {
+    "requestHash": "65d290b159d6574a087f3c3913368716bc83d209",
+    "request": {
+      "search_query": "token13",
+      "result_type": "token",
+      "limit": 1
+    },
+    "response": {
+      "tokens": [
+        {
+          "name": "Zcash Token",
+          "symbol": "ZEC",
+          "chain": "bnb",
+          "address": "0x1ba42e5193dfa8b03d15dd1b86a3113bbbef8eeb",
+          "price": 1506.59268701421,
+          "volume_24h": 5619677.155661994,
+          "market_cap": 332625312.321198,
+          "rank": 318
+        }
+      ],
+      "entities": [],
+      "total_results": 1
+    },
+    "recordedAt": 1790110908944
+  },
+  {
+    "requestHash": "68477ad3fe98c63e463c4d91af87f982034c1dce",
+    "request": {
+      "search_query": "token3",
+      "result_type": "token",
+      "limit": 1
+    },
+    "response": {
+      "tokens": [
+        {
+          "name": "Zcash Token",
+          "symbol": "ZEC",
+          "chain": "bnb",
+          "address": "0x1ba42e5193dfa8b03d15dd1b86a3113bbbef8eeb",
+          "price": 1506.59268701421,
+          "volume_24h": 5619677.155661994,
+          "market_cap": 332625312.321198,
+          "rank": 318
+        }
+      ],
+      "entities": [],
+      "total_results": 1
+    },
+    "recordedAt": 1790110909197
+  },
+  {
+    "requestHash": "9dbe9ae1485d0620c1aa926a67f9d21f02017a8e",
+    "request": {
+      "search_query": "token1",
+      "result_type": "token",
+      "limit": 1
+    },
+    "response": {
+      "tokens": [
+        {
+          "name": "Zcash Token",
+          "symbol": "ZEC",
+          "chain": "bnb",
+          "address": "0x1ba42e5193dfa8b03d15dd1b86a3113bbbef8eeb",
+          "price": 1506.59268701421,
+          "volume_24h": 5619677.155661994,
+          "market_cap": 332625312.321198,
+          "rank": 318
+        }
+      ],
+      "entities": [],
+      "total_results": 1
+    },
+    "recordedAt": 1790110905531
+  },
+  {
+    "requestHash": "a1c72b9b94ac10058fe625448807780f57034b60",
+    "request": {
+      "search_query": "token2",
+      "result_type": "token",
+      "limit": 1
+    },
+    "response": {
+      "tokens": [
+        {
+          "name": "Zcash Token",
+          "symbol": "ZEC",
+          "chain": "bnb",
+          "address": "0x1ba42e5193dfa8b03d15dd1b86a3113bbbef8eeb",
+          "price": 1506.59268701421,
+          "volume_24h": 5619677.155661994,
+          "market_cap": 332625312.321198,
+          "rank": 318
+        }
+      ],
+      "entities": [],
+      "total_results": 1
+    },
+    "recordedAt": 1790110902217
+  },
+  {
+    "requestHash": "79cd93aa970ecb0cb4e00d728a65665b9e087c4a",
+    "request": {
+      "search_query": "token18",
+      "result_type": "token",
+      "limit": 1
+    },
+    "response": {
+      "tokens": [
+        {
+          "name": "Zcash Token",
+          "symbol": "ZEC",
+          "chain": "bnb",
+          "address": "0x1ba42e5193dfa8b03d15dd1b86a3113bbbef8eeb",
+          "price": 1506.59268701421,
+          "volume_24h": 5619677.155661994,
+          "market_cap": 332625312.321198,
+          "rank": 318
+        }
+      ],
+      "entities": [],
+      "total_results": 1
+    },
+    "recordedAt": 1790110902729
+  },
+  {
+    "requestHash": "568504070ce0ed27ec7a57ada807cd9cecf59a29",
+    "request": {
+      "search_query": "token19",
+      "result_type": "token",
+      "limit": 1
+    },
+    "response": {
+      "tokens": [
+        {
+          "name": "Token6900",
+          "symbol": "T6900",
+          "chain": "ethereum",
+          "address": "0xdf4c0665e67cf0698447ca9e454ed56cc6f2df1e",
+          "price": 0.000452054157877959,
+          "volume_24h": 610.7455339885364,
+          "market_cap": 420859.297742203,
+          "rank": 6691
+        }
+      ],
+      "entities": [],
+      "total_results": 1
+    },
+    "recordedAt": 1790110908943
+  },
+  {
+    "requestHash": "ce5c067b65ea1ac26384d5d114babe5c26805a0d",
+    "request": {
+      "search_query": "token16",
+      "result_type": "token",
+      "limit": 1
+    },
+    "response": {
+      "tokens": [
+        {
+          "name": "Zcash Token",
+          "symbol": "ZEC",
+          "chain": "bnb",
+          "address": "0x1ba42e5193dfa8b03d15dd1b86a3113bbbef8eeb",
+          "price": 1506.59268701421,
+          "volume_24h": 5619677.155661994,
+          "market_cap": 332625312.321198,
+          "rank": 318
+        }
+      ],
+      "entities": [],
+      "total_results": 1
+    },
+    "recordedAt": 1790110902231
+  },
+  {
+    "requestHash": "cec3ad252985fff73600cc2a1114e5fa959648dc",
+    "request": {
+      "search_query": "token10",
+      "result_type": "token",
+      "limit": 1
+    },
+    "response": {
+      "tokens": [
+        {
+          "name": "Zcash Token",
+          "symbol": "ZEC",
+          "chain": "bnb",
+          "address": "0x1ba42e5193dfa8b03d15dd1b86a3113bbbef8eeb",
+          "price": 1506.59268701421,
+          "volume_24h": 5619677.155661994,
+          "market_cap": 332625312.321198,
+          "rank": 318
+        }
+      ],
+      "entities": [],
+      "total_results": 1
+    },
+    "recordedAt": 1790110907698
+  },
+  {
+    "requestHash": "0d5f397c988f4b4bee69ed587c3b7be194ab5eeb",
+    "request": {
+      "search_query": "token14",
+      "result_type": "token",
+      "limit": 1
+    },
+    "response": {
+      "tokens": [
+        {
+          "name": "Zcash Token",
+          "symbol": "ZEC",
+          "chain": "bnb",
+          "address": "0x1ba42e5193dfa8b03d15dd1b86a3113bbbef8eeb",
+          "price": 1506.59268701421,
+          "volume_24h": 5619677.155661994,
+          "market_cap": 332625312.321198,
+          "rank": 318
+        }
+      ],
+      "entities": [],
+      "total_results": 1
+    },
+    "recordedAt": 1790110902317
+  },
+  {
+    "requestHash": "45d335edac3dedea16e183c0e3edba6709014c53",
+    "request": {
+      "search_query": "token11",
+      "result_type": "token",
+      "limit": 1
+    },
+    "response": {
+      "tokens": [
+        {
+          "name": "Zcash Token",
+          "symbol": "ZEC",
+          "chain": "bnb",
+          "address": "0x1ba42e5193dfa8b03d15dd1b86a3113bbbef8eeb",
+          "price": 1506.59268701421,
+          "volume_24h": 5619677.155661994,
+          "market_cap": 332625312.321198,
+          "rank": 318
+        }
+      ],
+      "entities": [],
+      "total_results": 1
+    },
+    "recordedAt": 1790110902786
+  },
+  {
+    "requestHash": "03d6913a09e6a30a7e7ebd9e5ed0d58663a61b07",
+    "request": {
+      "search_query": "token6",
+      "result_type": "token",
+      "limit": 1
+    },
+    "response": {
+      "tokens": [
+        {
+          "name": "Token6900",
+          "symbol": "T6900",
+          "chain": "ethereum",
+          "address": "0xdf4c0665e67cf0698447ca9e454ed56cc6f2df1e",
+          "price": 0.000452054157877959,
+          "volume_24h": 610.7455339885364,
+          "market_cap": 420859.297742203,
+          "rank": 6691
+        }
+      ],
+      "entities": [],
+      "total_results": 1
+    },
+    "recordedAt": 1790110908005
+  },
+  {
+    "requestHash": "6ca954dabe1e270009df9cd142f7238fc9c6ed3e",
+    "request": {
+      "search_query": "token7",
+      "result_type": "token",
+      "limit": 1
+    },
+    "response": {
+      "tokens": [
+        {
+          "name": "Zcash Token",
+          "symbol": "ZEC",
+          "chain": "bnb",
+          "address": "0x1ba42e5193dfa8b03d15dd1b86a3113bbbef8eeb",
+          "price": 1506.59268701421,
+          "volume_24h": 5619677.155661994,
+          "market_cap": 332625312.321198,
+          "rank": 318
+        }
+      ],
+      "entities": [],
+      "total_results": 1
+    },
+    "recordedAt": 1790110907789
+  },
+  {
+    "requestHash": "28668b0f329b5472be2d05b4fee80670354362b4",
+    "request": {
+      "search_query": "token15",
+      "result_type": "token",
+      "limit": 1
+    },
+    "response": {
+      "tokens": [
+        {
+          "name": "Zcash Token",
+          "symbol": "ZEC",
+          "chain": "bnb",
+          "address": "0x1ba42e5193dfa8b03d15dd1b86a3113bbbef8eeb",
+          "price": 1506.59268701421,
+          "volume_24h": 5619677.155661994,
+          "market_cap": 332625312.321198,
+          "rank": 318
+        }
+      ],
+      "entities": [],
+      "total_results": 1
+    },
+    "recordedAt": 1790110901547
+  },
+  {
+    "requestHash": "7d973612e992a7c3a8224c132f53bf1ae493c453",
+    "request": {
+      "search_query": "token17",
+      "result_type": "token",
+      "limit": 1
+    },
+    "response": {
+      "tokens": [
+        {
+          "name": "Zcash Token",
+          "symbol": "ZEC",
+          "chain": "bnb",
+          "address": "0x1ba42e5193dfa8b03d15dd1b86a3113bbbef8eeb",
+          "price": 1506.59268701421,
+          "volume_24h": 5619677.155661994,
+          "market_cap": 332625312.321198,
+          "rank": 318
+        }
+      ],
+      "entities": [],
+      "total_results": 1
+    },
+    "recordedAt": 1790110908945
+  },
+  {
+    "requestHash": "0c0b268da33717be7981814234cf2b544eb5f07f",
+    "request": {
+      "search_query": "token12",
+      "result_type": "token",
+      "limit": 1
+    },
+    "response": {
+      "tokens": [
+        {
+          "name": "Ref Finance",
+          "symbol": "REF",
+          "chain": "near",
+          "address": "token.v2.ref-finance.near",
+          "price": 0.0844114465612402,
+          "volume_24h": 604.7380308554932,
+          "market_cap": 8118546,
+          "rank": 2968
+        }
+      ],
+      "entities": [],
+      "total_results": 1
+    },
+    "recordedAt": 1790110909241
+  },
+  {
+    "requestHash": "041d5d0bb525cbfa565ca681dd7b75ac115d333b",
+    "request": {
+      "search_query": "token8",
+      "result_type": "token",
+      "limit": 1
+    },
+    "response": {
+      "tokens": [
+        {
+          "name": "Zcash Token",
+          "symbol": "ZEC",
+          "chain": "bnb",
+          "address": "0x1ba42e5193dfa8b03d15dd1b86a3113bbbef8eeb",
+          "price": 1506.59268701421,
+          "volume_24h": 5619677.155661994,
+          "market_cap": 332625312.321198,
+          "rank": 318
+        }
+      ],
+      "entities": [],
+      "total_results": 1
+    },
+    "recordedAt": 1790110907699
   }
 ]

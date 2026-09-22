@@ -6,7 +6,16 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "e2e": "playwright test",
+    "scan": "tsx src/worker/scan.ts",
+    "build-capabilities": "tsx scripts/build-capabilities.ts",
+    "probe": "tsx scripts/probe.ts",
+    "assert-nansen-only": "tsx scripts/assert-nansen-only.ts",
+    "verify": "pnpm assert-nansen-only && pnpm typecheck && pnpm test && pnpm build"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",

@@ -1,0 +1,29 @@
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    volumes:
+      - tide-data:/app/data
+    restart: unless-stopped
+
+  # Snapshots CPI inputs and smart-money DEX trades every 15 minutes. Runs
+  # as a second container sharing the same image and the same data volume,
+  # rather than in-process with the web server, so a slow scan cycle can
+  # never block a page request.
+  scanner:
+    build: .
+    command: >
+      sh -c "while true; do pnpm scan; sleep 900; done"
+    env_file:
+      - .env
+    volumes:
+      - tide-data:/app/data
+    restart: unless-stopped
+    depends_on:
+      - app
+
+volumes:
+  tide-data:
