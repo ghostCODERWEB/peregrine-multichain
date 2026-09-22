@@ -544,5 +544,170 @@
       "total_results": 1
     },
     "recordedAt": 1790110907699
+  },
+  {
+    "requestHash": "9cbd6b45e4ebcf1401c2b97ee28ab08e8bc33a06",
+    "request": {
+      "search_query": "usdc",
+      "chain": "bitlayer",
+      "result_type": "token",
+      "limit": 5
+    },
+    "response": {
+      "tokens": [],
+      "entities": [],
+      "total_results": 0
+    },
+    "recordedAt": 1790120139942
+  },
+  {
+    "requestHash": "2ce26870c7fce594efa095d5eb4712c1425ef397",
+    "request": {
+      "search_query": "usdc",
+      "chain": "chiliz",
+      "result_type": "token",
+      "limit": 5
+    },
+    "response": {
+      "tokens": [],
+      "entities": [],
+      "total_results": 0
+    },
+    "recordedAt": 1790120140398
+  },
+  {
+    "requestHash": "4db9747ebbc4eae6e17b82715296999052e82db2",
+    "request": {
+      "search_query": "usdc",
+      "chain": "citrea",
+      "result_type": "token",
+      "limit": 5
+    },
+    "response": {
+      "tokens": [],
+      "entities": [],
+      "total_results": 0
+    },
+    "recordedAt": 1790120141240
+  },
+  {
+    "requestHash": "725bf12b234b49c39263b47e3f695d7b1c5355e3",
+    "request": {
+      "search_query": "usdc",
+      "chain": "gravity",
+      "result_type": "token",
+      "limit": 5
+    },
+    "response": {
+      "tokens": [],
+      "entities": [],
+      "total_results": 0
+    },
+    "recordedAt": 1790120141567
+  },
+  {
+    "requestHash": "3dd5c19243955effc4da0a018848747977ef18d9",
+    "request": {
+      "search_query": "usdc",
+      "chain": "katana",
+      "result_type": "token",
+      "limit": 5
+    },
+    "response": {
+      "tokens": [],
+      "entities": [],
+      "total_results": 0
+    },
+    "recordedAt": 1790120141942
+  },
+  {
+    "requestHash": "9b697ed5f64a8d3f12f3b0dde6ee8731640ed481",
+    "request": {
+      "search_query": "usdc",
+      "chain": "metis",
+      "result_type": "token",
+      "limit": 5
+    },
+    "response": {
+      "tokens": [],
+      "entities": [],
+      "total_results": 0
+    },
+    "recordedAt": 1790120142257
+  },
+  {
+    "requestHash": "af94b0f0fe4e64a4174b7719ec00beff78ecc093",
+    "request": {
+      "search_query": "usdc",
+      "chain": "viction",
+      "result_type": "token",
+      "limit": 5
+    },
+    "response": {
+      "tokens": [],
+      "entities": [],
+      "total_results": 0
+    },
+    "recordedAt": 1790120142565
+  },
+  {
+    "requestHash": "0c5437b3fdcad842df74a13ba01e8979d516a822",
+    "request": {
+      "search_query": "usdc",
+      "chain": "algorand",
+      "result_type": "token",
+      "limit": 5
+    },
+    "response": {
+      "tokens": [],
+      "entities": [],
+      "total_results": 0
+    },
+    "recordedAt": 1790120142883
+  },
+  {
+    "requestHash": "2f67f144d75ec4258c4c2eefbad5e222dc2c9c76",
+    "request": {
+      "search_query": "usdc",
+      "chain": "aptos",
+      "result_type": "token",
+      "limit": 5
+    },
+    "response": {
+      "tokens": [],
+      "entities": [],
+      "total_results": 0
+    },
+    "recordedAt": 1790120143182
+  },
+  {
+    "requestHash": "38190968725610235f80d8c17d88c2c9fb28da47",
+    "request": {
+      "search_query": "usdc",
+      "chain": "stacks",
+      "result_type": "token",
+      "limit": 5
+    },
+    "response": {
+      "tokens": [],
+      "entities": [],
+      "total_results": 0
+    },
+    "recordedAt": 1790120143894
+  },
+  {
+    "requestHash": "251d67f84daf59ca802a47c74c5eb0387037e872",
+    "request": {
+      "search_query": "usdc",
+      "chain": "stellar",
+      "result_type": "token",
+      "limit": 5
+    },
+    "response": {
+      "tokens": [],
+      "entities": [],
+      "total_results": 0
+    },
+    "recordedAt": 1790120144992
   }
 ]

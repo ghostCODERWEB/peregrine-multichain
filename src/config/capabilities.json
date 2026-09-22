@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-09-22T23:34:25.961Z",
-  "source": "docs",
+  "generatedAt": "2026-09-22T23:35:44.993Z",
+  "source": "docs+probe",
   "chains": {
     "arbitrum": {
       "chain": "arbitrum",
@@ -10,7 +10,7 @@
       "profiler": true,
       "screener": true,
       "perp": false,
-      "chainRank": false,
+      "chainRank": true,
       "inferredFromProbe": false
     },
     "arc": {
@@ -21,7 +21,7 @@
       "profiler": true,
       "screener": true,
       "perp": false,
-      "chainRank": false,
+      "chainRank": true,
       "inferredFromProbe": false
     },
     "avalanche": {
@@ -32,7 +32,7 @@
       "profiler": true,
       "screener": true,
       "perp": false,
-      "chainRank": false,
+      "chainRank": true,
       "inferredFromProbe": false
     },
     "base": {
@@ -43,7 +43,7 @@
       "profiler": true,
       "screener": true,
       "perp": false,
-      "chainRank": false,
+      "chainRank": true,
       "inferredFromProbe": false
     },
     "bitlayer": {
@@ -54,8 +54,12 @@
       "profiler": false,
       "screener": false,
       "perp": false,
-      "chainRank": false,
-      "inferredFromProbe": false
+      "chainRank": true,
+      "inferredFromProbe": true,
+      "probes": {
+        "search": "empty",
+        "tokenScreener": "error"
+      }
     },
     "bnb": {
       "chain": "bnb",
@@ -65,7 +69,7 @@
       "profiler": true,
       "screener": true,
       "perp": false,
-      "chainRank": false,
+      "chainRank": true,
       "inferredFromProbe": false
     },
     "chiliz": {
@@ -76,8 +80,12 @@
       "profiler": false,
       "screener": false,
       "perp": false,
-      "chainRank": false,
-      "inferredFromProbe": false
+      "chainRank": true,
+      "inferredFromProbe": true,
+      "probes": {
+        "search": "empty",
+        "tokenScreener": "error"
+      }
     },
     "citrea": {
       "chain": "citrea",
@@ -87,8 +95,12 @@
       "profiler": false,
       "screener": true,
       "perp": false,
-      "chainRank": false,
-      "inferredFromProbe": false
+      "chainRank": true,
+      "inferredFromProbe": true,
+      "probes": {
+        "search": "empty",
+        "tokenScreener": "ok"
+      }
     },
     "ethereum": {
       "chain": "ethereum",
@@ -98,7 +110,7 @@
       "profiler": true,
       "screener": true,
       "perp": false,
-      "chainRank": false,
+      "chainRank": true,
       "inferredFromProbe": false
     },
     "gravity": {
@@ -109,8 +121,12 @@
       "profiler": false,
       "screener": false,
       "perp": false,
-      "chainRank": false,
-      "inferredFromProbe": false
+      "chainRank": true,
+      "inferredFromProbe": true,
+      "probes": {
+        "search": "empty",
+        "tokenScreener": "error"
+      }
     },
     "hyperevm": {
       "chain": "hyperevm",
@@ -120,7 +136,7 @@
       "profiler": true,
       "screener": true,
       "perp": false,
-      "chainRank": false,
+      "chainRank": true,
       "inferredFromProbe": false
     },
     "iotaevm": {
@@ -131,7 +147,7 @@
       "profiler": true,
       "screener": true,
       "perp": false,
-      "chainRank": false,
+      "chainRank": true,
       "inferredFromProbe": false
     },
     "katana": {
@@ -142,8 +158,12 @@
       "profiler": false,
       "screener": false,
       "perp": false,
-      "chainRank": false,
-      "inferredFromProbe": false
+      "chainRank": true,
+      "inferredFromProbe": true,
+      "probes": {
+        "search": "empty",
+        "tokenScreener": "error"
+      }
     },
     "linea": {
       "chain": "linea",
@@ -153,7 +173,7 @@
       "profiler": true,
       "screener": true,
       "perp": false,
-      "chainRank": false,
+      "chainRank": true,
       "inferredFromProbe": false
     },
     "mantle": {
@@ -164,7 +184,7 @@
       "profiler": true,
       "screener": true,
       "perp": false,
-      "chainRank": false,
+      "chainRank": true,
       "inferredFromProbe": false
     },
     "metis": {
@@ -175,8 +195,12 @@
       "profiler": false,
       "screener": false,
       "perp": false,
-      "chainRank": false,
-      "inferredFromProbe": false
+      "chainRank": true,
+      "inferredFromProbe": true,
+      "probes": {
+        "search": "empty",
+        "tokenScreener": "error"
+      }
     },
     "monad": {
       "chain": "monad",
@@ -186,7 +210,7 @@
       "profiler": true,
       "screener": true,
       "perp": false,
-      "chainRank": false,
+      "chainRank": true,
       "inferredFromProbe": false
     },
     "optimism": {
@@ -197,7 +221,7 @@
       "profiler": true,
       "screener": true,
       "perp": false,
-      "chainRank": false,
+      "chainRank": true,
       "inferredFromProbe": false
     },
     "plasma": {
@@ -208,7 +232,7 @@
       "profiler": true,
       "screener": true,
       "perp": false,
-      "chainRank": false,
+      "chainRank": true,
       "inferredFromProbe": false
     },
     "polygon": {
@@ -219,7 +243,7 @@
       "profiler": true,
       "screener": true,
       "perp": false,
-      "chainRank": false,
+      "chainRank": true,
       "inferredFromProbe": false
     },
     "robinhood": {
@@ -230,7 +254,7 @@
       "profiler": true,
       "screener": true,
       "perp": false,
-      "chainRank": false,
+      "chainRank": true,
       "inferredFromProbe": false
     },
     "sei": {
@@ -241,7 +265,7 @@
       "profiler": true,
       "screener": true,
       "perp": false,
-      "chainRank": false,
+      "chainRank": true,
       "inferredFromProbe": false
     },
     "sonic": {
@@ -252,7 +276,7 @@
       "profiler": true,
       "screener": true,
       "perp": false,
-      "chainRank": false,
+      "chainRank": true,
       "inferredFromProbe": false
     },
     "viction": {
@@ -263,8 +287,12 @@
       "profiler": false,
       "screener": false,
       "perp": false,
-      "chainRank": false,
-      "inferredFromProbe": false
+      "chainRank": true,
+      "inferredFromProbe": true,
+      "probes": {
+        "search": "empty",
+        "tokenScreener": "error"
+      }
     },
     "algorand": {
       "chain": "algorand",
@@ -274,8 +302,12 @@
       "profiler": false,
       "screener": false,
       "perp": false,
-      "chainRank": false,
-      "inferredFromProbe": false
+      "chainRank": true,
+      "inferredFromProbe": true,
+      "probes": {
+        "search": "empty",
+        "tokenScreener": "error"
+      }
     },
     "aptos": {
       "chain": "aptos",
@@ -285,8 +317,12 @@
       "profiler": false,
       "screener": false,
       "perp": false,
-      "chainRank": false,
-      "inferredFromProbe": false
+      "chainRank": true,
+      "inferredFromProbe": true,
+      "probes": {
+        "search": "empty",
+        "tokenScreener": "error"
+      }
     },
     "bitcoin": {
       "chain": "bitcoin",
@@ -296,7 +332,7 @@
       "profiler": true,
       "screener": true,
       "perp": false,
-      "chainRank": false,
+      "chainRank": true,
       "inferredFromProbe": false
     },
     "hyperliquid": {
@@ -318,7 +354,7 @@
       "profiler": true,
       "screener": true,
       "perp": false,
-      "chainRank": false,
+      "chainRank": true,
       "inferredFromProbe": false
     },
     "mantra": {
@@ -329,7 +365,7 @@
       "profiler": true,
       "screener": true,
       "perp": false,
-      "chainRank": false,
+      "chainRank": true,
       "inferredFromProbe": false
     },
     "near": {
@@ -340,7 +376,7 @@
       "profiler": true,
       "screener": true,
       "perp": false,
-      "chainRank": false,
+      "chainRank": true,
       "inferredFromProbe": false
     },
     "solana": {
@@ -351,7 +387,7 @@
       "profiler": true,
       "screener": true,
       "perp": false,
-      "chainRank": false,
+      "chainRank": true,
       "inferredFromProbe": false
     },
     "stacks": {
@@ -362,8 +398,12 @@
       "profiler": false,
       "screener": false,
       "perp": false,
-      "chainRank": false,
-      "inferredFromProbe": false
+      "chainRank": true,
+      "inferredFromProbe": true,
+      "probes": {
+        "search": "empty",
+        "tokenScreener": "error"
+      }
     },
     "starknet": {
       "chain": "starknet",
@@ -373,7 +413,7 @@
       "profiler": true,
       "screener": true,
       "perp": false,
-      "chainRank": false,
+      "chainRank": true,
       "inferredFromProbe": false
     },
     "stellar": {
@@ -384,8 +424,12 @@
       "profiler": false,
       "screener": false,
       "perp": false,
-      "chainRank": false,
-      "inferredFromProbe": false
+      "chainRank": true,
+      "inferredFromProbe": true,
+      "probes": {
+        "search": "empty",
+        "tokenScreener": "error"
+      }
     },
     "sui": {
       "chain": "sui",
@@ -395,7 +439,7 @@
       "profiler": true,
       "screener": true,
       "perp": false,
-      "chainRank": false,
+      "chainRank": true,
       "inferredFromProbe": false
     },
     "ton": {
@@ -406,7 +450,7 @@
       "profiler": true,
       "screener": true,
       "perp": false,
-      "chainRank": false,
+      "chainRank": true,
       "inferredFromProbe": false
     },
     "tron": {
@@ -417,7 +461,7 @@
       "profiler": true,
       "screener": true,
       "perp": false,
-      "chainRank": false,
+      "chainRank": true,
       "inferredFromProbe": false
     }
   }
