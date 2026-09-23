@@ -47,15 +47,17 @@ export function ttlFor(endpoint: string): number {
   return TTL_MS[endpoint] ?? DEFAULT_TTL;
 }
 
-export function cacheKey(endpoint: string, body: unknown): string {
+/** `scope` partitions the cache per user: a member's responses (fetched
+ *  with their own key) are never served to anyone else, and vice versa. */
+export function cacheKey(endpoint: string, body: unknown, scope?: string | null): string {
   const hash = crypto.createHash('sha1').update(JSON.stringify(body ?? {})).digest('hex');
-  return `${endpoint}:${hash}`;
+  return scope ? `${scope}|${endpoint}:${hash}` : `${endpoint}:${hash}`;
 }
 
 export interface CacheHit<T> { value: T; fetchedAt: number; }
 
-export function readCache<T>(endpoint: string, body: unknown): CacheHit<T> | null {
-  const key = cacheKey(endpoint, body);
+export function readCache<T>(endpoint: string, body: unknown, scope?: string | null): CacheHit<T> | null {
+  const key = cacheKey(endpoint, body, scope);
   const row = getDb()
     .prepare('SELECT body, fetched_at, expires_at FROM response_cache WHERE cache_key = ?')
     .get(key) as { body: string; fetched_at: number; expires_at: number } | undefined;
@@ -64,8 +66,8 @@ export function readCache<T>(endpoint: string, body: unknown): CacheHit<T> | nul
   return { value: JSON.parse(row.body) as T, fetchedAt: row.fetched_at };
 }
 
-export function writeCache(endpoint: string, body: unknown, value: unknown): void {
-  const key = cacheKey(endpoint, body);
+export function writeCache(endpoint: string, body: unknown, value: unknown, scope?: string | null): void {
+  const key = cacheKey(endpoint, body, scope);
   const now = Date.now();
   const ttl = ttlFor(endpoint);
   const expiresAt = ttl === FOREVER ? FOREVER : now + ttl;

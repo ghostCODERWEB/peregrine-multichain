@@ -1,36 +1,42 @@
 // Display mode: what a given viewer may be shown, per Nansen's Data
 // Redistribution Guidelines (docs/raw/guides__redistribution-guide.md).
 //
-//   private — the key owner looking at their own data ("internal use"):
-//             everything, including smart-money trades and labels.
-//   public  — anyone else, and anything that leaves the app (share images,
-//             the public API, MCP, demo fixtures): only data the guide
-//             allows, with attribution; smart-money-derived views are
-//             replaced (all-trader pressure) or withheld (fronts, tapes).
+//   owner  — the operator, using the instance's own key ("internal use"):
+//            everything, including the scanner's smart-money history
+//            (fronts, trade tape, smart-money pressure) and labels.
+//   member — a signed-in user calling Nansen with THEIR OWN key: live data
+//            fetched with that key is theirs to see, labels included; the
+//            scanner's smart-money history (fetched with the operator's
+//            key) is not, so those views stay withheld.
+//   public — anyone else, and anything that leaves the app (share images,
+//            the public API, MCP, demo fixtures): allowed data only, with
+//            attribution, labels stripped.
 //
-// The safe default is public. Private requires the operator to declare
-// the instance private (TIDE_DISPLAY_MODE=private — a server only they can
-// reach) or, once accounts land, a signed-in user using their own key.
-// The Host header is never trusted for this: a remote client can set it.
-import { headers } from 'next/headers';
+// Owner requires TIDE_DISPLAY_MODE=private (an instance only the operator
+// can reach) or a sign-in by TIDE_OWNER_ADDRESS. The Host header is never
+// trusted: a remote client can set it.
+import { requestContext, contextFromRequest } from './context';
 
-export type DisplayMode = 'private' | 'public';
+export type DisplayMode = 'owner' | 'member' | 'public';
+export type PressureView = 'private' | 'public';
 
-export function instanceMode(): DisplayMode {
-  if (process.env.DEMO_MODE === '1') return 'public'; // demo data is published with the repo
-  return process.env.TIDE_DISPLAY_MODE === 'private' ? 'private' : 'public';
-}
+/** Scanner-derived smart-money views are the owner's only. */
+export const viewOf = (mode: DisplayMode): PressureView => (mode === 'owner' ? 'private' : 'public');
 
-/** Mode for a route handler's request. */
-export function modeFromRequest(_req?: Request): DisplayMode {
-  return instanceMode();
+export function resolveMode(p: { demo: boolean; instancePrivate: boolean; userAddress: string | null; ownerAddress: string | null; userHasKey: boolean }): DisplayMode {
+  if (p.demo) return 'public'; // demo data is published with the repo
+  if (p.instancePrivate) return 'owner';
+  if (p.userAddress && p.ownerAddress && p.userAddress.toLowerCase() === p.ownerAddress.toLowerCase()) return 'owner';
+  if (p.userAddress && p.userHasKey) return 'member';
+  return 'public';
 }
 
 /** Mode for a server component render. */
 export async function displayMode(): Promise<DisplayMode> {
-  await headers(); // opt into per-request rendering; sessions will read cookies here
-  return instanceMode();
+  return (await requestContext()).mode;
 }
 
-/** Surfaces that always leave the app: never private. */
-export const PUBLIC_ONLY: DisplayMode = 'public';
+/** Mode for a route handler's request. */
+export function modeFromRequest(req: Request): DisplayMode {
+  return contextFromRequest(req).mode;
+}

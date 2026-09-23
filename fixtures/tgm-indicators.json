@@ -397,5 +397,24 @@
       ]
     },
     "recordedAt": 1790167571023
+  },
+  {
+    "requestHash": "9da7be52e5402e61b9a7598a705fac918ccee131",
+    "request": {
+      "chain": "sui",
+      "token_address": "0x76a49ebaf991fa2d4cb6a352af14425d453fe2ba6802b5ed2361b227150b6689::take::take"
+    },
+    "response": {
+      "token_address": "0x76a49ebaf991fa2d4cb6a352af14425d453fe2ba6802b5ed2361b227150b6689::take::take",
+      "chain": "sui",
+      "token_info": {
+        "market_cap_usd": null,
+        "market_cap_group": null,
+        "is_stablecoin": null
+      },
+      "risk_indicators": [],
+      "reward_indicators": []
+    },
+    "recordedAt": 1790194465339
   }
 ]

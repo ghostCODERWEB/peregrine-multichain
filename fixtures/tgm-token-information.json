@@ -302,5 +302,43 @@
       }
     },
     "recordedAt": 1790167570272
+  },
+  {
+    "requestHash": "4130ce3a8e921288d5b93279c085349d84a20383",
+    "request": {
+      "chain": "sui",
+      "token_address": "0x76a49ebaf991fa2d4cb6a352af14425d453fe2ba6802b5ed2361b227150b6689::take::take",
+      "timeframe": "1d"
+    },
+    "response": {
+      "data": {
+        "name": "",
+        "symbol": "",
+        "contract_address": "0x76a49ebaf991fa2d4cb6a352af14425d453fe2ba6802b5ed2361b227150b6689::take::take",
+        "logo": "",
+        "token_details": {
+          "token_deployment_date": "",
+          "website": "",
+          "x": "",
+          "telegram": "",
+          "market_cap_usd": 0,
+          "fdv_usd": 0,
+          "circulating_supply": 0,
+          "total_supply": 0
+        },
+        "spot_metrics": {
+          "volume_total_usd": 0,
+          "buy_volume_usd": 0,
+          "sell_volume_usd": 0,
+          "total_buys": 0,
+          "total_sells": 0,
+          "unique_buyers": 0,
+          "unique_sellers": 0,
+          "liquidity_usd": 0,
+          "total_holders": 0
+        }
+      }
+    },
+    "recordedAt": 1790194464886
   }
 ]

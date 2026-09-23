@@ -2,7 +2,7 @@
 // token qualifies. Never returns a signable transaction.
 import { ALL_CHAIN_IDS } from '@/lib/registry';
 import { rideQuote, rideEligibility } from '@/server/agents/ride';
-import { modeFromRequest } from '@/server/mode';
+import { modeFromRequest, viewOf } from '@/server/mode';
 
 export const dynamic = 'force-dynamic';
 
@@ -10,7 +10,7 @@ export async function GET(req: Request) {
   const q = new URL(req.url).searchParams;
   const chain = q.get('chain') ?? '', address = q.get('address') ?? '';
   if (!ALL_CHAIN_IDS.includes(chain) || !/^[A-Za-z0-9:._-]{20,160}$/.test(address)) return Response.json({ error: 'bad token' }, { status: 400 });
-  const mode = modeFromRequest(req);
+  const mode = viewOf(modeFromRequest(req));
   if (q.get('quote') !== '1') return Response.json({ eligibility: rideEligibility(chain, address, mode) });
   try {
     return Response.json(await rideQuote(chain, address, Number(q.get('usd') ?? 100), mode));

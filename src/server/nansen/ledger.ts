@@ -4,10 +4,10 @@
 // trusting Nansen's own dashboard to be checked live.
 import { getDb } from './db';
 
-export function recordCall(endpoint: string, credits: number, cacheHit: boolean): void {
+export function recordCall(endpoint: string, credits: number, cacheHit: boolean, userId: number | null = null): void {
   getDb()
-    .prepare('INSERT INTO credit_ledger (endpoint, credits, cache_hit, called_at) VALUES (?, ?, ?, ?)')
-    .run(endpoint, credits, cacheHit ? 1 : 0, Date.now());
+    .prepare('INSERT INTO credit_ledger (endpoint, credits, cache_hit, called_at, user_id) VALUES (?, ?, ?, ?, ?)')
+    .run(endpoint, credits, cacheHit ? 1 : 0, Date.now(), userId);
 }
 
 export interface LedgerSummary {

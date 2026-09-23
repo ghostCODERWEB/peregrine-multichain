@@ -1354,22 +1354,22 @@
           "interval_start": "2026-09-23T20:00:00Z",
           "open": 0.029094812431605,
           "high": 0.028887523263234,
-          "low": 0.028532500575318698,
-          "close": 0.028532500575318698,
-          "volume": 1362348.0207651295,
-          "volume_usd": 38922.550936817395,
+          "low": 0.0282550037742086,
+          "close": 0.0282586331052434,
+          "volume": 1741517.2808278103,
+          "volume_usd": 49756.64426233349,
           "market_cap": {
             "open": 67546006.7894881,
             "high": 67274188.5761638,
-            "low": 66129319.1587169,
-            "close": 66129319.1587169
+            "low": 65801156.9494978,
+            "close": 65809609.0517502
           }
         }
       ],
       "truncated": false,
       "truncation_note": null
     },
-    "recordedAt": 1790194145455
+    "recordedAt": 1790194940417
   },
   {
     "requestHash": "c3c0803ea3061a0a4cbdc1f15d22337dac3fd07e",
@@ -2697,5 +2697,26 @@
       "truncation_note": null
     },
     "recordedAt": 1790161977482
+  },
+  {
+    "requestHash": "4ac5e63388cf4cfd18b1282d65ff8705306fddb2",
+    "request": {
+      "chain": "sui",
+      "token_address": "0x76a49ebaf991fa2d4cb6a352af14425d453fe2ba6802b5ed2361b227150b6689::take::take",
+      "timeframe": "4h",
+      "date": {
+        "from": "2026-09-09",
+        "to": "2026-09-24"
+      }
+    },
+    "response": {
+      "chain": "sui",
+      "token_address": "0x76a49ebaf991fa2d4cb6a352af14425d453fe2ba6802b5ed2361b227150b6689::take::take",
+      "timeframe": "4h",
+      "data": [],
+      "truncated": false,
+      "truncation_note": null
+    },
+    "recordedAt": 1790194465353
   }
 ]

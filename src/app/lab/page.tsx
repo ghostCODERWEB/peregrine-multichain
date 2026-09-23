@@ -5,7 +5,7 @@ import { InfoPopover } from '@/components/InfoPopover';
 import { CalibrationPlot, RocChart, WeightBars } from '@/components/lab/LabCharts';
 import { loadBacktest } from '@/server/token/forecast';
 import { weatherMap, pressureForecast } from '@/server/weather/queries';
-import { displayMode } from '@/server/mode';
+import { displayMode, viewOf } from '@/server/mode';
 import { chainName, num, pct } from '@/lib/viz/format';
 import type { ModelReport } from '@/server/backtest/run';
 import type { Provenance } from '@/lib/provenance';
@@ -87,7 +87,7 @@ function ModelSection({ id, r, title }: { id: string; r: ModelReport; title: str
 export default async function LabPage() {
   const bt = loadBacktest();
   const now = Date.now();
-  const mode = await displayMode();
+  const mode = viewOf(await displayMode());
   const cpi = weatherMap(now, mode).filter((c) => c.cpi != null).map((c) => pressureForecast(c.chain, 24, now, mode));
   const scored = cpi.filter((f) => f.mape != null).sort((a, b) => (a.mape ?? 0) - (b.mape ?? 0));
   const pending = cpi.filter((f) => f.mape == null);

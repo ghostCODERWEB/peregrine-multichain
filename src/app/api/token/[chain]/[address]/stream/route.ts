@@ -7,7 +7,7 @@ import { headerWave, marketWave, windWave, holdersWave, forensicsWave, isUnavail
 import { computeStorm, saveStorm } from '@/server/token/storm';
 import { forecastWave } from '@/server/token/forecast';
 import { callScope, type CallTally } from '@/server/nansen/client';
-import { modeFromRequest } from '@/server/mode';
+import { contextFromRequest, contextScope } from '@/server/context';
 import { forMode } from '@/server/redact';
 
 export const dynamic = 'force-dynamic';
@@ -18,7 +18,10 @@ export async function GET(req: Request, { params }: { params: Promise<{ chain: s
   const token = decodeURIComponent(address).trim();
   const smChain = !!chainCapability(chain)?.smartMoney;
   const enc = new TextEncoder();
-  const mode = modeFromRequest(req);
+  // The stream outlives this handler: carry the caller's context (mode and
+  // whose key) explicitly into every call it makes.
+  const ctx = contextFromRequest(req);
+  const mode = ctx.mode;
 
   const stream = new ReadableStream({
     start(controller) {
@@ -26,7 +29,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ chain: s
       // stream waiting on the whole run. The tally follows every call the
       // run makes through AsyncLocalStorage.
       const tally: CallTally = { calls: 0, credits: 0, cached: 0 };
-      callScope.run(tally, () => { void run(controller, tally); });
+      contextScope.run(ctx, () => callScope.run(tally, () => { void run(controller, tally); }));
     },
   });
 

@@ -167,7 +167,28 @@ const MIGRATIONS: string[] = [
   ALTER TABLE chain_cpi ADD COLUMN source TEXT NOT NULL DEFAULT 'smart-money';
   CREATE INDEX idx_chain_cpi_chain_source_time ON chain_cpi(chain, source, snapshot_at);
   `,
+  // 7: accounts. Wallet sign-in (no email, no password), sessions, each
+  // user's own Nansen key sealed with AES-256-GCM, per-user ledger rows,
+  // and an audit log of key and alert actions.
+  `
+  CREATE TABLE users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT, family TEXT NOT NULL, address TEXT NOT NULL,
+    created_at INTEGER NOT NULL, UNIQUE (family, address)
+  );
+  CREATE TABLE sessions (id TEXT PRIMARY KEY, user_id INTEGER NOT NULL, created_at INTEGER NOT NULL, expires_at INTEGER NOT NULL);
+  CREATE TABLE auth_nonces (nonce TEXT PRIMARY KEY, created_at INTEGER NOT NULL);
+  CREATE TABLE api_keys (
+    user_id INTEGER PRIMARY KEY, ciphertext TEXT NOT NULL, iv TEXT NOT NULL, tag TEXT NOT NULL,
+    last4 TEXT NOT NULL, plan TEXT, verified_at INTEGER NOT NULL
+  );
+  CREATE TABLE audit_log (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, action TEXT NOT NULL, detail TEXT, at INTEGER NOT NULL);
+  ALTER TABLE credit_ledger ADD COLUMN user_id INTEGER;
+  `,
 ];
+
+export function audit(userId: number | null, action: string, detail?: string): void {
+  getDb().prepare('INSERT INTO audit_log (user_id, action, detail, at) VALUES (?, ?, ?, ?)').run(userId, action, detail ?? null, Date.now());
+}
 
 export function setKv(key: string, value: string): void {
   getDb().prepare('INSERT INTO kv (key, value, updated_at) VALUES (?, ?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = excluded.updated_at').run(key, value, Date.now());

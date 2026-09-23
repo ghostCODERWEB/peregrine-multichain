@@ -33,7 +33,7 @@ export function ChainView({ d, gaps }: { d: ChainPageData; gaps: ModuleGaps }) {
         <p className="mt-1 text-sm text-ink-2">
           Nansen coverage tier {gaps.tier}.{' '}
           {d.weather.source === 'smart-money' && 'Pressure is measured from Nansen smart-money labels.'}
-          {d.mode === 'public' && d.weather.source === 'market-flow' && gaps.tier === 'A' && ' Public view: pressure here is all-trader flow; smart-money pressure is shown to the API key owner only.'}
+          {d.mode !== 'owner' && d.weather.source === 'market-flow' && gaps.tier === 'A' && ' Pressure here is all-trader flow; the scanner\'s smart-money pressure is the instance owner\'s view only.'}
           {d.weather.source === 'market-flow' && `Nansen has no smart-money labels on ${name}, so pressure here reads all-trader flow and is ranked only against other all-trader chains.`}
           {d.weather.source == null && gaps.pressure}
         </p>
@@ -103,7 +103,7 @@ export function ChainView({ d, gaps }: { d: ChainPageData; gaps: ModuleGaps }) {
           sub="DEX swaps by Nansen-labelled smart money, recorded by the scanner. Buy = stable or native in, risk token out of the pool."
         >
           {gaps.trades ? <p className="text-sm text-ink-2">{gaps.trades}</p>
-            : d.mode === 'public' ? <Unavailable text="Shown only to the API key owner: Nansen's redistribution rules keep smart-money trades out of public views. Run TIDE with your own Nansen key to see them." />
+            : d.mode !== 'owner' ? <Unavailable text="Shown only to this instance's owner: the tape comes from the scanner's smart-money trades, fetched with the owner's Nansen key, which Nansen's redistribution rules keep out of shared views." />
             : <TradeTape tape={d.tape} />}
         </Card>
       </div>

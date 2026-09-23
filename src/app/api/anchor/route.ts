@@ -6,6 +6,7 @@
 import { ALL_CHAIN_IDS } from '@/lib/registry';
 import { anchorStream, latestReport, subjectKey, callsThisHour, anchorMaxPerHour, ANCHOR_TTL_MS } from '@/server/agents/anchor';
 import { modeFromRequest } from '@/server/mode';
+import { contextFromRequest, contextScope } from '@/server/context';
 
 export const dynamic = 'force-dynamic';
 
@@ -33,11 +34,12 @@ export async function POST(req: Request) {
   const p = parse(req.url);
   if (!p) return new Response('bad subject', { status: 400 });
   const enc = new TextEncoder();
+  const ctx = contextFromRequest(req);
   const stream = new ReadableStream({
     start(controller) {
-      void (async () => {
+      void contextScope.run(ctx, async () => {
         try {
-          for await (const e of anchorStream(p.kind, modeFromRequest(req), p.chain, p.token)) {
+          for await (const e of anchorStream(p.kind, ctx.mode, p.chain, p.token)) {
             controller.enqueue(enc.encode(`data: ${JSON.stringify(e)}\n\n`));
           }
         } catch (e) {
@@ -45,7 +47,7 @@ export async function POST(req: Request) {
         } finally {
           controller.close();
         }
-      })();
+      });
     },
   });
   return new Response(stream, { headers: { 'Content-Type': 'text/event-stream; charset=utf-8', 'Cache-Control': 'no-cache, no-transform', 'X-Accel-Buffering': 'no' } });

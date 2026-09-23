@@ -62,8 +62,7 @@ const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 let lastCreditsRemaining: number | null = null;
 export const lastKnownCreditsRemaining = () => lastCreditsRemaining;
 
-async function raw<T>(endpoint: string, body: unknown, method: HttpMethod): Promise<CallResult<T>> {
-  const apiKey = process.env.NANSEN_API_KEY;
+async function raw<T>(endpoint: string, body: unknown, method: HttpMethod, apiKey: string | undefined): Promise<CallResult<T>> {
   if (!apiKey) {
     throw new Error(
       `NANSEN_API_KEY is not set. Set it in .env, or run with DEMO_MODE=1 to replay recorded fixtures instead.`,
@@ -157,17 +156,36 @@ export interface CallOptions {
 export interface CallTally { calls: number; credits: number; cached: number }
 export const callScope = new AsyncLocalStorage<CallTally>();
 
+/**
+ * Whose key a call uses: an explicit context scope (streams), else the
+ * current request's context (server components, route handlers), else —
+ * outside any request (the scanner, scripts) — the instance key.
+ */
+async function currentCaller(): Promise<{ apiKey: string | undefined; userId: number | null }> {
+  try {
+    const { contextScope, requestContext } = await import('@/server/context');
+    const ctx = contextScope.getStore() ?? (await requestContext());
+    if (ctx.mode === 'member' && ctx.apiKey && ctx.user) return { apiKey: ctx.apiKey, userId: ctx.user.id };
+  } catch { /* no request in scope */ }
+  return { apiKey: process.env.NANSEN_API_KEY, userId: null };
+}
+
 export async function callNansen<T>(
   endpoint: string,
   body: unknown = {},
   options: CallOptions = {},
 ): Promise<CallResult<T>> {
-  const { method = 'POST', schema, skipCache = false, record = true } = options;
+  const { method = 'POST', schema, skipCache = false } = options;
+  const caller = await currentCaller();
+  // A member's calls use their own key, their own cache partition and
+  // ledger rows, and are never recorded into published fixtures.
+  const record = (options.record ?? true) && !caller.userId;
+  const scope = caller.userId ? `u${caller.userId}` : null;
 
   if (!skipCache) {
-    const cached = readCache<T>(endpoint, body);
+    const cached = readCache<T>(endpoint, body, scope);
     if (cached) {
-      recordCall(endpoint, 0, true);
+      recordCall(endpoint, 0, true, caller.userId);
       const t = callScope.getStore();
       if (t) { t.calls++; t.cached++; }
       return { data: cached.value, meta: { creditsCost: 0, creditsUsed: null, creditsRemaining: null, cacheHit: true } };
@@ -182,12 +200,12 @@ export async function callNansen<T>(
     return { data, meta: { creditsCost: 0, creditsUsed: null, creditsRemaining: null, cacheHit: true } };
   }
 
-  const result = await raw<T>(endpoint, body, method);
+  const result = await raw<T>(endpoint, body, method, caller.apiKey);
   if (schema) schema.parse(result.data);
 
-  if (!skipCache) writeCache(endpoint, body, result.data);
+  if (!skipCache) writeCache(endpoint, body, result.data, scope);
   if (record) recordFixture(endpoint, body, result.data);
-  recordCall(endpoint, result.meta.creditsCost, false);
+  recordCall(endpoint, result.meta.creditsCost, false, caller.userId);
   const tally = callScope.getStore();
   if (tally) { tally.calls++; tally.credits += result.meta.creditsCost; }
 
@@ -208,7 +226,8 @@ export async function* streamNansen(endpoint: string, body: unknown, opts: { rec
     for (const e of events) yield e;
     return;
   }
-  const apiKey = process.env.NANSEN_API_KEY;
+  const caller = await currentCaller();
+  const apiKey = caller.apiKey;
   if (!apiKey) throw new Error('NANSEN_API_KEY is not set. Set it in .env, or run with DEMO_MODE=1.');
   await getLimiter(plan()).acquire();
   const res = await fetch(urlFor(endpoint), {
@@ -225,7 +244,7 @@ export async function* streamNansen(endpoint: string, body: unknown, opts: { rec
     const text = await res.text().catch(() => '');
     throw new NansenApiError(endpoint, res.status, text);
   }
-  recordCall(endpoint, cost, false);
+  recordCall(endpoint, cost, false, caller.userId);
   const tally = callScope.getStore();
   if (tally) { tally.calls++; tally.credits += cost; }
 
@@ -254,6 +273,6 @@ export async function* streamNansen(endpoint: string, body: unknown, opts: { rec
       }
     }
   } finally {
-    if (seen.length && opts.record) recordFixture(endpoint, body, seen, true);
+    if (seen.length && opts.record && !caller.userId) recordFixture(endpoint, body, seen, true);
   }
 }

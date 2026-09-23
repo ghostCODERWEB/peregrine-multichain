@@ -33,8 +33,9 @@ export default async function WalletRoute({ params }: Params) {
   if (!ADDRESS.test(address)) notFound();
 
   const mode = await displayMode();
-  // Public views: labels stripped from every section; the trail (built from
-  // smart-money DEX trades, which Nansen prohibits publicly) is withheld.
+  // Public views: labels stripped from every section. The trail is built
+  // from the scanner's smart-money DEX trades (the operator's key): the
+  // owner's view only.
   const trail = forMode(mode, migrationTrail(address));
   const balP = balances(address);
   const mainChainP = balP.then((b) => (isUnavailable(b) ? null : b.byChain[0]?.chain ?? null));
@@ -43,7 +44,7 @@ export default async function WalletRoute({ params }: Params) {
     <div className="space-y-5">
       <div>
         <Link href="/" className="text-[12.5px] text-ink-2 hover:text-ink">← Weather map</Link>
-        <h1 className="mt-1 break-all text-xl font-semibold text-ink sm:text-2xl">{mode === 'private' && trail.label ? walletName(trail.label, address) : shortAddress(address)}</h1>
+        <h1 className="mt-1 break-all text-xl font-semibold text-ink sm:text-2xl">{mode === 'owner' && trail.label ? walletName(trail.label, address) : shortAddress(address)}</h1>
         <p className="num mt-1 break-all text-[12.5px] text-ink-2">{address}</p>
       </div>
 
@@ -51,11 +52,11 @@ export default async function WalletRoute({ params }: Params) {
         <Suspense fallback={<Card id="bal" title="Balances"><WaveLoading what="balances" height={300} /></Card>}>
           <BalancesCard p={balP} />
         </Suspense>
-        <Card id="trail" className="lg:col-span-2" title={mode === 'public' ? 'Migration trail' : trailTitle(trail.steps, trail.chains)}
+        <Card id="trail" className="lg:col-span-2" title={mode !== 'owner' ? 'Migration trail' : trailTitle(trail.steps, trail.chains)}
           sub="This wallet's smart-money DEX trades from TIDE's scanner record, as a path over the weather map (numbered in time order)."
           action={<InfoPopover p={trail.provenance} />}
         >
-          {mode === 'public'
+          {mode !== 'owner'
             ? <Unavailable text="Shown only to the API key owner: the trail is built from Nansen smart-money DEX trades, which Nansen's redistribution rules keep out of public views." />
             : trail.steps.length ? <TrailMap steps={trail.steps} /> : <Unavailable text="The scanner has not recorded a smart-money DEX trade by this wallet in the last 7 days. Only Nansen smart-money wallets appear in that feed." />}
         </Card>

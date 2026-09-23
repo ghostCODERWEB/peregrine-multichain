@@ -9,7 +9,7 @@ import { streamNansen } from '@/server/nansen/client';
 import { fixtureMode } from '@/server/nansen/demo';
 import { buildBulletin } from '@/server/weather/bulletin';
 import { chainName } from '@/lib/viz/format';
-import type { DisplayMode } from '@/server/mode';
+import { viewOf, type DisplayMode } from '@/server/mode';
 
 export const ANCHOR_TTL_MS = 60 * 60_000;
 export const anchorMaxPerHour = () => Number(process.env.ANCHOR_MAX_PER_HOUR ?? 2);
@@ -49,7 +49,7 @@ const RULES = [
 function bulletinPrompt(mode: DisplayMode): { prompt: string; facts: unknown } {
   // Public reports are built from public-view numbers only (all-trader
   // pressure, no fronts), so the text itself is redistributable.
-  const b = buildBulletin(mode);
+  const b = buildBulletin(viewOf(mode));
   const chains = b.chains.filter((c) => c.cpi != null)
     .sort((a, c) => Math.abs(c.cpi! - 50) - Math.abs(a.cpi! - 50)).slice(0, 6)
     .map((c) => ({ chain: chainName(c.chain), pressure_index: Math.round(c.cpi!), measured_from: c.source, change_6h: c.trend6h == null ? null : Math.round(c.trend6h) }));
@@ -58,7 +58,7 @@ function bulletinPrompt(mode: DisplayMode): { prompt: string; facts: unknown } {
   const forecasts = b.forecasts.filter((f) => f.points.length).slice(0, 3)
     .map((f) => ({ chain: chainName(f.chain), now: Math.round(f.history.at(-1)!.cpi), in_24h: Math.round(f.points.at(-1)!.forecast), mape_pct: f.mape == null ? null : Number(f.mape.toFixed(1)) }));
   const facts = {
-    scale: mode === 'private'
+    scale: mode === 'owner'
       ? 'Chain Pressure Index 0-100 from smart-money net flow: above 65 = smart money net buying (high pressure), below 35 = net selling, 50 = calm.'
       : 'Chain Pressure Index 0-100 from all-trader net flow on DEXs: above 65 = net buying (high pressure), below 35 = net selling, 50 = calm.',
     pressure_extremes: chains, rotation_fronts_24h: fronts, storm_warnings: storms, forecasts_24h: forecasts,
@@ -94,7 +94,7 @@ function tokenPrompt(chain: string, token: string): { prompt: string; facts: unk
  *  smart-money numbers and must never be served to a public viewer. */
 export function subjectKey(kind: 'bulletin' | 'token', mode: DisplayMode, chain?: string, token?: string) {
   const base = kind === 'bulletin' ? 'bulletin' : `token:${chain}:${token!.toLowerCase()}`;
-  return mode === 'private' ? base : `${base}:public`;
+  return mode === 'owner' ? base : `${base}:public`;
 }
 
 /**

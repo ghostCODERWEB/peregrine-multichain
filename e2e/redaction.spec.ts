@@ -63,7 +63,7 @@ test('weather API and public API expose no private data', async ({ request }) =>
 test('chain page: all-trader flows, trade tape and sectors withheld', async ({ page }) => {
   await page.goto('/chain/base');
   const text = await page.locator('main').innerText();
-  expect(text).toMatch(/Shown only to the API key owner/);
+  expect(text).toMatch(/Shown only to (the API key owner|this instance's owner)/);
   expect(text).not.toMatch(/Latest smart-money trades on Base\s*\n\s*WHEN/);
   assertClean('/chain/base', await page.content());
 });
