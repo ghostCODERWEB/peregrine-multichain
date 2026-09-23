@@ -13,6 +13,7 @@ function isSmartMoneyRequest(request: unknown): boolean {
   const f = (r.filters ?? {}) as Record<string, unknown>;
   const labelFilter = f.include_smart_money_labels ?? r.label_type;
   return r.trader_type === 'sm' || f.trader_type === 'sm' || r.only_smart_money === true || f.only_smart_money === true
+    || r.label === 'smart_money' // tgm/flows smart-money segment
     || (Array.isArray(labelFilter) ? labelFilter.length > 0 : labelFilter === 'smart_money');
 }
 

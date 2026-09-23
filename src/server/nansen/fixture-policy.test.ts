@@ -10,6 +10,8 @@ describe('publishableFixture', () => {
   it('never records smart-money-filtered requests to otherwise-allowed endpoints', () => {
     expect(publishableFixture('token-screener', { chains: ['base'], filters: { trader_type: 'sm' } }, { data: [] })).toBeNull();
     expect(publishableFixture('tgm/holders', { label_type: 'smart_money' }, { data: [] })).toBeNull();
+    expect(publishableFixture('tgm/flows', { label: 'smart_money' }, { data: [] })).toBeNull();
+    expect(publishableFixture('tgm/flows', { label: 'whale' }, { data: [] })).not.toBeNull();
   });
   it('records allowed data with labels stripped', () => {
     const out = publishableFixture('tgm/holders', { label_type: 'all_holders' }, { data: [{ address: '0xa', address_label: 'Binance 14' }] }) as { data: Array<Record<string, unknown>> };
