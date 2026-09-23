@@ -1,0 +1,9 @@
+{
+  "name": "tide-mcp",
+  "version": "0.1.0",
+  "description": "MCP server that lets AI assistant or any agent ask TIDE for smart-money weather, storm scores and rotation fronts.",
+  "type": "module",
+  "bin": { "tide-mcp": "./index.mjs" },
+  "engines": { "node": ">=20" },
+  "license": "MIT"
+}

@@ -33,6 +33,7 @@ const TTL_MS: Record<string, number> = {
   'profiler/address/counterparties': 60 * 60_000,
   'search/general': 60 * 60_000,
   'smart-alert/list': 30_000,
+  'trade/quote': 30_000,
 };
 
 /** Every v1beta1 backtesting endpoint reads a fixed point in history, so

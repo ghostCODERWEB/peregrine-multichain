@@ -13,6 +13,7 @@ import { OddsCard, oddsTitle } from './OddsCard';
 import type { ForecastWave } from '@/server/token/forecast';
 import { AnchorCard } from '@/components/AnchorCard';
 import { StormAlertForm } from './StormAlertForm';
+import { RideCard } from './RideCard';
 import { chainName, shortAddress, usd } from '@/lib/viz/format';
 import type { Wave, TokenHeader, MarketWave, WindWave, HoldersWave, ForensicsWave } from '@/server/token/waves';
 import type { StormWave } from '@/server/token/storm';
@@ -140,6 +141,9 @@ export function TokenView({ chain, address, tier }: { chain: string; address: st
           <AnchorCard query={`kind=token&chain=${chain}&address=${encodeURIComponent(address)}`} label="It reads the scores above; nothing is sent until you ask." />
           <div className="mt-4 border-t border-border pt-3">
             <StormAlertForm chain={chain} address={address} clusterWallets={[...clustered]} />
+          </div>
+          <div className="mt-4 border-t border-border pt-3">
+            <RideCard chain={chain} address={address} symbol={symbol} />
           </div>
         </Card>
       )}
