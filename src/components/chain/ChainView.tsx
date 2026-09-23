@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import type { ReactNode } from 'react';
+import { Card } from '@/components/Card';
 import { Barometer, barometerTitle } from './Barometer';
 import { TideChart, tideTitle } from './TideChart';
 import { FlowBars, flowsTitle } from './FlowBars';
@@ -17,16 +17,6 @@ export interface ModuleGaps {
   pressure: string | null;
   trades: string | null;
   tier: string;
-}
-
-function Card({ id, title, sub, children, className = '' }: { id: string; title: string; sub?: ReactNode; children: ReactNode; className?: string }) {
-  return (
-    <section aria-labelledby={id} className={`min-w-0 rounded-xl border border-border bg-surface p-4 ${className}`}>
-      <h2 id={id} className="text-[15px] font-semibold leading-snug text-ink">{title}</h2>
-      {sub && <p className="mt-1 text-[12.5px] text-ink-2">{sub}</p>}
-      <div className="mt-3">{children}</div>
-    </section>
-  );
 }
 
 export function ChainView({ d, gaps }: { d: ChainPageData; gaps: ModuleGaps }) {

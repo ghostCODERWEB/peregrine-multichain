@@ -26,11 +26,11 @@
           "address": "0xa541eb6d9b206e1e8d94025f3e63945ba42d79c6",
           "address_label": "[0xa541eb]",
           "bought_token_volume": 6962093.996080581,
-          "sold_token_volume": 10473849.979255555,
-          "token_trade_volume": 3511755.983174974,
-          "bought_volume_usd": 263443.47737242957,
+          "sold_token_volume": 10523849.979255555,
+          "token_trade_volume": 3561755.983174974,
+          "bought_volume_usd": 265200.0491303121,
           "sold_volume_usd": 417226.67171299964,
-          "trade_volume_usd": 153783.19434057007
+          "trade_volume_usd": 152026.62258268753
         },
         {
           "address": "0xb200fc2ae3bd585f42fb6c11bd67e0e44134e3fd",
@@ -46,8 +46,8 @@
           "address": "0xeb7c90d3d8eb5cce9c3da4725ba9d5177cf8cc50",
           "address_label": "🤖 High Activity [0xeb7c90]",
           "bought_token_volume": 3150150.507465099,
-          "sold_token_volume": 3812004.0791398245,
-          "token_trade_volume": 661853.5716747255,
+          "sold_token_volume": 3813004.0791398245,
+          "token_trade_volume": 662853.5716747255,
           "bought_volume_usd": 122421.32477382377,
           "sold_volume_usd": 152394.64594652978,
           "trade_volume_usd": 29973.32117270601
@@ -229,7 +229,7 @@
         "is_last_page": false
       }
     },
-    "recordedAt": 1790161297666
+    "recordedAt": 1790161811289
   },
   {
     "requestHash": "e9b42cf5cd957c385ff9bd2dec20d189777420c7",
@@ -397,9 +397,9 @@
         {
           "address": "0xa75990bbe6a02c264e10708d4efc967586e3abbd",
           "address_label": "Top 100 on WETH Leaderboard [0xa75990]",
-          "bought_token_volume": 1082288.5180943066,
-          "sold_token_volume": 1027486.0991883201,
-          "token_trade_volume": 54802.41890598647,
+          "bought_token_volume": 1088285.7309707706,
+          "sold_token_volume": 1027517.3377862301,
+          "token_trade_volume": 60768.393184540444,
           "bought_volume_usd": 44292.84727644175,
           "sold_volume_usd": 43207.912443297435,
           "trade_volume_usd": 1084.934833144318
@@ -461,6 +461,6 @@
         "is_last_page": false
       }
     },
-    "recordedAt": 1790161484330
+    "recordedAt": 1790161811297
   }
 ]

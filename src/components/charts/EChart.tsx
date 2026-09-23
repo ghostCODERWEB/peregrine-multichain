@@ -8,10 +8,14 @@ const ReactECharts = dynamic(() => import('echarts-for-react'), {
   loading: () => <div className="h-full w-full animate-pulse rounded-md bg-accent/40" />,
 });
 
-export function EChart({ option, height, ariaLabel }: { option: EChartsOption; height: number; ariaLabel: string }) {
+/** Handlers take whatever ECharts passes for that event; `never` lets each
+ *  handler declare the shape it reads without an `any`. */
+type Events = Record<string, (params: never) => void>;
+
+export function EChart({ option, height, ariaLabel, onEvents }: { option: EChartsOption; height: number; ariaLabel: string; onEvents?: Events }) {
   return (
     <div role="img" aria-label={ariaLabel} style={{ height }}>
-      <ReactECharts option={option} style={{ height, width: '100%' }} notMerge lazyUpdate opts={{ renderer: 'svg' }} />
+      <ReactECharts option={option} style={{ height, width: '100%' }} notMerge lazyUpdate opts={{ renderer: 'svg' }} onEvents={onEvents} />
     </div>
   );
 }
