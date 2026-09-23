@@ -10,6 +10,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import { publishableFixture } from './fixture-policy';
 
 const FIXTURES_DIR = path.resolve(process.cwd(), 'fixtures');
 
@@ -49,7 +50,10 @@ export class FixtureMiss extends Error {
   }
 }
 
-export function recordFixture(endpoint: string, request: unknown, response: unknown): void {
+export function recordFixture(endpoint: string, request: unknown, rawResponse: unknown, publicSafe = false): void {
+  // Fixtures are published with the repo: only what Nansen allows, labels stripped.
+  const response = publishableFixture(endpoint, request, rawResponse, publicSafe);
+  if (response === null) return;
   fs.mkdirSync(FIXTURES_DIR, { recursive: true });
   const file = fixtureFile(endpoint);
   const entries = readFixtureFile(endpoint);

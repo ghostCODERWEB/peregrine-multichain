@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { chainPage } from '@/server/weather/chain-page';
+import { displayMode } from '@/server/mode';
 import { ChainView } from '@/components/chain/ChainView';
 import { ALL_CHAIN_IDS, chainCapability, unavailableReason } from '@/lib/registry';
 import { chainName } from '@/lib/viz/format';
@@ -18,7 +19,7 @@ export default async function ChainRoute({ params }: Params) {
   const { chain } = await params;
   if (!ALL_CHAIN_IDS.includes(chain)) notFound();
   const cap = chainCapability(chain)!;
-  const data = await chainPage(chain);
+  const data = await chainPage(chain, await displayMode());
   return (
     <ChainView
       d={data}

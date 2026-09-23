@@ -101,7 +101,8 @@ export async function pnl(address: string): Promise<Wave<PnlSummary>> {
 // ------------------------------------------------------------- origins
 
 export interface Origins {
-  firstFunder: { address: string; name: string | null; chain: string; at: string } | null;
+  /** funderName is a Nansen label: stripped in public views. */
+  firstFunder: { address: string; funderName: string | null; chain: string; at: string } | null;
   firstFunderNote: string | null;
   relatedChain: string | null;
   related: Array<{ address: string; label: string | null; relation: string; chain: string; at: string }>;
@@ -117,7 +118,7 @@ export async function origins(address: string, mainChain: string | null): Promis
       const r = await traced<ProfilerAddressFirstFunderResponse>('profiler/address/first-funder', { address, chain: 'all' }, 1);
       calls.push(r.call);
       const f = r.data.data[0];
-      if (f) firstFunder = { address: f.first_funder_address, name: f.first_funder_name ?? null, chain: f.chain, at: f.block_timestamp };
+      if (f) firstFunder = { address: f.first_funder_address, funderName: f.first_funder_name ?? null, chain: f.chain, at: f.block_timestamp };
       else firstFunderNote = 'Nansen has no first funder for this address.';
     } else firstFunderNote = 'First-funder lookups take EVM addresses only.';
 
@@ -135,7 +136,8 @@ export async function origins(address: string, mainChain: string | null): Promis
         title: 'Where this wallet came from',
         formula: 'first funder: earliest address to send it gas, any chain\nrelated wallets: Nansen relations (funder, deployer, …) on its main chain',
         inputs: [
-          { label: 'First funder', value: firstFunder ? `${firstFunder.name ?? firstFunder.address.slice(0, 10)} on ${chainName(firstFunder.chain)}` : '—' },
+          // Provenance quotes addresses, never labels: it is not redacted.
+          { label: 'First funder', value: firstFunder ? `${firstFunder.address.slice(0, 10)}… on ${chainName(firstFunder.chain)}` : '—' },
           { label: 'Related wallets', value: `${related.length}${chain ? ` on ${chainName(chain)}` : ''}` },
         ],
         calls,
@@ -170,7 +172,7 @@ export async function counterparties(address: string, mainChain: string | null):
       provenance: {
         title: `Top counterparties on ${chainName(chain)}, 30 days`,
         formula: 'as reported by Nansen, ranked by total volume\nin = sent to this wallet, out = sent by it',
-        inputs: [{ label: 'Largest', value: `${rows[0].label ?? rows[0].address.slice(0, 10)} · ${usd(rows[0].totalUsd)}` }],
+        inputs: [{ label: 'Largest', value: `${rows[0].address.slice(0, 10)}… · ${usd(rows[0].totalUsd)}` }],
         calls: [r.call],
       },
     };

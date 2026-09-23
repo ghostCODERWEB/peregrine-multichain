@@ -10,6 +10,8 @@ import { trailTitle } from '@/lib/insights';
 import { TimeAgo } from '@/components/TimeAgo';
 import { balances, pnl, origins, counterparties, transactions, migrationTrail, type Balances } from '@/server/wallet/wallet-page';
 import { isUnavailable, type Wave } from '@/server/nansen/traced';
+import { displayMode, type DisplayMode } from '@/server/mode';
+import { forMode } from '@/server/redact';
 import { chainName, pct, shortAddress, usd, walletName } from '@/lib/viz/format';
 
 export const dynamic = 'force-dynamic';
@@ -30,7 +32,10 @@ export default async function WalletRoute({ params }: Params) {
   const address = decodeURIComponent(raw).trim();
   if (!ADDRESS.test(address)) notFound();
 
-  const trail = migrationTrail(address);
+  const mode = await displayMode();
+  // Public views: labels stripped from every section; the trail (built from
+  // smart-money DEX trades, which Nansen prohibits publicly) is withheld.
+  const trail = forMode(mode, migrationTrail(address));
   const balP = balances(address);
   const mainChainP = balP.then((b) => (isUnavailable(b) ? null : b.byChain[0]?.chain ?? null));
 
@@ -38,7 +43,7 @@ export default async function WalletRoute({ params }: Params) {
     <div className="space-y-5">
       <div>
         <Link href="/" className="text-[12.5px] text-ink-2 hover:text-ink">← Weather map</Link>
-        <h1 className="mt-1 break-all text-xl font-semibold text-ink sm:text-2xl">{trail.label ? walletName(trail.label, address) : shortAddress(address)}</h1>
+        <h1 className="mt-1 break-all text-xl font-semibold text-ink sm:text-2xl">{mode === 'private' && trail.label ? walletName(trail.label, address) : shortAddress(address)}</h1>
         <p className="num mt-1 break-all text-[12.5px] text-ink-2">{address}</p>
       </div>
 
@@ -46,28 +51,30 @@ export default async function WalletRoute({ params }: Params) {
         <Suspense fallback={<Card id="bal" title="Balances"><WaveLoading what="balances" height={300} /></Card>}>
           <BalancesCard p={balP} />
         </Suspense>
-        <Card id="trail" className="lg:col-span-2" title={trailTitle(trail.steps, trail.chains)}
+        <Card id="trail" className="lg:col-span-2" title={mode === 'public' ? 'Migration trail' : trailTitle(trail.steps, trail.chains)}
           sub="This wallet's smart-money DEX trades from TIDE's scanner record, as a path over the weather map (numbered in time order)."
           action={<InfoPopover p={trail.provenance} />}
         >
-          {trail.steps.length ? <TrailMap steps={trail.steps} /> : <Unavailable text="The scanner has not recorded a smart-money DEX trade by this wallet in the last 7 days. Only Nansen smart-money wallets appear in that feed." />}
+          {mode === 'public'
+            ? <Unavailable text="Shown only to the API key owner: the trail is built from Nansen smart-money DEX trades, which Nansen's redistribution rules keep out of public views." />
+            : trail.steps.length ? <TrailMap steps={trail.steps} /> : <Unavailable text="The scanner has not recorded a smart-money DEX trade by this wallet in the last 7 days. Only Nansen smart-money wallets appear in that feed." />}
         </Card>
       </div>
 
       <div className="grid gap-4 lg:grid-cols-3">
         <Suspense fallback={<Card id="pnl" title="PnL, 30 days"><WaveLoading what="PnL" /></Card>}>
-          <PnlCard address={address} />
+          <PnlCard address={address} mode={mode} />
         </Suspense>
         <Suspense fallback={<Card id="origins" title="Origins"><WaveLoading what="first funder and related wallets" /></Card>}>
-          <OriginsCard address={address} mainChain={mainChainP} />
+          <OriginsCard address={address} mainChain={mainChainP} mode={mode} />
         </Suspense>
         <Suspense fallback={<Card id="cp" title="Counterparties"><WaveLoading what="counterparties" /></Card>}>
-          <CounterpartiesCard address={address} mainChain={mainChainP} />
+          <CounterpartiesCard address={address} mainChain={mainChainP} mode={mode} />
         </Suspense>
       </div>
 
       <Suspense fallback={<Card id="tx" title="Recent transactions"><WaveLoading what="transactions" /></Card>}>
-        <TransactionsCard address={address} />
+        <TransactionsCard address={address} mode={mode} />
       </Suspense>
     </div>
   );
@@ -93,8 +100,8 @@ async function BalancesCard({ p }: { p: Promise<Wave<Balances>> }) {
   );
 }
 
-async function PnlCard({ address }: { address: string }) {
-  const r = await pnl(address);
+async function PnlCard({ address, mode }: { address: string; mode: DisplayMode }) {
+  const r = forMode(mode, await pnl(address));
   if (isUnavailable(r)) return <Card id="pnl" title="PnL, 30 days"><Unavailable text={r.unavailable} /></Card>;
   const title = `${r.realizedUsd >= 0 ? 'Up' : 'Down'} ${usd(Math.abs(r.realizedUsd))} realized in 30 days, winning ${pct(r.winRate, 0)} of exits`;
   const max = Math.max(1, ...r.top.map((t) => Math.abs(t.pnlUsd ?? 0)));
@@ -119,11 +126,11 @@ async function PnlCard({ address }: { address: string }) {
   );
 }
 
-async function OriginsCard({ address, mainChain }: { address: string; mainChain: Promise<string | null> }) {
-  const r = await origins(address, await mainChain);
+async function OriginsCard({ address, mainChain, mode }: { address: string; mainChain: Promise<string | null>; mode: DisplayMode }) {
+  const r = forMode(mode, await origins(address, await mainChain));
   if (isUnavailable(r)) return <Card id="origins" title="Origins"><Unavailable text={r.unavailable} /></Card>;
   const f = r.firstFunder;
-  const title = f ? `First funded by ${walletName(f.name, f.address)} on ${chainName(f.chain)}` : 'Origins';
+  const title = f ? `First funded by ${walletName(f.funderName, f.address)} on ${chainName(f.chain)}` : 'Origins';
   return (
     <Card id="origins" title={title} sub="Who sent this wallet its first gas, and the wallets Nansen relates to it." action={<InfoPopover p={r.provenance} />}>
       {f ? (
@@ -146,8 +153,8 @@ async function OriginsCard({ address, mainChain }: { address: string; mainChain:
   );
 }
 
-async function CounterpartiesCard({ address, mainChain }: { address: string; mainChain: Promise<string | null> }) {
-  const r = await counterparties(address, await mainChain);
+async function CounterpartiesCard({ address, mainChain, mode }: { address: string; mainChain: Promise<string | null>; mode: DisplayMode }) {
+  const r = forMode(mode, await counterparties(address, await mainChain));
   if (isUnavailable(r)) return <Card id="cp" title="Counterparties"><Unavailable text={r.unavailable} /></Card>;
   const top = r.rows[0];
   const max = Math.max(1, ...r.rows.map((x) => Math.max(x.inUsd, x.outUsd)));
@@ -170,8 +177,8 @@ async function CounterpartiesCard({ address, mainChain }: { address: string; mai
   );
 }
 
-async function TransactionsCard({ address }: { address: string }) {
-  const r = await transactions(address);
+async function TransactionsCard({ address, mode }: { address: string; mode: DisplayMode }) {
+  const r = forMode(mode, await transactions(address));
   if (isUnavailable(r)) return <Card id="tx" title="Recent transactions"><Unavailable text={r.unavailable} /></Card>;
   return (
     <Card id="tx" title={`${r.rows.length} transactions in the last 7 days`} sub="Newest first, across chains; spam tokens hidden." action={<InfoPopover p={r.provenance} />}>

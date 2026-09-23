@@ -159,6 +159,14 @@ const MIGRATIONS: string[] = [
   `
   CREATE TABLE kv (key TEXT PRIMARY KEY, value TEXT NOT NULL, updated_at INTEGER NOT NULL);
   `,
+  // 6: blended CPI per pressure source. Tier A chains now carry two
+  // series — smart-money (private view) and all-trader market flow (the
+  // public view Nansen's redistribution rules allow) — so each blended row
+  // says which. Existing rows are rebuilt from snapshots by rescoreAll.
+  `
+  ALTER TABLE chain_cpi ADD COLUMN source TEXT NOT NULL DEFAULT 'smart-money';
+  CREATE INDEX idx_chain_cpi_chain_source_time ON chain_cpi(chain, source, snapshot_at);
+  `,
 ];
 
 export function setKv(key: string, value: string): void {

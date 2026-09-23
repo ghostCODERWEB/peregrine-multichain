@@ -17,25 +17,25 @@
           "website": "",
           "x": "",
           "telegram": "",
-          "market_cap_usd": 68639671.27266122,
-          "fdv_usd": 44568408.9983807,
-          "circulating_supply": 2328619008,
+          "market_cap_usd": 66765481.60092426,
+          "fdv_usd": 45563122.1883798,
+          "circulating_supply": 2328832000,
           "total_supply": 4294967296
         },
         "spot_metrics": {
-          "volume_total_usd": 2698294.601889945,
-          "buy_volume_usd": 1208793.2106121914,
-          "sell_volume_usd": 1489501.3912777537,
-          "total_buys": 1394,
-          "total_sells": 965,
-          "unique_buyers": 313,
-          "unique_sellers": 262,
-          "liquidity_usd": 1128473.2025019405,
-          "total_holders": 4200
+          "volume_total_usd": 3045207.3776665456,
+          "buy_volume_usd": 1309639.9530179936,
+          "sell_volume_usd": 1735567.424648552,
+          "total_buys": 1805,
+          "total_sells": 1257,
+          "unique_buyers": 405,
+          "unique_sellers": 272,
+          "liquidity_usd": 1123628.3743749715,
+          "total_holders": 4245
         }
       }
     },
-    "recordedAt": 1790176873593
+    "recordedAt": 1790194145449
   },
   {
     "requestHash": "7bce29725bbd5be65cab7dc54cce13dad77781f3",

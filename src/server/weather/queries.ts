@@ -38,12 +38,26 @@ export interface ChainWeather {
 
 const DAY = 24 * 60 * 60_000;
 
-function latestWindows(chain: string): WindowReading[] {
+/**
+ * Which pressure series a viewer may see. Private (the key owner) reads a
+ * Tier A chain's smart-money pressure; public reads every chain's
+ * all-trader market-flow pressure — smart-money inflows are "restricted"
+ * under Nansen's redistribution rules, all-trader screener flow is not.
+ */
+export type PressureView = 'private' | 'public';
+
+export function sourceFor(chain: string, view: PressureView): PressureSource | null {
+  const native = pressureSource(chain);
+  if (!native) return null;
+  return view === 'public' ? 'market-flow' : native;
+}
+
+function latestWindows(chain: string, source: PressureSource): WindowReading[] {
   const rows = getDb().prepare(`
     SELECT s.* FROM chain_pressure_snapshots s
-    JOIN (SELECT window, MAX(id) AS id FROM chain_pressure_snapshots WHERE chain = ? GROUP BY window) m ON m.id = s.id
+    JOIN (SELECT window, MAX(id) AS id FROM chain_pressure_snapshots WHERE chain = ? AND nf_source = ? GROUP BY window) m ON m.id = s.id
     ORDER BY CASE s.window WHEN '1h' THEN 0 WHEN '24h' THEN 1 ELSE 2 END
-  `).all(chain) as Array<{
+  `).all(chain, source) as Array<{
     window: Window; net_flow_usd: number; volume_usd: number; ratio: number; z: number; cpi: number;
     used_cross_section: number; token_count: number; snapshot_at: number;
   }>;
@@ -53,19 +67,19 @@ function latestWindows(chain: string): WindowReading[] {
   }));
 }
 
-function cpiSeries(chain: string, since: number): Array<{ t: number; cpi: number }> {
+function cpiSeries(chain: string, source: PressureSource, since: number): Array<{ t: number; cpi: number }> {
   return (getDb()
-    .prepare('SELECT snapshot_at AS t, cpi FROM chain_cpi WHERE chain = ? AND snapshot_at >= ? ORDER BY snapshot_at')
-    .all(chain, since) as Array<{ t: number; cpi: number }>);
+    .prepare('SELECT snapshot_at AS t, cpi FROM chain_cpi WHERE chain = ? AND source = ? AND snapshot_at >= ? ORDER BY snapshot_at')
+    .all(chain, source, since) as Array<{ t: number; cpi: number }>);
 }
 
-export function chainWeather(chain: string, now = Date.now()): ChainWeather {
+export function chainWeather(chain: string, now = Date.now(), view: PressureView = 'private'): ChainWeather {
   const cap = registry.chains[chain];
-  const source = pressureSource(chain);
-  const series = source ? cpiSeries(chain, now - 7 * DAY) : [];
+  const source = sourceFor(chain, view);
+  const series = source ? cpiSeries(chain, source, now - 7 * DAY) : [];
   const last = series.at(-1) ?? null;
   const latestRow = source
-    ? (getDb().prepare('SELECT any_cross_section FROM chain_cpi WHERE chain = ? ORDER BY id DESC LIMIT 1').get(chain) as { any_cross_section: number } | undefined)
+    ? (getDb().prepare('SELECT any_cross_section FROM chain_cpi WHERE chain = ? AND source = ? ORDER BY id DESC LIMIT 1').get(chain, source) as { any_cross_section: number } | undefined)
     : undefined;
   // Only a real 6h-old reading counts: falling back to the oldest snapshot
   // would print "+0.0 over 6h" on a chain with fifteen minutes of history.
@@ -78,15 +92,15 @@ export function chainWeather(chain: string, now = Date.now()): ChainWeather {
     band: last ? pressureBand(last.cpi) : null,
     trend6h: last && sixHoursAgo && sixHoursAgo !== last ? last.cpi - sixHoursAgo.cpi : null,
     anyCrossSection: latestRow?.any_cross_section === 1,
-    windows: source ? latestWindows(chain) : [],
+    windows: source ? latestWindows(chain, source) : [],
     series,
     updatedAt: last?.t ?? null,
     unavailable: source ? (last ? null : 'The scanner has not produced a reading for this chain yet.') : unavailableReason(chain, 'pressure'),
   };
 }
 
-export function weatherMap(now = Date.now()): ChainWeather[] {
-  return ALL_CHAIN_IDS.map((c) => chainWeather(c, now));
+export function weatherMap(now = Date.now(), view: PressureView = 'private'): ChainWeather[] {
+  return ALL_CHAIN_IDS.map((c) => chainWeather(c, now, view));
 }
 
 // ---------------------------------------------------------------------------
@@ -211,8 +225,9 @@ const MIN_FORECAST_HISTORY = 12;
  * Forecast values are clamped to CPI's own 0-100 range — a linear trend
  * extrapolated past 100 is an artifact of the model, not a reading.
  */
-export function pressureForecast(chain: string, horizonHours = 24, now = Date.now()): PressureForecast {
-  const history = cpiSeries(chain, now - 7 * DAY);
+export function pressureForecast(chain: string, horizonHours = 24, now = Date.now(), view: PressureView = 'private'): PressureForecast {
+  const source = sourceFor(chain, view);
+  const history = source ? cpiSeries(chain, source, now - 7 * DAY) : [];
   const gaps = history.slice(1).map((p, i) => p.t - history[i].t).sort((a, b) => a - b);
   const stepMs = gaps.length ? gaps[Math.floor(gaps.length / 2)] : 30 * 60_000;
   const base = {

@@ -24,8 +24,8 @@
           "chain": "ethereum"
         },
         {
-          "realized_pnl": 692.8409710223538,
-          "realized_roi": 0.8255000499933977,
+          "realized_pnl": 692.8409710223539,
+          "realized_roi": 0.8255000499933981,
           "token_address": "0xf125ae348b5413f0aba6cd0c730dbd18c4e23d4e",
           "token_symbol": "HBM",
           "chain": "robinhood"
@@ -38,7 +38,7 @@
           "chain": "polygon"
         },
         {
-          "realized_pnl": 354.5408251691958,
+          "realized_pnl": 354.5408251691957,
           "realized_roi": 0.30823111890470456,
           "token_address": "0xc7dcca0a3e69bd762c8db257f868f76be36c8514",
           "token_symbol": "KIBSHI",
@@ -52,12 +52,12 @@
           "chain": "base"
         }
       ],
-      "traded_token_count": 282,
-      "traded_times": 1151,
-      "realized_pnl_usd": 134305.02987000986,
-      "realized_pnl_percent": 4.92740066179624,
-      "win_rate": 0.3900709219858156
+      "traded_token_count": 291,
+      "traded_times": 1180,
+      "realized_pnl_usd": 134250.2235622176,
+      "realized_pnl_percent": 4.80545462374905,
+      "win_rate": 0.3951890034364261
     },
-    "recordedAt": 1790162398844
+    "recordedAt": 1790194153075
   }
 ]

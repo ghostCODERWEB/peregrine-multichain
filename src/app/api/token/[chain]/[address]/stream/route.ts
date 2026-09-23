@@ -7,6 +7,8 @@ import { headerWave, marketWave, windWave, holdersWave, forensicsWave, isUnavail
 import { computeStorm, saveStorm } from '@/server/token/storm';
 import { forecastWave } from '@/server/token/forecast';
 import { callScope, type CallTally } from '@/server/nansen/client';
+import { modeFromRequest } from '@/server/mode';
+import { forMode } from '@/server/redact';
 
 export const dynamic = 'force-dynamic';
 
@@ -16,6 +18,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ chain: s
   const token = decodeURIComponent(address).trim();
   const smChain = !!chainCapability(chain)?.smartMoney;
   const enc = new TextEncoder();
+  const mode = modeFromRequest(req);
 
   const stream = new ReadableStream({
     start(controller) {
@@ -32,7 +35,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ chain: s
       req.signal.addEventListener('abort', () => { open = false; });
       const send = (event: string, data: unknown) => {
         if (!open) return;
-        try { controller.enqueue(enc.encode(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`)); } catch { open = false; }
+        try { controller.enqueue(enc.encode(`event: ${event}\ndata: ${JSON.stringify(forMode(mode, data))}\n\n`)); } catch { open = false; }
       };
       try {
         const header = headerWave(chain, token).then((w) => { send('header', w); return w; });

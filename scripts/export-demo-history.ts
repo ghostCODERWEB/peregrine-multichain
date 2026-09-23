@@ -15,8 +15,7 @@ const db = getDb();
 const now = Date.now();
 const tables: Record<string, { columns: string[]; rows: unknown[][] }> = {};
 for (const t of DEMO_TABLES) {
-  const stmt = db.prepare(`SELECT * FROM ${t.name}${t.where ? ` WHERE ${t.where}` : ''} ORDER BY id`);
-  const rows = (t.where ? stmt.all(now - 7 * 86_400_000) : stmt.all()) as Array<Record<string, unknown>>;
+  const rows = db.prepare(`SELECT * FROM ${t.name}${t.where ? ` WHERE ${t.where}` : ''} ORDER BY id`).all() as Array<Record<string, unknown>>;
   const columns = rows[0] ? Object.keys(rows[0]).filter((c) => c !== 'id') : [];
   tables[t.name] = { columns, rows: rows.map((r) => columns.map((c) => r[c])) };
   console.log(`${t.name}: ${rows.length} rows`);

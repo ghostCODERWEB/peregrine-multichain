@@ -1,14 +1,11 @@
-// GET /api/public/fronts?hours=24 — rotation fronts: net capital moving
-// between chains, measured from the same wallets selling on one chain and
-// buying on another. From TIDE's scanner record: no credits per request.
-import { rotationFronts } from '@/server/weather/queries';
-
+// GET /api/public/fronts — withheld. Rotation fronts are built from
+// smart-money DEX trades, which Nansen's redistribution rules prohibit in
+// any public surface or API. They stay in TIDE's private (key-owner) view.
 export const dynamic = 'force-dynamic';
 
-export async function GET(req: Request) {
-  const hours = Math.min(168, Math.max(1, Number(new URL(req.url).searchParams.get('hours') ?? 24)));
-  const fronts = rotationFronts(hours).map((f) => ({
-    from: f.from, to: f.to, net_usd: f.netUsd, wallets: f.walletCount, confidence: f.confidence, inferred: f.inferred,
-  }));
-  return Response.json({ hours, fronts }, { headers: { 'Access-Control-Allow-Origin': '*' } });
+export async function GET() {
+  return Response.json(
+    { error: 'Rotation fronts are derived from Nansen smart-money DEX trades, which may not be redistributed publicly. They are available in a private TIDE instance run with your own Nansen key.' },
+    { status: 403, headers: { 'Access-Control-Allow-Origin': '*' } },
+  );
 }

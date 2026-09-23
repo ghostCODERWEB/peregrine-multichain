@@ -14,7 +14,7 @@ export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
 export default function Image() {
-  const b = buildBulletin();
+  const b = buildBulletin('public'); // share images leave the app: always the public view
   const tiles = b.chains.filter((c) => c.cpi != null).sort((x, y) => Math.abs(y.cpi! - 50) - Math.abs(x.cpi! - 50)).slice(0, 12);
   const storm = b.storms[0];
   return new ImageResponse(

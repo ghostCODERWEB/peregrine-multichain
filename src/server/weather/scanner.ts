@@ -190,15 +190,15 @@ async function gatherInputs(windows: Window[], errors: string[]): Promise<{ inpu
     for (const chain of chains) {
       const vol = volume.get(chain);
       if (!vol) continue; // no volume observed — no ratio, so no snapshot (never a made-up zero)
-      const source = pressureSource(chain)!;
-      let nf: { sum: number; count: number };
-      if (source === 'smart-money') {
-        if (!smQueried.has(chain)) continue;
-        nf = smFlow.get(chain) ?? EMPTY;
-      } else {
-        nf = marketFlow.get(chain) ?? EMPTY;
+      // Every chain gets an all-trader (market-flow) reading from rows the
+      // scanner already paid for: it is the pressure public views may show.
+      const mf = marketFlow.get(chain) ?? EMPTY;
+      inputs.push({ chain, window: w, netFlowUsd: mf.sum, volumeUsd: vol.sum, tokenCount: mf.count, source: 'market-flow' });
+      // Tier A chains also get the smart-money reading (private views).
+      if (pressureSource(chain) === 'smart-money' && smQueried.has(chain)) {
+        const sm = smFlow.get(chain) ?? EMPTY;
+        inputs.push({ chain, window: w, netFlowUsd: sm.sum, volumeUsd: vol.sum, tokenCount: sm.count, source: 'smart-money' });
       }
-      inputs.push({ chain, window: w, netFlowUsd: nf.sum, volumeUsd: vol.sum, tokenCount: nf.count, source });
     }
   }
   return { inputs, candidates };
@@ -207,10 +207,10 @@ async function gatherInputs(windows: Window[], errors: string[]): Promise<{ inpu
 /** This chain's ratios for this window strictly before `at`, within the
  *  trailing history span — strictly before so a rescore of an old snapshot
  *  never sees its own value or anything later. */
-function ownHistory(chain: string, window: Window, at: number): number[] {
+function ownHistory(chain: string, window: Window, source: PressureSource, at: number): number[] {
   const rows = getDb()
-    .prepare('SELECT ratio FROM chain_pressure_snapshots WHERE chain = ? AND window = ? AND snapshot_at < ? AND snapshot_at >= ? ORDER BY snapshot_at')
-    .all(chain, window, at, at - HISTORY_SPAN_MS) as Array<{ ratio: number }>;
+    .prepare('SELECT ratio FROM chain_pressure_snapshots WHERE chain = ? AND window = ? AND nf_source = ? AND snapshot_at < ? AND snapshot_at >= ? ORDER BY snapshot_at')
+    .all(chain, window, source, at, at - HISTORY_SPAN_MS) as Array<{ ratio: number }>;
   return rows.map((r) => r.ratio);
 }
 
@@ -234,7 +234,7 @@ function scoreInputs(inputs: ChainWindowInput[], at: number): Array<{ input: Cha
     // doesn't yet have MIN_OWN_HISTORY snapshots of its own.
     const peerRatios = list.map((i) => flowRatio({ netFlowUsd: i.netFlowUsd, volumeUsd: i.volumeUsd }));
     for (const input of list) {
-      const history = ownHistory(input.chain, window, at);
+      const history = ownHistory(input.chain, window, input.source, at);
       // Own history is only a usable baseline if it has some spread: a
       // chain whose ratio has sat at exactly zero for days would score any
       // new move as z = 0, which is backwards — that move is exactly the
@@ -307,27 +307,29 @@ export function rescoreAll(): { snapshots: number; blended: number } {
 function storeBlended(now: number): number {
   const db = getDb();
   const latest = db.prepare(`
-    SELECT s.chain, s.window, s.ratio, s.z, s.cpi, s.used_cross_section
+    SELECT s.chain, s.window, s.nf_source, s.ratio, s.z, s.cpi, s.used_cross_section
     FROM chain_pressure_snapshots s
     JOIN (
-      SELECT chain, window, MAX(id) AS id FROM chain_pressure_snapshots
-      WHERE snapshot_at <= ? GROUP BY chain, window
+      SELECT chain, window, nf_source, MAX(id) AS id FROM chain_pressure_snapshots
+      WHERE snapshot_at <= ? GROUP BY chain, window, nf_source
     ) m ON m.id = s.id
-  `).all(now) as Array<{ chain: string; window: Window; ratio: number; z: number; cpi: number; used_cross_section: number }>;
+  `).all(now) as Array<{ chain: string; window: Window; nf_source: PressureSource; ratio: number; z: number; cpi: number; used_cross_section: number }>;
 
-  const byChain = new Map<string, Partial<Record<Window, CpiWindowResult>>>();
+  // One blended reading per chain and per source.
+  const byKey = new Map<string, { chain: string; source: PressureSource; windows: Partial<Record<Window, CpiWindowResult>> }>();
   for (const row of latest) {
-    const entry = byChain.get(row.chain) ?? {};
-    entry[row.window] = { window: row.window, ratio: row.ratio, z: row.z, cpi: row.cpi, usedCrossSectional: row.used_cross_section === 1 };
-    byChain.set(row.chain, entry);
+    const key = `${row.chain}|${row.nf_source}`;
+    const entry = byKey.get(key) ?? { chain: row.chain, source: row.nf_source, windows: {} };
+    entry.windows[row.window] = { window: row.window, ratio: row.ratio, z: row.z, cpi: row.cpi, usedCrossSectional: row.used_cross_section === 1 };
+    byKey.set(key, entry);
   }
 
-  const insert = db.prepare('INSERT INTO chain_cpi (chain, cpi, any_cross_section, windows, snapshot_at) VALUES (?, ?, ?, ?, ?)');
+  const insert = db.prepare('INSERT INTO chain_cpi (chain, cpi, any_cross_section, windows, snapshot_at, source) VALUES (?, ?, ?, ?, ?, ?)');
   let n = 0;
   db.transaction(() => {
-    for (const [chain, windows] of byChain) {
+    for (const { chain, source, windows } of byKey.values()) {
       const blended = blendChainPressure(windows);
-      insert.run(chain, blended.cpi, blended.anyCrossSectional ? 1 : 0, JSON.stringify(Object.keys(blended.byWindow)), now);
+      insert.run(chain, blended.cpi, blended.anyCrossSectional ? 1 : 0, JSON.stringify(Object.keys(blended.byWindow)), now, source);
       n++;
     }
   })();

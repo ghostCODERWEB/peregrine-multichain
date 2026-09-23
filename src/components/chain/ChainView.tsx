@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import { Card } from '@/components/Card';
+import { Card, Unavailable } from '@/components/Card';
 import { Barometer, barometerTitle } from './Barometer';
 import { TideChart, tideTitle } from './TideChart';
 import { FlowBars, flowsTitle } from './FlowBars';
@@ -33,6 +33,7 @@ export function ChainView({ d, gaps }: { d: ChainPageData; gaps: ModuleGaps }) {
         <p className="mt-1 text-sm text-ink-2">
           Nansen coverage tier {gaps.tier}.{' '}
           {d.weather.source === 'smart-money' && 'Pressure is measured from Nansen smart-money labels.'}
+          {d.mode === 'public' && d.weather.source === 'market-flow' && gaps.tier === 'A' && ' Public view: pressure here is all-trader flow; smart-money pressure is shown to the API key owner only.'}
           {d.weather.source === 'market-flow' && `Nansen has no smart-money labels on ${name}, so pressure here reads all-trader flow and is ranked only against other all-trader chains.`}
           {d.weather.source == null && gaps.pressure}
         </p>
@@ -80,7 +81,9 @@ export function ChainView({ d, gaps }: { d: ChainPageData; gaps: ModuleGaps }) {
           title={d.flows.kind === 'smart-money' ? sectorsTitle(d.chain, d.flows) : 'Sectors'}
           sub="Tile area = gross smart-money flow through the sector in 24h; color = net direction (amber in, blue out)."
         >
-          {d.flows.kind === 'unavailable' ? <p className="text-sm text-ink-2">{d.flows.unavailable}</p> : <SectorTreemap f={d.flows} />}
+          {d.flows.kind === 'unavailable' ? <p className="text-sm text-ink-2">{d.flows.unavailable}</p>
+            : d.mode === 'public' && gaps.tier === 'A' ? <Unavailable text="Sector flows come from Nansen smart-money inflows, which are shown to the API key owner only." />
+            : <SectorTreemap f={d.flows} />}
         </Card>
       </div>
 
@@ -99,7 +102,9 @@ export function ChainView({ d, gaps }: { d: ChainPageData; gaps: ModuleGaps }) {
           title={`Latest smart-money trades on ${name}`}
           sub="DEX swaps by Nansen-labelled smart money, recorded by the scanner. Buy = stable or native in, risk token out of the pool."
         >
-          {gaps.trades ? <p className="text-sm text-ink-2">{gaps.trades}</p> : <TradeTape tape={d.tape} />}
+          {gaps.trades ? <p className="text-sm text-ink-2">{gaps.trades}</p>
+            : d.mode === 'public' ? <Unavailable text="Shown only to the API key owner: Nansen's redistribution rules keep smart-money trades out of public views. Run TIDE with your own Nansen key to see them." />
+            : <TradeTape tape={d.tape} />}
         </Card>
       </div>
     </div>

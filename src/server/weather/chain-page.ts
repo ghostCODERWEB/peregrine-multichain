@@ -4,7 +4,7 @@
 // 30 min) so repeat views don't re-spend.
 import { callNansen } from '@/server/nansen/client';
 import { getDb } from '@/server/nansen/db';
-import { chainWeather, pressureForecast, type ChainWeather, type PressureForecast } from './queries';
+import { chainWeather, pressureForecast, sourceFor, type ChainWeather, type PressureForecast, type PressureView } from './queries';
 import { cpiProvenance, forecastProvenance } from './provenance';
 import { chainCapability, unavailableReason } from '@/lib/registry';
 import { holtForecast } from '@/lib/models/holt-forecast';
@@ -55,6 +55,9 @@ export interface ChainPageData {
   /** Newest first; `count` > 1 when consecutive fills were folded together
    *  (then `firstAt` is the oldest of them). */
   tape: Array<{ at: number; firstAt: number; count: number; wallet: string; label: string | null; side: 'buy' | 'sell'; symbol: string | null; usd: number }>;
+  /** Public views withhold smart-money trades (Nansen: prohibited) and use
+   *  all-trader flows instead of smart-money inflows (restricted). */
+  mode: PressureView;
 }
 
 const TOP_N = 10;
@@ -149,10 +152,10 @@ async function marketFlows(chain: string): Promise<FlowSection> {
   };
 }
 
-async function tokenFlows(chain: string): Promise<FlowSection> {
+async function tokenFlows(chain: string, mode: PressureView): Promise<FlowSection> {
   const cap = chainCapability(chain);
   try {
-    if (cap?.smartMoney) return await smartMoneyFlows(chain);
+    if (cap?.smartMoney && mode === 'private') return await smartMoneyFlows(chain);
     if (cap?.screener) return await marketFlows(chain);
   } catch (e) {
     return { kind: 'unavailable', inflows: [], outflows: [], sectors: [], provenance: null, unavailable: `Nansen call failed: ${(e as Error).message.slice(0, 140)}` };
@@ -208,11 +211,13 @@ async function peers(chain: string): Promise<ChainPageData['peers']> {
  * that gap, so the running sum doesn't double-count overlapping hours when
  * the scanner runs more often than hourly.
  */
-function tide(chain: string, now: number): ChainPageData['tide'] {
+function tide(chain: string, now: number, mode: PressureView): ChainPageData['tide'] {
+  const source = sourceFor(chain, mode) ?? 'market-flow';
   const rows = getDb().prepare(`
     SELECT snapshot_at AS t, net_flow_usd AS nf FROM chain_pressure_snapshots
-    WHERE chain = ? AND window = '1h' AND snapshot_at >= ? ORDER BY snapshot_at
-  `).all(chain, now - 7 * 24 * 60 * 60_000) as Array<{ t: number; nf: number }>;
+    WHERE chain = ? AND window = '1h' AND nf_source = ? AND snapshot_at >= ? ORDER BY snapshot_at
+  `).all(chain, source, now - 7 * 24 * 60 * 60_000) as Array<{ t: number; nf: number }>;
+  const who = source === 'smart-money' ? 'smart-money' : 'all-trader';
   const points: TidePoint[] = [];
   let cum = 0;
   rows.forEach((row, i) => {
@@ -233,13 +238,13 @@ function tide(chain: string, now: number): ChainPageData['tide'] {
   return {
     points, forecast,
     provenance: {
-      title: `Tide — cumulative smart-money flow on ${chain}`,
+      title: `Tide — cumulative ${who} flow on ${chain}`,
       formula: 'flow_i = net_flow_1h_i × min(1h, t_i − t_{i−1})\ntide = Σ flow_i    (Holt fan once 12+ snapshots)',
       inputs: [
         { label: 'Snapshots', value: String(points.length) },
         { label: 'Tide now', value: usd(points.at(-1)?.cumulativeUsd, { signed: true }) },
       ],
-      calls: [{ endpoint: 'token-screener', body: '1h window, trader_type sm (see the pressure ⓘ for the exact body)', ref: 'scanner snapshots, one per scan' }],
+      calls: [{ endpoint: 'token-screener', body: `1h window, ${source === 'smart-money' ? 'trader_type sm' : 'all traders'} (see the pressure ⓘ for the exact body)`, ref: 'scanner snapshots, one per scan' }],
       notes: points.length < 12 ? ['The forecast fan appears once 12 snapshots exist.'] : [],
     },
   };
@@ -270,19 +275,20 @@ function tape(chain: string): ChainPageData['tape'] {
   return out;
 }
 
-export async function chainPage(chain: string, now = Date.now()): Promise<ChainPageData> {
-  const weather = chainWeather(chain, now);
-  const forecast = pressureForecast(chain, 24, now);
-  const [flows, peerData] = await Promise.all([tokenFlows(chain), peers(chain)]);
+export async function chainPage(chain: string, mode: PressureView = 'private', now = Date.now()): Promise<ChainPageData> {
+  const weather = chainWeather(chain, now, mode);
+  const forecast = pressureForecast(chain, 24, now, mode);
+  const [flows, peerData] = await Promise.all([tokenFlows(chain, mode), peers(chain)]);
   return {
     chain,
     weather,
     cpiProvenance: cpiProvenance(weather),
     forecast,
     forecastProvenance: forecastProvenance(forecast),
-    tide: tide(chain, now),
+    tide: tide(chain, now, mode),
     flows,
     peers: peerData,
-    tape: tape(chain),
+    tape: mode === 'private' ? tape(chain) : [],
+    mode,
   };
 }

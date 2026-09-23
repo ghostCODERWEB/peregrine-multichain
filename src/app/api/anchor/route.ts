@@ -5,6 +5,7 @@
 //        Nansen agent/fast run within the hourly cap)
 import { ALL_CHAIN_IDS } from '@/lib/registry';
 import { anchorStream, latestReport, subjectKey, callsThisHour, anchorMaxPerHour, ANCHOR_TTL_MS } from '@/server/agents/anchor';
+import { modeFromRequest } from '@/server/mode';
 
 export const dynamic = 'force-dynamic';
 
@@ -21,7 +22,7 @@ function parse(url: string): { kind: 'bulletin' | 'token'; chain?: string; token
 export async function GET(req: Request) {
   const p = parse(req.url);
   if (!p) return Response.json({ error: 'bad subject' }, { status: 400 });
-  const r = latestReport(subjectKey(p.kind, p.chain, p.token));
+  const r = latestReport(subjectKey(p.kind, modeFromRequest(req), p.chain, p.token));
   return Response.json({
     report: r, fresh: !!r && Date.now() - r.createdAt < ANCHOR_TTL_MS,
     callsLeftThisHour: Math.max(0, anchorMaxPerHour() - callsThisHour()),
@@ -36,7 +37,7 @@ export async function POST(req: Request) {
     start(controller) {
       void (async () => {
         try {
-          for await (const e of anchorStream(p.kind, p.chain, p.token)) {
+          for await (const e of anchorStream(p.kind, modeFromRequest(req), p.chain, p.token)) {
             controller.enqueue(enc.encode(`data: ${JSON.stringify(e)}\n\n`));
           }
         } catch (e) {

@@ -7,7 +7,7 @@
 import { callNansen } from '@/server/nansen/client';
 import { getDb } from '@/server/nansen/db';
 import { endpointSupports } from '@/lib/registry';
-import { chainWeather } from '@/server/weather/queries';
+import { chainWeather, type PressureView } from '@/server/weather/queries';
 import type { Provenance } from '@/lib/provenance';
 import { num, usd } from '@/lib/viz/format';
 
@@ -29,9 +29,9 @@ export const RIDE_MAX_STORM = 50;
 
 export interface RideEligibility { eligible: boolean; reason: string; cpi: number | null; storm: number | null }
 
-export function rideEligibility(chain: string, token: string): RideEligibility {
+export function rideEligibility(chain: string, token: string, view: PressureView = 'private'): RideEligibility {
   if (!endpointSupports('tradeQuote', chain) || !USDC[chain]) return { eligible: false, reason: 'Nansen trade quotes cover Base and Solana only.', cpi: null, storm: null };
-  const cpi = chainWeather(chain).cpi;
+  const cpi = chainWeather(chain, Date.now(), view).cpi;
   const s = getDb().prepare('SELECT score FROM storm_scores WHERE chain = ? AND token_address = ? ORDER BY id DESC LIMIT 1').get(chain, token.toLowerCase()) as { score: number } | undefined;
   const storm = s?.score ?? null;
   if (cpi == null || cpi <= RIDE_MIN_CPI) return { eligible: false, reason: `No tide to ride: chain pressure is ${num(cpi, 0)} (needs above ${RIDE_MIN_CPI}).`, cpi, storm };
@@ -50,8 +50,8 @@ interface RawQuote {
 
 const n = (v: string | undefined) => (v == null || v === '' || !Number.isFinite(Number(v)) ? null : Number(v));
 
-export async function rideQuote(chain: string, token: string, amountUsd: number): Promise<{ eligibility: RideEligibility; quotes: RideQuote[]; provenance: Provenance | null }> {
-  const eligibility = rideEligibility(chain, token);
+export async function rideQuote(chain: string, token: string, amountUsd: number, view: PressureView = 'private'): Promise<{ eligibility: RideEligibility; quotes: RideQuote[]; provenance: Provenance | null }> {
+  const eligibility = rideEligibility(chain, token, view);
   if (!eligibility.eligible) return { eligibility, quotes: [], provenance: null };
   const usdc = USDC[chain];
   const amount = Math.round(Math.min(10_000, Math.max(5, amountUsd)) * 10 ** usdc.decimals).toString();

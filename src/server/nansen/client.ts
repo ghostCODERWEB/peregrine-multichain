@@ -201,7 +201,7 @@ export async function callNansen<T>(
  * callNansen — the whole event list is recorded once the stream ends, and
  * replayed event by event without a key.
  */
-export async function* streamNansen(endpoint: string, body: unknown): AsyncGenerator<AgentStreamEvent> {
+export async function* streamNansen(endpoint: string, body: unknown, opts: { record?: boolean } = {}): AsyncGenerator<AgentStreamEvent> {
   if (fixtureMode() === 'replay') {
     const events = replayLatest<AgentStreamEvent[]>(endpoint);
     if (!events) throw new Error(`No recorded ${endpoint} stream to replay in DEMO_MODE.`);
@@ -254,6 +254,6 @@ export async function* streamNansen(endpoint: string, body: unknown): AsyncGener
       }
     }
   } finally {
-    if (seen.length) recordFixture(endpoint, body, seen);
+    if (seen.length && opts.record) recordFixture(endpoint, body, seen, true);
   }
 }

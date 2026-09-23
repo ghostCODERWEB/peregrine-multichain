@@ -7,8 +7,9 @@ import { chainWeather, pressureForecast } from '@/server/weather/queries';
 export const dynamic = 'force-dynamic';
 
 function one(chain: string) {
-  const w = chainWeather(chain);
-  const f = pressureForecast(chain, 24);
+  // Public API: all-trader pressure only (smart-money inflows are restricted).
+  const w = chainWeather(chain, Date.now(), 'public');
+  const f = pressureForecast(chain, 24, Date.now(), 'public');
   return {
     chain, cpi: w.cpi, band: w.band, measured_from: w.source, trend_6h: w.trend6h, updated_at: w.updatedAt,
     unavailable: w.unavailable,

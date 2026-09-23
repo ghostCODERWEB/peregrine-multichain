@@ -24,7 +24,8 @@
     "screenshots": "tsx scripts/screenshots.ts",
     "fetch-docs": "tsx scripts/fetch-docs.ts",
     "gen-api": "tsx scripts/gen-api.ts",
-    "validate-api": "tsx scripts/validate-endpoints.ts"
+    "validate-api": "tsx scripts/validate-endpoints.ts",
+    "sanitize-fixtures": "tsx scripts/sanitize-fixtures.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",

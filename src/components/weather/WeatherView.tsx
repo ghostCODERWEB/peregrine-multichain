@@ -90,12 +90,14 @@ export function WeatherView({ initial, anchor }: { initial: WeatherBulletin; anc
       </section>
 
       <section aria-labelledby="fronts-title" className="rounded-xl border border-border bg-surface p-4">
-        <h2 id="fronts-title" className="text-base font-semibold text-ink">{frontsHeadline(data.fronts)}</h2>
+        <h2 id="fronts-title" className="text-base font-semibold text-ink">{data.withheld.includes('fronts') ? 'Rotation fronts: key-owner view only' : frontsHeadline(data.fronts)}</h2>
         <p className="mb-2 mt-1 text-sm text-ink-2">
           Rotation fronts: the same wallet sold risk on one chain and bought risk on another within 12 hours. Measured from
           smart-money DEX trades, not inferred from volume. Select a front to see the wallets behind it.
         </p>
-        <FrontsList fronts={data.fronts} onSelect={setSelected} />
+        {data.withheld.includes('fronts')
+          ? <p className="rounded-lg border border-dashed border-border px-3 py-4 text-sm text-ink-2">Fronts are built from Nansen smart-money DEX trades, which Nansen&apos;s redistribution rules keep out of public views. Run TIDE with your own Nansen key to see them; this public view shows all-trader pressure instead.</p>
+          : <FrontsList fronts={data.fronts} onSelect={setSelected} />}
       </section>
 
       <section aria-labelledby="forecast-title">

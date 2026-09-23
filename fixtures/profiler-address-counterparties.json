@@ -29,21 +29,19 @@
       "data": [
         {
           "counterparty_address": "0x5994814f2c4040b863a0125a45de152a8c2a4dec",
-          "counterparty_address_label": [
-            "​​🤖 🏦 OKX: Router [0x599481]"
-          ],
-          "interaction_count": 237,
-          "total_volume_usd": 9308.367905704996,
-          "volume_in_usd": 9308.367905704996,
+          "counterparty_address_label": null,
+          "interaction_count": 245,
+          "total_volume_usd": 9537.719853782824,
+          "volume_in_usd": 9537.719853782824,
           "volume_out_usd": 0,
           "tokens_info": [
             {
               "token_address": "0x55d398326f99059ff775485246999027b3197955",
               "token_symbol": "USDT",
               "token_name": "Tether USD",
-              "num_transfer": "235",
-              "total_token_amount": 9144.052946520891,
-              "token_in_amount": 9144.052946520891,
+              "num_transfer": "243",
+              "total_token_amount": 9373.660748986342,
+              "token_in_amount": 9373.660748986342,
               "token_out_amount": 0
             },
             {
@@ -59,13 +57,11 @@
         },
         {
           "counterparty_address": "0x62d27aee19b32fa63b6d6c18fbbdcbe870b083e3",
-          "counterparty_address_label": [
-            "​​🤖 Swap Adapter [0x62d27a]"
-          ],
-          "interaction_count": 270,
-          "total_volume_usd": 8208.654978975792,
+          "counterparty_address_label": null,
+          "interaction_count": 274,
+          "total_volume_usd": 8213.051812663825,
           "volume_in_usd": 0,
-          "volume_out_usd": 8208.654978975792,
+          "volume_out_usd": 8213.051812663825,
           "tokens_info": [
             {
               "token_address": "0x55d398326f99059ff775485246999027b3197955",
@@ -116,10 +112,10 @@
               "token_address": "0x76e9b54b49739837be8ad10c3687fc6b543de852",
               "token_symbol": "KLINK",
               "token_name": "Klink Finance",
-              "num_transfer": "7",
-              "total_token_amount": 262908.20529738074,
+              "num_transfer": "11",
+              "total_token_amount": 353283.5557186524,
               "token_in_amount": 0,
-              "token_out_amount": 262908.20529738074
+              "token_out_amount": 353283.5557186524
             },
             {
               "token_address": "0x1a4c5c74fb1ec39e839799baa0a91caeaeadedf7",
@@ -140,13 +136,22 @@
               "token_out_amount": 162121.2708508907
             },
             {
-              "token_address": "0xb035723d62e0e2ea7499d76355c9d560f13ba404",
-              "token_symbol": "OIK",
-              "token_name": "Space Nation Oikos",
+              "token_address": "0xf758cfb1467a227516d73d87da7d36e7cb6f71f1",
+              "token_symbol": "SN3",
+              "token_name": "Supernova Nebula3",
               "num_transfer": "2",
-              "total_token_amount": 16165.211287042881,
+              "total_token_amount": 57854.78391786215,
               "token_in_amount": 0,
-              "token_out_amount": 16165.211287042881
+              "token_out_amount": 57854.78391786215
+            },
+            {
+              "token_address": "0xf8f331dfa811132c43c308757cd802ca982b7211",
+              "token_symbol": "MCH",
+              "token_name": "Moonchain",
+              "num_transfer": "2",
+              "total_token_amount": 152891043261690.1,
+              "token_in_amount": 0,
+              "token_out_amount": 152891043261690.1
             },
             {
               "token_address": "0x9558a9254890b2a8b057a789f413631b9084f4a3",
@@ -167,31 +172,13 @@
               "token_out_amount": 10872.840980683997
             },
             {
-              "token_address": "0xf758cfb1467a227516d73d87da7d36e7cb6f71f1",
-              "token_symbol": "SN3",
-              "token_name": "Supernova Nebula3",
+              "token_address": "0xb035723d62e0e2ea7499d76355c9d560f13ba404",
+              "token_symbol": "OIK",
+              "token_name": "Space Nation Oikos",
               "num_transfer": "2",
-              "total_token_amount": 57854.78391786215,
+              "total_token_amount": 16165.211287042881,
               "token_in_amount": 0,
-              "token_out_amount": 57854.78391786215
-            },
-            {
-              "token_address": "0xf8f331dfa811132c43c308757cd802ca982b7211",
-              "token_symbol": "MCH",
-              "token_name": "Moonchain",
-              "num_transfer": "2",
-              "total_token_amount": 152891043261690.1,
-              "token_in_amount": 0,
-              "token_out_amount": 152891043261690.1
-            },
-            {
-              "token_address": "0x59f4f336bf3d0c49dbfba4a74ebd2a6ace40539a",
-              "token_symbol": "CAT",
-              "token_name": "Catcoin",
-              "num_transfer": "1",
-              "total_token_amount": 696076238240.0754,
-              "token_in_amount": 0,
-              "token_out_amount": 696076238240.0754
+              "token_out_amount": 16165.211287042881
             },
             {
               "token_address": "0x834baf4f7832cc3c00734ddb2e0c61c68d975822",
@@ -201,17 +188,24 @@
               "total_token_amount": 38225.5204924544,
               "token_in_amount": 0,
               "token_out_amount": 38225.5204924544
+            },
+            {
+              "token_address": "0x59f4f336bf3d0c49dbfba4a74ebd2a6ace40539a",
+              "token_symbol": "CAT",
+              "token_name": "Catcoin",
+              "num_transfer": "1",
+              "total_token_amount": 696076238240.0754,
+              "token_in_amount": 0,
+              "token_out_amount": 696076238240.0754
             }
           ]
         },
         {
           "counterparty_address": "0x28e2ea090877bf75740558f6bfb36a5ffee9e9df",
-          "counterparty_address_label": [
-            "🤖 🏦 Uniswap: PoolManager V4 [0x28e2ea]"
-          ],
+          "counterparty_address_label": null,
           "interaction_count": 113,
-          "total_volume_usd": 7874.82387510892,
-          "volume_in_usd": 7874.82387510892,
+          "total_volume_usd": 7874.422707373863,
+          "volume_in_usd": 7874.422707373863,
           "volume_out_usd": 0,
           "tokens_info": [
             {
@@ -251,21 +245,21 @@
               "token_out_amount": 0
             },
             {
-              "token_address": "0x37eff3ff1321fb9abc734761ca72fafdc044534a",
-              "token_symbol": "TALE",
-              "token_name": "PrompTale AI",
-              "num_transfer": "5",
-              "total_token_amount": 585688.5984550525,
-              "token_in_amount": 585688.5984550525,
-              "token_out_amount": 0
-            },
-            {
               "token_address": "0x49c6c91ec839a581de2b882e868494215250ee59",
               "token_symbol": "DGRAM",
               "token_name": "Datagram",
               "num_transfer": "5",
               "total_token_amount": 7250400.170519303,
               "token_in_amount": 7250400.170519303,
+              "token_out_amount": 0
+            },
+            {
+              "token_address": "0x37eff3ff1321fb9abc734761ca72fafdc044534a",
+              "token_symbol": "TALE",
+              "token_name": "PrompTale AI",
+              "num_transfer": "5",
+              "total_token_amount": 585688.5984550525,
+              "token_in_amount": 585688.5984550525,
               "token_out_amount": 0
             },
             {
@@ -296,30 +290,21 @@
               "token_out_amount": 0
             },
             {
-              "token_address": "0x59f4f336bf3d0c49dbfba4a74ebd2a6ace40539a",
-              "token_symbol": "CAT",
-              "token_name": "Catcoin",
-              "num_transfer": "2",
-              "total_token_amount": 2952891896351.096,
-              "token_in_amount": 2952891896351.096,
-              "token_out_amount": 0
-            },
-            {
-              "token_address": "0xb035723d62e0e2ea7499d76355c9d560f13ba404",
-              "token_symbol": "OIK",
-              "token_name": "Space Nation Oikos",
-              "num_transfer": "2",
-              "total_token_amount": 191177.76088147418,
-              "token_in_amount": 191177.76088147418,
-              "token_out_amount": 0
-            },
-            {
               "token_address": "0x834baf4f7832cc3c00734ddb2e0c61c68d975822",
               "token_symbol": "42",
               "token_name": "Semantic Layer",
               "num_transfer": "2",
               "total_token_amount": 38225.5204924544,
               "token_in_amount": 38225.5204924544,
+              "token_out_amount": 0
+            },
+            {
+              "token_address": "0x59f4f336bf3d0c49dbfba4a74ebd2a6ace40539a",
+              "token_symbol": "CAT",
+              "token_name": "Catcoin",
+              "num_transfer": "2",
+              "total_token_amount": 2952891896351.096,
+              "token_in_amount": 2952891896351.096,
               "token_out_amount": 0
             },
             {
@@ -332,21 +317,12 @@
               "token_out_amount": 0
             },
             {
-              "token_address": "0xf8f331dfa811132c43c308757cd802ca982b7211",
-              "token_symbol": "MCH",
-              "token_name": "Moonchain",
-              "num_transfer": "1",
-              "total_token_amount": 135001898763191.88,
-              "token_in_amount": 135001898763191.88,
-              "token_out_amount": 0
-            },
-            {
-              "token_address": "0x6ced5c6d3f913b48d59fa07abbfe9060c409087c",
-              "token_symbol": "ANTFUN",
-              "token_name": "AntFun",
-              "num_transfer": "1",
-              "total_token_amount": 462.0164910677224,
-              "token_in_amount": 462.0164910677224,
+              "token_address": "0xb035723d62e0e2ea7499d76355c9d560f13ba404",
+              "token_symbol": "OIK",
+              "token_name": "Space Nation Oikos",
+              "num_transfer": "2",
+              "total_token_amount": 191177.76088147418,
+              "token_in_amount": 191177.76088147418,
               "token_out_amount": 0
             },
             {
@@ -366,18 +342,34 @@
               "total_token_amount": 55384.69816469837,
               "token_in_amount": 55384.69816469837,
               "token_out_amount": 0
+            },
+            {
+              "token_address": "0xf8f331dfa811132c43c308757cd802ca982b7211",
+              "token_symbol": "MCH",
+              "token_name": "Moonchain",
+              "num_transfer": "1",
+              "total_token_amount": 135001898763191.88,
+              "token_in_amount": 135001898763191.88,
+              "token_out_amount": 0
+            },
+            {
+              "token_address": "0x6ced5c6d3f913b48d59fa07abbfe9060c409087c",
+              "token_symbol": "ANTFUN",
+              "token_name": "AntFun",
+              "num_transfer": "1",
+              "total_token_amount": 462.0164910677224,
+              "token_in_amount": 462.0164910677224,
+              "token_out_amount": 0
             }
           ]
         },
         {
           "counterparty_address": "0x7a7ad9aa93cd0a2d0255326e5fb145cec14997ff",
-          "counterparty_address_label": [
-            "​​🤖 🏦 OKX: Router [0x7a7ad9]"
-          ],
-          "interaction_count": 177,
-          "total_volume_usd": 2997.624345891002,
+          "counterparty_address_label": null,
+          "interaction_count": 178,
+          "total_volume_usd": 2997.6762928703697,
           "volume_in_usd": 0,
-          "volume_out_usd": 2997.624345891002,
+          "volume_out_usd": 2997.6762928703697,
           "tokens_info": [
             {
               "token_address": "0x55d398326f99059ff775485246999027b3197955",
@@ -470,24 +462,6 @@
               "token_out_amount": 1309852.6617787192
             },
             {
-              "token_address": "0x59f4f336bf3d0c49dbfba4a74ebd2a6ace40539a",
-              "token_symbol": "CAT",
-              "token_name": "Catcoin",
-              "num_transfer": "2",
-              "total_token_amount": 106132503358.03348,
-              "token_in_amount": 0,
-              "token_out_amount": 106132503358.03348
-            },
-            {
-              "token_address": "0xa394dcea3fd3847fd793afbfd163e2e3858b7c65",
-              "token_symbol": "H4B",
-              "token_name": "Robinhood",
-              "num_transfer": "2",
-              "total_token_amount": 0.09958422732710617,
-              "token_in_amount": 0,
-              "token_out_amount": 0.09958422732710617
-            },
-            {
               "token_address": "0x0a73d885cdd66adf69c6d64c0609e55c527db2be",
               "token_symbol": "K",
               "token_name": "Sidekick",
@@ -497,22 +471,13 @@
               "token_out_amount": 816173.8101099324
             },
             {
-              "token_address": "0x7e7ec10e7b55194714cfbc4daa14eaa4e423b774",
-              "token_symbol": "CAI",
-              "token_name": "CharacterX",
+              "token_address": "0x59f4f336bf3d0c49dbfba4a74ebd2a6ace40539a",
+              "token_symbol": "CAT",
+              "token_name": "Catcoin",
               "num_transfer": "2",
-              "total_token_amount": 1405.3349913528054,
+              "total_token_amount": 106132503358.03348,
               "token_in_amount": 0,
-              "token_out_amount": 1405.3349913528054
-            },
-            {
-              "token_address": "0x2aa89a0113bcbbcdc5812c6df794e2d9650fc1af",
-              "token_symbol": "STRIKE",
-              "token_name": "StrikeBit",
-              "num_transfer": "2",
-              "total_token_amount": 65964.45983857288,
-              "token_in_amount": 0,
-              "token_out_amount": 65964.45983857288
+              "token_out_amount": 106132503358.03348
             },
             {
               "token_address": "0x90869b3a42e399951bd5f5ff278b8cc5ee1dc0fe",
@@ -524,6 +489,15 @@
               "token_out_amount": 4288973.702839759
             },
             {
+              "token_address": "0x2aa89a0113bcbbcdc5812c6df794e2d9650fc1af",
+              "token_symbol": "STRIKE",
+              "token_name": "StrikeBit",
+              "num_transfer": "2",
+              "total_token_amount": 65964.45983857288,
+              "token_in_amount": 0,
+              "token_out_amount": 65964.45983857288
+            },
+            {
               "token_address": "0x9558a9254890b2a8b057a789f413631b9084f4a3",
               "token_symbol": "AIN",
               "token_name": "Infinity Ground AI",
@@ -533,22 +507,31 @@
               "token_out_amount": 3095.0506153573638
             },
             {
-              "token_address": "0xbe9d156892e55e7154bcd3cb0fea677f9d3103e1",
-              "token_symbol": "S5B",
-              "token_name": "SpaceX",
-              "num_transfer": "1",
-              "total_token_amount": 0.02704598551121716,
+              "token_address": "0x7e7ec10e7b55194714cfbc4daa14eaa4e423b774",
+              "token_symbol": "CAI",
+              "token_name": "CharacterX",
+              "num_transfer": "2",
+              "total_token_amount": 1405.3349913528054,
               "token_in_amount": 0,
-              "token_out_amount": 0.02704598551121716
+              "token_out_amount": 1405.3349913528054
             },
             {
-              "token_address": "0xa3cfb853339b77f385b994799b015cb04b208fe6",
-              "token_symbol": "POP",
-              "token_name": "Zypher Token",
-              "num_transfer": "1",
-              "total_token_amount": 10752.723836857504,
+              "token_address": "0xa394dcea3fd3847fd793afbfd163e2e3858b7c65",
+              "token_symbol": "H4B",
+              "token_name": "Robinhood",
+              "num_transfer": "2",
+              "total_token_amount": 0.09958422732710617,
               "token_in_amount": 0,
-              "token_out_amount": 10752.723836857504
+              "token_out_amount": 0.09958422732710617
+            },
+            {
+              "token_address": "0x59537849f2a119ec698c7aa6c6daadc40c398a25",
+              "token_symbol": "BOT",
+              "token_name": "HyperBot",
+              "num_transfer": "1",
+              "total_token_amount": 447248.8119684685,
+              "token_in_amount": 0,
+              "token_out_amount": 447248.8119684685
             },
             {
               "token_address": "0x37eff3ff1321fb9abc734761ca72fafdc044534a",
@@ -558,35 +541,40 @@
               "total_token_amount": 9200.613440116113,
               "token_in_amount": 0,
               "token_out_amount": 9200.613440116113
+            },
+            {
+              "token_address": "0xbe9d156892e55e7154bcd3cb0fea677f9d3103e1",
+              "token_symbol": "S5B",
+              "token_name": "SpaceX",
+              "num_transfer": "1",
+              "total_token_amount": 0.02704598551121716,
+              "token_in_amount": 0,
+              "token_out_amount": 0.02704598551121716
             }
           ]
         },
         {
           "counterparty_address": "0x3e4f42afb8e80c3116c972cdb4e5866d7ccf7881",
-          "counterparty_address_label": [
-            "🤖 🏦 PancakeSwap: WBNB-SPACEMOON Liquidity Pool   [0x3e4f42]"
-          ],
-          "interaction_count": 4,
-          "total_volume_usd": 2889.017197311433,
+          "counterparty_address_label": null,
+          "interaction_count": 5,
+          "total_volume_usd": 2944.022662235732,
           "volume_in_usd": 1895.3404563941826,
-          "volume_out_usd": 993.6767409172501,
+          "volume_out_usd": 1048.6822058415491,
           "tokens_info": [
             {
               "token_address": "0xf2557688c18cab42bec4b5b053e05e3482527777",
               "token_symbol": "SPACEMOON",
               "token_name": "SpaceMoon",
-              "num_transfer": "4",
-              "total_token_amount": 14194123.67292997,
+              "num_transfer": "5",
+              "total_token_amount": 16186641.75726312,
               "token_in_amount": 8216569.419930518,
-              "token_out_amount": 5977554.252999452
+              "token_out_amount": 7970072.337332603
             }
           ]
         },
         {
           "counterparty_address": "0x69a52a0570636ca391175ce619bbb9d348040bbc",
-          "counterparty_address_label": [
-            "​​🤖 Router [0x69a52a]"
-          ],
+          "counterparty_address_label": null,
           "interaction_count": 45,
           "total_volume_usd": 2704.078314678325,
           "volume_in_usd": 0,
@@ -602,15 +590,6 @@
               "token_out_amount": 1877.56
             },
             {
-              "token_address": "0x0a73d885cdd66adf69c6d64c0609e55c527db2be",
-              "token_symbol": "K",
-              "token_name": "Sidekick",
-              "num_transfer": "2",
-              "total_token_amount": 578995.0960608923,
-              "token_in_amount": 0,
-              "token_out_amount": 578995.0960608923
-            },
-            {
               "token_address": "0x6ced5c6d3f913b48d59fa07abbfe9060c409087c",
               "token_symbol": "ANTFUN",
               "token_name": "AntFun",
@@ -620,13 +599,13 @@
               "token_out_amount": 15371.989331186714
             },
             {
-              "token_address": "0xc748673057861a797275cd8a068abb95a902e8de",
-              "token_symbol": "BABYDOGE",
-              "token_name": "Baby Doge Coin",
-              "num_transfer": "1",
-              "total_token_amount": 732908316023.73,
+              "token_address": "0x0a73d885cdd66adf69c6d64c0609e55c527db2be",
+              "token_symbol": "K",
+              "token_name": "Sidekick",
+              "num_transfer": "2",
+              "total_token_amount": 578995.0960608923,
               "token_in_amount": 0,
-              "token_out_amount": 732908316023.73
+              "token_out_amount": 578995.0960608923
             },
             {
               "token_address": "0x7e7ec10e7b55194714cfbc4daa14eaa4e423b774",
@@ -656,13 +635,13 @@
               "token_out_amount": 346211.4461080282
             },
             {
-              "token_address": "0x65e7a112db1142eae919201b1232f7aa488ed83c",
-              "token_symbol": "REAL",
-              "token_name": "RealLink",
+              "token_address": "0xc748673057861a797275cd8a068abb95a902e8de",
+              "token_symbol": "BABYDOGE",
+              "token_name": "Baby Doge Coin",
               "num_transfer": "1",
-              "total_token_amount": 3054.726475,
+              "total_token_amount": 732908316023.73,
               "token_in_amount": 0,
-              "token_out_amount": 3054.726475
+              "token_out_amount": 732908316023.73
             },
             {
               "token_address": "0xf39e4b21c84e737df08e2c3b32541d856f508e48",
@@ -672,27 +651,34 @@
               "total_token_amount": 5317.174456488597,
               "token_in_amount": 0,
               "token_out_amount": 5317.174456488597
+            },
+            {
+              "token_address": "0x65e7a112db1142eae919201b1232f7aa488ed83c",
+              "token_symbol": "REAL",
+              "token_name": "RealLink",
+              "num_transfer": "1",
+              "total_token_amount": 3054.726475,
+              "token_in_amount": 0,
+              "token_out_amount": 3054.726475
             }
           ]
         },
         {
           "counterparty_address": "0x17516b91bfcce77ede028e875cde37a8a4b113cd",
-          "counterparty_address_label": [
-            "​​🤖 Router [0x17516b]"
-          ],
-          "interaction_count": 50,
-          "total_volume_usd": 2067.9412958243615,
+          "counterparty_address_label": null,
+          "interaction_count": 53,
+          "total_volume_usd": 2090.313254755656,
           "volume_in_usd": 0,
-          "volume_out_usd": 2067.9412958243615,
+          "volume_out_usd": 2090.313254755656,
           "tokens_info": [
             {
               "token_address": "0x55d398326f99059ff775485246999027b3197955",
               "token_symbol": "USDT",
               "token_name": "Tether USD",
-              "num_transfer": "28",
-              "total_token_amount": 307.54352,
+              "num_transfer": "31",
+              "total_token_amount": 329.9336,
               "token_in_amount": 0,
-              "token_out_amount": 307.54352
+              "token_out_amount": 329.9336
             },
             {
               "token_address": "0x49c6c91ec839a581de2b882e868494215250ee59",
@@ -722,6 +708,15 @@
               "token_out_amount": 589.01
             },
             {
+              "token_address": "0xf758cfb1467a227516d73d87da7d36e7cb6f71f1",
+              "token_symbol": "SN3",
+              "token_name": "Supernova Nebula3",
+              "num_transfer": "2",
+              "total_token_amount": 13389.139017941521,
+              "token_in_amount": 0,
+              "token_out_amount": 13389.139017941521
+            },
+            {
               "token_address": "0x37eff3ff1321fb9abc734761ca72fafdc044534a",
               "token_symbol": "TALE",
               "token_name": "PrompTale AI",
@@ -740,13 +735,13 @@
               "token_out_amount": 598.8161474064872
             },
             {
-              "token_address": "0xf758cfb1467a227516d73d87da7d36e7cb6f71f1",
-              "token_symbol": "SN3",
-              "token_name": "Supernova Nebula3",
-              "num_transfer": "2",
-              "total_token_amount": 13389.139017941521,
+              "token_address": "0x44f161ae29361e332dea039dfa2f404e0bc5b5cc",
+              "token_symbol": "H",
+              "token_name": "Humanity",
+              "num_transfer": "1",
+              "total_token_amount": 746189.1438214883,
               "token_in_amount": 0,
-              "token_out_amount": 13389.139017941521
+              "token_out_amount": 746189.1438214883
             },
             {
               "token_address": "0x9558a9254890b2a8b057a789f413631b9084f4a3",
@@ -756,27 +751,16 @@
               "total_token_amount": 21.04018104411326,
               "token_in_amount": 0,
               "token_out_amount": 21.04018104411326
-            },
-            {
-              "token_address": "0x44f161ae29361e332dea039dfa2f404e0bc5b5cc",
-              "token_symbol": "H",
-              "token_name": "Humanity",
-              "num_transfer": "1",
-              "total_token_amount": 746189.1438214883,
-              "token_in_amount": 0,
-              "token_out_amount": 746189.1438214883
             }
           ]
         },
         {
           "counterparty_address": "0x9a8d68089adbe8428f79c244d34276a9f4251070",
-          "counterparty_address_label": [
-            "​​🤖 🏦 OKX: Router [0x9a8d68]"
-          ],
+          "counterparty_address_label": null,
           "interaction_count": 54,
-          "total_volume_usd": 1198.9322929470009,
+          "total_volume_usd": 1198.9180550665096,
           "volume_in_usd": 11.888808061299592,
-          "volume_out_usd": 1187.0434848857012,
+          "volume_out_usd": 1187.02924700521,
           "tokens_info": [
             {
               "token_address": "0x55d398326f99059ff775485246999027b3197955",
@@ -797,15 +781,6 @@
               "token_out_amount": 0
             },
             {
-              "token_address": "0x8b194370825e37b33373e74a41009161808c1488",
-              "token_symbol": "VELVET",
-              "token_name": "Velvet",
-              "num_transfer": "2",
-              "total_token_amount": 108.35229452383032,
-              "token_in_amount": 1e-18,
-              "token_out_amount": 108.35229452383032
-            },
-            {
               "token_address": "0x8d0d000ee44948fc98c9b98a4fa4921476f08b0d",
               "token_symbol": "USD1",
               "token_name": "World Liberty Financial USD",
@@ -813,17 +788,24 @@
               "total_token_amount": 4.446846080606216,
               "token_in_amount": 4.446846080606216,
               "token_out_amount": 0
+            },
+            {
+              "token_address": "0x8b194370825e37b33373e74a41009161808c1488",
+              "token_symbol": "VELVET",
+              "token_name": "Velvet",
+              "num_transfer": "2",
+              "total_token_amount": 108.35229452383032,
+              "token_in_amount": 1e-18,
+              "token_out_amount": 108.35229452383032
             }
           ]
         },
         {
           "counterparty_address": "0x238a358808379702088667322f80ac48bad5e6c4",
-          "counterparty_address_label": [
-            "​​🤖 🏦 PancakeSwap: Liquidity Pool [0x238a35]"
-          ],
-          "interaction_count": 11,
-          "total_volume_usd": 925.7408159643712,
-          "volume_in_usd": 925.7408159643712,
+          "counterparty_address_label": null,
+          "interaction_count": 12,
+          "total_volume_usd": 927.1624365570036,
+          "volume_in_usd": 927.1624365570036,
           "volume_out_usd": 0,
           "tokens_info": [
             {
@@ -861,14 +843,21 @@
               "total_token_amount": 3676.219861911889,
               "token_in_amount": 3676.219861911889,
               "token_out_amount": 0
+            },
+            {
+              "token_address": "0xac45475abe6f9516e233a824aa013933b61bbb5c",
+              "token_symbol": "BRG",
+              "token_name": "BridgeAI",
+              "num_transfer": "1",
+              "total_token_amount": 101426.75815392281,
+              "token_in_amount": 101426.75815392281,
+              "token_out_amount": 0
             }
           ]
         },
         {
           "counterparty_address": "0x1e40450f8e21bb68490d7d91ab422888fb3d60f1",
-          "counterparty_address_label": [
-            "🤖 🏦 Nomiswap: USDC-USDT Liquidity Pool [0x1e4045]"
-          ],
+          "counterparty_address_label": null,
           "interaction_count": 28,
           "total_volume_usd": 861.2756561767176,
           "volume_in_usd": 0,
@@ -887,6 +876,6 @@
         }
       ]
     },
-    "recordedAt": 1790162399086
+    "recordedAt": 1790194151821
   }
 ]

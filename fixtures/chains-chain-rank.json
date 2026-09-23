@@ -306,8 +306,8 @@
           "active_address_count_traces_percent_change": 0.42,
           "active_address_count_txs": 261430,
           "active_address_count_txs_percent_change": -0.037,
-          "revenue_usd": 27369.447913741773,
-          "revenue_usd_percent_change": 0.49,
+          "revenue_usd": 29418.27081468601,
+          "revenue_usd_percent_change": 0.65,
           "tvl_usd": 0,
           "tvl_usd_percent_change": 0
         },
@@ -420,8 +420,8 @@
           "active_address_count_traces_percent_change": 6.32,
           "active_address_count_txs": 166477,
           "active_address_count_txs_percent_change": 0.28,
-          "revenue_usd": 9873.45679676831,
-          "revenue_usd_percent_change": -0.12,
+          "revenue_usd": 9795.237199002364,
+          "revenue_usd_percent_change": -0.052,
           "tvl_usd": 0,
           "tvl_usd_percent_change": 0
         },
@@ -553,7 +553,7 @@
           "active_address_count_traces_percent_change": 0.039,
           "active_address_count_txs": 155789,
           "active_address_count_txs_percent_change": 0.042,
-          "revenue_usd": 789.89469913254,
+          "revenue_usd": 829.9661715382965,
           "revenue_usd_percent_change": 0,
           "tvl_usd": 0,
           "tvl_usd_percent_change": 0
@@ -712,6 +712,6 @@
         }
       ]
     },
-    "recordedAt": 1790160301972
+    "recordedAt": 1790194140645
   }
 ]

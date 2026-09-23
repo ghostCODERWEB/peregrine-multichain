@@ -14,7 +14,8 @@ const SRC_DIR = path.resolve(process.cwd(), 'src');
 const ALLOWED_HOSTS = [
   'api.nansen.ai',
   'docs.nansen.ai', // doc comments linking back to reference material
-  'app.nansen.ai',  // "get an API key" links in the UI
+  'app.nansen.ai',  // "get an API key" links; Nansen's own public points API
+  'www.nansen.ai',  // the "Powered by Nansen API" attribution link Nansen's redistribution rules require
   'api.telegram.org',
   'discord.com',
 ];

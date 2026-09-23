@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { getKv } from '@/server/nansen/db';
 import { accountStatus } from '@/server/nansen/account';
+import { displayMode } from '@/server/mode';
 
 const NAV = [
   { href: '/', label: 'Weather map', short: 'Map' },
@@ -12,7 +13,9 @@ const NAV = [
 
 export async function SiteHeader() {
   const demo = process.env.DEMO_MODE === '1';
-  const acct = demo ? null : await accountStatus();
+  const mode = await displayMode();
+  // The key owner's balance is private: never shown in a public view.
+  const acct = demo || mode === 'public' ? null : await accountStatus();
   let recorded: string | null = null;
   if (demo) {
     try { const v = getKv('demo_recorded_at'); recorded = v ? new Date(Number(v.value)).toISOString().slice(0, 16).replace('T', ' ') : null; } catch { recorded = null; }
@@ -44,6 +47,11 @@ export async function SiteHeader() {
               {acct.creditsRemaining.toLocaleString('en-US')} cr
             </span>
           )}
+          <span className={`hidden rounded px-2 py-0.5 text-[11px] md:inline ${mode === 'private' ? 'border border-border text-ink-2' : 'text-ink-muted'}`}
+            title={mode === 'private' ? 'Private view: you are the API key owner, so smart-money data and labels are shown (internal use under Nansen\u2019s rules).' : 'Public view: smart-money trades, holdings and labels are withheld per Nansen\u2019s redistribution rules.'}>
+            {mode === 'private' ? 'Private view' : 'Public view'}
+          </span>
+          <a href="https://www.nansen.ai" target="_blank" rel="noopener noreferrer" className="hidden text-[11px] text-ink-muted hover:text-ink lg:inline">Powered by Nansen API</a>
           <ThemeToggle />
         </div>
       </div>

@@ -8,15 +8,30 @@ import fs from 'node:fs';
 import path from 'node:path';
 import type Database from 'better-sqlite3';
 
+/**
+ * The export is published with the repo, so it holds public-view data
+ * only (Nansen redistribution rules): all-trader pressure, never the
+ * smart-money series; no smart-money trades; only anchor reports that were
+ * written from public-view numbers. Demo mode is therefore a public view.
+ */
 export const DEMO_TABLES: Array<{ name: string; where?: string }> = [
-  { name: 'chain_pressure_snapshots' },
-  { name: 'chain_cpi' },
-  { name: 'smart_money_trades', where: 'traded_at >= ?' },
+  { name: 'chain_pressure_snapshots', where: "nf_source = 'market-flow'" },
+  { name: 'chain_cpi', where: "source = 'market-flow'" },
   { name: 'storm_scores' },
-  { name: 'anchor_reports' },
+  { name: 'anchor_reports', where: "subject LIKE '%:public'" },
   { name: 'scan_runs' },
   { name: 'credit_ledger' },
 ];
+
+/** Row filters mirroring DEMO_TABLES, for sanitizing an existing export. */
+export const PUBLIC_DEMO_FILTERS: Record<string, (row: Record<string, unknown>) => boolean> = {
+  chain_pressure_snapshots: (r) => r.nf_source === 'market-flow',
+  chain_cpi: (r) => r.source === 'market-flow',
+  storm_scores: () => true,
+  anchor_reports: (r) => typeof r.subject === 'string' && r.subject.endsWith(':public'),
+  scan_runs: () => true,
+  credit_ledger: () => true,
+};
 
 const TIME_COLUMNS = new Set(['snapshot_at', 'traded_at', 'captured_at', 'computed_at', 'created_at', 'started_at', 'finished_at', 'called_at']);
 
