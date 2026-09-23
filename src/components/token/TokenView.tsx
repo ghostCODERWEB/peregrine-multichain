@@ -89,7 +89,7 @@ export function TokenView({ chain, address, tier }: { chain: string; address: st
               ['24h volume', usd(h.volume24hUsd)],
               ['24h buyers / sellers', h.uniqueBuyers != null ? `${h.uniqueBuyers} / ${h.uniqueSellers}` : '—'],
               ['Holders', h.holders?.toLocaleString('en-US') ?? '—'],
-              ['Deployed', h.deployedAt?.slice(0, 10) ?? '—'],
+              ['Deployed', h.deployedAt ? h.deployedAt.slice(0, 10) : '—'],
             ].map(([k, v]) => (
               <div key={k} className="rounded-md border border-border bg-surface px-3 py-1.5">
                 <div className="text-[10.5px] text-ink-muted">{k}</div>
