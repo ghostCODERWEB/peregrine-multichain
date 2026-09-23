@@ -4059,5 +4059,53 @@
       ]
     },
     "recordedAt": 1790162399720
+  },
+  {
+    "requestHash": "da0c85d621e88ea2277ccbe0d294d28483f896a4",
+    "request": {
+      "address": "0x3cb9df2d4f6febd9d46731ec8ba8e3ca6ff0845d",
+      "chain": "base",
+      "pagination": {
+        "page": 1,
+        "per_page": 50
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 50,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0xc32340422986b561f68c3d728131f21513c4fb94",
+          "address_label": "[0xc32340]",
+          "relation": "First Funder",
+          "transaction_hash": "0xd9b627d9cbdb604c453fe317f9e65ea938adf59506e146026c9c543739ec1aa7",
+          "block_timestamp": "2026-05-11T18:30:43Z",
+          "order": 1,
+          "chain": "base"
+        },
+        {
+          "address": "0xceac58ee82815b0a5bdfd698d1cc63094f9693bc",
+          "address_label": "High Activity [0xceac58]",
+          "relation": "Deployed by",
+          "transaction_hash": "0x4e0fe47b2c2db5a473bcb420f4e604e6a249f5225ae506ba5ff07cf260346406",
+          "block_timestamp": "2026-05-25T04:08:43Z",
+          "order": 6,
+          "chain": "base"
+        },
+        {
+          "address": "0xdef00000cc0a125ba7962e8113d3b69786851736",
+          "address_label": "🤖 🏦 Definitive Finance: VaultFactory [0xdef000]",
+          "relation": "Created by",
+          "transaction_hash": "0x4e0fe47b2c2db5a473bcb420f4e604e6a249f5225ae506ba5ff07cf260346406",
+          "block_timestamp": "2026-05-25T04:08:43Z",
+          "order": 8,
+          "chain": "base"
+        }
+      ]
+    },
+    "recordedAt": 1790176930701
   }
 ]

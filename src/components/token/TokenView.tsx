@@ -9,6 +9,8 @@ import { WindRose, windTitle } from './WindRose';
 import { BuyersSellers, tradersTitle } from './BuyersSellers';
 import { HolderPanel, holdersTitle } from './HolderPanel';
 import { InsiderGraph, forensicsTitle } from './InsiderGraph';
+import { OddsCard, oddsTitle } from './OddsCard';
+import type { ForecastWave } from '@/server/token/forecast';
 import { chainName, shortAddress, usd } from '@/lib/viz/format';
 import type { Wave, TokenHeader, MarketWave, WindWave, HoldersWave, ForensicsWave } from '@/server/token/waves';
 import type { StormWave } from '@/server/token/storm';
@@ -20,11 +22,12 @@ interface State {
   holders?: Wave<HoldersWave>;
   forensics?: Wave<ForensicsWave>;
   storm?: Wave<StormWave>;
+  forecast?: Wave<ForecastWave>;
   done?: { calls: number; credits: number; cached: number };
   fatal?: string;
 }
 
-const WAVES = ['header', 'market', 'wind', 'holders', 'forensics', 'storm', 'done', 'fatal'] as const;
+const WAVES = ['header', 'market', 'forecast', 'wind', 'holders', 'forensics', 'storm', 'done', 'fatal'] as const;
 const gone = <T,>(w: Wave<T> | undefined): w is { unavailable: string } => !!w && typeof w === 'object' && 'unavailable' in w;
 const ok = <T,>(w: Wave<T> | undefined): w is T => !!w && !gone(w);
 
@@ -109,7 +112,10 @@ export function TokenView({ chain, address, tier }: { chain: string; address: st
         </Card>
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-2">
+      <div className="grid gap-4 lg:grid-cols-3">
+        <Card id="odds" title={ok(s.forecast) ? oddsTitle(s.forecast) : '7-day odds'} sub="Calibrated probabilities of a 50% drop or a 30% rise within a week, each with its out-of-sample track record.">
+          {ok(s.forecast) ? <OddsCard f={s.forecast} /> : gone(s.forecast) ? <Unavailable text={s.forecast.unavailable} /> : pending(s.forecast) ? <WaveLoading what="the forecast inputs" height={260} /> : null}
+        </Card>
         <Card id="wind" title={ok(s.wind) ? windTitle(s.wind) : 'Wind rose'} sub="Who is moving this token: net flow by wallet segment, one ring per window.">
           {ok(s.wind) ? <WindRose w={s.wind} /> : gone(s.wind) ? <Unavailable text={s.wind.unavailable} /> : pending(s.wind) ? <WaveLoading what="flow intelligence" height={360} /> : null}
         </Card>

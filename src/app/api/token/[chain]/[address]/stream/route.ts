@@ -5,7 +5,8 @@
 import { ALL_CHAIN_IDS, chainCapability } from '@/lib/registry';
 import { headerWave, marketWave, windWave, holdersWave, forensicsWave, isUnavailable, type Wave, type ForensicsWave } from '@/server/token/waves';
 import { computeStorm, saveStorm } from '@/server/token/storm';
-import { getDb } from '@/server/nansen/db';
+import { forecastWave } from '@/server/token/forecast';
+import { callScope, type CallTally } from '@/server/nansen/client';
 
 export const dynamic = 'force-dynamic';
 
@@ -14,11 +15,19 @@ export async function GET(req: Request, { params }: { params: Promise<{ chain: s
   if (!ALL_CHAIN_IDS.includes(chain)) return new Response('Unknown chain', { status: 404 });
   const token = decodeURIComponent(address).trim();
   const smChain = !!chainCapability(chain)?.smartMoney;
-  const started = Date.now();
   const enc = new TextEncoder();
 
   const stream = new ReadableStream({
-    async start(controller) {
+    start(controller) {
+      // Not returned: the waves stream out as they land instead of the
+      // stream waiting on the whole run. The tally follows every call the
+      // run makes through AsyncLocalStorage.
+      const tally: CallTally = { calls: 0, credits: 0, cached: 0 };
+      callScope.run(tally, () => { void run(controller, tally); });
+    },
+  });
+
+  async function run(controller: ReadableStreamDefaultController<Uint8Array>, tally: CallTally) {
       let open = true;
       req.signal.addEventListener('abort', () => { open = false; });
       const send = (event: string, data: unknown) => {
@@ -28,6 +37,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ chain: s
       try {
         const header = headerWave(chain, token).then((w) => { send('header', w); return w; });
         const market = marketWave(chain, token, smChain).then((w) => { send('market', w); return w; });
+        const forecast = market.then((m) => forecastWave(chain, token, isUnavailable(m) ? null : m.candles)).then((w) => { send('forecast', w); return w; });
         const wind = windWave(chain, token).then((w) => { send('wind', w); return w; });
         const holders = holdersWave(chain, token).then((w) => { send('holders', w); return w; });
 
@@ -40,26 +50,22 @@ export async function GET(req: Request, { params }: { params: Promise<{ chain: s
         send('forensics', forensics);
 
         const m = await market;
+        await forecast;
         const storm = computeStorm(h, w, ho, forensics, true);
         send('storm', storm);
         if (!isUnavailable(storm) && !isUnavailable(h)) {
           saveStorm(chain, token, h.symbol, storm, h.marketCapUsd, isUnavailable(m) ? null : m.candles.at(-1)?.c ?? null, 'page');
         }
 
-        // What this page cost, from the credit ledger (the scanner's two
-        // endpoints are excluded: it writes to the same ledger).
-        const spend = getDb().prepare(`
-          SELECT COUNT(*) AS calls, COALESCE(SUM(credits), 0) AS credits, COALESCE(SUM(cache_hit), 0) AS cached
-          FROM credit_ledger WHERE called_at >= ? AND endpoint NOT IN ('token-screener', 'smart-money/dex-trades')
-        `).get(started) as { calls: number; credits: number; cached: number };
-        send('done', spend);
+        // Exactly what this page cost: every Nansen call made inside this
+        // request's scope, cached or live.
+        send('done', { ...tally });
       } catch (e) {
         send('fatal', { message: (e as Error).message.slice(0, 200) });
       } finally {
         if (open) controller.close();
       }
-    },
-  });
+  }
 
   return new Response(stream, {
     headers: { 'Content-Type': 'text/event-stream; charset=utf-8', 'Cache-Control': 'no-cache, no-transform', Connection: 'keep-alive', 'X-Accel-Buffering': 'no' },

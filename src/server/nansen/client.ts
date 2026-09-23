@@ -4,6 +4,7 @@
 // the scanner, and the backtest pipeline inherit all of it for free instead
 // of each having to remember the rules.
 import type { ZodType } from 'zod';
+import { AsyncLocalStorage } from 'node:async_hooks';
 import { getLimiter, type NansenPlan } from './limiter';
 import { readCache, writeCache } from './cache';
 import { recordCall } from './ledger';
@@ -148,6 +149,12 @@ export interface CallOptions {
   record?: boolean;
 }
 
+/** Per-request tally: run a page's work inside `callScope.run(tally, fn)`
+ *  and every Nansen call it makes (cached or not) is counted — how the
+ *  token page reports exactly what it cost. */
+export interface CallTally { calls: number; credits: number; cached: number }
+export const callScope = new AsyncLocalStorage<CallTally>();
+
 export async function callNansen<T>(
   endpoint: string,
   body: unknown = {},
@@ -159,6 +166,8 @@ export async function callNansen<T>(
     const cached = readCache<T>(endpoint, body);
     if (cached) {
       recordCall(endpoint, 0, true);
+      const t = callScope.getStore();
+      if (t) { t.calls++; t.cached++; }
       return { data: cached.value, meta: { creditsCost: 0, creditsUsed: null, creditsRemaining: null, cacheHit: true } };
     }
   }
@@ -175,6 +184,8 @@ export async function callNansen<T>(
   if (!skipCache) writeCache(endpoint, body, result.data);
   if (record) recordFixture(endpoint, body, result.data);
   recordCall(endpoint, result.meta.creditsCost, false);
+  const tally = callScope.getStore();
+  if (tally) { tally.calls++; tally.credits += result.meta.creditsCost; }
 
   return result;
 }

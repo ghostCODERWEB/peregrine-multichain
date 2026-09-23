@@ -2231,5 +2231,103 @@
       }
     },
     "recordedAt": 1790160728341
+  },
+  {
+    "requestHash": "687138e89996a5dbe63ad74c65d6320abd4f412b",
+    "request": {
+      "chains": [
+        "base"
+      ],
+      "timeframe": "7d",
+      "pagination": {
+        "page": 1,
+        "per_page": 5
+      },
+      "filters": {
+        "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
+        "include_stablecoins": true,
+        "include_native_tokens": true
+      }
+    },
+    "response": {
+      "data": [
+        {
+          "chain": "base",
+          "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
+          "token_symbol": "NOCK",
+          "token_age_days": 278,
+          "token_age_hours": 6671,
+          "token_deployment_date": "2025-12-19T16:02:45",
+          "market_cap_usd": 66884634.3345347,
+          "liquidity": 1128473.2025019405,
+          "price_usd": 0.0294765571511908,
+          "price_change": -0.14651798110994205,
+          "fdv": 44568408.9983807,
+          "fdv_mc_ratio": 0.666347501811318,
+          "buy_volume": 4966719.848680195,
+          "inflow_fdv_ratio": 0.11144036684954697,
+          "outflow_fdv_ratio": 0.11344286900189647,
+          "sell_volume": 5055968.183626246,
+          "volume": 10022688.03230644,
+          "netflow": -89248.33494605031
+        }
+      ],
+      "pagination": {
+        "page": 1,
+        "per_page": 5,
+        "is_last_page": true
+      }
+    },
+    "recordedAt": 1790176874515
+  },
+  {
+    "requestHash": "3731367f9a3cadf4b56db8e8b760d1e55221359d",
+    "request": {
+      "chains": [
+        "base"
+      ],
+      "timeframe": "7d",
+      "pagination": {
+        "page": 1,
+        "per_page": 5
+      },
+      "filters": {
+        "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
+        "include_stablecoins": true,
+        "include_native_tokens": true,
+        "trader_type": "sm"
+      }
+    },
+    "response": {
+      "data": [
+        {
+          "chain": "base",
+          "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
+          "token_symbol": "NOCK",
+          "token_age_days": 278,
+          "token_age_hours": 6671,
+          "token_deployment_date": "2025-12-19T16:02:45",
+          "market_cap_usd": 66884634.3345347,
+          "liquidity": 1128473.2025019405,
+          "price_usd": 0.0294765571511908,
+          "price_change": -0.14651798110994205,
+          "fdv": 44568408.9983807,
+          "fdv_mc_ratio": 0.666347501811318,
+          "nof_traders": 9,
+          "buy_volume": 348301.66735574725,
+          "inflow_fdv_ratio": 0.007814989926348999,
+          "outflow_fdv_ratio": 0.0033848390831530384,
+          "sell_volume": 150856.89265166855,
+          "volume": 499158.5600074158,
+          "netflow": 197444.7747040787
+        }
+      ],
+      "pagination": {
+        "page": 1,
+        "per_page": 5,
+        "is_last_page": true
+      }
+    },
+    "recordedAt": 1790176929178
   }
 ]
