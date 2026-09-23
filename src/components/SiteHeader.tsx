@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { getKv } from '@/server/nansen/db';
+import { accountStatus } from '@/server/nansen/account';
 
 const NAV = [
   { href: '/', label: 'Weather map', short: 'Map' },
@@ -9,8 +10,9 @@ const NAV = [
   { href: '/coverage', label: 'Coverage', short: 'Coverage' },
 ];
 
-export function SiteHeader() {
+export async function SiteHeader() {
   const demo = process.env.DEMO_MODE === '1';
+  const acct = demo ? null : await accountStatus();
   let recorded: string | null = null;
   if (demo) {
     try { const v = getKv('demo_recorded_at'); recorded = v ? new Date(Number(v.value)).toISOString().slice(0, 16).replace('T', ' ') : null; } catch { recorded = null; }
@@ -35,6 +37,11 @@ export function SiteHeader() {
             <span className="rounded border border-border px-2 py-0.5 text-[11px] uppercase tracking-wider text-ink-2"
               title={`Replaying recorded Nansen responses — no API key, no credits.${recorded ? ` Scanner history recorded live on ${recorded} UTC, replayed with its clock moved to now.` : ''}`}>
               Demo{recorded ? ` · recorded ${recorded.slice(0, 10)}` : ' mode'}
+            </span>
+          )}
+          {acct?.creditsRemaining != null && (
+            <span className="num hidden rounded border border-border px-2 py-0.5 text-[11px] text-ink-2 sm:inline" title={`Nansen credits remaining${acct.plan ? ` · ${acct.plan} plan` : ''} (${acct.source === 'account' ? 'live from /api/v1/account' : 'last response header'})`}>
+              {acct.creditsRemaining.toLocaleString('en-US')} cr
             </span>
           )}
           <ThemeToggle />

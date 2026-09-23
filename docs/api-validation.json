@@ -1,0 +1,713 @@
+{
+ "at": "2026-09-23T17:01:25.129Z",
+ "spent": 8,
+ "cap": 300,
+ "results": [
+  {
+   "key": "POST /api/v1/search/general",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 25,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 7
+  },
+  {
+   "key": "POST /api/v1/search/entity-name",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 10,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 1
+  },
+  {
+   "key": "GET /api/v1/search/token-sectors",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 33,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 1
+  },
+  {
+   "key": "POST /api/v1/chains/chain-rank",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 37,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 2
+  },
+  {
+   "key": "POST /api/v1/token-screener",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 2
+  },
+  {
+   "key": "POST /api/v1/tgm/token-information",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": null,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 2
+  },
+  {
+   "key": "POST /api/v1/tgm/indicators",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 3,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 2
+  },
+  {
+   "key": "POST /api/v1/tgm/token-ohlcv",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 8,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 2
+  },
+  {
+   "key": "POST /api/v1/tgm/flow-intelligence",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 1,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 2
+  },
+  {
+   "key": "POST /api/v1/tgm/flows",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 4
+  },
+  {
+   "key": "POST /api/v1/tgm/who-bought-sold",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 3
+  },
+  {
+   "key": "POST /api/v1/tgm/holders",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 2
+  },
+  {
+   "key": "POST /api/v1/tgm/transfers",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 3
+  },
+  {
+   "key": "POST /api/v1/tgm/dex-trades",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 2
+  },
+  {
+   "key": "POST /api/v1/tgm/position-intelligence",
+   "ok": true,
+   "status": "ok",
+   "credits": 1,
+   "rows": 1,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 892
+  },
+  {
+   "key": "POST /api/v1/tgm/pnl-leaderboard",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 2
+  },
+  {
+   "key": "POST /api/v1/tgm/jup-dca",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 1
+  },
+  {
+   "key": "POST /api/v1/transaction-with-token-transfer-lookup",
+   "ok": false,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 1,
+   "issues": [
+    "data.0.nft_transfer_array: Invalid input: expected array, received null"
+   ],
+   "unknownFields": [],
+   "ms": 3
+  },
+  {
+   "key": "POST /api/v1/smart-money/netflow",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 2
+  },
+  {
+   "key": "POST /api/v1/smart-money/holdings",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 1
+  },
+  {
+   "key": "POST /api/v1/smart-money/dex-trades",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 2
+  },
+  {
+   "key": "POST /api/v1/smart-money/dcas",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 1,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 1
+  },
+  {
+   "key": "POST /api/v1/smart-money/pnl-leaderboard",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 1
+  },
+  {
+   "key": "POST /api/v1/smart-money/perp-trades",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 2
+  },
+  {
+   "key": "POST /api/v1/smart-money/historical-holdings",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 1
+  },
+  {
+   "key": "POST /api/v1/profiler/address/current-balance",
+   "ok": true,
+   "status": "ok",
+   "credits": 1,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 900
+  },
+  {
+   "key": "POST /api/v1/profiler/address/historical-balances",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 1
+  },
+  {
+   "key": "POST /api/v1/profiler/dex-trades",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 1
+  },
+  {
+   "key": "POST /api/v1/profiler/address/transactions",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 2
+  },
+  {
+   "key": "POST /api/v1/profiler/address/related-wallets",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 1,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 1
+  },
+  {
+   "key": "POST /api/v1/profiler/address/first-funder",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 1,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 1
+  },
+  {
+   "key": "POST /api/v1/profiler/address/pnl-summary",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 1
+  },
+  {
+   "key": "POST /api/v1/profiler/address/pnl",
+   "ok": true,
+   "status": "ok",
+   "credits": 1,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 404
+  },
+  {
+   "key": "POST /api/v1/profiler/address/counterparties",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 2
+  },
+  {
+   "key": "POST /api/v1/profiler/address/counterparties/batch",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 1
+  },
+  {
+   "key": "POST /api/v1/portfolio/defi-holdings",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 0,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 1
+  },
+  {
+   "key": "POST /api/v1/perp-screener",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 1
+  },
+  {
+   "key": "POST /api/v1/tgm/perp-positions",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 1
+  },
+  {
+   "key": "POST /api/v1/tgm/perp-trades",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 1
+  },
+  {
+   "key": "POST /api/v1/tgm/perp-pnl-leaderboard",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 3
+  },
+  {
+   "key": "POST /api/v1/perp-leaderboard",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 1
+  },
+  {
+   "key": "POST /api/v1/profiler/perp-positions",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": null,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 1
+  },
+  {
+   "key": "POST /api/v1/profiler/perp-trades",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 0,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 1
+  },
+  {
+   "key": "POST /api/v1/profiler/perp-pnl-summary",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": null,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 0
+  },
+  {
+   "key": "POST /api/v1/prediction-market/categories",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 10,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 1
+  },
+  {
+   "key": "POST /api/v1/prediction-market/event-screener",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 3
+  },
+  {
+   "key": "POST /api/v1/prediction-market/market-screener",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 1
+  },
+  {
+   "key": "POST /api/v1/prediction-market/orderbook",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 10,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 2
+  },
+  {
+   "key": "POST /api/v1/prediction-market/ohlcv",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 10,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 1
+  },
+  {
+   "key": "POST /api/v1/prediction-market/trades-by-market",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 1
+  },
+  {
+   "key": "POST /api/v1/prediction-market/top-holders",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 1
+  },
+  {
+   "key": "POST /api/v1/prediction-market/pnl-by-market",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 1
+  },
+  {
+   "key": "POST /api/v1/prediction-market/position-detail",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 1
+  },
+  {
+   "key": "POST /api/v1/prediction-market/address-summary",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 1,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 1
+  },
+  {
+   "key": "POST /api/v1/prediction-market/pnl-by-address",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 1,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 1
+  },
+  {
+   "key": "POST /api/v1/prediction-market/trades-by-address",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 1
+  },
+  {
+   "key": "POST /api/v1beta1/token-screener/historical",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 4
+  },
+  {
+   "key": "POST /api/v1beta1/tgm/historical-token-ohlcv",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 11,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 0
+  },
+  {
+   "key": "POST /api/v1beta1/tgm/historical-token-flow-summary",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 1,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 2
+  },
+  {
+   "key": "POST /api/v1beta1/tgm/historical-dex-trades",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 1
+  },
+  {
+   "key": "POST /api/v1beta1/tgm/historical-who-bought-sold",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 1
+  },
+  {
+   "key": "POST /api/v1beta1/profiler/address/historical-token-balances",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 0
+  },
+  {
+   "key": "POST /api/v1beta1/profiler/address/historical-transactions",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 1
+  },
+  {
+   "key": "POST /api/v1beta1/profiler/historical-transaction-lookup",
+   "ok": true,
+   "status": "ok",
+   "credits": 5,
+   "rows": 1,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 2873
+  },
+  {
+   "key": "POST /api/v1beta1/tgm/historical-top-holders",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 1
+  },
+  {
+   "key": "POST /api/v1beta1/tgm/historical-token-quant-scores",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 4,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 1
+  },
+  {
+   "key": "POST /api/v1beta1/tgm/historical-pnl-leaderboard",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 1
+  },
+  {
+   "key": "POST /api/v1beta1/smart-money/historical-token-balances",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 5,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 1
+  },
+  {
+   "key": "GET /api/v1/account",
+   "ok": true,
+   "status": "ok",
+   "credits": 0,
+   "rows": null,
+   "issues": [],
+   "unknownFields": [
+    "user_id",
+    "plan",
+    "credits_remaining"
+   ],
+   "ms": 0
+  },
+  {
+   "key": "GET /api/v1/smart-alert/list",
+   "ok": true,
+   "status": "ok (cache)",
+   "credits": null,
+   "rows": 8,
+   "issues": [],
+   "unknownFields": [],
+   "ms": 0
+  }
+ ]
+}

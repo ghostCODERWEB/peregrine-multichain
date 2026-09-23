@@ -1,0 +1,159 @@
+# Nansen API
+
+## Nansen API V1
+
+- [Introduction](https://docs.nansen.ai/readme.md)
+- [Getting Started](https://docs.nansen.ai/getting-started.md): Welcome to the Nansen API. This guide will help you get up and running quickly.
+- [Authentication](https://docs.nansen.ai/getting-started/authentication.md)
+- [AI Agent Access](https://docs.nansen.ai/getting-started/agents.md): Connect your AI agent to Nansen's blockchain data API in under a minute.
+- [Rate Limits](https://docs.nansen.ai/getting-started/rate-limits.md)
+- [Credits & Pricing Guide](https://docs.nansen.ai/getting-started/credits.md)
+- [Error Handling](https://docs.nansen.ai/getting-started/error-handling.md)
+- [Agentic Payments](https://docs.nansen.ai/getting-started/agentic-payments.md)
+- [MPP (Tempo)](https://docs.nansen.ai/getting-started/agentic-payments/mpp-tempo.md)
+- [x402 Payments](https://docs.nansen.ai/getting-started/agentic-payments/x402-payments.md)
+- [Make Your First API Call](https://docs.nansen.ai/first-api-call.md): Welcome! In the next 2 minutes, you’ll make your first API call and unlock real-time blockchain insights.
+- [API Migration](https://docs.nansen.ai/api-migration.md)
+- [Reference](https://docs.nansen.ai/reference.md)
+- [Supported Chains](https://docs.nansen.ai/reference/chains.md)
+- [Filter Types](https://docs.nansen.ai/reference/filters.md)
+- [Sorting](https://docs.nansen.ai/reference/sorting.md)
+- [Endpoints Overview](https://docs.nansen.ai/api/overview.md)
+- [Data Coverage by Chain](https://docs.nansen.ai/api/data-coverage.md): How far back Nansen data goes on each chain, and how fresh live data is.
+- [Search](https://docs.nansen.ai/api/search.md)
+- [Smart Money](https://docs.nansen.ai/api/smart-money.md)
+- [Netflows](https://docs.nansen.ai/api/smart-money/netflows.md): Get aggregated token flow analysis for smart money wallets to see which tokens they're accumulating or distributing.
+- [Holdings](https://docs.nansen.ai/api/smart-money/holdings.md): Aggregated token holdings data for smart money wallets.
+- [Historical Holdings](https://docs.nansen.ai/api/smart-money/historical-holdings.md)
+- [DEX Trades](https://docs.nansen.ai/api/smart-money/dex-trades.md)
+- [Perp Trades](https://docs.nansen.ai/api/smart-money/perp-trades.md)
+- [Jupiter DCAs](https://docs.nansen.ai/api/smart-money/jupiter-dcas.md)
+- [PnL Leaderboard](https://docs.nansen.ai/api/smart-money/pnl-leaderboard.md): Ranked leaderboard of Smart Money wallets by PnL over a selected timeframe.
+- [Profiler](https://docs.nansen.ai/api/profiler.md)
+- [Address Current Balances](https://docs.nansen.ai/api/profiler/address-current-balances.md): Get real-time token balance information for any blockchain address or entity
+- [Address Historical Balances](https://docs.nansen.ai/api/profiler/address-historical-balances.md): Get historical token balance information for any blockchain address or entity
+- [Address DEX Trades](https://docs.nansen.ai/api/profiler/address-dex-trades.md)
+- [Address Transactions](https://docs.nansen.ai/api/profiler/address-transactions.md)
+- [Address Counterparties](https://docs.nansen.ai/api/profiler/address-counterparties.md): Get counterparties and their interaction statistics for any address or entity.
+- [Address Counterparties (Batch)](https://docs.nansen.ai/api/profiler/address-counterparties-batch.md): Batch counterparties lookup — counterparties and interaction statistics for up to 10 wallet addresses in a single request.
+- [Address Related Wallets](https://docs.nansen.ai/api/profiler/address-related-wallets.md)
+- [Address First Funder](https://docs.nansen.ai/api/profiler/address-first-funder.md)
+- [Address PnL & Trade Performance](https://docs.nansen.ai/api/profiler/address-pnl-and-trade-performance.md)
+- [Address Labels](https://docs.nansen.ai/api/profiler/address-labels.md): Retrieves all entity and behavioural labels associated with an address on a chain.
+- [Address Perp Positions](https://docs.nansen.ai/api/profiler/address-perp-positions.md)
+- [Address Perp Trades](https://docs.nansen.ai/api/profiler/address-perp-trades.md)
+- [Hyperliquid Address Leaderboard](https://docs.nansen.ai/api/profiler/hyperliquid-address-leaderboard.md)
+- [Get Hyperliquid Perp PnL Summary](https://docs.nansen.ai/api/profiler/perp-pnl-summary.md)
+- [Token God Mode](https://docs.nansen.ai/api/token-god-mode.md)
+- [Token Information](https://docs.nansen.ai/api/token-god-mode/token-information.md)
+- [Nansen Indicators](https://docs.nansen.ai/api/token-god-mode/nansen-indicators.md)
+- [Price OHLCV](https://docs.nansen.ai/api/token-god-mode/price-ohlcv.md)
+- [Token Screener](https://docs.nansen.ai/api/token-god-mode/token-screener.md)
+- [Flow Intelligence](https://docs.nansen.ai/api/token-god-mode/flow-intelligence.md)
+- [Holders](https://docs.nansen.ai/api/token-god-mode/holders.md)
+- [Flows](https://docs.nansen.ai/api/token-god-mode/flows.md)
+- [Position Intelligence](https://docs.nansen.ai/api/token-god-mode/position-intelligence.md): Aggregated perpetual position analytics on Hyperliquid broken down by trader cohort.
+- [Who Bought/Sold](https://docs.nansen.ai/api/token-god-mode/who-bought-sold.md)
+- [DEX Trades](https://docs.nansen.ai/api/token-god-mode/dex-trades.md)
+- [Token Transfers](https://docs.nansen.ai/api/token-god-mode/token-transfers.md)
+- [Jupiter DCAs](https://docs.nansen.ai/api/token-god-mode/jupiter-dcas.md)
+- [PnL Leaderboard](https://docs.nansen.ai/api/token-god-mode/pnl-leaderboard.md)
+- [Perp Screener](https://docs.nansen.ai/api/token-god-mode/perp-screener.md)
+- [Perp PnL Leaderboard](https://docs.nansen.ai/api/token-god-mode/perp-pnl-leaderboard.md)
+- [Perp Positions](https://docs.nansen.ai/api/token-god-mode/perp-positions.md)
+- [Perp Trades](https://docs.nansen.ai/api/token-god-mode/perp-trades.md)
+- [Portfolio](https://docs.nansen.ai/api/portfolio.md): DeFi Holdings API tracks active positions across DeFi protocols.
+- [Chain Rank](https://docs.nansen.ai/api/chain-rank.md)
+- [Agent](https://docs.nansen.ai/api/agent.md)
+- [Trading](https://docs.nansen.ai/api/trade.md)
+- [Spot Trading](https://docs.nansen.ai/api/trade/spot-trading.md)
+- [Get a DEX swap quote](https://docs.nansen.ai/api/trade/spot-trading/quote.md)
+- [Turn a quote into a signable transaction](https://docs.nansen.ai/api/trade/spot-trading/prepare.md)
+- [Broadcast a signed swap transaction](https://docs.nansen.ai/api/trade/spot-trading/execute.md)
+- [Check cross-chain bridge status](https://docs.nansen.ai/api/trade/spot-trading/bridge-status.md)
+- [Perpetual Trading](https://docs.nansen.ai/api/trade/perp-trading.md): Open, manage and close Hyperliquid perpetual positions with your own keys — the prepare, sign and execute flow end to end.
+- [Perpetual Trading reference](https://docs.nansen.ai/api/trade/perp-trading/perpetual-trading-reference.md)
+- [Hyperliquid](https://docs.nansen.ai/api/hyperliquid.md)
+- [Address Perp Positions](https://docs.nansen.ai/api/hyperliquid/address-perp-positions.md)
+- [Address Perp Trades](https://docs.nansen.ai/api/hyperliquid/address-perp-trades.md)
+- [Hyperliquid Leaderboard](https://docs.nansen.ai/api/hyperliquid/hyperliquid-leaderboard.md)
+- [Perp Screener](https://docs.nansen.ai/api/hyperliquid/perp-screener.md)
+- [Perp PnL Leaderboard](https://docs.nansen.ai/api/hyperliquid/perp-pnl-leaderboard.md)
+- [Smart Money Perp Trades](https://docs.nansen.ai/api/hyperliquid/smart-money-perp-trades.md)
+- [Token Perp Positions](https://docs.nansen.ai/api/hyperliquid/token-perp-positions.md)
+- [Token Perp Trades](https://docs.nansen.ai/api/hyperliquid/token-perp-trades.md)
+- [Backtesting Data](https://docs.nansen.ai/api/backtesting-data.md): Backtest your strategies against the same onchain intelligence that powers Nansen at any point in time.
+- [Historical Token Screener](https://docs.nansen.ai/api/backtesting-data/historical-token-screener.md)
+- [Historical Top Holders](https://docs.nansen.ai/api/backtesting-data/historical-top-holders.md)
+- [Historical Token DEX Trades](https://docs.nansen.ai/api/backtesting-data/historical-token-dex-trades.md)
+- [Historical Token PnL Leaderboard](https://docs.nansen.ai/api/backtesting-data/historical-token-pnl-leaderboard.md)
+- [Historical Token OHLCV](https://docs.nansen.ai/api/backtesting-data/historical-token-ohlcv.md)
+- [Historical Token Flow Summary](https://docs.nansen.ai/api/backtesting-data/historical-token-flow-summary.md)
+- [Historical Token Quant Scores](https://docs.nansen.ai/api/backtesting-data/historical-token-quant-scores.md)
+- [Historical Address Balance](https://docs.nansen.ai/api/backtesting-data/historical-address-balance.md)
+- [Historical Smart Money Positions](https://docs.nansen.ai/api/backtesting-data/historical-smart-money-positions.md)
+- [Historical Address Transactions](https://docs.nansen.ai/api/backtesting-data/historical-address-transactions.md)
+- [Historical Token Who Bought/Sold](https://docs.nansen.ai/api/backtesting-data/historical-token-who-bought-sold.md)
+- [Prediction Market](https://docs.nansen.ai/api/prediction-market.md)
+- [Market Categories](https://docs.nansen.ai/api/prediction-market/market-categories.md)
+- [Market Screener](https://docs.nansen.ai/api/prediction-market/market-screener.md)
+- [Market Event Screener](https://docs.nansen.ai/api/prediction-market/market-event-screener.md)
+- [Market Orderbook](https://docs.nansen.ai/api/prediction-market/market-orderbook.md)
+- [Market OHLCV](https://docs.nansen.ai/api/prediction-market/market-ohlcv.md)
+- [Market Position Details](https://docs.nansen.ai/api/prediction-market/market-position-details.md)
+- [Market Top Holders](https://docs.nansen.ai/api/prediction-market/market-top-holders.md)
+- [Trades By Market](https://docs.nansen.ai/api/prediction-market/trades-by-market.md)
+- [PnL By Market](https://docs.nansen.ai/api/prediction-market/pnl-by-market.md)
+- [PnL By Address](https://docs.nansen.ai/api/prediction-market/pnl-by-address.md)
+- [Address Summary](https://docs.nansen.ai/api/prediction-market/address-summary.md)
+- [Trades By Address](https://docs.nansen.ai/api/prediction-market/trades-by-address.md)
+- [Points](https://docs.nansen.ai/api/points.md): Developer reference for the Permissionless Rewards API service.
+- [Smart Alerts](https://docs.nansen.ai/api/smart-alerts.md): Configure automated on-chain alerts delivered to Telegram, Slack, or Discord.
+- [API Changelog](https://docs.nansen.ai/api/changelog.md)
+- [23-09-2026: Smart Money Holdings Fund Filter Deprecation](https://docs.nansen.ai/api/changelog/23-09-2026-smart-money-holdings-fund-filter-deprecation.md)
+- [15-09-2026: Counterparty Token Amounts Include Direction](https://docs.nansen.ai/api/changelog/15-09-2026-counterparties-token-amount.md)
+- [08-09-2026: Perp PnL Leaderboard Trade Count Follows the Date Range](https://docs.nansen.ai/api/changelog/08-09-2026-perp-pnl-leaderboard-trade-count-window.md)
+- [25-08-2026: Perp Leaderboard Adds Five Fields And Four Sort Options](https://docs.nansen.ai/api/changelog/25-08-2026-perp-leaderboard-new-fields.md)
+- [24-08-2026: Perp Leaderboard ROI Corrections](https://docs.nansen.ai/api/changelog/24-08-2026-perp-leaderboard-roi-corrections.md)
+- [17-07-2026: Premium Labels Default Change Now Live](https://docs.nansen.ai/api/changelog/17-07-2026-premium-labels-default-change-live.md)
+- [31-03-2026: TGM Endpoints - Premium Labels Flag](https://docs.nansen.ai/api/changelog/31-03-2026-tgm-endpoints-premium-labels-flag.md)
+- [29-08-2025: Major API Restructuring](https://docs.nansen.ai/api/changelog/2025-08-29.md)
+- [Nansen CLI](https://docs.nansen.ai/cli.md)
+- [Overview](https://docs.nansen.ai/mcp/overview.md): Learn how to connect AI agents to Nansen
+- [Connecting to Nansen MCP](https://docs.nansen.ai/mcp/connecting.md)
+- [AI assistant](https://docs.nansen.ai/mcp/AI assistant.md): Install Nansen from the AI assistant plugin directory. Tool calls spend your Nansen API credits.
+- [Grok (OAuth)](https://docs.nansen.ai/mcp/grok.md): Connect the OAuth-protected Nansen MCP surface in Grok as a custom connector. No API key.
+- [AI assistant Tag (Slack)](https://docs.nansen.ai/mcp/AI assistant-tag.md)
+- [Tools supported by Nansen MCP](https://docs.nansen.ai/mcp/tools.md)
+- [Common MCP clients](https://docs.nansen.ai/mcp/mcp-clients.md)
+- [MCP Data Redistribution Guidelines](https://docs.nansen.ai/mcp/redistribution-guidelines.md)
+- [Use case Templates](https://docs.nansen.ai/guides/templates.md)
+- [Simple Use cases](https://docs.nansen.ai/guides/templates/simple-use-cases.md)
+- [Complex Use cases](https://docs.nansen.ai/guides/templates/complex-use-cases.md)
+- [Use case 1: Automated Token Tracking & Smart Money Analysis](https://docs.nansen.ai/guides/templates/complex-use-cases/use-case-1-automated-token-tracking-and-smart-money-analysis.md)
+- [Use Case 2: Find & Copytrade Wallets on Hyperliquid](https://docs.nansen.ai/guides/templates/complex-use-cases/use-case-2-find-and-copytrade-wallets-on-hyperliquid.md): Use Nansen API To Find and Copytrade Profitable Wallets on Hyperliquid
+- [Use case 3: Identifying Related Wallets at Scale](https://docs.nansen.ai/guides/templates/complex-use-cases/use-case-3-identifying-related-wallets-at-scale.md)
+- [Use case 4: Copytrading Top Performing Wallets](https://docs.nansen.ai/guides/templates/complex-use-cases/use-case-4-copytrading-top-performing-wallets.md)
+- [Use case 5: Monitoring CEX Health](https://docs.nansen.ai/guides/templates/complex-use-cases/use-case-5-monitoring-cex-health.md)
+- [Data Methodology & Technical Reference](https://docs.nansen.ai/guides/data-methodology-and-technical-reference.md): This page provides detailed technical specifications about how data is calculated, returned, and timed across Nansen API endpoints. This information is essential for quantitative analysis, backtesting
+- [Data Redistribution Guidelines](https://docs.nansen.ai/guides/redistribution-guide.md): Updated as of 18/11/2025
+- [Frequently Asked Questions](https://docs.nansen.ai/guides/faq.md)
+- [Quant Signals](https://docs.nansen.ai/guides/quant-signals.md): Learn more about Nansen's new and upcoming Quant Signals and how to use them to gain an edge
+- [BTC Drop Reflexivity](https://docs.nansen.ai/guides/quant-signals/btc-drop-reflexivity.md): Measure how a token behaves when Bitcoin drops—a risk signal for market drawdowns.
+- [Useful Links](https://docs.nansen.ai/guides/links.md)
+
+
+---
+
+# Agent Instructions
+This documentation is published with GitBook. GitBook is the documentation platform designed so that both humans and AI agents can read, navigate, and reason over technical content effectively. Learn more at gitbook.com.
+
+## Querying This Documentation
+If you need additional information, you can query the documentation dynamically by asking a question.
+Perform an HTTP GET request on a page URL with the `ask` query parameter:
+```
+GET https://docs.nansen.ai/readme.md?ask=<question>
+```
+The question should be specific, self-contained, and written in natural language.
+The response will contain a direct answer to the question and relevant excerpts and sources from the documentation.
+Use this mechanism when the answer is not explicitly present in the current page, you need clarification or additional context, or you want to retrieve related documentation sections.
