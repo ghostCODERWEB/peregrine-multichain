@@ -70,7 +70,7 @@
               "to_address_label": null
             }
           ],
-          "volume_usd": 58.43857084631725,
+          "volume_usd": 58.38726391354049,
           "block_timestamp": "2026-09-23T16:21:25",
           "transaction_hash": "0x9d9ce4f2ee2f6fe42e582206d3deed9de0d9887590462aa4a98cff6138df292c",
           "source_type": "transfer"
@@ -142,7 +142,7 @@
               "to_address_label": null
             }
           ],
-          "volume_usd": 58.43857084631725,
+          "volume_usd": 58.38726391354049,
           "block_timestamp": "2026-09-23T16:21:14",
           "transaction_hash": "0xa562b32611f15069e4f67969878d27ed2de2ee00a90f766deb0cfa03a662868a",
           "source_type": "transfer"
@@ -165,7 +165,7 @@
               "to_address_label": null
             }
           ],
-          "volume_usd": 57.27352930503932,
+          "volume_usd": 57.28932812204246,
           "block_timestamp": "2026-09-23T16:20:33",
           "transaction_hash": "0x4a50027927beb38b8deedb75b53390be40d9b9c57a7b89318de8636ec8ec7209",
           "source_type": "transfer"
@@ -201,7 +201,7 @@
               "to_address_label": null
             }
           ],
-          "volume_usd": 46.43913883756931,
+          "volume_usd": 46.45194900424108,
           "block_timestamp": "2026-09-23T16:02:22",
           "transaction_hash": "0xe7324c57aa3cf9f44ea42d90b66d5db4ace55d36f8e5f3f4e7785f6a397d1b91",
           "source_type": "transfer"
@@ -224,7 +224,7 @@
               "to_address_label": null
             }
           ],
-          "volume_usd": 26.291769108097334,
+          "volume_usd": 26.29902165310142,
           "block_timestamp": "2026-09-23T15:50:28",
           "transaction_hash": "0xa48b629b56915ebeb10d30d1237839b99766dac5c89e901d0b01e5d25f1f8c92",
           "source_type": "transfer"
@@ -271,7 +271,7 @@
             }
           ],
           "tokens_received": [],
-          "volume_usd": 20.0008703544304,
+          "volume_usd": 20.0063875644656,
           "block_timestamp": "2026-09-23T15:47:54",
           "transaction_hash": "0x615f8b167add54ff30696ab3dd7daa7e816ff7fcb9a661bcc49cba6890e340ea",
           "source_type": "transfer"
@@ -294,7 +294,7 @@
               "to_address_label": null
             }
           ],
-          "volume_usd": 33.93336563849614,
+          "volume_usd": 33.942726106421354,
           "block_timestamp": "2026-09-23T15:47:11",
           "transaction_hash": "0x3ff737b7bfa81473cf997cc406c9e1867fdd4aa2c8a127a0744eae8766f23feb",
           "source_type": "transfer"
@@ -354,7 +354,7 @@
               "to_address_label": null
             }
           ],
-          "volume_usd": 50.002175886075996,
+          "volume_usd": 50.015968911164,
           "block_timestamp": "2026-09-23T15:44:45",
           "transaction_hash": "0x912b01dd4b72c0c1febca00ec2768d825ad7835ea61f96624f95791dd2433dd1",
           "source_type": "transfer"
@@ -401,7 +401,7 @@
             }
           ],
           "tokens_received": [],
-          "volume_usd": 50.002175886075996,
+          "volume_usd": 50.015968911164,
           "block_timestamp": "2026-09-23T15:43:20",
           "transaction_hash": "0xace9d0df12ae744a354294ece6c807fd062f28ae6d11534496b2fd0dc7e64b04",
           "source_type": "transfer"
@@ -557,7 +557,7 @@
               "to_address_label": null
             }
           ],
-          "volume_usd": 66.42011459939785,
+          "volume_usd": 67.23560680541304,
           "block_timestamp": "2026-09-23T15:03:04",
           "transaction_hash": "0x366545e2651fed4a9dc42a3592a768caacdef42bf205f266e2c07869946a6071",
           "source_type": "transfer"
@@ -603,7 +603,7 @@
               "to_address_label": null
             }
           ],
-          "volume_usd": 47.95865155327679,
+          "volume_usd": 47.916601769203815,
           "block_timestamp": "2026-09-23T14:35:53",
           "transaction_hash": "0x9816fab2672f64e4d6589361493159324889da11a286454227b9e20750930ea2",
           "source_type": "transfer"
@@ -639,7 +639,7 @@
               "to_address_label": null
             }
           ],
-          "volume_usd": 22.773760657991453,
+          "volume_usd": 22.784397462085458,
           "block_timestamp": "2026-09-23T14:27:13",
           "transaction_hash": "0xb6d7aded27680ac4c62ea7b2588e3886a8e4e9b88fc2f8d77b6d8107b40f68fe",
           "source_type": "transfer"
@@ -699,7 +699,7 @@
               "to_address_label": null
             }
           ],
-          "volume_usd": 19.998399078727623,
+          "volume_usd": 20.0077396112988,
           "block_timestamp": "2026-09-23T14:04:06",
           "transaction_hash": "0x4fd43cbc3adc657364f6fb252527ccc4c1455d53988b2c9b42269f0fd450ccbc",
           "source_type": "transfer"
@@ -735,7 +735,7 @@
               "to_address_label": null
             }
           ],
-          "volume_usd": 0.9634595798935679,
+          "volume_usd": 0.9626148257984167,
           "block_timestamp": "2026-09-23T14:01:15",
           "transaction_hash": "0xccb2d6a04063542d56445a1c8a491e02cd6f25f698db02a6b7e7b41aff0c57a6",
           "source_type": "transfer"
@@ -795,7 +795,7 @@
               "to_address_label": null
             }
           ],
-          "volume_usd": 0.997939383534053,
+          "volume_usd": 0.9970643978070479,
           "block_timestamp": "2026-09-23T14:01:03",
           "transaction_hash": "0xf013d699a11ef150d1e69ee0e691d97e4d47adef2accaa63c0a136e9e9259a24",
           "source_type": "transfer"
@@ -818,7 +818,7 @@
               "to_address_label": null
             }
           ],
-          "volume_usd": 17.193815981571547,
+          "volume_usd": 17.178740573360532,
           "block_timestamp": "2026-09-23T14:00:27",
           "transaction_hash": "0xe0991529fbc3d48ee7f873aa4f45dbed5e61d8a26166996704b949d60c09c5bd",
           "source_type": "transfer"
@@ -854,7 +854,7 @@
               "to_address_label": null
             }
           ],
-          "volume_usd": 31.385956302055362,
+          "volume_usd": 31.390768740193703,
           "block_timestamp": "2026-09-23T13:22:50",
           "transaction_hash": "0x0e53dd0cf2336811af4c396d093f8b2d4f50e04142fc65d8738edda6e9d4d63d",
           "source_type": "transfer"
@@ -901,7 +901,7 @@
             }
           ],
           "tokens_received": [],
-          "volume_usd": 19.958787670681062,
+          "volume_usd": 19.94128795614096,
           "block_timestamp": "2026-09-23T12:34:37",
           "transaction_hash": "0x21c77f99ce80af5203f381d67161b71a767ce468609d0279d023cb94fcee9d0c",
           "source_type": "transfer"
@@ -996,7 +996,7 @@
               "to_address_label": null
             }
           ],
-          "volume_usd": 2.042498503309283,
+          "volume_usd": 2.0407076560220503,
           "block_timestamp": "2026-09-23T12:21:39",
           "transaction_hash": "0x67c98084438880e223a6687d813f90259fe1e78f3e290c803d1fea81d3a024ee",
           "source_type": "transfer"
@@ -1043,7 +1043,7 @@
             }
           ],
           "tokens_received": [],
-          "volume_usd": 1.995878767068106,
+          "volume_usd": 1.994128795614096,
           "block_timestamp": "2026-09-23T12:21:33",
           "transaction_hash": "0x5e55b39dc97c84601a2421c2a10e1274bece88e65d45309a938d46e0e2c0b7a2",
           "source_type": "transfer"
@@ -1079,7 +1079,7 @@
               "to_address_label": null
             }
           ],
-          "volume_usd": 20.532087832895296,
+          "volume_usd": 20.541677632278862,
           "block_timestamp": "2026-09-23T12:17:59",
           "transaction_hash": "0x8616b0fd57dfafbf3a4c15fb996bc58109508262b4e980d8ec0923f53756b41e",
           "source_type": "transfer"
@@ -1115,13 +1115,13 @@
               "to_address_label": null
             }
           ],
-          "volume_usd": 20.039666272098554,
+          "volume_usd": 20.049026079090766,
           "block_timestamp": "2026-09-23T12:16:05",
           "transaction_hash": "0x50aa6cb9861adad698b07dae5a438863a108e22a8072671da858bc32796fb277",
           "source_type": "transfer"
         }
       ]
     },
-    "recordedAt": 1790194949406
+    "recordedAt": 1790195967900
   }
 ]

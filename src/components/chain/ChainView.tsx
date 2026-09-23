@@ -7,6 +7,7 @@ import { FlowBars, flowsTitle } from './FlowBars';
 import { SectorTreemap, sectorsTitle } from './SectorTreemap';
 import { PeersSlope, peersTitle } from './PeersSlope';
 import { TradeTape } from './TradeTape';
+import { PaidTradeTape } from '@/components/x402/PaidTradeTape';
 import { ForecastMultiple } from '@/components/weather/ForecastStrip';
 import { InfoPopover } from '@/components/InfoPopover';
 import { chainName, num } from '@/lib/viz/format';
@@ -103,8 +104,19 @@ export function ChainView({ d, gaps }: { d: ChainPageData; gaps: ModuleGaps }) {
           sub="DEX swaps by Nansen-labelled smart money, recorded by the scanner. Buy = stable or native in, risk token out of the pool."
         >
           {gaps.trades ? <p className="text-sm text-ink-2">{gaps.trades}</p>
-            : d.mode !== 'owner' ? <Unavailable text="Shown only to this instance's owner: the tape comes from the scanner's smart-money trades, fetched with the owner's Nansen key, which Nansen's redistribution rules keep out of shared views." />
-            : <TradeTape tape={d.tape} />}
+            : d.tapeSource === 'withheld' ? (
+              <div className="space-y-3">
+                <Unavailable text="Shown only to this instance's owner: the tape comes from the scanner's smart-money trades, fetched with the owner's Nansen key, which Nansen's redistribution rules keep out of shared views." />
+                {d.x402 && <PaidTradeTape chain={d.chain} />}
+              </div>
+            )
+            : d.tapeSource === 'error' ? <p className="text-sm text-ink-2">Nansen did not return smart-money trades for {name} on your key just now.</p>
+            : (
+              <>
+                {d.tapeSource === 'live' && <p className="mb-2 text-xs text-ink-muted">Fetched just now with your Nansen key.</p>}
+                <TradeTape tape={d.tape} />
+              </>
+            )}
         </Card>
       </div>
     </div>

@@ -10,6 +10,8 @@ import { cpiProvenance, forecastProvenance } from './provenance';
 import { chainCapability, unavailableReason } from '@/lib/registry';
 import { holtForecast } from '@/lib/models/holt-forecast';
 import { isStablecoin } from '@/lib/models/trade-side';
+import { foldTape, tapeFromDexTrades, liveTapeRequest, type TapeRow, type TapeTrade } from '@/lib/tape';
+import { x402Enabled } from '@/server/nansen/x402';
 import type { Provenance } from '@/lib/provenance';
 import type { SmartMoneyNetflow } from '@/types/nansen/smart-money';
 import { usd, pct, num } from '@/lib/viz/format';
@@ -53,9 +55,12 @@ export interface ChainPageData {
   tide: { points: TidePoint[]; forecast: Array<{ t: number; forecast: number; low80: number; high80: number }>; provenance: Provenance };
   flows: FlowSection;
   peers: { rows: PeerRow[]; self: PeerRow | null; growthPercentile: number | null; provenance: Provenance } | { rows: []; self: null; growthPercentile: null; provenance: null; error: string };
-  /** Newest first; `count` > 1 when consecutive fills were folded together
-   *  (then `firstAt` is the oldest of them). */
-  tape: Array<{ at: number; firstAt: number; count: number; wallet: string; label: string | null; side: 'buy' | 'sell'; symbol: string | null; usd: number }>;
+  tape: TapeRow[];
+  /** scanner: the owner's recorded history. live: fetched just now with the
+   *  member's own key. withheld: public view (x402 may offer it). */
+  tapeSource: 'scanner' | 'live' | 'error' | 'withheld';
+  /** A keyless visitor can buy the tape per call (x402). */
+  x402: boolean;
   /** owner: everything. member: live smart-money flows fetched with their
    *  own key, but not the scanner's (operator-key) history or tape.
    *  public: all-trader flows, no smart-money data. */
@@ -252,36 +257,31 @@ function tide(chain: string, now: number, mode: PressureView): ChainPageData['ti
   };
 }
 
-/**
- * Latest trades, with back-to-back fills of one wallet on one token and
- * side folded into a single row (count + summed USD) — bots that DCA every
- * minute would otherwise fill the whole tape with one line repeated.
- */
-function tape(chain: string): ChainPageData['tape'] {
+/** The scanner's recorded trades (key owner only). */
+function scannerTape(chain: string): TapeRow[] {
   const rows = getDb().prepare(`
     SELECT traded_at AS at, wallet, wallet_label AS label, side, token_symbol AS symbol, usd_value AS usd
     FROM smart_money_trades WHERE chain = ? ORDER BY traded_at DESC LIMIT 400
-  `).all(chain) as Array<{ at: number; wallet: string; label: string | null; side: 'buy' | 'sell'; symbol: string | null; usd: number }>;
-  const out: ChainPageData['tape'] = [];
-  for (const r of rows) {
-    const prev = out.at(-1);
-    if (prev && prev.wallet === r.wallet && prev.symbol === r.symbol && prev.side === r.side) {
-      prev.usd += r.usd;
-      prev.count += 1;
-      prev.firstAt = r.at;
-    } else {
-      if (out.length === 30) break;
-      out.push({ ...r, firstAt: r.at, count: 1 });
-    }
-  }
-  return out;
+  `).all(chain) as TapeTrade[];
+  return foldTape(rows);
+}
+
+/** A member's tape: one live smart-money/dex-trades call on their own key. */
+async function memberTape(chain: string): Promise<TapeRow[]> {
+  const r = await callNansen<unknown>('smart-money/dex-trades', liveTapeRequest(chain));
+  return foldTape(tapeFromDexTrades(r.data));
 }
 
 export async function chainPage(chain: string, mode: DisplayMode = 'owner', now = Date.now()): Promise<ChainPageData> {
   const view: PressureView = viewOf(mode);
   const weather = chainWeather(chain, now, view);
   const forecast = pressureForecast(chain, 24, now, view);
-  const [flows, peerData] = await Promise.all([tokenFlows(chain, mode), peers(chain)]);
+  const hasSmartMoney = !unavailableReason(chain, 'smartMoney');
+  const [flows, peerData, liveTape] = await Promise.all([
+    tokenFlows(chain, mode), peers(chain),
+    mode === 'member' && hasSmartMoney ? memberTape(chain).catch(() => null) : Promise.resolve(null),
+  ]);
+  const tape = mode === 'owner' ? scannerTape(chain) : liveTape ?? [];
   return {
     chain,
     weather,
@@ -291,7 +291,9 @@ export async function chainPage(chain: string, mode: DisplayMode = 'owner', now 
     tide: tide(chain, now, view),
     flows,
     peers: peerData,
-    tape: mode === 'owner' ? tape(chain) : [],
+    tape,
+    tapeSource: mode === 'owner' ? 'scanner' : mode === 'member' ? (liveTape ? 'live' : 'error') : 'withheld',
+    x402: mode === 'public' && hasSmartMoney && x402Enabled(),
     mode,
   };
 }

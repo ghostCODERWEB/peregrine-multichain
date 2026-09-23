@@ -3,6 +3,7 @@ import { requestContext } from '@/server/context';
 import { keyInfo } from '@/server/auth/keys';
 import { vaultReady } from '@/server/auth/vault';
 import { AccountPanel } from '@/components/auth/AccountPanel';
+import { x402Enabled, x402Resources } from '@/server/nansen/x402';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = { title: 'Account — TIDE' };
@@ -10,6 +11,7 @@ export const metadata: Metadata = { title: 'Account — TIDE' };
 export default async function AccountPage() {
   const ctx = await requestContext();
   const info = ctx.user ? keyInfo(ctx.user.id) : null;
+  const resources = x402Enabled() ? await x402Resources().then((r) => r.size).catch(() => null) : null;
   return (
     <div className="mx-auto max-w-2xl space-y-4">
       <div>
@@ -22,6 +24,16 @@ export default async function AccountPage() {
       <section className="rounded-xl border border-border bg-surface p-4">
         <AccountPanel user={ctx.user ? { family: ctx.user.family, address: ctx.user.address } : null} keyInfo={info ? { last4: info.last4, plan: info.plan } : null} vault={vaultReady()} mode={ctx.mode} />
       </section>
+      {x402Enabled() && (
+        <section className="rounded-xl border border-border bg-surface p-4 text-sm text-ink-2">
+          <h2 className="mb-1 font-medium text-ink">No key? Pay per call</h2>
+          <p>
+            Some sections offer a priced button instead: Nansen sells {resources ?? 'most of its'} endpoints per call through x402, paid in USDC on Base or
+            Monad straight from your wallet to Nansen (usually $0.01–$0.05). You see the price first, then exactly what your wallet will sign; nothing is signed
+            without your click, TIDE never holds funds, and what you buy is shown to you only.
+          </p>
+        </section>
+      )}
     </div>
   );
 }

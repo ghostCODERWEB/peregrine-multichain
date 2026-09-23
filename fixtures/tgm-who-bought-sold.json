@@ -29,8 +29,8 @@
           "sold_token_volume": 12431325.545094913,
           "token_trade_volume": 4373234.965074002,
           "bought_volume_usd": 297354.1507122139,
-          "sold_volume_usd": 475390.5321311185,
-          "trade_volume_usd": 178036.38141890464
+          "sold_volume_usd": 475389.1920866908,
+          "trade_volume_usd": 178035.04137447692
         },
         {
           "address": "0xb200fc2ae3bd585f42fb6c11bd67e0e44134e3fd",
@@ -56,8 +56,8 @@
           "address": "0xeb7c90d3d8eb5cce9c3da4725ba9d5177cf8cc50",
           "address_label": null,
           "bought_token_volume": 4056292.259923484,
-          "sold_token_volume": 4431004.079139825,
-          "token_trade_volume": 374711.8192163408,
+          "sold_token_volume": 4433004.079139825,
+          "token_trade_volume": 376711.8192163408,
           "bought_volume_usd": 148765.21776493627,
           "sold_volume_usd": 170368.1000033162,
           "trade_volume_usd": 21602.88223837994
@@ -69,8 +69,8 @@
           "sold_token_volume": 4300577.251531558,
           "token_trade_volume": 2474249.4878706476,
           "bought_volume_usd": 62259.34731301093,
-          "sold_volume_usd": 155061.07650436036,
-          "trade_volume_usd": 92801.72919134944
+          "sold_volume_usd": 155598.35878358394,
+          "trade_volume_usd": 93339.01147057302
         },
         {
           "address": "0x1afe4684b7b4e2aace7b2061d616b29ca978088c",
@@ -229,7 +229,7 @@
         "is_last_page": false
       }
     },
-    "recordedAt": 1790194941044
+    "recordedAt": 1790195963355
   },
   {
     "requestHash": "e9b42cf5cd957c385ff9bd2dec20d189777420c7",
@@ -351,18 +351,18 @@
           "sold_token_volume": 765602.12596,
           "token_trade_volume": 1215060.5414411705,
           "bought_volume_usd": 77224.21541600906,
-          "sold_volume_usd": 30517.624924078766,
-          "trade_volume_usd": 46706.59049193029
+          "sold_volume_usd": 30517.47311486721,
+          "trade_volume_usd": 46706.74230114184
         },
         {
           "address": "0x7339fa5fcbb8033761a5ce47faa9efa9ae079090",
           "address_label": null,
-          "bought_token_volume": 2166611.618648797,
+          "bought_token_volume": 2167187.258762247,
           "sold_token_volume": 0,
-          "token_trade_volume": 2166611.618648797,
-          "bought_volume_usd": 76327.52162829984,
+          "token_trade_volume": 2167187.258762247,
+          "bought_volume_usd": 76343.91138124728,
           "sold_volume_usd": 0,
-          "trade_volume_usd": 76327.52162829984
+          "trade_volume_usd": 76343.91138124728
         },
         {
           "address": "0x4ede629216256eace56b32c620261da2360313d9",
@@ -371,8 +371,8 @@
           "sold_token_volume": 1781612.9299999997,
           "token_trade_volume": 346128.7854720503,
           "bought_volume_usd": 75705.15841706515,
-          "sold_volume_usd": 67612.300710863,
-          "trade_volume_usd": 8092.85770620215
+          "sold_volume_usd": 67611.86004875427,
+          "trade_volume_usd": 8093.298368310876
         },
         {
           "address": "0xb1bdc012b88eec66d93f4b4fe7a97d7d0da1383e",
@@ -387,12 +387,12 @@
         {
           "address": "0xa75990bbe6a02c264e10708d4efc967586e3abbd",
           "address_label": null,
-          "bought_token_volume": 1752206.1612128073,
+          "bought_token_volume": 1835394.7421740142,
           "sold_token_volume": 1228102.95791496,
-          "token_trade_volume": 524103.2032978472,
-          "bought_volume_usd": 64022.57481235666,
+          "token_trade_volume": 607291.7842590541,
+          "bought_volume_usd": 65598.47802537285,
           "sold_volume_usd": 49257.1054634132,
-          "trade_volume_usd": 14765.469348943458
+          "trade_volume_usd": 16341.372561959652
         },
         {
           "address": "0xab2ebc8e6938bf8c2d87623f2ea8cba33bce4886",
@@ -461,7 +461,7 @@
         "is_last_page": false
       }
     },
-    "recordedAt": 1790194941080
+    "recordedAt": 1790195963502
   },
   {
     "requestHash": "5560dbfb14f7c2f7d53686a82dc4934d2719e452",

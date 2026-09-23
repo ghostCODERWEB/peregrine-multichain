@@ -2,10 +2,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-type Eth = { request: (a: { method: string; params?: unknown[] }) => Promise<unknown> };
-type Sol = { connect: () => Promise<{ publicKey: { toString(): string } }>; signMessage: (m: Uint8Array, enc?: string) => Promise<{ signature: Uint8Array }> };
-declare global { interface Window { ethereum?: Eth; solana?: Sol & { isPhantom?: boolean }; phantom?: { solana?: Sol } } }
-
 const b64 = (u: Uint8Array) => btoa(String.fromCharCode(...u));
 
 async function post(path: string, body?: unknown, method = 'POST') {

@@ -184,6 +184,17 @@ const MIGRATIONS: string[] = [
   CREATE TABLE audit_log (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, action TEXT NOT NULL, detail TEXT, at INTEGER NOT NULL);
   ALTER TABLE credit_ledger ADD COLUMN user_id INTEGER;
   `,
+  // 8: x402 pay-per-call payments. One row per paid attempt: who paid
+  // (the wallet that signed; user_id when also signed in), what for, how
+  // much, and the settlement transaction Nansen reported. Never the data.
+  `
+  CREATE TABLE payments (
+    id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, payer TEXT NOT NULL, network TEXT NOT NULL,
+    endpoint TEXT NOT NULL, amount TEXT NOT NULL, amount_usd REAL, status TEXT NOT NULL,
+    tx TEXT, error TEXT, at INTEGER NOT NULL
+  );
+  CREATE INDEX idx_payments_at ON payments(at);
+  `,
 ];
 
 export function audit(userId: number | null, action: string, detail?: string): void {
