@@ -11,7 +11,7 @@ import path from 'node:path';
 const BASE = process.env.REDACTION_URL ?? process.env.E2E_URL ?? 'http://localhost:3300';
 const DB = process.env.REDACTION_DB ?? 'data/demo.db';
 
-function secrets(): { labels: string[]; wallets: string[]; counterpartyLabels: string[] } {
+function secrets(): { labels: string[]; wallets: string[]; counterpartyLabels: string[]; tradeLabels: string[] } {
   try {
     const db = new Database(path.resolve(DB), { readonly: true, fileMustExist: true });
     const labels = (db.prepare("SELECT DISTINCT wallet_label AS l FROM smart_money_trades WHERE wallet_label IS NOT NULL AND length(wallet_label) > 6 LIMIT 200").all() as Array<{ l: string }>).map((r) => r.l);
@@ -24,14 +24,25 @@ function secrets(): { labels: string[]; wallets: string[]; counterpartyLabels: s
         for (const x of rows) for (const l of x.counterparty_address_label ?? []) if (l && l.length > 6) counterpartyLabels.add(l);
       } catch { /* skip unreadable rows */ }
     }
+    // Trader and transfer labels from the token terminal's calls.
+    const tradeLabels = new Set<string>();
+    for (const r of db.prepare("SELECT body FROM response_cache WHERE endpoint IN ('tgm/dex-trades', 'tgm/transfers', 'tgm/jup-dca')").all() as Array<{ body: string }>) {
+      try {
+        const rows = (JSON.parse(r.body) as { data?: Array<Record<string, unknown>> }).data ?? [];
+        for (const x of rows) for (const k of ['trader_address_label', 'from_address_label', 'to_address_label', 'trader_label']) {
+          const v = x[k];
+          if (typeof v === 'string' && v.length > 8) tradeLabels.add(v);
+        }
+      } catch { /* skip */ }
+    }
     db.close();
-    return { labels, wallets, counterpartyLabels: [...counterpartyLabels] };
+    return { labels, wallets, counterpartyLabels: [...counterpartyLabels], tradeLabels: [...tradeLabels] };
   } catch {
-    return { labels: [], wallets: [], counterpartyLabels: [] }; // a clean demo DB — also fine
+    return { labels: [], wallets: [], counterpartyLabels: [], tradeLabels: [] }; // a clean demo DB — also fine
   }
 }
 
-const { labels, wallets, counterpartyLabels } = secrets();
+const { labels, wallets, counterpartyLabels, tradeLabels } = secrets();
 // Behavioral labels Nansen attaches to holders/traders; must not surface publicly either.
 const GENERIC = ['Token Millionaire', 'High Balance', 'Smart Trader', 'High Activity'];
 
@@ -80,6 +91,17 @@ test('token page: every wave arrives with labels stripped', async ({ page }) => 
   await page.goto('/token/base/0x9b5e262cf9bb04869ab40b19af91d2dc85761722');
   await expect(page.getByText(/this page: \d+ Nansen calls/)).toBeVisible({ timeout: 90_000 });
   assertClean('/token/base/NOCK', await page.content());
+});
+
+test('token stream: terminal waves without labels, owner-only waves never sent', async ({ request }) => {
+  const res = await request.get('/api/token/base/0x9b5e262cf9bb04869ab40b19af91d2dc85761722/stream', { timeout: 120_000 });
+  const sse = await res.text();
+  expect(sse).toContain('event: done');
+  expect(sse).toContain('event: tape');
+  expect(sse).not.toContain('event: positions'); // perp cohorts: label-derived
+  expect(sse).not.toContain('event: pnlboard'); // Nansen prohibits it publicly
+  assertClean('token stream', sse);
+  for (const l of [...tradeLabels, ...counterpartyLabels]) expect(sse.includes(l), `token stream leaks label "${l}"`).toBe(false);
 });
 
 test('entity page: counterparties and every section without labels, flight data included', async ({ page }) => {

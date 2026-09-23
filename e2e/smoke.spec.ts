@@ -49,8 +49,27 @@ test('token page: waves stream in and the Storm Score lands @mobile', async ({ p
   await expect(page.locator('svg[aria-label^="Wind rose"] path')).toHaveCount(24); // 6 segments × 4 windows
   await expect(page.locator('#odds')).toBeVisible();
   await expect(page.getByText(/this page: \d+ Nansen calls/)).toBeVisible({ timeout: 60_000 });
+  // The terminal (M2): tape, transfer river, social pulse; owner-only
+  // sections say why they are withheld in the public demo.
+  await expect(page.getByRole('heading', { name: /buyers vs \d+ sellers in the latest \d+ trades/ })).toBeVisible();
+  await expect(page.locator('section[aria-labelledby="river"]')).toBeVisible();
+  await expect(page.getByRole('heading', { name: /Social heat \d+|Social pulse/ })).toBeVisible();
+  await expect(page.locator('section[aria-labelledby="pnlboard"]')).toContainText('Nansen does not allow its PnL leaderboard in public views');
+  await expect(page.getByText(/Storm v2 candidates/)).toBeVisible();
   await w.noOverflow();
   expect(w.errors).toEqual([]);
+});
+
+test('token terminal: a trade opens its transaction; news loads on request', async ({ page }) => {
+  await page.goto(TOKEN);
+  const firstTrade = page.locator('section[aria-labelledby="tape"] tbody tr').first();
+  await expect(firstTrade).toBeVisible({ timeout: 60_000 });
+  await firstTrade.click();
+  const dialog = page.getByRole('dialog', { name: 'Transaction' });
+  await expect(dialog).toBeVisible();
+  await expect(dialog.getByText(/Succeeded|Failed|Nansen did not find|No recorded fixture|not available/)).toBeVisible({ timeout: 30_000 });
+  await page.keyboard.press('Escape');
+  await expect(dialog).toHaveCount(0);
 });
 
 test('wallet page: balances and the migration trail', async ({ page }) => {

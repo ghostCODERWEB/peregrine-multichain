@@ -8,6 +8,12 @@ describe('stripLabels', () => {
     expect(out.holders[0].address).toBe('0xa');
     expect(out.funder.funderName).toBeNull();
   });
+  it('removes any key that names a label, including shapes added later', () => {
+    const out = stripLabels({ largest: [{ from: '0xa', fromLabel: '🏦 Gate: Wallet', toLabel: 'Smart Trader', valueUsd: 1 }], orders: [{ trader_label: 'x.skr' }] });
+    expect(out.largest[0]).toEqual({ from: '0xa', fromLabel: null, toLabel: null, valueUsd: 1 });
+    expect(out.orders[0].trader_label).toBeNull();
+  });
+
   it('leaves provenance input labels (our own UI strings) intact', () => {
     const out = stripLabels({ provenance: { inputs: [{ label: 'Market cap', value: '$1M' }] }, label: 'Smart Trader' });
     expect(out.provenance.inputs[0].label).toBe('Market cap');

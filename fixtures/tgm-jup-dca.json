@@ -1,0 +1,24 @@
+[
+  {
+    "requestHash": "2b827aade20cf973e591a41088e0fd570943ac28",
+    "request": {
+      "token_address": "JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN",
+      "filters": {
+        "status": "Active"
+      },
+      "pagination": {
+        "page": 1,
+        "per_page": 100
+      }
+    },
+    "response": {
+      "data": [],
+      "pagination": {
+        "page": 1,
+        "per_page": 100,
+        "is_last_page": true
+      }
+    },
+    "recordedAt": 1790201639873
+  }
+]

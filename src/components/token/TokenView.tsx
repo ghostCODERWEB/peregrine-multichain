@@ -16,7 +16,10 @@ import { StormAlertForm } from './StormAlertForm';
 import { RideCard } from './RideCard';
 import { chainName, shortAddress, usd } from '@/lib/viz/format';
 import type { Wave, TokenHeader, MarketWave, WindWave, HoldersWave, ForensicsWave } from '@/server/token/waves';
-import type { StormWave } from '@/server/token/storm';
+import type { StormWave, StormCandidate } from '@/server/token/storm';
+import type { TapeWave, RiverWave, SocialWave, DcaWave, PositionsWave, PnlBoardWave } from '@/server/token/terminal';
+import { LiveTape, tapeTitle, TransferRiver, riverTitle, SocialPulse, socialTitle, DcaLadder, dcaTitle, TideGauge, positionsTitle, PnlBoard, NewsCards } from './Terminal';
+import { num } from '@/lib/viz/format';
 
 interface State {
   header?: Wave<TokenHeader>;
@@ -26,11 +29,18 @@ interface State {
   forensics?: Wave<ForensicsWave>;
   storm?: Wave<StormWave>;
   forecast?: Wave<ForecastWave>;
+  tape?: Wave<TapeWave>;
+  river?: Wave<RiverWave>;
+  social?: Wave<SocialWave>;
+  dca?: Wave<DcaWave>;
+  positions?: Wave<PositionsWave>;
+  pnlboard?: Wave<PnlBoardWave>;
+  candidates?: StormCandidate[];
   done?: { calls: number; credits: number; cached: number };
   fatal?: string;
 }
 
-const WAVES = ['header', 'market', 'forecast', 'wind', 'holders', 'forensics', 'storm', 'done', 'fatal'] as const;
+const WAVES = ['header', 'market', 'forecast', 'wind', 'holders', 'forensics', 'storm', 'tape', 'river', 'social', 'dca', 'positions', 'pnlboard', 'candidates', 'done', 'fatal'] as const;
 const gone = <T,>(w: Wave<T> | undefined): w is { unavailable: string } => !!w && typeof w === 'object' && 'unavailable' in w;
 const ok = <T,>(w: Wave<T> | undefined): w is T => !!w && !gone(w);
 
@@ -58,7 +68,9 @@ function useTokenStream(chain: string, address: string): State {
   return s;
 }
 
-export function TokenView({ chain, address, tier }: { chain: string; address: string; tier: string }) {
+const WITHHELD = 'Shown to the API key owner or a signed-in member with their own key: it is built from Nansen labels, which Nansen\u2019s redistribution rules keep out of public views.';
+
+export function TokenView({ chain, address, tier, mode }: { chain: string; address: string; tier: string; mode: 'owner' | 'member' | 'public' }) {
   const s = useTokenStream(chain, address);
   const h = ok(s.header) ? s.header : null;
   const symbol = h?.symbol ?? null;
@@ -105,6 +117,20 @@ export function TokenView({ chain, address, tier }: { chain: string; address: st
       <div className="grid gap-4 lg:grid-cols-3">
         <Card id="storm" title={ok(s.storm) ? `Storm Score: ${Math.round(s.storm.result.score)} of 100` : 'Storm Score'} sub="Probability-style dump-risk score from six Nansen-derived inputs. Not financial advice.">
           {ok(s.storm) ? <StormDial s={s.storm} indicators={[...(h?.risk ?? []), ...(h?.reward ?? [])]} /> : gone(s.storm) ? <Unavailable text={s.storm.unavailable} /> : pending(s.storm) ? <WaveLoading what="the Storm Score inputs" height={420} /> : null}
+          {s.candidates && (
+            <div className="mt-3 border-t border-border pt-2">
+              <div className="text-[11px] text-ink-muted">Storm v2 candidates: computed, not yet in the score (they enter once the backtest fits their weights)</div>
+              <ul className="mt-1 flex flex-wrap gap-2">
+                {s.candidates.map((c) => (
+                  <li key={c.key} className="flex items-center gap-1 rounded border border-dashed border-border px-2 py-0.5 text-[12px]" title={c.why ?? undefined}>
+                    <span className="text-ink-2">{c.name}</span>
+                    <span className="num text-ink">{c.score == null ? 'n/a' : num(c.score, 0)}</span>
+                    {c.provenance && <InfoPopover p={c.provenance} />}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </Card>
         <Card
           id="market" className="lg:col-span-2"
@@ -136,6 +162,45 @@ export function TokenView({ chain, address, tier }: { chain: string; address: st
           {ok(s.forensics) ? <InsiderGraph f={s.forensics} /> : gone(s.forensics) ? <Unavailable text={s.forensics.unavailable} /> : pending(s.forensics) ? <WaveLoading what="first funders and related wallets for the top 25 holders" height={360} /> : null}
         </Card>
       </div>
+      <h2 className="pt-2 text-[13px] font-medium uppercase tracking-wider text-ink-muted">Terminal</h2>
+      <div className="grid gap-4 lg:grid-cols-3">
+        <Card id="tape" className="lg:col-span-2" title={ok(s.tape) ? tapeTitle(s.tape) : 'Live DEX trades'} sub="The latest trades of this token across its DEX pools, newest first. Select a row for the whole transaction."
+          action={ok(s.tape) ? <InfoPopover p={s.tape.provenance} /> : undefined}>
+          {ok(s.tape) ? <LiveTape t={s.tape} chain={chain} /> : gone(s.tape) ? <Unavailable text={s.tape.unavailable} /> : pending(s.tape) ? <WaveLoading what="DEX trades" height={320} /> : null}
+        </Card>
+        <Card id="river" title={ok(s.river) ? riverTitle(s.river) : 'Whale transfers'} sub={ok(s.river) && s.river.byCohort ? 'The day\u2019s largest transfers outside DEX trades, and the ones far larger than their sender\u2019s cohort usually moves.' : 'The day\u2019s largest transfers outside DEX trades, and the ones far larger than this token\u2019s usual transfer.'}
+          action={ok(s.river) ? <InfoPopover p={s.river.provenance} /> : undefined}>
+          {ok(s.river) ? <TransferRiver r={s.river} chain={chain} /> : gone(s.river) ? <Unavailable text={s.river.unavailable} /> : pending(s.river) ? <WaveLoading what="transfers" height={320} /> : null}
+        </Card>
+      </div>
+
+      <div className="grid gap-4 lg:grid-cols-3">
+        <Card id="social" title={ok(s.social) ? socialTitle(s.social) : 'Social pulse'} sub="Posts mentioning the symbol over 7 days, and how fast the conversation is growing."
+          action={ok(s.social) ? <InfoPopover p={s.social.provenance} /> : undefined}>
+          {ok(s.social) ? <SocialPulse s={s.social} /> : gone(s.social) ? <Unavailable text={s.social.unavailable} /> : pending(s.social) ? <WaveLoading what="social posts" height={280} /> : null}
+        </Card>
+        <Card id="dca" title={ok(s.dca) ? dcaTitle(s.dca) : 'DCA ladders'} sub="Open Jupiter DCA orders that will keep buying or selling this token, largest remaining first."
+          action={ok(s.dca) ? <InfoPopover p={s.dca.provenance} /> : undefined}>
+          {ok(s.dca) ? <DcaLadder d={s.dca} /> : gone(s.dca) ? <Unavailable text={s.dca.unavailable} /> : pending(s.dca) ? <WaveLoading what="DCA orders" height={260} /> : null}
+        </Card>
+        <Card id="positions" title={ok(s.positions) ? positionsTitle(s.positions) : 'Perp tide gauge'} sub="Hyperliquid positions in this symbol by cohort: the waterline is the share that is long."
+          action={ok(s.positions) ? <InfoPopover p={s.positions.provenance} /> : undefined}>
+          {mode === 'public' ? <Unavailable text={WITHHELD} />
+            : ok(s.positions) ? <TideGauge p={s.positions} /> : gone(s.positions) ? <Unavailable text={s.positions.unavailable} /> : pending(s.positions) ? <WaveLoading what="perp positions" height={220} /> : null}
+        </Card>
+      </div>
+
+      <div className="grid gap-4 lg:grid-cols-2">
+        <Card id="pnlboard" title="Top traders by PnL, 30 days" sub="Who made and lost the most on this token (realized plus unrealized)."
+          action={ok(s.pnlboard) ? <InfoPopover p={s.pnlboard.provenance} /> : undefined}>
+          {mode === 'public' ? <Unavailable text={'Shown to the API key owner or a signed-in member with their own key: Nansen does not allow its PnL leaderboard in public views.'} />
+            : ok(s.pnlboard) ? <PnlBoard b={s.pnlboard} /> : gone(s.pnlboard) ? <Unavailable text={s.pnlboard.unavailable} /> : pending(s.pnlboard) ? <WaveLoading what="the PnL leaderboard" height={260} /> : null}
+        </Card>
+        <Card id="news" title={`News about ${symbol ?? 'this token'}`} sub="Web results from Nansen\u2019s hosted search, on request.">
+          {h ? <NewsCards name={h.name} symbol={h.symbol} canSummarize={mode !== 'public'} /> : <WaveLoading what="the token name" height={80} />}
+        </Card>
+      </div>
+
       {ok(s.storm) && s.storm.final && (
         <Card id="ask" title={`Ask the anchor about ${symbol ?? 'this token'}, or set a storm alert`} sub="Nansen's agent explains this token's scores in four sentences; a storm alert turns them into Nansen Smart Alerts that keep watching after you leave.">
           <AnchorCard query={`kind=token&chain=${chain}&address=${encodeURIComponent(address)}`} label="It reads the scores above; nothing is sent until you ask." />

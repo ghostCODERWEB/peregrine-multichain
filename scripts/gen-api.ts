@@ -239,6 +239,10 @@ doc.push('', '## Live quirks (docs vs reality)', '',
   '- `v1beta1/profiler/historical-transaction-lookup` times out resolving a hash unless `block_timestamp` is sent.',
   '- `transaction-with-token-transfer-lookup` returns `nft_transfer_array: null` where the schema promises an array.',
   '- `GET /api/v1/account` (schema-less) returns `{user_id, plan, credits_remaining}`.',
+  '- `x-nansen-credits-cost` on a 4xx names the endpoint\'s price, but nothing is charged (balance unchanged): validation errors are free, and they name a missing field or a wrongly typed one, which is how the schema-less request shapes were found.',
+  '- `tgm/position-intelligence` takes the Hyperliquid perp symbol (e.g. `AERO`) as `token_address`.',
+  '- `tgm/jup-dca` returns `input_mint_address`/`output_mint_address` with a trailing NUL (`\\u0000`); strip it before comparing mints. Data is sparse: many large Solana tokens return no orders at all.',
+  '- `ra-agent/posts-by-token` without `token_symbol` answers 200 with no posts (and still costs 5 credits).',
   '- Earlier quirks (v1 hand-written contract) are preserved in `docs/nansen-quirks-v1.md`.',
   '', '## Per-operation detail', '');
 for (const e of endpoints) {

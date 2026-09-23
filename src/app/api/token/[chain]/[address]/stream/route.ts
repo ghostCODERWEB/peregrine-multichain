@@ -4,7 +4,8 @@
 // a wave Nansen can't serve arrives as { unavailable }.
 import { ALL_CHAIN_IDS, chainCapability } from '@/lib/registry';
 import { headerWave, marketWave, windWave, holdersWave, forensicsWave, isUnavailable, type Wave, type ForensicsWave } from '@/server/token/waves';
-import { computeStorm, saveStorm } from '@/server/token/storm';
+import { computeStorm, saveStorm, stormCandidates } from '@/server/token/storm';
+import { tapeWave, riverWave, socialWave, dcaWave, positionsWave, pnlBoardWave } from '@/server/token/terminal';
 import { forecastWave } from '@/server/token/forecast';
 import { callScope, type CallTally } from '@/server/nansen/client';
 import { contextFromRequest, contextScope } from '@/server/context';
@@ -47,6 +48,24 @@ export async function GET(req: Request, { params }: { params: Promise<{ chain: s
         const wind = windWave(chain, token).then((w) => { send('wind', w); return w; });
         const holders = holdersWave(chain, token).then((w) => { send('holders', w); return w; });
 
+        // The terminal (M2). Label-derived views — the position gauge, the
+        // PnL leaderboard and cohort-based transfer anomalies — only for the
+        // key owner or a member; public views get the rest, labels stripped.
+        const priv = mode !== 'public';
+        const tape = tapeWave(chain, token).then((w) => { send('tape', w); return w; });
+        const river = riverWave(chain, token, priv).then((w) => { send('river', w); return w; });
+        const terminal = header.then(async (hw) => {
+          const symbol = isUnavailable(hw) ? null : hw.symbol;
+          const volume = isUnavailable(hw) ? null : hw.volume24hUsd;
+          const [social, dca] = await Promise.all([
+            socialWave(symbol).then((w) => { send('social', w); return w; }),
+            dcaWave(chain, token, volume).then((w) => { send('dca', w); return w; }),
+            priv ? positionsWave(symbol).then((w) => { send('positions', w); return w; }) : Promise.resolve(null),
+            priv ? pnlBoardWave(chain, token).then((w) => { send('pnlboard', w); return w; }) : Promise.resolve(null),
+          ]);
+          send('candidates', stormCandidates(social, dca));
+        });
+
         const [h, w, ho] = await Promise.all([header, wind, holders]);
         send('storm', computeStorm(h, w, ho, undefined, false));
 
@@ -56,7 +75,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ chain: s
         send('forensics', forensics);
 
         const m = await market;
-        await forecast;
+        await Promise.all([forecast, tape, river, terminal]);
         const storm = computeStorm(h, w, ho, forensics, true);
         send('storm', storm);
         if (!isUnavailable(storm) && !isUnavailable(h)) {

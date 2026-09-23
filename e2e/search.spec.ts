@@ -19,7 +19,8 @@ test('omnibox: type a name, Enter opens the top token', async ({ page }) => {
   await expect(page.getByRole('option').first()).toContainText('AERO · Aerodrome');
   await expect(page.getByRole('option').first()).toHaveAttribute('aria-selected', 'true');
   await box.press('Enter');
-  await expect(page).toHaveURL(/\/token\/base\/0x940181a94a35a4569e4529a3cdfb74e38fd98631/);
+  // Navigation waits for the route to load (a first compile in dev can take a while).
+  await expect(page).toHaveURL(/\/token\/base\/0x940181a94a35a4569e4529a3cdfb74e38fd98631/, { timeout: 60_000 });
 });
 
 test('omnibox: arrow to an entity, Enter opens its page with Nansen-aggregated holdings', async ({ page }) => {
@@ -31,7 +32,7 @@ test('omnibox: arrow to an entity, Enter opens its page with Nansen-aggregated h
   for (let i = 0; i < 8 && (await entity.getAttribute('aria-selected')) !== 'true'; i++) await box.press('ArrowDown');
   await expect(entity).toHaveAttribute('aria-selected', 'true');
   await box.press('Enter');
-  await expect(page.getByRole('heading', { level: 1, name: 'Aerodrome Finance' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 1, name: 'Aerodrome Finance' })).toBeVisible({ timeout: 60_000 });
   await expect(page.getByRole('heading', { name: /across \d+ chains?/ })).toBeVisible({ timeout: 30_000 });
 });
 
@@ -41,7 +42,7 @@ test('omnibox: an address is recognized in the browser and opens its wallet page
   await expect(page.getByText('Looks like EVM address')).toBeVisible();
   await expect(page.getByRole('option', { name: /Wallet 0xd8dA…6045/ })).toBeVisible();
   await box.press('Enter');
-  await expect(page).toHaveURL(/\/wallet\/0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045/);
+  await expect(page).toHaveURL(/\/wallet\/0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045/, { timeout: 60_000 });
 });
 
 test('omnibox: Escape closes and returns focus to the search button', async ({ page }) => {

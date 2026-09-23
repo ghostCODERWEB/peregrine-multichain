@@ -41,14 +41,16 @@ export function shortAddress(a: string): string {
   return a.length > 14 ? `${a.slice(0, 6)}…${a.slice(-4)}` : a;
 }
 
-/** Nansen labels unlabeled wallets as "[0x…]" — that's an address stand-in,
- *  not a name, so it's dropped in favour of the address itself. Behavioral
- *  labels carry the same tag ("High Balance [0x93ab12]"); it's shortened to
- *  the address tail so two "High Balance" wallets stay distinguishable. */
+/** Nansen labels unlabeled wallets as "[0x…]" (EVM) or "[FUmuuKhX]"
+ *  (Solana and other base58 chains) — an address stand-in, not a name, so
+ *  it's dropped in favour of the address itself. Behavioral labels carry the
+ *  same tag ("High Balance [0x93ab12]"); it's shortened to the address tail
+ *  so two "High Balance" wallets stay distinguishable. Nansen's labels can
+ *  start with zero-width spaces; they are trimmed too. */
 export function walletName(label: string | null | undefined, address: string): string {
-  const l = label?.trim();
-  if (!l || /^\[0x[0-9a-f]+\]$/i.test(l)) return shortAddress(address);
-  const tagged = /\s*\[0x[0-9a-f]+\]$/i;
+  const l = label?.replace(/[\u200B-\u200D\uFEFF]/g, '').trim();
+  if (!l || /^\[(0x[0-9a-f]+|[1-9A-HJ-NP-Za-km-z]{4,12})\]$/i.test(l)) return shortAddress(address);
+  const tagged = /\s*\[(0x[0-9a-f]+|[1-9A-HJ-NP-Za-km-z]{4,12})\]$/i;
   return tagged.test(l) ? `${l.replace(tagged, '')} ·${address.slice(-4)}` : l;
 }
 

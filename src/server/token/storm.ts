@@ -9,6 +9,7 @@ import {
 } from '@/lib/models/storm-score';
 import type { Provenance } from '@/lib/provenance';
 import { isUnavailable, type Wave, type TokenHeader, type WindWave, type HoldersWave, type ForensicsWave } from './waves';
+import type { SocialWave, DcaWave } from './terminal';
 import { usd, num, pct } from '@/lib/viz/format';
 
 export interface StormWave {
@@ -167,4 +168,28 @@ export function saveStorm(chain: string, token: string, symbol: string | null, s
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `).run(chain, token.toLowerCase(), symbol, s.result.score, s.result.band, s.result.confidence,
     JSON.stringify(s.result.subScores), JSON.stringify(s.result.missing), marketCapUsd, priceUsd, source, Date.now());
+}
+
+// ---------------------------------------------------------------- v2 candidates
+
+/**
+ * Storm Score v2 candidates (M2): social heat and DCA overhang. Computed
+ * and shown on every token page, but NOT in the score yet: a sub-score
+ * enters the composite only with a weight fitted by the backtest (M9),
+ * so the Storm Score's published track record stays the model it
+ * describes.
+ */
+export interface StormCandidate { key: 'socialHeat' | 'dcaOverhang'; name: string; score: number | null; why: string | null; provenance: Provenance | null }
+
+export function stormCandidates(social: Wave<SocialWave>, dca: Wave<DcaWave>): StormCandidate[] {
+  return [
+    isUnavailable(social)
+      ? { key: 'socialHeat', name: 'Social heat', score: null, why: social.unavailable, provenance: null }
+      : { key: 'socialHeat', name: 'Social heat', score: social.heat.score, why: null, provenance: social.provenance },
+    isUnavailable(dca)
+      ? { key: 'dcaOverhang', name: 'DCA overhang', score: null, why: dca.unavailable, provenance: null }
+      : dca.overhang
+        ? { key: 'dcaOverhang', name: 'DCA overhang', score: dca.overhang.score, why: null, provenance: dca.provenance }
+        : { key: 'dcaOverhang', name: 'DCA overhang', score: null, why: 'Needs the token’s 24h volume, which Nansen did not return.', provenance: dca.provenance },
+  ];
 }

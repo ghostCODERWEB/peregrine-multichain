@@ -16,6 +16,7 @@ const ALLOWED_HOSTS = [
   'docs.nansen.ai', // doc comments linking back to reference material
   'app.nansen.ai',  // "get an API key" links; Nansen's own public points API
   'www.nansen.ai',  // the "Powered by Nansen API" attribution link Nansen's redistribution rules require
+  'x.com',          // "open post" links on the social posts Nansen returned (ra-agent); never fetched
   'api.telegram.org',
   'discord.com',
 ];

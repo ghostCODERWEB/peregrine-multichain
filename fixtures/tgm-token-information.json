@@ -340,5 +340,81 @@
       }
     },
     "recordedAt": 1790194464886
+  },
+  {
+    "requestHash": "98911e2e410d58aa6c9ceb0ac08b6a54f7c22bd8",
+    "request": {
+      "chain": "base",
+      "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+      "timeframe": "1d"
+    },
+    "response": {
+      "data": {
+        "name": "Aerodrome",
+        "symbol": "AERO",
+        "contract_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+        "logo": "https://coin-images.coingecko.com/coins/images/31745/small/token.png?1696530564",
+        "token_details": {
+          "token_deployment_date": "2023-08-28 02:40:47",
+          "website": "https://aerodrome.finance/",
+          "x": "aerodromefi",
+          "telegram": "",
+          "market_cap_usd": 665315416.332634,
+          "fdv_usd": 1322020390.12628,
+          "circulating_supply": 991830546.8058937,
+          "total_supply": 1983240735.576791
+        },
+        "spot_metrics": {
+          "volume_total_usd": 30501854.357263148,
+          "buy_volume_usd": 14242374.978202183,
+          "sell_volume_usd": 16259479.379060965,
+          "total_buys": 30905,
+          "total_sells": 37128,
+          "unique_buyers": 951,
+          "unique_sellers": 2231,
+          "liquidity_usd": 29861749.01875286,
+          "total_holders": 97322
+        }
+      }
+    },
+    "recordedAt": 1790200760320
+  },
+  {
+    "requestHash": "486882a051074b041b69b830829293fc0651537e",
+    "request": {
+      "chain": "solana",
+      "token_address": "JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN",
+      "timeframe": "1d"
+    },
+    "response": {
+      "data": {
+        "name": "Jupiter",
+        "symbol": "JUP",
+        "contract_address": "JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN",
+        "logo": "https://coin-images.coingecko.com/coins/images/34188/small/jup.png?1704266489",
+        "token_details": {
+          "token_deployment_date": "2024-01-25 08:54:23",
+          "website": "",
+          "x": "JupiterExchange",
+          "telegram": "jup_marketing",
+          "market_cap_usd": 950201901.6268334,
+          "fdv_usd": 1967696701.07069,
+          "circulating_supply": 3319369204.37,
+          "total_supply": 6861486694.849399
+        },
+        "spot_metrics": {
+          "volume_total_usd": 10184896.322929423,
+          "buy_volume_usd": 4637634.4268612955,
+          "sell_volume_usd": 5547261.896068129,
+          "total_buys": 41637,
+          "total_sells": 46067,
+          "unique_buyers": 1296,
+          "unique_sellers": 1771,
+          "liquidity_usd": 4192751.1489182767,
+          "total_holders": 501723
+        }
+      }
+    },
+    "recordedAt": 1790200805535
   }
 ]

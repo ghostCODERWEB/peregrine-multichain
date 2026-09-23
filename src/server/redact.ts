@@ -13,6 +13,9 @@ const LABEL_KEYS = new Set([
   'from_address_label', 'to_address_label', 'wallet_label', 'owner_label', 'entity_name',
 ]);
 const SKIP_UNDER = new Set(['provenance', 'inputs']);
+/** Any other key that names a label (fromLabel, toLabel, trader_label…):
+ *  new response shapes are covered without remembering to list them. */
+const isLabelKey = (k: string) => LABEL_KEYS.has(k) || /label$/i.test(k);
 
 export function stripLabels<T>(value: T): T {
   const walk = (v: unknown): unknown => {
@@ -21,7 +24,7 @@ export function stripLabels<T>(value: T): T {
     const out: Record<string, unknown> = {};
     for (const [k, x] of Object.entries(v as Record<string, unknown>)) {
       if (SKIP_UNDER.has(k)) { out[k] = x; continue; }
-      out[k] = LABEL_KEYS.has(k) ? null : walk(x);
+      out[k] = isLabelKey(k) ? null : walk(x);
     }
     return out;
   };

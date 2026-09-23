@@ -5,6 +5,11 @@ describe('walletName', () => {
   const a = '0x93ab12cd34ef56ab78cd90ef12ab34cd56ef7890';
   it('uses the address for a bare Nansen address tag', () => {
     expect(walletName('[0x93ab12]', a)).toBe('0x93ab…7890');
+    // Solana-style tags and zero-width spaces (as Nansen sends them).
+    const sol = 'FUmuuKhXaT7w2mbM2Xm5kNnDYFwH3ZExfjrztFmbbZVb';
+    expect(walletName('[FUmuuKhX]', sol)).toBe('FUmuuK…bZVb');
+    expect(walletName('High Balance [3LzmBquL]', sol)).toBe('High Balance ·bZVb');
+    expect(walletName('\u200b\u200b🏦 OKX: Hot Wallet [8wM44Ryv]', sol)).toBe('🏦 OKX: Hot Wallet ·bZVb');
     expect(walletName(null, a)).toBe('0x93ab…7890');
   });
   it('keeps named entities as they are', () => {

@@ -1,0 +1,145 @@
+[
+  {
+    "requestHash": "a239e5d5844b26e0304a8bd5df6b77ed20454cee",
+    "request": {
+      "date": {
+        "from": "2026-09-16",
+        "to": "2026-09-23"
+      },
+      "token_symbol": "AERO",
+      "pagination": {
+        "page": 1,
+        "per_page": 100
+      }
+    },
+    "response": {
+      "data": [
+        {
+          "username": "wacy_time1",
+          "timestamp": "2026-09-22T10:56:12Z",
+          "text": "Revenue-generating tokens are going to win in this cycle.\n\nThe biggest upside could come from protocols\nthat share their success with token holders.\n\n10 revenue machines worth watching:\n\n$STONK - @LaunchOnSF\n$AERO - @aeroxyz\n$PUMP - @Pumpfun\n$RAY - @Raydium\n$HYPE - @HyperliquidX https://t.co/iiodjNnjae",
+          "likes": 29,
+          "views": 6966,
+          "tweet_id": "2102351252206088255"
+        },
+        {
+          "username": "wacy_time1",
+          "timestamp": "2026-09-22T10:52:10Z",
+          "text": "Revenue-generating tokens are going to win in this cycle.\n\nThe biggest upside could come from protocols \nthat share their success with token holders.\n\n10 revenue machines worth watching:\n$STONK - @StonkFun\n$AERO - @AerodromeFi\n$PUMP - @Pumpfun\n$RAY - @RaydiumProtocol\n$HYPE - https://t.co/UtBaU34ISQ",
+          "likes": 0,
+          "views": 0,
+          "tweet_id": "2102350234617602194"
+        },
+        {
+          "username": "wacy_time1",
+          "timestamp": "2026-09-22T10:22:42Z",
+          "text": "Most crypto tokens give holders nothing but hope.\n\nThese projects are actually sending value back:\n\n$STONK\n$AERO\n$PUMP\n$RAY\n$HYPE\n$UNI\n$LIT\n$ASTER\n$PENDLE\n$VVV\n\nHow it works:\n- Protocols generate fees from real activity.\n- Part of that revenue is used to buy back tokens, burn https://t.co/QGpQAb5kjR",
+          "likes": 0,
+          "views": 0,
+          "tweet_id": "2102342819302051944"
+        },
+        {
+          "username": "0xAbhiP",
+          "timestamp": "2026-09-20T16:47:46Z",
+          "text": "some of the smartest people I know are long $AERO, so now i am too 🙂",
+          "likes": 28,
+          "views": 2049,
+          "tweet_id": "2101714948799992204"
+        },
+        {
+          "username": "TassoLago",
+          "timestamp": "2026-09-19T04:32:03Z",
+          "text": "Best tickers for now:\n$ONDO\n$MET\n$JUP\n$ASTER\n$AERO\n$ARB\n\nLow cap\n$PERPSPAD (5-10x min from here)\n$STONK (2-5x)",
+          "likes": 0,
+          "views": 226,
+          "tweet_id": "2101167412338884766"
+        }
+      ],
+      "pagination": {
+        "page": 1,
+        "per_page": 100,
+        "is_last_page": true
+      }
+    },
+    "recordedAt": 1790200762005
+  },
+  {
+    "requestHash": "09f9395754b6cb213d4d344803ad74927224344d",
+    "request": {
+      "date": {
+        "from": "2026-09-16",
+        "to": "2026-09-23"
+      },
+      "token_symbol": "JUP",
+      "pagination": {
+        "page": 1,
+        "per_page": 100
+      }
+    },
+    "response": {
+      "data": [
+        {
+          "username": "SpicyPeruvian_",
+          "timestamp": "2026-09-22T00:22:47Z",
+          "text": "Been taking out 5k a day from fomo winnings and buying $jup\n\nChart looks hot. \n\nBookmark this https://t.co/AkHwvH1b5p",
+          "likes": 1,
+          "views": 254,
+          "tweet_id": "2102191844847489414"
+        },
+        {
+          "username": "TassoLago",
+          "timestamp": "2026-09-19T04:32:03Z",
+          "text": "Best tickers for now:\n$ONDO\n$MET\n$JUP\n$ASTER\n$AERO\n$ARB\n\nLow cap\n$PERPSPAD (5-10x min from here)\n$STONK (2-5x)",
+          "likes": 0,
+          "views": 226,
+          "tweet_id": "2101167412338884766"
+        },
+        {
+          "username": "FabianoSolana",
+          "timestamp": "2026-09-18T10:44:19Z",
+          "text": "Is $JUP next???\n\nUNI pumped nearly 3x as the SEC opened a 5 year path for real tokenized US stocks on permissioned AMMs\n\nJupiter isn’t an AMM but it’s Solana’s order flow and already routing hundreds of tokenized stocks\n\nMeanwhile @kashdhanda is teasing something... https://t.co/BlH9q2xqxL https://t.co/Xu1lKz8Gpn",
+          "likes": 110,
+          "views": 8485,
+          "tweet_id": "2100898707377914130"
+        },
+        {
+          "username": "crypticd22",
+          "timestamp": "2026-09-17T12:31:24Z",
+          "text": "Update \n\nFdv/Annualized Rev \n\n$Hype 99x\n$Jup 8.7x\n$Pump 7.5x\n$Met 3x \n$Cards 2x \n\n$Pons 1.6x\n$Stonk 1.4x https://t.co/jjNEyOoV2n",
+          "likes": 24,
+          "views": 3794,
+          "tweet_id": "2100563269547115004"
+        }
+      ],
+      "pagination": {
+        "page": 1,
+        "per_page": 100,
+        "is_last_page": true
+      }
+    },
+    "recordedAt": 1790200806220
+  },
+  {
+    "requestHash": "00ee54779839283caefd85b7d7a224e6acb6f92e",
+    "request": {
+      "date": {
+        "from": "2026-09-16",
+        "to": "2026-09-23"
+      },
+      "token_symbol": "NOCK",
+      "pagination": {
+        "page": 1,
+        "per_page": 100
+      }
+    },
+    "response": {
+      "data": [],
+      "pagination": {
+        "page": 1,
+        "per_page": 100,
+        "is_last_page": true
+      }
+    },
+    "recordedAt": 1790200996022
+  }
+]
