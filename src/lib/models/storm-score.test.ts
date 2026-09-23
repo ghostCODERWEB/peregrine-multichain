@@ -238,6 +238,25 @@ describe('compositeStormScore', () => {
     expect(r.score).toBeLessThanOrEqual(100);
   });
 
+  it('drops any missing input, renormalizes, and reports what was missing', () => {
+    const r = compositeStormScore({
+      concentration: 80, insider: null, windShear: 80, exitLiquidity: 80, sellPressure: 80, nansenRisk: 80,
+    });
+    const full = compositeStormScore({
+      concentration: 80, insider: 80, windShear: 80, exitLiquidity: 80, sellPressure: 80, nansenRisk: 80,
+    });
+    expect(r.missing).toEqual(['insider']);
+    expect(r.confidence).toBeCloseTo(1 - EXPERT_PRIOR_WEIGHTS.insider / 5.1, 6);
+    // Renormalized: the same evidence on fewer inputs reads the same, not diluted toward 50.
+    expect(r.score).toBeCloseTo(full.score, 6);
+  });
+
+  it('refuses to score a token with no inputs at all rather than inventing a 50', () => {
+    expect(() => compositeStormScore({
+      concentration: null, insider: null, windShear: null, exitLiquidity: null, sellPressure: null,
+    })).toThrow();
+  });
+
   it('accepts custom weights (the fitted-weights path once the backtest clears AUC > 0.70)', () => {
     const customWeights = { ...EXPERT_PRIOR_WEIGHTS, concentration: 3.0 };
     const withCustom = compositeStormScore({

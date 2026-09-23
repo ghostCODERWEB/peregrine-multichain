@@ -210,15 +210,21 @@ export function sellPressureScore(input: SellPressureInputs): SellPressureResult
 // Composite
 // --------------------------------------------------------------------------
 
+/** Every sub-score is 0-100, or null when Nansen had nothing to compute it
+ *  from on this token (insider clusters need EVM first-funder data, Nansen's
+ *  risk indicators don't cover every token, and so on). */
 export interface StormSubScores {
-  concentration: number;
-  insider: number;
-  windShear: number;
-  exitLiquidity: number;
-  sellPressure: number;
+  concentration: number | null;
+  insider: number | null;
+  windShear: number | null;
+  exitLiquidity: number | null;
+  sellPressure: number | null;
   /** Nansen's own risk indicators (tgm/indicators), 0-100, when available. */
-  nansenRisk?: number;
+  nansenRisk?: number | null;
 }
+
+export type StormInput = keyof StormSubScores;
+export const STORM_INPUTS: StormInput[] = ['concentration', 'insider', 'windShear', 'exitLiquidity', 'sellPressure', 'nansenRisk'];
 
 /**
  * Expert-prior weights on the composite logistic, β = [C, I, W, L, P, risk].
@@ -253,11 +259,13 @@ export const EXPERT_PRIOR_WEIGHTS: StormWeights = {
 export interface StormScoreResult {
   score: number;
   band: 'clear' | 'cloudy' | 'watch' | 'warning';
-  /** 0-1. Lower when Nansen's own risk indicator was unavailable and had to
-   *  be dropped, since the composite is then leaning on fewer independent
-   *  signals for the same claim. */
+  /** 0-1: the share of total prior weight whose inputs were present. A
+   *  token scored without insider data leans on fewer independent signals
+   *  for the same claim, and says so. */
   confidence: number;
   subScores: StormSubScores;
+  /** Inputs dropped for lack of Nansen data. */
+  missing: StormInput[];
 }
 
 const BAND_THRESHOLDS: Array<{ max: number; band: StormScoreResult['band'] }> = [
@@ -271,32 +279,35 @@ export function stormBand(score: number): StormScoreResult['band'] {
   return BAND_THRESHOLDS.find((b) => score <= b.max)?.band ?? 'warning';
 }
 
+/**
+ * Storm = 100·sigmoid(β₀ + Σ β_j·z_j). Missing inputs are dropped and the
+ * remaining weights scaled back up to the full total, so a token missing
+ * one signal still spans the same 0-100 range instead of being pulled
+ * toward 50; the confidence then drops by the missing weight's share.
+ */
 export function compositeStormScore(
   subScores: StormSubScores,
   weights: StormWeights = EXPERT_PRIOR_WEIGHTS,
 ): StormScoreResult {
   const standardize = (v: number) => (v - 50) / 25;
-  const terms: Array<{ weight: number; z: number }> = [
-    { weight: weights.concentration, z: standardize(subScores.concentration) },
-    { weight: weights.insider, z: standardize(subScores.insider) },
-    { weight: weights.windShear, z: standardize(subScores.windShear) },
-    { weight: weights.exitLiquidity, z: standardize(subScores.exitLiquidity) },
-    { weight: weights.sellPressure, z: standardize(subScores.sellPressure) },
-  ];
-  let confidence = 1;
-  if (subScores.nansenRisk != null) {
-    terms.push({ weight: weights.nansenRisk, z: standardize(subScores.nansenRisk) });
-  } else {
-    // One of six signals missing; confidence steps down proportionally to
-    // that signal's share of the total prior weight, not a flat penalty.
-    const totalWeight = weights.concentration + weights.insider + weights.windShear
-      + weights.exitLiquidity + weights.sellPressure + weights.nansenRisk;
-    confidence = 1 - weights.nansenRisk / totalWeight;
-  }
+  const totalWeight = STORM_INPUTS.reduce((s, k) => s + weights[k], 0);
+  const present = STORM_INPUTS.filter((k) => {
+    const v = subScores[k];
+    return v != null && Number.isFinite(v);
+  });
+  if (!present.length) throw new Error('compositeStormScore needs at least one sub-score');
+  const presentWeight = present.reduce((s, k) => s + weights[k], 0);
+  const scale = totalWeight / presentWeight;
 
-  const linear = weights.intercept + terms.reduce((s, t) => s + t.weight * t.z, 0);
+  const linear = weights.intercept + present.reduce((s, k) => s + scale * weights[k] * standardize(subScores[k] as number), 0);
   const score = 100 * sigmoid(linear);
-  return { score, band: stormBand(score), confidence, subScores };
+  return {
+    score,
+    band: stormBand(score),
+    confidence: presentWeight / totalWeight,
+    subScores,
+    missing: STORM_INPUTS.filter((k) => !present.includes(k)),
+  };
 }
 
 function clamp(v: number, min: number, max: number): number {

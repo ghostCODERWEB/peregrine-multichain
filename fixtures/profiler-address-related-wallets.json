@@ -1,0 +1,62 @@
+[
+  {
+    "requestHash": "3078bb8f8032cdafb834d2fa5bdd58032f5a33e7",
+    "request": {
+      "address": "0xe61894033eec8ce33862f8c6b8c1aec56fd386e8",
+      "chain": "base",
+      "pagination": {
+        "page": 1,
+        "per_page": 50
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 50,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0xcd58223eef3b383425c17452bd649babc4661557",
+          "address_label": "High Balance [0xcd5822]",
+          "relation": "First Funder",
+          "transaction_hash": "0xc6fa796fdcc28acefe9b7b32efe945eb60424b6ef3c1b9a3a88f695feb87063a",
+          "block_timestamp": "2026-06-01T21:00:53Z",
+          "order": 1,
+          "chain": "base"
+        }
+      ]
+    },
+    "recordedAt": 1790161059583
+  },
+  {
+    "requestHash": "2b288c27ed06c01307cbb3a9a7d013e2e253c29f",
+    "request": {
+      "address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
+      "chain": "base",
+      "pagination": {
+        "page": 1,
+        "per_page": 20
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 20,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0x4356d2c1b6f7238dcee0a6e90c9b5b1717648555",
+          "address_label": "[0x4356d2]",
+          "relation": "Deployed by",
+          "transaction_hash": "0xfb4af9ddde4d2518c2c80aab59d0922c39480b48aa018dd233c678b46153e084",
+          "block_timestamp": "2025-12-19T16:02:45Z",
+          "order": 6,
+          "chain": "base"
+        }
+      ]
+    },
+    "recordedAt": 1790161060324
+  }
+]

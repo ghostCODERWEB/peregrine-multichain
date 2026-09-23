@@ -1,0 +1,40 @@
+[
+  {
+    "requestHash": "11fa41b195d948bf2bfc25dc47d475cd6a498e33",
+    "request": {
+      "chain": "base",
+      "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
+      "timeframe": "1d"
+    },
+    "response": {
+      "data": {
+        "name": "Nock",
+        "symbol": "NOCK",
+        "contract_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
+        "logo": "https://coin-images.coingecko.com/coins/images/68474/small/GrCcG9N9_400x400.jpg?1755845184",
+        "token_details": {
+          "token_deployment_date": "2025-12-19 16:02:45",
+          "website": "",
+          "x": "",
+          "telegram": "",
+          "market_cap_usd": 75056685.23031281,
+          "fdv_usd": 47870262.6368722,
+          "circulating_supply": 2328444928,
+          "total_supply": 4294967296
+        },
+        "spot_metrics": {
+          "volume_total_usd": 2278328.4392490564,
+          "buy_volume_usd": 1123981.9806571864,
+          "sell_volume_usd": 1154346.45859187,
+          "total_buys": 1024,
+          "total_sells": 847,
+          "unique_buyers": 245,
+          "unique_sellers": 247,
+          "liquidity_usd": 1183137.6119339452,
+          "total_holders": 4205
+        }
+      }
+    },
+    "recordedAt": 1790161056672
+  }
+]

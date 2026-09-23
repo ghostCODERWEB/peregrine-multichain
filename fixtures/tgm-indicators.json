@@ -1,0 +1,51 @@
+[
+  {
+    "requestHash": "eb6e7e086ec58da8cb26bf28e0aef311461f7cbc",
+    "request": {
+      "chain": "base",
+      "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722"
+    },
+    "response": {
+      "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
+      "chain": "base",
+      "token_info": {
+        "market_cap_usd": 71917534.120334,
+        "market_cap_group": "lowcap",
+        "is_stablecoin": false
+      },
+      "risk_indicators": [
+        {
+          "indicator_type": "btc-reflexivity",
+          "score": "high",
+          "signal": 3.65,
+          "signal_percentile": 60.35493131509644,
+          "last_trigger_on": "2026-09-15"
+        },
+        {
+          "indicator_type": "liquidity-risk",
+          "score": "low",
+          "signal": 0.015264203618427619,
+          "signal_percentile": 18.77956041917834,
+          "last_trigger_on": "2026-09-23"
+        },
+        {
+          "indicator_type": "token-supply-inflation",
+          "score": "high",
+          "signal": 1.6482414116422064,
+          "signal_percentile": 92.56661991584852,
+          "last_trigger_on": "2026-06-07"
+        }
+      ],
+      "reward_indicators": [
+        {
+          "indicator_type": "price-momentum",
+          "score": "neutral",
+          "signal": 0.006863544438514113,
+          "signal_percentile": 75.1676245210728,
+          "last_trigger_on": "2026-09-23"
+        }
+      ]
+    },
+    "recordedAt": 1790161057683
+  }
+]
