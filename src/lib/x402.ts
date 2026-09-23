@@ -7,62 +7,32 @@
 // Spec: x402 V2 (PAYMENT-REQUIRED / PAYMENT-SIGNATURE / PAYMENT-RESPONSE
 // headers, base64 JSON). Nansen accepts V2 only; see
 // https://docs.nansen.ai/getting-started/agentic-payments/x402-payments
-import { z } from 'zod';
 
-export const S_PaymentRequirement = z.looseObject({
-  scheme: z.string(),
-  network: z.string(),
-  asset: z.string(),
-  amount: z.string().regex(/^\d+$/),
-  payTo: z.string(),
-  maxTimeoutSeconds: z.number().int().positive(),
-  extra: z.looseObject({
-    name: z.string().optional(),
-    version: z.string().optional(),
-    assetTransferMethod: z.string().optional(),
-  }).nullish(),
-});
-export type PaymentRequirement = z.infer<typeof S_PaymentRequirement>;
-
-export const S_ResourceInfo = z.looseObject({ url: z.string(), description: z.string().nullish(), mimeType: z.string().nullish() });
-export type ResourceInfo = z.infer<typeof S_ResourceInfo>;
-
-export const S_PaymentRequired = z.looseObject({
-  x402Version: z.literal(2),
-  error: z.string().nullish(),
-  resource: S_ResourceInfo,
-  accepts: z.array(S_PaymentRequirement),
-});
-export type PaymentRequired = z.infer<typeof S_PaymentRequired>;
-
-export const S_Authorization = z.object({
-  from: z.string().regex(/^0x[0-9a-fA-F]{40}$/),
-  to: z.string().regex(/^0x[0-9a-fA-F]{40}$/),
-  value: z.string().regex(/^\d+$/),
-  validAfter: z.string().regex(/^\d+$/),
-  validBefore: z.string().regex(/^\d+$/),
-  nonce: z.string().regex(/^0x[0-9a-fA-F]{64}$/),
-});
-export type Authorization = z.infer<typeof S_Authorization>;
-
-export const S_PaymentPayload = z.object({
-  x402Version: z.literal(2),
-  resource: S_ResourceInfo.optional(),
-  accepted: S_PaymentRequirement,
-  payload: z.object({ signature: z.string().regex(/^0x[0-9a-fA-F]+$/), authorization: S_Authorization }),
-  extensions: z.record(z.string(), z.unknown()).optional(),
-});
-export type PaymentPayload = z.infer<typeof S_PaymentPayload>;
-
-export const S_SettleResponse = z.looseObject({
-  success: z.boolean(),
-  transaction: z.string().nullish(),
-  network: z.string().nullish(),
-  payer: z.string().nullish(),
-  amount: z.string().nullish(),
-  errorReason: z.string().nullish(),
-});
-export type SettleResponse = z.infer<typeof S_SettleResponse>;
+// Wire types. The Zod schemas that check them live server-side
+// (src/server/nansen/x402-schemas.ts) so zod stays out of the browser.
+export interface PaymentRequirement {
+  scheme: string;
+  network: string;
+  asset: string;
+  /** Atomic units, decimal string. */
+  amount: string;
+  payTo: string;
+  maxTimeoutSeconds: number;
+  extra?: { name?: string; version?: string; assetTransferMethod?: string; [k: string]: unknown } | null;
+}
+export interface ResourceInfo { url: string; description?: string | null; mimeType?: string | null }
+export interface PaymentRequired { x402Version: 2; error?: string | null; resource: ResourceInfo; accepts: PaymentRequirement[] }
+export interface Authorization { from: string; to: string; value: string; validAfter: string; validBefore: string; nonce: string }
+export interface PaymentPayload {
+  x402Version: 2;
+  resource?: ResourceInfo;
+  accepted: PaymentRequirement;
+  payload: { signature: string; authorization: Authorization };
+  extensions?: Record<string, unknown>;
+}
+export interface SettleResponse {
+  success: boolean; transaction?: string | null; network?: string | null; payer?: string | null; amount?: string | null; errorReason?: string | null;
+}
 
 /** The payment options TIDE can sign: USDC with EIP-3009
  *  transferWithAuthorization on EVM networks a browser wallet can switch to.
@@ -155,10 +125,10 @@ export function encodeHeader(v: unknown): string {
   return toB64(JSON.stringify(v));
 }
 
-export function decodeHeader<T>(value: string, schema: z.ZodType<T>): T | null {
+/** The header's JSON, unchecked; validate before trusting it. */
+export function decodeHeaderJson(value: string): unknown {
   try {
-    const r = schema.safeParse(JSON.parse(fromB64(value)));
-    return r.success ? r.data : null;
+    return JSON.parse(fromB64(value));
   } catch {
     return null;
   }

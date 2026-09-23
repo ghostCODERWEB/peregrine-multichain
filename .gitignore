@@ -19,6 +19,7 @@
 /.next/
 /.next-demo/
 /.next-public/
+/.next-prod/
 /out/
 
 # production

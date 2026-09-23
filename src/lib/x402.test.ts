@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import { privateKeyToAccount, generatePrivateKey } from 'viem/accounts';
 import {
-  S_PaymentRequired, buildAuthorization, typedDataFor, paymentPayload, encodeHeader, decodeHeader, signable, priceUsd,
-  formatPrice, S_PaymentPayload, type PaymentRequirement,
+  buildAuthorization, typedDataFor, paymentPayload, encodeHeader, signable, priceUsd, formatPrice, type PaymentRequirement,
 } from './x402';
+import { S_PaymentRequired, S_PaymentPayload, decodeHeader } from '@/server/nansen/x402-schemas';
 import { checkPayment, explainRejection } from '@/server/nansen/x402';
 import { foldTape, tapeFromDexTrades } from './tape';
 

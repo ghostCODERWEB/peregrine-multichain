@@ -16,9 +16,9 @@ import { z } from 'zod';
 import { verifyTypedData } from 'viem';
 import { ENDPOINTS, type EndpointKey } from '@/types/nansen/api.gen';
 import {
-  S_PaymentRequired, S_PaymentPayload, S_SettleResponse, decodeHeader, signable, priceUsd,
-  X402_MAX_PRICE_USD, TRANSFER_WITH_AUTHORIZATION, type X402Quote, type SettleResponse, type PaymentRequired,
+  signable, priceUsd, X402_MAX_PRICE_USD, TRANSFER_WITH_AUTHORIZATION, type X402Quote, type SettleResponse, type PaymentRequired,
 } from '@/lib/x402';
+import { S_PaymentRequired, S_PaymentPayload, S_SettleResponse, decodeHeader } from './x402-schemas';
 import { getDb } from './db';
 
 const ORIGIN = 'https://api.nansen.ai';

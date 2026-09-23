@@ -8,7 +8,7 @@ import path from 'node:path';
 // a live public instance (e.g. :3301 on data/tide.db) for the stronger test.
 // It reads the real Nansen labels and smart-money wallets from that
 // database, then asserts none of them appear anywhere public.
-const BASE = process.env.REDACTION_URL ?? 'http://localhost:3300';
+const BASE = process.env.REDACTION_URL ?? process.env.E2E_URL ?? 'http://localhost:3300';
 const DB = process.env.REDACTION_DB ?? 'data/demo.db';
 
 function secrets(): { labels: string[]; wallets: string[] } {
