@@ -6,6 +6,7 @@
 import Database from 'better-sqlite3';
 import path from 'node:path';
 import fs from 'node:fs';
+import { importDemoHistory } from './demo-history';
 
 function dbPath(): string {
   return path.resolve(process.cwd(), process.env.TIDE_DB_PATH ?? './data/tide.db');
@@ -186,6 +187,12 @@ function open(): Database.Database {
   db.pragma('journal_mode = WAL');
   db.pragma('busy_timeout = 5000'); // the scanner and the web server share this file
   migrate(db);
+  // A fresh clone in DEMO_MODE has no history of its own: seed it from the
+  // recorded export so the map, fronts and forecasts have something real.
+  if (process.env.DEMO_MODE === '1') {
+    const empty = (db.prepare('SELECT COUNT(*) AS n FROM chain_cpi').get() as { n: number }).n === 0;
+    if (empty) importDemoHistory(db);
+  }
   return db;
 }
 

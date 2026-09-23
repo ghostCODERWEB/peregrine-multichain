@@ -6,6 +6,7 @@
 // explicit request.
 import { getDb } from '@/server/nansen/db';
 import { streamNansen } from '@/server/nansen/client';
+import { fixtureMode } from '@/server/nansen/demo';
 import { buildBulletin } from '@/server/weather/bulletin';
 import { chainName } from '@/lib/viz/format';
 
@@ -127,7 +128,8 @@ export async function* anchorStream(kind: 'bulletin' | 'token', chain?: string, 
     yield { type: 'error', message: `Nansen agent call failed: ${(err as Error).message.slice(0, 160)}` };
   }
   if (!text.trim()) return;
-  const report: AnchorReport = { subject, text: text.trim(), toolCalls: tools, credits: 200, createdAt: Date.now() };
+  // A DEMO_MODE replay spends nothing, so it doesn't count toward the cap.
+  const report: AnchorReport = { subject, text: text.trim(), toolCalls: tools, credits: fixtureMode() === 'replay' ? 0 : 200, createdAt: Date.now() };
   getDb().prepare('INSERT INTO anchor_reports (subject, prompt, text, tool_calls, conversation_id, credits, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)')
     .run(subject, built.prompt, report.text, JSON.stringify(tools), conversation, report.credits, report.createdAt);
   yield { type: 'done', report, cached: false };

@@ -7,8 +7,10 @@ export function AlertsList() {
   const [alerts, setAlerts] = useState<TideAlert[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
+  const [note, setNote] = useState<string | null>(null);
 
-  const load = () => fetch('/api/alerts').then((r) => r.json()).then((d: { alerts?: TideAlert[]; error?: string }) => {
+  const load = () => fetch('/api/alerts').then((r) => r.json()).then((d: { alerts?: TideAlert[]; error?: string; note?: string }) => {
+    setNote(d.note ?? null);
     if (d.alerts) setAlerts(d.alerts); else setError(d.error ?? 'Could not load alerts.');
   }).catch(() => setError('Could not reach the alerts API.'));
   useEffect(() => { void load(); }, []);
@@ -26,6 +28,7 @@ export function AlertsList() {
 
   if (error && !alerts) return <p className="text-sm text-ink-2">{error}</p>;
   if (!alerts) return <p className="animate-pulse text-sm text-ink-muted">Loading your TIDE alerts from Nansen…</p>;
+  if (note) return <p className="text-sm text-ink-2">{note}</p>;
   if (!alerts.length) return <p className="text-sm text-ink-2">No TIDE storm alerts yet. Open a token page and use “Set storm alert”.</p>;
   return (
     <div className="overflow-x-auto">

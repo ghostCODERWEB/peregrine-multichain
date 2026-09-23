@@ -176,6 +176,8 @@ export async function callNansen<T>(
 
   if (fixtureMode() === 'replay') {
     const data = replayFixture<T>(endpoint, body);
+    const t = callScope.getStore();
+    if (t) { t.calls++; t.cached++; }
     if (schema) schema.parse(data);
     return { data, meta: { creditsCost: 0, creditsUsed: null, creditsRemaining: null, cacheHit: true } };
   }

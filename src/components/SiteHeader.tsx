@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import { getKv } from '@/server/nansen/db';
 
 const NAV = [
   { href: '/', label: 'Weather map', short: 'Map' },
@@ -10,6 +11,10 @@ const NAV = [
 
 export function SiteHeader() {
   const demo = process.env.DEMO_MODE === '1';
+  let recorded: string | null = null;
+  if (demo) {
+    try { const v = getKv('demo_recorded_at'); recorded = v ? new Date(Number(v.value)).toISOString().slice(0, 16).replace('T', ' ') : null; } catch { recorded = null; }
+  }
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur">
       <div className="mx-auto flex h-14 max-w-[1400px] items-center gap-3 px-4 sm:gap-6">
@@ -27,8 +32,9 @@ export function SiteHeader() {
         </nav>
         <div className="ml-auto flex items-center gap-2">
           {demo && (
-            <span className="rounded border border-border px-2 py-0.5 text-[11px] uppercase tracking-wider text-ink-2" title="Replaying recorded Nansen responses — no API key needed, no credits spent">
-              Demo mode
+            <span className="rounded border border-border px-2 py-0.5 text-[11px] uppercase tracking-wider text-ink-2"
+              title={`Replaying recorded Nansen responses — no API key, no credits.${recorded ? ` Scanner history recorded live on ${recorded} UTC, replayed with its clock moved to now.` : ''}`}>
+              Demo{recorded ? ` · recorded ${recorded.slice(0, 10)}` : ' mode'}
             </span>
           )}
           <ThemeToggle />

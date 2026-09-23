@@ -1,0 +1,73 @@
+import { test, expect, type Page } from '@playwright/test';
+
+// Demo-mode tokens and wallets: recorded live, replayed from fixtures.
+const TOKEN = '/token/base/0x9b5e262cf9bb04869ab40b19af91d2dc85761722';
+const WALLET = '/wallet/0xcbb811f129782ef87e19dea9d3375045219bae00';
+
+/** Fails the test on any uncaught page error or console error, and on any
+ *  horizontal overflow (the layout must fit the viewport). */
+async function watch(page: Page) {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(`pageerror: ${e.message}`));
+  page.on('console', (m) => { if (m.type() === 'error' && !/favicon|Download the React DevTools/.test(m.text())) errors.push(`console: ${m.text()}`); });
+  return {
+    errors,
+    async noOverflow() {
+      const [doc, win] = await page.evaluate(() => [document.documentElement.scrollWidth, window.innerWidth]);
+      expect(doc, 'page scrolls sideways').toBeLessThanOrEqual(win + 1);
+    },
+  };
+}
+
+test('home: all 38 chains on the map, fronts, storm ticker, anchor @mobile', async ({ page }) => {
+  const w = await watch(page);
+  await page.goto('/');
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+  await expect(page.locator('svg[aria-label^="Hex map"] a')).toHaveCount(38); // one link per chain
+  await expect(page.getByRole('heading', { name: /Storm warnings/ })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /weather report/i })).toBeVisible();
+  await w.noOverflow();
+  expect(w.errors).toEqual([]);
+});
+
+test('chain page: Tier A with every module, and an unsupported chain says so', async ({ page }) => {
+  const w = await watch(page);
+  await page.goto('/chain/base');
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('Base');
+  await expect(page.locator('#flows')).toBeVisible();
+  await expect(page.locator('#tape')).toBeVisible();
+  await page.goto('/chain/algorand');
+  await expect(page.getByText(/Not available on Algorand in Nansen API/).first()).toBeVisible();
+  expect(w.errors).toEqual([]);
+});
+
+test('token page: waves stream in and the Storm Score lands @mobile', async ({ page }) => {
+  const w = await watch(page);
+  await page.goto(TOKEN);
+  await expect(page.getByRole('heading', { name: /Storm Score: \d+ of 100/ })).toBeVisible({ timeout: 60_000 });
+  await expect(page.locator('svg[aria-label^="Wind rose"]')).toBeVisible();
+  await expect(page.locator('svg[aria-label^="Wind rose"] path')).toHaveCount(24); // 6 segments × 4 windows
+  await expect(page.locator('#odds')).toBeVisible();
+  await expect(page.getByText(/this page: \d+ Nansen calls/)).toBeVisible({ timeout: 60_000 });
+  await w.noOverflow();
+  expect(w.errors).toEqual([]);
+});
+
+test('wallet page: balances and the migration trail', async ({ page }) => {
+  const w = await watch(page);
+  await page.goto(WALLET);
+  await expect(page.locator('#trail')).toBeVisible();
+  await expect(page.locator('#bal')).toBeVisible({ timeout: 30_000 });
+  expect(w.errors).toEqual([]);
+});
+
+test('lab, coverage and alerts render', async ({ page }) => {
+  const w = await watch(page);
+  await page.goto('/lab');
+  await expect(page.getByRole('heading', { name: /Storm \(≥50% drawdown/ })).toBeVisible();
+  await page.goto('/coverage');
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('38 chains');
+  await page.goto('/alerts');
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('Storm alerts');
+  expect(w.errors.filter((e) => !/alerts/.test(e))).toEqual([]);
+});

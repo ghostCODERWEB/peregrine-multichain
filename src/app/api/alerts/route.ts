@@ -3,6 +3,7 @@
 // webhook URLs. State-changing methods only accept same-origin requests,
 // so another site can't create alerts on this key from a visitor's browser.
 import { ALL_CHAIN_IDS } from '@/lib/registry';
+import { fixtureMode } from '@/server/nansen/demo';
 import { planStormAlerts, createAlerts, listTideAlerts, toggleAlert, deleteAlert, toChannel, type ChannelInput } from '@/server/agents/alerts';
 
 export const dynamic = 'force-dynamic';
@@ -16,7 +17,10 @@ function sameOrigin(req: Request): boolean {
 
 const fail = (message: string, status = 400) => Response.json({ error: message }, { status });
 
+const DEMO_NOTE = 'Smart Alerts live on a Nansen account, so DEMO_MODE can\u2019t list or create them. Run with a NANSEN_API_KEY to use storm alerts.';
+
 export async function GET() {
+  if (fixtureMode() === 'replay') return Response.json({ alerts: [], note: DEMO_NOTE });
   try {
     return Response.json({ alerts: await listTideAlerts() });
   } catch (e) {
@@ -37,6 +41,7 @@ export async function POST(req: Request) {
     const plan = planStormAlerts(chain, address, Array.isArray(body.clusterWallets) ? body.clusterWallets.map(String) : [], channel);
     const summary = { symbol: plan.symbol, storm: plan.storm, band: plan.band, outflowThresholdUsd: plan.outflowThresholdUsd, insiderThresholdUsd: plan.insiderThresholdUsd, insiderWallets: plan.insiderWallets, alerts: plan.requests.length, provenance: plan.provenance };
     if (body.dryRun || !body.channel) return Response.json({ plan: summary, created: 0 });
+    if (fixtureMode() === 'replay') return fail(DEMO_NOTE);
     const created = await createAlerts(plan);
     return Response.json({ plan: summary, created });
   } catch (e) {
