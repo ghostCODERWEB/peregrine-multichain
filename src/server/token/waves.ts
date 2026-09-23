@@ -5,7 +5,7 @@
 // trace next to every number. A wave that Nansen can't serve for this
 // chain or token returns `unavailable` with the reason, never a guess.
 import { callNansen } from '@/server/nansen/client';
-import { cacheKey } from '@/server/nansen/cache';
+import { traced, errText, isUnavailable, type Wave } from '@/server/nansen/traced';
 import { requestDay } from '@/server/nansen/demo';
 import { endpointUnavailable } from '@/lib/registry';
 import { nonHolderKind, type NonHolderKind } from '@/lib/models/holder-filter';
@@ -21,19 +21,7 @@ import type {
 import type { ProfilerAddressFirstFunderResponse, ProfilerAddressRelatedWalletsResponse } from '@/types/nansen/profiler';
 import { usd, num, pct } from '@/lib/viz/format';
 
-type Unavailable = { unavailable: string };
-export type Wave<T> = T | Unavailable;
-export const isUnavailable = <T,>(w: Wave<T> | undefined): w is Unavailable => !!w && typeof w === 'object' && 'unavailable' in w;
-
-/** A call reference whose `ref` is the response-cache key, so the ⓘ
- *  names the exact cached Nansen response behind a number. */
-async function traced<T>(endpoint: string, body: unknown, credits: number): Promise<{ data: T; call: NansenCallRef }> {
-  const r = await callNansen<T>(endpoint, body);
-  const key = cacheKey(endpoint, body);
-  return { data: r.data, call: { endpoint, body, credits, ref: `${r.meta.cacheHit ? 'cache' : 'live'} · ${key.slice(0, endpoint.length + 9)}` } };
-}
-
-const errText = (e: unknown) => `Nansen call failed: ${(e as Error).message.slice(0, 160)}`;
+export { isUnavailable, type Wave };
 
 // ---------------------------------------------------------------- header
 

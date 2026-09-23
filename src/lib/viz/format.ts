@@ -53,9 +53,19 @@ export function walletName(label: string | null | undefined, address: string): s
 }
 
 const CHAIN_LABELS: Record<string, string> = {
-  bnb: 'BNB Chain', hyperevm: 'HyperEVM', iotaevm: 'IOTA EVM', hyperliquid: 'Hyperliquid',
+  bnb: 'BNB Chain', bsc: 'BNB Chain', hyperevm: 'HyperEVM', iotaevm: 'IOTA EVM', hyperliquid: 'Hyperliquid',
 };
 
 export function chainName(id: string): string {
   return CHAIN_LABELS[id] ?? id.charAt(0).toUpperCase() + id.slice(1);
+}
+
+/** A token quantity for display: magnitude only (direction is shown by
+ *  the column it sits in), compact, three significant figures. */
+export function amount(v: number): string {
+  const a = Math.abs(v);
+  if (a >= 1e9) return `${(a / 1e9).toPrecision(3)}B`;
+  if (a >= 1e6) return `${(a / 1e6).toPrecision(3)}M`;
+  if (a >= 1e3) return `${(a / 1e3).toPrecision(3)}K`;
+  return a === 0 ? '0' : a.toPrecision(3);
 }

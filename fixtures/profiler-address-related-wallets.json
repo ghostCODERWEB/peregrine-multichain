@@ -4029,5 +4029,35 @@
       ]
     },
     "recordedAt": 1790161981191
+  },
+  {
+    "requestHash": "52368ad8b10a4294b67ea9fb8d9d75b756c330a9",
+    "request": {
+      "address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+      "chain": "bnb",
+      "pagination": {
+        "page": 1,
+        "per_page": 25
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 25,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0x3c783c21a0383057d128bae431894a5c19f9cf06",
+          "address_label": "🏦 Binance: Hot Wallet [0x3c783c]",
+          "relation": "First Funder",
+          "transaction_hash": "0x88d17295cdec13589da4e9a6b9f709340881c5f63647b73161224b939bfacb44",
+          "block_timestamp": "2026-04-10T12:51:39Z",
+          "order": 1,
+          "chain": "bsc"
+        }
+      ]
+    },
+    "recordedAt": 1790162399720
   }
 ]

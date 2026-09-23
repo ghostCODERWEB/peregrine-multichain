@@ -74,5 +74,233 @@
       }
     },
     "recordedAt": 1790161977668
+  },
+  {
+    "requestHash": "58bd15149265a3f619d989f720b4b8ac3ef51fe7",
+    "request": {
+      "chain": "solana",
+      "token_address": "6GmAFSYs4gk3FDao5FzzySQpPZaWsa4rUJHacpMpUNgx",
+      "timeframe": "1d"
+    },
+    "response": {
+      "data": {
+        "name": "StonkFun",
+        "symbol": "STONK",
+        "contract_address": "6GmAFSYs4gk3FDao5FzzySQpPZaWsa4rUJHacpMpUNgx",
+        "logo": "https://coin-images.coingecko.com/coins/images/102175239/small/tscmgapqpfx5j4hu8gbs3aj85s7a.?1785895603",
+        "token_details": {
+          "token_deployment_date": "2026-07-23 19:06:56",
+          "website": "https://www.stonkfun.xyz/",
+          "x": "LaunchOnSF",
+          "telegram": "StonkFunXyz",
+          "market_cap_usd": 261058443.47709104,
+          "fdv_usd": 262503598.081923,
+          "circulating_supply": 823595307.1381447,
+          "total_supply": 823566562.3296868
+        },
+        "spot_metrics": {
+          "volume_total_usd": 69158200.29554072,
+          "buy_volume_usd": 34660563.14721433,
+          "sell_volume_usd": 34497637.14832639,
+          "total_buys": 112450,
+          "total_sells": 110135,
+          "unique_buyers": 9176,
+          "unique_sellers": 13623,
+          "liquidity_usd": 10088434.55780451,
+          "total_holders": 50789
+        }
+      }
+    },
+    "recordedAt": 1790167560686
+  },
+  {
+    "requestHash": "8477970807419b95922db6949abc1a94f248558a",
+    "request": {
+      "chain": "bnb",
+      "token_address": "0xe747e54783ba3f77a8e5251a3cba19ebe9c0e197",
+      "timeframe": "1d"
+    },
+    "response": {
+      "data": {
+        "name": "",
+        "symbol": "",
+        "contract_address": "0xe747e54783ba3f77a8e5251a3cba19ebe9c0e197",
+        "logo": "",
+        "token_details": {
+          "token_deployment_date": "",
+          "website": "",
+          "x": "",
+          "telegram": "",
+          "market_cap_usd": 0,
+          "fdv_usd": 0,
+          "circulating_supply": 0,
+          "total_supply": 0
+        },
+        "spot_metrics": {
+          "volume_total_usd": 26179714.373800322,
+          "buy_volume_usd": 9876482.2777249,
+          "sell_volume_usd": 16303232.096075423,
+          "total_buys": 55073,
+          "total_sells": 61582,
+          "unique_buyers": 342,
+          "unique_sellers": 445,
+          "liquidity_usd": 0,
+          "total_holders": 21014
+        }
+      }
+    },
+    "recordedAt": 1790167562382
+  },
+  {
+    "requestHash": "5064db18a10749fd4545b1af1f9cd57049e2026b",
+    "request": {
+      "chain": "robinhood",
+      "token_address": "0x39dbed3a2bd333467115de45665cc57f813c4571",
+      "timeframe": "1d"
+    },
+    "response": {
+      "data": {
+        "name": "Pons",
+        "symbol": "PONS",
+        "contract_address": "0x39dbed3a2bd333467115de45665cc57f813c4571",
+        "logo": "https://coin-images.coingecko.com/coins/images/102174571/small/jhitvkisdq8fhxvimdkpcw7y3dx5.?1784093932",
+        "token_details": {
+          "token_deployment_date": "2026-07-13 20:42:21",
+          "website": "https://ponsfamily.com/",
+          "x": "ponsdotfamily",
+          "telegram": "",
+          "market_cap_usd": 475778028.8793507,
+          "fdv_usd": 478965589.784667,
+          "circulating_supply": 684351012.49385,
+          "total_supply": 684351012.49385
+        },
+        "spot_metrics": {
+          "volume_total_usd": 69116694.87088114,
+          "buy_volume_usd": 35837867.11472784,
+          "sell_volume_usd": 33278827.756153308,
+          "total_buys": 44261,
+          "total_sells": 41935,
+          "unique_buyers": 2525,
+          "unique_sellers": 2984,
+          "liquidity_usd": 22676837.139910962,
+          "total_holders": 52982
+        }
+      }
+    },
+    "recordedAt": 1790167564441
+  },
+  {
+    "requestHash": "0c002d3872286086ba2f72fa41dd990ceb2c5e4e",
+    "request": {
+      "chain": "robinhood",
+      "token_address": "0x2e8c31162b855a2ffa90f6f8634643ad6f111e18",
+      "timeframe": "1d"
+    },
+    "response": {
+      "data": {
+        "name": "Artificial Inu",
+        "symbol": "AI",
+        "contract_address": "0x2e8c31162b855a2ffa90f6f8634643ad6f111e18",
+        "logo": "https://coin-images.coingecko.com/coins/images/102176647/small/5ou9sb7h478ezv28urbjpzf1fl3e.?1788401429",
+        "token_details": {
+          "token_deployment_date": "2026-07-14 17:48:31",
+          "website": "https://artificialinu.com",
+          "x": "artificiallyinu",
+          "telegram": "artificially_inu",
+          "market_cap_usd": 258084881.64648485,
+          "fdv_usd": 257897520.965524,
+          "circulating_supply": 991276114.9513733,
+          "total_supply": 991276114.9513733
+        },
+        "spot_metrics": {
+          "volume_total_usd": 11450455.343288202,
+          "buy_volume_usd": 5946260.165641899,
+          "sell_volume_usd": 5504195.177646303,
+          "total_buys": 2954,
+          "total_sells": 3005,
+          "unique_buyers": 1266,
+          "unique_sellers": 1517,
+          "liquidity_usd": 22382888.206848104,
+          "total_holders": 28980
+        }
+      }
+    },
+    "recordedAt": 1790167566354
+  },
+  {
+    "requestHash": "34f3533b2ba2d7199b00fd53c15d7777b6a68da8",
+    "request": {
+      "chain": "solana",
+      "token_address": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+      "timeframe": "1d"
+    },
+    "response": {
+      "data": {
+        "name": "Zcash",
+        "symbol": "ZEC",
+        "contract_address": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+        "logo": "https://coin-images.coingecko.com/coins/images/486/small/Brandmark-Yellow_%281%29.png?1785810558",
+        "token_details": {
+          "token_deployment_date": "2025-10-10 20:31:03",
+          "website": "https://z.cash/",
+          "x": "zcash",
+          "telegram": "",
+          "market_cap_usd": 27615619237.39731,
+          "fdv_usd": 164412915.255767,
+          "circulating_supply": 16945106.4155448,
+          "total_supply": 16948070.4780448
+        },
+        "spot_metrics": {
+          "volume_total_usd": 33481556.368471116,
+          "buy_volume_usd": 17451939.710381795,
+          "sell_volume_usd": 16029616.65808932,
+          "total_buys": 47205,
+          "total_sells": 47898,
+          "unique_buyers": 2785,
+          "unique_sellers": 7254,
+          "liquidity_usd": 5576890.159086334,
+          "total_holders": 46890
+        }
+      }
+    },
+    "recordedAt": 1790167567800
+  },
+  {
+    "requestHash": "5f2320d2289bca14092e7fb46c471e3b9426701c",
+    "request": {
+      "chain": "solana",
+      "token_address": "pumpCmXqMfrsAkQ5r49WcJnRayYRqmXz6ae8H7H9Dfn",
+      "timeframe": "1d"
+    },
+    "response": {
+      "data": {
+        "name": "Pump",
+        "symbol": "PUMP",
+        "contract_address": "pumpCmXqMfrsAkQ5r49WcJnRayYRqmXz6ae8H7H9Dfn",
+        "logo": "https://coin-images.coingecko.com/coins/images/67164/small/pump.jpg?1751949376",
+        "token_details": {
+          "token_deployment_date": "2025-07-10 13:10:28",
+          "website": "https://pump.fun/board",
+          "x": "pumpdotfun",
+          "telegram": "",
+          "market_cap_usd": 1964954343.5577552,
+          "fdv_usd": 3471936647.47792,
+          "circulating_supply": 466906712216.907,
+          "total_supply": 832413724804.1184
+        },
+        "spot_metrics": {
+          "volume_total_usd": 44545115.2145947,
+          "buy_volume_usd": 21045669.302689567,
+          "sell_volume_usd": 23499445.911905132,
+          "total_buys": 163602,
+          "total_sells": 172566,
+          "unique_buyers": 2959,
+          "unique_sellers": 10503,
+          "liquidity_usd": 18101492.92256881,
+          "total_holders": 96003
+        }
+      }
+    },
+    "recordedAt": 1790167570272
   }
 ]

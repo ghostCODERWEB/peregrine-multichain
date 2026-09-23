@@ -1,0 +1,1381 @@
+[
+  {
+    "requestHash": "1e292c8d9c8b11e781ac4a8462083d33440f70b0",
+    "request": {
+      "address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+      "chain": "all",
+      "date": {
+        "from": "2026-09-16",
+        "to": "2026-09-24"
+      },
+      "hide_spam_token": true,
+      "pagination": {
+        "page": 1,
+        "per_page": 25
+      },
+      "order_by": [
+        {
+          "field": "block_timestamp",
+          "direction": "DESC"
+        }
+      ]
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 25,
+        "is_last_page": false
+      },
+      "data": [
+        {
+          "chain": "base",
+          "method": "dagSwapTo(uint256,address,(uint256,address,uint256,uint256,uint256),(address[],address[],uint256[],bytes[],uint256)[])",
+          "tokens_sent": [
+            {
+              "token_symbol": "USDC",
+              "token_amount": -0.025,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+              "chain": "base",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x6803d01a5e44827d7afb2b63e65eb30de9f29c81",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "[0x6803d0]"
+            },
+            {
+              "token_symbol": "USDC",
+              "token_amount": -0.175,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+              "chain": "base",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x7797c4a7f786f77dbce13d71d2c710310cb92aa3",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "​​Trading Bot [0x7797c4]"
+            },
+            {
+              "token_symbol": "USDC",
+              "token_amount": -4.98,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+              "chain": "base",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x1da57afa94200d7d195ab7bd1da5e6cbc147680d",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "​​🤖 DEX Aggregator [0x1da57a]"
+            },
+            {
+              "token_symbol": "USDC",
+              "token_amount": -44.82,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+              "chain": "base",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x69a52a0570636ca391175ce619bbb9d348040bbc",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "​​🤖 Router [0x69a52a]"
+            }
+          ],
+          "tokens_received": [],
+          "volume_usd": 50.127583539966,
+          "block_timestamp": "2026-09-23T07:18:55",
+          "transaction_hash": "0xa2e947279eedb1e9fd3eebc44670e2b61820ff191232c866119b2670580121b5",
+          "source_type": "transfer"
+        },
+        {
+          "chain": "ethereum",
+          "method": "dagSwapTo(uint256,address,(uint256,address,uint256,uint256,uint256),(address[],address[],uint256[],bytes[],uint256)[])",
+          "tokens_sent": [
+            {
+              "token_symbol": "LOOKS",
+              "token_amount": -2729056.0048062447,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0xf4d2888d29d722226fafa5d9b24f9164c092421e",
+              "chain": "ethereum",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0xdc00ba87cc2d99468f7f34bc04cbf72e111a32f7",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "🤖 🏦 Uniswap: V2 WETH-LOOKS Liquidity Pool  [0xdc00ba]"
+            }
+          ],
+          "tokens_received": [
+            {
+              "token_symbol": "USDC",
+              "token_amount": 187.131261,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+              "chain": "ethereum",
+              "from_address": "0x8feab81d36e7576107d5de0758c1b839be31b4f6",
+              "to_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "from_address_label": "​​🤖 🏦 OKX: DEX Aggregator [0x8feab8]",
+              "to_address_label": "🤓 Smart Trader [0xcbb811]"
+            }
+          ],
+          "volume_usd": 187.25474421534636,
+          "block_timestamp": "2026-09-23T07:13:35",
+          "transaction_hash": "0xc3da4ec69f2a6e747dc1ebfddecd8301e134c7bd502c596c778b3ba311c6e7de",
+          "source_type": "transfer"
+        },
+        {
+          "chain": "bsc",
+          "method": "dagSwapTo(uint256,address,(uint256,address,uint256,uint256,uint256),(address[],address[],uint256[],bytes[],uint256)[])",
+          "tokens_sent": [
+            {
+              "token_symbol": "USDT",
+              "token_amount": -0.01,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x6803d01a5e44827d7afb2b63e65eb30de9f29c81",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "[0x6803d0]"
+            },
+            {
+              "token_symbol": "USDT",
+              "token_amount": -0.07,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x7797c4a7f786f77dbce13d71d2c710310cb92aa3",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "​​Trading Bot [0x7797c4]"
+            },
+            {
+              "token_symbol": "USDT",
+              "token_amount": -19.92,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x9a8d68089adbe8428f79c244d34276a9f4251070",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "​​🤖 🏦 OKX: Router [0x9a8d68]"
+            }
+          ],
+          "tokens_received": [],
+          "volume_usd": 19.99810836671088,
+          "block_timestamp": "2026-09-23T06:43:04",
+          "transaction_hash": "0xf122d54a482ea4bcef1851572756bedd303612d0abec5a7019529f369777de68",
+          "source_type": "transfer"
+        },
+        {
+          "chain": "polygon",
+          "method": "dagSwapTo(uint256,address,(uint256,address,uint256,uint256,uint256),(address[],address[],uint256[],bytes[],uint256)[])",
+          "tokens_sent": [
+            {
+              "token_symbol": "USDC",
+              "token_amount": -0.025,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x3c499c542cef5e3811e1192ce70d8cc03d5c3359",
+              "chain": "polygon",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x6803d01a5e44827d7afb2b63e65eb30de9f29c81",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "[0x6803d0]"
+            },
+            {
+              "token_symbol": "USDC",
+              "token_amount": -0.175,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x3c499c542cef5e3811e1192ce70d8cc03d5c3359",
+              "chain": "polygon",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x7797c4a7f786f77dbce13d71d2c710310cb92aa3",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "​​Trading Bot [0x7797c4]"
+            },
+            {
+              "token_symbol": "USDC",
+              "token_amount": -49.8,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x3c499c542cef5e3811e1192ce70d8cc03d5c3359",
+              "chain": "polygon",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0xadf18aa9d4fedebcc071ef498a4d1cf35051944c",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "​​🤖 Router [0xadf18a]"
+            }
+          ],
+          "tokens_received": [
+            {
+              "token_symbol": "EBCC",
+              "token_amount": 170.12328123712913,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x49ddee75d588b79a3eb1225dd386644eeeeeaf08",
+              "chain": "polygon",
+              "from_address": "0x046851643a71a90d03202e0f4453954bc3abd1b3",
+              "to_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "from_address_label": "🤖 🏦 Uniswap: V3 EBCC-USDT0 (0.3%) Liquidity Pool  [0x046851]",
+              "to_address_label": "🤓 Smart Trader [0xcbb811]"
+            }
+          ],
+          "volume_usd": 49.98129784640339,
+          "block_timestamp": "2026-09-23T06:20:50",
+          "transaction_hash": "0xfce6a23c028ea28d703eb9145614021d095b247b0ae74f3888175f863822ff27",
+          "source_type": "transfer"
+        },
+        {
+          "chain": "bsc",
+          "method": "dagSwapTo(uint256,address,(uint256,address,uint256,uint256,uint256),(address[],address[],uint256[],bytes[],uint256)[])",
+          "tokens_sent": [
+            {
+              "token_symbol": "利杰",
+              "token_amount": -42173.32216092662,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0xdc04fe1f7f51f497f9f546e60f71348658a844e1",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x739f56fa2d02a1d1a6edfb2bb1fd18aeeb2ecf0e",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "🤖 🏦 PancakeSwap: USDT-利杰 Liquidity Pool   [0x739f56]"
+            }
+          ],
+          "tokens_received": [
+            {
+              "token_symbol": "USDT",
+              "token_amount": 30.956686572744257,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "chain": "bsc",
+              "from_address": "0x5994814f2c4040b863a0125a45de152a8c2a4dec",
+              "to_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "from_address_label": "​​🤖 🏦 OKX: Router [0x599481]",
+              "to_address_label": "🤓 Smart Trader [0xcbb811]"
+            }
+          ],
+          "volume_usd": 30.953758637802164,
+          "block_timestamp": "2026-09-23T05:24:50",
+          "transaction_hash": "0xed8df5d9006187202c6ba8162f707310facec6b989dcac4c0fb7173c960e6ecc",
+          "source_type": "transfer"
+        },
+        {
+          "chain": "bsc",
+          "method": "dagSwapTo(uint256,address,(uint256,address,uint256,uint256,uint256),(address[],address[],uint256[],bytes[],uint256)[])",
+          "tokens_sent": [
+            {
+              "token_symbol": "USDT",
+              "token_amount": -0.01,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x6803d01a5e44827d7afb2b63e65eb30de9f29c81",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "[0x6803d0]"
+            },
+            {
+              "token_symbol": "USDT",
+              "token_amount": -0.07,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x7797c4a7f786f77dbce13d71d2c710310cb92aa3",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "​​Trading Bot [0x7797c4]"
+            },
+            {
+              "token_symbol": "USDT",
+              "token_amount": -19.92,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x739f56fa2d02a1d1a6edfb2bb1fd18aeeb2ecf0e",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "🤖 🏦 PancakeSwap: USDT-利杰 Liquidity Pool   [0x739f56]"
+            }
+          ],
+          "tokens_received": [
+            {
+              "token_symbol": "利杰",
+              "token_amount": 42173.32216092662,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0xdc04fe1f7f51f497f9f546e60f71348658a844e1",
+              "chain": "bsc",
+              "from_address": "0x739f56fa2d02a1d1a6edfb2bb1fd18aeeb2ecf0e",
+              "to_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "from_address_label": "🤖 🏦 PancakeSwap: USDT-利杰 Liquidity Pool   [0x739f56]",
+              "to_address_label": "🤓 Smart Trader [0xcbb811]"
+            }
+          ],
+          "volume_usd": 19.99810836671088,
+          "block_timestamp": "2026-09-23T05:22:19",
+          "transaction_hash": "0x9a777e6545f093a213d010fe8f9f74a9640ac90ecdbf71d97742f76bd2e4f610",
+          "source_type": "transfer"
+        },
+        {
+          "chain": "base",
+          "method": "dagSwapTo(uint256,address,(uint256,address,uint256,uint256,uint256),(address[],address[],uint256[],bytes[],uint256)[])",
+          "tokens_sent": [
+            {
+              "token_symbol": "USDC",
+              "token_amount": -0.025,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+              "chain": "base",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x6803d01a5e44827d7afb2b63e65eb30de9f29c81",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "[0x6803d0]"
+            },
+            {
+              "token_symbol": "USDC",
+              "token_amount": -0.175,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+              "chain": "base",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x7797c4a7f786f77dbce13d71d2c710310cb92aa3",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "​​Trading Bot [0x7797c4]"
+            },
+            {
+              "token_symbol": "USDC",
+              "token_amount": -49.8,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+              "chain": "base",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x69a52a0570636ca391175ce619bbb9d348040bbc",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "​​🤖 Router [0x69a52a]"
+            }
+          ],
+          "tokens_received": [],
+          "volume_usd": 50.127583539966004,
+          "block_timestamp": "2026-09-23T05:15:33",
+          "transaction_hash": "0x9a670556cb6fb38bf7b5e3061276acf1044559a8a606dd6e5d76a1a52513dedd",
+          "source_type": "transfer"
+        },
+        {
+          "chain": "base",
+          "method": "dagSwapTo(uint256,address,(uint256,address,uint256,uint256,uint256),(address[],address[],uint256[],bytes[],uint256)[])",
+          "tokens_sent": [
+            {
+              "token_symbol": "USDC",
+              "token_amount": -0.05,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+              "chain": "base",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x6803d01a5e44827d7afb2b63e65eb30de9f29c81",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "[0x6803d0]"
+            },
+            {
+              "token_symbol": "USDC",
+              "token_amount": -0.35,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+              "chain": "base",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x7797c4a7f786f77dbce13d71d2c710310cb92aa3",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "​​Trading Bot [0x7797c4]"
+            },
+            {
+              "token_symbol": "USDC",
+              "token_amount": -99.6,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+              "chain": "base",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x69a52a0570636ca391175ce619bbb9d348040bbc",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "​​🤖 Router [0x69a52a]"
+            }
+          ],
+          "tokens_received": [],
+          "volume_usd": 100.255167079932,
+          "block_timestamp": "2026-09-23T05:08:29",
+          "transaction_hash": "0xe080ec978f5f6249b5f1d7510ac0d1f088d1873cf1aa2bf9699c2a5f7841894e",
+          "source_type": "transfer"
+        },
+        {
+          "chain": "ethereum",
+          "method": "dagSwapTo(uint256,address,(uint256,address,uint256,uint256,uint256),(address[],address[],uint256[],bytes[],uint256)[])",
+          "tokens_sent": [
+            {
+              "token_symbol": "USDC",
+              "token_amount": -0.1,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+              "chain": "ethereum",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x6803d01a5e44827d7afb2b63e65eb30de9f29c81",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "[0x6803d0]"
+            },
+            {
+              "token_symbol": "USDC",
+              "token_amount": -0.7,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+              "chain": "ethereum",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x7797c4a7f786f77dbce13d71d2c710310cb92aa3",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "​​Trading Bot [0x7797c4]"
+            },
+            {
+              "token_symbol": "USDC",
+              "token_amount": -199.2,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+              "chain": "ethereum",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x6747bcaf9bd5a5f0758cbe08903490e45ddfacb5",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "​​🤖 🏦 OKX: Router [0x6747bc]"
+            }
+          ],
+          "tokens_received": [
+            {
+              "token_symbol": "LOOKS",
+              "token_amount": 5458112.0096124895,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0xf4d2888d29d722226fafa5d9b24f9164c092421e",
+              "chain": "ethereum",
+              "from_address": "0xdc00ba87cc2d99468f7f34bc04cbf72e111a32f7",
+              "to_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "from_address_label": "🤖 🏦 Uniswap: V2 WETH-LOOKS Liquidity Pool  [0xdc00ba]",
+              "to_address_label": "🤓 Smart Trader [0xcbb811]"
+            }
+          ],
+          "volume_usd": 351.19158563506306,
+          "block_timestamp": "2026-09-23T04:29:35",
+          "transaction_hash": "0x97ca98fae6439f218e1e1e8956d951a02c71b13d3f9c935e2bc7d8cf875a0941",
+          "source_type": "transfer"
+        },
+        {
+          "chain": "bsc",
+          "method": "dagSwapTo(uint256,address,(uint256,address,uint256,uint256,uint256),(address[],address[],uint256[],bytes[],uint256)[])",
+          "tokens_sent": [
+            {
+              "token_symbol": "SPACEMOON",
+              "token_amount": -61624.27064947889,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0xf2557688c18cab42bec4b5b053e05e3482527777",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0xf2557688c18cab42bec4b5b053e05e3482527777",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "🤖 SpaceMoon [0xf25576]"
+            },
+            {
+              "token_symbol": "SPACEMOON",
+              "token_amount": -1992518.0843331506,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0xf2557688c18cab42bec4b5b053e05e3482527777",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x3e4f42afb8e80c3116c972cdb4e5866d7ccf7881",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "🤖 🏦 PancakeSwap: WBNB-SPACEMOON Liquidity Pool   [0x3e4f42]"
+            }
+          ],
+          "tokens_received": [
+            {
+              "token_symbol": "USDT",
+              "token_amount": 62.846873408342596,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "chain": "bsc",
+              "from_address": "0x5994814f2c4040b863a0125a45de152a8c2a4dec",
+              "to_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "from_address_label": "​​🤖 🏦 OKX: Router [0x599481]",
+              "to_address_label": "🤓 Smart Trader [0xcbb811]"
+            }
+          ],
+          "volume_usd": 76.73878305780556,
+          "block_timestamp": "2026-09-23T01:59:51",
+          "transaction_hash": "0x3b40816769f11edaf9f39c300b17d2f6f12e3a22730af07e11c74ba825576988",
+          "source_type": "transfer"
+        },
+        {
+          "chain": "arc",
+          "method": "distribute(address,address[],uint256[])",
+          "tokens_sent": [],
+          "tokens_received": [
+            {
+              "token_symbol": "SHIIT",
+              "token_amount": 100,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x853ae1f993af3946a60074e2ccbf85f744173e7c",
+              "chain": "arc",
+              "from_address": "0x858d4db6959ed92c6fc56f0ec48a61673ac659b4",
+              "to_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "from_address_label": "[0x858d4d]",
+              "to_address_label": "🤓 Smart Trader [0xcbb811]"
+            }
+          ],
+          "volume_usd": null,
+          "block_timestamp": "2026-09-23T01:42:05",
+          "transaction_hash": "0x875f7dcef30b65fc49fed98f0914e4e5af8761e41cf8f040fd9e6a7029a983a1",
+          "source_type": "transfer"
+        },
+        {
+          "chain": "bsc",
+          "method": "received",
+          "tokens_sent": [],
+          "tokens_received": [
+            {
+              "token_symbol": "USDT",
+              "token_amount": 786.69950848801,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "chain": "bsc",
+              "from_address": "0xe742f9df04a61ac0a6aea0b87d3c3b96ac6eea88",
+              "to_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "from_address_label": "🤖 High Activity [0xe742f9]",
+              "to_address_label": "🤓 Smart Trader [0xcbb811]"
+            }
+          ],
+          "volume_usd": 786.6251011390705,
+          "block_timestamp": "2026-09-23T01:38:40",
+          "transaction_hash": "0xa5c54495afb658e4d20a8914689365ce16128088ae150c1dc75cc0f8ca54e1e7",
+          "source_type": "transfer"
+        },
+        {
+          "chain": "bsc",
+          "method": "dagSwapTo(uint256,address,(uint256,address,uint256,uint256,uint256),(address[],address[],uint256[],bytes[],uint256)[])",
+          "tokens_sent": [
+            {
+              "token_symbol": "USDT",
+              "token_amount": -0.025,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x6803d01a5e44827d7afb2b63e65eb30de9f29c81",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "[0x6803d0]"
+            },
+            {
+              "token_symbol": "USDT",
+              "token_amount": -0.175,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x7797c4a7f786f77dbce13d71d2c710310cb92aa3",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "​​Trading Bot [0x7797c4]"
+            },
+            {
+              "token_symbol": "USDT",
+              "token_amount": -0.498,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x62d27aee19b32fa63b6d6c18fbbdcbe870b083e3",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "​​🤖 Swap Adapter [0x62d27a]"
+            },
+            {
+              "token_symbol": "USDT",
+              "token_amount": -0.498,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x62d27aee19b32fa63b6d6c18fbbdcbe870b083e3",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "​​🤖 Swap Adapter [0x62d27a]"
+            },
+            {
+              "token_symbol": "USDT",
+              "token_amount": -2.988,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x62d27aee19b32fa63b6d6c18fbbdcbe870b083e3",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "​​🤖 Swap Adapter [0x62d27a]"
+            },
+            {
+              "token_symbol": "USDT",
+              "token_amount": -45.816,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x1794b5428c0663986717a61d0dd03de2d62656f1",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "🤖 DPPAdvanced [0x1794b5]"
+            }
+          ],
+          "tokens_received": [
+            {
+              "token_symbol": "KLINK",
+              "token_amount": 10289.535325988289,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x76e9b54b49739837be8ad10c3687fc6b543de852",
+              "chain": "bsc",
+              "from_address": "0x28e2ea090877bf75740558f6bfb36a5ffee9e9df",
+              "to_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "from_address_label": "🤖 🏦 Uniswap: PoolManager V4 [0x28e2ea]",
+              "to_address_label": "🤓 Smart Trader [0xcbb811]"
+            },
+            {
+              "token_symbol": "KLINK",
+              "token_amount": 10728.142897408386,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x76e9b54b49739837be8ad10c3687fc6b543de852",
+              "chain": "bsc",
+              "from_address": "0x28e2ea090877bf75740558f6bfb36a5ffee9e9df",
+              "to_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "from_address_label": "🤖 🏦 Uniswap: PoolManager V4 [0x28e2ea]",
+              "to_address_label": "🤓 Smart Trader [0xcbb811]"
+            },
+            {
+              "token_symbol": "KLINK",
+              "token_amount": 60490.80891365038,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x76e9b54b49739837be8ad10c3687fc6b543de852",
+              "chain": "bsc",
+              "from_address": "0x28e2ea090877bf75740558f6bfb36a5ffee9e9df",
+              "to_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "from_address_label": "🤖 🏦 Uniswap: PoolManager V4 [0x28e2ea]",
+              "to_address_label": "🤓 Smart Trader [0xcbb811]"
+            },
+            {
+              "token_symbol": "KLINK",
+              "token_amount": 981730.9295837954,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x76e9b54b49739837be8ad10c3687fc6b543de852",
+              "chain": "bsc",
+              "from_address": "0x1794b5428c0663986717a61d0dd03de2d62656f1",
+              "to_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "from_address_label": "🤖 DPPAdvanced [0x1794b5]",
+              "to_address_label": "🤓 Smart Trader [0xcbb811]"
+            }
+          ],
+          "volume_usd": 56.9939981969022,
+          "block_timestamp": "2026-09-23T01:36:27",
+          "transaction_hash": "0x2f8b40c089b88416821f6a9a10bc55a9e77e15c82e6dc1430799c191c6976e0c",
+          "source_type": "transfer"
+        },
+        {
+          "chain": "bsc",
+          "method": "dagSwapTo(uint256,address,(uint256,address,uint256,uint256,uint256),(address[],address[],uint256[],bytes[],uint256)[])",
+          "tokens_sent": [
+            {
+              "token_symbol": "S5B",
+              "token_amount": -0.02704598551121716,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0xbe9d156892e55e7154bcd3cb0fea677f9d3103e1",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x7a7ad9aa93cd0a2d0255326e5fb145cec14997ff",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "​​🤖 🏦 OKX: Router [0x7a7ad9]"
+            }
+          ],
+          "tokens_received": [
+            {
+              "token_symbol": "USDT",
+              "token_amount": 4.167098183851926,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "chain": "bsc",
+              "from_address": "0x5994814f2c4040b863a0125a45de152a8c2a4dec",
+              "to_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "from_address_label": "​​🤖 🏦 OKX: Router [0x599481]",
+              "to_address_label": "🤓 Smart Trader [0xcbb811]"
+            }
+          ],
+          "volume_usd": 4.166704052769746,
+          "block_timestamp": "2026-09-23T00:41:49",
+          "transaction_hash": "0x7797b888b8e9a959a7a1d5bd2354bf01ffbce464843e0eed237ac4ce6ae32159",
+          "source_type": "transfer"
+        },
+        {
+          "chain": "bsc",
+          "method": "batchDistributeDividend(address[],address[][])",
+          "tokens_sent": [],
+          "tokens_received": [
+            {
+              "token_symbol": "S5B",
+              "token_amount": 0.02704598551121716,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0xbe9d156892e55e7154bcd3cb0fea677f9d3103e1",
+              "chain": "bsc",
+              "from_address": "0xfd177a32d7b4879f64c10ae2773aec0d27f39ccc",
+              "to_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "from_address_label": "🤖 Dividend [0xfd177a]",
+              "to_address_label": "🤓 Smart Trader [0xcbb811]"
+            }
+          ],
+          "volume_usd": 4.157960409061853,
+          "block_timestamp": "2026-09-23T00:41:21",
+          "transaction_hash": "0xc257e168062d85bf30fd1555e4a8d2f1c1342d0ae4ccdbe703c24d354f29bd71",
+          "source_type": "transfer"
+        },
+        {
+          "chain": "base",
+          "method": "dagSwapTo(uint256,address,(uint256,address,uint256,uint256,uint256),(address[],address[],uint256[],bytes[],uint256)[])",
+          "tokens_sent": [
+            {
+              "token_symbol": "USDC",
+              "token_amount": -0.025,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+              "chain": "base",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x6803d01a5e44827d7afb2b63e65eb30de9f29c81",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "[0x6803d0]"
+            },
+            {
+              "token_symbol": "USDC",
+              "token_amount": -0.175,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+              "chain": "base",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x7797c4a7f786f77dbce13d71d2c710310cb92aa3",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "​​Trading Bot [0x7797c4]"
+            },
+            {
+              "token_symbol": "USDC",
+              "token_amount": -49.8,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+              "chain": "base",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x69a52a0570636ca391175ce619bbb9d348040bbc",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "​​🤖 Router [0x69a52a]"
+            }
+          ],
+          "tokens_received": [
+            {
+              "token_symbol": "RAWR",
+              "token_amount": 211516.4323245135,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0xb200000000000000000000503d889fdcbe48b801",
+              "chain": "base",
+              "from_address": "0x498581ff718922c3f8e6a244956af099b2652b2b",
+              "to_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "from_address_label": "🤖 🏦 Uniswap: PoolManager V4 [0x498581]",
+              "to_address_label": "🤓 Smart Trader [0xcbb811]"
+            }
+          ],
+          "volume_usd": 56.667831525310255,
+          "block_timestamp": "2026-09-22T23:58:47",
+          "transaction_hash": "0x64d184786c92c8a14fd2119b81f365f5e145faa3cdbeeb63ff5ba719b63e3d59",
+          "source_type": "transfer"
+        },
+        {
+          "chain": "base",
+          "method": "dagSwapTo(uint256,address,(uint256,address,uint256,uint256,uint256),(address[],address[],uint256[],bytes[],uint256)[])",
+          "tokens_sent": [
+            {
+              "token_symbol": "USDC",
+              "token_amount": -0.025,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+              "chain": "base",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x6803d01a5e44827d7afb2b63e65eb30de9f29c81",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "[0x6803d0]"
+            },
+            {
+              "token_symbol": "USDC",
+              "token_amount": -0.175,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+              "chain": "base",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x7797c4a7f786f77dbce13d71d2c710310cb92aa3",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "​​Trading Bot [0x7797c4]"
+            },
+            {
+              "token_symbol": "USDC",
+              "token_amount": -49.8,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+              "chain": "base",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x69a52a0570636ca391175ce619bbb9d348040bbc",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "​​🤖 Router [0x69a52a]"
+            }
+          ],
+          "tokens_received": [
+            {
+              "token_symbol": "RAWR",
+              "token_amount": 215777.880686448,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0xb200000000000000000000503d889fdcbe48b801",
+              "chain": "base",
+              "from_address": "0x498581ff718922c3f8e6a244956af099b2652b2b",
+              "to_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "from_address_label": "🤖 🏦 Uniswap: PoolManager V4 [0x498581]",
+              "to_address_label": "🤓 Smart Trader [0xcbb811]"
+            }
+          ],
+          "volume_usd": 57.8095255070687,
+          "block_timestamp": "2026-09-22T23:50:27",
+          "transaction_hash": "0xed623e009f0c3c5c772b00cdad5613be8b99659ee30f1c19a0f43138d2fe8aa2",
+          "source_type": "transfer"
+        },
+        {
+          "chain": "bsc",
+          "method": "dagSwapTo(uint256,address,(uint256,address,uint256,uint256,uint256),(address[],address[],uint256[],bytes[],uint256)[])",
+          "tokens_sent": [
+            {
+              "token_symbol": "SPACEMOON",
+              "token_amount": -123248.54129895777,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0xf2557688c18cab42bec4b5b053e05e3482527777",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0xf2557688c18cab42bec4b5b053e05e3482527777",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "🤖 SpaceMoon [0xf25576]"
+            },
+            {
+              "token_symbol": "SPACEMOON",
+              "token_amount": -3985036.1686663013,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0xf2557688c18cab42bec4b5b053e05e3482527777",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x3e4f42afb8e80c3116c972cdb4e5866d7ccf7881",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "🤖 🏦 PancakeSwap: WBNB-SPACEMOON Liquidity Pool   [0x3e4f42]"
+            }
+          ],
+          "tokens_received": [
+            {
+              "token_symbol": "USDT",
+              "token_amount": 130.2239981529684,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "chain": "bsc",
+              "from_address": "0x5994814f2c4040b863a0125a45de152a8c2a4dec",
+              "to_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "from_address_label": "​​🤖 🏦 OKX: Router [0x599481]",
+              "to_address_label": "🤓 Smart Trader [0xcbb811]"
+            }
+          ],
+          "volume_usd": 947.6702281970914,
+          "block_timestamp": "2026-09-22T23:30:59",
+          "transaction_hash": "0xcd717d11db7a5cce0940e249c03fb831cb427db19347b418bf51b4c643b5a73a",
+          "source_type": "transfer"
+        },
+        {
+          "chain": "bsc",
+          "method": "dagSwapTo(uint256,address,(uint256,address,uint256,uint256,uint256),(address[],address[],uint256[],bytes[],uint256)[])",
+          "tokens_sent": [
+            {
+              "token_symbol": "USDT",
+              "token_amount": -0.05,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x6803d01a5e44827d7afb2b63e65eb30de9f29c81",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "[0x6803d0]"
+            },
+            {
+              "token_symbol": "USDT",
+              "token_amount": -0.35,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x7797c4a7f786f77dbce13d71d2c710310cb92aa3",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "​​Trading Bot [0x7797c4]"
+            },
+            {
+              "token_symbol": "USDT",
+              "token_amount": -99.6,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x69a52a0570636ca391175ce619bbb9d348040bbc",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "​​🤖 Router [0x69a52a]"
+            }
+          ],
+          "tokens_received": [
+            {
+              "token_symbol": "SPACEMOON",
+              "token_amount": 4159762.512860696,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0xf2557688c18cab42bec4b5b053e05e3482527777",
+              "chain": "bsc",
+              "from_address": "0x3e4f42afb8e80c3116c972cdb4e5866d7ccf7881",
+              "to_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "from_address_label": "🤖 🏦 PancakeSwap: WBNB-SPACEMOON Liquidity Pool   [0x3e4f42]",
+              "to_address_label": "🤓 Smart Trader [0xcbb811]"
+            }
+          ],
+          "volume_usd": 959.5447657866287,
+          "block_timestamp": "2026-09-22T23:29:45",
+          "transaction_hash": "0xbbf77dd590f1d5d2d58b4d889748466c7fc17dc4466469af0913de4f2b900b4e",
+          "source_type": "transfer"
+        },
+        {
+          "chain": "bsc",
+          "method": "dagSwapTo(uint256,address,(uint256,address,uint256,uint256,uint256),(address[],address[],uint256[],bytes[],uint256)[])",
+          "tokens_sent": [
+            {
+              "token_symbol": "USDT",
+              "token_amount": -0.05,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x6803d01a5e44827d7afb2b63e65eb30de9f29c81",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "[0x6803d0]"
+            },
+            {
+              "token_symbol": "USDT",
+              "token_amount": -0.35,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x7797c4a7f786f77dbce13d71d2c710310cb92aa3",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "​​Trading Bot [0x7797c4]"
+            },
+            {
+              "token_symbol": "USDT",
+              "token_amount": -99.6,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x69a52a0570636ca391175ce619bbb9d348040bbc",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "​​🤖 Router [0x69a52a]"
+            }
+          ],
+          "tokens_received": [
+            {
+              "token_symbol": "SPACEMOON",
+              "token_amount": 4056806.9070698214,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0xf2557688c18cab42bec4b5b053e05e3482527777",
+              "chain": "bsc",
+              "from_address": "0x3e4f42afb8e80c3116c972cdb4e5866d7ccf7881",
+              "to_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "from_address_label": "🤖 🏦 PancakeSwap: WBNB-SPACEMOON Liquidity Pool   [0x3e4f42]",
+              "to_address_label": "🤓 Smart Trader [0xcbb811]"
+            }
+          ],
+          "volume_usd": 935.795690607554,
+          "block_timestamp": "2026-09-22T23:28:39",
+          "transaction_hash": "0xd218fe72f521f4b87c54d206d5a3a98c095f5459a83dc2757321d6707d92b146",
+          "source_type": "transfer"
+        },
+        {
+          "chain": "bsc",
+          "method": "airdrop(address[])",
+          "tokens_sent": [],
+          "tokens_received": [
+            {
+              "token_symbol": "🌱 美股人生",
+              "token_amount": 9e-18,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0xbaeda00563b2eac867504f13c8bfefc0aac9b2f6",
+              "chain": "bsc",
+              "from_address": "0xbaeda00563b2eac867504f13c8bfefc0aac9b2f6",
+              "to_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "from_address_label": "🤖 美股人生 [0xbaeda0]",
+              "to_address_label": "🤓 Smart Trader [0xcbb811]"
+            }
+          ],
+          "volume_usd": 1.657384920268686e-24,
+          "block_timestamp": "2026-09-22T23:11:31",
+          "transaction_hash": "0x68b1bd00064bc3fecb1897eb8e4267a6265e37939500bf36e4aaa6691c94923c",
+          "source_type": "transfer"
+        },
+        {
+          "chain": "bsc",
+          "method": "dagSwapTo(uint256,address,(uint256,address,uint256,uint256,uint256),(address[],address[],uint256[],bytes[],uint256)[])",
+          "tokens_sent": [
+            {
+              "token_symbol": "AKITA",
+              "token_amount": -24873.862890946,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x1a4c5c74fb1ec39e839799baa0a91caeaeadedf7",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x6aa63fb66630239981c763522807e267f57458b1",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "🤖 🏦 PancakeSwap: AKITA-WBNB Liquidity Pool   [0x6aa63f]"
+            },
+            {
+              "token_symbol": "AKITA",
+              "token_amount": -53434.910163375,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x1a4c5c74fb1ec39e839799baa0a91caeaeadedf7",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x62d27aee19b32fa63b6d6c18fbbdcbe870b083e3",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "​​🤖 Swap Adapter [0x62d27a]"
+            },
+            {
+              "token_symbol": "AKITA",
+              "token_amount": -13358.727540843,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x1a4c5c74fb1ec39e839799baa0a91caeaeadedf7",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0xbb0f3e6e2ab3ebfa225d1400c455d94377645f51",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "🤖 DPPAdvanced [0xbb0f3e]"
+            },
+            {
+              "token_symbol": "AKITA",
+              "token_amount": -40076.182622531,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x1a4c5c74fb1ec39e839799baa0a91caeaeadedf7",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x8e95a66ea5bded3c86898c9179f80e08cf5baa4d",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "🤖 DPPAdvanced [0x8e95a6]"
+            },
+            {
+              "token_symbol": "AKITA",
+              "token_amount": -12144.297764403,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x1a4c5c74fb1ec39e839799baa0a91caeaeadedf7",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x62d27aee19b32fa63b6d6c18fbbdcbe870b083e3",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "​​🤖 Swap Adapter [0x62d27a]"
+            },
+            {
+              "token_symbol": "AKITA",
+              "token_amount": -2428.859552883,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x1a4c5c74fb1ec39e839799baa0a91caeaeadedf7",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x62d27aee19b32fa63b6d6c18fbbdcbe870b083e3",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "​​🤖 Swap Adapter [0x62d27a]"
+            }
+          ],
+          "tokens_received": [
+            {
+              "token_symbol": "USDT",
+              "token_amount": 8.101159189275425,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "chain": "bsc",
+              "from_address": "0x5994814f2c4040b863a0125a45de152a8c2a4dec",
+              "to_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "from_address_label": "​​🤖 🏦 OKX: Router [0x599481]",
+              "to_address_label": "🤓 Smart Trader [0xcbb811]"
+            }
+          ],
+          "volume_usd": 8.09884448174805,
+          "block_timestamp": "2026-09-22T22:57:29",
+          "transaction_hash": "0xce8ccad5ece94aed21bfa3a6828d901c113b0f39ca4378a56756289e011845a7",
+          "source_type": "transfer"
+        },
+        {
+          "chain": "bsc",
+          "method": "dagSwapTo(uint256,address,(uint256,address,uint256,uint256,uint256),(address[],address[],uint256[],bytes[],uint256)[])",
+          "tokens_sent": [
+            {
+              "token_symbol": "AKITA",
+              "token_amount": -33652.873323045,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x1a4c5c74fb1ec39e839799baa0a91caeaeadedf7",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x6aa63fb66630239981c763522807e267f57458b1",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "🤖 🏦 PancakeSwap: AKITA-WBNB Liquidity Pool   [0x6aa63f]"
+            },
+            {
+              "token_symbol": "AKITA",
+              "token_amount": -11266.396721193,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x1a4c5c74fb1ec39e839799baa0a91caeaeadedf7",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0xbb0f3e6e2ab3ebfa225d1400c455d94377645f51",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "🤖 DPPAdvanced [0xbb0f3e]"
+            },
+            {
+              "token_symbol": "AKITA",
+              "token_amount": -99144.291146503,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x1a4c5c74fb1ec39e839799baa0a91caeaeadedf7",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x8e95a66ea5bded3c86898c9179f80e08cf5baa4d",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "🤖 DPPAdvanced [0x8e95a6]"
+            },
+            {
+              "token_symbol": "AKITA",
+              "token_amount": -2253.27934424,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x1a4c5c74fb1ec39e839799baa0a91caeaeadedf7",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x62d27aee19b32fa63b6d6c18fbbdcbe870b083e3",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "​​🤖 Swap Adapter [0x62d27a]"
+            }
+          ],
+          "tokens_received": [
+            {
+              "token_symbol": "USDT",
+              "token_amount": 9.460609405594859,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "chain": "bsc",
+              "from_address": "0x5994814f2c4040b863a0125a45de152a8c2a4dec",
+              "to_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "from_address_label": "​​🤖 🏦 OKX: Router [0x599481]",
+              "to_address_label": "🤓 Smart Trader [0xcbb811]"
+            }
+          ],
+          "volume_usd": 9.457906268513726,
+          "block_timestamp": "2026-09-22T22:55:50",
+          "transaction_hash": "0xda2529d28eb60f1755bbbad119112e811ea44d25def337d29b4e51a2aaa1fc30",
+          "source_type": "transfer"
+        },
+        {
+          "chain": "bsc",
+          "method": "dagSwapTo(uint256,address,(uint256,address,uint256,uint256,uint256),(address[],address[],uint256[],bytes[],uint256)[])",
+          "tokens_sent": [
+            {
+              "token_symbol": "USDT",
+              "token_amount": -0.01,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x6803d01a5e44827d7afb2b63e65eb30de9f29c81",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "[0x6803d0]"
+            },
+            {
+              "token_symbol": "USDT",
+              "token_amount": -0.07,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x7797c4a7f786f77dbce13d71d2c710310cb92aa3",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "​​Trading Bot [0x7797c4]"
+            },
+            {
+              "token_symbol": "USDT",
+              "token_amount": -3.5856,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x17516b91bfcce77ede028e875cde37a8a4b113cd",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "​​🤖 Router [0x17516b]"
+            },
+            {
+              "token_symbol": "USDT",
+              "token_amount": -6.53376,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0xbb0f3e6e2ab3ebfa225d1400c455d94377645f51",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "🤖 DPPAdvanced [0xbb0f3e]"
+            },
+            {
+              "token_symbol": "USDT",
+              "token_amount": -9.80064,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x8e95a66ea5bded3c86898c9179f80e08cf5baa4d",
+              "from_address_label": "🤓 Smart Trader [0xcbb811]",
+              "to_address_label": "🤖 DPPAdvanced [0x8e95a6]"
+            }
+          ],
+          "tokens_received": [
+            {
+              "token_symbol": "AKITA",
+              "token_amount": 102867.169846221,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x1a4c5c74fb1ec39e839799baa0a91caeaeadedf7",
+              "chain": "bsc",
+              "from_address": "0xbb0f3e6e2ab3ebfa225d1400c455d94377645f51",
+              "to_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "from_address_label": "🤖 DPPAdvanced [0xbb0f3e]",
+              "to_address_label": "🤓 Smart Trader [0xcbb811]"
+            },
+            {
+              "token_symbol": "AKITA",
+              "token_amount": 47339.046764775,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x1a4c5c74fb1ec39e839799baa0a91caeaeadedf7",
+              "chain": "bsc",
+              "from_address": "0x6aa63fb66630239981c763522807e267f57458b1",
+              "to_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "from_address_label": "🤖 🏦 PancakeSwap: AKITA-WBNB Liquidity Pool   [0x6aa63f]",
+              "to_address_label": "🤓 Smart Trader [0xcbb811]"
+            },
+            {
+              "token_symbol": "AKITA",
+              "token_amount": 142427.464458966,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x1a4c5c74fb1ec39e839799baa0a91caeaeadedf7",
+              "chain": "bsc",
+              "from_address": "0x8e95a66ea5bded3c86898c9179f80e08cf5baa4d",
+              "to_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "from_address_label": "🤖 DPPAdvanced [0x8e95a6]",
+              "to_address_label": "🤓 Smart Trader [0xcbb811]"
+            }
+          ],
+          "volume_usd": 19.994285490574136,
+          "block_timestamp": "2026-09-22T22:54:56",
+          "transaction_hash": "0x6cc8c90ce34044cbaf93f9b0331c3b88e8cafcf046ca359f0a629cc3e2c72038",
+          "source_type": "transfer"
+        },
+        {
+          "chain": "bsc",
+          "method": "airdrop(address[])",
+          "tokens_sent": [],
+          "tokens_received": [
+            {
+              "token_symbol": "🌱 蝴蝶时代",
+              "token_amount": 9e-18,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x603dcf7e7ca18ab24bbe6367fb03c2574e2de997",
+              "chain": "bsc",
+              "from_address": "0x603dcf7e7ca18ab24bbe6367fb03c2574e2de997",
+              "to_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "from_address_label": "🤖 蝴蝶时代 [0x603dcf]",
+              "to_address_label": "🤓 Smart Trader [0xcbb811]"
+            }
+          ],
+          "volume_usd": 1.0237261648244399e-24,
+          "block_timestamp": "2026-09-22T22:39:08",
+          "transaction_hash": "0x63487060afaef00d3dd9e46a56b9f93cc42456327c9c014b7a966b25a274dfb5",
+          "source_type": "transfer"
+        }
+      ]
+    },
+    "recordedAt": 1790162402658
+  }
+]
