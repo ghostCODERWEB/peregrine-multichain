@@ -195,6 +195,30 @@ const MIGRATIONS: string[] = [
   );
   CREATE INDEX idx_payments_at ON payments(at);
   `,
+  // 9: the job queue the worker polls (scanner, storm sweeps, backtests).
+  // dedupe_key makes enqueueing idempotent: at most one queued-or-running
+  // job per key.
+  `
+  CREATE TABLE jobs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    kind TEXT NOT NULL,
+    dedupe_key TEXT,
+    payload TEXT NOT NULL DEFAULT '{}',
+    status TEXT NOT NULL,
+    run_at INTEGER NOT NULL,
+    attempts INTEGER NOT NULL DEFAULT 0,
+    max_attempts INTEGER NOT NULL DEFAULT 3,
+    locked_by TEXT,
+    locked_at INTEGER,
+    last_error TEXT,
+    result TEXT,
+    created_at INTEGER NOT NULL,
+    finished_at INTEGER
+  );
+  CREATE UNIQUE INDEX idx_jobs_active_key ON jobs(dedupe_key) WHERE status IN ('queued', 'running');
+  CREATE INDEX idx_jobs_due ON jobs(status, run_at);
+  CREATE INDEX idx_jobs_kind ON jobs(kind, finished_at);
+  `,
 ];
 
 export function audit(userId: number | null, action: string, detail?: string): void {

@@ -1,5 +1,6 @@
-// `pnpm scan` runs one scan and exits; `pnpm scan --loop` keeps scanning
-// every SCAN_INTERVAL_MIN minutes. docker compose uses the loop.
+// `pnpm scan` runs one scan (and a storm sweep if one is due) and exits.
+// Continuous scanning is the worker's job: `pnpm worker` runs a scan every
+// SCAN_INTERVAL_MIN minutes.
 //
 // Default interval is 30 minutes, not the 15 the design first called for:
 // a full run costs roughly 15-40 credits depending on which windows are due,
@@ -11,29 +12,20 @@ config({ path: '.env' });
 
 import { runScan } from '@/server/weather/scanner';
 
-const intervalMin = Number(process.env.SCAN_INTERVAL_MIN ?? 30);
-const loop = process.argv.includes('--loop');
-
-async function once() {
-  const s = await runScan();
-  const stamp = new Date().toISOString();
-  console.log(
-    `[scan ${stamp}] windows=${s.windows.join(',') || 'none due'} chains=${s.chainsScored} trades+=${s.tradesAdded} storms=${s.stormsScored} credits=${s.credits} ${s.ms}ms`,
-  );
-  for (const e of s.errors) console.warn(`  ! ${e}`);
-}
-
 async function main() {
   if (process.env.DEMO_MODE === '1') {
     console.log('DEMO_MODE=1: the scanner only runs against the live API. Replayed fixtures already include scan history.');
     return;
   }
-  await once();
-  if (!loop) return;
-  for (;;) {
-    await new Promise((r) => setTimeout(r, intervalMin * 60_000));
-    try { await once(); } catch (e) { console.error('[scan] failed:', (e as Error).message); }
+  if (process.argv.includes('--loop')) {
+    console.error('`scan --loop` is replaced by `pnpm worker`, which runs the scan on a schedule through the job queue.');
+    process.exit(1);
   }
+  const s = await runScan();
+  console.log(
+    `[scan ${new Date().toISOString()}] windows=${s.windows.join(',') || 'none due'} chains=${s.chainsScored} trades+=${s.tradesAdded} storms=${s.stormsScored} credits=${s.credits} ${s.ms}ms`,
+  );
+  for (const e of s.errors) console.warn(`  ! ${e}`);
 }
 
 main().catch((e) => { console.error(e); process.exit(1); });

@@ -21,13 +21,15 @@ cp .env.example .env        # paste NANSEN_API_KEY, or set DEMO_MODE=1 to run wi
 pnpm i && pnpm dev          # http://localhost:3000
 ```
 
-With a key, start the scanner in a second terminal. It builds TIDE's own time series, which drives the map, fronts and forecasts:
+With a key, start the worker in a second terminal. It runs the scanner, which builds TIDE's own time series (the map, fronts and forecasts), plus storm sweeps and any queued backtest, from a job queue in the same SQLite file:
 
 ```bash
-pnpm scan:loop              # one scan now, then every SCAN_INTERVAL_MIN (30) minutes
+pnpm worker                 # scan now if due, then every SCAN_INTERVAL_MIN (30) minutes
+pnpm jobs                   # queue health and recent jobs
+pnpm jobs enqueue backtest  # run the Forecast Lab backtest (never above BACKTEST_CREDIT_CAP)
 ```
 
-Or run both with Docker: `docker compose up` (web on :3000, scanner as a second container sharing the SQLite volume).
+Or run both with Docker: `docker compose up` (web on :3000, worker as a second container sharing the SQLite volume).
 
 **No key? `DEMO_MODE=1`.** Every Nansen response TIDE used while it was built is recorded in `fixtures/`, including the scanner's history (`fixtures/scan-history.json`). In demo mode an empty database imports that history, with its clock moved to now, so the map, fronts, forecasts, storm ticker, token and wallet pages, Lab and Coverage all work without a key or credits. The header badge says it's a replay and when it was recorded. `pnpm dev:demo` runs a keyless demo on :3300 next to a live dev server.
 

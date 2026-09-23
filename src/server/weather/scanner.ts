@@ -390,12 +390,18 @@ export interface ScanSummary {
   chainsScored: number;
   tradesAdded: number;
   stormsScored: number;
+  /** With `sweep: 'defer'`: the sweep's candidates when one is due, for
+   *  the caller to run as its own job. */
+  sweepCandidates: SweepCandidate[] | null;
   credits: number;
   errors: string[];
   ms: number;
 }
 
-export async function runScan(): Promise<ScanSummary> {
+/** One scan. The storm sweep (when due) runs inline by default; the worker
+ *  passes `sweep: 'defer'` and queues it as a separate job, so a sweep
+ *  failure retries on its own without re-running the scan. */
+export async function runScan(opts: { sweep?: 'inline' | 'defer' } = {}): Promise<ScanSummary> {
   const db = getDb();
   const started = Date.now();
   const runId = db.prepare('INSERT INTO scan_runs (started_at) VALUES (?)').run(started).lastInsertRowid;
@@ -406,12 +412,14 @@ export async function runScan(): Promise<ScanSummary> {
   scoreAndStore(inputs, started);
   const chainsScored = storeBlended(started);
   const tradesAdded = await captureTrades(started, errors);
-  const stormsScored = candidates.length && sweepDue(started) ? await stormSweep(candidates, errors) : 0;
+  const due = candidates.length > 0 && sweepDue(started);
+  const deferSweep = opts.sweep === 'defer';
+  const stormsScored = due && !deferSweep ? await stormSweep(candidates, errors) : 0;
 
   const credits = (db.prepare('SELECT COALESCE(SUM(credits), 0) AS c FROM credit_ledger WHERE called_at >= ?').get(started) as { c: number }).c;
   const finished = Date.now();
   db.prepare('UPDATE scan_runs SET finished_at = ?, chains_scored = ?, trades_added = ?, credits = ?, error = ? WHERE id = ?')
     .run(finished, chainsScored, tradesAdded, credits, errors.length ? errors.join(' | ') : null, runId);
 
-  return { windows, chainsScored, tradesAdded, stormsScored, credits, errors, ms: finished - started };
+  return { windows, chainsScored, tradesAdded, stormsScored, sweepCandidates: due && deferSweep ? candidates : null, credits, errors, ms: finished - started };
 }

@@ -9,16 +9,18 @@ services:
       - tide-data:/app/data
     restart: unless-stopped
 
-  # Snapshots CPI inputs and smart-money DEX trades every SCAN_INTERVAL_MIN
-  # minutes (default 30, see src/worker/scan.ts for the credit math). Runs
-  # as a second container sharing the same image and the same data volume,
-  # rather than in-process with the web server, so a slow scan cycle can
-  # never block a page request.
-  # In DEMO_MODE the scanner has nothing to do and exits cleanly; on-failure
+  # The worker: polls the job queue in the shared SQLite file and runs the
+  # scanner every SCAN_INTERVAL_MIN minutes (default 30, see
+  # src/worker/scan.ts for the credit math), storm sweeps when due, and
+  # queued backtests. A second container on the same image and data volume,
+  # rather than in-process with the web server, so a slow job can never
+  # block a page request. SIGTERM lets the current job finish.
+  # In DEMO_MODE the worker has nothing to do and exits cleanly; on-failure
   # keeps it stopped then, instead of restarting it in a loop.
-  scanner:
+  worker:
     build: .
-    command: pnpm scan:loop
+    command: pnpm worker
+    stop_grace_period: 5m
     env_file:
       - .env
     volumes:
