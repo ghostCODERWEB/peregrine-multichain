@@ -1,0 +1,627 @@
+[
+  {
+    "requestHash": "347f8e9a7ff1c9efaaf272923f47fe02c90ad570",
+    "request": {
+      "text": "You are the anchor of TIDE, a smart-money weather report built on Nansen data. Use only the numbers in the JSON. Cite at least three of them. Write exactly four sentences, like a weather broadcast: calm, specific, no hype. Probabilistic language only (\"suggests\", \"odds\", \"tends to\"). Never tell anyone to buy, sell or hold. If a field is missing, do not guess it. Plain text, no markdown, no lists.\nTIDE's current readings:\n{\"scale\":\"Chain Pressure Index 0-100 from smart-money net flow: above 65 = smart money net buying (high pressure), below 35 = net selling, 50 = calm.\",\"pressure_extremes\":[{\"chain\":\"Arc\",\"pressure_index\":2,\"measured_from\":\"smart-money\",\"change_6h\":null},{\"chain\":\"Near\",\"pressure_index\":6,\"measured_from\":\"market-flow\",\"change_6h\":null},{\"chain\":\"Base\",\"pressure_index\":93,\"measured_from\":\"smart-money\",\"change_6h\":null},{\"chain\":\"Ethereum\",\"pressure_index\":8,\"measured_from\":\"smart-money\",\"change_6h\":null},{\"chain\":\"Solana\",\"pressure_index\":14,\"measured_from\":\"smart-money\",\"change_6h\":null},{\"chain\":\"BNB Chain\",\"pressure_index\":15,\"measured_from\":\"smart-money\",\"change_6h\":null}],\"rotation_fronts_24h\":[{\"from\":\"Robinhood\",\"to\":\"Ethereum\",\"net_usd\":14576,\"wallets\":3},{\"from\":\"Robinhood\",\"to\":\"Base\",\"net_usd\":6493,\"wallets\":8},{\"from\":\"Robinhood\",\"to\":\"Arc\",\"net_usd\":928,\"wallets\":3}],\"storm_warnings\":[{\"token\":\"TAKE\",\"chain\":\"Sui\",\"storm_score\":93,\"band\":\"warning\",\"confidence\":1},{\"token\":\"PUMP\",\"chain\":\"Solana\",\"storm_score\":57,\"band\":\"watch\",\"confidence\":0.78},{\"token\":\"PONS\",\"chain\":\"Robinhood\",\"storm_score\":54,\"band\":\"watch\",\"confidence\":0.78}],\"forecasts_24h\":[{\"chain\":\"Arc\",\"now\":2,\"in_24h\":0,\"mape_pct\":16397},{\"chain\":\"Near\",\"now\":6,\"in_24h\":0,\"mape_pct\":73.8},{\"chain\":\"Base\",\"now\":93,\"in_24h\":100,\"mape_pct\":4.4}]}"
+    },
+    "response": [
+      {
+        "type": "delta",
+        "text": "T"
+      },
+      {
+        "type": "delta",
+        "text": "IDE"
+      },
+      {
+        "type": "delta",
+        "text": " reports"
+      },
+      {
+        "type": "delta",
+        "text": " extreme"
+      },
+      {
+        "type": "delta",
+        "text": " smart"
+      },
+      {
+        "type": "delta",
+        "text": "-money"
+      },
+      {
+        "type": "delta",
+        "text": " pressure"
+      },
+      {
+        "type": "delta",
+        "text": " on"
+      },
+      {
+        "type": "delta",
+        "text": " Base"
+      },
+      {
+        "type": "delta",
+        "text": " at"
+      },
+      {
+        "type": "delta",
+        "text": " "
+      },
+      {
+        "type": "delta",
+        "text": "93"
+      },
+      {
+        "type": "delta",
+        "text": ","
+      },
+      {
+        "type": "delta",
+        "text": " while"
+      },
+      {
+        "type": "delta",
+        "text": " Ethereum"
+      },
+      {
+        "type": "delta",
+        "text": " at"
+      },
+      {
+        "type": "delta",
+        "text": " "
+      },
+      {
+        "type": "delta",
+        "text": "8"
+      },
+      {
+        "type": "delta",
+        "text": " and"
+      },
+      {
+        "type": "delta",
+        "text": " Sol"
+      },
+      {
+        "type": "delta",
+        "text": "ana"
+      },
+      {
+        "type": "delta",
+        "text": " at"
+      },
+      {
+        "type": "delta",
+        "text": " "
+      },
+      {
+        "type": "delta",
+        "text": "14"
+      },
+      {
+        "type": "delta",
+        "text": " suggest"
+      },
+      {
+        "type": "delta",
+        "text": " markedly"
+      },
+      {
+        "type": "delta",
+        "text": " weaker"
+      },
+      {
+        "type": "delta",
+        "text": " conditions"
+      },
+      {
+        "type": "delta",
+        "text": "."
+      },
+      {
+        "type": "delta",
+        "text": " Rotation"
+      },
+      {
+        "type": "delta",
+        "text": " odds"
+      },
+      {
+        "type": "delta",
+        "text": " favor"
+      },
+      {
+        "type": "delta",
+        "text": " Ethereum"
+      },
+      {
+        "type": "delta",
+        "text": " and"
+      },
+      {
+        "type": "delta",
+        "text": " Base"
+      },
+      {
+        "type": "delta",
+        "text": ","
+      },
+      {
+        "type": "delta",
+        "text": " with"
+      },
+      {
+        "type": "delta",
+        "text": " net"
+      },
+      {
+        "type": "delta",
+        "text": " flows"
+      },
+      {
+        "type": "delta",
+        "text": " of"
+      },
+      {
+        "type": "delta",
+        "text": " $"
+      },
+      {
+        "type": "delta",
+        "text": "14"
+      },
+      {
+        "type": "delta",
+        "text": ","
+      },
+      {
+        "type": "delta",
+        "text": "576"
+      },
+      {
+        "type": "delta",
+        "text": " and"
+      },
+      {
+        "type": "delta",
+        "text": " $"
+      },
+      {
+        "type": "delta",
+        "text": "6"
+      },
+      {
+        "type": "delta",
+        "text": ","
+      },
+      {
+        "type": "delta",
+        "text": "493"
+      },
+      {
+        "type": "delta",
+        "text": " from"
+      },
+      {
+        "type": "delta",
+        "text": " Robin"
+      },
+      {
+        "type": "delta",
+        "text": "hood"
+      },
+      {
+        "type": "delta",
+        "text": " over"
+      },
+      {
+        "type": "delta",
+        "text": " "
+      },
+      {
+        "type": "delta",
+        "text": "24"
+      },
+      {
+        "type": "delta",
+        "text": " hours"
+      },
+      {
+        "type": "delta",
+        "text": ","
+      },
+      {
+        "type": "delta",
+        "text": " involving"
+      },
+      {
+        "type": "delta",
+        "text": " "
+      },
+      {
+        "type": "delta",
+        "text": "3"
+      },
+      {
+        "type": "delta",
+        "text": " and"
+      },
+      {
+        "type": "delta",
+        "text": " "
+      },
+      {
+        "type": "delta",
+        "text": "8"
+      },
+      {
+        "type": "delta",
+        "text": " wallets"
+      },
+      {
+        "type": "delta",
+        "text": " respectively"
+      },
+      {
+        "type": "delta",
+        "text": "."
+      },
+      {
+        "type": "delta",
+        "text": " TAKE"
+      },
+      {
+        "type": "delta",
+        "text": " on"
+      },
+      {
+        "type": "delta",
+        "text": " S"
+      },
+      {
+        "type": "delta",
+        "text": "ui"
+      },
+      {
+        "type": "delta",
+        "text": " carries"
+      },
+      {
+        "type": "delta",
+        "text": " the"
+      },
+      {
+        "type": "delta",
+        "text": " cle"
+      },
+      {
+        "type": "delta",
+        "text": "arest"
+      },
+      {
+        "type": "delta",
+        "text": " storm"
+      },
+      {
+        "type": "delta",
+        "text": " warning"
+      },
+      {
+        "type": "delta",
+        "text": " at"
+      },
+      {
+        "type": "delta",
+        "text": " "
+      },
+      {
+        "type": "delta",
+        "text": "93"
+      },
+      {
+        "type": "delta",
+        "text": " with"
+      },
+      {
+        "type": "delta",
+        "text": " confidence"
+      },
+      {
+        "type": "delta",
+        "text": " "
+      },
+      {
+        "type": "delta",
+        "text": "1"
+      },
+      {
+        "type": "delta",
+        "text": ","
+      },
+      {
+        "type": "delta",
+        "text": " while"
+      },
+      {
+        "type": "delta",
+        "text": " P"
+      },
+      {
+        "type": "delta",
+        "text": "UMP"
+      },
+      {
+        "type": "delta",
+        "text": " on"
+      },
+      {
+        "type": "delta",
+        "text": " Sol"
+      },
+      {
+        "type": "delta",
+        "text": "ana"
+      },
+      {
+        "type": "delta",
+        "text": " registers"
+      },
+      {
+        "type": "delta",
+        "text": " a"
+      },
+      {
+        "type": "delta",
+        "text": " mil"
+      },
+      {
+        "type": "delta",
+        "text": "der"
+      },
+      {
+        "type": "delta",
+        "text": " watch"
+      },
+      {
+        "type": "delta",
+        "text": " reading"
+      },
+      {
+        "type": "delta",
+        "text": " of"
+      },
+      {
+        "type": "delta",
+        "text": " "
+      },
+      {
+        "type": "delta",
+        "text": "57"
+      },
+      {
+        "type": "delta",
+        "text": " with"
+      },
+      {
+        "type": "delta",
+        "text": " confidence"
+      },
+      {
+        "type": "delta",
+        "text": " "
+      },
+      {
+        "type": "delta",
+        "text": "0"
+      },
+      {
+        "type": "delta",
+        "text": "."
+      },
+      {
+        "type": "delta",
+        "text": "78"
+      },
+      {
+        "type": "delta",
+        "text": "."
+      },
+      {
+        "type": "delta",
+        "text": " Base"
+      },
+      {
+        "type": "delta",
+        "text": " pressure"
+      },
+      {
+        "type": "delta",
+        "text": " tends"
+      },
+      {
+        "type": "delta",
+        "text": " to"
+      },
+      {
+        "type": "delta",
+        "text": " remain"
+      },
+      {
+        "type": "delta",
+        "text": " elevated"
+      },
+      {
+        "type": "delta",
+        "text": ","
+      },
+      {
+        "type": "delta",
+        "text": " with"
+      },
+      {
+        "type": "delta",
+        "text": " a"
+      },
+      {
+        "type": "delta",
+        "text": " "
+      },
+      {
+        "type": "delta",
+        "text": "24"
+      },
+      {
+        "type": "delta",
+        "text": "-hour"
+      },
+      {
+        "type": "delta",
+        "text": " forecast"
+      },
+      {
+        "type": "delta",
+        "text": " of"
+      },
+      {
+        "type": "delta",
+        "text": " "
+      },
+      {
+        "type": "delta",
+        "text": "100"
+      },
+      {
+        "type": "delta",
+        "text": " versus"
+      },
+      {
+        "type": "delta",
+        "text": " "
+      },
+      {
+        "type": "delta",
+        "text": "93"
+      },
+      {
+        "type": "delta",
+        "text": " now"
+      },
+      {
+        "type": "delta",
+        "text": " and"
+      },
+      {
+        "type": "delta",
+        "text": " a"
+      },
+      {
+        "type": "delta",
+        "text": " "
+      },
+      {
+        "type": "delta",
+        "text": "4"
+      },
+      {
+        "type": "delta",
+        "text": "."
+      },
+      {
+        "type": "delta",
+        "text": "4"
+      },
+      {
+        "type": "delta",
+        "text": "%"
+      },
+      {
+        "type": "delta",
+        "text": " M"
+      },
+      {
+        "type": "delta",
+        "text": "APE"
+      },
+      {
+        "type": "delta",
+        "text": ","
+      },
+      {
+        "type": "delta",
+        "text": " whereas"
+      },
+      {
+        "type": "delta",
+        "text": " Arc"
+      },
+      {
+        "type": "delta",
+        "text": " and"
+      },
+      {
+        "type": "delta",
+        "text": " Near"
+      },
+      {
+        "type": "delta",
+        "text": " are"
+      },
+      {
+        "type": "delta",
+        "text": " forecast"
+      },
+      {
+        "type": "delta",
+        "text": " to"
+      },
+      {
+        "type": "delta",
+        "text": " fall"
+      },
+      {
+        "type": "delta",
+        "text": " to"
+      },
+      {
+        "type": "delta",
+        "text": " "
+      },
+      {
+        "type": "delta",
+        "text": "0"
+      },
+      {
+        "type": "delta",
+        "text": " from"
+      },
+      {
+        "type": "delta",
+        "text": " "
+      },
+      {
+        "type": "delta",
+        "text": "2"
+      },
+      {
+        "type": "delta",
+        "text": " and"
+      },
+      {
+        "type": "delta",
+        "text": " "
+      },
+      {
+        "type": "delta",
+        "text": "6"
+      },
+      {
+        "type": "delta",
+        "text": "."
+      }
+    ],
+    "recordedAt": 1790177425084
+  }
+]

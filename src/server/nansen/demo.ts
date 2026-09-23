@@ -84,6 +84,15 @@ function sameButForDate(entries: FixtureEntry[], request: unknown): FixtureEntry
     .sort((a, b) => b.recordedAt - a.recordedAt)[0];
 }
 
+/** The newest recording for an endpoint, whatever its request — for
+ *  bodies that embed live numbers (the anchor's bulletin) and so never
+ *  hash the same twice. */
+export function replayLatest<T>(endpoint: string): T | null {
+  const entries = readFixtureFile(endpoint);
+  const newest = entries.sort((a, b) => b.recordedAt - a.recordedAt)[0];
+  return newest ? (newest.response as T) : null;
+}
+
 export type FixtureMode = 'record' | 'replay';
 
 export function fixtureMode(): FixtureMode {

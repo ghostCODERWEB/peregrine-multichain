@@ -11,6 +11,8 @@ import { HolderPanel, holdersTitle } from './HolderPanel';
 import { InsiderGraph, forensicsTitle } from './InsiderGraph';
 import { OddsCard, oddsTitle } from './OddsCard';
 import type { ForecastWave } from '@/server/token/forecast';
+import { AnchorCard } from '@/components/AnchorCard';
+import { StormAlertForm } from './StormAlertForm';
 import { chainName, shortAddress, usd } from '@/lib/viz/format';
 import type { Wave, TokenHeader, MarketWave, WindWave, HoldersWave, ForensicsWave } from '@/server/token/waves';
 import type { StormWave } from '@/server/token/storm';
@@ -133,6 +135,14 @@ export function TokenView({ chain, address, tier }: { chain: string; address: st
           {ok(s.forensics) ? <InsiderGraph f={s.forensics} /> : gone(s.forensics) ? <Unavailable text={s.forensics.unavailable} /> : pending(s.forensics) ? <WaveLoading what="first funders and related wallets for the top 25 holders" height={360} /> : null}
         </Card>
       </div>
+      {ok(s.storm) && s.storm.final && (
+        <Card id="ask" title={`Ask the anchor about ${symbol ?? 'this token'}, or set a storm alert`} sub="Nansen's agent explains this token's scores in four sentences; a storm alert turns them into Nansen Smart Alerts that keep watching after you leave.">
+          <AnchorCard query={`kind=token&chain=${chain}&address=${encodeURIComponent(address)}`} label="It reads the scores above; nothing is sent until you ask." />
+          <div className="mt-4 border-t border-border pt-3">
+            <StormAlertForm chain={chain} address={address} clusterWallets={[...clustered]} />
+          </div>
+        </Card>
+      )}
     </div>
   );
 }

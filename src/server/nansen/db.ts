@@ -138,6 +138,21 @@ const MIGRATIONS: string[] = [
   CREATE INDEX idx_storm_token_time ON storm_scores(chain, token_address, computed_at);
   CREATE INDEX idx_storm_time ON storm_scores(computed_at);
   `,
+  // 4: the AI anchor's reports (Nansen agent/fast, 200 credits each), kept
+  // so a report is reused for an hour and the hourly cap can be enforced.
+  `
+  CREATE TABLE anchor_reports (
+    id              INTEGER PRIMARY KEY AUTOINCREMENT,
+    subject         TEXT NOT NULL,
+    prompt          TEXT NOT NULL,
+    text            TEXT NOT NULL,
+    tool_calls      TEXT NOT NULL,
+    conversation_id TEXT,
+    credits         INTEGER NOT NULL,
+    created_at      INTEGER NOT NULL
+  );
+  CREATE INDEX idx_anchor_subject ON anchor_reports(subject, created_at);
+  `,
 ];
 
 function migrate(db: Database.Database) {

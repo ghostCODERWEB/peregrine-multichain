@@ -4,6 +4,7 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 const NAV = [
   { href: '/', label: 'Weather map', short: 'Map' },
   { href: '/lab', label: 'Forecast Lab', short: 'Lab' },
+  { href: '/alerts', label: 'Alerts', short: 'Alerts' },
   { href: '/coverage', label: 'Coverage', short: 'Coverage' },
 ];
 

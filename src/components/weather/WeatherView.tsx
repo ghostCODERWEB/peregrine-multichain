@@ -7,6 +7,8 @@ import { PressureLegend } from './PressureLegend';
 import { ForecastStrip } from './ForecastStrip';
 import { ChainTable } from './ChainTable';
 import { StormTicker } from './StormTicker';
+import { AnchorCard } from '@/components/AnchorCard';
+import type { AnchorReport } from '@/server/agents/anchor';
 import { mapHeadline, frontsHeadline } from '@/lib/insights';
 import { TimeAgo } from '@/components/TimeAgo';
 import type { WeatherBulletin } from '@/server/weather/bulletin';
@@ -17,7 +19,7 @@ async function fetchBulletin(): Promise<WeatherBulletin> {
   return r.json();
 }
 
-export function WeatherView({ initial }: { initial: WeatherBulletin }) {
+export function WeatherView({ initial, anchor }: { initial: WeatherBulletin; anchor: AnchorReport | null }) {
   const { data, isFetching } = useQuery({
     queryKey: ['weather'],
     queryFn: fetchBulletin,
@@ -68,6 +70,11 @@ export function WeatherView({ initial }: { initial: WeatherBulletin }) {
             <PressureLegend />
           </div>
         </div>
+      </section>
+
+      <section aria-labelledby="anchor-title" className="rounded-xl border border-border bg-surface p-4">
+        <h2 id="anchor-title" className="mb-2 text-base font-semibold text-ink">The weather report, read by Nansen&apos;s own agent</h2>
+        <AnchorCard query="kind=bulletin" initial={anchor} label="Nansen's agent reads the pressure extremes, rotation fronts, storm warnings and forecasts above and writes four sentences." />
       </section>
 
       <section aria-labelledby="storms-title">

@@ -8,7 +8,8 @@ import { AsyncLocalStorage } from 'node:async_hooks';
 import { getLimiter, type NansenPlan } from './limiter';
 import { readCache, writeCache } from './cache';
 import { recordCall } from './ledger';
-import { recordFixture, replayFixture, fixtureMode } from './demo';
+import { recordFixture, replayFixture, replayLatest, fixtureMode } from './demo';
+import { AgentStreamEvent, AGENT_STREAM_DONE_SENTINEL } from '@/types/nansen/agent';
 
 const HOST = 'https://api.nansen.ai/api';
 
@@ -188,4 +189,68 @@ export async function callNansen<T>(
   if (tally) { tally.calls++; tally.credits += result.meta.creditsCost; }
 
   return result;
+}
+
+/**
+ * Streaming variant for the agent endpoints (text/event-stream): yields
+ * each validated event as Nansen sends it, stops at the literal
+ * `data: [DONE]`. Same auth, limiter, ledger and DEMO_MODE recording as
+ * callNansen — the whole event list is recorded once the stream ends, and
+ * replayed event by event without a key.
+ */
+export async function* streamNansen(endpoint: string, body: unknown): AsyncGenerator<AgentStreamEvent> {
+  if (fixtureMode() === 'replay') {
+    const events = replayLatest<AgentStreamEvent[]>(endpoint);
+    if (!events) throw new Error(`No recorded ${endpoint} stream to replay in DEMO_MODE.`);
+    for (const e of events) yield e;
+    return;
+  }
+  const apiKey = process.env.NANSEN_API_KEY;
+  if (!apiKey) throw new Error('NANSEN_API_KEY is not set. Set it in .env, or run with DEMO_MODE=1.');
+  await getLimiter(plan()).acquire();
+  const res = await fetch(urlFor(endpoint), {
+    method: 'POST',
+    headers: { apikey: apiKey, 'content-type': 'application/json', accept: 'text/event-stream' },
+    body: JSON.stringify(body),
+    signal: AbortSignal.timeout(120_000),
+    cache: 'no-store',
+  });
+  const cost = Number(res.headers.get('x-nansen-credits-cost') ?? 0);
+  const remaining = res.headers.get('x-nansen-credits-remaining');
+  if (remaining) lastCreditsRemaining = Number(remaining);
+  if (!res.ok || !res.body) {
+    const text = await res.text().catch(() => '');
+    throw new NansenApiError(endpoint, res.status, text);
+  }
+  recordCall(endpoint, cost, false);
+  const tally = callScope.getStore();
+  if (tally) { tally.calls++; tally.credits += cost; }
+
+  const seen: AgentStreamEvent[] = [];
+  const reader = res.body.getReader();
+  const dec = new TextDecoder();
+  let buf = '';
+  try {
+    for (;;) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      buf += dec.decode(value, { stream: true });
+      let nl: number;
+      while ((nl = buf.indexOf('\n')) >= 0) {
+        const line = buf.slice(0, nl).trim();
+        buf = buf.slice(nl + 1);
+        if (!line.startsWith('data:')) continue;
+        const payload = line.slice(5).trim();
+        if (payload === AGENT_STREAM_DONE_SENTINEL) return;
+        let json: unknown;
+        try { json = JSON.parse(payload); } catch { continue; }
+        const parsed = AgentStreamEvent.safeParse(json);
+        if (!parsed.success) continue; // an event shape the docs don't list: skip, never guess
+        seen.push(parsed.data);
+        yield parsed.data;
+      }
+    }
+  } finally {
+    if (seen.length) recordFixture(endpoint, body, seen);
+  }
 }
