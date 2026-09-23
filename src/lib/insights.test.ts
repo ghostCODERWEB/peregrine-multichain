@@ -32,3 +32,12 @@ describe('frontsHeadline', () => {
     expect(frontsHeadline([])).toMatch(/^No rotation fronts/);
   });
 });
+
+describe('mapHeadline with calm pressure', () => {
+  it('names a rotation front when no chain is under pressure', async () => {
+    const { mapHeadline } = await import('./insights');
+    const chains = [{ chain: 'base', cpi: 55, source: 'smart-money' }, { chain: 'ethereum', cpi: 45, source: 'smart-money' }];
+    expect(mapHeadline(chains, [{ from: 'robinhood', to: 'base', netUsd: 9000, walletCount: 3 }])).toBe('Calm pressure, but capital is rotating from Robinhood into Base');
+    expect(mapHeadline(chains, [])).toMatch(/^Calm across chains/);
+  });
+});

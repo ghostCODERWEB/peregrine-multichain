@@ -16,7 +16,13 @@ export function mapHeadline(chains: ChainLike[], fronts: FrontLike[]): string {
   const parts: string[] = [];
   if (top.cpi! > 65) parts.push(`Smart money is piling into ${chainName(top.chain)}`);
   if (bottom.cpi! < 35) parts.push(`${chainName(bottom.chain)} is draining`);
-  if (!parts.length) return 'Calm across chains — no smart-money pressure system above 65 or below 35';
+  // Calm pressure can still hide capital moving between chains: say so.
+  const front = fronts[0];
+  if (!parts.length) {
+    return front
+      ? `Calm pressure, but capital is rotating from ${chainName(front.from)} into ${chainName(front.to)}`
+      : 'Calm across chains — no smart-money pressure system above 65 or below 35';
+  }
   return parts.join('; ');
 }
 
