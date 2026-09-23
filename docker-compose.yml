@@ -14,6 +14,8 @@ services:
   # as a second container sharing the same image and the same data volume,
   # rather than in-process with the web server, so a slow scan cycle can
   # never block a page request.
+  # In DEMO_MODE the scanner has nothing to do and exits cleanly; on-failure
+  # keeps it stopped then, instead of restarting it in a loop.
   scanner:
     build: .
     command: pnpm scan:loop
@@ -21,7 +23,7 @@ services:
       - .env
     volumes:
       - tide-data:/app/data
-    restart: unless-stopped
+    restart: on-failure
     depends_on:
       - app
 
