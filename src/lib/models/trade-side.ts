@@ -23,12 +23,19 @@ const STABLECOINS = new Set([
   'USDC', 'USDT', 'DAI', 'USDE', 'SUSDE', 'FDUSD', 'PYUSD', 'TUSD', 'USDS', 'SUSDS', 'GHO', 'FRAX', 'FRXUSD',
   'LUSD', 'CRVUSD', 'USD0', 'USDB', 'USDBC', 'USDC.E', 'USDT.E', 'USDT0', 'USDM', 'RLUSD', 'AUSD', 'USD1', 'USDG',
   'EURC', 'EURS', 'EURE',
+  // Stables Nansen's include_stablecoins:false lets through on non-EVM
+  // chains (seen live on Sui and Tron screener results).
+  'SBUSDT', 'USDSUI', 'BUCK', 'WUSDC', 'WUSDT', 'USDD',
 ]);
 
 const NATIVE_AND_WRAPPED = new Set([
   'ETH', 'WETH', 'SOL', 'WSOL', 'BNB', 'WBNB', 'AVAX', 'WAVAX', 'POL', 'WPOL', 'MATIC', 'WMATIC',
   'MON', 'WMON', 'S', 'WS', 'SEI', 'WSEI', 'HYPE', 'WHYPE', 'MNT', 'WMNT', 'IOTA', 'WIOTA', 'XPL', 'WXPL',
 ]);
+
+export function isStablecoin(symbol: string | null | undefined): boolean {
+  return !!symbol && STABLECOINS.has(symbol.trim().toUpperCase());
+}
 
 export function isBaseAsset(symbol: string | null | undefined): boolean {
   if (!symbol) return false;

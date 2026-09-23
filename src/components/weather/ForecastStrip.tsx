@@ -11,7 +11,7 @@ const PAD = { l: 2, r: 2, t: 6, b: 6 };
 /** Every multiple shares the same 0-100 y-scale and each one's own time
  *  span on x, so heights compare across chains — small multiples only work
  *  when the reader can compare them without reading axes. */
-function Multiple({ f }: { f: ForecastWithProvenance }) {
+export function ForecastMultiple({ f }: { f: ForecastWithProvenance }) {
   const pts = [...f.history.map((p) => ({ t: p.t, v: p.cpi })), ...f.points.map((p) => ({ t: p.t, v: p.forecast }))];
   if (!pts.length) return null;
   const t0 = pts[0].t;
@@ -69,7 +69,7 @@ export function ForecastStrip({ forecasts }: { forecasts: ForecastWithProvenance
               {now != null ? num(now, 0) : '—'}
               {end != null ? ` → ${num(end, 0)} in 24h` : ` · ${f.sampleSize}/12 snapshots`}
             </div>
-            <Multiple f={f} />
+            <ForecastMultiple f={f} />
             <div className="num mt-1 text-[10.5px] text-ink-muted">
               {f.insufficient ? 'forecast unlocks at 12 snapshots' : `MAPE ${f.mape == null ? '—' : `${num(f.mape)}%`} · n=${f.sampleSize}`}
             </div>

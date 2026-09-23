@@ -1,0 +1,5515 @@
+[
+  {
+    "requestHash": "e7db3d0b6d881e900a55b9186462de987addf2a4",
+    "request": {
+      "chains": [
+        "base"
+      ],
+      "pagination": {
+        "page": 1,
+        "per_page": 1000
+      },
+      "order_by": [
+        {
+          "field": "net_flow_24h_usd",
+          "direction": "DESC"
+        }
+      ]
+    },
+    "response": {
+      "data": [
+        {
+          "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
+          "token_symbol": "NOCK",
+          "net_flow_1h_usd": -25858.237807558537,
+          "net_flow_24h_usd": 152109.39313406832,
+          "net_flow_7d_usd": 226468.01793850507,
+          "net_flow_30d_usd": 985735.1524529986,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 15,
+          "token_age_days": 278,
+          "market_cap_usd": 74641479.0488295
+        },
+        {
+          "token_address": "0x22af33fe49fd1fa80c7149773dde5890d3c76f3b",
+          "token_symbol": "BNKR",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 151066.52195529058,
+          "net_flow_7d_usd": 688273.4805427864,
+          "net_flow_30d_usd": 686938.8848216513,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 12,
+          "token_age_days": 659,
+          "market_cap_usd": 39405150.4990129
+        },
+        {
+          "token_address": "0xb3b32f9f8827d4634fe7d973fa1034ec9fddb3b3",
+          "token_symbol": "B3",
+          "net_flow_1h_usd": 4239.068656393002,
+          "net_flow_24h_usd": 97036.10872183833,
+          "net_flow_7d_usd": 177294.58960648632,
+          "net_flow_30d_usd": 266376.6695020752,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 10,
+          "token_age_days": 603,
+          "market_cap_usd": 37970733.9268485
+        },
+        {
+          "token_address": "0x9d0e8f5b25384c7310cb8c6ae32c8fbeb645d083",
+          "token_symbol": "DRV",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 54931.68447298018,
+          "net_flow_7d_usd": -682855.9128384627,
+          "net_flow_30d_usd": -54618.4146341655,
+          "chain": "base",
+          "token_sectors": [
+            "Scaling & Connectivity",
+            "AI Agents"
+          ],
+          "trader_count": 30,
+          "token_age_days": 619,
+          "market_cap_usd": 464917389.467737
+        },
+        {
+          "token_address": "0x6b2504a03ca4d43d0d73776f6ad46dab2f2a4cfd",
+          "token_symbol": "REI",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 19931.1747699245,
+          "net_flow_7d_usd": 33421.101257084665,
+          "net_flow_30d_usd": 9192.222051187931,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence"
+          ],
+          "trader_count": 8,
+          "token_age_days": 671,
+          "market_cap_usd": 21296821.5412492
+        },
+        {
+          "token_address": "0xb2000000000000000000008501b13360000cb2ec",
+          "token_symbol": "CBZEC",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 17212.639963516136,
+          "net_flow_7d_usd": 273650.92481129477,
+          "net_flow_30d_usd": 166725.27819173582,
+          "chain": "base",
+          "token_sectors": [
+            "Scaling & Connectivity",
+            "DeFi Lending (Money Markets)"
+          ],
+          "trader_count": 6,
+          "token_age_days": 35,
+          "market_cap_usd": 4937687.58609259
+        },
+        {
+          "token_address": "0xa6af0cea8fbc93e1eccc00f1fdd9a0bba251fee1",
+          "token_symbol": "IPOD",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 5640.5261423392085,
+          "net_flow_7d_usd": 16085.816579036315,
+          "net_flow_30d_usd": 24559.054557332536,
+          "chain": "base",
+          "token_sectors": [
+            "Yield Farming Protocols",
+            "Yield Bearing"
+          ],
+          "trader_count": 8,
+          "token_age_days": 27,
+          "market_cap_usd": 2000814.98704725
+        },
+        {
+          "token_address": "0xed6e000def95780fb89734c07ee2ce9f6dcaf110",
+          "token_symbol": "EDGE",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 5360.18667485105,
+          "net_flow_7d_usd": 32304.773779786905,
+          "net_flow_30d_usd": 95401.78417346592,
+          "chain": "base",
+          "token_sectors": [
+            "Scaling & Connectivity",
+            "Decentralised Exchanges"
+          ],
+          "trader_count": 8,
+          "token_age_days": 730,
+          "market_cap_usd": 22494610.172421
+        },
+        {
+          "token_address": "0xe34356dcd3d7bb991248f322e4ec31b5d60bc54e",
+          "token_symbol": "DGUY",
+          "net_flow_1h_usd": 2188.390874757777,
+          "net_flow_24h_usd": 4933.9120405401645,
+          "net_flow_7d_usd": 3485.647986921039,
+          "net_flow_30d_usd": 4774.437992780096,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 5,
+          "token_age_days": 9,
+          "market_cap_usd": 213892.5022016
+        },
+        {
+          "token_address": "0xb095274743941e953c746f9c228da9c18bb6ec29",
+          "token_symbol": "LAPTOP",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 1791.0928089282243,
+          "net_flow_7d_usd": 1752.73638439763,
+          "net_flow_30d_usd": -129287.10475747615,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 30,
+          "token_age_days": 149,
+          "market_cap_usd": 25393764.0392119
+        },
+        {
+          "token_address": "0x89d8cb38067b55f820f29a9e12d0ce18682a2bfc",
+          "token_symbol": "STONX",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 1167.6625472408869,
+          "net_flow_7d_usd": 14847.194234447106,
+          "net_flow_30d_usd": 138776.85743801438,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 14,
+          "token_age_days": 19,
+          "market_cap_usd": 5169820.2875973
+        },
+        {
+          "token_address": "0x80081d759e5e0154fb15d5ee8de5085d89e3dccc",
+          "token_symbol": "STONKEXSTR",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 794.553825377423,
+          "net_flow_7d_usd": 794.553825377423,
+          "net_flow_30d_usd": 2704.6696660155667,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 27,
+          "market_cap_usd": 134357.617024441
+        },
+        {
+          "token_address": "0xdd78523217390bb0d49c7601e7e54c36d71622f0",
+          "token_symbol": "EVAL",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 499.2925385556785,
+          "net_flow_7d_usd": 499.2925385556785,
+          "net_flow_30d_usd": 499.06519528168064,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence",
+            "AI Agents"
+          ],
+          "trader_count": 2,
+          "token_age_days": 604,
+          "market_cap_usd": 314166.101574961
+        },
+        {
+          "token_address": "0xb200000000000000000000046390aed221043f01",
+          "token_symbol": "BASEJUICE",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 249.64626927783925,
+          "net_flow_7d_usd": 207.46745278245007,
+          "net_flow_30d_usd": -2886.7998888057446,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 6,
+          "token_age_days": 39,
+          "market_cap_usd": 472208.028093032
+        },
+        {
+          "token_address": "0xaa8319bff7898f24780b6f80839b1ea13f02a4b8",
+          "token_symbol": "QSAVE",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 249.13968462405626,
+          "net_flow_7d_usd": 2246.9822941019756,
+          "net_flow_30d_usd": -4317.80519317544,
+          "chain": "base",
+          "token_sectors": [
+            "BRC20s/Bitcoin Ecosystem"
+          ],
+          "trader_count": 2,
+          "token_age_days": 379,
+          "market_cap_usd": 4803606.67488069
+        },
+        {
+          "token_address": "0xa382c83e2a3b79368f372c2eb9b6925ffaf45ba3",
+          "token_symbol": "HIVE",
+          "net_flow_1h_usd": 142.7831603756595,
+          "net_flow_24h_usd": 142.7831603756595,
+          "net_flow_7d_usd": 3548.5859002912493,
+          "net_flow_30d_usd": 6868.532214409899,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 3,
+          "token_age_days": 121,
+          "market_cap_usd": 180278.402683291
+        },
+        {
+          "token_address": "0xb200000000000000000000b8d3746d2e56596578",
+          "token_symbol": "MEOW",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 99.8585077111357,
+          "net_flow_7d_usd": 54.44921931267244,
+          "net_flow_30d_usd": -844.3309750370273,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 3,
+          "token_age_days": 68,
+          "market_cap_usd": 60123.7916724888
+        },
+        {
+          "token_address": "0x5ab3d4c385b400f3abb49e80de2faf6a88a7b691",
+          "token_symbol": "FLOCK",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 99.8585077111357,
+          "net_flow_7d_usd": 99.8585077111357,
+          "net_flow_30d_usd": 2836.672952772353,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence"
+          ],
+          "trader_count": 6,
+          "token_age_days": 642,
+          "market_cap_usd": 39014559.0625394
+        },
+        {
+          "token_address": "0xb2000000000000000000005a0c125da6cf531d01",
+          "token_symbol": "BRAINARM",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 99.8585077111357,
+          "net_flow_7d_usd": -2415.3500734463682,
+          "net_flow_30d_usd": -3198.8994815921465,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 4,
+          "token_age_days": 9,
+          "market_cap_usd": 286471.773083656
+        },
+        {
+          "token_address": "0xb200000000000000000000503d889fdcbe48b801",
+          "token_symbol": "RAWR",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 99.8585077111357,
+          "net_flow_7d_usd": -941.7920508566556,
+          "net_flow_30d_usd": 3785.3712616527614,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 14,
+          "token_age_days": 34,
+          "market_cap_usd": 238846.038942766
+        },
+        {
+          "token_address": "0x15ac90165f8b45a80534228bdcb124a011f62fee",
+          "token_symbol": "MOEW",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 65.82295762592942,
+          "net_flow_7d_usd": 65.82295762592942,
+          "net_flow_30d_usd": 65.82295762592942,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 2,
+          "token_age_days": 903,
+          "market_cap_usd": 1553793.0066356
+        },
+        {
+          "token_address": "0x1dd2d631c92b1acdfcdd51a0f7145a50130050c4",
+          "token_symbol": "ALB",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 27.40536530864619,
+          "net_flow_7d_usd": 45.38643578321281,
+          "net_flow_30d_usd": 45.38643578321281,
+          "chain": "base",
+          "token_sectors": [
+            "Decentralised Exchanges",
+            "Yield Farming Protocols"
+          ],
+          "trader_count": 1,
+          "token_age_days": 1142,
+          "market_cap_usd": 1118774.42341537
+        },
+        {
+          "token_address": "0xb1a03eda10342529bbf8eb700a06c60441fef25d",
+          "token_symbol": "MIGGLES",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 27.40536530864619,
+          "net_flow_7d_usd": 54.86645492920851,
+          "net_flow_30d_usd": -4669.222257952661,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 4,
+          "token_age_days": 799,
+          "market_cap_usd": 2207819.5434657
+        },
+        {
+          "token_address": "0x38bd574d791a438921de91b88793254e83c97290",
+          "token_symbol": "CDPANDA",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -336.7041680242102,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 410,
+          "market_cap_usd": 9496.9519998231
+        },
+        {
+          "token_address": "0xca73ed1815e5915489570014e024b7ebe65de679",
+          "token_symbol": "ODOS",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -18.042795301964407,
+          "chain": "base",
+          "token_sectors": [
+            "Decentralised Exchanges"
+          ],
+          "trader_count": 2,
+          "token_age_days": 661,
+          "market_cap_usd": 1358446.11712001
+        },
+        {
+          "token_address": "0xfe20c1b85aba875ea8cecac8200bf86971968f3a",
+          "token_symbol": "BALD",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 49.8974852618631,
+          "net_flow_30d_usd": -125.02139809324527,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 3,
+          "token_age_days": 932,
+          "market_cap_usd": 96337.0456227858
+        },
+        {
+          "token_address": "0x0ceac003b0d2479bebec9f4b2ebad0a803759bbf",
+          "token_symbol": "WFRAX",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -3.766762976750173,
+          "chain": "base",
+          "token_sectors": [
+            "Yield Bearing",
+            "Scaling & Connectivity",
+            "Crypto Payments",
+            "RWAs",
+            "Stablecoin Issuers"
+          ],
+          "trader_count": 1,
+          "token_age_days": 580,
+          "market_cap_usd": 15394948.1298579
+        },
+        {
+          "token_address": "0x968d6a288d7b024d5012c0b25d67a889e4e3ec19",
+          "token_symbol": "INT",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 9.992538138637158,
+          "net_flow_30d_usd": 9.992538138637158,
+          "chain": "base",
+          "token_sectors": [
+            "NFTs",
+            "GambleFi",
+            "NFTFi"
+          ],
+          "trader_count": 1,
+          "token_age_days": 915,
+          "market_cap_usd": 62516.1086280401
+        },
+        {
+          "token_address": "0x4200000000000000000000000000000000000006",
+          "token_symbol": "WETH",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": -36535.414479941595,
+          "net_flow_30d_usd": -881801.0583689032,
+          "chain": "base",
+          "token_sectors": [
+            "L1/L2 Token & Derivatives"
+          ],
+          "trader_count": 25,
+          "token_age_days": 1196,
+          "market_cap_usd": 688323916.73339
+        },
+        {
+          "token_address": "0x0acb8f6a6f1a8df2b4846db0352caaa01d854bf8",
+          "token_symbol": "PAWS",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -141.81648846335943,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 565,
+          "market_cap_usd": 143963.410100256
+        },
+        {
+          "token_address": "0xff0c532fdb8cd566ae169c1cb157ff2bdc83e105",
+          "token_symbol": "FREN PET",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 26080.84242274453,
+          "net_flow_30d_usd": 23906.952580415506,
+          "chain": "base",
+          "token_sectors": [
+            "GameFi",
+            "NFTs"
+          ],
+          "trader_count": 2,
+          "token_age_days": 1119,
+          "market_cap_usd": 40663869.0671642
+        },
+        {
+          "token_address": "0xfda75f77a22b4f4b783bbbb21915ef64d149bba3",
+          "token_symbol": "HD",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -102.52129269401716,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 115,
+          "market_cap_usd": 37766.2672937889
+        },
+        {
+          "token_address": "0x80c6c70aab16091af88a796fe05a8bbbb5bd83a2",
+          "token_symbol": "BASED",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 4252.070845856135,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 2,
+          "token_age_days": 30,
+          "market_cap_usd": 3577.8939975136
+        },
+        {
+          "token_address": "0x8e16d46cb2da01cdd49601ec73d7b0344969ae33",
+          "token_symbol": "COIN",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -337.05527058253404,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 1,
+          "token_age_days": 961,
+          "market_cap_usd": 91246.2430919795
+        },
+        {
+          "token_address": "0x9c6983df8d23427a155f2a1e9c87b15c0f58e222",
+          "token_symbol": "TSR",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": -211.9733177501188,
+          "net_flow_30d_usd": -690.0862519528146,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 2,
+          "token_age_days": 17,
+          "market_cap_usd": 250378.850687895
+        },
+        {
+          "token_address": "0xb200000000000000000000922504fa204992fd01",
+          "token_symbol": "RTD",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -9094.789545720058,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 3,
+          "token_age_days": 19,
+          "market_cap_usd": 26550.7261071271
+        },
+        {
+          "token_address": "0x7ba6f01772924a82d9626c126347a28299e98c98",
+          "token_symbol": "MSETH",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": -2259.283004298021,
+          "net_flow_30d_usd": -2259.283004298021,
+          "chain": "base",
+          "token_sectors": [
+            "DeFi Lending (Money Markets)",
+            "Perps, Options and Derivatives"
+          ],
+          "trader_count": 2,
+          "token_age_days": 870,
+          "market_cap_usd": 50413233.8512311
+        },
+        {
+          "token_address": "0x7b0ee9dcb5c1d4d7cd630c652959951936512ba3",
+          "token_symbol": "DELU",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -1427.8561386642195,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 3,
+          "token_age_days": 161,
+          "market_cap_usd": 107907.673427063
+        },
+        {
+          "token_address": "0xd080ed3c74a20250a2c9821885203034acd2d5ae",
+          "token_symbol": "ZFI",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 1007.1862947593565,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence",
+            "Yield Farming Protocols",
+            "Crypto Payments"
+          ],
+          "trader_count": 2,
+          "token_age_days": 483,
+          "market_cap_usd": 1489632.56245086
+        },
+        {
+          "token_address": "0x07e61d8a4e197dfc269e90d7ece1df0d26702ba3",
+          "token_symbol": "BASEMATE",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 356.3365467887886,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence"
+          ],
+          "trader_count": 4,
+          "token_age_days": 120,
+          "market_cap_usd": 182941.492053145
+        },
+        {
+          "token_address": "0xfca95aeb5bf44ae355806a5ad14659c940dc6bf7",
+          "token_symbol": "SHIB",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 5.6271692168842975,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 2,
+          "token_age_days": 822,
+          "market_cap_usd": 737873.517021748
+        },
+        {
+          "token_address": "0x83f123d89c1b09ec810e04f40537cf28bf360519",
+          "token_symbol": "WBUG",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 869.6320159031861,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 521,
+          "market_cap_usd": 12339.6288233215
+        },
+        {
+          "token_address": "0x686b1209b2de12818aa69dd139530448d0c792b3",
+          "token_symbol": "$POOP",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -508.065139803625,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 1,
+          "token_age_days": 907,
+          "market_cap_usd": 104079.117262582
+        },
+        {
+          "token_address": "0x2a0a59d6b975828e781ecac125dba40d7ee5ddc0",
+          "token_symbol": "RIPE",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 1832.2702607117285,
+          "chain": "base",
+          "token_sectors": [
+            "DeFi Lending (Money Markets)",
+            "RWAs",
+            "Yield Farming Protocols"
+          ],
+          "trader_count": 2,
+          "token_age_days": 454,
+          "market_cap_usd": 952006.502120365
+        },
+        {
+          "token_address": "0xc6405d7a226e1c18e559be2f335f74c01ad07bf5",
+          "token_symbol": "STFY",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 2954.741425613417,
+          "net_flow_30d_usd": 26519.99963142944,
+          "chain": "base",
+          "token_sectors": [
+            "RWAs",
+            "Decentralised Exchanges"
+          ],
+          "trader_count": 7,
+          "token_age_days": 36,
+          "market_cap_usd": 1112557.3120785
+        },
+        {
+          "token_address": "0xca18a528ea897040f715edc92e6e4572780c5ca1",
+          "token_symbol": "KAI",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 996.3899548649315,
+          "net_flow_30d_usd": 5888.042837214433,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence",
+            "AI Agents"
+          ],
+          "trader_count": 11,
+          "token_age_days": 41,
+          "market_cap_usd": 2825364.25014442
+        },
+        {
+          "token_address": "0x98ac5b33a4ef1151f138941c979211599c2ff953",
+          "token_symbol": "VPAY",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 493.7448098006433,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence",
+            "AI Agents"
+          ],
+          "trader_count": 1,
+          "token_age_days": 431,
+          "market_cap_usd": 290958.440035628
+        },
+        {
+          "token_address": "0xb200000000000000000000bf0548ab2ebd00ba5e",
+          "token_symbol": "RWAGMI",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -1497.9778993602295,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 77,
+          "market_cap_usd": 125656.728435055
+        },
+        {
+          "token_address": "0x4f4750b74d98fdddcc241f17d530cf7d511405bb",
+          "token_symbol": "BASEBULL",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 2228.9541568332197,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 3,
+          "token_age_days": 11,
+          "market_cap_usd": 41412.8699567785
+        },
+        {
+          "token_address": "0xacfe6019ed1a7dc6f7b508c02d1b04ec88cc21bf",
+          "token_symbol": "VVV",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 121225.87429653149,
+          "net_flow_30d_usd": -97260.51702765217,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 24,
+          "token_age_days": 608,
+          "market_cap_usd": 1517887008.54486
+        },
+        {
+          "token_address": "0xb200000000000000000000dc6b015769cc69ec01",
+          "token_symbol": "ZUCKASAURUS",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 1356.9926825649175,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 3,
+          "token_age_days": 26,
+          "market_cap_usd": 18785.6208990858
+        },
+        {
+          "token_address": "0x0db510e79909666d6dec7f5e49370838c16d950f",
+          "token_symbol": "ANON",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 272.33112719656447,
+          "net_flow_30d_usd": 1518.4404783860664,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 678,
+          "market_cap_usd": 116266.202370722
+        },
+        {
+          "token_address": "0x9f8529dbeef9feb94d9084790da3ae49ad03ab07",
+          "token_symbol": "BASED10",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 219.60843672401063,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 2,
+          "token_age_days": 27,
+          "market_cap_usd": 27592.1052766015
+        },
+        {
+          "token_address": "0x2efac0a597a37050aafcf4bec627249d533dd9f8",
+          "token_symbol": "$CHECKR",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 246.87240490032164,
+          "chain": "base",
+          "token_sectors": [
+            "Social Fi"
+          ],
+          "trader_count": 1,
+          "token_age_days": 554,
+          "market_cap_usd": 35849.803431833
+        },
+        {
+          "token_address": "0xc0041ef357b183448b235a8ea73ce4e4ec8c265f",
+          "token_symbol": "COOKIE",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -3.687038856862235,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins",
+            "AI Meme"
+          ],
+          "trader_count": 1,
+          "token_age_days": 842,
+          "market_cap_usd": 10094043.9324247
+        },
+        {
+          "token_address": "0xeffc8815487084a97edfdff968b56ea123421acb",
+          "token_symbol": "VIBES",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -7112.478071080326,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence"
+          ],
+          "trader_count": 4,
+          "token_age_days": 104,
+          "market_cap_usd": 229926.580596488
+        },
+        {
+          "token_address": "0x5053a453c4e5b3025c1ef36225b97219a8384222",
+          "token_symbol": "BM",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 2796.658591530548,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 4,
+          "token_age_days": 17,
+          "market_cap_usd": 12367.873592066
+        },
+        {
+          "token_address": "0xff70b676aa2f96e293f020539b36d817179dbaa3",
+          "token_symbol": "DOOGLER",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 633.7786100932785,
+          "net_flow_30d_usd": 633.7786100932785,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 4,
+          "market_cap_usd": 48076.6495864366
+        },
+        {
+          "token_address": "0xbd072aba9cad9d573a5b3498f79b117dbefdc7f4",
+          "token_symbol": "IRON",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 2403.3753651499705,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 3,
+          "token_age_days": 132,
+          "market_cap_usd": 236.4975956297
+        },
+        {
+          "token_address": "0x6f63d869011f95274498023b4abfc00b30c34378",
+          "token_symbol": "SN80",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 803.0409080663181,
+          "net_flow_30d_usd": 803.0409080663181,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence"
+          ],
+          "trader_count": 1,
+          "token_age_days": 14,
+          "market_cap_usd": 18208624.8879727
+        },
+        {
+          "token_address": "0xf714e60f85497d70508f7e356b5db80e64539ba3",
+          "token_symbol": "PERKOS",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -169.85852462345284,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 223,
+          "market_cap_usd": 51157.1531027931
+        },
+        {
+          "token_address": "0x10f434b3d1cc13a4a79b062dcc25706f64d10d47",
+          "token_symbol": "BEPE",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -55.46320098139729,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 1,
+          "token_age_days": 932,
+          "market_cap_usd": 12529.4015386206
+        },
+        {
+          "token_address": "0x020eaeee24bcad37cb9a01aa1f8c591c47341ba3",
+          "token_symbol": "SETZ",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -4326.853347710808,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 3,
+          "token_age_days": 22,
+          "market_cap_usd": 169610.635391352
+        },
+        {
+          "token_address": "0xb200000000000000000000212fb77f4b42c77e01",
+          "token_symbol": "DESKTOP",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 149.8036404756702,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 14,
+          "market_cap_usd": 7641.8859914322
+        },
+        {
+          "token_address": "0x03ceac3c28e353f5e4626c1242a6c7a41d004354",
+          "token_symbol": "BYTE",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -268.113808799946,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence",
+            "Crypto Payments"
+          ],
+          "trader_count": 1,
+          "token_age_days": 544,
+          "market_cap_usd": 153156.887644801
+        },
+        {
+          "token_address": "0x00000e7efa313f4e11bfff432471ed9423ac6b30",
+          "token_symbol": "HYDX",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 4892.152782383151,
+          "net_flow_30d_usd": 6071.023733806853,
+          "chain": "base",
+          "token_sectors": [
+            "Decentralised Exchanges",
+            "Yield Farming Protocols"
+          ],
+          "trader_count": 3,
+          "token_age_days": 434,
+          "market_cap_usd": 2103478.89827103
+        },
+        {
+          "token_address": "0xb2000000000000000000003779298b7eb3d8d501",
+          "token_symbol": "DOGUE",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -4128.28163508646,
+          "chain": "base",
+          "token_sectors": [
+            "Crypto Payments",
+            "Social Fi"
+          ],
+          "trader_count": 6,
+          "token_age_days": 38,
+          "market_cap_usd": 26315.1016761933
+        },
+        {
+          "token_address": "0x7d928816cc9c462dd7adef911de41535e444cb07",
+          "token_symbol": "FAIR",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 369.252035160042,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence",
+            "AI Agents"
+          ],
+          "trader_count": 1,
+          "token_age_days": 454,
+          "market_cap_usd": 424862.6161167
+        },
+        {
+          "token_address": "0x6d2ed89d2c656597544080456a1d002fae2afee1",
+          "token_symbol": "YOSHKA",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 1231.0562485893442,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 4,
+          "token_age_days": 29,
+          "market_cap_usd": 16765.7085293679
+        },
+        {
+          "token_address": "0xb2000000000000000000008bc8786b856e61707c",
+          "token_symbol": "META",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": -102.44010491609836,
+          "net_flow_30d_usd": -858.2997595692568,
+          "chain": "base",
+          "token_sectors": [
+            "DeFi Lending (Money Markets)"
+          ],
+          "trader_count": 4,
+          "token_age_days": 59,
+          "market_cap_usd": 2868903.03253694
+        },
+        {
+          "token_address": "0x810affc8aadad2824c65e0a2c5ef96ef1de42ba3",
+          "token_symbol": "AXOBOTL",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -316.76890053609304,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 187,
+          "market_cap_usd": 42490.3953358947
+        },
+        {
+          "token_address": "0xd0924fa4c6ba194294a414d0fb826739ded98b24",
+          "token_symbol": "AIBRK",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -1.2889957388632531,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 432,
+          "market_cap_usd": 11974.6468813139
+        },
+        {
+          "token_address": "0xcb2baff7177c8966a8b059b3df3e9323dc2ee267",
+          "token_symbol": "ISTONKS",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": -542.8813973409428,
+          "net_flow_30d_usd": -12254.64268151453,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 8,
+          "token_age_days": 12,
+          "market_cap_usd": 125391.366125647
+        },
+        {
+          "token_address": "0x1f1c695f6b4a3f8b05f2492cef9474afb6d6ad69",
+          "token_symbol": "A1C",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -366.106466825584,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence"
+          ],
+          "trader_count": 1,
+          "token_age_days": 614,
+          "market_cap_usd": 1689335.19245171
+        },
+        {
+          "token_address": "0x15d0e0c55a3e7ee67152ad7e89acf164253ff68d",
+          "token_symbol": "HYPE",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -22849.495566393038,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 2,
+          "token_age_days": 350,
+          "market_cap_usd": 2616909.33642644
+        },
+        {
+          "token_address": "0xcbada732173e39521cdbe8bf59a6dc85a9fc7b8c",
+          "token_symbol": "CBADA",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": -49.318162020868094,
+          "net_flow_30d_usd": -49.318162020868094,
+          "chain": "base",
+          "token_sectors": [
+            "Scaling & Connectivity"
+          ],
+          "trader_count": 1,
+          "token_age_days": 498,
+          "market_cap_usd": 13871896.5791742
+        },
+        {
+          "token_address": "0xe72a0c42b584a3e7a4503a82d1337deb52ade885",
+          "token_symbol": "BLOCKY",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 123.69316214965225,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 8,
+          "market_cap_usd": 30160.0198108624
+        },
+        {
+          "token_address": "0x31c2c14134e6e3b7ef9478297f199331133fc2d8",
+          "token_symbol": "WTSPYM",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -2234.729493827883,
+          "chain": "base",
+          "token_sectors": [
+            "RWAs"
+          ],
+          "trader_count": 2,
+          "token_age_days": 231,
+          "market_cap_usd": 878234.664288554
+        },
+        {
+          "token_address": "0xa3a34a0d9a08ccddb6ed422ac0a28a06731335aa",
+          "token_symbol": "UADA",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -4.118614817784162,
+          "chain": "base",
+          "token_sectors": [
+            "Scaling & Connectivity",
+            "Decentralised Exchanges"
+          ],
+          "trader_count": 1,
+          "token_age_days": 805,
+          "market_cap_usd": 35.8045792529
+        },
+        {
+          "token_address": "0x001aad84c21a5cd4d696c56d44866e9703c43f77",
+          "token_symbol": "CP",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 9050.104126423337,
+          "chain": "base",
+          "token_sectors": [
+            "x402"
+          ],
+          "trader_count": 13,
+          "token_age_days": 121,
+          "market_cap_usd": 19591951.9098562
+        },
+        {
+          "token_address": "0x6eefbfc95c7810adf53ac232d1de911839918749",
+          "token_symbol": "COS",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -181.49511240962508,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins",
+            "AI Meme",
+            "AI Agents"
+          ],
+          "trader_count": 1,
+          "token_age_days": 229,
+          "market_cap_usd": 66752.1591799297
+        },
+        {
+          "token_address": "0x5576d6ed9181f2225aff5282ac0ed29f755437ea",
+          "token_symbol": "SERV",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 9989.337595192244,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence",
+            "AI Agents"
+          ],
+          "trader_count": 1,
+          "token_age_days": 492,
+          "market_cap_usd": 20811143.4233512
+        },
+        {
+          "token_address": "0x1e925de1c68ef83bd98ee3e130ef14a50309c01b",
+          "token_symbol": "EXA",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 1.7582754379794636,
+          "net_flow_30d_usd": 1.7582754379794636,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 162,
+          "market_cap_usd": 716395.868053812
+        },
+        {
+          "token_address": "0xf53a3b2cf482494eec4ca096af4b107a6c3b759b",
+          "token_symbol": "BLOOM",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -2057.474798489009,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 2,
+          "token_age_days": 126,
+          "market_cap_usd": 65444.0014688997
+        },
+        {
+          "token_address": "0x86cdd90bc48f7b5a866feaaf5023b8802dc2ab07",
+          "token_symbol": "CONWAY",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 69.23271485196915,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins",
+            "AI Meme",
+            "AI Agents"
+          ],
+          "trader_count": 1,
+          "token_age_days": 233,
+          "market_cap_usd": 100620.150465331
+        },
+        {
+          "token_address": "0xb20000000000000000000075cb43c9064c914227",
+          "token_symbol": "PI",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 311.3177019499953,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 6,
+          "token_age_days": 29,
+          "market_cap_usd": 18140.384475709
+        },
+        {
+          "token_address": "0x17d70172c7c4205bd39ce80f7f0ee660b7dc5a23",
+          "token_symbol": "DIME",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -91.71997270679752,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 581,
+          "market_cap_usd": 1283028.3606216
+        },
+        {
+          "token_address": "0x10f52295e129817e8e4b28da0dab067321ec2222",
+          "token_symbol": "EVAL",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -2406.6942208319833,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 4,
+          "token_age_days": 20,
+          "market_cap_usd": 377546.467931568
+        },
+        {
+          "token_address": "0xf43eb8de897fbc7f2502483b2bef7bb9ea179229",
+          "token_symbol": "ZEN",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -20231.42474934724,
+          "chain": "base",
+          "token_sectors": [
+            "Scaling & Connectivity"
+          ],
+          "trader_count": 1,
+          "token_age_days": 463,
+          "market_cap_usd": 149130358.661277
+        },
+        {
+          "token_address": "0xb20000000000000000000061b525bf2c9fb4e501",
+          "token_symbol": "NOVA",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -25.907077408498026,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 2,
+          "token_age_days": 15,
+          "market_cap_usd": 8003.6448867377
+        },
+        {
+          "token_address": "0x182fa643e5f29d5eca75e7b9cf9336a3fe4620b2",
+          "token_symbol": "O",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -146.02096575492644,
+          "chain": "base",
+          "token_sectors": [
+            "Decentralised Exchanges",
+            "Perps, Options and Derivatives",
+            "Yield Bearing"
+          ],
+          "trader_count": 4,
+          "token_age_days": 120,
+          "market_cap_usd": 89954845.4938398
+        },
+        {
+          "token_address": "0xae4a37d554c6d6f3e398546d8566b25052e0169c",
+          "token_symbol": "DONUT",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -1022.1889676629968,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 2,
+          "token_age_days": 320,
+          "market_cap_usd": 92152.9493366686
+        },
+        {
+          "token_address": "0x65021a79aeef22b17cdc1b768f5e79a8618beba3",
+          "token_symbol": "ROBOTMONEY",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -723.2337905890147,
+          "chain": "base",
+          "token_sectors": [
+            "Yield Farming Protocols",
+            "Yield Bearing"
+          ],
+          "trader_count": 1,
+          "token_age_days": 195,
+          "market_cap_usd": 403831.959997218
+        },
+        {
+          "token_address": "0xcde172dc5ffc46d228838446c57c1227e0b82049",
+          "token_symbol": "BOOMER",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -149.34791029001806,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 1,
+          "token_age_days": 912,
+          "market_cap_usd": 298926.5691923
+        },
+        {
+          "token_address": "0xe88419a3fc78364cfe3de88080ee4853fab754c6",
+          "token_symbol": "ROBA",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -4864.907973900474,
+          "chain": "base",
+          "token_sectors": [
+            "Social Fi"
+          ],
+          "trader_count": 2,
+          "token_age_days": 350,
+          "market_cap_usd": 495810.038616398
+        },
+        {
+          "token_address": "0x0fb07c88bc6d195c196279523957c004eb868248",
+          "token_symbol": "SPARK",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": -212.9249617168822,
+          "net_flow_30d_usd": 614.9693666080202,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence",
+            "Scaling & Connectivity"
+          ],
+          "trader_count": 2,
+          "token_age_days": 130,
+          "market_cap_usd": 3002436.10701396
+        },
+        {
+          "token_address": "0xb69bbb15095c0949489fbb43951d2b750fa7fa89",
+          "token_symbol": "DEXTF",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -6813.392513186504,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 371,
+          "market_cap_usd": 4672583.21229454
+        },
+        {
+          "token_address": "0x0028e1e60167b48a938b785aa5292917e7eaca8b",
+          "token_symbol": "COINYE",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -540.3678765049746,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 1,
+          "token_age_days": 915,
+          "market_cap_usd": 212379.817139667
+        },
+        {
+          "token_address": "0x88fb150bdc53a65fe94dea0c9ba0a6daf8c6e196",
+          "token_symbol": "LINK",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 21.19064577836025,
+          "chain": "base",
+          "token_sectors": [
+            "Data source and Oracle",
+            "Scaling & Connectivity"
+          ],
+          "trader_count": 1,
+          "token_age_days": 1136,
+          "market_cap_usd": 9649998282.91843
+        },
+        {
+          "token_address": "0xb200000000000000000000ba5edb84c678432476",
+          "token_symbol": "SPHERE",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -562.6116551002265,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 3,
+          "token_age_days": 22,
+          "market_cap_usd": 10638.6286837679
+        },
+        {
+          "token_address": "0xfbc2051ae2265686a469421b2c5a2d5462fbf5eb",
+          "token_symbol": "OPG",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 6077.044691928997,
+          "net_flow_30d_usd": 6077.044691928997,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence"
+          ],
+          "trader_count": 4,
+          "token_age_days": 202,
+          "market_cap_usd": 30176225.7616616
+        },
+        {
+          "token_address": "0x7afe438411ee3959c7de6f7fb76bf9c769320ba3",
+          "token_symbol": "BLOCKTRONICS",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": -393.0025378735509,
+          "net_flow_30d_usd": 3200.033711890668,
+          "chain": "base",
+          "token_sectors": [
+            "On-Chain Analytics",
+            "DeFi Tools",
+            "Liquidity Management",
+            "Market Analysis"
+          ],
+          "trader_count": 4,
+          "token_age_days": 138,
+          "market_cap_usd": 673162.277762076
+        },
+        {
+          "token_address": "0x532f27101965dd16442e59d40670faf5ebb142e4",
+          "token_symbol": "BRETT",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 417.5154708370428,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 1,
+          "token_age_days": 942,
+          "market_cap_usd": 58489793.8996787
+        },
+        {
+          "token_address": "0xf1a7000000950c7ad8aff13118bb7ab561a448ee",
+          "token_symbol": "FLAY",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -5044.773072125368,
+          "chain": "base",
+          "token_sectors": [
+            "Decentralised Exchanges"
+          ],
+          "trader_count": 1,
+          "token_age_days": 603,
+          "market_cap_usd": 3150236.64574136
+        },
+        {
+          "token_address": "0x95ccfd2b81a9667b0cc979992632f98fc853eba3",
+          "token_symbol": "HERMESOS",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 499.90961414051895,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence",
+            "AI Agents"
+          ],
+          "trader_count": 1,
+          "token_age_days": 163,
+          "market_cap_usd": 113596.772160214
+        },
+        {
+          "token_address": "0xef22cb48b8483df6152e1423b19df5553bbd818b",
+          "token_symbol": "HEU",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -1.5585236052471165,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence"
+          ],
+          "trader_count": 1,
+          "token_age_days": 662,
+          "market_cap_usd": 397871.69041335
+        },
+        {
+          "token_address": "0x0bd4887f7d41b35cd75dff9ffee2856106f86670",
+          "token_symbol": "FRIEND",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -71574.10734169668,
+          "chain": "base",
+          "token_sectors": [
+            "Social Fi",
+            "Crypto Payments"
+          ],
+          "trader_count": 11,
+          "token_age_days": 874,
+          "market_cap_usd": 251918.128343891
+        },
+        {
+          "token_address": "0x0086cff0c1e5d17b19f5bcd4c8840a5b4251d959",
+          "token_symbol": "ODAI",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 6777.778145482365,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence",
+            "AI Agents"
+          ],
+          "trader_count": 2,
+          "token_age_days": 223,
+          "market_cap_usd": 430963.930929733
+        },
+        {
+          "token_address": "0xc7c154a93127ad933844fe21b20358397edc0e8c",
+          "token_symbol": "EMMA",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -60.784013077383705,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 382,
+          "market_cap_usd": 16925.9373569801
+        },
+        {
+          "token_address": "0xf5f11bc9be9d6690f795d04d2fc9bdd097008a2b",
+          "token_symbol": "BPAD",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 9129.505399630822,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 7,
+          "token_age_days": 37,
+          "market_cap_usd": 76095.081584468
+        },
+        {
+          "token_address": "0x64a3ebcb45fc74aa8a8e7a4579f14e85e3a0fba3",
+          "token_symbol": "RVAULT",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -62.124597411271786,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 2,
+          "token_age_days": 143,
+          "market_cap_usd": 34840.3174178806
+        },
+        {
+          "token_address": "0x98d0baa52b2d063e780de12f615f963fe8537553",
+          "token_symbol": "KAITO",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -7.366260137063828,
+          "chain": "base",
+          "token_sectors": [
+            "Crypto Payments",
+            "Social Fi"
+          ],
+          "trader_count": 1,
+          "token_age_days": 593,
+          "market_cap_usd": 88565372.1052818
+        },
+        {
+          "token_address": "0xc9750053fe947e0961eab0f3e29325f0311dcb07",
+          "token_symbol": "CLANKER",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 1500.6236378797544,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 18,
+          "market_cap_usd": 33392.65112
+        },
+        {
+          "token_address": "0xfac77f01957ed1b3dd1cbea992199b8f85b6e886",
+          "token_symbol": "FACY",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -4190.289157078805,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence",
+            "Social Fi"
+          ],
+          "trader_count": 2,
+          "token_age_days": 410,
+          "market_cap_usd": 825215.662774173
+        },
+        {
+          "token_address": "0x373504da48418c67e6fcd071f33cb0b3b47613c7",
+          "token_symbol": "WBASEDOGE",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -42.16478393171363,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 971,
+          "market_cap_usd": 30156.8976047161
+        },
+        {
+          "token_address": "0xa9f6d9eca1f803854a13cecad0f21d43e007db07",
+          "token_symbol": "BAES",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -6184.354947783937,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 4,
+          "token_age_days": 316,
+          "market_cap_usd": 373843.374250175
+        },
+        {
+          "token_address": "0xb200000000000000000000da7d1ea29181ae6901",
+          "token_symbol": "NOMEME",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -3198.3769232614586,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 4,
+          "token_age_days": 14,
+          "market_cap_usd": 8215.9655267392
+        },
+        {
+          "token_address": "0x32e0f9d26d1e33625742a52620cc76c1130efde6",
+          "token_symbol": "BASED",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -185.54751580628414,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 1,
+          "token_age_days": 796,
+          "market_cap_usd": 93679.7285868208
+        },
+        {
+          "token_address": "0xeff2a458e464b07088bdb441c21a42ab4b61e07e",
+          "token_symbol": "PDT",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -2.3810180979237363,
+          "chain": "base",
+          "token_sectors": [
+            "GameFi",
+            "Yield Bearing"
+          ],
+          "trader_count": 1,
+          "token_age_days": 821,
+          "market_cap_usd": 7419793.14594555
+        },
+        {
+          "token_address": "0x11dc28d01984079b7efe7763b533e6ed9e3722b9",
+          "token_symbol": "SYND",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": -7.7832314012334,
+          "net_flow_30d_usd": -7.7832314012334,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 398,
+          "market_cap_usd": 4158698.46951153
+        },
+        {
+          "token_address": "0xb200000000000000000000451d033a5000cb479e",
+          "token_symbol": "CBHYPE",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 10347.380884754151,
+          "net_flow_30d_usd": 10343.293044985487,
+          "chain": "base",
+          "token_sectors": [
+            "Scaling & Connectivity",
+            "DeFi Lending (Money Markets)"
+          ],
+          "trader_count": 2,
+          "token_age_days": 35,
+          "market_cap_usd": 1794060.92154159
+        },
+        {
+          "token_address": "0x764a726d9ced0433a8d7643335919deb03a9a935",
+          "token_symbol": "POKT",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 1997.589963740005,
+          "net_flow_30d_usd": 5503.483225130349,
+          "chain": "base",
+          "token_sectors": [
+            "Scaling & Connectivity",
+            "Data source and Oracle"
+          ],
+          "trader_count": 1,
+          "token_age_days": 791,
+          "market_cap_usd": 21473794.5833132
+        },
+        {
+          "token_address": "0xb200000000000000000000e83d09cf068e06365c",
+          "token_symbol": "BITBANK",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -6182.258467678461,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 3,
+          "token_age_days": 70,
+          "market_cap_usd": 13735.2768669329
+        },
+        {
+          "token_address": "0xb2000000000000000000007fc95b5cfffaf14401",
+          "token_symbol": "WIN",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -204.07999598836983,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 7,
+          "token_age_days": 13,
+          "market_cap_usd": 7847.8826892797
+        },
+        {
+          "token_address": "0x283c78fb34debbe2fe113d3cf80c26e7e6fa4759",
+          "token_symbol": "BNNA",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 1886.717736193949,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 2,
+          "token_age_days": 671,
+          "market_cap_usd": 34514.8788421332
+        },
+        {
+          "token_address": "0xac1bd2486aaf3b5c0fc3fd868558b082a531b2b4",
+          "token_symbol": "TOSHI",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -8313.45913450995,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 2,
+          "token_age_days": 1080,
+          "market_cap_usd": 56754299.6578883
+        },
+        {
+          "token_address": "0xc4d44c155f95fd4e94600d191a4a01bb571df7df",
+          "token_symbol": "GS",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 7.954622995357141,
+          "chain": "base",
+          "token_sectors": [
+            "Perps, Options and Derivatives",
+            "Decentralised Exchanges"
+          ],
+          "trader_count": 1,
+          "token_age_days": 759,
+          "market_cap_usd": 1026808.28284743
+        },
+        {
+          "token_address": "0xb200000000000000000000dfea18f58cd9adbc01",
+          "token_symbol": "HAYLORD",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -541.7484417031436,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 65,
+          "market_cap_usd": 41484.1867057047
+        },
+        {
+          "token_address": "0x315b8c9a1123c10228d469551033440441b41f0b",
+          "token_symbol": "BEATS",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -234.7239425537409,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins",
+            "AI Meme"
+          ],
+          "trader_count": 1,
+          "token_age_days": 676,
+          "market_cap_usd": 205901.616903356
+        },
+        {
+          "token_address": "0x6f89bca4ea5931edfcb09786267b251dee752b07",
+          "token_symbol": "REGENT",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 4070.2610270798523,
+          "net_flow_30d_usd": 11842.84524558431,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 2,
+          "token_age_days": 321,
+          "market_cap_usd": 749771.292430452
+        },
+        {
+          "token_address": "0x98f4779fccb177a6d856dd1dfd78cd15b7cd2af5",
+          "token_symbol": "MISATO",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 284.63016986896776,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 697,
+          "market_cap_usd": 43458.5259802405
+        },
+        {
+          "token_address": "0xb200000000000000000000cb2aca487c6ef53c01",
+          "token_symbol": "GROK",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 212.6132837603575,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 2,
+          "token_age_days": 14,
+          "market_cap_usd": 8309.9931579083
+        },
+        {
+          "token_address": "0x60555ab88a0caaf893ab284c1332c9d0a05af222",
+          "token_symbol": "ZKAT",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 53.54844709110773,
+          "net_flow_30d_usd": -11750.451274713847,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 5,
+          "token_age_days": 11,
+          "market_cap_usd": 23366.4160615998
+        },
+        {
+          "token_address": "0xe997017e0cb0ceb503565f181e9ea922cd979c35",
+          "token_symbol": "LMWR",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -204.24555319984103,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence",
+            "NFTs",
+            "Social Fi"
+          ],
+          "trader_count": 1,
+          "token_age_days": 881,
+          "market_cap_usd": 6744991.04954915
+        },
+        {
+          "token_address": "0x3942cae8bb9fc8f24fe627b30b6e7461e5662ba7",
+          "token_symbol": "BAILEY",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 1835.4804706155387,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 666,
+          "market_cap_usd": 37600.9032664044
+        },
+        {
+          "token_address": "0x1c4cca7c5db003824208adda61bd749e55f463a3",
+          "token_symbol": "GAME",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 14129.132651225449,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence",
+            "AI Agents"
+          ],
+          "trader_count": 5,
+          "token_age_days": 730,
+          "market_cap_usd": 5643542.34303446
+        },
+        {
+          "token_address": "0xb2000000000000000000008c031790942731b001",
+          "token_symbol": "BASEMEME",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 9014.475747925335,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 12,
+          "token_age_days": 18,
+          "market_cap_usd": 14431.1165691345
+        },
+        {
+          "token_address": "0xf4d97f2da56e8c3098f3a8d538db630a2606a024",
+          "token_symbol": "DIEM",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 217584.3400435813,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence",
+            "DeFi Lending (Money Markets)"
+          ],
+          "trader_count": 3,
+          "token_age_days": 402,
+          "market_cap_usd": 76086616.4223959
+        },
+        {
+          "token_address": "0xebff2db643cf955247339c8c6bcd8406308ca437",
+          "token_symbol": "CHOMP",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -118.62452522910557,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 1,
+          "token_age_days": 896,
+          "market_cap_usd": 141227.942459572
+        },
+        {
+          "token_address": "0xac5bdcf2eecebec8da3af0ef76912e197c6e547e",
+          "token_symbol": "FRAME",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 14.333564460982984,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 329,
+          "market_cap_usd": 106595.935897115
+        },
+        {
+          "token_address": "0x73ac2806c40ab4741ea7a35b7328aca957755ba3",
+          "token_symbol": "WOLF",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -1275.2893082792832,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 5,
+          "token_age_days": 86,
+          "market_cap_usd": 184387.925076614
+        },
+        {
+          "token_address": "0x767a739d1a152639e9ea1d8c1bd55fdc5b217d7f",
+          "token_symbol": "VEIL",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 611.1079105842499,
+          "net_flow_30d_usd": 277.78926403265314,
+          "chain": "base",
+          "token_sectors": [
+            "Scaling & Connectivity",
+            "Crypto Payments"
+          ],
+          "trader_count": 4,
+          "token_age_days": 628,
+          "market_cap_usd": 1932798.95563136
+        },
+        {
+          "token_address": "0xff8104251e7761163fac3211ef5583fb3f8583d6",
+          "token_symbol": "REPPO",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": -0.9755819876963618,
+          "net_flow_30d_usd": -7585.367519271795,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence"
+          ],
+          "trader_count": 9,
+          "token_age_days": 309,
+          "market_cap_usd": 6444808.48600082
+        },
+        {
+          "token_address": "0x3a9598cc456007e09276b39233a502bb6c0bd222",
+          "token_symbol": "KNOCKERS",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 173.1727130037901,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 12,
+          "market_cap_usd": 5786.337450185
+        },
+        {
+          "token_address": "0x2100a39f514d8fe3f26963a29b95b030a0a5d4b7",
+          "token_symbol": "UPONLY",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -1245.2454109818623,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 2,
+          "token_age_days": 618,
+          "market_cap_usd": 245523.821350226
+        },
+        {
+          "token_address": "0xfb064ea62db2a6258d50d1fd0ca11e5cf2a8fee1",
+          "token_symbol": "EARPODS",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 2158.5428612839237,
+          "net_flow_30d_usd": 2158.5428612839237,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 3,
+          "token_age_days": 7,
+          "market_cap_usd": 55128.4796336328
+        },
+        {
+          "token_address": "0x7300b37dfdfab110d83290a29dfb31b1740219fe",
+          "token_symbol": "MAMO",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -342248.1236710837,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 10,
+          "token_age_days": 491,
+          "market_cap_usd": 4554403.03766545
+        },
+        {
+          "token_address": "0xb8d98a102b0079b69ffbc760c8d857a31653e56e",
+          "token_symbol": "TOBY",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -708.9459144595104,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 3,
+          "token_age_days": 922,
+          "market_cap_usd": 4061595.28938333
+        },
+        {
+          "token_address": "0xecaf81eb42cd30014eb44130b89bcd6d4ad98b92",
+          "token_symbol": "CHAD",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -3715.7439354160265,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 2,
+          "token_age_days": 918,
+          "market_cap_usd": 401318.49163803
+        },
+        {
+          "token_address": "0xfa980ced6895ac314e7de34ef1bfae90a5add21b",
+          "token_symbol": "PRIME",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -39.65725368509361,
+          "chain": "base",
+          "token_sectors": [
+            "GameFi",
+            "Metaverse",
+            "NFTs"
+          ],
+          "trader_count": 2,
+          "token_age_days": 1132,
+          "market_cap_usd": 15063987.6560281
+        },
+        {
+          "token_address": "0x03ee11923326d54a580af44ec633f1cdcb414632",
+          "token_symbol": "MEOW",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 5.340455422144132,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 337,
+          "market_cap_usd": 34153.874989879
+        },
+        {
+          "token_address": "0x3d958634ab725b627919ef8f2ed59227309fdba3",
+          "token_symbol": "NEXUS",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -541.3636040020909,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 2,
+          "token_age_days": 200,
+          "market_cap_usd": 43761.3117250133
+        },
+        {
+          "token_address": "0xb200000000000000000000d9192b6b456483c2e8",
+          "token_symbol": "AMZN",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -124.17967880025631,
+          "chain": "base",
+          "token_sectors": [
+            "RWAs"
+          ],
+          "trader_count": 3,
+          "token_age_days": 59,
+          "market_cap_usd": 1968566.02407689
+        },
+        {
+          "token_address": "0x9aaae745cf2830fb8ddc6248b17436dc3a5e701c",
+          "token_symbol": "GOCHU",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -17.53252723369293,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 3,
+          "token_age_days": 842,
+          "market_cap_usd": 478.0811425896
+        },
+        {
+          "token_address": "0x50c2cc97c4f487aa0cd742ab4b6afe8b8511bba3",
+          "token_symbol": "WAKE",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 249.3126979151125,
+          "chain": "base",
+          "token_sectors": [
+            "Scaling & Connectivity",
+            "Yield Bearing"
+          ],
+          "trader_count": 1,
+          "token_age_days": 128,
+          "market_cap_usd": 31391.855907926
+        },
+        {
+          "token_address": "0xbe5614875952b1683cb0a2c20e6509be46d353a4",
+          "token_symbol": "BBRETT",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 49.9951710529166,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 1,
+          "token_age_days": 834,
+          "market_cap_usd": 25689.9564961004
+        },
+        {
+          "token_address": "0xf1e9baa65d418a9025e1851dd2d37f1ad208bba3",
+          "token_symbol": "RATSPEAK",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 7608.457512852023,
+          "net_flow_30d_usd": 9778.370963012727,
+          "chain": "base",
+          "token_sectors": [
+            "Social Fi"
+          ],
+          "trader_count": 15,
+          "token_age_days": 128,
+          "market_cap_usd": 1703859.12570254
+        },
+        {
+          "token_address": "0xb200000000000000000000002d805fee3c74e001",
+          "token_symbol": "100",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 10101.869064826447,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 13,
+          "token_age_days": 29,
+          "market_cap_usd": 18509.3094126842
+        },
+        {
+          "token_address": "0x908b1d6b6c12bfdfcaaeb658b365ce39c21e679c",
+          "token_symbol": "LOTTO",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 73.3653699104874,
+          "net_flow_30d_usd": -26051.36939006233,
+          "chain": "base",
+          "token_sectors": [
+            "GambleFi"
+          ],
+          "trader_count": 8,
+          "token_age_days": 12,
+          "market_cap_usd": 321897.509666317
+        },
+        {
+          "token_address": "0xf9569cfb8fd265e91aa478d86ae8c78b8af55df4",
+          "token_symbol": "AUKI",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 20.11433098936351,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence",
+            "Metaverse"
+          ],
+          "trader_count": 1,
+          "token_age_days": 801,
+          "market_cap_usd": 45029766.534698
+        },
+        {
+          "token_address": "0x53f39e5c53ee40bbc3da97c3b47bd2968d110a8d",
+          "token_symbol": "ALIGN",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -153.92583296507618,
+          "chain": "base",
+          "token_sectors": [
+            "Scaling & Connectivity"
+          ],
+          "trader_count": 4,
+          "token_age_days": 191,
+          "market_cap_usd": 10917592.7233114
+        },
+        {
+          "token_address": "0xd3b0b58ec9516e4b875a075328e2cb059d4d54db",
+          "token_symbol": "ARCHAI",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -2.053415129999898,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence"
+          ],
+          "trader_count": 1,
+          "token_age_days": 527,
+          "market_cap_usd": 205988.736885772
+        },
+        {
+          "token_address": "0x33f5658a7c4614fc714059643b3e0e5a37408b02",
+          "token_symbol": "CUBE",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 2952.788769974984,
+          "net_flow_30d_usd": 3366.3651024406154,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 2,
+          "token_age_days": 93,
+          "market_cap_usd": 786110.881194477
+        },
+        {
+          "token_address": "0x08c8c47fa8dff51268b34616059999d92c4e0ba3",
+          "token_symbol": "SCRAMBLE",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 372.94385408304043,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 28,
+          "market_cap_usd": 23969.8545560236
+        },
+        {
+          "token_address": "0x8a24d7260cd02d3dfd8eefb66bc17ad4b17d494c",
+          "token_symbol": "BSB",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -1.8320438377064705,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 911,
+          "market_cap_usd": 29810.5470514967
+        },
+        {
+          "token_address": "0xa53887f7e7c1bf5010b8627f1c1ba94fe7a5d6e0",
+          "token_symbol": "RNBW",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -4240.937781734048,
+          "chain": "base",
+          "token_sectors": [
+            "NFTs"
+          ],
+          "trader_count": 2,
+          "token_age_days": 239,
+          "market_cap_usd": 3612094.19507822
+        },
+        {
+          "token_address": "0xb233bdffd437e60fa451f62c6c09d3804d285ba3",
+          "token_symbol": "NOOK",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -3336.2404283045253,
+          "chain": "base",
+          "token_sectors": [
+            "AI Agents",
+            "DeSci",
+            "Social Fi"
+          ],
+          "trader_count": 2,
+          "token_age_days": 210,
+          "market_cap_usd": 315963.035195905
+        },
+        {
+          "token_address": "0x0d97f261b1e88845184f678e2d1e7a98d9fd38de",
+          "token_symbol": "TYBG",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 2340.5497277037857,
+          "net_flow_30d_usd": 563.8879460088567,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 5,
+          "token_age_days": 1007,
+          "market_cap_usd": 1403230.7179589
+        },
+        {
+          "token_address": "0x19f89aaef8a93f38a974beca9776f09ab844887f",
+          "token_symbol": "WTSPCX",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 599.1344795541291,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 105,
+          "market_cap_usd": 10086.8234010775
+        },
+        {
+          "token_address": "0x9e00fc92493451eba1c63dd3880d68b622037ba3",
+          "token_symbol": "1F916",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -3.8426324564904246,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence",
+            "AI Agents",
+            "DeFi Lending (Money Markets)",
+            "DeSci"
+          ],
+          "trader_count": 1,
+          "token_age_days": 48,
+          "market_cap_usd": 1594777.83689485
+        },
+        {
+          "token_address": "0x693bad964f815f32fabe0b9d4911865bffc30172",
+          "token_symbol": "MYRAD",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 650.0428453984589,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence",
+            "Data source and Oracle"
+          ],
+          "trader_count": 1,
+          "token_age_days": 71,
+          "market_cap_usd": 253188.036636911
+        },
+        {
+          "token_address": "0x3722264ab15a1dfce5a5af89e6547f7949a8aba3",
+          "token_symbol": "LFI",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 12721.680538784149,
+          "net_flow_30d_usd": -32265.20225435256,
+          "chain": "base",
+          "token_sectors": [
+            "RWAs",
+            "Yield Bearing"
+          ],
+          "trader_count": 15,
+          "token_age_days": 145,
+          "market_cap_usd": 4273689.66378171
+        },
+        {
+          "token_address": "0xb2000000000000000000008b79a7be3f03091001",
+          "token_symbol": "APPLE JUICE",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 4277.2735885739785,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 3,
+          "token_age_days": 34,
+          "market_cap_usd": 19889.171089149
+        },
+        {
+          "token_address": "0xc7dcca0a3e69bd762c8db257f868f76be36c8514",
+          "token_symbol": "KIBSHI",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": -54.312425651523164,
+          "net_flow_30d_usd": -167.48886840147657,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins",
+            "AI Meme"
+          ],
+          "trader_count": 1,
+          "token_age_days": 916,
+          "market_cap_usd": 1996061.94655841
+        },
+        {
+          "token_address": "0x80ded22d9c6487181ed74d0222add805815e8df4",
+          "token_symbol": "CENTRY",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 3947.8158954143432,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 2,
+          "token_age_days": 462,
+          "market_cap_usd": 377156.258924969
+        },
+        {
+          "token_address": "0x823ff7bbde2869aae73a6cd53e7f614442836757",
+          "token_symbol": "WTQQQM",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -3.211506974839997,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 140,
+          "market_cap_usd": 8384.2008307
+        },
+        {
+          "token_address": "0x6e84030fa86ebf585e3e18fe557e5612f7e93bff",
+          "token_symbol": "AORA",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": -9.192133948225568,
+          "net_flow_30d_usd": -1584.6690817243325,
+          "chain": "base",
+          "token_sectors": [
+            "Crypto Payments",
+            "Yield Bearing"
+          ],
+          "trader_count": 2,
+          "token_age_days": 147,
+          "market_cap_usd": 81261.9093146901
+        },
+        {
+          "token_address": "0x05b1266ddcee093ce060dbf697e230ea9b453633",
+          "token_symbol": "REPLY",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -2159.8560778283017,
+          "chain": "base",
+          "token_sectors": [
+            "Social Fi"
+          ],
+          "trader_count": 1,
+          "token_age_days": 320,
+          "market_cap_usd": 619498.855902104
+        },
+        {
+          "token_address": "0x2e8f83541ab39c8451b3e557a19be531a59ddecc",
+          "token_symbol": "WJUNO",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -67.47078278897332,
+          "chain": "base",
+          "token_sectors": [
+            "Scaling & Connectivity"
+          ],
+          "trader_count": 1,
+          "token_age_days": 169,
+          "market_cap_usd": 106950.735476518
+        },
+        {
+          "token_address": "0x5bca9221757f9e9e00a04b213d6498f49a444222",
+          "token_symbol": "MEME",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 794.1187541607,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 2,
+          "token_age_days": 15,
+          "market_cap_usd": 5414.8691523232
+        },
+        {
+          "token_address": "0x7a8a5012022bccbf3ea4b03cd2bb5583d915fb1a",
+          "token_symbol": "CHUCK",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -235.05673280765023,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 1,
+          "token_age_days": 907,
+          "market_cap_usd": 290042.009205606
+        },
+        {
+          "token_address": "0xd88fd4a11255e51f64f78b4a7d74456325c2d8dc",
+          "token_symbol": "BV7X",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": -50.50943143302735,
+          "net_flow_30d_usd": 3232.1933189978563,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 2,
+          "token_age_days": 234,
+          "market_cap_usd": 41428.2272836248
+        },
+        {
+          "token_address": "0x5cda0e1ca4ce2af96315f7f8963c85399c172204",
+          "token_symbol": "WTCOIN",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -172.63174405415936,
+          "chain": "base",
+          "token_sectors": [
+            "RWAs",
+            "Scaling & Connectivity",
+            "Decentralised Exchanges"
+          ],
+          "trader_count": 8,
+          "token_age_days": 231,
+          "market_cap_usd": 264480.605559183
+        },
+        {
+          "token_address": "0xc2fe011c3885277c7f0e7ffd45ff90cadc8ecd12",
+          "token_symbol": "PONCHO",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -256.4669040344635,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 1,
+          "token_age_days": 926,
+          "market_cap_usd": 63860.5282708997
+        },
+        {
+          "token_address": "0x1197e6fa778c4d13e47875bd1761c68c22c928e0",
+          "token_symbol": "WTGRND",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -580.4535991746181,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 19,
+          "market_cap_usd": 34682.6018172949
+        },
+        {
+          "token_address": "0x50d2280441372486beecdd328c1854743ebacb07",
+          "token_symbol": "KELLYCLAUDE",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 20.850965285727966,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence",
+            "AI Agents"
+          ],
+          "trader_count": 1,
+          "token_age_days": 236,
+          "market_cap_usd": 491962.049416007
+        },
+        {
+          "token_address": "0x09f29e2acdb76a831668b03ce2e3ad7bb41aaa5c",
+          "token_symbol": "BAPE",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -404.48842980152017,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 1147,
+          "market_cap_usd": 24514.0417194919
+        },
+        {
+          "token_address": "0x00bb032296e0c580e21010a5a6a4e007e0953e68",
+          "token_symbol": "🟩🦞",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -488.42726939620553,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 240,
+          "market_cap_usd": 35817.5968484932
+        },
+        {
+          "token_address": "0x85eac631c800af804476b140f87039f742c28ba3",
+          "token_symbol": "WOON",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": -432.48049209028744,
+          "net_flow_30d_usd": -5223.796143049008,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 163,
+          "market_cap_usd": 1436334.94983992
+        },
+        {
+          "token_address": "0xecff4d80f54cf55c626e52f304a8891645961e72",
+          "token_symbol": "DAG",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -1.3728361689705701,
+          "chain": "base",
+          "token_sectors": [
+            "Scaling & Connectivity",
+            "Data source and Oracle"
+          ],
+          "trader_count": 1,
+          "token_age_days": 337,
+          "market_cap_usd": 22203397.172296
+        },
+        {
+          "token_address": "0x853a7c99227499dba9db8c3a02aa691afdebf841",
+          "token_symbol": "PLAY",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -97540.81567068893,
+          "chain": "base",
+          "token_sectors": [
+            "GameFi"
+          ],
+          "trader_count": 2,
+          "token_age_days": 482,
+          "market_cap_usd": 11551637.8425654
+        },
+        {
+          "token_address": "0x61d91cff0fc9fbbdb89f505cf8a7422bf95fdba3",
+          "token_symbol": "1CLAWAI",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": -2010.0906232598802,
+          "net_flow_30d_usd": 5291.246157078856,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 4,
+          "token_age_days": 134,
+          "market_cap_usd": 305551.671964461
+        },
+        {
+          "token_address": "0x8eae800ff67778057941792acdbab29904962ba3",
+          "token_symbol": "FYP",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 1433.463207132046,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 117,
+          "market_cap_usd": 68364.8334812063
+        },
+        {
+          "token_address": "0xb2000000000000000000003967bd404479e63656",
+          "token_symbol": "KGOLONGFUN",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -1040.6484889393578,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 2,
+          "token_age_days": 29,
+          "market_cap_usd": 11344.5564824044
+        },
+        {
+          "token_address": "0x931517e9502f9d52cdf6f5ac7fca7925e2a1bba3",
+          "token_symbol": "AZL",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -827.1645450315452,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 112,
+          "market_cap_usd": 69958.2595816916
+        },
+        {
+          "token_address": "0x5577a294ae5a21446a11b0e4100ca83803995720",
+          "token_symbol": "BA3PUMP",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -32842.77473418487,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 28,
+          "market_cap_usd": 121093.43114303
+        },
+        {
+          "token_address": "0xbf927b841994731c573bdf09ceb0c6b0aa887cdd",
+          "token_symbol": "VELVET",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -57860.616857358145,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence",
+            "Scaling & Connectivity",
+            "Social Fi",
+            "Yield Farming Protocols"
+          ],
+          "trader_count": 6,
+          "token_age_days": 411,
+          "market_cap_usd": 27943583.1712663
+        },
+        {
+          "token_address": "0xd1eac76497d06cf15475a5e3984d5bc03de7c707",
+          "token_symbol": "GREEN",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -1772.038961909133,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 454,
+          "market_cap_usd": 412978.612948081
+        },
+        {
+          "token_address": "0x53b37b2f1ccc2aab2affb0a198394c58139f6767",
+          "token_symbol": "JACKET",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 1779.2212127085954,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 2,
+          "token_age_days": 27,
+          "market_cap_usd": 7840.4706387138
+        },
+        {
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_symbol": "VIRTUAL",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": -68318.68796877762,
+          "net_flow_30d_usd": 14412.320347049194,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence",
+            "GameFi",
+            "Metaverse",
+            "AI Agents"
+          ],
+          "trader_count": 8,
+          "token_age_days": 923,
+          "market_cap_usd": 503155665.209952
+        },
+        {
+          "token_address": "0xb20000000000000000000040d29e37e54435f101",
+          "token_symbol": "BASENOUN",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -2159.047789864245,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 6,
+          "token_age_days": 28,
+          "market_cap_usd": 83654.1130938676
+        },
+        {
+          "token_address": "0x00cb1fbca324d51325a7264d54072bc073c28ba3",
+          "token_symbol": "DARKSOL",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 350.5240290099159,
+          "chain": "base",
+          "token_sectors": [
+            "DePIN"
+          ],
+          "trader_count": 1,
+          "token_age_days": 184,
+          "market_cap_usd": 70359.9873854606
+        },
+        {
+          "token_address": "0x0fdc79b868bc4a6295cd94397f61890f68c38ba3",
+          "token_symbol": "SEARXLY",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -87.50162266064625,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 113,
+          "market_cap_usd": 37148.6364966556
+        },
+        {
+          "token_address": "0x7886425b2fe12f7b1fae339a448b5603d80a99e2",
+          "token_symbol": "ASTRO",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 1932.381721735894,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 3,
+          "token_age_days": 27,
+          "market_cap_usd": 26173.3309820544
+        },
+        {
+          "token_address": "0x2b5050f01d64fbb3e4ac44dc07f0732bfb5ecadf",
+          "token_symbol": "QR",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": -8953.801162257943,
+          "net_flow_30d_usd": -11077.140455147686,
+          "chain": "base",
+          "token_sectors": [
+            "Crypto Payments"
+          ],
+          "trader_count": 2,
+          "token_age_days": 594,
+          "market_cap_usd": 127546.046639235
+        },
+        {
+          "token_address": "0x4d2eff441848e1c21a207ffbe90295e7db801fc2",
+          "token_symbol": "BOX",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 99.8337075654771,
+          "net_flow_30d_usd": 183.4578362513471,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 7,
+          "token_age_days": 23,
+          "market_cap_usd": 59034.284757885
+        },
+        {
+          "token_address": "0x2d57c47bc5d2432feeedf2c9150162a9862d3ccf",
+          "token_symbol": "DICKBUTT",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": -5619.949335132861,
+          "net_flow_30d_usd": -10175.22818899201,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 4,
+          "token_age_days": 653,
+          "market_cap_usd": 536484.762158102
+        },
+        {
+          "token_address": "0xce16ef461d88256d2d80dfd31f0d9e7a9fd59213",
+          "token_symbol": "BUNKER",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -1.0181935955633221,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence",
+            "AI Agents"
+          ],
+          "trader_count": 1,
+          "token_age_days": 234,
+          "market_cap_usd": 56867.1540378507
+        },
+        {
+          "token_address": "0xb3846fd356c2149ee8d30b0449088dc74e265459",
+          "token_symbol": "GLMR",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 68482.24274370036,
+          "chain": "base",
+          "token_sectors": [
+            "Scaling & Connectivity",
+            "Artificial Intelligence",
+            "AI Agents"
+          ],
+          "trader_count": 2,
+          "token_age_days": 91,
+          "market_cap_usd": 7334374.0339062
+        },
+        {
+          "token_address": "0xed664536023d8e4b1640c394777d34abaff1df8f",
+          "token_symbol": "POD",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 5739.979183785243,
+          "net_flow_30d_usd": -50986.20160654596,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 7,
+          "token_age_days": 212,
+          "market_cap_usd": 32366997.0643583
+        },
+        {
+          "token_address": "0xb2000000000000000000008c60669cc2bd524a01",
+          "token_symbol": "BASEHAT",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 1506.4322752959886,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 5,
+          "token_age_days": 37,
+          "market_cap_usd": 30159.4863440865
+        },
+        {
+          "token_address": "0xc55e93c62874d8100dbd2dfe307edc1036ad5434",
+          "token_symbol": "MOOBIFI",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -2.1630777180592515,
+          "chain": "base",
+          "token_sectors": [
+            "Yield Farming Protocols",
+            "Yield Bearing",
+            "Scaling & Connectivity"
+          ],
+          "trader_count": 1,
+          "token_age_days": 1069,
+          "market_cap_usd": 241051.806677047
+        },
+        {
+          "token_address": "0xb2000000000000000000004dbad0bb9b64bc7a01",
+          "token_symbol": "CRAZYFROG",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 39.58585446385263,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 2,
+          "token_age_days": 32,
+          "market_cap_usd": 16284.2992530441
+        },
+        {
+          "token_address": "0x3c8cd0db9a01efa063a7760267b822a129bc7dca",
+          "token_symbol": "FROC",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -3.394215540274463,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 587,
+          "market_cap_usd": 119421.281433675
+        },
+        {
+          "token_address": "0x25c448101c36d7306ed8053b96b090bb56a87b07",
+          "token_symbol": "BOTCOIN",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -3526.4571484665703,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 2,
+          "token_age_days": 45,
+          "market_cap_usd": 756651.967268014
+        },
+        {
+          "token_address": "0x4f9fd6be4a90f2620860d680c0d4d5fb53d1a825",
+          "token_symbol": "AIXBT",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -8158.63767587814,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence",
+            "AI Agents"
+          ],
+          "trader_count": 1,
+          "token_age_days": 690,
+          "market_cap_usd": 23854838.7176716
+        },
+        {
+          "token_address": "0x937a1cfaf0a3d9f5dc4d0927f72ee5e3e5f82a00",
+          "token_symbol": "COCORO",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -11.128383291368479,
+          "chain": "base",
+          "token_sectors": [
+            "Social Fi",
+            "Crypto Payments"
+          ],
+          "trader_count": 1,
+          "token_age_days": 564,
+          "market_cap_usd": 1582227.60503076
+        },
+        {
+          "token_address": "0xa3d353743164972b37c8e5358fb1e76f0be8aba3",
+          "token_symbol": "ELON",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -463.35915947922365,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 4,
+          "token_age_days": 12,
+          "market_cap_usd": 68912.3583036956
+        },
+        {
+          "token_address": "0x8070b5e222f1ec077845e46ced2267e0def4cba3",
+          "token_symbol": "PRTN",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -81.2658905910963,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 2,
+          "token_age_days": 121,
+          "market_cap_usd": 35989.674857625
+        },
+        {
+          "token_address": "0xcb585250f852c6c6bf90434ab21a00f02833a4af",
+          "token_symbol": "CBXRP",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -7.015272260859923,
+          "chain": "base",
+          "token_sectors": [
+            "Scaling & Connectivity",
+            "DeFi Lending (Money Markets)"
+          ],
+          "trader_count": 1,
+          "token_age_days": 498,
+          "market_cap_usd": 207619348.950678
+        },
+        {
+          "token_address": "0x0c03ce270b4826ec62e7dd007f0b716068639f7b",
+          "token_symbol": "TIG",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -6610.634760795725,
+          "chain": "base",
+          "token_sectors": [
+            "DeSci",
+            "Artificial Intelligence"
+          ],
+          "trader_count": 2,
+          "token_age_days": 1036,
+          "market_cap_usd": 26203794.368891
+        },
+        {
+          "token_address": "0xf5f2a79eeccf6e7f4c570c803f529930e29cc96b",
+          "token_symbol": "CERTAI",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 100.59058861075647,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 662,
+          "market_cap_usd": 97688.3514296837
+        },
+        {
+          "token_address": "0x051024b653e8ec69e72693f776c41c2a9401fb07",
+          "token_symbol": "BETR",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 505.8053400910525,
+          "net_flow_30d_usd": 1579.3966950665856,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 2,
+          "token_age_days": 514,
+          "market_cap_usd": 101349.200588617
+        },
+        {
+          "token_address": "0x16ee7ecac70d1028e7712751e2ee6ba808a7dd92",
+          "token_symbol": "FUN",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -2378.2854700202593,
+          "chain": "base",
+          "token_sectors": [
+            "GambleFi"
+          ],
+          "trader_count": 1,
+          "token_age_days": 315,
+          "market_cap_usd": 3616281.71591735
+        },
+        {
+          "token_address": "0x6921b130d297cc43754afba22e5eac0fbf8db75b",
+          "token_symbol": "DOGINME",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -14540.733621307269,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 4,
+          "token_age_days": 962,
+          "market_cap_usd": 5450008.01611471
+        },
+        {
+          "token_address": "0x4dec3139f4a6c638e26452d32181fe87a7530805",
+          "token_symbol": "ART",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 1136.3813697723187,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 449,
+          "market_cap_usd": 122768.243827986
+        },
+        {
+          "token_address": "0x572c4fa77623652411574c51b5ddb7e1b750aba3",
+          "token_symbol": "SUPERGEMMA",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 8135.562427590992,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 6,
+          "token_age_days": 162,
+          "market_cap_usd": 235737.754631559
+        },
+        {
+          "token_address": "0xb20000000000000000000023b657130129ad33e5",
+          "token_symbol": "STOCK",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 62.45112574989466,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 2,
+          "token_age_days": 17,
+          "market_cap_usd": 9202.1102497677
+        },
+        {
+          "token_address": "0x78a5d1de296f351a4bc1316fed9db443381a80cd",
+          "token_symbol": "AEGON",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 31.349244155146952,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 394,
+          "market_cap_usd": 6228.298921404
+        },
+        {
+          "token_address": "0xe57e601c06689d3e2bf7db7bebb14b4ff28400c6",
+          "token_symbol": "MRDN",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -4231.135299838007,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 373,
+          "market_cap_usd": 369010.933076338
+        },
+        {
+          "token_address": "0x5f6a682a58854c7fbe228712aeeffccde0008ac0",
+          "token_symbol": "SHEKEL",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": -1569.3569601058812,
+          "net_flow_30d_usd": -1569.3569601058812,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 2,
+          "token_age_days": 640,
+          "market_cap_usd": 80805.5196777945
+        },
+        {
+          "token_address": "0x24569d33653c404f90af10a2b98d6e0030d3d267",
+          "token_symbol": "UNA",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -38.54847550285848,
+          "chain": "base",
+          "token_sectors": [
+            "GameFi",
+            "NFTs"
+          ],
+          "trader_count": 1,
+          "token_age_days": 845,
+          "market_cap_usd": 200624.016421374
+        },
+        {
+          "token_address": "0xb20000000000000000000000c6f9024862c6fb01",
+          "token_symbol": "BASELINE",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 52752.08491876689,
+          "chain": "base",
+          "token_sectors": [
+            "DeFi Lending (Money Markets)"
+          ],
+          "trader_count": 19,
+          "token_age_days": 26,
+          "market_cap_usd": 39500.6199736956
+        },
+        {
+          "token_address": "0x4c433f4ef87fe506a7eed2fd1d822cbed411eba3",
+          "token_symbol": "TSG",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 1305.2604041353632,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 2,
+          "token_age_days": 127,
+          "market_cap_usd": 102114.088356718
+        },
+        {
+          "token_address": "0xa9e23871156718c1d55e90dad1c4ea8a33480dfd",
+          "token_symbol": "INSTACLAW",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 1976.510319849583,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 1,
+          "token_age_days": 225,
+          "market_cap_usd": 237943.997685182
+        },
+        {
+          "token_address": "0x85635006d808030e97f3174c8ea1b4aa1f1feba3",
+          "token_symbol": "VVVEITY",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 635.6111142319585,
+          "net_flow_30d_usd": 1382.5902661315417,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 8,
+          "token_age_days": 114,
+          "market_cap_usd": 128067.479986179
+        },
+        {
+          "token_address": "0xaa6cccdce193698d33deb9ffd4be74eaa74c4898",
+          "token_symbol": "ELONRWA",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -8603.800209976745,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 7,
+          "token_age_days": 917,
+          "market_cap_usd": 713719.474983197
+        },
+        {
+          "token_address": "0x7f65323e468939073ef3b5287c73f13951b0ff5b",
+          "token_symbol": "BLUE",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -106.14691135317585,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 703,
+          "market_cap_usd": 15076.4397471132
+        },
+        {
+          "token_address": "0x693b8de886712f0039eef578bbe5ac7ea3b598ce",
+          "token_symbol": "DOJI",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -313.623943422687,
+          "chain": "base",
+          "token_sectors": [
+            "Crypto Payments",
+            "NFTs"
+          ],
+          "trader_count": 1,
+          "token_age_days": 337,
+          "market_cap_usd": 40167.2021010268
+        },
+        {
+          "token_address": "0x776aaef8d8760129a0398cf8674ee28cefc0eab9",
+          "token_symbol": "FLOPPA",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -268.93809339583,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 1,
+          "token_age_days": 907,
+          "market_cap_usd": 126830.140826129
+        },
+        {
+          "token_address": "0xb200000000000000000000819b5c323b1d650b01",
+          "token_symbol": "DIAMONDPEPE",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 676.8241431495918,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 8,
+          "token_age_days": 22,
+          "market_cap_usd": 18847.1249144327
+        },
+        {
+          "token_address": "0x4dcdf3451dfc114991283c2e5b72823d69882ba3",
+          "token_symbol": "BOTS",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -14352.040591878478,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 32,
+          "market_cap_usd": 1348261.68768072
+        },
+        {
+          "token_address": "0xc0634090f2fe6c6d75e61be2b949464abb498973",
+          "token_symbol": "KTA",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -1939.732330460727,
+          "chain": "base",
+          "token_sectors": [
+            "Scaling & Connectivity",
+            "RWAs"
+          ],
+          "trader_count": 3,
+          "token_age_days": 567,
+          "market_cap_usd": 49233379.4282404
+        },
+        {
+          "token_address": "0x65f8152809dd1fc0d5d8a345c9008d37b95f9ba3",
+          "token_symbol": "CAPACITR",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -7736.930473917385,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 13,
+          "token_age_days": 129,
+          "market_cap_usd": 152226.546861733
+        },
+        {
+          "token_address": "0x038ad1734258cfa2799208d8b6cc7e55704d2b0c",
+          "token_symbol": "DOC",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -152.7787891445323,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 5,
+          "token_age_days": 15,
+          "market_cap_usd": 40569.3405364969
+        },
+        {
+          "token_address": "0x6cb927b413068609853a539016f31deff6e9aba3",
+          "token_symbol": "PRINTERINKCOIN",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -3374.5558680664203,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 6,
+          "token_age_days": 29,
+          "market_cap_usd": 62150.6714537342
+        },
+        {
+          "token_address": "0xe6522a891702cd2e8cc2a5182638c9da1dd44b22",
+          "token_symbol": "WL1",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 615.42005860007,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 231,
+          "market_cap_usd": 5665909.60419617
+        },
+        {
+          "token_address": "0x3ec2156d4c0a9cbdab4a016633b7bcf6a8d68ea2",
+          "token_symbol": "DRB",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": -5703.418464711636,
+          "net_flow_30d_usd": -35865.524513162825,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 11,
+          "token_age_days": 565,
+          "market_cap_usd": 18512402.3655479
+        },
+        {
+          "token_address": "0x39988bf0638edb8c65ce0fb9e1e457c575157ba3",
+          "token_symbol": "FLM",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -478.02243466939376,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 2,
+          "token_age_days": 12,
+          "market_cap_usd": 28161.2242717143
+        },
+        {
+          "token_address": "0xb20000000000000000000080a1d3934e3a989a01",
+          "token_symbol": "NEWTON",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -1692.6437398516637,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 2,
+          "token_age_days": 30,
+          "market_cap_usd": 17777.4047006362
+        },
+        {
+          "token_address": "0xb2000000000000000000005d26cfd981b8140701",
+          "token_symbol": "BLUE",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 1594.7514882137148,
+          "chain": "base",
+          "token_sectors": [
+            "Scaling & Connectivity"
+          ],
+          "trader_count": 1,
+          "token_age_days": 19,
+          "market_cap_usd": 24777.9124588202
+        },
+        {
+          "token_address": "0xb2000000000000000000007bf6d5cbb0e24cb301",
+          "token_symbol": "BRIAN",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 748.7528067410782,
+          "net_flow_30d_usd": -6635.408149220867,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 5,
+          "token_age_days": 71,
+          "market_cap_usd": 239055.454028362
+        },
+        {
+          "token_address": "0xb2000000000000000000001e800a7f5189430cd0",
+          "token_symbol": "TSLA",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": -9.10944045723858,
+          "net_flow_30d_usd": -32.24317426695818,
+          "chain": "base",
+          "token_sectors": [
+            "RWAs"
+          ],
+          "trader_count": 2,
+          "token_age_days": 59,
+          "market_cap_usd": 1081264.5446791
+        },
+        {
+          "token_address": "0xb20000000000000000000025a76e58e244f34d01",
+          "token_symbol": "TRENCHER",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -305.1637893647314,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 36,
+          "market_cap_usd": 24794.0701986438
+        },
+        {
+          "token_address": "0xa749de6c28262b7ffbc5de27dc845dd7ecd2b358",
+          "token_symbol": "VFY",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": -1228.5644813089284,
+          "net_flow_30d_usd": -1913.523713696478,
+          "chain": "base",
+          "token_sectors": [
+            "Scaling & Connectivity"
+          ],
+          "trader_count": 1,
+          "token_age_days": 369,
+          "market_cap_usd": 2349212.34428094
+        },
+        {
+          "token_address": "0xe7d192e52fa418236d6eecf7d5eb38da9dd11ba3",
+          "token_symbol": "EVE",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 890.4722182318537,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 5,
+          "token_age_days": 194,
+          "market_cap_usd": 147147.611426773
+        },
+        {
+          "token_address": "0xe290816384416fb1db9225e176b716346db9f9fe",
+          "token_symbol": "9MM",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 11.776380235626497,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 591,
+          "market_cap_usd": 21405.9899901063
+        },
+        {
+          "token_address": "0x1f3113c787f02182bdac3661e7cbad3886eb3d04",
+          "token_symbol": "COBIECAP",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 1838.752504039023,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 4,
+          "token_age_days": 29,
+          "market_cap_usd": 8888.8920091704
+        },
+        {
+          "token_address": "0x940a319b75861014a220d9c6c144d108552b089b",
+          "token_symbol": "DEUS",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 4801.046108933886,
+          "net_flow_30d_usd": 2142.861013610356,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence",
+            "DePIN",
+            "RWAs"
+          ],
+          "trader_count": 3,
+          "token_age_days": 555,
+          "market_cap_usd": 11826236.3865625
+        },
+        {
+          "token_address": "0xcb5ff7331193c45f61f05b035ddabe08f13f6ba3",
+          "token_symbol": "OPENAGENTMARKET",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": -104.56361281791374,
+          "net_flow_30d_usd": -104.56361281791374,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence",
+            "AI Agents"
+          ],
+          "trader_count": 1,
+          "token_age_days": 215,
+          "market_cap_usd": 38246.1173316998
+        },
+        {
+          "token_address": "0xf3ce5ddaab6c133f9875a4a46c55cf0b58111b07",
+          "token_symbol": "AXIOM",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -100.63986802581796,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence",
+            "AI Agents"
+          ],
+          "trader_count": 2,
+          "token_age_days": 237,
+          "market_cap_usd": 65118.1882970051
+        },
+        {
+          "token_address": "0x9a26f5433671751c3276a065f57e5a02d2817973",
+          "token_symbol": "KEYCAT",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -16884.9240581564,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 2,
+          "token_age_days": 911,
+          "market_cap_usd": 6707432.49640983
+        },
+        {
+          "token_address": "0x7750c092e284e2c7366f50c8306f43c7eb2e82a2",
+          "token_symbol": "OVER",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": -3757.727056026378,
+          "net_flow_30d_usd": 2432.2048163885465,
+          "chain": "base",
+          "token_sectors": [
+            "GambleFi"
+          ],
+          "trader_count": 2,
+          "token_age_days": 589,
+          "market_cap_usd": 11030852.1638669
+        },
+        {
+          "token_address": "0x3e31966d4f81c72d2a55310a6365a56a4393e98d",
+          "token_symbol": "WMTX",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": -398.1349441397494,
+          "net_flow_30d_usd": -398.1349441397494,
+          "chain": "base",
+          "token_sectors": [
+            "DePIN",
+            "Scaling & Connectivity",
+            "Crypto Payments"
+          ],
+          "trader_count": 1,
+          "token_age_days": 887,
+          "market_cap_usd": 20542920.1619839
+        },
+        {
+          "token_address": "0x768be13e1680b5ebe0024c42c896e3db59ec0149",
+          "token_symbol": "SKI",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -39.68995878319294,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 1,
+          "token_age_days": 897,
+          "market_cap_usd": 3293464.15375376
+        },
+        {
+          "token_address": "0x10c56f005a379f8eafc88ff5c3f40d30f0031ac9",
+          "token_symbol": "SR",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 1416.9359417437659,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 2,
+          "token_age_days": 170,
+          "market_cap_usd": 1179961.50936518
+        },
+        {
+          "token_address": "0xb2000000000000000000000fcd6eee4fd3df3801",
+          "token_symbol": "BASERAT",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -139.80085331607768,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 4,
+          "token_age_days": 30,
+          "market_cap_usd": 12655.3263000067
+        },
+        {
+          "token_address": "0x55ff51da774b8ce0ed1abaed1cb76236bc6b2f16",
+          "token_symbol": "ADM",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 18285.87100977423,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 4,
+          "token_age_days": 629,
+          "market_cap_usd": 1360645.72749892
+        },
+        {
+          "token_address": "0xb20000000000000000000078ee7ce2fe4908108c",
+          "token_symbol": "NVDA",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": -112.76284366225492,
+          "net_flow_30d_usd": -1076.4387194344583,
+          "chain": "base",
+          "token_sectors": [
+            "RWAs"
+          ],
+          "trader_count": 5,
+          "token_age_days": 59,
+          "market_cap_usd": 3798121.65387464
+        },
+        {
+          "token_address": "0x119b63b1605be3a8ff4543c7f76f7f1f79eecd1f",
+          "token_symbol": "OPAL",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 1123.5420534094592,
+          "chain": "base",
+          "token_sectors": [
+            "Decentralised Exchanges",
+            "RWAs"
+          ],
+          "trader_count": 3,
+          "token_age_days": 23,
+          "market_cap_usd": 22678657.0238837
+        },
+        {
+          "token_address": "0xc841b4ead3f70be99472ffdb88e5c3c7af6a481a",
+          "token_symbol": "TRUST",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -896.5542580077051,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins",
+            "AI Meme"
+          ],
+          "trader_count": 1,
+          "token_age_days": 663,
+          "market_cap_usd": 197847.626024928
+        },
+        {
+          "token_address": "0x4dd9077269dd08899f2a9e73507125962b5bc87f",
+          "token_symbol": "CRASH",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 27.47947988125219,
+          "net_flow_30d_usd": 62.43288793336589,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 1,
+          "token_age_days": 826,
+          "market_cap_usd": 384256.848906107
+        },
+        {
+          "token_address": "0xabc95b5ec2d9aad9acc7430ba86ccb1294c72981",
+          "token_symbol": "CRAFT",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -84.68202854703613,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 456,
+          "market_cap_usd": 68147.5314098219
+        },
+        {
+          "token_address": "0xb200000000000000000000f065aacb72155cc001",
+          "token_symbol": "MOONBASE",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 182.85096719190744,
+          "net_flow_30d_usd": 1300.0497784195795,
+          "chain": "base",
+          "token_sectors": [
+            "Decentralised Exchanges",
+            "NFTs",
+            "Yield Farming Protocols"
+          ],
+          "trader_count": 7,
+          "token_age_days": 20,
+          "market_cap_usd": 124426.871212998
+        },
+        {
+          "token_address": "0xb200000000000000000000302f8266259be1ac01",
+          "token_symbol": "SEX",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -1147.286072881919,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 3,
+          "token_age_days": 19,
+          "market_cap_usd": 9484.2096973532
+        },
+        {
+          "token_address": "0xcbd06e5a2b0c65597161de254aa074e489deb510",
+          "token_symbol": "CBDOGE",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 3400.4790271795787,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 4,
+          "token_age_days": 498,
+          "market_cap_usd": 12327481.0454131
+        },
+        {
+          "token_address": "0x6bd83abc39391af1e24826e90237c4bd3468b5d2",
+          "token_symbol": "SLC",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 5506.637368435313,
+          "chain": "base",
+          "token_sectors": [
+            "DePIN",
+            "Data source and Oracle"
+          ],
+          "trader_count": 2,
+          "token_age_days": 453,
+          "market_cap_usd": 3559940.00232887
+        },
+        {
+          "token_address": "0x050f55bafbdd5487bea8e7ef0bc122d3d38046f5",
+          "token_symbol": "SPEC",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -780.8496572432244,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 32,
+          "market_cap_usd": 20184.5396196949
+        },
+        {
+          "token_address": "0x1ea8deb921aa6015f4938010c848140b98108dd2",
+          "token_symbol": "VAPI",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": -3085.819980216618,
+          "net_flow_30d_usd": 32413.825011106455,
+          "chain": "base",
+          "token_sectors": [
+            "AI Agents",
+            "Artificial Intelligence",
+            "Crypto Payments"
+          ],
+          "trader_count": 5,
+          "token_age_days": 23,
+          "market_cap_usd": 5780276.12649777
+        },
+        {
+          "token_address": "0x16332535e2c27da578bc2e82beb09ce9d3c8eb07",
+          "token_symbol": "CLAWBANK",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 6.4108299149428944,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins",
+            "AI Meme",
+            "AI Agents"
+          ],
+          "trader_count": 1,
+          "token_age_days": 226,
+          "market_cap_usd": 1096405.82954577
+        },
+        {
+          "token_address": "0xa1f72459dfa10bad200ac160ecd78c6b77a747be",
+          "token_symbol": "CLAWNCH",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -188.28766414065467,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins",
+            "AI Meme",
+            "AI Agents"
+          ],
+          "trader_count": 6,
+          "token_age_days": 235,
+          "market_cap_usd": 72919.2812177418
+        },
+        {
+          "token_address": "0xb200000000000000000000680d78ae1182a7bd01",
+          "token_symbol": "LFG",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 1698.6005550149805,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 3,
+          "token_age_days": 24,
+          "market_cap_usd": 10504.9153254737
+        },
+        {
+          "token_address": "0x1bc0c42215582d5a085795f4badbac3ff36d1bcb",
+          "token_symbol": "CLANKER",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 2745.5211657823875,
+          "net_flow_30d_usd": 4192.231320592118,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 3,
+          "token_age_days": 684,
+          "market_cap_usd": 14067558.4806248
+        },
+        {
+          "token_address": "0x0c5142bc58f9a61ab8c3d2085dd2f4e550c5ce0b",
+          "token_symbol": "RUSSELL",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 24341.190478364508,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 3,
+          "token_age_days": 712,
+          "market_cap_usd": 1723862.02914405
+        },
+        {
+          "token_address": "0xb200000000000000000000b892b1b627a7c1e18b",
+          "token_symbol": "CEECIL",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -2504.324726150184,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 9,
+          "token_age_days": 26,
+          "market_cap_usd": 10073.3450618976
+        },
+        {
+          "token_address": "0xb2000000000000000000001b0d6290f211117201",
+          "token_symbol": "BLUECHIP",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -34.94773502901055,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 35,
+          "market_cap_usd": 11936.3203815291
+        },
+        {
+          "token_address": "0x1308ae20e66e43d575a76b5dfb30771a50c9256a",
+          "token_symbol": "BFROG",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -1.1574956186056902,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 1,
+          "token_age_days": 905,
+          "market_cap_usd": 46046.2218277249
+        },
+        {
+          "token_address": "0x9beec80e62aa257ced8b0edd8692f79ee8783777",
+          "token_symbol": "TIMI",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -195.371594413161,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 1,
+          "token_age_days": 792,
+          "market_cap_usd": 70606.2862633647
+        },
+        {
+          "token_address": "0x08512bc3570d2e9015a60866d1f6941a31576ba3",
+          "token_symbol": "SLEUTH",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -80.95200174306751,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 2,
+          "token_age_days": 110,
+          "market_cap_usd": 52424.1691406453
+        },
+        {
+          "token_address": "0x07d15798a67253d76cea61f0ea6f57aedc59dffb",
+          "token_symbol": "BASED",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -0.21667703337144706,
+          "chain": "base",
+          "token_sectors": [
+            "Scaling & Connectivity",
+            "GameFi",
+            "NFTs",
+            "NFTFi"
+          ],
+          "trader_count": 1,
+          "token_age_days": 908,
+          "market_cap_usd": 445926.813743989
+        },
+        {
+          "token_address": "0xa99f6e6785da0f5d6fb42495fe424bce029eeb3e",
+          "token_symbol": "PENDLE",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 9874.896196012865,
+          "chain": "base",
+          "token_sectors": [
+            "Yield Bearing",
+            "Perps, Options and Derivatives",
+            "Yield Farming Protocols"
+          ],
+          "trader_count": 1,
+          "token_age_days": 679,
+          "market_cap_usd": 422999811.403995
+        },
+        {
+          "token_address": "0xaae93f6c7f4ee4a6a400572360ffa93d5b101797",
+          "token_symbol": "LMNK",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 1255.5774733858407,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 2,
+          "token_age_days": 604,
+          "market_cap_usd": 21842.5680581604
+        },
+        {
+          "token_address": "0xfbb75a59193a3525a8825bebe7d4b56899e2f7e1",
+          "token_symbol": "RSC",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 999.0321411138784,
+          "net_flow_30d_usd": -164.40475977207961,
+          "chain": "base",
+          "token_sectors": [
+            "DeSci"
+          ],
+          "trader_count": 1,
+          "token_age_days": 904,
+          "market_cap_usd": 60199214.1851831
+        },
+        {
+          "token_address": "0xb2000000000000000000004b27c608b6e9814cc0",
+          "token_symbol": "HTTPBASE20",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 499.65457427247657,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 69,
+          "market_cap_usd": 32268.5767638199
+        },
+        {
+          "token_address": "0x53cb59d32a8d08fc6d3f81454f150946a028a44d",
+          "token_symbol": "GDEX",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 35.60376280836681,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 2,
+          "token_age_days": 605,
+          "market_cap_usd": 1437808.13001942
+        },
+        {
+          "token_address": "0xb2000000000000000000002d0ba3164cc74f58b7",
+          "token_symbol": "GOOGL",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": -123.34685368627873,
+          "net_flow_30d_usd": -943.3717497465431,
+          "chain": "base",
+          "token_sectors": [
+            "RWAs",
+            "Yield Bearing"
+          ],
+          "trader_count": 4,
+          "token_age_days": 59,
+          "market_cap_usd": 2287348.73128359
+        },
+        {
+          "token_address": "0x4e606cb7370a61060ad9916462871750d77e2b07",
+          "token_symbol": "0XCORAL",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -17.92806108413606,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence",
+            "AI Agents"
+          ],
+          "trader_count": 2,
+          "token_age_days": 234,
+          "market_cap_usd": 51569.7551702378
+        },
+        {
+          "token_address": "0x50caaef23732c1017cb7e37e3106824689757fb9",
+          "token_symbol": "BPAIR",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -301.67612627091074,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 2,
+          "token_age_days": 16,
+          "market_cap_usd": 8767.6206611559
+        },
+        {
+          "token_address": "0xbede17c8b0535791d131f0d6b6094b99cf27eb07",
+          "token_symbol": "LIKES",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": -1232.5725258474756,
+          "net_flow_30d_usd": 1443.0209157465185,
+          "chain": "base",
+          "token_sectors": [
+            "Social Fi"
+          ],
+          "trader_count": 1,
+          "token_age_days": 378,
+          "market_cap_usd": 234242.664467946
+        },
+        {
+          "token_address": "0x099880c1676ff3035ab1e952e5e83b5a81eecb07",
+          "token_symbol": "GNULL",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -94.76468917094873,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence",
+            "AI Agents"
+          ],
+          "trader_count": 1,
+          "token_age_days": 128,
+          "market_cap_usd": 28949.7612703625
+        },
+        {
+          "token_address": "0x67a7ca081dc79b45fd1fa059cd3b8dcca779aba3",
+          "token_symbol": "FREECODE",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 1503.2376680484363,
+          "net_flow_30d_usd": 6145.146328182182,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 5,
+          "token_age_days": 176,
+          "market_cap_usd": 634748.359845926
+        },
+        {
+          "token_address": "0xb695559b26bb2c9703ef1935c37aeae9526bab07",
+          "token_symbol": "MOLT",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 63.507744886723685,
+          "net_flow_30d_usd": -278.5750590690807,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence",
+            "AI Agents",
+            "Social Fi"
+          ],
+          "trader_count": 2,
+          "token_age_days": 238,
+          "market_cap_usd": 435096.766302411
+        },
+        {
+          "token_address": "0xd77ce6d3137342bb5174673bdab5f51db16fcba3",
+          "token_symbol": "PMFI",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -39.79888516213486,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 124,
+          "market_cap_usd": 36388.3147880034
+        },
+        {
+          "token_address": "0x9f86db9fc6f7c9408e8fda3ff8ce4e78ac7a6b07",
+          "token_symbol": "CLAWD",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -640.8024649082435,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins",
+            "AI Meme"
+          ],
+          "trader_count": 2,
+          "token_age_days": 240,
+          "market_cap_usd": 642534.012500918
+        },
+        {
+          "token_address": "0xa4dc5a82839a148ff172b5b8ba9d52e681fd2261",
+          "token_symbol": "PICA",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -177.19552801258573,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 883,
+          "market_cap_usd": 22876.5840345837
+        },
+        {
+          "token_address": "0x072915a43ac255cde1fa568218e5b6b10d0cb10f",
+          "token_symbol": "MAYA",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -85.73801443461444,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 504,
+          "market_cap_usd": 122214.889352403
+        },
+        {
+          "token_address": "0x4b5d32a07b8d3ec5d6928caa30196f8dd6a7c5a9",
+          "token_symbol": "PRXVT",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 18166.304034962828,
+          "chain": "base",
+          "token_sectors": [
+            "AI Agents",
+            "Artificial Intelligence",
+            "Scaling & Connectivity"
+          ],
+          "trader_count": 1,
+          "token_age_days": 260,
+          "market_cap_usd": 2392482.3346869
+        },
+        {
+          "token_address": "0x1b5ce2a593a840e3ad3549a34d7b3dec697c114d",
+          "token_symbol": "ALTT",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 10937.53299011883,
+          "chain": "base",
+          "token_sectors": [
+            "Social Fi"
+          ],
+          "trader_count": 3,
+          "token_age_days": 754,
+          "market_cap_usd": 4034448.72619797
+        },
+        {
+          "token_address": "0x26e6e2e7a9289b6485c53cd498de510d3a8c8ba3",
+          "token_symbol": "CYB3RWR3N",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 249.70261709101024,
+          "net_flow_30d_usd": -2929.6038487504807,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 195,
+          "market_cap_usd": 302300.094032918
+        },
+        {
+          "token_address": "0x3d01fe5a38ddbd307fdd635b4cb0e29681226d6f",
+          "token_symbol": "ALPHA",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -1055.215095882928,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 430,
+          "market_cap_usd": 133350.716691269
+        },
+        {
+          "token_address": "0xb200000000000000000000d6af5c3d433de36601",
+          "token_symbol": "🍎",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -1101.0908741443739,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 5,
+          "token_age_days": 15,
+          "market_cap_usd": 9624.8606554638
+        },
+        {
+          "token_address": "0xb20000000000000000000086015c89dad2813e01",
+          "token_symbol": "LAPTOP",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 4139.479672689744,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 6,
+          "token_age_days": 16,
+          "market_cap_usd": 9021.9428218262
+        },
+        {
+          "token_address": "0x973daf0ab015c894ebe7efcf94824d5f9d0e3566",
+          "token_symbol": "NOX",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 27743.0402116559,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 3,
+          "token_age_days": 230,
+          "market_cap_usd": 213570.332657325
+        },
+        {
+          "token_address": "0x9b83c2f3c1975bf4b6cc04f8d3f6bc1e98e38ba3",
+          "token_symbol": "STONKFLY",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -4576.09871664936,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 4,
+          "token_age_days": 13,
+          "market_cap_usd": 37103.4750337802
+        },
+        {
+          "token_address": "0x731814e491571a2e9ee3c5b1f7f3b962ee8f4870",
+          "token_symbol": "VADER",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -3.1041491009693516,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence",
+            "AI Agents"
+          ],
+          "trader_count": 1,
+          "token_age_days": 691,
+          "market_cap_usd": 1186643.30010806
+        },
+        {
+          "token_address": "0x2acd6a246157bf51636d06a83200f8923e7eb864",
+          "token_symbol": "NODE",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 1.665380388276759,
+          "net_flow_30d_usd": 1.665380388276759,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 622,
+          "market_cap_usd": 8969.8598407969
+        },
+        {
+          "token_address": "0x0b3ae50babe7ffa4e1a50569cee6bdefd4ccaee0",
+          "token_symbol": "WIRE",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 673.9977104215458,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 3,
+          "token_age_days": 634,
+          "market_cap_usd": 1444643.32314327
+        },
+        {
+          "token_address": "0x352b850b733ab8bab50aed1dab5d22e3186ce984",
+          "token_symbol": "1000X",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 3504.5605556268547,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 2,
+          "token_age_days": 649,
+          "market_cap_usd": 3411942.5816158
+        },
+        {
+          "token_address": "0x290d4a2e227cced586895c3f78a03e4e9d4c3fb6",
+          "token_symbol": "COCK",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 50.753717569872975,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 432,
+          "market_cap_usd": 4524.79877681696
+        },
+        {
+          "token_address": "0xdb6e0e5094a25a052ab6845a9f1e486b9a9b3dde",
+          "token_symbol": "OKAYEG",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -162.94215620237281,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 1,
+          "token_age_days": 886,
+          "market_cap_usd": 152731.725131141
+        },
+        {
+          "token_address": "0xb2000000000000000000004884b426556b92883d",
+          "token_symbol": "MSTR",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 391.35162231080574,
+          "chain": "base",
+          "token_sectors": [
+            "RWAs",
+            "Artificial Intelligence",
+            "BRC20s/Bitcoin Ecosystem"
+          ],
+          "trader_count": 1,
+          "token_age_days": 59,
+          "market_cap_usd": 1250388.03819078
+        },
+        {
+          "token_address": "0x590830dfdf9a3f68afcdde2694773debdf267774",
+          "token_symbol": "GIZA",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 1.2268080822165999,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence",
+            "AI Agents",
+            "Scaling & Connectivity"
+          ],
+          "trader_count": 1,
+          "token_age_days": 582,
+          "market_cap_usd": 172889.543231612
+        },
+        {
+          "token_address": "0x9af5fa8e5c1f34fc7cc7579ad6816d86ddf74ba3",
+          "token_symbol": "MGDP",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 78.45474675042834,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 2,
+          "token_age_days": 106,
+          "market_cap_usd": 110487.169858183
+        },
+        {
+          "token_address": "0xe2f9db0186b13668aec9fe0e15dbd13004ed8d6f",
+          "token_symbol": "YNE",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -222.59535249122314,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 398,
+          "market_cap_usd": 118531.960589573
+        },
+        {
+          "token_address": "0xac485391eb2d7d88253a7f1ef18c37f4242d1a24",
+          "token_symbol": "LSK",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 7112.103093455677,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 3,
+          "token_age_days": 369,
+          "market_cap_usd": 73929838.7546827
+        },
+        {
+          "token_address": "0xd34cf0759cb65a0fe508bb1dae0a16cb5109bb7b",
+          "token_symbol": "OS",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -675.5602592865571,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 118,
+          "market_cap_usd": 130106.024910712
+        },
+        {
+          "token_address": "0x90ec58ef4cc9f37b96de1e203b65bd4e6e79580e",
+          "token_symbol": "AMETA",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -110.73006177488942,
+          "chain": "base",
+          "token_sectors": [
+            "Metaverse",
+            "Social Fi"
+          ],
+          "trader_count": 1,
+          "token_age_days": 600,
+          "market_cap_usd": 911207.491980265
+        },
+        {
+          "token_address": "0xb33ff54b9f7242ef1593d2c9bcd8f9df46c77935",
+          "token_symbol": "FAI",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -28966.09557096164,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence",
+            "GameFi",
+            "AI Agents"
+          ],
+          "trader_count": 3,
+          "token_age_days": 669,
+          "market_cap_usd": 20999533.568998
+        },
+        {
+          "token_address": "0x4e6c9f48f73e54ee5f3ab7e2992b2d733d0d0b07",
+          "token_symbol": "JUNO",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -2166.6455480063623,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 228,
+          "market_cap_usd": 168189.735252454
+        },
+        {
+          "token_address": "0xa1832f7f4e534ae557f9b5ab76de54b1873e498b",
+          "token_symbol": "BID",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": -363.16918834655667,
+          "net_flow_30d_usd": -363.16918834655667,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence",
+            "AI Agents",
+            "Social Fi"
+          ],
+          "trader_count": 1,
+          "token_age_days": 609,
+          "market_cap_usd": 2494576.25053075
+        },
+        {
+          "token_address": "0x1d0c1be75f32c1238da27dbb59d21c7df8d311b2",
+          "token_symbol": "BLUE",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 264.5415116938141,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 3,
+          "token_age_days": 17,
+          "market_cap_usd": 47572.507965166
+        },
+        {
+          "token_address": "0xffe6510baf2a479ab567d76af8ec79d9f7d0366a",
+          "token_symbol": "BLUESCREEN",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 3887.0902688391316,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 5,
+          "token_age_days": 17,
+          "market_cap_usd": 18544.1317860363
+        },
+        {
+          "token_address": "0x58ecef26335af7b04a998105a6603b0dc475af33",
+          "token_symbol": "BABYDOGE",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 199.77928165482518,
+          "net_flow_30d_usd": 199.77928165482518,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins",
+            "AI Meme"
+          ],
+          "trader_count": 1,
+          "token_age_days": 601,
+          "market_cap_usd": 74448270.684669
+        },
+        {
+          "token_address": "0xb66e76f9ed3e13f24c5b68f68be631cd82affba3",
+          "token_symbol": "VVVKERNEL",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -517.5733069926692,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 2,
+          "token_age_days": 137,
+          "market_cap_usd": 42448.9930569036
+        },
+        {
+          "token_address": "0xb2000000000000000000004453ac8d91a9348b01",
+          "token_symbol": "OWL1",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -117.30113360773737,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 2,
+          "token_age_days": 43,
+          "market_cap_usd": 16087.9590569651
+        },
+        {
+          "token_address": "0x832bcced5bd431b31663576490344ea1c0bea295",
+          "token_symbol": "EUR",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -263.88681058808254,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 92,
+          "market_cap_usd": 8441264.10730832
+        },
+        {
+          "token_address": "0xab3f23c2abcb4e12cc8b593c218a7ba64ed17ba3",
+          "token_symbol": "CRED",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 346.4235634465633,
+          "net_flow_30d_usd": 989.6391372988602,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 214,
+          "market_cap_usd": 122322.272423117
+        },
+        {
+          "token_address": "0x7588880d9c78e81fade7b7e8dc0781e95995a792",
+          "token_symbol": "SAINT",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -2.335515939650558,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 680,
+          "market_cap_usd": 84808.7361867042
+        },
+        {
+          "token_address": "0x54eaf6bb665565bb8897f9d7ad5b3818ded143b4",
+          "token_symbol": "DGENAI",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 7.524651567404164,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence",
+            "AI Agents"
+          ],
+          "trader_count": 1,
+          "token_age_days": 642,
+          "market_cap_usd": 71961.1941904653
+        },
+        {
+          "token_address": "0xa9f56fb9b3e02df8d36c67f12d4d03919250fee1",
+          "token_symbol": "MEAT",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": -1080.2872181263147,
+          "net_flow_30d_usd": -1216.1627338056583,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 2,
+          "token_age_days": 9,
+          "market_cap_usd": 110369.812408161
+        },
+        {
+          "token_address": "0x4674f73545f1db4036250ff8c33a39ad1678d864",
+          "token_symbol": "SQDGN",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -3.3585416682905,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 1,
+          "token_age_days": 658,
+          "market_cap_usd": 72950.8476247855
+        },
+        {
+          "token_address": "0xb3d7e0c3c39a1d3f1b304663065a2f83ddf56d8e",
+          "token_symbol": "AUTONO",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": -1767.873561776514,
+          "net_flow_30d_usd": -5592.09368853088,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 4,
+          "token_age_days": 132,
+          "market_cap_usd": 368918.51434531
+        },
+        {
+          "token_address": "0xd769d56f479e9e72a77bb1523e866a33098feec5",
+          "token_symbol": "BASE IS FOR EVERYONE",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 2997.561601820167,
+          "net_flow_30d_usd": 2997.561601820167,
+          "chain": "base",
+          "token_sectors": [
+            "Social Fi",
+            "NFTs"
+          ],
+          "trader_count": 1,
+          "token_age_days": 525,
+          "market_cap_usd": 395822.512632942
+        },
+        {
+          "token_address": "0x8b7dde054be9d180c1be7fae0874697374a49832",
+          "token_symbol": "PROS",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 999.4321998848475,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 162,
+          "market_cap_usd": 2431766.17976984
+        },
+        {
+          "token_address": "0x296eb9c4d8fcbd00fbc6d5027e4202bf955fa76f",
+          "token_symbol": "PEAK",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 27524.394613369033,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence"
+          ],
+          "trader_count": 4,
+          "token_age_days": 110,
+          "market_cap_usd": 158055.063738452
+        },
+        {
+          "token_address": "0xa88594d404727625a9437c3f886c7643872296ae",
+          "token_symbol": "WELL",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": 758.6474078527509,
+          "chain": "base",
+          "token_sectors": [
+            "Scaling & Connectivity",
+            "DeFi Lending (Money Markets)",
+            "Yield Farming Protocols"
+          ],
+          "trader_count": 1,
+          "token_age_days": 989,
+          "market_cap_usd": 9579046.21459861
+        },
+        {
+          "token_address": "0xe0cd4cacddcbf4f36e845407ce53e87717b6601d",
+          "token_symbol": "ICNT",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 5.7239960166367325,
+          "net_flow_30d_usd": 5.7239960166367325,
+          "chain": "base",
+          "token_sectors": [
+            "DePIN"
+          ],
+          "trader_count": 1,
+          "token_age_days": 489,
+          "market_cap_usd": 26304510.6367148
+        },
+        {
+          "token_address": "0xb235cf255b48500df4459475e054e7beb25cb772",
+          "token_symbol": "NEMESIS",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -2793.7312841749863,
+          "chain": "base",
+          "token_sectors": [
+            "Metaverse",
+            "NFTs",
+            "GameFi"
+          ],
+          "trader_count": 3,
+          "token_age_days": 329,
+          "market_cap_usd": 847562.52709087
+        },
+        {
+          "token_address": "0xa46dfacc9129c62704b75c3e9914a1db3364ba5e",
+          "token_symbol": "BST",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -2890.003257148377,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 5,
+          "token_age_days": 19,
+          "market_cap_usd": 9197.0062879331
+        },
+        {
+          "token_address": "0x511ef9ad5e645e533d15df605b4628e3d0d0ff53",
+          "token_symbol": "VU",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -215.24095363387232,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 1,
+          "token_age_days": 697,
+          "market_cap_usd": 322347.208664633
+        },
+        {
+          "token_address": "0x2f6c17fa9f9bc3600346ab4e48c0701e1d5962ae",
+          "token_symbol": "FARTCOIN",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": 0,
+          "net_flow_7d_usd": 0,
+          "net_flow_30d_usd": -502.4016724451649,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 1,
+          "token_age_days": 646,
+          "market_cap_usd": 452218.480183929
+        },
+        {
+          "token_address": "0xb2000000000000000000007b9fcbd005511acbd5",
+          "token_symbol": "SPCX",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": -2.7808943825149095,
+          "net_flow_7d_usd": -72.90559237429518,
+          "net_flow_30d_usd": -599.7638005976208,
+          "chain": "base",
+          "token_sectors": [
+            "RWAs"
+          ],
+          "trader_count": 4,
+          "token_age_days": 59,
+          "market_cap_usd": 1478589.30656616
+        },
+        {
+          "token_address": "0x9126236476efba9ad8ab77855c60eb5bf37586eb",
+          "token_symbol": "CHECK",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": -4.227316464649476,
+          "net_flow_7d_usd": -4.227316464649476,
+          "net_flow_30d_usd": -4.227316464649476,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 330,
+          "market_cap_usd": 4307865.86121548
+        },
+        {
+          "token_address": "0xb200000000000000000000c2e324d24d7eecd1fb",
+          "token_symbol": "AAPL",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": -4.933901281548591,
+          "net_flow_7d_usd": -105.30518269208386,
+          "net_flow_30d_usd": 3997.825986722366,
+          "chain": "base",
+          "token_sectors": [
+            "RWAs",
+            "Decentralised Exchanges"
+          ],
+          "trader_count": 5,
+          "token_age_days": 59,
+          "market_cap_usd": 2182495.90378886
+        },
+        {
+          "token_address": "0x8c0d3adcf8ce094e1ae437557ec90a6374dc9bdd",
+          "token_symbol": "OVPP",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": -37.92597962769759,
+          "net_flow_7d_usd": -37.92597962769759,
+          "net_flow_30d_usd": -37.92597962769759,
+          "chain": "base",
+          "token_sectors": [
+            "DePIN",
+            "Crypto Payments"
+          ],
+          "trader_count": 1,
+          "token_age_days": 266,
+          "market_cap_usd": 2334621.78386257
+        },
+        {
+          "token_address": "0x7002987e5f63716273e77b51e12a578143c222aa",
+          "token_symbol": "HAI",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": -217.31205751917645,
+          "net_flow_7d_usd": -217.31205751917645,
+          "net_flow_30d_usd": -217.31205751917645,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 1,
+          "token_age_days": 432,
+          "market_cap_usd": 4182192.22757485
+        },
+        {
+          "token_address": "0xd3e592e728ae3461bd97c7a6b359e1043dd83ba3",
+          "token_symbol": "HARNESS",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": -274.904027859254,
+          "net_flow_7d_usd": 1281.9992952983791,
+          "net_flow_30d_usd": 1536.7304176561804,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 5,
+          "token_age_days": 119,
+          "market_cap_usd": 280386.198164441
+        },
+        {
+          "token_address": "0xd7bc6a05a56655fb2052f742b012d1dfd66e1ba3",
+          "token_symbol": "MIROSHARK",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": -524.183948986463,
+          "net_flow_7d_usd": -524.183948986463,
+          "net_flow_30d_usd": 1419.7717038591672,
+          "chain": "base",
+          "token_sectors": [
+            "Artificial Intelligence",
+            "AI Agents"
+          ],
+          "trader_count": 6,
+          "token_age_days": 183,
+          "market_cap_usd": 311506.745046926
+        },
+        {
+          "token_address": "0xb20000000000000000000029440a9564b59129b1",
+          "token_symbol": "PLUMBER",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": -532.7337676630763,
+          "net_flow_7d_usd": 4578.866137036606,
+          "net_flow_30d_usd": -3007.2485596022134,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 22,
+          "token_age_days": 42,
+          "market_cap_usd": 2645580.6262351
+        },
+        {
+          "token_address": "0x23a2847d772803f9efc64b4277b782b06296fe51",
+          "token_symbol": "DOT",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": -617.591961822158,
+          "net_flow_7d_usd": 19003.436275639786,
+          "net_flow_30d_usd": 47801.45443975207,
+          "chain": "base",
+          "token_sectors": [
+            "Scaling & Connectivity"
+          ],
+          "trader_count": 9,
+          "token_age_days": 119,
+          "market_cap_usd": 7141224.92589535
+        },
+        {
+          "token_address": "0xb200000000000000000000cfbdf64a8706a94a01",
+          "token_symbol": "BLUECHIP",
+          "net_flow_1h_usd": -2529.8465273953902,
+          "net_flow_24h_usd": -704.0044287243386,
+          "net_flow_7d_usd": 11221.300167934109,
+          "net_flow_30d_usd": -340850.4147369622,
+          "chain": "base",
+          "token_sectors": [
+            "Stablecoin Issuers"
+          ],
+          "trader_count": 63,
+          "token_age_days": 1196,
+          "market_cap_usd": 11725675.4027519
+        },
+        {
+          "token_address": "0x3055913c90fcc1a6ce9a358911721eeb942013a1",
+          "token_symbol": "CAKE",
+          "net_flow_1h_usd": -261.1175264034663,
+          "net_flow_24h_usd": -771.7414412178807,
+          "net_flow_7d_usd": -773.0185715293189,
+          "net_flow_30d_usd": -925.9728985773143,
+          "chain": "base",
+          "token_sectors": [
+            "Decentralised Exchanges",
+            "Yield Farming Protocols",
+            "Yield Bearing"
+          ],
+          "trader_count": 2,
+          "token_age_days": 1128,
+          "market_cap_usd": 839707276.573999
+        },
+        {
+          "token_address": "0xbf8e8f0e8866a7052f948c16508644347c57aba3",
+          "token_symbol": "AEON",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": -1002.5179944517093,
+          "net_flow_7d_usd": -1500.031348421645,
+          "net_flow_30d_usd": -5701.089918179026,
+          "chain": "base",
+          "token_sectors": [
+            "Crypto Payments",
+            "Artificial Intelligence",
+            "Scaling & Connectivity"
+          ],
+          "trader_count": 5,
+          "token_age_days": 197,
+          "market_cap_usd": 2882494.58351682
+        },
+        {
+          "token_address": "0x28c959b032de0657ac230a569ecdbba326731dd2",
+          "token_symbol": "🌱 EMBOW",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": -1036.8342978671485,
+          "net_flow_7d_usd": 5388.530949727157,
+          "net_flow_30d_usd": 5388.530949727157,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 5,
+          "token_age_days": 2,
+          "market_cap_usd": 162671.452555892
+        },
+        {
+          "token_address": "0xfad8cb754230dbfd249db0e8eccb5142dd675a0d",
+          "token_symbol": "AEROBUD",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": -1728.8288186884201,
+          "net_flow_7d_usd": -3263.059847116887,
+          "net_flow_30d_usd": -5333.22511013468,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 2,
+          "token_age_days": 854,
+          "market_cap_usd": 934218.177734634
+        },
+        {
+          "token_address": "0x56ab53b77f07da3af732150e8aec4783eb5bba7d",
+          "token_symbol": "UMIA",
+          "net_flow_1h_usd": -712.8231253492929,
+          "net_flow_24h_usd": -1936.9828810169938,
+          "net_flow_7d_usd": 131977.22599285265,
+          "net_flow_30d_usd": 376685.7907579745,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 21,
+          "token_age_days": 29,
+          "market_cap_usd": 17681392.8502819
+        },
+        {
+          "token_address": "0xfdcc845c048ad96b5c80b6a55d65c20a98d37777",
+          "token_symbol": "VCAT",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": -2646.0975157188514,
+          "net_flow_7d_usd": 66710.25417795128,
+          "net_flow_30d_usd": 66710.25417795128,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 13,
+          "token_age_days": 5,
+          "market_cap_usd": 2934944.12091708
+        },
+        {
+          "token_address": "0xc3de830ea07524a0761646a6a4e4be0e114a3c83",
+          "token_symbol": "UNI",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": -3686.7315007404004,
+          "net_flow_7d_usd": 11297.492016170616,
+          "net_flow_30d_usd": 11310.17447806207,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 2,
+          "token_age_days": 890,
+          "market_cap_usd": 1299050.31059535
+        },
+        {
+          "token_address": "0x5ab000ff9b9ffe0349ce5ffa5fd86f217c3680f5",
+          "token_symbol": "STONKEX",
+          "net_flow_1h_usd": 2614.277374993568,
+          "net_flow_24h_usd": -4347.206745702328,
+          "net_flow_7d_usd": -17840.47172183564,
+          "net_flow_30d_usd": 254811.12427216046,
+          "chain": "base",
+          "token_sectors": [
+            "Decentralised Exchanges",
+            "NFTs",
+            "RWAs"
+          ],
+          "trader_count": 40,
+          "token_age_days": 30,
+          "market_cap_usd": 8897977.71708951
+        },
+        {
+          "token_address": "0xc52aedec3374422d7510e294cfaa90799595cba3",
+          "token_symbol": "SURPLUS",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": -4535.830723390883,
+          "net_flow_7d_usd": -12380.404110238254,
+          "net_flow_30d_usd": -88990.6640204475,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 15,
+          "token_age_days": 130,
+          "market_cap_usd": 9101314.95638342
+        },
+        {
+          "token_address": "0xb2000000000000000000004c27f6523082f41d01",
+          "token_symbol": "BASECAT",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": -5104.787651198591,
+          "net_flow_7d_usd": -70300.4551682019,
+          "net_flow_30d_usd": -472180.4376527475,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins"
+          ],
+          "trader_count": 77,
+          "token_age_days": 39,
+          "market_cap_usd": 19155140.3252039
+        },
+        {
+          "token_address": "0x882c8e35504d58979b1280fe76d6553f717029f8",
+          "token_symbol": "MUSEWORLD",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": -5198.896595045734,
+          "net_flow_7d_usd": 3192.798992884687,
+          "net_flow_30d_usd": 3192.798992884687,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 8,
+          "token_age_days": 3,
+          "market_cap_usd": 843369.742935159
+        },
+        {
+          "token_address": "0xbaa5cc21fd487b8fcc2f632f3f4e8d37262a0842",
+          "token_symbol": "MORPHO",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": -5540.863951137706,
+          "net_flow_7d_usd": 6211.735351196223,
+          "net_flow_30d_usd": 1526.53066478265,
+          "chain": "base",
+          "token_sectors": [
+            "DeFi Lending (Money Markets)",
+            "Yield Farming Protocols"
+          ],
+          "trader_count": 3,
+          "token_age_days": 682,
+          "market_cap_usd": 1820117795.4874
+        },
+        {
+          "token_address": "0x0f61edbfe6cd86024c0f210c0695b08df55fdfc9",
+          "token_symbol": "BSTONK",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": -7098.132644745524,
+          "net_flow_7d_usd": -29342.929059165916,
+          "net_flow_30d_usd": 20098.25538929069,
+          "chain": "base",
+          "token_sectors": [
+            "RWAs"
+          ],
+          "trader_count": 45,
+          "token_age_days": 37,
+          "market_cap_usd": 2924736.2860153
+        },
+        {
+          "token_address": "0x5f980dcfc4c0fa3911554cf5ab288ed0eb13dba3",
+          "token_symbol": "GITLAWB",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": -9229.812266895131,
+          "net_flow_7d_usd": 14227.70993537241,
+          "net_flow_30d_usd": 15028.95447571632,
+          "chain": "base",
+          "token_sectors": [
+            "AI Agents",
+            "Artificial Intelligence"
+          ],
+          "trader_count": 7,
+          "token_age_days": 196,
+          "market_cap_usd": 5852206.43499845
+        },
+        {
+          "token_address": "0x21cfcfc3d8f98fc728f48341d10ad8283f6eb7ab",
+          "token_symbol": "TRUE",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": -9875.137616192185,
+          "net_flow_7d_usd": -95775.11901223534,
+          "net_flow_30d_usd": -95775.11901223534,
+          "chain": "base",
+          "token_sectors": [],
+          "trader_count": 15,
+          "token_age_days": 565,
+          "market_cap_usd": 13954453.8557281
+        },
+        {
+          "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+          "token_symbol": "AERO",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": -15158.569757131803,
+          "net_flow_7d_usd": 257610.02700314496,
+          "net_flow_30d_usd": -182049.17436979106,
+          "chain": "base",
+          "token_sectors": [
+            "Decentralised Exchanges"
+          ],
+          "trader_count": 20,
+          "token_age_days": 1122,
+          "market_cap_usd": 692919585.455451
+        },
+        {
+          "token_address": "0xfb31f85a8367210b2e4ed2360d2da9dc2d2ccc95",
+          "token_symbol": "EDEL",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": -17690.833267738584,
+          "net_flow_7d_usd": -12813.858712941763,
+          "net_flow_30d_usd": -4364.536386770727,
+          "chain": "base",
+          "token_sectors": [
+            "RWAs",
+            "DeFi Lending (Money Markets)"
+          ],
+          "trader_count": 7,
+          "token_age_days": 315,
+          "market_cap_usd": 20446068.0322607
+        },
+        {
+          "token_address": "0xa4a2e2ca3fbfe21aed83471d28b6f65a233c6e00",
+          "token_symbol": "TIBBIR",
+          "net_flow_1h_usd": 0,
+          "net_flow_24h_usd": -25879.879005732797,
+          "net_flow_7d_usd": -49809.276127933575,
+          "net_flow_30d_usd": -29963.15074256074,
+          "chain": "base",
+          "token_sectors": [
+            "Memecoins",
+            "AI Agents"
+          ],
+          "trader_count": 21,
+          "token_age_days": 619,
+          "market_cap_usd": 260718863.510235
+        }
+      ],
+      "pagination": {
+        "page": 1,
+        "per_page": 1000,
+        "is_last_page": true
+      }
+    },
+    "recordedAt": 1790160910107
+  }
+]

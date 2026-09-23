@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { isBaseAsset, classifySwap } from './trade-side';
+import { isBaseAsset, isStablecoin, classifySwap } from './trade-side';
 
 describe('isBaseAsset', () => {
   it('recognizes stablecoins and native/wrapped-native tokens, case-insensitively', () => {
@@ -18,6 +18,15 @@ describe('isBaseAsset', () => {
     expect(isBaseAsset(null)).toBe(false);
     expect(isBaseAsset(undefined)).toBe(false);
     expect(isBaseAsset('')).toBe(false);
+  });
+});
+
+describe('isStablecoin', () => {
+  it('catches the non-EVM stables Nansen\'s screener filter lets through', () => {
+    for (const s of ['SBUSDT', 'USDSUI', 'BUCK', 'usdd']) expect(isStablecoin(s)).toBe(true);
+  });
+  it('does not treat natives or USD-named risk tokens as stables', () => {
+    for (const s of ['WETH', 'SOL', 'USDX-MEME', 'SUSHI', null]) expect(isStablecoin(s)).toBe(false);
   });
 });
 

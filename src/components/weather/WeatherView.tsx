@@ -7,7 +7,7 @@ import { PressureLegend } from './PressureLegend';
 import { ForecastStrip } from './ForecastStrip';
 import { ChainTable } from './ChainTable';
 import { mapHeadline, frontsHeadline } from '@/lib/insights';
-import { ago } from '@/lib/viz/format';
+import { TimeAgo } from '@/components/TimeAgo';
 import type { WeatherBulletin } from '@/server/weather/bulletin';
 
 async function fetchBulletin(): Promise<WeatherBulletin> {
@@ -39,8 +39,8 @@ export function WeatherView({ initial }: { initial: WeatherBulletin }) {
             </h1>
             <p className="mt-1 text-sm text-ink-2">
               Chain Pressure Index for all {data.chains.length} chains the Nansen API lists — {scored} with a live reading.
-              Last scan {ago(data.scan.last?.finished_at)}, {data.scan.runs} scans and{' '}
-              {data.scan.trades.toLocaleString()} smart-money trades recorded so far.
+              Last scan <TimeAgo ts={data.scan.last?.finished_at} />, {data.scan.runs} scans and{' '}
+              {data.scan.trades.toLocaleString('en-US')} smart-money trades recorded so far.
             </p>
           </div>
           <div className="flex rounded-md border border-border p-0.5 text-sm" role="tablist" aria-label="Map or table view">

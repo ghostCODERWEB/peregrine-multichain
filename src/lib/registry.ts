@@ -3,6 +3,7 @@
 import raw from '@/config/capabilities.json';
 import type { CapabilityRegistry, ChainCapability } from '@/config/capability-types';
 import { ALL_SUPPORTED_CHAINS } from '@/types/nansen/chain-enums';
+import { chainName } from '@/lib/viz/format';
 
 export const registry = raw as CapabilityRegistry;
 
@@ -64,5 +65,5 @@ export function unavailableReason(chain: string, module: 'pressure' | 'smartMone
   }[module];
   if (ok) return null;
   const how = c.inferredFromProbe ? 'checked live' : 'per Nansen’s docs';
-  return `Not available on ${chain} in Nansen API (${how}).`;
+  return `Not available on ${chainName(chain)} in Nansen API (${how}).`;
 }

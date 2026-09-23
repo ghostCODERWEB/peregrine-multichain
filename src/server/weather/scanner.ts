@@ -17,7 +17,7 @@
 import { callNansen } from '@/server/nansen/client';
 import { getDb } from '@/server/nansen/db';
 import { chainPressureWindow, blendChainPressure, flowRatio, type Window, type CpiWindowResult } from '@/lib/models/cpi';
-import { classifySwap } from '@/lib/models/trade-side';
+import { classifySwap, isStablecoin } from '@/lib/models/trade-side';
 import { pressureChains, pressureSource, type PressureSource } from '@/lib/registry';
 import type { SmartMoneyDexTrade } from '@/types/nansen/smart-money';
 
@@ -50,7 +50,7 @@ interface ChainWindowInput {
   source: PressureSource;
 }
 
-interface ScreenerRow { chain: string; volume?: number | null; netflow?: number | null }
+interface ScreenerRow { chain: string; token_symbol?: string | null; volume?: number | null; netflow?: number | null }
 
 function chunk<T>(items: T[], size: number): T[][] {
   const out: T[][] = [];
@@ -122,6 +122,10 @@ async function fetchScreener(chains: string[], window: Window, smartMoneyOnly: b
 function sumByChain(rows: ScreenerRow[], field: 'volume' | 'netflow'): Map<string, { sum: number; count: number }> {
   const out = new Map<string, { sum: number; count: number }>();
   for (const row of rows) {
+    // Belt and braces: the request already excludes stablecoins, but
+    // Nansen's flag misses some non-EVM stables (Sui's SBUSDT/USDSUI), and
+    // a stable swap pair would otherwise read as a $280K flow each way.
+    if (isStablecoin(row.token_symbol)) continue;
     const v = row[field];
     if (v == null || !Number.isFinite(v)) continue;
     const acc = out.get(row.chain) ?? { sum: 0, count: 0 };
