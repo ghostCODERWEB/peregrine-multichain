@@ -219,6 +219,21 @@ const MIGRATIONS: string[] = [
   CREATE INDEX idx_jobs_due ON jobs(status, run_at);
   CREATE INDEX idx_jobs_kind ON jobs(kind, finished_at);
   `,
+  // 10: API health for the admin view. Failed Nansen calls (the ledger only
+  // sees successes), and schema drift: each distinct way a live response
+  // departed from the generated contract, counted, with first/last seen.
+  `
+  CREATE TABLE api_errors (
+    id INTEGER PRIMARY KEY AUTOINCREMENT, endpoint TEXT NOT NULL, status INTEGER,
+    message TEXT, user_id INTEGER, at INTEGER NOT NULL
+  );
+  CREATE INDEX idx_api_errors_at ON api_errors(at);
+  CREATE TABLE schema_drift (
+    endpoint TEXT NOT NULL, path TEXT NOT NULL, message TEXT NOT NULL,
+    count INTEGER NOT NULL, first_seen INTEGER NOT NULL, last_seen INTEGER NOT NULL,
+    PRIMARY KEY (endpoint, path, message)
+  );
+  `,
 ];
 
 export function audit(userId: number | null, action: string, detail?: string): void {
@@ -251,6 +266,9 @@ function open(): Database.Database {
   db.pragma('journal_mode = WAL');
   db.pragma('busy_timeout = 5000'); // the scanner and the web server share this file
   migrate(db);
+  // When failure and schema-drift logging began on this database, so the
+  // admin view never claims more history than it has.
+  db.prepare("INSERT OR IGNORE INTO kv (key, value, updated_at) VALUES ('health_since', ?, ?)").run(String(Date.now()), Date.now());
   // A fresh clone in DEMO_MODE has no history of its own: seed it from the
   // recorded export so the map, fronts and forecasts have something real.
   if (process.env.DEMO_MODE === '1') {

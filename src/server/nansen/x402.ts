@@ -20,6 +20,7 @@ import {
 } from '@/lib/x402';
 import { S_PaymentRequired, S_PaymentPayload, S_SettleResponse, decodeHeader } from './x402-schemas';
 import { getDb } from './db';
+import { checkDrift, recordError } from './health';
 
 const ORIGIN = 'https://api.nansen.ai';
 
@@ -191,11 +192,12 @@ export async function paidCall(endpoint: string, body: unknown, header: string, 
   }
   if (!r.ok) {
     const text = await r.text().catch(() => '');
+    recordError(endpoint, r.status, `x402: ${text}`, userId);
     logPayment({ ...base, status: settlement?.success ? 'settled-error' : 'failed', tx: settlement?.transaction, error: `${r.status} ${text}` });
     throw new X402Error(`Nansen responded ${r.status}: ${text.slice(0, 200)}`, 502);
   }
   const data: unknown = await r.json();
-  const schemaOk = ENDPOINTS[key].response.safeParse(data).success;
+  const schemaOk = checkDrift(endpoint, 'POST', data).length === 0;
   logPayment({ ...base, status: 'settled', tx: settlement?.transaction });
   return { data, settlement, priceUsd: usd, network, schemaOk };
 }

@@ -8,6 +8,7 @@ import { AsyncLocalStorage } from 'node:async_hooks';
 import { getLimiter, type NansenPlan } from './limiter';
 import { readCache, writeCache } from './cache';
 import { recordCall } from './ledger';
+import { recordError, checkDriftLater } from './health';
 import { setKv } from './db';
 import { recordFixture, replayFixture, replayLatest, fixtureMode } from './demo';
 import { AgentStreamEvent, AGENT_STREAM_DONE_SENTINEL } from '@/types/nansen/agent';
@@ -200,7 +201,14 @@ export async function callNansen<T>(
     return { data, meta: { creditsCost: 0, creditsUsed: null, creditsRemaining: null, cacheHit: true } };
   }
 
-  const result = await raw<T>(endpoint, body, method, caller.apiKey);
+  let result: CallResult<T>;
+  try {
+    result = await raw<T>(endpoint, body, method, caller.apiKey);
+  } catch (e) {
+    recordError(endpoint, e instanceof NansenApiError ? e.status : null, (e as Error).message ?? String(e), caller.userId);
+    throw e;
+  }
+  checkDriftLater(endpoint, method, result.data);
   if (schema) schema.parse(result.data);
 
   if (!skipCache) writeCache(endpoint, body, result.data, scope);
@@ -242,6 +250,7 @@ export async function* streamNansen(endpoint: string, body: unknown, opts: { rec
   if (remaining) { lastCreditsRemaining = Number(remaining); try { setKv('credits_remaining', remaining); } catch { /* next call */ } }
   if (!res.ok || !res.body) {
     const text = await res.text().catch(() => '');
+    recordError(endpoint, res.status, text, caller.userId);
     throw new NansenApiError(endpoint, res.status, text);
   }
   recordCall(endpoint, cost, false, caller.userId);

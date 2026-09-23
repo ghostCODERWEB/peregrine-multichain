@@ -2,6 +2,9 @@ import type { Metadata } from 'next';
 import { Card } from '@/components/Card';
 import { TimeAgo } from '@/components/TimeAgo';
 import { coverageMatrix, usage, type CellStatus } from '@/server/coverage';
+import { adminView, ledgerCoverage } from '@/server/admin';
+import { displayMode } from '@/server/mode';
+import { AdminPanels, LedgerCard } from '@/components/coverage/AdminPanels';
 import { chainName, num } from '@/lib/viz/format';
 
 export const dynamic = 'force-dynamic';
@@ -14,9 +17,11 @@ const CELL: Record<CellStatus, { cls: string; label: string }> = {
   none: { cls: 'border border-border', label: 'not available on this chain' },
 };
 
-export default function CoveragePage() {
+export default async function CoveragePage() {
   const { rows, columns } = coverageMatrix();
   const u = usage();
+  const owner = (await displayMode()) === 'owner';
+  const admin = owner ? adminView() : null;
   const groups = columns.reduce<Array<{ group: string; span: number }>>((acc, c) => {
     const last = acc.at(-1);
     if (last?.group === c.group) last.span++; else acc.push({ group: c.group, span: 1 });
@@ -54,6 +59,8 @@ export default function CoveragePage() {
           </div>
         ))}
       </div>
+
+      <LedgerCard ledger={admin?.ledger ?? ledgerCoverage()} />
 
       <Card id="matrix" title={`What Nansen serves, chain by chain — ${rows.filter((r) => r.supported >= columns.length - 3).length} chains cover almost every endpoint, ${rows.filter((r) => r.supported <= 2).length} only the basics`}
         sub="Rows: chains by tier. Columns: the endpoints TIDE uses, grouped by API family. Hover a column for what TIDE uses it for.">
@@ -125,6 +132,10 @@ export default function CoveragePage() {
           </ul>
         </Card>
       </div>
+
+      {admin ? <AdminPanels a={admin} /> : (
+        <p className="text-[12px] text-ink-muted">Error rates, schema drift, per-key usage, job health and payments are shown to this instance&apos;s owner only.</p>
+      )}
     </div>
   );
 }

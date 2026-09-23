@@ -38,8 +38,8 @@
           "chain": "polygon"
         },
         {
-          "realized_pnl": 354.5408251691957,
-          "realized_roi": 0.30823111890470456,
+          "realized_pnl": 354.5408251691958,
+          "realized_roi": 0.30823111890470467,
           "token_address": "0xc7dcca0a3e69bd762c8db257f868f76be36c8514",
           "token_symbol": "KIBSHI",
           "chain": "base"
@@ -55,9 +55,9 @@
       "traded_token_count": 291,
       "traded_times": 1180,
       "realized_pnl_usd": 134250.2235622176,
-      "realized_pnl_percent": 4.80545462374905,
+      "realized_pnl_percent": 4.805454623749051,
       "win_rate": 0.3951890034364261
     },
-    "recordedAt": 1790195964855
+    "recordedAt": 1790197398585
   }
 ]

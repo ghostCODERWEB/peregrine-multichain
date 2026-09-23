@@ -74,6 +74,14 @@ test('token page: every wave arrives with labels stripped', async ({ page }) => 
   assertClean('/token/base/NOCK', await page.content());
 });
 
+test('coverage: ledger shown, operator sections (per-key usage, errors, jobs, payments) withheld', async ({ page }) => {
+  await page.goto('/coverage');
+  await expect(page.getByRole('heading', { name: /Nansen API operations in use/ })).toBeVisible();
+  await expect(page.getByText(/shown to this instance's owner only/)).toBeVisible();
+  await expect(page.getByText(/Operator view/)).toHaveCount(0);
+  await expect(page.locator('#users, #errors, #jobs, #payments, #drift')).toHaveCount(0);
+});
+
 test('wallet page: trail withheld, labels stripped', async ({ page }) => {
   await page.goto('/wallet/0xcbb811f129782ef87e19dea9d3375045219bae00');
   await expect(page.getByText(/trail is built from Nansen smart-money DEX trades/)).toBeVisible();

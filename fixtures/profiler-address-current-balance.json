@@ -30,8 +30,8 @@
           "token_symbol": "USDT",
           "token_name": "Tether USD",
           "token_amount": 2071.2045486884217,
-          "price_usd": 0.999586532872283,
-          "value_usd": 2070.348173692761
+          "price_usd": 0.999996717512533,
+          "value_usd": 2071.1977499854493
         },
         {
           "chain": "linea",
@@ -50,8 +50,8 @@
           "token_symbol": "USDT",
           "token_name": "TetherToken",
           "token_amount": 937.870578,
-          "price_usd": 0.997836834432746,
-          "value_usd": 935.8418086591298
+          "price_usd": 0.99589928718142,
+          "value_usd": 934.0246400986264
         },
         {
           "chain": "arbitrum",
@@ -60,8 +60,8 @@
           "token_symbol": "USDC",
           "token_name": "USD Coin (Arb1)",
           "token_amount": 886.293211,
-          "price_usd": 1.00054396074001,
-          "value_usd": 886.7753197109214
+          "price_usd": 0.999231698321009,
+          "value_usd": 885.6122704379104
         },
         {
           "chain": "polygon",
@@ -70,8 +70,8 @@
           "token_symbol": "USDC",
           "token_name": "USD Coin",
           "token_amount": 877.2593,
-          "price_usd": 1.00037795259847,
-          "value_usd": 877.590862431967
+          "price_usd": 1.00001339579479,
+          "value_usd": 877.2710515855606
         },
         {
           "chain": "robinhood",
@@ -80,8 +80,8 @@
           "token_symbol": "USDG",
           "token_name": "Global Dollar",
           "token_amount": 719.313559,
-          "price_usd": 1.00031937822328,
-          "value_usd": 719.5432920864547
+          "price_usd": 1.00083852303504,
+          "value_usd": 719.9167199886382
         },
         {
           "chain": "arbitrum",
@@ -90,8 +90,8 @@
           "token_symbol": "AARK",
           "token_name": "AARK Token",
           "token_amount": 922853.7331177982,
-          "price_usd": 0.0007714178975066195,
-          "value_usd": 711.9058865078669
+          "price_usd": 0.0007714031090939751,
+          "value_usd": 711.8922389660511
         },
         {
           "chain": "arc",
@@ -100,8 +100,8 @@
           "token_symbol": "USDC",
           "token_name": "USD Coin",
           "token_amount": 587.5855194131783,
-          "price_usd": 0.9998984567533553,
-          "value_usd": 587.5258540718556
+          "price_usd": 0.9999002131945658,
+          "value_usd": 587.5268861312767
         },
         {
           "chain": "ethereum",
@@ -110,8 +110,8 @@
           "token_symbol": "USDC",
           "token_name": "USD Coin",
           "token_amount": 570.257304,
-          "price_usd": 0.99948817856685,
-          "value_usd": 569.9654340894025
+          "price_usd": 0.99968528695988,
+          "value_usd": 570.0778365902075
         },
         {
           "chain": "ethereum",
@@ -130,18 +130,8 @@
           "token_symbol": "USDC",
           "token_name": "USD Coin",
           "token_amount": 425.111699,
-          "price_usd": 0.997064397807048,
-          "value_usd": 423.8637401641661
-        },
-        {
-          "chain": "robinhood",
-          "address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
-          "token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
-          "token_symbol": "ETH",
-          "token_name": "Ether",
-          "token_amount": 0.10512459982360813,
-          "price_usd": 2672.0161864996703,
-          "value_usd": 280.8946323279813
+          "price_usd": 0.996316347904946,
+          "value_usd": 423.5457353993467
         },
         {
           "chain": "ethereum",
@@ -150,8 +140,18 @@
           "token_symbol": "LEASH",
           "token_name": "DOGE KILLER",
           "token_amount": 129887956599555.4,
-          "price_usd": 2.14180900479244e-12,
-          "value_usd": 278.1951950590174
+          "price_usd": 2.20842977070926e-12,
+          "value_usd": 286.8484302110504
+        },
+        {
+          "chain": "robinhood",
+          "address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+          "token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "token_symbol": "ETH",
+          "token_name": "Ether",
+          "token_amount": 0.10512459982360813,
+          "price_usd": 2671.694347691014,
+          "value_usd": 280.8607991520136
         },
         {
           "chain": "ethereum",
@@ -170,8 +170,8 @@
           "token_symbol": "BNB",
           "token_name": "BinanceCoin",
           "token_amount": 0.22070207982653395,
-          "price_usd": 765.3581547772856,
-          "value_usd": 168.9161365715452
+          "price_usd": 765.5563493257106,
+          "value_usd": 168.9598785205929
         },
         {
           "chain": "base",
@@ -200,8 +200,8 @@
           "token_symbol": "ETH",
           "token_name": "Ethereum",
           "token_amount": 0.03716311950508068,
-          "price_usd": 2672.0161864996703,
-          "value_usd": 99.3004568583972
+          "price_usd": 2671.694347691014,
+          "value_usd": 99.28849632428974
         },
         {
           "chain": "base",
@@ -220,8 +220,8 @@
           "token_symbol": "RAWR",
           "token_name": "RAWR",
           "token_amount": 427294.3130109616,
-          "price_usd": 0.000202030754137857,
-          "value_usd": 86.32659229642209
+          "price_usd": 0.000218329433955723,
+          "value_usd": 93.29092549218277
         },
         {
           "chain": "ethereum",
@@ -230,8 +230,8 @@
           "token_symbol": "ETH",
           "token_name": "Ethereum",
           "token_amount": 0.03077913420672074,
-          "price_usd": 2672.0161864996703,
-          "value_usd": 82.24234480680352
+          "price_usd": 2671.694347691014,
+          "value_usd": 82.23243888691896
         },
         {
           "chain": "avalanche",
@@ -240,8 +240,8 @@
           "token_symbol": "SOL",
           "token_name": "Solana",
           "token_amount": 0.6084030823403914,
-          "price_usd": 114.18895532872268,
-          "value_usd": 69.47291239122414
+          "price_usd": 114.04507096932548,
+          "value_usd": 69.38537270346632
         },
         {
           "chain": "ethereum",
@@ -290,8 +290,8 @@
           "token_symbol": "ETH",
           "token_name": "Ethereum",
           "token_amount": 0.007796719743385765,
-          "price_usd": 2672.0161864996703,
-          "value_usd": 20.83296135592832
+          "price_usd": 2671.694347691014,
+          "value_usd": 20.830452068934683
         },
         {
           "chain": "bnb",
@@ -300,8 +300,8 @@
           "token_symbol": "WBNB",
           "token_name": "Wrapped BNB",
           "token_amount": 0.010721595053645417,
-          "price_usd": 764.97,
-          "value_usd": 8.201698568187135
+          "price_usd": 765.25,
+          "value_usd": 8.204700614802155
         },
         {
           "chain": "polygon",
@@ -310,8 +310,8 @@
           "token_symbol": "POL",
           "token_name": "Polygon Ecosystem Token",
           "token_amount": 60.09020631931107,
-          "price_usd": 0.10054780818792185,
-          "value_usd": 6.041938538966739
+          "price_usd": 0.10034629934052038,
+          "value_usd": 6.029829830751218
         },
         {
           "chain": "ethereum",
@@ -320,8 +320,8 @@
           "token_symbol": "USDT",
           "token_name": "Tether USD",
           "token_amount": 5.659215,
-          "price_usd": 0.997510955031051,
-          "value_usd": 5.645128959376049
+          "price_usd": 0.996858955966063,
+          "value_usd": 5.641439156487483
         },
         {
           "chain": "arbitrum",
@@ -330,8 +330,8 @@
           "token_symbol": "USD₮0",
           "token_name": "USD₮0",
           "token_amount": 4.867645,
-          "price_usd": 0.99885160047494,
-          "value_usd": 4.86205499879384
+          "price_usd": 0.999768599768174,
+          "value_usd": 4.8665186258185535
         },
         {
           "chain": "linea",
@@ -340,8 +340,8 @@
           "token_symbol": "ETH",
           "token_name": "Ethereum",
           "token_amount": 0.001765781864730192,
-          "price_usd": 2672.0161864996703,
-          "value_usd": 4.718197724386645
+          "price_usd": 2671.694347691014,
+          "value_usd": 4.717629427254953
         },
         {
           "chain": "bnb",
@@ -350,8 +350,8 @@
           "token_symbol": "USD1",
           "token_name": "World Liberty Financial USD",
           "token_amount": 4.459229016369863,
-          "price_usd": 0.9950667219615,
-          "value_usd": 4.437230399794764
+          "price_usd": 0.999686239750037,
+          "value_usd": 4.457829887559045
         },
         {
           "chain": "base",
@@ -370,8 +370,8 @@
           "token_symbol": "AVAX",
           "token_name": "Avalanche",
           "token_amount": 0.257624386415496,
-          "price_usd": 10.299439528911277,
-          "value_usd": 2.653386789059273
+          "price_usd": 10.292239016456996,
+          "value_usd": 2.651531761456362
         },
         {
           "chain": "robinhood",
@@ -380,8 +380,8 @@
           "token_symbol": "WETH",
           "token_name": "WETH",
           "token_amount": 0.000843402567774456,
-          "price_usd": 2673.82,
-          "value_usd": 2.255106653766696
+          "price_usd": 2672.3,
+          "value_usd": 2.2538246818636787
         },
         {
           "chain": "plasma",
@@ -390,8 +390,8 @@
           "token_symbol": "XPL",
           "token_name": "XPL",
           "token_amount": 23.575739856719274,
-          "price_usd": 0.08889436460583709,
-          "value_usd": 2.0957504146755688
+          "price_usd": 0.08900729322088541,
+          "value_usd": 2.098412790326327
         },
         {
           "chain": "arbitrum",
@@ -400,8 +400,8 @@
           "token_symbol": "WETH",
           "token_name": "Wrapped Ether",
           "token_amount": 0.000449740101468485,
-          "price_usd": 2671.85,
-          "value_usd": 1.2016380901085717
+          "price_usd": 2671.69,
+          "value_usd": 1.2015661316923367
         },
         {
           "chain": "bnb",
@@ -430,8 +430,8 @@
           "token_symbol": "Q3B",
           "token_name": "Q3B",
           "token_amount": 0.000687461306432128,
-          "price_usd": 738.222748858355,
-          "value_usd": 0.5074995753680814
+          "price_usd": 741.848830783719,
+          "value_usd": 0.5099923663857221
         },
         {
           "chain": "arbitrum",
@@ -440,8 +440,8 @@
           "token_symbol": "USDC",
           "token_name": "USD Coin",
           "token_amount": 0.29284,
-          "price_usd": 0.999009565652541,
-          "value_usd": 0.2925499612056901
+          "price_usd": 1.00058056218979,
+          "value_usd": 0.2930100118316581
         },
         {
           "chain": "bnb",
@@ -450,8 +450,8 @@
           "token_symbol": "BTCB",
           "token_name": "BTCB Token",
           "token_amount": 0.000003230898947967,
-          "price_usd": 84343.7538003544,
-          "value_usd": 0.2725061454211527
+          "price_usd": 84272.2559070091,
+          "value_usd": 0.27227514295276145
         },
         {
           "chain": "bnb",
@@ -460,8 +460,8 @@
           "token_symbol": "ETH",
           "token_name": "Ethereum Token",
           "token_amount": 0.000097254477757346,
-          "price_usd": 2674.18443053583,
-          "value_usd": 0.26007641021858785
+          "price_usd": 2673.41659780378,
+          "value_usd": 0.26000173504722734
         },
         {
           "chain": "base",
@@ -470,8 +470,8 @@
           "token_symbol": "WETH",
           "token_name": "Wrapped Ether",
           "token_amount": 0.000064821978448699,
-          "price_usd": 2672.73,
-          "value_usd": 0.17325164645919128
+          "price_usd": 2670.69,
+          "value_usd": 0.17311940962315592
         },
         {
           "chain": "bnb",
@@ -480,8 +480,8 @@
           "token_symbol": "B4B",
           "token_name": "Alibaba",
           "token_amount": 0.001277218828687054,
-          "price_usd": 110.210361204722,
-          "value_usd": 0.14076274844707218
+          "price_usd": 110.76945932081,
+          "value_usd": 0.14147683908802322
         },
         {
           "chain": "base",
@@ -490,8 +490,8 @@
           "token_symbol": "BRETT",
           "token_name": "Brett",
           "token_amount": 13.472334682664892,
-          "price_usd": 0.00519067471571889,
-          "value_usd": 0.06993050699901132
+          "price_usd": 0.00516101936312612,
+          "value_usd": 0.06953098016374909
         },
         {
           "chain": "ethereum",
@@ -510,8 +510,8 @@
           "token_symbol": "SIS",
           "token_name": "Symbiosis",
           "token_amount": 1,
-          "price_usd": 0.018139325509120386,
-          "value_usd": 0.018139325509120386
+          "price_usd": 0.01814677915433136,
+          "value_usd": 0.01814677915433136
         },
         {
           "chain": "bnb",
@@ -520,8 +520,8 @@
           "token_symbol": "SIX",
           "token_name": "SIX Token",
           "token_amount": 1.5599187881705256,
-          "price_usd": 0.00561462345814695,
-          "value_usd": 0.008758356620866397
+          "price_usd": 0.00559374417234935,
+          "value_usd": 0.00872578663066714
         },
         {
           "chain": "robinhood",
@@ -530,8 +530,8 @@
           "token_symbol": "RVH",
           "token_name": "Ravenhood",
           "token_amount": 1,
-          "price_usd": 0.00746627104167417,
-          "value_usd": 0.00746627104167417
+          "price_usd": 0.00731673003211494,
+          "value_usd": 0.00731673003211494
         },
         {
           "chain": "ethereum",
@@ -550,8 +550,8 @@
           "token_symbol": "DOGE",
           "token_name": "Dogecoin",
           "token_amount": 0.01198368,
-          "price_usd": 0.0922603786299319,
-          "value_usd": 0.0011056188541799423
+          "price_usd": 0.0918559678997938,
+          "value_usd": 0.001100772525401401
         },
         {
           "chain": "bnb",
@@ -560,8 +560,8 @@
           "token_symbol": "USDC",
           "token_name": "USD Coin",
           "token_amount": 0.000328898734923386,
-          "price_usd": 0.999934458467079,
-          "value_usd": 0.00032887717839612333
+          "price_usd": 1.00007536996024,
+          "value_usd": 0.00032892352400796013
         },
         {
           "chain": "avalanche",
@@ -570,8 +570,8 @@
           "token_symbol": "WAVAX",
           "token_name": "Wrapped AVAX",
           "token_amount": 0.0000181506,
-          "price_usd": 10.3,
-          "value_usd": 0.00018695118
+          "price_usd": 10.28,
+          "value_usd": 0.00018658816799999996
         },
         {
           "chain": "robinhood",
@@ -580,8 +580,8 @@
           "token_symbol": "🪶",
           "token_name": "🪶",
           "token_amount": 6.9,
-          "price_usd": 0.0000218563039600114,
-          "value_usd": 0.00015080849732407867
+          "price_usd": 0.0000217860533211298,
+          "value_usd": 0.00015032376791579563
         },
         {
           "chain": "bnb",
@@ -590,8 +590,8 @@
           "token_symbol": "🌱 DACT",
           "token_name": "🌱 DAC | Quantum Chain",
           "token_amount": 6,
-          "price_usd": 0.0000125819065423082,
-          "value_usd": 0.0000754914392538492
+          "price_usd": 0.0000124031160255904,
+          "value_usd": 0.0000744186961535424
         },
         {
           "chain": "robinhood",
@@ -600,8 +600,8 @@
           "token_symbol": "DIH",
           "token_name": "Dih",
           "token_amount": 3,
-          "price_usd": 0.0000168309506351914,
-          "value_usd": 0.000050492851905574205
+          "price_usd": 0.0000167034266290641,
+          "value_usd": 0.0000501102798871923
         },
         {
           "chain": "bnb",
@@ -610,8 +610,8 @@
           "token_symbol": "🌱 AXIS",
           "token_name": "🌱 Axis Robotics",
           "token_amount": 6,
-          "price_usd": 0.00000540980016553644,
-          "value_usd": 0.000032458800993218645
+          "price_usd": 0.00000534030972278318,
+          "value_usd": 0.00003204185833669908
         },
         {
           "chain": "bnb",
@@ -620,8 +620,8 @@
           "token_symbol": "RAVE",
           "token_name": "RaveDAO",
           "token_amount": 4.43677039161e-7,
-          "price_usd": 0.189857038476148,
-          "value_usd": 8.42352086949734e-8
+          "price_usd": 0.189616856592322,
+          "value_usd": 8.412864550789737e-8
         },
         {
           "chain": "bnb",
@@ -640,8 +640,8 @@
           "token_symbol": "BILL",
           "token_name": "Billions Network Token",
           "token_amount": 4.429801941e-7,
-          "price_usd": 0.0121666957351971,
-          "value_usd": 5.389605238333253e-9
+          "price_usd": 0.0122064807982844,
+          "value_usd": 5.407229233301947e-9
         },
         {
           "chain": "bnb",
@@ -650,8 +650,8 @@
           "token_symbol": "Q",
           "token_name": "Quack AI Token",
           "token_amount": 3.50039588e-9,
-          "price_usd": 0.0268914987530214,
-          "value_usd": 9.413089144210124e-11
+          "price_usd": 0.0267114372045768,
+          "value_usd": 9.350060473977935e-11
         },
         {
           "chain": "ethereum",
@@ -670,8 +670,8 @@
           "token_symbol": "WETH",
           "token_name": "Wrapped Ether",
           "token_amount": 2.54e-16,
-          "price_usd": 2672.21,
-          "value_usd": 6.7874134e-13
+          "price_usd": 2670.69,
+          "value_usd": 6.7835526e-13
         },
         {
           "chain": "base",
@@ -680,8 +680,8 @@
           "token_symbol": "MOEW",
           "token_name": "donotfomoew",
           "token_amount": 1e-18,
-          "price_usd": 0.000227016899936745,
-          "value_usd": 2.27016899936745e-22
+          "price_usd": 0.000225813558062743,
+          "value_usd": 2.25813558062743e-22
         },
         {
           "chain": "bnb",
@@ -690,8 +690,8 @@
           "token_symbol": "🌱 美股人生",
           "token_name": "🌱 美股人生",
           "token_amount": 9e-18,
-          "price_usd": 0.00000184059658484319,
-          "value_usd": 1.656536926358871e-23
+          "price_usd": 0.00000183000605872818,
+          "value_usd": 1.647005452855362e-23
         },
         {
           "chain": "bnb",
@@ -700,11 +700,11 @@
           "token_symbol": "🌱 蝴蝶时代",
           "token_name": "🌱 蝴蝶时代",
           "token_amount": 9e-18,
-          "price_usd": 0.00000167135269340817,
-          "value_usd": 1.504217424067353e-23
+          "price_usd": 0.00000177210612180006,
+          "value_usd": 1.5948955096200538e-23
         }
       ]
     },
-    "recordedAt": 1790195965301
+    "recordedAt": 1790197398388
   }
 ]
