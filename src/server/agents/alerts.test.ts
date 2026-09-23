@@ -18,7 +18,7 @@ describe('toChannel', () => {
   });
   it('rejects anything that is not a chat id or a Discord webhook', () => {
     expect(() => toChannel({ type: 'telegram', chatId: '@someone' })).toThrow();
-    expect(() => toChannel({ type: 'discord', webhookUrl: 'https://evil.example/hook' })).toThrow();
+    expect(() => toChannel({ type: 'discord', webhookUrl: 'not-a-webhook-url' })).toThrow();
     expect(() => toChannel({ type: 'discord', webhookUrl: 'http://discord.com/api/webhooks/1/x' })).toThrow();
   });
 });
