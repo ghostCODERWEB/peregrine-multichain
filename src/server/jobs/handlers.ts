@@ -6,6 +6,7 @@ import path from 'node:path';
 import { runScan } from '@/server/weather/scanner';
 import { stormSweep, type SweepCandidate } from '@/server/token/sweep';
 import { runBacktest } from '@/server/backtest/run';
+import { refreshMembership } from '@/server/sectors/membership';
 import { enqueue, type Job } from './queue';
 
 export interface Handler {
@@ -24,13 +25,13 @@ export const HANDLERS: Record<string, Handler> = {
   scan: {
     async run(_job, log) {
       const s = await runScan({ sweep: 'defer' });
-      log(`windows=${s.windows.join(',') || 'none due'} chains=${s.chainsScored} trades+=${s.tradesAdded} credits=${s.credits} ${s.ms}ms`);
+      log(`windows=${s.windows.join(',') || 'none due'} chains=${s.chainsScored} trades+=${s.tradesAdded} sectors=${s.sectorRows} credits=${s.credits} ${s.ms}ms`);
       for (const e of s.errors) log(`  ! ${e}`);
       if (s.sweepCandidates) {
         const q = enqueue('storm-sweep', { candidates: s.sweepCandidates }, { dedupeKey: 'storm-sweep', maxAttempts: 2 });
         log(`storm sweep due: ${q.created ? `queued job ${q.id}` : `already queued (job ${q.id})`}`);
       }
-      return { windows: s.windows, chainsScored: s.chainsScored, tradesAdded: s.tradesAdded, credits: s.credits, errors: s.errors, ms: s.ms };
+      return { windows: s.windows, chainsScored: s.chainsScored, tradesAdded: s.tradesAdded, sectorRows: s.sectorRows, credits: s.credits, errors: s.errors, ms: s.ms };
     },
   },
 
@@ -45,6 +46,15 @@ export const HANDLERS: Record<string, Handler> = {
       for (const e of errors) log(`  ! ${e}`);
       if (scored === 0 && errors.length) throw new Error(errors.slice(0, 3).join(' | '));
       return { scored, errors };
+    },
+  },
+
+  /** Token → sector membership for sector weather, once a day, under
+   *  SECTOR_REFRESH_CREDIT_CAP (one screener call per sector). */
+  'sector-membership': {
+    async run(_job, log) {
+      const cap = Number(process.env.SECTOR_REFRESH_CREDIT_CAP ?? 60);
+      return refreshMembership({ cap, log });
     },
   },
 
@@ -64,4 +74,4 @@ export const HANDLERS: Record<string, Handler> = {
 
 /** How many attempts a kind gets when enqueued without an explicit count:
  *  the backtest spends real credits, so it never retries on its own. */
-export const DEFAULT_ATTEMPTS: Record<string, number> = { scan: 2, 'storm-sweep': 2, backtest: 1 };
+export const DEFAULT_ATTEMPTS: Record<string, number> = { scan: 2, 'storm-sweep': 2, 'sector-membership': 2, backtest: 1 };

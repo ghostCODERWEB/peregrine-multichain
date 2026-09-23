@@ -21,6 +21,10 @@ export const DEMO_TABLES: Array<{ name: string; where?: string }> = [
   { name: 'anchor_reports', where: "subject LIKE '%:public'" },
   { name: 'scan_runs' },
   { name: 'credit_ledger' },
+  // Sector weather: public (all-trader) aggregates and the membership map
+  // (token → sector, from the screener's own sector filter).
+  { name: 'sector_snapshots', where: "source = 'market-flow'" },
+  { name: 'sector_members' },
 ];
 
 /** Row filters mirroring DEMO_TABLES, for sanitizing an existing export. */
@@ -31,9 +35,11 @@ export const PUBLIC_DEMO_FILTERS: Record<string, (row: Record<string, unknown>) 
   anchor_reports: (r) => typeof r.subject === 'string' && r.subject.endsWith(':public'),
   scan_runs: () => true,
   credit_ledger: () => true,
+  sector_snapshots: (r) => r.source === 'market-flow',
+  sector_members: () => true,
 };
 
-const TIME_COLUMNS = new Set(['snapshot_at', 'traded_at', 'captured_at', 'computed_at', 'created_at', 'started_at', 'finished_at', 'called_at']);
+const TIME_COLUMNS = new Set(['snapshot_at', 'traded_at', 'captured_at', 'computed_at', 'created_at', 'started_at', 'finished_at', 'called_at', 'refreshed_at']);
 
 interface Export { exportedAt: number; tables: Record<string, { columns: string[]; rows: unknown[][] }> }
 

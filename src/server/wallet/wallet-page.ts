@@ -8,6 +8,7 @@ import { requestDay } from '@/server/nansen/demo';
 import { traced, errText, type Wave } from '@/server/nansen/traced';
 import { endpointSupports } from '@/lib/registry';
 import type { Provenance } from '@/lib/provenance';
+import type { ProfilerAddressHistoricalBalancesResponse } from '@/types/nansen/api.gen';
 import type {
   ProfilerAddressBalancesResponse, ProfilerAddressPnlSummaryResponse, ProfilerAddressFirstFunderResponse,
   ProfilerAddressRelatedWalletsResponse, ProfilerAddressCounterpartiesResponse, ProfilerAddressTransactionsResponse,
@@ -15,6 +16,12 @@ import type {
 import { usd, pct, chainName, amount } from '@/lib/viz/format';
 
 export const isEvm = (a: string) => /^0x[0-9a-fA-F]{40}$/.test(a);
+
+/** Who a profiler section is about: one address, or a Nansen entity (all
+ *  the addresses Nansen attributes to it, aggregated by Nansen). */
+export type Subject = string | { entity: string };
+export const subjectBody = (s: Subject) => (typeof s === 'string' ? { address: s } : { entity_name: s.entity });
+const whose = (s: Subject) => (typeof s === 'string' ? 'this wallet' : s.entity);
 
 // ------------------------------------------------------------- balances
 
@@ -25,12 +32,12 @@ export interface Balances {
   provenance: Provenance;
 }
 
-export async function balances(address: string): Promise<Wave<Balances>> {
-  const body = { address, chain: 'all', hide_spam_token: true, pagination: { page: 1, per_page: 200 }, order_by: [{ field: 'value_usd', direction: 'DESC' }] };
+export async function balances(subject: Subject): Promise<Wave<Balances>> {
+  const body = { ...subjectBody(subject), chain: 'all', hide_spam_token: true, pagination: { page: 1, per_page: 200 }, order_by: [{ field: 'value_usd', direction: 'DESC' }] };
   try {
     const r = await traced<ProfilerAddressBalancesResponse>('profiler/address/current-balance', body, 1);
     const rows = r.data.data.filter((x) => (x.value_usd ?? 0) > 0);
-    if (!rows.length) return { unavailable: 'Nansen shows no token balances with a USD value for this address.' };
+    if (!rows.length) return { unavailable: `Nansen shows no token balances with a USD value for ${whose(subject)}.` };
     const m = new Map<string, { valueUsd: number; tokens: number }>();
     for (const x of rows) {
       const e = m.get(x.chain) ?? { valueUsd: 0, tokens: 0 };
@@ -72,8 +79,8 @@ export interface PnlSummary {
   provenance: Provenance;
 }
 
-export async function pnl(address: string): Promise<Wave<PnlSummary>> {
-  const body = { address, chain: 'all', date: { from: requestDay(30), to: requestDay(-1) } };
+export async function pnl(subject: Subject): Promise<Wave<PnlSummary>> {
+  const body = { ...subjectBody(subject), chain: 'all', date: { from: requestDay(30), to: requestDay(-1) } };
   try {
     const r = await traced<ProfilerAddressPnlSummaryResponse>('profiler/address/pnl-summary', body, 1);
     const d = r.data;
@@ -156,24 +163,31 @@ export interface Counterparties {
   provenance: Provenance;
 }
 
-export async function counterparties(address: string, mainChain: string | null): Promise<Wave<Counterparties>> {
+export async function counterparties(subject: Subject, mainChain: string | null): Promise<Wave<Counterparties>> {
   const chain = mainChain && endpointSupports('profilerCounterparties', mainChain) ? mainChain : null;
-  if (!chain) return { unavailable: 'Counterparties need the wallet’s main chain, and Nansen shows no balances to find it from.' };
-  const body = { address, chain, date: { from: requestDay(30), to: requestDay(-1) }, group_by: 'wallet', pagination: { page: 1, per_page: 10 }, order_by: [{ field: 'total_volume_usd', direction: 'DESC' }] };
+  if (!chain) return { unavailable: `Counterparties need ${whose(subject)}’s main chain, and Nansen shows no balances to find it from.` };
+  // An entity's counterparties are grouped by entity; a wallet's by wallet.
+  const body = { ...subjectBody(subject), chain, date: { from: requestDay(30), to: requestDay(-1) }, group_by: typeof subject === 'string' ? 'wallet' : 'entity', pagination: { page: 1, per_page: typeof subject === 'string' ? 10 : 11 }, order_by: [{ field: 'total_volume_usd', direction: 'DESC' }] };
   try {
     const r = await traced<ProfilerAddressCounterpartiesResponse>('profiler/address/counterparties', body, 5);
-    const rows = r.data.data.map((x) => ({
+    const all = r.data.data.map((x) => ({
       address: x.counterparty_address, label: x.counterparty_address_label?.[0] ?? null, interactions: x.interaction_count,
       inUsd: x.volume_in_usd ?? 0, outUsd: x.volume_out_usd ?? 0, totalUsd: x.total_volume_usd ?? 0,
     }));
-    if (!rows.length) return { unavailable: `No counterparties on ${chainName(chain)} in the last 30 days.` };
+    // Grouped by entity, an entity's transfers between its own addresses
+    // come back as the entity being its own counterparty; leave those out.
+    const self = typeof subject === 'string' ? null : subject.entity.trim().toLowerCase();
+    const rows = all.filter((x) => !self || x.label?.trim().toLowerCase() !== self).slice(0, 10);
+    const internal = all.length - rows.length > 0 && self != null && all.some((x) => x.label?.trim().toLowerCase() === self);
+    if (!rows.length) return { unavailable: `No counterparties on ${chainName(chain)} in the last 30 days${internal ? ' besides transfers between its own addresses' : ''}.` };
     return {
       chain, rows,
       provenance: {
         title: `Top counterparties on ${chainName(chain)}, 30 days`,
-        formula: 'as reported by Nansen, ranked by total volume\nin = sent to this wallet, out = sent by it',
+        formula: `as reported by Nansen, ranked by total volume\nin = sent to ${whose(subject)}, out = sent by it`,
         inputs: [{ label: 'Largest', value: `${rows[0].address.slice(0, 10)}… · ${usd(rows[0].totalUsd)}` }],
         calls: [r.call],
+        notes: internal ? ['Transfers between the entity’s own addresses are left out.'] : [],
       },
     };
   } catch (e) {
@@ -247,4 +261,68 @@ export function migrationTrail(address: string, days = 7): { steps: TrailStep[];
       notes: ['Only trades by Nansen smart-money wallets are recorded, and only since the scanner started.'],
     },
   };
+}
+
+// ------------------------------------------------------------- holdings trend
+
+export interface HoldingsTrend {
+  chain: string;
+  symbols: string[];
+  /** One point per day, oldest first: Σ value of the tracked tokens. */
+  days: Array<{ day: string; valueUsd: number; bySymbol: Record<string, number> }>;
+  provenance: Provenance;
+}
+
+/**
+ * How the value of today's largest holdings on the main chain moved over
+ * 30 days (profiler/address/historical-balances, filtered to those tokens:
+ * one call). Tracks the current top five, so a token sold off before today
+ * is not in it — the title says so.
+ */
+export async function holdingsTrend(subject: Subject, top: Balances['top']): Promise<Wave<HoldingsTrend>> {
+  const chain = top[0]?.chain;
+  // historical-balances takes the same chain enum as current-balance.
+  if (!chain || !endpointSupports('profilerCurrentBalance', chain)) {
+    return { unavailable: chain ? `Nansen does not serve historical balances on ${chainName(chain)}.` : 'No current balances to track.' };
+  }
+  const tokens = top.filter((t) => t.chain === chain).slice(0, 5);
+  const body = {
+    ...subjectBody(subject), chain, date: { from: requestDay(30), to: requestDay(-1) },
+    filters: { token_address: tokens.map((t) => t.tokenAddress), hide_spam_tokens: true },
+    pagination: { page: 1, per_page: 1000 }, order_by: [{ field: 'block_timestamp', direction: 'ASC' }],
+  };
+  try {
+    const r = await traced<ProfilerAddressHistoricalBalancesResponse>('profiler/address/historical-balances', body, 1);
+    const byDay = new Map<string, { valueUsd: number; bySymbol: Record<string, number> }>();
+    for (const x of r.data.data) {
+      if (x.value_usd == null || !Number.isFinite(x.value_usd)) continue;
+      const day = x.block_timestamp.slice(0, 10);
+      const d = byDay.get(day) ?? { valueUsd: 0, bySymbol: {} };
+      d.valueUsd += x.value_usd;
+      d.bySymbol[x.token_symbol] = (d.bySymbol[x.token_symbol] ?? 0) + x.value_usd;
+      byDay.set(day, d);
+    }
+    const days = [...byDay.entries()].map(([day, v]) => ({ day, ...v })).sort((a, b) => a.day.localeCompare(b.day));
+    if (days.length < 2) return { unavailable: `Nansen has fewer than two days of balance history for these tokens on ${chainName(chain)}.` };
+    const first = days[0].valueUsd, last = days.at(-1)!.valueUsd;
+    return {
+      chain, symbols: tokens.map((t) => t.symbol), days,
+      provenance: {
+        title: `Today's top ${tokens.length} holdings on ${chainName(chain)}, 30 days`,
+        formula: 'per day: Σ value_usd of the tracked tokens (Nansen’s end-of-day balances × price)',
+        inputs: [
+          { label: 'Tracked', value: tokens.map((t) => t.symbol).join(', ') },
+          { label: 'Start → end', value: `${usd(first)} → ${usd(last)}` },
+          { label: 'Change', value: first > 0 ? pct(last / first - 1) : '—' },
+        ],
+        calls: [r.call],
+        notes: [
+          'Tracks the tokens held today; positions closed during the window are not in this line.',
+          ...(r.data.pagination?.is_last_page === false ? ['Nansen returned more than 1,000 rows; the latest days may be incomplete.'] : []),
+        ],
+      },
+    };
+  } catch (e) {
+    return { unavailable: errText(e) };
+  }
 }

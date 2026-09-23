@@ -1,0 +1,94 @@
+[
+  {
+    "requestHash": "09e91cfa56f7166297cd682ed893e8db09f6150a",
+    "request": {
+      "search_query": "wintermute"
+    },
+    "response": {
+      "data": [
+        {
+          "entity_name": null
+        },
+        {
+          "entity_name": null
+        },
+        {
+          "entity_name": null
+        },
+        {
+          "entity_name": null
+        }
+      ]
+    },
+    "recordedAt": 1790197612927
+  },
+  {
+    "requestHash": "f3dcb1049f458dfc0ccceb1d478198809b2f6d39",
+    "request": {
+      "search_query": "Wintermute Trading"
+    },
+    "response": {
+      "data": [
+        {
+          "entity_name": null
+        }
+      ]
+    },
+    "recordedAt": 1790198393639
+  },
+  {
+    "requestHash": "b484a9836178d2079392b0f0e9de9194c1268a1e",
+    "request": {
+      "search_query": "Aerodrome Finance"
+    },
+    "response": {
+      "data": [
+        {
+          "entity_name": null
+        }
+      ]
+    },
+    "recordedAt": 1790198437541
+  },
+  {
+    "requestHash": "60c8e527c1613018b98ac7ab3316b106d4df9580",
+    "request": {
+      "search_query": "Binance"
+    },
+    "response": {
+      "data": [
+        {
+          "entity_name": null
+        },
+        {
+          "entity_name": null
+        },
+        {
+          "entity_name": null
+        },
+        {
+          "entity_name": null
+        },
+        {
+          "entity_name": null
+        },
+        {
+          "entity_name": null
+        },
+        {
+          "entity_name": null
+        },
+        {
+          "entity_name": null
+        },
+        {
+          "entity_name": null
+        },
+        {
+          "entity_name": null
+        }
+      ]
+    },
+    "recordedAt": 1790198878737
+  }
+]

@@ -4,9 +4,11 @@ import { getKv } from '@/server/nansen/db';
 import { accountStatus } from '@/server/nansen/account';
 import { requestContext } from '@/server/context';
 import { AccountButton } from '@/components/auth/AccountButton';
+import { Omnibox } from '@/components/search/Omnibox';
 
 const NAV = [
   { href: '/', label: 'Weather map', short: 'Map' },
+  { href: '/sectors', label: 'Sectors', short: 'Sectors' },
   { href: '/lab', label: 'Forecast Lab', short: 'Lab' },
   { href: '/alerts', label: 'Alerts', short: 'Alerts' },
   { href: '/coverage', label: 'Coverage', short: 'Coverage' },
@@ -25,11 +27,13 @@ export async function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur">
       <div className="mx-auto flex h-14 max-w-[1400px] items-center gap-3 px-4 sm:gap-6">
-        <Link href="/" className="flex items-baseline gap-2">
+        <Link href="/" className="flex shrink-0 items-baseline gap-2">
           <span className="text-[15px] font-semibold tracking-[0.2em] text-ink">TIDE</span>
           <span className="hidden text-xs text-ink-muted md:inline">smart-money weather · Nansen</span>
         </Link>
-        <nav className="flex items-center gap-0.5 text-sm sm:gap-1" aria-label="Primary">
+        {/* On a phone the nav scrolls sideways inside itself rather than
+            widening the page. */}
+        <nav className="flex min-w-0 flex-1 items-center gap-0.5 overflow-x-auto text-sm [scrollbar-width:none] sm:gap-1 [&::-webkit-scrollbar]:hidden" aria-label="Primary">
           {NAV.map((n) => (
             <Link key={n.href} href={n.href} className="whitespace-nowrap rounded-md px-2 py-1.5 text-ink-2 hover:bg-accent hover:text-ink sm:px-2.5">
               <span className="sm:hidden">{n.short}</span>
@@ -37,7 +41,8 @@ export async function SiteHeader() {
             </Link>
           ))}
         </nav>
-        <div className="ml-auto flex items-center gap-2">
+        <div className="ml-auto flex shrink-0 items-center gap-2">
+          <Omnibox />
           {demo && (
             <span className="rounded border border-border px-2 py-0.5 text-[11px] uppercase tracking-wider text-ink-2"
               title={`Replaying recorded Nansen responses — no API key, no credits.${recorded ? ` Scanner history recorded live on ${recorded} UTC, replayed with its clock moved to now.` : ''}`}>

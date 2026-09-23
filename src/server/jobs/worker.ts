@@ -4,6 +4,7 @@ import os from 'node:os';
 import { getDb } from '@/server/nansen/db';
 import { claim, complete, enqueue, fail, recoverStale, type Job } from './queue';
 import { HANDLERS, SCAN_EVERY_MS, DEFAULT_ATTEMPTS, type Handler } from './handlers';
+import { membershipAge, MEMBERSHIP_MAX_AGE_MS } from '@/server/sectors/membership';
 
 export const WORKER_ID = `${os.hostname()}:${process.pid}`;
 
@@ -17,6 +18,12 @@ export function nextScanAt(now: number, everyMs = SCAN_EVERY_MS): number {
 /** Recurring jobs: make sure the next occurrence is queued. Idempotent. */
 export function scheduleRecurring(now = Date.now(), everyMs = SCAN_EVERY_MS): void {
   enqueue('scan', {}, { dedupeKey: 'scan', runAt: nextScanAt(now, everyMs), maxAttempts: DEFAULT_ATTEMPTS.scan }, now);
+  // Daily sector membership, when the map is missing or a day old.
+  const age = membershipAge(now);
+  enqueue('sector-membership', {}, {
+    dedupeKey: 'sector-membership', maxAttempts: DEFAULT_ATTEMPTS['sector-membership'],
+    runAt: age == null ? now : Math.max(now, now - age + MEMBERSHIP_MAX_AGE_MS),
+  }, now);
 }
 
 export interface TickResult { job: Job | null; status: 'idle' | 'done' | 'retry' | 'failed' }
@@ -41,7 +48,7 @@ export async function tick(opts: { now?: () => number; handlers?: Record<string,
     say(`${status === 'retry' ? 'failed, will retry' : 'failed for good'}: ${msg.slice(0, 300)}`);
   }
   // A recurring job schedules its successor once it has finished for good.
-  if (job.kind === 'scan' && status !== 'retry') scheduleRecurring(now(), opts.everyMs);
+  if ((job.kind === 'scan' || job.kind === 'sector-membership') && status !== 'retry') scheduleRecurring(now(), opts.everyMs);
   return { job, status };
 }
 

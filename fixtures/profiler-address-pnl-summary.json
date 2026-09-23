@@ -58,6 +58,103 @@
       "realized_pnl_percent": 4.805454623749051,
       "win_rate": 0.3951890034364261
     },
-    "recordedAt": 1790197398585
+    "recordedAt": 1790199862149
+  },
+  {
+    "requestHash": "415f5b565d65001ef3ef4eceba132b7d5e46b3ed",
+    "request": {
+      "entity_name": "Wintermute Trading",
+      "chain": "all",
+      "date": {
+        "from": "2026-08-24",
+        "to": "2026-09-24"
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 1,
+        "is_last_page": true
+      },
+      "top5_tokens": [
+        {
+          "realized_pnl": 2720.0599560605315,
+          "realized_roi": 0.00917449749012675,
+          "token_address": "0x57e114b691db790c35207b2e685d4a43181e6061",
+          "token_symbol": "ENA",
+          "chain": "ethereum"
+        },
+        {
+          "realized_pnl": 10.812037480329519,
+          "realized_roi": 0.0054022209954323495,
+          "token_address": "0x6e2a43be0b1d33b726f0ca3b8de60b3482b8b050",
+          "token_symbol": "ARKM",
+          "chain": "ethereum"
+        },
+        {
+          "realized_pnl": -124146.52752067319,
+          "realized_roi": -0.8366831150682086,
+          "token_address": "0xb095274743941e953c746f9c228da9c18bb6ec29",
+          "token_symbol": "LAPTOP",
+          "chain": "base"
+        }
+      ],
+      "traded_token_count": 6,
+      "traded_times": 43,
+      "realized_pnl_usd": -121415.65552713233,
+      "realized_pnl_percent": -0.2717076798668995,
+      "win_rate": 0.3333333333333333
+    },
+    "recordedAt": 1790198394242
+  },
+  {
+    "requestHash": "96c9ce33ffee76f0f22a4acb1d85e9d7464785bc",
+    "request": {
+      "entity_name": "Aerodrome Finance",
+      "chain": "all",
+      "date": {
+        "from": "2026-08-24",
+        "to": "2026-09-24"
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 1,
+        "is_last_page": true
+      },
+      "top5_tokens": [],
+      "traded_token_count": 0,
+      "traded_times": 0,
+      "realized_pnl_usd": 0,
+      "realized_pnl_percent": 0,
+      "win_rate": 0
+    },
+    "recordedAt": 1790199857870
+  },
+  {
+    "requestHash": "d40bc602356d4ccb340199b0ac1d75c834b7c6ac",
+    "request": {
+      "entity_name": "Binance",
+      "chain": "all",
+      "date": {
+        "from": "2026-08-24",
+        "to": "2026-09-24"
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 1,
+        "is_last_page": true
+      },
+      "top5_tokens": [],
+      "traded_token_count": 0,
+      "traded_times": 0,
+      "realized_pnl_usd": 0,
+      "realized_pnl_percent": 0,
+      "win_rate": 0
+    },
+    "recordedAt": 1790198879640
   }
 ]

@@ -1,0 +1,3026 @@
+[
+  {
+    "requestHash": "5956b8fa1ec709ac1abf8b9009b6dffcc14ffc8d",
+    "request": {
+      "entity_name": "Wintermute Trading",
+      "chain": "ethereum",
+      "date": {
+        "from": "2026-08-24",
+        "to": "2026-09-24"
+      },
+      "pagination": {
+        "page": 1,
+        "per_page": 20
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 20,
+        "is_last_page": false
+      },
+      "data": [
+        {
+          "block_timestamp": "2026-09-23T23:59:59",
+          "token_address": "0x65ef703f5594d2573eb71aaf55bc0cb548492df4",
+          "chain": "ethereum",
+          "token_amount": 16.99999999170406,
+          "value_usd": 0.533344430577762,
+          "token_symbol": "MULTI"
+        },
+        {
+          "block_timestamp": "2026-09-23T23:59:59",
+          "token_address": "0xa1faa113cbe53436df28ff0aee54275c13b40975",
+          "chain": "ethereum",
+          "token_amount": 0.31539842049795686,
+          "value_usd": 0.00013467551851049263,
+          "token_symbol": "ALPHA"
+        },
+        {
+          "block_timestamp": "2026-09-23T23:59:59",
+          "token_address": "0x1559fa1b8f28238fd5d76d9f434ad86fd20d1559",
+          "chain": "ethereum",
+          "token_amount": 10.085233113238651,
+          "value_usd": 0.022897814546727648,
+          "token_symbol": "EDEN"
+        },
+        {
+          "block_timestamp": "2026-09-23T23:59:59",
+          "token_address": "0x83f20f44975d03b1b09e64809b757c47f942beea",
+          "chain": "ethereum",
+          "token_amount": 0,
+          "value_usd": 0,
+          "token_symbol": "SDAI"
+        },
+        {
+          "block_timestamp": "2026-09-23T23:59:59",
+          "token_address": "0x46f84dc6564cdd93922f7bfb88b03d35308d87c9",
+          "chain": "ethereum",
+          "token_amount": 0,
+          "value_usd": 0,
+          "token_symbol": "WVENOM"
+        },
+        {
+          "block_timestamp": "2026-09-23T23:59:59",
+          "token_address": "0x697ef32b4a3f5a4c39de1cb7563f24ca7bfc5947",
+          "chain": "ethereum",
+          "token_amount": 1,
+          "value_usd": 0.0100621913710931,
+          "token_symbol": "ISLA"
+        },
+        {
+          "block_timestamp": "2026-09-23T23:59:59",
+          "token_address": "0x090185f2135308bad17527004364ebcc2d37e5f6",
+          "chain": "ethereum",
+          "token_amount": 3.9986133004548914,
+          "value_usd": 0.0003567534641390854,
+          "token_symbol": "SPELL"
+        },
+        {
+          "block_timestamp": "2026-09-23T23:59:59",
+          "token_address": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+          "chain": "ethereum",
+          "token_amount": 0.4116113248015653,
+          "value_usd": 1099.175113976596,
+          "token_symbol": "WETH"
+        },
+        {
+          "block_timestamp": "2026-09-23T23:59:59",
+          "token_address": "0xf17e65822b568b3903685a7c9f496cf7656cc6c2",
+          "chain": "ethereum",
+          "token_amount": 0.03349810002997044,
+          "value_usd": 0.0007086384885757825,
+          "token_symbol": "BICO"
+        },
+        {
+          "block_timestamp": "2026-09-23T23:59:59",
+          "token_address": "0x1b40183efb4dd766f11bda7a7c3ad8982e998421",
+          "chain": "ethereum",
+          "token_amount": 0,
+          "value_usd": 0,
+          "token_symbol": "VSP"
+        },
+        {
+          "block_timestamp": "2026-09-23T23:59:59",
+          "token_address": "0xc18360217d8f7ab5e7c516566761ea12ce7f9d72",
+          "chain": "ethereum",
+          "token_amount": 0.008170337578065153,
+          "value_usd": 0.05441278465837412,
+          "token_symbol": "ENS"
+        },
+        {
+          "block_timestamp": "2026-09-23T23:59:59",
+          "token_address": "0x4e15361fd6b4bb609fa63c81a2be19d873717870",
+          "chain": "ethereum",
+          "token_amount": 115.11402556541006,
+          "value_usd": 4.6169323982596,
+          "token_symbol": "FTM"
+        },
+        {
+          "block_timestamp": "2026-09-23T23:59:59",
+          "token_address": "0x0a6e7ba5042b38349e437ec6db6214aec7b35676",
+          "chain": "ethereum",
+          "token_amount": 0,
+          "value_usd": 0,
+          "token_symbol": "SWELL"
+        },
+        {
+          "block_timestamp": "2026-09-23T23:59:59",
+          "token_address": "0x3b50805453023a91a8bf641e279401a0b23fa6f9",
+          "chain": "ethereum",
+          "token_amount": 0,
+          "value_usd": 0,
+          "token_symbol": "REZ"
+        },
+        {
+          "block_timestamp": "2026-09-23T23:59:59",
+          "token_address": "0x408e41876cccdc0f92210600ef50372656052a38",
+          "chain": "ethereum",
+          "token_amount": 6.514095325497408,
+          "value_usd": 0.01859363741137991,
+          "token_symbol": "REN"
+        },
+        {
+          "block_timestamp": "2026-09-23T23:59:59",
+          "token_address": "0x43f11c02439e2736800433b4594994bd43cd066d",
+          "chain": "ethereum",
+          "token_amount": 1544.55751488,
+          "value_usd": 0.000001996594011429645,
+          "token_symbol": "FLOKI"
+        },
+        {
+          "block_timestamp": "2026-09-23T23:59:59",
+          "token_address": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
+          "chain": "ethereum",
+          "token_amount": 0.02151367,
+          "value_usd": 1810.8947823816,
+          "token_symbol": "WBTC"
+        },
+        {
+          "block_timestamp": "2026-09-23T23:59:59",
+          "token_address": "0x514910771af9ca656af840dff83e8264ecf986ca",
+          "chain": "ethereum",
+          "token_amount": 1.981068442458015,
+          "value_usd": 24.199945122263227,
+          "token_symbol": "LINK"
+        },
+        {
+          "block_timestamp": "2026-09-23T23:59:59",
+          "token_address": "0x956f47f50a910163d8bf957cf5846d573e7f87ca",
+          "chain": "ethereum",
+          "token_amount": 0,
+          "value_usd": 0,
+          "token_symbol": "FEI"
+        },
+        {
+          "block_timestamp": "2026-09-23T23:59:59",
+          "token_address": "0x3a810ff7211b40c4fa76205a14efe161615d0385",
+          "chain": "ethereum",
+          "token_amount": 0,
+          "value_usd": 0,
+          "token_symbol": "AIN"
+        }
+      ]
+    },
+    "recordedAt": 1790197639258
+  },
+  {
+    "requestHash": "bf4bc598f0d653fd8ddfde15709e07dcde0df6e0",
+    "request": {
+      "entity_name": "Wintermute Trading",
+      "chain": "ethereum",
+      "date": {
+        "from": "2026-08-24",
+        "to": "2026-09-24"
+      },
+      "filters": {
+        "token_address": [
+          "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+          "0x4da27a545c0c5b758a6ba100e3a049001de870f5",
+          "0x45804880de22913dafe09f4980848ece6ecbaf78",
+          "0x68749665ff8d2d112fa859aa293f07a622782f38",
+          "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+        ],
+        "hide_spam_tokens": true
+      },
+      "pagination": {
+        "page": 1,
+        "per_page": 1000
+      },
+      "order_by": [
+        {
+          "field": "block_timestamp",
+          "direction": "ASC"
+        }
+      ]
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 1000,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "block_timestamp": "2026-08-24T23:59:59",
+          "token_address": "0x4da27a545c0c5b758a6ba100e3a049001de870f5",
+          "chain": "ethereum",
+          "token_amount": 36502.90499497273,
+          "value_usd": 5024978.725778786,
+          "token_symbol": "STKAAVE"
+        },
+        {
+          "block_timestamp": "2026-08-24T23:59:59",
+          "token_address": "0x45804880de22913dafe09f4980848ece6ecbaf78",
+          "chain": "ethereum",
+          "token_amount": 994.2079994846473,
+          "value_usd": 4617019.531356912,
+          "token_symbol": "PAXG"
+        },
+        {
+          "block_timestamp": "2026-08-24T23:59:59",
+          "token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "chain": "ethereum",
+          "token_amount": 709.7333806455517,
+          "value_usd": 1752135.8651800274,
+          "token_symbol": "ETH"
+        },
+        {
+          "block_timestamp": "2026-08-24T23:59:59",
+          "token_address": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+          "chain": "ethereum",
+          "token_amount": 1000057.6774147062,
+          "value_usd": 4371085.612619232,
+          "token_symbol": "UNI"
+        },
+        {
+          "block_timestamp": "2026-08-24T23:59:59",
+          "token_address": "0x68749665ff8d2d112fa859aa293f07a622782f38",
+          "chain": "ethereum",
+          "token_amount": 977.549776,
+          "value_usd": 4527386.384029506,
+          "token_symbol": "XAUT"
+        },
+        {
+          "block_timestamp": "2026-08-25T23:59:59",
+          "token_address": "0x68749665ff8d2d112fa859aa293f07a622782f38",
+          "chain": "ethereum",
+          "token_amount": 977.549776,
+          "value_usd": 4519550.060146166,
+          "token_symbol": "XAUT"
+        },
+        {
+          "block_timestamp": "2026-08-25T23:59:59",
+          "token_address": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+          "chain": "ethereum",
+          "token_amount": 1000057.6774147062,
+          "value_usd": 4365015.316681819,
+          "token_symbol": "UNI"
+        },
+        {
+          "block_timestamp": "2026-08-25T23:59:59",
+          "token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "chain": "ethereum",
+          "token_amount": 709.7333806455517,
+          "value_usd": 1757801.4752793838,
+          "token_symbol": "ETH"
+        },
+        {
+          "block_timestamp": "2026-08-25T23:59:59",
+          "token_address": "0x45804880de22913dafe09f4980848ece6ecbaf78",
+          "chain": "ethereum",
+          "token_amount": 994.2079994846473,
+          "value_usd": 4611179.030652506,
+          "token_symbol": "PAXG"
+        },
+        {
+          "block_timestamp": "2026-08-25T23:59:59",
+          "token_address": "0x4da27a545c0c5b758a6ba100e3a049001de870f5",
+          "chain": "ethereum",
+          "token_amount": 36502.90499497273,
+          "value_usd": 4695673.06341965,
+          "token_symbol": "STKAAVE"
+        },
+        {
+          "block_timestamp": "2026-08-26T23:59:59",
+          "token_address": "0x68749665ff8d2d112fa859aa293f07a622782f38",
+          "chain": "ethereum",
+          "token_amount": 977.549776,
+          "value_usd": 4511088.133616965,
+          "token_symbol": "XAUT"
+        },
+        {
+          "block_timestamp": "2026-08-26T23:59:59",
+          "token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "chain": "ethereum",
+          "token_amount": 709.7333806455517,
+          "value_usd": 1747136.6348292448,
+          "token_symbol": "ETH"
+        },
+        {
+          "block_timestamp": "2026-08-26T23:59:59",
+          "token_address": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+          "chain": "ethereum",
+          "token_amount": 1000057.6774147062,
+          "value_usd": 4274863.390681686,
+          "token_symbol": "UNI"
+        },
+        {
+          "block_timestamp": "2026-08-26T23:59:59",
+          "token_address": "0x45804880de22913dafe09f4980848ece6ecbaf78",
+          "chain": "ethereum",
+          "token_amount": 994.2079994846473,
+          "value_usd": 4583491.186331325,
+          "token_symbol": "PAXG"
+        },
+        {
+          "block_timestamp": "2026-08-26T23:59:59",
+          "token_address": "0x4da27a545c0c5b758a6ba100e3a049001de870f5",
+          "chain": "ethereum",
+          "token_amount": 36502.90499497273,
+          "value_usd": 4581630.11610187,
+          "token_symbol": "STKAAVE"
+        },
+        {
+          "block_timestamp": "2026-08-27T23:59:59",
+          "token_address": "0x45804880de22913dafe09f4980848ece6ecbaf78",
+          "chain": "ethereum",
+          "token_amount": 994.2079994846473,
+          "value_usd": 4567435.133810103,
+          "token_symbol": "PAXG"
+        },
+        {
+          "block_timestamp": "2026-08-27T23:59:59",
+          "token_address": "0x4da27a545c0c5b758a6ba100e3a049001de870f5",
+          "chain": "ethereum",
+          "token_amount": 36502.90499497273,
+          "value_usd": 4629613.464834818,
+          "token_symbol": "STKAAVE"
+        },
+        {
+          "block_timestamp": "2026-08-27T23:59:59",
+          "token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "chain": "ethereum",
+          "token_amount": 709.7333806455517,
+          "value_usd": 1776686.5412122463,
+          "token_symbol": "ETH"
+        },
+        {
+          "block_timestamp": "2026-08-27T23:59:59",
+          "token_address": "0x68749665ff8d2d112fa859aa293f07a622782f38",
+          "chain": "ethereum",
+          "token_amount": 977.549776,
+          "value_usd": 4489570.796213472,
+          "token_symbol": "XAUT"
+        },
+        {
+          "block_timestamp": "2026-08-27T23:59:59",
+          "token_address": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+          "chain": "ethereum",
+          "token_amount": 1000057.6774147062,
+          "value_usd": 4480737.01210442,
+          "token_symbol": "UNI"
+        },
+        {
+          "block_timestamp": "2026-08-28T23:59:59",
+          "token_address": "0x68749665ff8d2d112fa859aa293f07a622782f38",
+          "chain": "ethereum",
+          "token_amount": 977.549776,
+          "value_usd": 4464439.90111475,
+          "token_symbol": "XAUT"
+        },
+        {
+          "block_timestamp": "2026-08-28T23:59:59",
+          "token_address": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+          "chain": "ethereum",
+          "token_amount": 1000057.6774147062,
+          "value_usd": 4587026.284675142,
+          "token_symbol": "UNI"
+        },
+        {
+          "block_timestamp": "2026-08-28T23:59:59",
+          "token_address": "0x4da27a545c0c5b758a6ba100e3a049001de870f5",
+          "chain": "ethereum",
+          "token_amount": 36502.90499497273,
+          "value_usd": 4574845.714640569,
+          "token_symbol": "STKAAVE"
+        },
+        {
+          "block_timestamp": "2026-08-28T23:59:59",
+          "token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "chain": "ethereum",
+          "token_amount": 709.7325710950831,
+          "value_usd": 1768169.4561331875,
+          "token_symbol": "ETH"
+        },
+        {
+          "block_timestamp": "2026-08-28T23:59:59",
+          "token_address": "0x45804880de22913dafe09f4980848ece6ecbaf78",
+          "chain": "ethereum",
+          "token_amount": 994.2079994846473,
+          "value_usd": 4540526.281134538,
+          "token_symbol": "PAXG"
+        },
+        {
+          "block_timestamp": "2026-08-29T23:59:59",
+          "token_address": "0x68749665ff8d2d112fa859aa293f07a622782f38",
+          "chain": "ethereum",
+          "token_amount": 977.549776,
+          "value_usd": 4356987.77816023,
+          "token_symbol": "XAUT"
+        },
+        {
+          "block_timestamp": "2026-08-29T23:59:59",
+          "token_address": "0x4da27a545c0c5b758a6ba100e3a049001de870f5",
+          "chain": "ethereum",
+          "token_amount": 36502.90499497273,
+          "value_usd": 4449790.554835167,
+          "token_symbol": "STKAAVE"
+        },
+        {
+          "block_timestamp": "2026-08-29T23:59:59",
+          "token_address": "0x45804880de22913dafe09f4980848ece6ecbaf78",
+          "chain": "ethereum",
+          "token_amount": 994.2079994846473,
+          "value_usd": 4434254.527805492,
+          "token_symbol": "PAXG"
+        },
+        {
+          "block_timestamp": "2026-08-29T23:59:59",
+          "token_address": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+          "chain": "ethereum",
+          "token_amount": 1000057.6774147062,
+          "value_usd": 4423952.95169401,
+          "token_symbol": "UNI"
+        },
+        {
+          "block_timestamp": "2026-08-29T23:59:59",
+          "token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "chain": "ethereum",
+          "token_amount": 734.1264373580831,
+          "value_usd": 1791774.1962658572,
+          "token_symbol": "ETH"
+        },
+        {
+          "block_timestamp": "2026-08-30T23:59:59",
+          "token_address": "0x45804880de22913dafe09f4980848ece6ecbaf78",
+          "chain": "ethereum",
+          "token_amount": 994.2079994846473,
+          "value_usd": 4436525.985009577,
+          "token_symbol": "PAXG"
+        },
+        {
+          "block_timestamp": "2026-08-30T23:59:59",
+          "token_address": "0x4da27a545c0c5b758a6ba100e3a049001de870f5",
+          "chain": "ethereum",
+          "token_amount": 36502.90499497273,
+          "value_usd": 4585230.034902196,
+          "token_symbol": "STKAAVE"
+        },
+        {
+          "block_timestamp": "2026-08-30T23:59:59",
+          "token_address": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+          "chain": "ethereum",
+          "token_amount": 1000057.6774147062,
+          "value_usd": 5111882.271071731,
+          "token_symbol": "UNI"
+        },
+        {
+          "block_timestamp": "2026-08-30T23:59:59",
+          "token_address": "0x68749665ff8d2d112fa859aa293f07a622782f38",
+          "chain": "ethereum",
+          "token_amount": 977.549776,
+          "value_usd": 4356841.585507025,
+          "token_symbol": "XAUT"
+        },
+        {
+          "block_timestamp": "2026-08-30T23:59:59",
+          "token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "chain": "ethereum",
+          "token_amount": 734.1260608617878,
+          "value_usd": 1806268.4453576468,
+          "token_symbol": "ETH"
+        },
+        {
+          "block_timestamp": "2026-08-31T23:59:59",
+          "token_address": "0x68749665ff8d2d112fa859aa293f07a622782f38",
+          "chain": "ethereum",
+          "token_amount": 977.549776,
+          "value_usd": 4339475.41477558,
+          "token_symbol": "XAUT"
+        },
+        {
+          "block_timestamp": "2026-08-31T23:59:59",
+          "token_address": "0x4da27a545c0c5b758a6ba100e3a049001de870f5",
+          "chain": "ethereum",
+          "token_amount": 36502.90499497273,
+          "value_usd": 4484385.339592925,
+          "token_symbol": "STKAAVE"
+        },
+        {
+          "block_timestamp": "2026-08-31T23:59:59",
+          "token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "chain": "ethereum",
+          "token_amount": 734.1260608617878,
+          "value_usd": 1797753.232906059,
+          "token_symbol": "ETH"
+        },
+        {
+          "block_timestamp": "2026-08-31T23:59:59",
+          "token_address": "0x45804880de22913dafe09f4980848ece6ecbaf78",
+          "chain": "ethereum",
+          "token_amount": 994.2079994846473,
+          "value_usd": 4408634.8565999465,
+          "token_symbol": "PAXG"
+        },
+        {
+          "block_timestamp": "2026-08-31T23:59:59",
+          "token_address": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+          "chain": "ethereum",
+          "token_amount": 1000057.6774147062,
+          "value_usd": 5145587.71798967,
+          "token_symbol": "UNI"
+        },
+        {
+          "block_timestamp": "2026-09-01T23:59:59",
+          "token_address": "0x68749665ff8d2d112fa859aa293f07a622782f38",
+          "chain": "ethereum",
+          "token_amount": 977.549776,
+          "value_usd": 4270301.904451451,
+          "token_symbol": "XAUT"
+        },
+        {
+          "block_timestamp": "2026-09-01T23:59:59",
+          "token_address": "0x4da27a545c0c5b758a6ba100e3a049001de870f5",
+          "chain": "ethereum",
+          "token_amount": 36502.90499497273,
+          "value_usd": 4564915.785182647,
+          "token_symbol": "STKAAVE"
+        },
+        {
+          "block_timestamp": "2026-09-01T23:59:59",
+          "token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "chain": "ethereum",
+          "token_amount": 734.1260608617878,
+          "value_usd": 1799357.8379196904,
+          "token_symbol": "ETH"
+        },
+        {
+          "block_timestamp": "2026-09-01T23:59:59",
+          "token_address": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+          "chain": "ethereum",
+          "token_amount": 1000057.6774147062,
+          "value_usd": 5687310.563976597,
+          "token_symbol": "UNI"
+        },
+        {
+          "block_timestamp": "2026-09-01T23:59:59",
+          "token_address": "0x45804880de22913dafe09f4980848ece6ecbaf78",
+          "chain": "ethereum",
+          "token_amount": 994.2079994846473,
+          "value_usd": 4349307.749024848,
+          "token_symbol": "PAXG"
+        },
+        {
+          "block_timestamp": "2026-09-02T23:59:59",
+          "token_address": "0x68749665ff8d2d112fa859aa293f07a622782f38",
+          "chain": "ethereum",
+          "token_amount": 977.549776,
+          "value_usd": 4233716.878728967,
+          "token_symbol": "XAUT"
+        },
+        {
+          "block_timestamp": "2026-09-02T23:59:59",
+          "token_address": "0x4da27a545c0c5b758a6ba100e3a049001de870f5",
+          "chain": "ethereum",
+          "token_amount": 36502.90499497273,
+          "value_usd": 4771994.993174973,
+          "token_symbol": "STKAAVE"
+        },
+        {
+          "block_timestamp": "2026-09-02T23:59:59",
+          "token_address": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+          "chain": "ethereum",
+          "token_amount": 1000057.6774147062,
+          "value_usd": 5859943.431174088,
+          "token_symbol": "UNI"
+        },
+        {
+          "block_timestamp": "2026-09-02T23:59:59",
+          "token_address": "0x45804880de22913dafe09f4980848ece6ecbaf78",
+          "chain": "ethereum",
+          "token_amount": 994.2079994846473,
+          "value_usd": 4318630.386314869,
+          "token_symbol": "PAXG"
+        },
+        {
+          "block_timestamp": "2026-09-02T23:59:59",
+          "token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "chain": "ethereum",
+          "token_amount": 734.1260608617878,
+          "value_usd": 1757029.3370144083,
+          "token_symbol": "ETH"
+        },
+        {
+          "block_timestamp": "2026-09-03T23:59:59",
+          "token_address": "0x68749665ff8d2d112fa859aa293f07a622782f38",
+          "chain": "ethereum",
+          "token_amount": 977.549776,
+          "value_usd": 4335295.767437242,
+          "token_symbol": "XAUT"
+        },
+        {
+          "block_timestamp": "2026-09-03T23:59:59",
+          "token_address": "0x4da27a545c0c5b758a6ba100e3a049001de870f5",
+          "chain": "ethereum",
+          "token_amount": 36502.90499497273,
+          "value_usd": 4602268.855194609,
+          "token_symbol": "STKAAVE"
+        },
+        {
+          "block_timestamp": "2026-09-03T23:59:59",
+          "token_address": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+          "chain": "ethereum",
+          "token_amount": 1000057.6774147062,
+          "value_usd": 6111628.456169312,
+          "token_symbol": "UNI"
+        },
+        {
+          "block_timestamp": "2026-09-03T23:59:59",
+          "token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "chain": "ethereum",
+          "token_amount": 734.1258985514733,
+          "value_usd": 1768167.0419490307,
+          "token_symbol": "ETH"
+        },
+        {
+          "block_timestamp": "2026-09-03T23:59:59",
+          "token_address": "0x45804880de22913dafe09f4980848ece6ecbaf78",
+          "chain": "ethereum",
+          "token_amount": 994.2079994846473,
+          "value_usd": 4433980.42879233,
+          "token_symbol": "PAXG"
+        },
+        {
+          "block_timestamp": "2026-09-04T23:59:59",
+          "token_address": "0x4da27a545c0c5b758a6ba100e3a049001de870f5",
+          "chain": "ethereum",
+          "token_amount": 36502.90499497273,
+          "value_usd": 4826890.745160602,
+          "token_symbol": "STKAAVE"
+        },
+        {
+          "block_timestamp": "2026-09-04T23:59:59",
+          "token_address": "0x45804880de22913dafe09f4980848ece6ecbaf78",
+          "chain": "ethereum",
+          "token_amount": 994.2079994846473,
+          "value_usd": 4416613.876733436,
+          "token_symbol": "PAXG"
+        },
+        {
+          "block_timestamp": "2026-09-04T23:59:59",
+          "token_address": "0x68749665ff8d2d112fa859aa293f07a622782f38",
+          "chain": "ethereum",
+          "token_amount": 977.549776,
+          "value_usd": 4340693.745786711,
+          "token_symbol": "XAUT"
+        },
+        {
+          "block_timestamp": "2026-09-04T23:59:59",
+          "token_address": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+          "chain": "ethereum",
+          "token_amount": 1000057.6774147062,
+          "value_usd": 6263397.6365886815,
+          "token_symbol": "UNI"
+        },
+        {
+          "block_timestamp": "2026-09-04T23:59:59",
+          "token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "chain": "ethereum",
+          "token_amount": 734.1258985514733,
+          "value_usd": 1836327.3692892655,
+          "token_symbol": "ETH"
+        },
+        {
+          "block_timestamp": "2026-09-05T23:59:59",
+          "token_address": "0x45804880de22913dafe09f4980848ece6ecbaf78",
+          "chain": "ethereum",
+          "token_amount": 994.2079994846473,
+          "value_usd": 4402707.161690295,
+          "token_symbol": "PAXG"
+        },
+        {
+          "block_timestamp": "2026-09-05T23:59:59",
+          "token_address": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+          "chain": "ethereum",
+          "token_amount": 1000057.6774147062,
+          "value_usd": 6292577.507907124,
+          "token_symbol": "UNI"
+        },
+        {
+          "block_timestamp": "2026-09-05T23:59:59",
+          "token_address": "0x68749665ff8d2d112fa859aa293f07a622782f38",
+          "chain": "ethereum",
+          "token_amount": 977.549776,
+          "value_usd": 4319993.255704876,
+          "token_symbol": "XAUT"
+        },
+        {
+          "block_timestamp": "2026-09-05T23:59:59",
+          "token_address": "0x4da27a545c0c5b758a6ba100e3a049001de870f5",
+          "chain": "ethereum",
+          "token_amount": 36502.90499497273,
+          "value_usd": 4772887.993905135,
+          "token_symbol": "STKAAVE"
+        },
+        {
+          "block_timestamp": "2026-09-05T23:59:59",
+          "token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "chain": "ethereum",
+          "token_amount": 734.1258985514733,
+          "value_usd": 1803994.437490345,
+          "token_symbol": "ETH"
+        },
+        {
+          "block_timestamp": "2026-09-06T23:59:59",
+          "token_address": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+          "chain": "ethereum",
+          "token_amount": 1000057.6774147062,
+          "value_usd": 7097470.757582659,
+          "token_symbol": "UNI"
+        },
+        {
+          "block_timestamp": "2026-09-06T23:59:59",
+          "token_address": "0x45804880de22913dafe09f4980848ece6ecbaf78",
+          "chain": "ethereum",
+          "token_amount": 994.2079994846473,
+          "value_usd": 4400954.414299578,
+          "token_symbol": "PAXG"
+        },
+        {
+          "block_timestamp": "2026-09-06T23:59:59",
+          "token_address": "0x4da27a545c0c5b758a6ba100e3a049001de870f5",
+          "chain": "ethereum",
+          "token_amount": 36502.90499497273,
+          "value_usd": 4920888.379413436,
+          "token_symbol": "STKAAVE"
+        },
+        {
+          "block_timestamp": "2026-09-06T23:59:59",
+          "token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "chain": "ethereum",
+          "token_amount": 758.9679258181263,
+          "value_usd": 1896108.9793056024,
+          "token_symbol": "ETH"
+        },
+        {
+          "block_timestamp": "2026-09-06T23:59:59",
+          "token_address": "0x68749665ff8d2d112fa859aa293f07a622782f38",
+          "chain": "ethereum",
+          "token_amount": 977.549776,
+          "value_usd": 4322134.879927127,
+          "token_symbol": "XAUT"
+        },
+        {
+          "block_timestamp": "2026-09-07T23:59:59",
+          "token_address": "0x4da27a545c0c5b758a6ba100e3a049001de870f5",
+          "chain": "ethereum",
+          "token_amount": 36502.90499497273,
+          "value_usd": 4902928.028812858,
+          "token_symbol": "STKAAVE"
+        },
+        {
+          "block_timestamp": "2026-09-07T23:59:59",
+          "token_address": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+          "chain": "ethereum",
+          "token_amount": 1000057.6774147062,
+          "value_usd": 7011549.573040422,
+          "token_symbol": "UNI"
+        },
+        {
+          "block_timestamp": "2026-09-07T23:59:59",
+          "token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "chain": "ethereum",
+          "token_amount": 758.9679258181263,
+          "value_usd": 1891514.0592297348,
+          "token_symbol": "ETH"
+        },
+        {
+          "block_timestamp": "2026-09-07T23:59:59",
+          "token_address": "0x45804880de22913dafe09f4980848ece6ecbaf78",
+          "chain": "ethereum",
+          "token_amount": 994.2079994846473,
+          "value_usd": 4379431.820371379,
+          "token_symbol": "PAXG"
+        },
+        {
+          "block_timestamp": "2026-09-07T23:59:59",
+          "token_address": "0x68749665ff8d2d112fa859aa293f07a622782f38",
+          "chain": "ethereum",
+          "token_amount": 977.549776,
+          "value_usd": 4307460.12645703,
+          "token_symbol": "XAUT"
+        },
+        {
+          "block_timestamp": "2026-09-08T23:59:59",
+          "token_address": "0x68749665ff8d2d112fa859aa293f07a622782f38",
+          "chain": "ethereum",
+          "token_amount": 977.549776,
+          "value_usd": 4294519.58987414,
+          "token_symbol": "XAUT"
+        },
+        {
+          "block_timestamp": "2026-09-08T23:59:59",
+          "token_address": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+          "chain": "ethereum",
+          "token_amount": 1000057.6774147062,
+          "value_usd": 6922988.44273353,
+          "token_symbol": "UNI"
+        },
+        {
+          "block_timestamp": "2026-09-08T23:59:59",
+          "token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "chain": "ethereum",
+          "token_amount": 758.9666916563799,
+          "value_usd": 1885225.8746871182,
+          "token_symbol": "ETH"
+        },
+        {
+          "block_timestamp": "2026-09-08T23:59:59",
+          "token_address": "0x4da27a545c0c5b758a6ba100e3a049001de870f5",
+          "chain": "ethereum",
+          "token_amount": 36502.90499497273,
+          "value_usd": 4803204.926860367,
+          "token_symbol": "STKAAVE"
+        },
+        {
+          "block_timestamp": "2026-09-08T23:59:59",
+          "token_address": "0x45804880de22913dafe09f4980848ece6ecbaf78",
+          "chain": "ethereum",
+          "token_amount": 994.2079994846473,
+          "value_usd": 4368866.11743385,
+          "token_symbol": "PAXG"
+        },
+        {
+          "block_timestamp": "2026-09-09T23:59:59",
+          "token_address": "0x68749665ff8d2d112fa859aa293f07a622782f38",
+          "chain": "ethereum",
+          "token_amount": 977.549776,
+          "value_usd": 4293864.444716374,
+          "token_symbol": "XAUT"
+        },
+        {
+          "block_timestamp": "2026-09-09T23:59:59",
+          "token_address": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+          "chain": "ethereum",
+          "token_amount": 1000057.6774147062,
+          "value_usd": 6665370.412973876,
+          "token_symbol": "UNI"
+        },
+        {
+          "block_timestamp": "2026-09-09T23:59:59",
+          "token_address": "0x4da27a545c0c5b758a6ba100e3a049001de870f5",
+          "chain": "ethereum",
+          "token_amount": 36502.90499497273,
+          "value_usd": 4684354.249061956,
+          "token_symbol": "STKAAVE"
+        },
+        {
+          "block_timestamp": "2026-09-09T23:59:59",
+          "token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "chain": "ethereum",
+          "token_amount": 758.9666916563799,
+          "value_usd": 1893092.3524480527,
+          "token_symbol": "ETH"
+        },
+        {
+          "block_timestamp": "2026-09-09T23:59:59",
+          "token_address": "0x45804880de22913dafe09f4980848ece6ecbaf78",
+          "chain": "ethereum",
+          "token_amount": 994.2079994846473,
+          "value_usd": 4370696.3832445815,
+          "token_symbol": "PAXG"
+        },
+        {
+          "block_timestamp": "2026-09-10T23:59:59",
+          "token_address": "0x68749665ff8d2d112fa859aa293f07a622782f38",
+          "chain": "ethereum",
+          "token_amount": 977.549776,
+          "value_usd": 4288179.668319069,
+          "token_symbol": "XAUT"
+        },
+        {
+          "block_timestamp": "2026-09-10T23:59:59",
+          "token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "chain": "ethereum",
+          "token_amount": 758.9666916563799,
+          "value_usd": 1870271.6467525286,
+          "token_symbol": "ETH"
+        },
+        {
+          "block_timestamp": "2026-09-10T23:59:59",
+          "token_address": "0x45804880de22913dafe09f4980848ece6ecbaf78",
+          "chain": "ethereum",
+          "token_amount": 994.2079994846473,
+          "value_usd": 4340133.947177152,
+          "token_symbol": "PAXG"
+        },
+        {
+          "block_timestamp": "2026-09-10T23:59:59",
+          "token_address": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+          "chain": "ethereum",
+          "token_amount": 1000057.6774147062,
+          "value_usd": 6002917.2815036345,
+          "token_symbol": "UNI"
+        },
+        {
+          "block_timestamp": "2026-09-10T23:59:59",
+          "token_address": "0x4da27a545c0c5b758a6ba100e3a049001de870f5",
+          "chain": "ethereum",
+          "token_amount": 36502.90499497273,
+          "value_usd": 4553798.6154113645,
+          "token_symbol": "STKAAVE"
+        },
+        {
+          "block_timestamp": "2026-09-11T23:59:59",
+          "token_address": "0x68749665ff8d2d112fa859aa293f07a622782f38",
+          "chain": "ethereum",
+          "token_amount": 977.549776,
+          "value_usd": 4252509.541140165,
+          "token_symbol": "XAUT"
+        },
+        {
+          "block_timestamp": "2026-09-11T23:59:59",
+          "token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "chain": "ethereum",
+          "token_amount": 758.9666916563799,
+          "value_usd": 1877604.586766376,
+          "token_symbol": "ETH"
+        },
+        {
+          "block_timestamp": "2026-09-11T23:59:59",
+          "token_address": "0x4da27a545c0c5b758a6ba100e3a049001de870f5",
+          "chain": "ethereum",
+          "token_amount": 36502.90499497273,
+          "value_usd": 4509699.4246932715,
+          "token_symbol": "STKAAVE"
+        },
+        {
+          "block_timestamp": "2026-09-11T23:59:59",
+          "token_address": "0x45804880de22913dafe09f4980848ece6ecbaf78",
+          "chain": "ethereum",
+          "token_amount": 994.2079994846473,
+          "value_usd": 4319374.637807976,
+          "token_symbol": "PAXG"
+        },
+        {
+          "block_timestamp": "2026-09-11T23:59:59",
+          "token_address": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+          "chain": "ethereum",
+          "token_amount": 1000057.6774147062,
+          "value_usd": 6063197.477145695,
+          "token_symbol": "UNI"
+        },
+        {
+          "block_timestamp": "2026-09-12T23:59:59",
+          "token_address": "0x68749665ff8d2d112fa859aa293f07a622782f38",
+          "chain": "ethereum",
+          "token_amount": 977.549776,
+          "value_usd": 4225635.773733711,
+          "token_symbol": "XAUT"
+        },
+        {
+          "block_timestamp": "2026-09-12T23:59:59",
+          "token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "chain": "ethereum",
+          "token_amount": 758.9666916563799,
+          "value_usd": 1915268.1801977772,
+          "token_symbol": "ETH"
+        },
+        {
+          "block_timestamp": "2026-09-12T23:59:59",
+          "token_address": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+          "chain": "ethereum",
+          "token_amount": 1000057.6774147062,
+          "value_usd": 6332220.735472827,
+          "token_symbol": "UNI"
+        },
+        {
+          "block_timestamp": "2026-09-12T23:59:59",
+          "token_address": "0x4da27a545c0c5b758a6ba100e3a049001de870f5",
+          "chain": "ethereum",
+          "token_amount": 36502.90499497273,
+          "value_usd": 4461182.263495624,
+          "token_symbol": "STKAAVE"
+        },
+        {
+          "block_timestamp": "2026-09-12T23:59:59",
+          "token_address": "0x45804880de22913dafe09f4980848ece6ecbaf78",
+          "chain": "ethereum",
+          "token_amount": 994.2079994846473,
+          "value_usd": 4329177.063435994,
+          "token_symbol": "PAXG"
+        },
+        {
+          "block_timestamp": "2026-09-13T23:59:59",
+          "token_address": "0x45804880de22913dafe09f4980848ece6ecbaf78",
+          "chain": "ethereum",
+          "token_amount": 994.2079994846473,
+          "value_usd": 4321637.931733896,
+          "token_symbol": "PAXG"
+        },
+        {
+          "block_timestamp": "2026-09-13T23:59:59",
+          "token_address": "0x4da27a545c0c5b758a6ba100e3a049001de870f5",
+          "chain": "ethereum",
+          "token_amount": 36502.90499497273,
+          "value_usd": 4606153.319222472,
+          "token_symbol": "STKAAVE"
+        },
+        {
+          "block_timestamp": "2026-09-13T23:59:59",
+          "token_address": "0x68749665ff8d2d112fa859aa293f07a622782f38",
+          "chain": "ethereum",
+          "token_amount": 977.549776,
+          "value_usd": 4195962.399473046,
+          "token_symbol": "XAUT"
+        },
+        {
+          "block_timestamp": "2026-09-13T23:59:59",
+          "token_address": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+          "chain": "ethereum",
+          "token_amount": 1000057.6774147062,
+          "value_usd": 6288059.296973408,
+          "token_symbol": "UNI"
+        },
+        {
+          "block_timestamp": "2026-09-13T23:59:59",
+          "token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "chain": "ethereum",
+          "token_amount": 782.7177169243798,
+          "value_usd": 1961617.2756006552,
+          "token_symbol": "ETH"
+        },
+        {
+          "block_timestamp": "2026-09-14T23:59:59",
+          "token_address": "0x4da27a545c0c5b758a6ba100e3a049001de870f5",
+          "chain": "ethereum",
+          "token_amount": 36502.90499497273,
+          "value_usd": 4606617.692261014,
+          "token_symbol": "STKAAVE"
+        },
+        {
+          "block_timestamp": "2026-09-14T23:59:59",
+          "token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "chain": "ethereum",
+          "token_amount": 782.7177169243798,
+          "value_usd": 1969023.1986059495,
+          "token_symbol": "ETH"
+        },
+        {
+          "block_timestamp": "2026-09-14T23:59:59",
+          "token_address": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+          "chain": "ethereum",
+          "token_amount": 1000057.6774147062,
+          "value_usd": 6352916.394331882,
+          "token_symbol": "UNI"
+        },
+        {
+          "block_timestamp": "2026-09-14T23:59:59",
+          "token_address": "0x45804880de22913dafe09f4980848ece6ecbaf78",
+          "chain": "ethereum",
+          "token_amount": 994.2079994846473,
+          "value_usd": 4284073.392936553,
+          "token_symbol": "PAXG"
+        },
+        {
+          "block_timestamp": "2026-09-14T23:59:59",
+          "token_address": "0x68749665ff8d2d112fa859aa293f07a622782f38",
+          "chain": "ethereum",
+          "token_amount": 977.549776,
+          "value_usd": 4210614.325155015,
+          "token_symbol": "XAUT"
+        },
+        {
+          "block_timestamp": "2026-09-15T23:59:59",
+          "token_address": "0x4da27a545c0c5b758a6ba100e3a049001de870f5",
+          "chain": "ethereum",
+          "token_amount": 36502.90499497273,
+          "value_usd": 4595935.968895798,
+          "token_symbol": "STKAAVE"
+        },
+        {
+          "block_timestamp": "2026-09-15T23:59:59",
+          "token_address": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+          "chain": "ethereum",
+          "token_amount": 1000057.6774147062,
+          "value_usd": 6568093.174122801,
+          "token_symbol": "UNI"
+        },
+        {
+          "block_timestamp": "2026-09-15T23:59:59",
+          "token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "chain": "ethereum",
+          "token_amount": 782.7177169243798,
+          "value_usd": 1936336.5895386583,
+          "token_symbol": "ETH"
+        },
+        {
+          "block_timestamp": "2026-09-15T23:59:59",
+          "token_address": "0x68749665ff8d2d112fa859aa293f07a622782f38",
+          "chain": "ethereum",
+          "token_amount": 977.549776,
+          "value_usd": 4190190.131924361,
+          "token_symbol": "XAUT"
+        },
+        {
+          "block_timestamp": "2026-09-15T23:59:59",
+          "token_address": "0x45804880de22913dafe09f4980848ece6ecbaf78",
+          "chain": "ethereum",
+          "token_amount": 994.2079994846473,
+          "value_usd": 4269004.078094958,
+          "token_symbol": "PAXG"
+        },
+        {
+          "block_timestamp": "2026-09-16T23:59:59",
+          "token_address": "0x45804880de22913dafe09f4980848ece6ecbaf78",
+          "chain": "ethereum",
+          "token_amount": 994.2079994846473,
+          "value_usd": 4300971.244487476,
+          "token_symbol": "PAXG"
+        },
+        {
+          "block_timestamp": "2026-09-16T23:59:59",
+          "token_address": "0x4da27a545c0c5b758a6ba100e3a049001de870f5",
+          "chain": "ethereum",
+          "token_amount": 36502.90499497273,
+          "value_usd": 4272639.327103442,
+          "token_symbol": "STKAAVE"
+        },
+        {
+          "block_timestamp": "2026-09-16T23:59:59",
+          "token_address": "0x68749665ff8d2d112fa859aa293f07a622782f38",
+          "chain": "ethereum",
+          "token_amount": 977.549776,
+          "value_usd": 4204910.264379662,
+          "token_symbol": "XAUT"
+        },
+        {
+          "block_timestamp": "2026-09-16T23:59:59",
+          "token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "chain": "ethereum",
+          "token_amount": 782.7174650750923,
+          "value_usd": 1878931.3200466833,
+          "token_symbol": "ETH"
+        },
+        {
+          "block_timestamp": "2026-09-16T23:59:59",
+          "token_address": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+          "chain": "ethereum",
+          "token_amount": 1000057.6774147062,
+          "value_usd": 6309582.056657729,
+          "token_symbol": "UNI"
+        },
+        {
+          "block_timestamp": "2026-09-17T23:59:59",
+          "token_address": "0x4da27a545c0c5b758a6ba100e3a049001de870f5",
+          "chain": "ethereum",
+          "token_amount": 36502.90499497273,
+          "value_usd": 4501911.475191965,
+          "token_symbol": "STKAAVE"
+        },
+        {
+          "block_timestamp": "2026-09-17T23:59:59",
+          "token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "chain": "ethereum",
+          "token_amount": 782.7174650750923,
+          "value_usd": 1912966.688344874,
+          "token_symbol": "ETH"
+        },
+        {
+          "block_timestamp": "2026-09-17T23:59:59",
+          "token_address": "0x68749665ff8d2d112fa859aa293f07a622782f38",
+          "chain": "ethereum",
+          "token_amount": 977.549776,
+          "value_usd": 4232071.7744936915,
+          "token_symbol": "XAUT"
+        },
+        {
+          "block_timestamp": "2026-09-17T23:59:59",
+          "token_address": "0x45804880de22913dafe09f4980848ece6ecbaf78",
+          "chain": "ethereum",
+          "token_amount": 994.2079994846473,
+          "value_usd": 4303918.862957609,
+          "token_symbol": "PAXG"
+        },
+        {
+          "block_timestamp": "2026-09-17T23:59:59",
+          "token_address": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+          "chain": "ethereum",
+          "token_amount": 1000057.6774147062,
+          "value_usd": 6941639.748100531,
+          "token_symbol": "UNI"
+        },
+        {
+          "block_timestamp": "2026-09-18T23:59:59",
+          "token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "chain": "ethereum",
+          "token_amount": 782.7170387360056,
+          "value_usd": 1961984.3785229467,
+          "token_symbol": "ETH"
+        },
+        {
+          "block_timestamp": "2026-09-18T23:59:59",
+          "token_address": "0x68749665ff8d2d112fa859aa293f07a622782f38",
+          "chain": "ethereum",
+          "token_amount": 977.549776,
+          "value_usd": 4278412.891021911,
+          "token_symbol": "XAUT"
+        },
+        {
+          "block_timestamp": "2026-09-18T23:59:59",
+          "token_address": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+          "chain": "ethereum",
+          "token_amount": 1000057.6774147062,
+          "value_usd": 8758630.589093998,
+          "token_symbol": "UNI"
+        },
+        {
+          "block_timestamp": "2026-09-18T23:59:59",
+          "token_address": "0x4da27a545c0c5b758a6ba100e3a049001de870f5",
+          "chain": "ethereum",
+          "token_amount": 36502.90499497273,
+          "value_usd": 4670079.543212553,
+          "token_symbol": "STKAAVE"
+        },
+        {
+          "block_timestamp": "2026-09-18T23:59:59",
+          "token_address": "0x45804880de22913dafe09f4980848ece6ecbaf78",
+          "chain": "ethereum",
+          "token_amount": 994.2079994846473,
+          "value_usd": 4344982.2229485735,
+          "token_symbol": "PAXG"
+        },
+        {
+          "block_timestamp": "2026-09-19T23:59:59",
+          "token_address": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+          "chain": "ethereum",
+          "token_amount": 1000057.6774147062,
+          "value_usd": 8948102.13547911,
+          "token_symbol": "UNI"
+        },
+        {
+          "block_timestamp": "2026-09-19T23:59:59",
+          "token_address": "0x68749665ff8d2d112fa859aa293f07a622782f38",
+          "chain": "ethereum",
+          "token_amount": 977.549776,
+          "value_usd": 4276763.758889914,
+          "token_symbol": "XAUT"
+        },
+        {
+          "block_timestamp": "2026-09-19T23:59:59",
+          "token_address": "0x45804880de22913dafe09f4980848ece6ecbaf78",
+          "chain": "ethereum",
+          "token_amount": 994.2079994846473,
+          "value_usd": 4333810.456339228,
+          "token_symbol": "PAXG"
+        },
+        {
+          "block_timestamp": "2026-09-19T23:59:59",
+          "token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "chain": "ethereum",
+          "token_amount": 782.7170387360056,
+          "value_usd": 2062012.0958455543,
+          "token_symbol": "ETH"
+        },
+        {
+          "block_timestamp": "2026-09-19T23:59:59",
+          "token_address": "0x4da27a545c0c5b758a6ba100e3a049001de870f5",
+          "chain": "ethereum",
+          "token_amount": 36502.90499497273,
+          "value_usd": 5273785.662138536,
+          "token_symbol": "STKAAVE"
+        },
+        {
+          "block_timestamp": "2026-09-20T23:59:59",
+          "token_address": "0x4da27a545c0c5b758a6ba100e3a049001de870f5",
+          "chain": "ethereum",
+          "token_amount": 36502.90499497273,
+          "value_usd": 4969562.007000668,
+          "token_symbol": "STKAAVE"
+        },
+        {
+          "block_timestamp": "2026-09-20T23:59:59",
+          "token_address": "0x45804880de22913dafe09f4980848ece6ecbaf78",
+          "chain": "ethereum",
+          "token_amount": 994.2079994846473,
+          "value_usd": 4331003.575191184,
+          "token_symbol": "PAXG"
+        },
+        {
+          "block_timestamp": "2026-09-20T23:59:59",
+          "token_address": "0x68749665ff8d2d112fa859aa293f07a622782f38",
+          "chain": "ethereum",
+          "token_amount": 977.549776,
+          "value_usd": 4264206.57050835,
+          "token_symbol": "XAUT"
+        },
+        {
+          "block_timestamp": "2026-09-20T23:59:59",
+          "token_address": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+          "chain": "ethereum",
+          "token_amount": 1000057.6774147062,
+          "value_usd": 8739695.997133031,
+          "token_symbol": "UNI"
+        },
+        {
+          "block_timestamp": "2026-09-20T23:59:59",
+          "token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "chain": "ethereum",
+          "token_amount": 782.7170387360056,
+          "value_usd": 2024772.7220670714,
+          "token_symbol": "ETH"
+        },
+        {
+          "block_timestamp": "2026-09-21T23:59:59",
+          "token_address": "0x68749665ff8d2d112fa859aa293f07a622782f38",
+          "chain": "ethereum",
+          "token_amount": 977.549776,
+          "value_usd": 4250206.31031905,
+          "token_symbol": "XAUT"
+        },
+        {
+          "block_timestamp": "2026-09-21T23:59:59",
+          "token_address": "0x45804880de22913dafe09f4980848ece6ecbaf78",
+          "chain": "ethereum",
+          "token_amount": 994.2079994846473,
+          "value_usd": 4323903.657804405,
+          "token_symbol": "PAXG"
+        },
+        {
+          "block_timestamp": "2026-09-21T23:59:59",
+          "token_address": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+          "chain": "ethereum",
+          "token_amount": 1000057.6774147062,
+          "value_usd": 8824184.70270164,
+          "token_symbol": "UNI"
+        },
+        {
+          "block_timestamp": "2026-09-21T23:59:59",
+          "token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "chain": "ethereum",
+          "token_amount": 806.6464414300056,
+          "value_usd": 2196749.3464373094,
+          "token_symbol": "ETH"
+        },
+        {
+          "block_timestamp": "2026-09-21T23:59:59",
+          "token_address": "0x4da27a545c0c5b758a6ba100e3a049001de870f5",
+          "chain": "ethereum",
+          "token_amount": 36502.90499497273,
+          "value_usd": 5245380.921279352,
+          "token_symbol": "STKAAVE"
+        },
+        {
+          "block_timestamp": "2026-09-22T23:59:59",
+          "token_address": "0x45804880de22913dafe09f4980848ece6ecbaf78",
+          "chain": "ethereum",
+          "token_amount": 994.2079994846473,
+          "value_usd": 4317255.102007164,
+          "token_symbol": "PAXG"
+        },
+        {
+          "block_timestamp": "2026-09-22T23:59:59",
+          "token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "chain": "ethereum",
+          "token_amount": 806.6462626151362,
+          "value_usd": 2214664.3873091144,
+          "token_symbol": "ETH"
+        },
+        {
+          "block_timestamp": "2026-09-22T23:59:59",
+          "token_address": "0x4da27a545c0c5b758a6ba100e3a049001de870f5",
+          "chain": "ethereum",
+          "token_amount": 36502.90499497273,
+          "value_usd": 5272627.705696448,
+          "token_symbol": "STKAAVE"
+        },
+        {
+          "block_timestamp": "2026-09-22T23:59:59",
+          "token_address": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+          "chain": "ethereum",
+          "token_amount": 1000057.6774147062,
+          "value_usd": 9089509.822568713,
+          "token_symbol": "UNI"
+        },
+        {
+          "block_timestamp": "2026-09-22T23:59:59",
+          "token_address": "0x68749665ff8d2d112fa859aa293f07a622782f38",
+          "chain": "ethereum",
+          "token_amount": 977.549776,
+          "value_usd": 4235274.081936223,
+          "token_symbol": "XAUT"
+        },
+        {
+          "block_timestamp": "2026-09-23T23:59:59",
+          "token_address": "0x68749665ff8d2d112fa859aa293f07a622782f38",
+          "chain": "ethereum",
+          "token_amount": 977.549776,
+          "value_usd": 4206053.1160698915,
+          "token_symbol": "XAUT"
+        },
+        {
+          "block_timestamp": "2026-09-23T23:59:59",
+          "token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "chain": "ethereum",
+          "token_amount": 806.6462626151362,
+          "value_usd": 2156033.3644490987,
+          "token_symbol": "ETH"
+        },
+        {
+          "block_timestamp": "2026-09-23T23:59:59",
+          "token_address": "0x45804880de22913dafe09f4980848ece6ecbaf78",
+          "chain": "ethereum",
+          "token_amount": 994.2079994846473,
+          "value_usd": 4245747.690645695,
+          "token_symbol": "PAXG"
+        },
+        {
+          "block_timestamp": "2026-09-23T23:59:59",
+          "token_address": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+          "chain": "ethereum",
+          "token_amount": 1000057.6774147062,
+          "value_usd": 9153712.221746162,
+          "token_symbol": "UNI"
+        },
+        {
+          "block_timestamp": "2026-09-23T23:59:59",
+          "token_address": "0x4da27a545c0c5b758a6ba100e3a049001de870f5",
+          "chain": "ethereum",
+          "token_amount": 36502.90499497273,
+          "value_usd": 5565913.824072606,
+          "token_symbol": "STKAAVE"
+        }
+      ]
+    },
+    "recordedAt": 1790198399009
+  },
+  {
+    "requestHash": "d0b7cc7922aefc4bc7b0958a766229a7d3a0d72e",
+    "request": {
+      "entity_name": "Aerodrome Finance",
+      "chain": "base",
+      "date": {
+        "from": "2026-08-24",
+        "to": "2026-09-24"
+      },
+      "filters": {
+        "token_address": [
+          "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+          "0x4200000000000000000000000000000000000006",
+          "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+          "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "0xc1cba3fcea344f92d9239c08c0568f6f2f0ee452"
+        ],
+        "hide_spam_tokens": true
+      },
+      "pagination": {
+        "page": 1,
+        "per_page": 1000
+      },
+      "order_by": [
+        {
+          "field": "block_timestamp",
+          "direction": "ASC"
+        }
+      ]
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 1000,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "block_timestamp": "2026-08-24T23:59:59",
+          "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "chain": "base",
+          "token_amount": 33806002.750908,
+          "value_usd": 33799891.58167948,
+          "token_symbol": "USDC"
+        },
+        {
+          "block_timestamp": "2026-08-24T23:59:59",
+          "token_address": "0x4200000000000000000000000000000000000006",
+          "chain": "base",
+          "token_amount": 50145.279580709524,
+          "value_usd": 123800672.04003891,
+          "token_symbol": "WETH"
+        },
+        {
+          "block_timestamp": "2026-08-24T23:59:59",
+          "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+          "chain": "base",
+          "token_amount": 1082745058.3115125,
+          "value_usd": 550843727.0120833,
+          "token_symbol": "AERO"
+        },
+        {
+          "block_timestamp": "2026-08-24T23:59:59",
+          "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+          "chain": "base",
+          "token_amount": 720.99095167,
+          "value_usd": 56369738.08669028,
+          "token_symbol": "CBBTC"
+        },
+        {
+          "block_timestamp": "2026-08-24T23:59:59",
+          "token_address": "0xc1cba3fcea344f92d9239c08c0568f6f2f0ee452",
+          "chain": "base",
+          "token_amount": 4136.456973611178,
+          "value_usd": 12696040.39441023,
+          "token_symbol": "WSTETH"
+        },
+        {
+          "block_timestamp": "2026-08-25T23:59:59",
+          "token_address": "0xc1cba3fcea344f92d9239c08c0568f6f2f0ee452",
+          "chain": "base",
+          "token_amount": 3432.0838975318748,
+          "value_usd": 10557383.568589048,
+          "token_symbol": "WSTETH"
+        },
+        {
+          "block_timestamp": "2026-08-25T23:59:59",
+          "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "chain": "base",
+          "token_amount": 31905858.551134,
+          "value_usd": 31902176.184563152,
+          "token_symbol": "USDC"
+        },
+        {
+          "block_timestamp": "2026-08-25T23:59:59",
+          "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+          "chain": "base",
+          "token_amount": 1087191673.5782263,
+          "value_usd": 585541690.6342591,
+          "token_symbol": "AERO"
+        },
+        {
+          "block_timestamp": "2026-08-25T23:59:59",
+          "token_address": "0x4200000000000000000000000000000000000006",
+          "chain": "base",
+          "token_amount": 51121.354743765376,
+          "value_usd": 126614892.90817343,
+          "token_symbol": "WETH"
+        },
+        {
+          "block_timestamp": "2026-08-25T23:59:59",
+          "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+          "chain": "base",
+          "token_amount": 710.9764943,
+          "value_usd": 56339331.338754155,
+          "token_symbol": "CBBTC"
+        },
+        {
+          "block_timestamp": "2026-08-26T23:59:59",
+          "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+          "chain": "base",
+          "token_amount": 724.14198106,
+          "value_usd": 56927560.82680098,
+          "token_symbol": "CBBTC"
+        },
+        {
+          "block_timestamp": "2026-08-26T23:59:59",
+          "token_address": "0xc1cba3fcea344f92d9239c08c0568f6f2f0ee452",
+          "chain": "base",
+          "token_amount": 3834.688973596727,
+          "value_usd": 11725229.679136809,
+          "token_symbol": "WSTETH"
+        },
+        {
+          "block_timestamp": "2026-08-26T23:59:59",
+          "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+          "chain": "base",
+          "token_amount": 1086503013.8977244,
+          "value_usd": 559882793.7068626,
+          "token_symbol": "AERO"
+        },
+        {
+          "block_timestamp": "2026-08-26T23:59:59",
+          "token_address": "0x4200000000000000000000000000000000000006",
+          "chain": "base",
+          "token_amount": 49466.19541672451,
+          "value_usd": 121770933.25735073,
+          "token_symbol": "WETH"
+        },
+        {
+          "block_timestamp": "2026-08-26T23:59:59",
+          "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "chain": "base",
+          "token_amount": 32043078.482419,
+          "value_usd": 32017633.74150243,
+          "token_symbol": "USDC"
+        },
+        {
+          "block_timestamp": "2026-08-27T23:59:59",
+          "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "chain": "base",
+          "token_amount": 32772761.641005,
+          "value_usd": 32769596.48237017,
+          "token_symbol": "USDC"
+        },
+        {
+          "block_timestamp": "2026-08-27T23:59:59",
+          "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+          "chain": "base",
+          "token_amount": 1087437916.6664019,
+          "value_usd": 562986175.3224293,
+          "token_symbol": "AERO"
+        },
+        {
+          "block_timestamp": "2026-08-27T23:59:59",
+          "token_address": "0x4200000000000000000000000000000000000006",
+          "chain": "base",
+          "token_amount": 48603.20642702518,
+          "value_usd": 121672780.93735056,
+          "token_symbol": "WETH"
+        },
+        {
+          "block_timestamp": "2026-08-27T23:59:59",
+          "token_address": "0xc1cba3fcea344f92d9239c08c0568f6f2f0ee452",
+          "chain": "base",
+          "token_amount": 3872.92165082102,
+          "value_usd": 12038784.226894846,
+          "token_symbol": "WSTETH"
+        },
+        {
+          "block_timestamp": "2026-08-27T23:59:59",
+          "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+          "chain": "base",
+          "token_amount": 739.62950677,
+          "value_usd": 58931342.77260086,
+          "token_symbol": "CBBTC"
+        },
+        {
+          "block_timestamp": "2026-08-28T23:59:59",
+          "token_address": "0xc1cba3fcea344f92d9239c08c0568f6f2f0ee452",
+          "chain": "base",
+          "token_amount": 3628.7610681226183,
+          "value_usd": 11232198.594082016,
+          "token_symbol": "WSTETH"
+        },
+        {
+          "block_timestamp": "2026-08-28T23:59:59",
+          "token_address": "0x4200000000000000000000000000000000000006",
+          "chain": "base",
+          "token_amount": 49021.561526801575,
+          "value_usd": 122132808.6034887,
+          "token_symbol": "WETH"
+        },
+        {
+          "block_timestamp": "2026-08-28T23:59:59",
+          "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "chain": "base",
+          "token_amount": 26960269.542345,
+          "value_usd": 26959375.870716307,
+          "token_symbol": "USDC"
+        },
+        {
+          "block_timestamp": "2026-08-28T23:59:59",
+          "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+          "chain": "base",
+          "token_amount": 1093889121.828733,
+          "value_usd": 560232730.7388651,
+          "token_symbol": "AERO"
+        },
+        {
+          "block_timestamp": "2026-08-28T23:59:59",
+          "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+          "chain": "base",
+          "token_amount": 716.19146983,
+          "value_usd": 56850172.66621465,
+          "token_symbol": "CBBTC"
+        },
+        {
+          "block_timestamp": "2026-08-29T23:59:59",
+          "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+          "chain": "base",
+          "token_amount": 1091803030.709625,
+          "value_usd": 530187909.8656134,
+          "token_symbol": "AERO"
+        },
+        {
+          "block_timestamp": "2026-08-29T23:59:59",
+          "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+          "chain": "base",
+          "token_amount": 721.74709681,
+          "value_usd": 56088950.03483663,
+          "token_symbol": "CBBTC"
+        },
+        {
+          "block_timestamp": "2026-08-29T23:59:59",
+          "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "chain": "base",
+          "token_amount": 28412491.883061,
+          "value_usd": 28402176.301778838,
+          "token_symbol": "USDC"
+        },
+        {
+          "block_timestamp": "2026-08-29T23:59:59",
+          "token_address": "0x4200000000000000000000000000000000000006",
+          "chain": "base",
+          "token_amount": 49220.30324807299,
+          "value_usd": 120135931.7618316,
+          "token_symbol": "WETH"
+        },
+        {
+          "block_timestamp": "2026-08-29T23:59:59",
+          "token_address": "0xc1cba3fcea344f92d9239c08c0568f6f2f0ee452",
+          "chain": "base",
+          "token_amount": 3896.0885619150827,
+          "value_usd": 11811583.280905144,
+          "token_symbol": "WSTETH"
+        },
+        {
+          "block_timestamp": "2026-08-30T23:59:59",
+          "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+          "chain": "base",
+          "token_amount": 1093162364.6688514,
+          "value_usd": 531707952.60538197,
+          "token_symbol": "AERO"
+        },
+        {
+          "block_timestamp": "2026-08-30T23:59:59",
+          "token_address": "0xc1cba3fcea344f92d9239c08c0568f6f2f0ee452",
+          "chain": "base",
+          "token_amount": 3654.4197862490278,
+          "value_usd": 11175280.68847028,
+          "token_symbol": "WSTETH"
+        },
+        {
+          "block_timestamp": "2026-08-30T23:59:59",
+          "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "chain": "base",
+          "token_amount": 26107382.292222,
+          "value_usd": 26088135.368518777,
+          "token_symbol": "USDC"
+        },
+        {
+          "block_timestamp": "2026-08-30T23:59:59",
+          "token_address": "0x4200000000000000000000000000000000000006",
+          "chain": "base",
+          "token_amount": 49292.05622537989,
+          "value_usd": 121268119.19118707,
+          "token_symbol": "WETH"
+        },
+        {
+          "block_timestamp": "2026-08-30T23:59:59",
+          "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+          "chain": "base",
+          "token_amount": 711.09136851,
+          "value_usd": 55634725.15972673,
+          "token_symbol": "CBBTC"
+        },
+        {
+          "block_timestamp": "2026-08-31T23:59:59",
+          "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+          "chain": "base",
+          "token_amount": 1095886180.131941,
+          "value_usd": 521600902.95254886,
+          "token_symbol": "AERO"
+        },
+        {
+          "block_timestamp": "2026-08-31T23:59:59",
+          "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+          "chain": "base",
+          "token_amount": 730.30818336,
+          "value_usd": 57220065.756028205,
+          "token_symbol": "CBBTC"
+        },
+        {
+          "block_timestamp": "2026-08-31T23:59:59",
+          "token_address": "0xc1cba3fcea344f92d9239c08c0568f6f2f0ee452",
+          "chain": "base",
+          "token_amount": 3895.2731799168746,
+          "value_usd": 11845220.05840347,
+          "token_symbol": "WSTETH"
+        },
+        {
+          "block_timestamp": "2026-08-31T23:59:59",
+          "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "chain": "base",
+          "token_amount": 28803308.626316,
+          "value_usd": 28778475.976030305,
+          "token_symbol": "USDC"
+        },
+        {
+          "block_timestamp": "2026-08-31T23:59:59",
+          "token_address": "0x4200000000000000000000000000000000000006",
+          "chain": "base",
+          "token_amount": 48450.14292599327,
+          "value_usd": 118627994.69786285,
+          "token_symbol": "WETH"
+        },
+        {
+          "block_timestamp": "2026-09-01T23:59:59",
+          "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+          "chain": "base",
+          "token_amount": 764.51947572,
+          "value_usd": 59624463.14624512,
+          "token_symbol": "CBBTC"
+        },
+        {
+          "block_timestamp": "2026-09-01T23:59:59",
+          "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "chain": "base",
+          "token_amount": 24799853.253021,
+          "value_usd": 24780186.355075754,
+          "token_symbol": "USDC"
+        },
+        {
+          "block_timestamp": "2026-09-01T23:59:59",
+          "token_address": "0x4200000000000000000000000000000000000006",
+          "chain": "base",
+          "token_amount": 48976.03751316188,
+          "value_usd": 120089733.74264807,
+          "token_symbol": "WETH"
+        },
+        {
+          "block_timestamp": "2026-09-01T23:59:59",
+          "token_address": "0xc1cba3fcea344f92d9239c08c0568f6f2f0ee452",
+          "chain": "base",
+          "token_amount": 3470.1829655077145,
+          "value_usd": 10580629.2251646,
+          "token_symbol": "WSTETH"
+        },
+        {
+          "block_timestamp": "2026-09-01T23:59:59",
+          "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+          "chain": "base",
+          "token_amount": 1094582333.5200105,
+          "value_usd": 525894731.18640935,
+          "token_symbol": "AERO"
+        },
+        {
+          "block_timestamp": "2026-09-02T23:59:59",
+          "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+          "chain": "base",
+          "token_amount": 1089929000.8262138,
+          "value_usd": 503163314.342833,
+          "token_symbol": "AERO"
+        },
+        {
+          "block_timestamp": "2026-09-02T23:59:59",
+          "token_address": "0xc1cba3fcea344f92d9239c08c0568f6f2f0ee452",
+          "chain": "base",
+          "token_amount": 3516.4630238497316,
+          "value_usd": 10456333.624642516,
+          "token_symbol": "WSTETH"
+        },
+        {
+          "block_timestamp": "2026-09-02T23:59:59",
+          "token_address": "0x4200000000000000000000000000000000000006",
+          "chain": "base",
+          "token_amount": 49539.56406844689,
+          "value_usd": 118567992.64142078,
+          "token_symbol": "WETH"
+        },
+        {
+          "block_timestamp": "2026-09-02T23:59:59",
+          "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "chain": "base",
+          "token_amount": 26513890.790825,
+          "value_usd": 26483034.439261038,
+          "token_symbol": "USDC"
+        },
+        {
+          "block_timestamp": "2026-09-02T23:59:59",
+          "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+          "chain": "base",
+          "token_amount": 761.89390775,
+          "value_usd": 58836899.63323998,
+          "token_symbol": "CBBTC"
+        },
+        {
+          "block_timestamp": "2026-09-03T23:59:59",
+          "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+          "chain": "base",
+          "token_amount": 700.86932606,
+          "value_usd": 54650680.32933097,
+          "token_symbol": "CBBTC"
+        },
+        {
+          "block_timestamp": "2026-09-03T23:59:59",
+          "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+          "chain": "base",
+          "token_amount": 1092148755.4552324,
+          "value_usd": 531766297.71411234,
+          "token_symbol": "AERO"
+        },
+        {
+          "block_timestamp": "2026-09-03T23:59:59",
+          "token_address": "0x4200000000000000000000000000000000000006",
+          "chain": "base",
+          "token_amount": 47845.53749091882,
+          "value_usd": 115240283.14525217,
+          "token_symbol": "WETH"
+        },
+        {
+          "block_timestamp": "2026-09-03T23:59:59",
+          "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "chain": "base",
+          "token_amount": 29271284.22684,
+          "value_usd": 29232318.33686109,
+          "token_symbol": "USDC"
+        },
+        {
+          "block_timestamp": "2026-09-03T23:59:59",
+          "token_address": "0xc1cba3fcea344f92d9239c08c0568f6f2f0ee452",
+          "chain": "base",
+          "token_amount": 3998.6583696752054,
+          "value_usd": 11972020.0397741,
+          "token_symbol": "WSTETH"
+        },
+        {
+          "block_timestamp": "2026-09-04T23:59:59",
+          "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+          "chain": "base",
+          "token_amount": 1092447376.5218246,
+          "value_usd": 547056831.5569898,
+          "token_symbol": "AERO"
+        },
+        {
+          "block_timestamp": "2026-09-04T23:59:59",
+          "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "chain": "base",
+          "token_amount": 27197657.499116,
+          "value_usd": 27168538.17815969,
+          "token_symbol": "USDC"
+        },
+        {
+          "block_timestamp": "2026-09-04T23:59:59",
+          "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+          "chain": "base",
+          "token_amount": 732.78608683,
+          "value_usd": 59115516.62096486,
+          "token_symbol": "CBBTC"
+        },
+        {
+          "block_timestamp": "2026-09-04T23:59:59",
+          "token_address": "0x4200000000000000000000000000000000000006",
+          "chain": "base",
+          "token_amount": 50737.38817258678,
+          "value_usd": 126895222.56740299,
+          "token_symbol": "WETH"
+        },
+        {
+          "block_timestamp": "2026-09-04T23:59:59",
+          "token_address": "0xc1cba3fcea344f92d9239c08c0568f6f2f0ee452",
+          "chain": "base",
+          "token_amount": 3606.9185943805937,
+          "value_usd": 11218219.666246708,
+          "token_symbol": "WSTETH"
+        },
+        {
+          "block_timestamp": "2026-09-05T23:59:59",
+          "token_address": "0x4200000000000000000000000000000000000006",
+          "chain": "base",
+          "token_amount": 50611.2796671722,
+          "value_usd": 124376207.55648234,
+          "token_symbol": "WETH"
+        },
+        {
+          "block_timestamp": "2026-09-05T23:59:59",
+          "token_address": "0xc1cba3fcea344f92d9239c08c0568f6f2f0ee452",
+          "chain": "base",
+          "token_amount": 3544.8192715532973,
+          "value_usd": 10827527.39620263,
+          "token_symbol": "WSTETH"
+        },
+        {
+          "block_timestamp": "2026-09-05T23:59:59",
+          "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "chain": "base",
+          "token_amount": 31540933.326071,
+          "value_usd": 31516251.22965479,
+          "token_symbol": "USDC"
+        },
+        {
+          "block_timestamp": "2026-09-05T23:59:59",
+          "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+          "chain": "base",
+          "token_amount": 1085312439.558265,
+          "value_usd": 564471423.4123918,
+          "token_symbol": "AERO"
+        },
+        {
+          "block_timestamp": "2026-09-05T23:59:59",
+          "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+          "chain": "base",
+          "token_amount": 746.64340194,
+          "value_usd": 59500427.75181963,
+          "token_symbol": "CBBTC"
+        },
+        {
+          "block_timestamp": "2026-09-06T23:59:59",
+          "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+          "chain": "base",
+          "token_amount": 1085723939.0183473,
+          "value_usd": 593139327.4107466,
+          "token_symbol": "AERO"
+        },
+        {
+          "block_timestamp": "2026-09-06T23:59:59",
+          "token_address": "0x4200000000000000000000000000000000000006",
+          "chain": "base",
+          "token_amount": 47966.74574101977,
+          "value_usd": 119837719.22207673,
+          "token_symbol": "WETH"
+        },
+        {
+          "block_timestamp": "2026-09-06T23:59:59",
+          "token_address": "0xc1cba3fcea344f92d9239c08c0568f6f2f0ee452",
+          "chain": "base",
+          "token_amount": 3548.574077359553,
+          "value_usd": 11024371.813412445,
+          "token_symbol": "WSTETH"
+        },
+        {
+          "block_timestamp": "2026-09-06T23:59:59",
+          "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "chain": "base",
+          "token_amount": 32453713.256625,
+          "value_usd": 32426173.12350996,
+          "token_symbol": "USDC"
+        },
+        {
+          "block_timestamp": "2026-09-06T23:59:59",
+          "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+          "chain": "base",
+          "token_amount": 785.0408337,
+          "value_usd": 62710050.70325122,
+          "token_symbol": "CBBTC"
+        },
+        {
+          "block_timestamp": "2026-09-07T23:59:59",
+          "token_address": "0x4200000000000000000000000000000000000006",
+          "chain": "base",
+          "token_amount": 50177.33774505735,
+          "value_usd": 125047194.28114615,
+          "token_symbol": "WETH"
+        },
+        {
+          "block_timestamp": "2026-09-07T23:59:59",
+          "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+          "chain": "base",
+          "token_amount": 787.10580683,
+          "value_usd": 62493008.35553172,
+          "token_symbol": "CBBTC"
+        },
+        {
+          "block_timestamp": "2026-09-07T23:59:59",
+          "token_address": "0xc1cba3fcea344f92d9239c08c0568f6f2f0ee452",
+          "chain": "base",
+          "token_amount": 3435.7664647161123,
+          "value_usd": 10642866.899610994,
+          "token_symbol": "WSTETH"
+        },
+        {
+          "block_timestamp": "2026-09-07T23:59:59",
+          "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "chain": "base",
+          "token_amount": 28728882.651363,
+          "value_usd": 28705126.170842595,
+          "token_symbol": "USDC"
+        },
+        {
+          "block_timestamp": "2026-09-07T23:59:59",
+          "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+          "chain": "base",
+          "token_amount": 1083029684.1459353,
+          "value_usd": 590659129.1351788,
+          "token_symbol": "AERO"
+        },
+        {
+          "block_timestamp": "2026-09-08T23:59:59",
+          "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+          "chain": "base",
+          "token_amount": 1085048969.4518898,
+          "value_usd": 686858759.6438854,
+          "token_symbol": "AERO"
+        },
+        {
+          "block_timestamp": "2026-09-08T23:59:59",
+          "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "chain": "base",
+          "token_amount": 30209658.325113,
+          "value_usd": 30177447.564496364,
+          "token_symbol": "USDC"
+        },
+        {
+          "block_timestamp": "2026-09-08T23:59:59",
+          "token_address": "0xc1cba3fcea344f92d9239c08c0568f6f2f0ee452",
+          "chain": "base",
+          "token_amount": 3748.1698739223407,
+          "value_usd": 11575454.00825519,
+          "token_symbol": "WSTETH"
+        },
+        {
+          "block_timestamp": "2026-09-08T23:59:59",
+          "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+          "chain": "base",
+          "token_amount": 771.43954654,
+          "value_usd": 60584459.378650166,
+          "token_symbol": "CBBTC"
+        },
+        {
+          "block_timestamp": "2026-09-08T23:59:59",
+          "token_address": "0x4200000000000000000000000000000000000006",
+          "chain": "base",
+          "token_amount": 50795.66403543368,
+          "value_usd": 126167032.26617071,
+          "token_symbol": "WETH"
+        },
+        {
+          "block_timestamp": "2026-09-09T23:59:59",
+          "token_address": "0x4200000000000000000000000000000000000006",
+          "chain": "base",
+          "token_amount": 49267.85730667637,
+          "value_usd": 122870341.03355289,
+          "token_symbol": "WETH"
+        },
+        {
+          "block_timestamp": "2026-09-09T23:59:59",
+          "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+          "chain": "base",
+          "token_amount": 785.46112831,
+          "value_usd": 61891992.31765754,
+          "token_symbol": "CBBTC"
+        },
+        {
+          "block_timestamp": "2026-09-09T23:59:59",
+          "token_address": "0xc1cba3fcea344f92d9239c08c0568f6f2f0ee452",
+          "chain": "base",
+          "token_amount": 3329.5410324365885,
+          "value_usd": 10319676.159216233,
+          "token_symbol": "WSTETH"
+        },
+        {
+          "block_timestamp": "2026-09-09T23:59:59",
+          "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "chain": "base",
+          "token_amount": 30342044.440896,
+          "value_usd": 30324816.224568497,
+          "token_symbol": "USDC"
+        },
+        {
+          "block_timestamp": "2026-09-09T23:59:59",
+          "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+          "chain": "base",
+          "token_amount": 1088324888.6239064,
+          "value_usd": 645319119.9833795,
+          "token_symbol": "AERO"
+        },
+        {
+          "block_timestamp": "2026-09-10T23:59:59",
+          "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+          "chain": "base",
+          "token_amount": 822.35637468,
+          "value_usd": 64020923.30419711,
+          "token_symbol": "CBBTC"
+        },
+        {
+          "block_timestamp": "2026-09-10T23:59:59",
+          "token_address": "0xc1cba3fcea344f92d9239c08c0568f6f2f0ee452",
+          "chain": "base",
+          "token_amount": 3545.0953963005586,
+          "value_usd": 10865445.204933973,
+          "token_symbol": "WSTETH"
+        },
+        {
+          "block_timestamp": "2026-09-10T23:59:59",
+          "token_address": "0x4200000000000000000000000000000000000006",
+          "chain": "base",
+          "token_amount": 49002.854075214156,
+          "value_usd": 120751362.92652047,
+          "token_symbol": "WETH"
+        },
+        {
+          "block_timestamp": "2026-09-10T23:59:59",
+          "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "chain": "base",
+          "token_amount": 27245318.111875,
+          "value_usd": 27209652.26051059,
+          "token_symbol": "USDC"
+        },
+        {
+          "block_timestamp": "2026-09-10T23:59:59",
+          "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+          "chain": "base",
+          "token_amount": 1090958754.2752173,
+          "value_usd": 601617048.5246397,
+          "token_symbol": "AERO"
+        },
+        {
+          "block_timestamp": "2026-09-11T23:59:59",
+          "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+          "chain": "base",
+          "token_amount": 1092057462.0416453,
+          "value_usd": 606896305.3594968,
+          "token_symbol": "AERO"
+        },
+        {
+          "block_timestamp": "2026-09-11T23:59:59",
+          "token_address": "0x4200000000000000000000000000000000000006",
+          "chain": "base",
+          "token_amount": 47374.01739714304,
+          "value_usd": 117168262.26765801,
+          "token_symbol": "WETH"
+        },
+        {
+          "block_timestamp": "2026-09-11T23:59:59",
+          "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+          "chain": "base",
+          "token_amount": 817.36636253,
+          "value_usd": 63087942.02595864,
+          "token_symbol": "CBBTC"
+        },
+        {
+          "block_timestamp": "2026-09-11T23:59:59",
+          "token_address": "0xc1cba3fcea344f92d9239c08c0568f6f2f0ee452",
+          "chain": "base",
+          "token_amount": 3512.2758311485813,
+          "value_usd": 10830522.617890844,
+          "token_symbol": "WSTETH"
+        },
+        {
+          "block_timestamp": "2026-09-11T23:59:59",
+          "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "chain": "base",
+          "token_amount": 29849716.541767,
+          "value_usd": 29834458.2383926,
+          "token_symbol": "USDC"
+        },
+        {
+          "block_timestamp": "2026-09-12T23:59:59",
+          "token_address": "0xc1cba3fcea344f92d9239c08c0568f6f2f0ee452",
+          "chain": "base",
+          "token_amount": 3421.524687654263,
+          "value_usd": 10736204.631710816,
+          "token_symbol": "WSTETH"
+        },
+        {
+          "block_timestamp": "2026-09-12T23:59:59",
+          "token_address": "0x4200000000000000000000000000000000000006",
+          "chain": "base",
+          "token_amount": 49872.09656881492,
+          "value_usd": 125857721.62202704,
+          "token_symbol": "WETH"
+        },
+        {
+          "block_timestamp": "2026-09-12T23:59:59",
+          "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+          "chain": "base",
+          "token_amount": 1095167307.4141388,
+          "value_usd": 623573407.822387,
+          "token_symbol": "AERO"
+        },
+        {
+          "block_timestamp": "2026-09-12T23:59:59",
+          "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+          "chain": "base",
+          "token_amount": 789.77340109,
+          "value_usd": 61023734.02226997,
+          "token_symbol": "CBBTC"
+        },
+        {
+          "block_timestamp": "2026-09-12T23:59:59",
+          "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "chain": "base",
+          "token_amount": 26794065.352887,
+          "value_usd": 26771415.902614474,
+          "token_symbol": "USDC"
+        },
+        {
+          "block_timestamp": "2026-09-13T23:59:59",
+          "token_address": "0x4200000000000000000000000000000000000006",
+          "chain": "base",
+          "token_amount": 48869.29355542472,
+          "value_usd": 122473291.35099211,
+          "token_symbol": "WETH"
+        },
+        {
+          "block_timestamp": "2026-09-13T23:59:59",
+          "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+          "chain": "base",
+          "token_amount": 769.96500503,
+          "value_usd": 59444443.35826032,
+          "token_symbol": "CBBTC"
+        },
+        {
+          "block_timestamp": "2026-09-13T23:59:59",
+          "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+          "chain": "base",
+          "token_amount": 1093365121.5901735,
+          "value_usd": 614708258.65126,
+          "token_symbol": "AERO"
+        },
+        {
+          "block_timestamp": "2026-09-13T23:59:59",
+          "token_address": "0xc1cba3fcea344f92d9239c08c0568f6f2f0ee452",
+          "chain": "base",
+          "token_amount": 3675.9385898273686,
+          "value_usd": 11448061.08897053,
+          "token_symbol": "WSTETH"
+        },
+        {
+          "block_timestamp": "2026-09-13T23:59:59",
+          "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "chain": "base",
+          "token_amount": 27686521.185614,
+          "value_usd": 27665669.789737202,
+          "token_symbol": "USDC"
+        },
+        {
+          "block_timestamp": "2026-09-14T23:59:59",
+          "token_address": "0xc1cba3fcea344f92d9239c08c0568f6f2f0ee452",
+          "chain": "base",
+          "token_amount": 3611.7246933004258,
+          "value_usd": 11293535.347106759,
+          "token_symbol": "WSTETH"
+        },
+        {
+          "block_timestamp": "2026-09-14T23:59:59",
+          "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+          "chain": "base",
+          "token_amount": 1095845812.7759902,
+          "value_usd": 627168317.452391,
+          "token_symbol": "AERO"
+        },
+        {
+          "block_timestamp": "2026-09-14T23:59:59",
+          "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+          "chain": "base",
+          "token_amount": 786.40114511,
+          "value_usd": 61266044.343582064,
+          "token_symbol": "CBBTC"
+        },
+        {
+          "block_timestamp": "2026-09-14T23:59:59",
+          "token_address": "0x4200000000000000000000000000000000000006",
+          "chain": "base",
+          "token_amount": 47202.69632326101,
+          "value_usd": 118739326.65508953,
+          "token_symbol": "WETH"
+        },
+        {
+          "block_timestamp": "2026-09-14T23:59:59",
+          "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "chain": "base",
+          "token_amount": 28282753.96556,
+          "value_usd": 28285481.35979834,
+          "token_symbol": "USDC"
+        },
+        {
+          "block_timestamp": "2026-09-15T23:59:59",
+          "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+          "chain": "base",
+          "token_amount": 1095380170.8265765,
+          "value_usd": 597039742.3108394,
+          "token_symbol": "AERO"
+        },
+        {
+          "block_timestamp": "2026-09-15T23:59:59",
+          "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+          "chain": "base",
+          "token_amount": 758.01983355,
+          "value_usd": 58291835.665963605,
+          "token_symbol": "CBBTC"
+        },
+        {
+          "block_timestamp": "2026-09-15T23:59:59",
+          "token_address": "0xc1cba3fcea344f92d9239c08c0568f6f2f0ee452",
+          "chain": "base",
+          "token_amount": 3568.827434956129,
+          "value_usd": 10981311.219623538,
+          "token_symbol": "WSTETH"
+        },
+        {
+          "block_timestamp": "2026-09-15T23:59:59",
+          "token_address": "0x4200000000000000000000000000000000000006",
+          "chain": "base",
+          "token_amount": 49734.1861035084,
+          "value_usd": 123037154.33053891,
+          "token_symbol": "WETH"
+        },
+        {
+          "block_timestamp": "2026-09-15T23:59:59",
+          "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "chain": "base",
+          "token_amount": 22300755.460084,
+          "value_usd": 22268585.860402215,
+          "token_symbol": "USDC"
+        },
+        {
+          "block_timestamp": "2026-09-16T23:59:59",
+          "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+          "chain": "base",
+          "token_amount": 755.03996403,
+          "value_usd": 57239849.75449327,
+          "token_symbol": "CBBTC"
+        },
+        {
+          "block_timestamp": "2026-09-16T23:59:59",
+          "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "chain": "base",
+          "token_amount": 24375666.850778,
+          "value_usd": 24335131.960940648,
+          "token_symbol": "USDC"
+        },
+        {
+          "block_timestamp": "2026-09-16T23:59:59",
+          "token_address": "0xc1cba3fcea344f92d9239c08c0568f6f2f0ee452",
+          "chain": "base",
+          "token_amount": 3387.9821984459277,
+          "value_usd": 10119668.302077552,
+          "token_symbol": "WSTETH"
+        },
+        {
+          "block_timestamp": "2026-09-16T23:59:59",
+          "token_address": "0x4200000000000000000000000000000000000006",
+          "chain": "base",
+          "token_amount": 49834.87807080114,
+          "value_usd": 119635103.34310734,
+          "token_symbol": "WETH"
+        },
+        {
+          "block_timestamp": "2026-09-16T23:59:59",
+          "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+          "chain": "base",
+          "token_amount": 1092387950.6139126,
+          "value_usd": 576710833.1306492,
+          "token_symbol": "AERO"
+        },
+        {
+          "block_timestamp": "2026-09-17T23:59:59",
+          "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+          "chain": "base",
+          "token_amount": 1097008101.1085684,
+          "value_usd": 611944619.5764694,
+          "token_symbol": "AERO"
+        },
+        {
+          "block_timestamp": "2026-09-17T23:59:59",
+          "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+          "chain": "base",
+          "token_amount": 774.9786988,
+          "value_usd": 59241472.45361249,
+          "token_symbol": "CBBTC"
+        },
+        {
+          "block_timestamp": "2026-09-17T23:59:59",
+          "token_address": "0xc1cba3fcea344f92d9239c08c0568f6f2f0ee452",
+          "chain": "base",
+          "token_amount": 3914.231857375868,
+          "value_usd": 11902329.756634414,
+          "token_symbol": "WSTETH"
+        },
+        {
+          "block_timestamp": "2026-09-17T23:59:59",
+          "token_address": "0x4200000000000000000000000000000000000006",
+          "chain": "base",
+          "token_amount": 50057.93033402011,
+          "value_usd": 122358100.85335536,
+          "token_symbol": "WETH"
+        },
+        {
+          "block_timestamp": "2026-09-17T23:59:59",
+          "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "chain": "base",
+          "token_amount": 23665089.286023,
+          "value_usd": 23616568.877400137,
+          "token_symbol": "USDC"
+        },
+        {
+          "block_timestamp": "2026-09-18T23:59:59",
+          "token_address": "0x4200000000000000000000000000000000000006",
+          "chain": "base",
+          "token_amount": 49663.22402109945,
+          "value_usd": 124522091.48482329,
+          "token_symbol": "WETH"
+        },
+        {
+          "block_timestamp": "2026-09-18T23:59:59",
+          "token_address": "0xc1cba3fcea344f92d9239c08c0568f6f2f0ee452",
+          "chain": "base",
+          "token_amount": 4032.3277704814436,
+          "value_usd": 12582047.862165147,
+          "token_symbol": "WSTETH"
+        },
+        {
+          "block_timestamp": "2026-09-18T23:59:59",
+          "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+          "chain": "base",
+          "token_amount": 1088229401.8048606,
+          "value_usd": 686847465.6768326,
+          "token_symbol": "AERO"
+        },
+        {
+          "block_timestamp": "2026-09-18T23:59:59",
+          "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+          "chain": "base",
+          "token_amount": 733.33644793,
+          "value_usd": 57288967.095769495,
+          "token_symbol": "CBBTC"
+        },
+        {
+          "block_timestamp": "2026-09-18T23:59:59",
+          "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "chain": "base",
+          "token_amount": 33132739.738263,
+          "value_usd": 33093327.29615834,
+          "token_symbol": "USDC"
+        },
+        {
+          "block_timestamp": "2026-09-19T23:59:59",
+          "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+          "chain": "base",
+          "token_amount": 769.29909725,
+          "value_usd": 62515116.318619296,
+          "token_symbol": "CBBTC"
+        },
+        {
+          "block_timestamp": "2026-09-19T23:59:59",
+          "token_address": "0x4200000000000000000000000000000000000006",
+          "chain": "base",
+          "token_amount": 49531.85879731458,
+          "value_usd": 130476574.78459206,
+          "token_symbol": "WETH"
+        },
+        {
+          "block_timestamp": "2026-09-19T23:59:59",
+          "token_address": "0xc1cba3fcea344f92d9239c08c0568f6f2f0ee452",
+          "chain": "base",
+          "token_amount": 3913.6535976245364,
+          "value_usd": 12829201.245466944,
+          "token_symbol": "WSTETH"
+        },
+        {
+          "block_timestamp": "2026-09-19T23:59:59",
+          "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+          "chain": "base",
+          "token_amount": 1089742833.2646346,
+          "value_usd": 723551246.6724596,
+          "token_symbol": "AERO"
+        },
+        {
+          "block_timestamp": "2026-09-19T23:59:59",
+          "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "chain": "base",
+          "token_amount": 34679882.502261,
+          "value_usd": 34638092.61509959,
+          "token_symbol": "USDC"
+        },
+        {
+          "block_timestamp": "2026-09-20T23:59:59",
+          "token_address": "0x4200000000000000000000000000000000000006",
+          "chain": "base",
+          "token_amount": 48326.77983021845,
+          "value_usd": 125022345.95637174,
+          "token_symbol": "WETH"
+        },
+        {
+          "block_timestamp": "2026-09-20T23:59:59",
+          "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+          "chain": "base",
+          "token_amount": 1090193772.5495362,
+          "value_usd": 709834602.4326837,
+          "token_symbol": "AERO"
+        },
+        {
+          "block_timestamp": "2026-09-20T23:59:59",
+          "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+          "chain": "base",
+          "token_amount": 766.45563011,
+          "value_usd": 61793758.76470865,
+          "token_symbol": "CBBTC"
+        },
+        {
+          "block_timestamp": "2026-09-20T23:59:59",
+          "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "chain": "base",
+          "token_amount": 35471677.171251,
+          "value_usd": 35432530.92182193,
+          "token_symbol": "USDC"
+        },
+        {
+          "block_timestamp": "2026-09-20T23:59:59",
+          "token_address": "0xc1cba3fcea344f92d9239c08c0568f6f2f0ee452",
+          "chain": "base",
+          "token_amount": 3666.7621622983797,
+          "value_usd": 11802665.859639304,
+          "token_symbol": "WSTETH"
+        },
+        {
+          "block_timestamp": "2026-09-21T23:59:59",
+          "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+          "chain": "base",
+          "token_amount": 726.21958659,
+          "value_usd": 61688396.525858626,
+          "token_symbol": "CBBTC"
+        },
+        {
+          "block_timestamp": "2026-09-21T23:59:59",
+          "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "chain": "base",
+          "token_amount": 36108590.481955,
+          "value_usd": 36081646.75233661,
+          "token_symbol": "USDC"
+        },
+        {
+          "block_timestamp": "2026-09-21T23:59:59",
+          "token_address": "0xc1cba3fcea344f92d9239c08c0568f6f2f0ee452",
+          "chain": "base",
+          "token_amount": 3985.63395416688,
+          "value_usd": 13516420.56933775,
+          "token_symbol": "WSTETH"
+        },
+        {
+          "block_timestamp": "2026-09-21T23:59:59",
+          "token_address": "0x4200000000000000000000000000000000000006",
+          "chain": "base",
+          "token_amount": 49244.47194222791,
+          "value_usd": 134134801.1221972,
+          "token_symbol": "WETH"
+        },
+        {
+          "block_timestamp": "2026-09-21T23:59:59",
+          "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+          "chain": "base",
+          "token_amount": 1088674468.0445893,
+          "value_usd": 742105289.5546232,
+          "token_symbol": "AERO"
+        },
+        {
+          "block_timestamp": "2026-09-22T23:59:59",
+          "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+          "chain": "base",
+          "token_amount": 704.53842809,
+          "value_usd": 60634831.51587388,
+          "token_symbol": "CBBTC"
+        },
+        {
+          "block_timestamp": "2026-09-22T23:59:59",
+          "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "chain": "base",
+          "token_amount": 36016815.557291,
+          "value_usd": 35965854.540582955,
+          "token_symbol": "USDC"
+        },
+        {
+          "block_timestamp": "2026-09-22T23:59:59",
+          "token_address": "0xc1cba3fcea344f92d9239c08c0568f6f2f0ee452",
+          "chain": "base",
+          "token_amount": 3625.026500767073,
+          "value_usd": 12388260.496331839,
+          "token_symbol": "WSTETH"
+        },
+        {
+          "block_timestamp": "2026-09-22T23:59:59",
+          "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+          "chain": "base",
+          "token_amount": 1087073842.501443,
+          "value_usd": 744497281.3346747,
+          "token_symbol": "AERO"
+        },
+        {
+          "block_timestamp": "2026-09-23T23:59:59",
+          "token_address": "0xc1cba3fcea344f92d9239c08c0568f6f2f0ee452",
+          "chain": "base",
+          "token_amount": 3416.4619285999224,
+          "value_usd": 11369135.035779715,
+          "token_symbol": "WSTETH"
+        },
+        {
+          "block_timestamp": "2026-09-23T23:59:59",
+          "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "chain": "base",
+          "token_amount": 27950127.601773,
+          "value_usd": 28045342.47007796,
+          "token_symbol": "USDC"
+        },
+        {
+          "block_timestamp": "2026-09-23T23:59:59",
+          "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+          "chain": "base",
+          "token_amount": 1089968647.8320682,
+          "value_usd": 726870098.0893141,
+          "token_symbol": "AERO"
+        },
+        {
+          "block_timestamp": "2026-09-23T23:59:59",
+          "token_address": "0x4200000000000000000000000000000000000006",
+          "chain": "base",
+          "token_amount": 49325.52673742729,
+          "value_usd": 131874755.2641161,
+          "token_symbol": "WETH"
+        },
+        {
+          "block_timestamp": "2026-09-23T23:59:59",
+          "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+          "chain": "base",
+          "token_amount": 731.80418845,
+          "value_usd": 61764012.41021225,
+          "token_symbol": "CBBTC"
+        }
+      ]
+    },
+    "recordedAt": 1790198439379
+  },
+  {
+    "requestHash": "43bb1691130a66825ef454dc9abcc6ccf624f207",
+    "request": {
+      "entity_name": "Binance",
+      "chain": "bitcoin",
+      "date": {
+        "from": "2026-08-24",
+        "to": "2026-09-24"
+      },
+      "filters": {
+        "token_address": [
+          "1111111111111111111114oLvT2"
+        ],
+        "hide_spam_tokens": true
+      },
+      "pagination": {
+        "page": 1,
+        "per_page": 1000
+      },
+      "order_by": [
+        {
+          "field": "block_timestamp",
+          "direction": "ASC"
+        }
+      ]
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 1000,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "block_timestamp": "2026-08-24T23:59:59",
+          "token_address": "1111111111111111111114oLvT2",
+          "chain": "bitcoin",
+          "token_amount": 740896.09632445,
+          "value_usd": 57921691113.52297,
+          "token_symbol": "BTC"
+        },
+        {
+          "block_timestamp": "2026-08-25T23:59:59",
+          "token_address": "1111111111111111111114oLvT2",
+          "chain": "bitcoin",
+          "token_amount": 742899.01672953,
+          "value_usd": 58866456128.88437,
+          "token_symbol": "BTC"
+        },
+        {
+          "block_timestamp": "2026-08-26T23:59:59",
+          "token_address": "1111111111111111111114oLvT2",
+          "chain": "bitcoin",
+          "token_amount": 742816.93853174,
+          "value_usd": 58394513418.41539,
+          "token_symbol": "BTC"
+        },
+        {
+          "block_timestamp": "2026-08-27T23:59:59",
+          "token_address": "1111111111111111111114oLvT2",
+          "chain": "bitcoin",
+          "token_amount": 741086.96162423,
+          "value_usd": 59017788209.44636,
+          "token_symbol": "BTC"
+        },
+        {
+          "block_timestamp": "2026-08-28T23:59:59",
+          "token_address": "1111111111111111111114oLvT2",
+          "chain": "bitcoin",
+          "token_amount": 742603.93612752,
+          "value_usd": 58965961601.87772,
+          "token_symbol": "BTC"
+        },
+        {
+          "block_timestamp": "2026-08-29T23:59:59",
+          "token_address": "1111111111111111111114oLvT2",
+          "chain": "bitcoin",
+          "token_amount": 742859.4479936,
+          "value_usd": 57723345971.82943,
+          "token_symbol": "BTC"
+        },
+        {
+          "block_timestamp": "2026-08-30T23:59:59",
+          "token_address": "1111111111111111111114oLvT2",
+          "chain": "bitcoin",
+          "token_amount": 743804.81602249,
+          "value_usd": 58190713178.679245,
+          "token_symbol": "BTC"
+        },
+        {
+          "block_timestamp": "2026-08-31T23:59:59",
+          "token_address": "1111111111111111111114oLvT2",
+          "chain": "bitcoin",
+          "token_amount": 744911.15412982,
+          "value_usd": 58380606826.043724,
+          "token_symbol": "BTC"
+        },
+        {
+          "block_timestamp": "2026-09-01T23:59:59",
+          "token_address": "1111111111111111111114oLvT2",
+          "chain": "bitcoin",
+          "token_amount": 746370.99707987,
+          "value_usd": 58191995185.51742,
+          "token_symbol": "BTC"
+        },
+        {
+          "block_timestamp": "2026-09-02T23:59:59",
+          "token_address": "1111111111111111111114oLvT2",
+          "chain": "bitcoin",
+          "token_amount": 746811.33399667,
+          "value_usd": 57658829840.42752,
+          "token_symbol": "BTC"
+        },
+        {
+          "block_timestamp": "2026-09-03T23:59:59",
+          "token_address": "1111111111111111111114oLvT2",
+          "chain": "bitcoin",
+          "token_amount": 746151.31057967,
+          "value_usd": 58162867314.06817,
+          "token_symbol": "BTC"
+        },
+        {
+          "block_timestamp": "2026-09-04T23:59:59",
+          "token_address": "1111111111111111111114oLvT2",
+          "chain": "bitcoin",
+          "token_amount": 745269.23827812,
+          "value_usd": 60140423323.756714,
+          "token_symbol": "BTC"
+        },
+        {
+          "block_timestamp": "2026-09-05T23:59:59",
+          "token_address": "1111111111111111111114oLvT2",
+          "chain": "bitcoin",
+          "token_amount": 744964.24976969,
+          "value_usd": 59369096990.78296,
+          "token_symbol": "BTC"
+        },
+        {
+          "block_timestamp": "2026-09-06T23:59:59",
+          "token_address": "1111111111111111111114oLvT2",
+          "chain": "bitcoin",
+          "token_amount": 745738.98607705,
+          "value_usd": 59579855802.11301,
+          "token_symbol": "BTC"
+        },
+        {
+          "block_timestamp": "2026-09-07T23:59:59",
+          "token_address": "1111111111111111111114oLvT2",
+          "chain": "bitcoin",
+          "token_amount": 747144.38810708,
+          "value_usd": 59322802914.35015,
+          "token_symbol": "BTC"
+        },
+        {
+          "block_timestamp": "2026-09-08T23:59:59",
+          "token_address": "1111111111111111111114oLvT2",
+          "chain": "bitcoin",
+          "token_amount": 747586.13042445,
+          "value_usd": 58709766753.20249,
+          "token_symbol": "BTC"
+        },
+        {
+          "block_timestamp": "2026-09-09T23:59:59",
+          "token_address": "1111111111111111111114oLvT2",
+          "chain": "bitcoin",
+          "token_amount": 749810.72343549,
+          "value_usd": 59085343943.92921,
+          "token_symbol": "BTC"
+        },
+        {
+          "block_timestamp": "2026-09-10T23:59:59",
+          "token_address": "1111111111111111111114oLvT2",
+          "chain": "bitcoin",
+          "token_amount": 750302.89013662,
+          "value_usd": 58390813463.895645,
+          "token_symbol": "BTC"
+        },
+        {
+          "block_timestamp": "2026-09-11T23:59:59",
+          "token_address": "1111111111111111111114oLvT2",
+          "chain": "bitcoin",
+          "token_amount": 749644.42691273,
+          "value_usd": 57853733137.769485,
+          "token_symbol": "BTC"
+        },
+        {
+          "block_timestamp": "2026-09-12T23:59:59",
+          "token_address": "1111111111111111111114oLvT2",
+          "chain": "bitcoin",
+          "token_amount": 749805.68439792,
+          "value_usd": 57942086367.731636,
+          "token_symbol": "BTC"
+        },
+        {
+          "block_timestamp": "2026-09-13T23:59:59",
+          "token_address": "1111111111111111111114oLvT2",
+          "chain": "bitcoin",
+          "token_amount": 750080.23515026,
+          "value_usd": 57904924885.54346,
+          "token_symbol": "BTC"
+        },
+        {
+          "block_timestamp": "2026-09-14T23:59:59",
+          "token_address": "1111111111111111111114oLvT2",
+          "chain": "bitcoin",
+          "token_amount": 748667.14816564,
+          "value_usd": 58307861408.69439,
+          "token_symbol": "BTC"
+        },
+        {
+          "block_timestamp": "2026-09-15T23:59:59",
+          "token_address": "1111111111111111111114oLvT2",
+          "chain": "bitcoin",
+          "token_amount": 753375.12830551,
+          "value_usd": 57930586099.61913,
+          "token_symbol": "BTC"
+        },
+        {
+          "block_timestamp": "2026-09-16T23:59:59",
+          "token_address": "1111111111111111111114oLvT2",
+          "chain": "bitcoin",
+          "token_amount": 755151.62735116,
+          "value_usd": 57237669832.47432,
+          "token_symbol": "BTC"
+        },
+        {
+          "block_timestamp": "2026-09-17T23:59:59",
+          "token_address": "1111111111111111111114oLvT2",
+          "chain": "bitcoin",
+          "token_amount": 757838.36259602,
+          "value_usd": 57926072828.64022,
+          "token_symbol": "BTC"
+        },
+        {
+          "block_timestamp": "2026-09-18T23:59:59",
+          "token_address": "1111111111111111111114oLvT2",
+          "chain": "bitcoin",
+          "token_amount": 758473.6611953,
+          "value_usd": 59245598158.6102,
+          "token_symbol": "BTC"
+        },
+        {
+          "block_timestamp": "2026-09-19T23:59:59",
+          "token_address": "1111111111111111111114oLvT2",
+          "chain": "bitcoin",
+          "token_amount": 759323.78395304,
+          "value_usd": 61699710014.56428,
+          "token_symbol": "BTC"
+        },
+        {
+          "block_timestamp": "2026-09-20T23:59:59",
+          "token_address": "1111111111111111111114oLvT2",
+          "chain": "bitcoin",
+          "token_amount": 761036.52322958,
+          "value_usd": 61362696390.92328,
+          "token_symbol": "BTC"
+        },
+        {
+          "block_timestamp": "2026-09-21T23:59:59",
+          "token_address": "1111111111111111111114oLvT2",
+          "chain": "bitcoin",
+          "token_amount": 760390.60223194,
+          "value_usd": 64567489732.29463,
+          "token_symbol": "BTC"
+        },
+        {
+          "block_timestamp": "2026-09-22T23:59:59",
+          "token_address": "1111111111111111111114oLvT2",
+          "chain": "bitcoin",
+          "token_amount": 745800.24151384,
+          "value_usd": 64163139008.91341,
+          "token_symbol": "BTC"
+        },
+        {
+          "block_timestamp": "2026-09-23T23:59:59",
+          "token_address": "1111111111111111111114oLvT2",
+          "chain": "bitcoin",
+          "token_amount": 744073.4920543,
+          "value_usd": 62755849494.32275,
+          "token_symbol": "BTC"
+        }
+      ]
+    },
+    "recordedAt": 1790198881767
+  }
+]

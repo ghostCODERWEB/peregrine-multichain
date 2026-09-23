@@ -30,5 +30,12 @@ export function stripLabels<T>(value: T): T {
 
 export const forMode = <T,>(mode: DisplayMode, value: T): T => (mode === 'public' ? stripLabels(value) : value);
 
+/** A section's promise, redacted before it is handed to any component. A
+ *  resolved promise passed as a prop — even server to server — is written
+ *  into the page's flight data in development (React's debug props), so
+ *  redaction has to happen before the value becomes a prop, not inside
+ *  the component that renders it. */
+export const redacted = <T,>(mode: DisplayMode, p: Promise<T>): Promise<T> => p.then((v) => forMode(mode, v));
+
 /** The sentence shown where a view is withheld from public viewers. */
 export const WITHHELD = 'Shown only to the API key owner: Nansen’s redistribution rules keep smart-money trades, holdings and labels out of public views. Run TIDE with your own Nansen key to see it.';

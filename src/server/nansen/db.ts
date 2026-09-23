@@ -234,6 +234,22 @@ const MIGRATIONS: string[] = [
     PRIMARY KEY (endpoint, path, message)
   );
   `,
+  // 11: sector weather. Token → sector membership, refreshed daily from the
+  // token screener's own sector filter, and per-scan sector aggregates of
+  // the screener rows the scanner already pays for (market-flow for every
+  // chain; smart-money for Tier A), with the top movers kept per snapshot.
+  `
+  CREATE TABLE sector_members (
+    chain TEXT NOT NULL, token_address TEXT NOT NULL, sector TEXT NOT NULL, refreshed_at INTEGER NOT NULL,
+    PRIMARY KEY (chain, token_address, sector)
+  );
+  CREATE INDEX idx_sector_members_sector ON sector_members(sector);
+  CREATE TABLE sector_snapshots (
+    id INTEGER PRIMARY KEY AUTOINCREMENT, snapshot_at INTEGER NOT NULL, window TEXT NOT NULL, source TEXT NOT NULL,
+    sector TEXT NOT NULL, net_flow_usd REAL NOT NULL, volume_usd REAL NOT NULL, tokens INTEGER NOT NULL, top TEXT
+  );
+  CREATE INDEX idx_sector_snapshots ON sector_snapshots(sector, source, window, snapshot_at);
+  `,
 ];
 
 export function audit(userId: number | null, action: string, detail?: string): void {

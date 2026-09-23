@@ -709,5 +709,661 @@
       "total_results": 0
     },
     "recordedAt": 1790120144992
+  },
+  {
+    "requestHash": "37e21dfc3d2d973a96c6d17578fde8cf3a61571f",
+    "request": {
+      "search_query": "pepe",
+      "result_type": "any",
+      "limit": 5
+    },
+    "response": {
+      "tokens": [
+        {
+          "name": "kPEPE",
+          "symbol": "kPEPE",
+          "chain": "hyperliquid",
+          "address": "kPEPE",
+          "price": 0.004352,
+          "volume_24h": 44831082.082667015,
+          "market_cap": 1837930993.94,
+          "rank": 50
+        },
+        {
+          "name": "Pepe",
+          "symbol": "PEPE",
+          "chain": "ethereum",
+          "address": "0x6982508145454ce325ddbe47a25d4ec3d2311933",
+          "price": 0.00000436884878162066,
+          "volume_24h": 4662326.217337326,
+          "market_cap": 1837930993.94,
+          "rank": 351
+        },
+        {
+          "name": "Pepe",
+          "symbol": "PEPE",
+          "chain": "bnb",
+          "address": "0x25d887ce7a35172c62febfd67a1856f20faebb00",
+          "price": 0.00000435910010068849,
+          "volume_24h": 139136.484048417,
+          "market_cap": 1833829821.35864,
+          "rank": 352
+        },
+        {
+          "name": "Pepe",
+          "symbol": "PEPE",
+          "chain": "solana",
+          "address": "PEPEqnuuCDbBC89p1u9vpnP1KQ2oj1xTcQBsjt9X55m",
+          "price": 0.000004418166338977843,
+          "volume_24h": 3225305.04249157,
+          "market_cap": 1562279.39820649,
+          "rank": 1241
+        },
+        {
+          "name": "The Toad Pepe",
+          "symbol": "TOAD",
+          "chain": "solana",
+          "address": "A13oRB9FFaiUjfi6LdCg6p9ka1u8SfGkUFs4SKvPpump",
+          "price": 0.0020707799857364105,
+          "volume_24h": 227486.85474945244,
+          "market_cap": 1989088.50436078,
+          "rank": 1548
+        }
+      ],
+      "entities": [],
+      "total_results": 5
+    },
+    "recordedAt": 1790197610301
+  },
+  {
+    "requestHash": "e5301ae8efde9f6db2c52964e553d186493d9024",
+    "request": {
+      "search_query": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
+      "result_type": "any",
+      "limit": 5
+    },
+    "response": {
+      "tokens": [
+        {
+          "name": "Nock",
+          "symbol": "NOCK",
+          "chain": "base",
+          "address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
+          "price": 0.0282550037742086,
+          "volume_24h": 3055381.902483772,
+          "market_cap": 65801156.9494978,
+          "rank": 822
+        }
+      ],
+      "entities": [],
+      "total_results": 1
+    },
+    "recordedAt": 1790197610795
+  },
+  {
+    "requestHash": "2e4e2b63f4c3d493148f0cdd577294fa539bdf01",
+    "request": {
+      "search_query": "binance",
+      "result_type": "any",
+      "limit": 5
+    },
+    "response": {
+      "tokens": [
+        {
+          "name": "BNB",
+          "symbol": "BNB",
+          "chain": "hyperliquid",
+          "address": "BNB",
+          "price": 765.25,
+          "volume_24h": 13106779.3516,
+          "market_cap": 107917447767.379,
+          "rank": 83
+        },
+        {
+          "name": "Binance-Peg DOGE",
+          "symbol": "DOGE",
+          "chain": "avalanche",
+          "address": "0x846e52d0dd71c2fdc891538b2d37ff84345c7b9f",
+          "price": 0.09187606962274052,
+          "volume_24h": 1.481657298499417,
+          "market_cap": 235583299,
+          "rank": 344
+        },
+        {
+          "name": "Binance Coin",
+          "symbol": "BNB",
+          "chain": "ethereum",
+          "address": "0xb8c77482e45f1f44de1745f52c74426c631bdd52",
+          "price": 810.434620075488,
+          "volume_24h": 15482.643589942445,
+          "market_cap": 107917447767.379,
+          "rank": 393
+        },
+        {
+          "name": "Binance-Peg Hedera",
+          "symbol": "HBAR",
+          "chain": "bnb",
+          "address": "0x0422f966bf8e978075a97d47ef4c7efd3563fa51",
+          "price": 0.0902923098635163,
+          "volume_24h": 63538.58700561874,
+          "market_cap": 3683935.27166245,
+          "rank": 450
+        }
+      ],
+      "entities": [
+        {
+          "name": "Binance",
+          "tags": [
+            "Finance",
+            "CeFi",
+            "CEX",
+            "Exchange"
+          ],
+          "rank": 41
+        }
+      ],
+      "total_results": 5
+    },
+    "recordedAt": 1790197611257
+  },
+  {
+    "requestHash": "0897c468e6c0ec85c892a47fe22af3743fd78bc4",
+    "request": {
+      "search_query": "jump",
+      "result_type": "any",
+      "limit": 5
+    },
+    "response": {
+      "tokens": [
+        {
+          "name": "JumpToken",
+          "symbol": "JMPT",
+          "chain": "bnb",
+          "address": "0x88d7e9b65dc24cf54f5edef929225fc3e1580c25",
+          "price": 0.577021267841163,
+          "volume_24h": 907.5857238542499,
+          "market_cap": 8516828.14312289,
+          "rank": 2880
+        },
+        {
+          "name": "JumpToken",
+          "symbol": "JMPT",
+          "chain": "polygon",
+          "address": "0x03cf5d93ca7c70ce0a21a09f4d70779d2c66b25a",
+          "price": 0.5762706899515604,
+          "volume_24h": 47.32820027866947,
+          "market_cap": 8504723,
+          "rank": 8284
+        }
+      ],
+      "entities": [
+        {
+          "name": "Jump Trading Market Maker",
+          "tags": [
+            "Public Figure"
+          ],
+          "rank": 10001
+        },
+        {
+          "name": "Jump Capital",
+          "tags": [
+            "Finance",
+            "Fund",
+            "Market Maker"
+          ],
+          "rank": 10001
+        },
+        {
+          "name": "Jump Trading Market Making",
+          "tags": [
+            "Finance",
+            "Market Maker"
+          ],
+          "rank": 10001
+        }
+      ],
+      "total_results": 5
+    },
+    "recordedAt": 1790197611596
+  },
+  {
+    "requestHash": "3ab7b6e429b24dd34b25de9ce57ebc16ef74963a",
+    "request": {
+      "search_query": "aerodrome",
+      "result_type": "any",
+      "limit": 5
+    },
+    "response": {
+      "tokens": [
+        {
+          "name": "AERO",
+          "symbol": "AERO",
+          "chain": "hyperliquid",
+          "address": "AERO",
+          "price": 0.67613,
+          "volume_24h": 10029306.096419996,
+          "market_cap": 673374137.510782,
+          "rank": 94
+        },
+        {
+          "name": "Aerodrome",
+          "symbol": "AERO",
+          "chain": "base",
+          "address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+          "price": 0.678397860421317,
+          "volume_24h": 29557261.33900568,
+          "market_cap": 673374137.510782,
+          "rank": 405
+        },
+        {
+          "name": "AEROBUD",
+          "symbol": "AEROBUD",
+          "chain": "base",
+          "address": "0xfad8cb754230dbfd249db0e8eccb5142dd675a0d",
+          "price": 0.000897215759913848,
+          "volume_24h": 1403.6379144587129,
+          "market_cap": 897215.759913848,
+          "rank": 2827
+        },
+        {
+          "name": "Firefly Aerospace - Backpack Securities",
+          "symbol": "FLY",
+          "chain": "solana",
+          "address": "FLYRq3en8r2Z69gN3KyAnDrvnitEJNkwPYY7favinHeD",
+          "price": 21.759869966940993,
+          "volume_24h": 7010.334647347861,
+          "market_cap": null,
+          "rank": 4763
+        },
+        {
+          "name": "Firefly Aerospace Inc. • Robinhood Token",
+          "symbol": "FLY",
+          "chain": "robinhood",
+          "address": "0x03bc731ffb162cdd7b98d3c6542bfc291126075d",
+          "price": 21.8993994034977,
+          "volume_24h": 1044.1276128826103,
+          "market_cap": 23405.9692424433,
+          "rank": 5977
+        }
+      ],
+      "entities": [],
+      "total_results": 5
+    },
+    "recordedAt": 1790197611925
+  },
+  {
+    "requestHash": "25247f76d09fbf9fc34ef87ff8142efce4b020e4",
+    "request": {
+      "search_query": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+      "result_type": "any",
+      "limit": 5
+    },
+    "response": {
+      "tokens": [
+        {
+          "name": "USD Coin",
+          "symbol": "USDC",
+          "chain": "solana",
+          "address": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+          "price": 0.998512373760441,
+          "volume_24h": 1413515763.6116424,
+          "market_cap": 75083457101.9893,
+          "rank": 615
+        }
+      ],
+      "entities": [],
+      "total_results": 1
+    },
+    "recordedAt": 1790197612299
+  },
+  {
+    "requestHash": "5481bcc053c3f849bcc86ad58c6fdb34c290b540",
+    "request": {
+      "search_query": "Wintermute Trading",
+      "result_type": "entity",
+      "limit": 10
+    },
+    "response": {
+      "tokens": [],
+      "entities": [
+        {
+          "name": "Wintermute Trading",
+          "tags": [
+            "Finance",
+            "Fund",
+            "Market Maker"
+          ],
+          "rank": 10001
+        }
+      ],
+      "total_results": 1
+    },
+    "recordedAt": 1790198393789
+  },
+  {
+    "requestHash": "0b073d4966baca478063e9353bfb70af20c5e1e4",
+    "request": {
+      "search_query": "aerodrome",
+      "result_type": "any",
+      "limit": 8
+    },
+    "response": {
+      "tokens": [
+        {
+          "name": "AERO",
+          "symbol": "AERO",
+          "chain": "hyperliquid",
+          "address": "AERO",
+          "price": 0.66942,
+          "volume_24h": 10084788.001849996,
+          "market_cap": 666824402.996185,
+          "rank": 93
+        },
+        {
+          "name": "Aerodrome",
+          "symbol": "AERO",
+          "chain": "base",
+          "address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+          "price": 0.671799926271318,
+          "volume_24h": 29699169.90018667,
+          "market_cap": 666824402.996185,
+          "rank": 404
+        },
+        {
+          "name": "AEROBUD",
+          "symbol": "AEROBUD",
+          "chain": "base",
+          "address": "0xfad8cb754230dbfd249db0e8eccb5142dd675a0d",
+          "price": 0.000897215759913848,
+          "volume_24h": 1403.623561564465,
+          "market_cap": 897215.759913848,
+          "rank": 2815
+        },
+        {
+          "name": "Firefly Aerospace - Backpack Securities",
+          "symbol": "FLY",
+          "chain": "solana",
+          "address": "FLYRq3en8r2Z69gN3KyAnDrvnitEJNkwPYY7favinHeD",
+          "price": 21.759869966940993,
+          "volume_24h": 6608.19382513581,
+          "market_cap": null,
+          "rank": 4889
+        },
+        {
+          "name": "Firefly Aerospace Inc. • Robinhood Token",
+          "symbol": "FLY",
+          "chain": "robinhood",
+          "address": "0x03bc731ffb162cdd7b98d3c6542bfc291126075d",
+          "price": 21.8993994034977,
+          "volume_24h": 931.6491872367124,
+          "market_cap": 23405.9692424433,
+          "rank": 6254
+        },
+        {
+          "name": "AeroVironment • Robinhood Token",
+          "symbol": "AVAV",
+          "chain": "robinhood",
+          "address": "0xf6290b5e7c26502e2da514c31509849718ea76a5",
+          "price": 152.76265029174,
+          "volume_24h": 250.4614745747817,
+          "market_cap": 12363.845101362,
+          "rank": 7376
+        }
+      ],
+      "entities": [
+        {
+          "name": "Aerodrome Finance",
+          "tags": [
+            "Finance",
+            "DeFi",
+            "DEX",
+            "AMM",
+            "Exchange"
+          ],
+          "rank": 10001
+        },
+        {
+          "name": "Aeroswap",
+          "tags": [
+            "Finance",
+            "CeFi",
+            "CEX",
+            "Exchange"
+          ],
+          "rank": 10001
+        }
+      ],
+      "total_results": 8
+    },
+    "recordedAt": 1790198426506
+  },
+  {
+    "requestHash": "9e5defb18ba5da2e781d6d89a9fa4297baa799c1",
+    "request": {
+      "search_query": "Aerodrome Finance",
+      "result_type": "entity",
+      "limit": 10
+    },
+    "response": {
+      "tokens": [],
+      "entities": [
+        {
+          "name": "Aerodrome Finance",
+          "tags": [
+            "Finance",
+            "DeFi",
+            "DEX",
+            "AMM",
+            "Exchange"
+          ],
+          "rank": 10001
+        }
+      ],
+      "total_results": 1
+    },
+    "recordedAt": 1790198437545
+  },
+  {
+    "requestHash": "c6edefb81d38d8991ff6b7f8a7c956cf7cc1e2fa",
+    "request": {
+      "search_query": "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",
+      "result_type": "token",
+      "limit": 8
+    },
+    "response": {
+      "tokens": [],
+      "entities": [],
+      "total_results": 0
+    },
+    "recordedAt": 1790198510590
+  },
+  {
+    "requestHash": "3ec4fe6f0fca1b380beaaed29eb498023c726517",
+    "request": {
+      "search_query": "jump",
+      "result_type": "any",
+      "limit": 8
+    },
+    "response": {
+      "tokens": [
+        {
+          "name": "JumpToken",
+          "symbol": "JMPT",
+          "chain": "bnb",
+          "address": "0x88d7e9b65dc24cf54f5edef929225fc3e1580c25",
+          "price": 0.572251569296385,
+          "volume_24h": 917.328056789647,
+          "market_cap": 8446427.44029895,
+          "rank": 2829
+        },
+        {
+          "name": "JumpToken",
+          "symbol": "JMPT",
+          "chain": "polygon",
+          "address": "0x03cf5d93ca7c70ce0a21a09f4d70779d2c66b25a",
+          "price": 0.5742166531783486,
+          "volume_24h": 48.02741762282633,
+          "market_cap": 8476599,
+          "rank": 8743
+        }
+      ],
+      "entities": [
+        {
+          "name": "Jump Trading Market Maker",
+          "tags": [
+            "Public Figure"
+          ],
+          "rank": 10001
+        },
+        {
+          "name": "Jump Capital",
+          "tags": [
+            "Finance",
+            "Fund",
+            "Market Maker"
+          ],
+          "rank": 10001
+        },
+        {
+          "name": "Jump Trading Market Making",
+          "tags": [
+            "Finance",
+            "Market Maker"
+          ],
+          "rank": 10001
+        },
+        {
+          "name": "Jump Trading",
+          "tags": [
+            "Finance",
+            "Fund",
+            "Market Maker"
+          ],
+          "rank": 10001
+        },
+        {
+          "name": "Jump Farm",
+          "tags": [
+            "Finance",
+            "DeFi",
+            "Staking"
+          ],
+          "rank": 10001
+        },
+        {
+          "name": "JUMPN",
+          "tags": [
+            "NFT",
+            "Jump2Earn",
+            "Lifestyle"
+          ],
+          "rank": 10001
+        }
+      ],
+      "total_results": 8
+    },
+    "recordedAt": 1790198771608
+  },
+  {
+    "requestHash": "11c16157cbbb57133814703fed4593ce34a5c846",
+    "request": {
+      "search_query": "Binance",
+      "result_type": "entity",
+      "limit": 10
+    },
+    "response": {
+      "tokens": [],
+      "entities": [
+        {
+          "name": "Binance",
+          "tags": [
+            "Finance",
+            "CeFi",
+            "CEX",
+            "Exchange"
+          ],
+          "rank": 41
+        },
+        {
+          "name": "Binance JEX",
+          "tags": [
+            "Finance",
+            "CeFi",
+            "CEX",
+            "Exchange"
+          ],
+          "rank": 10001
+        },
+        {
+          "name": "BNB Diamond",
+          "tags": [
+            "Blacklist",
+            "Attack",
+            "Scam"
+          ],
+          "rank": 10001
+        },
+        {
+          "name": "BNB Bank",
+          "tags": [
+            "Finance",
+            "DeFi",
+            "Rewards"
+          ],
+          "rank": 10001
+        },
+        {
+          "name": "BNB Chain",
+          "tags": [
+            "Infrastructure",
+            "Layer 1"
+          ],
+          "rank": 10001
+        },
+        {
+          "name": "Binance Wealth Matrix",
+          "tags": [
+            "Cryptocurrency"
+          ],
+          "rank": 10001
+        },
+        {
+          "name": "BNB Bridge Exploiter",
+          "tags": [
+            "Blacklist",
+            "Attack",
+            "Exploit"
+          ],
+          "rank": 10001
+        },
+        {
+          "name": "BNB Cherries",
+          "tags": [
+            "Finance",
+            "Staking",
+            "DeFi",
+            "Yield Farming"
+          ],
+          "rank": 10001
+        },
+        {
+          "name": "Binance Smart Chain Fund",
+          "tags": [
+            "Finance",
+            "Fund"
+          ],
+          "rank": 10001
+        },
+        {
+          "name": "Binance Smart Chain",
+          "tags": [
+            "Blockchain"
+          ],
+          "rank": 10001
+        }
+      ],
+      "total_results": 10
+    },
+    "recordedAt": 1790198878840
   }
 ]

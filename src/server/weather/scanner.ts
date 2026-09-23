@@ -20,6 +20,7 @@ import { chainPressureWindow, blendChainPressure, flowRatio, type Window, type C
 import { classifySwap, isStablecoin } from '@/lib/models/trade-side';
 import { pressureChains, pressureSource, type PressureSource } from '@/lib/registry';
 import { stormSweep, sweepDue, type SweepCandidate } from '@/server/token/sweep';
+import { storeSectorSnapshots } from '@/server/sectors/weather';
 import type { SmartMoneyDexTrade } from '@/types/nansen/smart-money';
 
 const WINDOWS: Window[] = ['1h', '24h', '7d'];
@@ -139,15 +140,21 @@ function sumByChain(rows: ScreenerRow[], field: 'volume' | 'netflow'): Map<strin
 
 const EMPTY = { sum: 0, count: 0 };
 
-async function gatherInputs(windows: Window[], errors: string[]): Promise<{ inputs: ChainWindowInput[]; candidates: SweepCandidate[] }> {
+interface WindowRows { market: ScreenerRow[]; sm: ScreenerRow[] | null }
+
+async function gatherInputs(windows: Window[], errors: string[]): Promise<{ inputs: ChainWindowInput[]; candidates: SweepCandidate[]; rows: Map<Window, WindowRows> }> {
   const chains = orderBySize(pressureChains());
   const smChains = chains.filter((c) => pressureSource(c) === 'smart-money');
   const inputs: ChainWindowInput[] = [];
   // Token rows from the 24h smart-money pass, kept for the storm sweep —
   // the scanner already paid for them.
   const candidates: SweepCandidate[] = [];
+  // Every row fetched, per window, for the sector aggregates (no extra calls).
+  const rowsByWindow = new Map<Window, WindowRows>();
 
   for (const w of windows) {
+    const windowRows: WindowRows = { market: [], sm: smChains.length ? [] : null };
+    rowsByWindow.set(w, windowRows);
     // All-trader volume and netflow for every pressure chain, one call per
     // batch — the same rows serve as every chain's denominator and as the
     // market-flow numerator for chains with no trader labels.
@@ -156,6 +163,7 @@ async function gatherInputs(windows: Window[], errors: string[]): Promise<{ inpu
     for (const batch of chunk(chains, SCREENER_BATCH)) {
       try {
         const rows = await fetchScreener(batch, w, false);
+        windowRows.market.push(...rows);
         for (const [chain, acc] of sumByChain(rows, 'volume')) volume.set(chain, acc);
         for (const [chain, acc] of sumByChain(rows, 'netflow')) marketFlow.set(chain, acc);
       } catch (e) {
@@ -173,6 +181,7 @@ async function gatherInputs(windows: Window[], errors: string[]): Promise<{ inpu
     for (const batch of chunk(smChains, SCREENER_BATCH)) {
       try {
         const rows = await fetchScreener(batch, w, true);
+        windowRows.sm?.push(...rows);
         for (const [chain, acc] of sumByChain(rows, 'netflow')) smFlow.set(chain, acc);
         if (w === '24h') {
           for (const r of rows) {
@@ -201,7 +210,7 @@ async function gatherInputs(windows: Window[], errors: string[]): Promise<{ inpu
       }
     }
   }
-  return { inputs, candidates };
+  return { inputs, candidates, rows: rowsByWindow };
 }
 
 /** This chain's ratios for this window strictly before `at`, within the
@@ -393,6 +402,8 @@ export interface ScanSummary {
   /** With `sweep: 'defer'`: the sweep's candidates when one is due, for
    *  the caller to run as its own job. */
   sweepCandidates: SweepCandidate[] | null;
+  /** Sector aggregate rows written (0 until sector membership exists). */
+  sectorRows: number;
   credits: number;
   errors: string[];
   ms: number;
@@ -408,8 +419,12 @@ export async function runScan(opts: { sweep?: 'inline' | 'defer' } = {}): Promis
   const errors: string[] = [];
 
   const windows = dueWindows(started);
-  const { inputs, candidates } = await gatherInputs(windows, errors);
+  const { inputs, candidates, rows } = await gatherInputs(windows, errors);
   scoreAndStore(inputs, started);
+  let sectorRows = 0;
+  for (const [w, r] of rows) {
+    try { sectorRows += storeSectorSnapshots(started, w, r.market, r.sm); } catch (e) { errors.push(`sector snapshots ${w}: ${(e as Error).message.slice(0, 120)}`); }
+  }
   const chainsScored = storeBlended(started);
   const tradesAdded = await captureTrades(started, errors);
   const due = candidates.length > 0 && sweepDue(started);
@@ -421,5 +436,5 @@ export async function runScan(opts: { sweep?: 'inline' | 'defer' } = {}): Promis
   db.prepare('UPDATE scan_runs SET finished_at = ?, chains_scored = ?, trades_added = ?, credits = ?, error = ? WHERE id = ?')
     .run(finished, chainsScored, tradesAdded, credits, errors.length ? errors.join(' | ') : null, runId);
 
-  return { windows, chainsScored, tradesAdded, stormsScored, sweepCandidates: due && deferSweep ? candidates : null, credits, errors, ms: finished - started };
+  return { windows, chainsScored, tradesAdded, stormsScored, sweepCandidates: due && deferSweep ? candidates : null, sectorRows, credits, errors, ms: finished - started };
 }

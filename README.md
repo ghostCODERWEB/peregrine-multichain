@@ -42,10 +42,14 @@ Requirements: Node ≥ 22.13 and pnpm (via `corepack enable`).
 | **Weather map** `/` | All 38 chains as hex tiles colored by the Chain Pressure Index (blue = smart money net selling, amber = net buying, outline = no reading), with rotation-front arcs you can open to see the wallets behind them. Also a 24h forecast strip, the storm warnings ticker, and the AI anchor's weather report. |
 | **Chain** `/chain/[chain]` | Barometer with a 7-day trend and forecast. A tide chart (cumulative smart-money flow from TIDE's own snapshots, with a Holt forecast fan). Top inflow/outflow tokens, a sector treemap, growth against every chain (slope chart from `chains/chain-rank`) and the smart-money trade tape. |
 | **Token** `/token/[chain]/[address]` | Streams in waves over SSE: candles with a volatility cone and its track record, the **wind rose** (net flow by wallet segment × time window), the Storm Score dial with six sub-scores and Nansen's indicator radar, 7-day storm and breakout odds, holders (Lorenz curve, labels), top buyers vs sellers, and an **insider cluster graph** built from first-funder and related-wallets data. Also "Ask the anchor", "Set storm alert" and "Ride the tide". |
+| **Search** ⌘K (every page) | One box for tokens, contract addresses, Nansen entities, chains, sectors and wallet addresses of every family Nansen profiles (EVM, Solana, Bitcoin, Sui, TON, Tron, NEAR…); keyboard first. [M1 note](docs/modules/M1.md) |
+| **Entity** `/entity/[name]` | A Nansen entity (exchange, fund, market maker) as one subject: aggregated balances, 30-day trend of its top holdings, realized PnL, counterparties by entity. |
+| **Sectors** `/sectors` | Sector weather: pressure per Nansen sector (built like the CPI), with 7-day sparklines and the top tokens flowing in and out. |
 | **Wallet** `/wallet/[address]` | Balances by chain, 30-day PnL, first funder and related wallets, counterparties, recent transactions, and a **migration trail** of the wallet's smart-money trades drawn over the map. |
 | **Forecast Lab** `/lab` | Backtest: ROC against the expert prior, calibration deciles, Brier score, AUC with a 95% CI, per-tier results, coefficients, cone calibration, CPI forecast error. |
 | **Alerts** `/alerts` | The Nansen Smart Alerts TIDE created, with toggle and delete. |
-| **Coverage** `/coverage` | Chains × endpoints heatmap, and live counters of API calls, credits and scanner runs. |
+| **Coverage** `/coverage` | The endpoint ledger (how much of the Nansen API is in use), chains × endpoints heatmap, and live counters of API calls, credits and scanner runs. The instance owner also sees error rates, schema drift, per-key usage, job health and x402 payments. |
+| **Account** `/account` | Sign in with a wallet and bring your own Nansen key, or pay per call (x402) from the priced buttons without one. |
 
 | | |
 | --- | --- |

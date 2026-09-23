@@ -4,15 +4,15 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { Card, WaveLoading, Unavailable } from '@/components/Card';
 import { InfoPopover } from '@/components/InfoPopover';
-import { BalanceDonut } from '@/components/wallet/BalanceDonut';
+import { BalancesCard, PnlCard, CounterpartiesCard } from '@/components/wallet/ProfileCards';
 import { TrailMap } from '@/components/wallet/TrailMap';
 import { trailTitle } from '@/lib/insights';
 import { TimeAgo } from '@/components/TimeAgo';
-import { balances, pnl, origins, counterparties, transactions, migrationTrail, type Balances } from '@/server/wallet/wallet-page';
-import { isUnavailable, type Wave } from '@/server/nansen/traced';
+import { balances, pnl, origins, counterparties, transactions, migrationTrail } from '@/server/wallet/wallet-page';
+import { isUnavailable } from '@/server/nansen/traced';
 import { displayMode, type DisplayMode } from '@/server/mode';
-import { forMode } from '@/server/redact';
-import { chainName, pct, shortAddress, usd, walletName } from '@/lib/viz/format';
+import { forMode, redacted } from '@/server/redact';
+import { chainName, shortAddress, usd, walletName } from '@/lib/viz/format';
 
 export const dynamic = 'force-dynamic';
 
@@ -50,7 +50,7 @@ export default async function WalletRoute({ params }: Params) {
 
       <div className="grid gap-4 lg:grid-cols-3">
         <Suspense fallback={<Card id="bal" title="Balances"><WaveLoading what="balances" height={300} /></Card>}>
-          <BalancesCard p={balP} />
+          <BalancesCard p={redacted(mode, balP)} />
         </Suspense>
         <Card id="trail" className="lg:col-span-2" title={mode !== 'owner' ? 'Migration trail' : trailTitle(trail.steps, trail.chains)}
           sub="This wallet's smart-money DEX trades from TIDE's scanner record, as a path over the weather map (numbered in time order)."
@@ -64,13 +64,13 @@ export default async function WalletRoute({ params }: Params) {
 
       <div className="grid gap-4 lg:grid-cols-3">
         <Suspense fallback={<Card id="pnl" title="PnL, 30 days"><WaveLoading what="PnL" /></Card>}>
-          <PnlCard address={address} mode={mode} />
+          <PnlCard p={redacted(mode, pnl(address))} mode={mode} />
         </Suspense>
         <Suspense fallback={<Card id="origins" title="Origins"><WaveLoading what="first funder and related wallets" /></Card>}>
           <OriginsCard address={address} mainChain={mainChainP} mode={mode} />
         </Suspense>
         <Suspense fallback={<Card id="cp" title="Counterparties"><WaveLoading what="counterparties" /></Card>}>
-          <CounterpartiesCard address={address} mainChain={mainChainP} mode={mode} />
+          <CounterpartiesCard p={redacted(mode, mainChainP.then((c) => counterparties(address, c)))} mode={mode} />
         </Suspense>
       </div>
 
@@ -78,52 +78,6 @@ export default async function WalletRoute({ params }: Params) {
         <TransactionsCard address={address} mode={mode} />
       </Suspense>
     </div>
-  );
-}
-
-async function BalancesCard({ p }: { p: Promise<Wave<Balances>> }) {
-  const b = await p;
-  if (isUnavailable(b)) return <Card id="bal" title="Balances"><Unavailable text={b.unavailable} /></Card>;
-  const top = b.byChain[0];
-  return (
-    <Card id="bal" title={`${usd(b.totalUsd)} across ${b.byChain.length} chain${b.byChain.length === 1 ? '' : 's'} — ${pct(top.valueUsd / b.totalUsd, 0)} on ${chainName(top.chain)}`}
-      sub="Current token balances Nansen can price, by chain." action={<InfoPopover p={b.provenance} />}>
-      <BalanceDonut byChain={b.byChain} total={b.totalUsd} />
-      <ul className="mt-2 space-y-1 text-[12.5px]">
-        {b.top.slice(0, 6).map((t) => (
-          <li key={`${t.chain}:${t.tokenAddress}`} className="flex justify-between gap-2 border-b border-border/50 py-0.5">
-            <Link href={`/token/${t.chain}/${encodeURIComponent(t.tokenAddress)}`} className="truncate text-ink hover:underline">{t.symbol} <span className="text-ink-muted">· {chainName(t.chain)}</span></Link>
-            <span className="num text-ink">{usd(t.valueUsd)}</span>
-          </li>
-        ))}
-      </ul>
-    </Card>
-  );
-}
-
-async function PnlCard({ address, mode }: { address: string; mode: DisplayMode }) {
-  const r = forMode(mode, await pnl(address));
-  if (isUnavailable(r)) return <Card id="pnl" title="PnL, 30 days"><Unavailable text={r.unavailable} /></Card>;
-  const title = `${r.realizedUsd >= 0 ? 'Up' : 'Down'} ${usd(Math.abs(r.realizedUsd))} realized in 30 days, winning ${pct(r.winRate, 0)} of exits`;
-  const max = Math.max(1, ...r.top.map((t) => Math.abs(t.pnlUsd ?? 0)));
-  return (
-    <Card id="pnl" title={title} sub="Realized only, as Nansen reports it; open positions are not marked." action={<InfoPopover p={r.provenance} />}>
-      <dl className="grid grid-cols-3 gap-2 text-center">
-        {[['Return', pct(r.realizedPct)], ['Tokens', String(r.tokens)], ['Sales', String(r.sales)]].map(([k, v]) => (
-          <div key={k} className="rounded-md bg-accent/50 px-2 py-1.5"><dt className="text-[10.5px] text-ink-muted">{k}</dt><dd className="num text-sm text-ink">{v}</dd></div>
-        ))}
-      </dl>
-      <div className="mt-3 text-[12px] text-ink-2">Best tokens by realized PnL</div>
-      <ul className="mt-1 space-y-1">
-        {r.top.map((t) => (
-          <li key={`${t.chain}:${t.tokenAddress}`} className="grid grid-cols-[5rem_1fr_4.5rem] items-center gap-2 text-[12px]">
-            <Link href={`/token/${t.chain}/${encodeURIComponent(t.tokenAddress)}`} className="truncate text-ink hover:underline">{t.symbol}</Link>
-            <span className="h-2 rounded-full bg-accent"><span className="block h-2 rounded-full" style={{ width: `${(Math.abs(t.pnlUsd ?? 0) / max) * 100}%`, background: (t.pnlUsd ?? 0) >= 0 ? 'var(--in-3)' : 'var(--out-3)' }} /></span>
-            <span className="num text-right text-ink">{usd(t.pnlUsd, { signed: true })}</span>
-          </li>
-        ))}
-      </ul>
-    </Card>
   );
 }
 
@@ -150,30 +104,6 @@ async function OriginsCard({ address, mainChain, mode }: { address: string; main
           ))}
         </ul>
       ) : <p className="mt-1 text-[12px] text-ink-muted">None in Nansen.</p>}
-    </Card>
-  );
-}
-
-async function CounterpartiesCard({ address, mainChain, mode }: { address: string; mainChain: Promise<string | null>; mode: DisplayMode }) {
-  const r = forMode(mode, await counterparties(address, await mainChain));
-  if (isUnavailable(r)) return <Card id="cp" title="Counterparties"><Unavailable text={r.unavailable} /></Card>;
-  const top = r.rows[0];
-  const max = Math.max(1, ...r.rows.map((x) => Math.max(x.inUsd, x.outUsd)));
-  return (
-    <Card id="cp" title={`Trades most with ${walletName(top.label, top.address)} on ${chainName(r.chain)}`} sub="Top 10 counterparties by volume, 30 days: sent to this wallet (right) and sent by it (left)." action={<InfoPopover p={r.provenance} />}>
-      <ul className="space-y-1">
-        {r.rows.map((x) => (
-          <li key={x.address} className="grid grid-cols-[6.5rem_1fr] items-center gap-2 text-[12px]">
-            <Link href={`/wallet/${x.address}`} className="block truncate text-ink-2 hover:text-ink hover:underline" title={x.label ?? x.address}>{walletName(x.label, x.address)}</Link>
-            <div className="relative h-4">
-              <div className="absolute inset-y-0 left-1/2 w-px bg-axis" aria-hidden />
-              <div className="absolute top-1/2 h-3 -translate-y-1/2 rounded-l" style={{ right: '50%', width: `${(x.outUsd / max) * 48}%`, background: 'var(--out-3)' }} title={`sent ${usd(x.outUsd)}`} />
-              <div className="absolute top-1/2 h-3 -translate-y-1/2 rounded-r" style={{ left: '50%', width: `${(x.inUsd / max) * 48}%`, background: 'var(--in-3)' }} title={`received ${usd(x.inUsd)}`} />
-            </div>
-          </li>
-        ))}
-      </ul>
-      <div className="mt-2 flex justify-between text-[11px] text-ink-muted"><span>← sent</span><span>received →</span></div>
     </Card>
   );
 }

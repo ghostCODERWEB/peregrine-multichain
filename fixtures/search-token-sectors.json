@@ -1,0 +1,110 @@
+[
+  {
+    "requestHash": "bf21a9e8fbc5a3846fb05b4fa0859e0917b2202f",
+    "request": {},
+    "response": {
+      "data": [
+        {
+          "sector": "AI Agents"
+        },
+        {
+          "sector": "AI Meme"
+        },
+        {
+          "sector": "Artificial Intelligence"
+        },
+        {
+          "sector": "BRC20s/Bitcoin Ecosystem"
+        },
+        {
+          "sector": "Bags.fm"
+        },
+        {
+          "sector": "Crypto Payments"
+        },
+        {
+          "sector": "Data source and Oracle"
+        },
+        {
+          "sector": "DeFi Lending (Money Markets)"
+        },
+        {
+          "sector": "DePIN"
+        },
+        {
+          "sector": "DeSci"
+        },
+        {
+          "sector": "Decentralised Exchanges"
+        },
+        {
+          "sector": "GambleFi"
+        },
+        {
+          "sector": "GameFi"
+        },
+        {
+          "sector": "Internet Capital Market"
+        },
+        {
+          "sector": "L1/L2 Token & Derivatives"
+        },
+        {
+          "sector": "LRTs"
+        },
+        {
+          "sector": "LSTs"
+        },
+        {
+          "sector": "Memecoin"
+        },
+        {
+          "sector": "Memecoins"
+        },
+        {
+          "sector": "Metaverse"
+        },
+        {
+          "sector": "NFTFi"
+        },
+        {
+          "sector": "NFTs"
+        },
+        {
+          "sector": "Perps, Options and Derivatives"
+        },
+        {
+          "sector": "RWAs"
+        },
+        {
+          "sector": "Restaking"
+        },
+        {
+          "sector": "Scaling & Connectivity"
+        },
+        {
+          "sector": "Social Fi"
+        },
+        {
+          "sector": "Stablecoin"
+        },
+        {
+          "sector": "Stablecoin Issuers"
+        },
+        {
+          "sector": "Tokenized Stocks"
+        },
+        {
+          "sector": "Yield Bearing"
+        },
+        {
+          "sector": "Yield Farming Protocols"
+        },
+        {
+          "sector": "x402"
+        }
+      ]
+    },
+    "recordedAt": 1790198209759
+  }
+]

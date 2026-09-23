@@ -11,19 +11,27 @@ import path from 'node:path';
 const BASE = process.env.REDACTION_URL ?? process.env.E2E_URL ?? 'http://localhost:3300';
 const DB = process.env.REDACTION_DB ?? 'data/demo.db';
 
-function secrets(): { labels: string[]; wallets: string[] } {
+function secrets(): { labels: string[]; wallets: string[]; counterpartyLabels: string[] } {
   try {
     const db = new Database(path.resolve(DB), { readonly: true, fileMustExist: true });
     const labels = (db.prepare("SELECT DISTINCT wallet_label AS l FROM smart_money_trades WHERE wallet_label IS NOT NULL AND length(wallet_label) > 6 LIMIT 200").all() as Array<{ l: string }>).map((r) => r.l);
     const wallets = (db.prepare('SELECT wallet AS w FROM smart_money_trades GROUP BY wallet ORDER BY COUNT(*) DESC LIMIT 40').all() as Array<{ w: string }>).map((r) => r.w);
+    // Every counterparty label Nansen returned to this instance (cached raw).
+    const counterpartyLabels = new Set<string>();
+    for (const r of db.prepare("SELECT body FROM response_cache WHERE endpoint = 'profiler/address/counterparties'").all() as Array<{ body: string }>) {
+      try {
+        const rows = (JSON.parse(r.body) as { data?: Array<{ counterparty_address_label?: string[] | null }> }).data ?? [];
+        for (const x of rows) for (const l of x.counterparty_address_label ?? []) if (l && l.length > 6) counterpartyLabels.add(l);
+      } catch { /* skip unreadable rows */ }
+    }
     db.close();
-    return { labels, wallets };
+    return { labels, wallets, counterpartyLabels: [...counterpartyLabels] };
   } catch {
-    return { labels: [], wallets: [] }; // a clean demo DB has no smart-money trades at all — also fine
+    return { labels: [], wallets: [], counterpartyLabels: [] }; // a clean demo DB — also fine
   }
 }
 
-const { labels, wallets } = secrets();
+const { labels, wallets, counterpartyLabels } = secrets();
 // Behavioral labels Nansen attaches to holders/traders; must not surface publicly either.
 const GENERIC = ['Token Millionaire', 'High Balance', 'Smart Trader', 'High Activity'];
 
@@ -74,6 +82,18 @@ test('token page: every wave arrives with labels stripped', async ({ page }) => 
   assertClean('/token/base/NOCK', await page.content());
 });
 
+test('entity page: counterparties and every section without labels, flight data included', async ({ page }) => {
+  const entity = 'Aerodrome Finance';
+  await page.goto(`/entity/${encodeURIComponent(entity)}`);
+  await expect(page.getByRole('heading', { level: 1, name: entity })).toBeVisible();
+  await expect(page.locator('#cp')).toBeVisible({ timeout: 60_000 });
+  const html = await page.content(); // includes the inline RSC payload scripts
+  assertClean('/entity', html);
+  // The page's own subject (and any label that is part of its name) is shown by design.
+  const own = (l: string) => entity.toLowerCase().includes(l.toLowerCase()) || l.toLowerCase().includes(entity.toLowerCase());
+  for (const l of counterpartyLabels) if (!own(l)) expect(html.includes(l), `/entity leaks counterparty label "${l}"`).toBe(false);
+});
+
 test('coverage: ledger shown, operator sections (per-key usage, errors, jobs, payments) withheld', async ({ page }) => {
   await page.goto('/coverage');
   await expect(page.getByRole('heading', { name: /Nansen API operations in use/ })).toBeVisible();
@@ -86,5 +106,7 @@ test('wallet page: trail withheld, labels stripped', async ({ page }) => {
   await page.goto('/wallet/0xcbb811f129782ef87e19dea9d3375045219bae00');
   await expect(page.getByText(/trail is built from Nansen smart-money DEX trades/)).toBeVisible();
   await page.waitForTimeout(3000); // streamed sections
-  assertClean('/wallet', await page.content());
+  const html = await page.content();
+  assertClean('/wallet', html);
+  for (const l of counterpartyLabels) expect(html.includes(l), `/wallet leaks counterparty label "${l}"`).toBe(false);
 });

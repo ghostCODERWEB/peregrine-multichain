@@ -32,6 +32,9 @@ const TTL_MS: Record<string, number> = {
   'profiler/address/transactions': 5 * 60_000,
   'profiler/address/counterparties': 60 * 60_000,
   'search/general': 60 * 60_000,
+  'search/entity-name': 24 * 60 * 60_000,
+  'search/token-sectors': 24 * 60 * 60_000,
+  'profiler/address/historical-balances': 60 * 60_000,
   'smart-alert/list': 30_000,
   'trade/quote': 30_000,
 };

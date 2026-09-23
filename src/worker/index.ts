@@ -10,10 +10,18 @@ config({ path: '.env' });
 import { runWorker, WORKER_ID } from '@/server/jobs/worker';
 
 let stopping = false;
+let firstSignalAt = 0;
 for (const sig of ['SIGINT', 'SIGTERM'] as const) {
   process.on(sig, () => {
-    if (stopping) process.exit(1); // second signal: stop now
+    // A wrapper (pnpm, npm exec, tsx) relays the same stop signal to this
+    // process within milliseconds; only a deliberate second signal, well
+    // after the first, means "stop now".
+    if (stopping) {
+      if (Date.now() - firstSignalAt > 2_000) process.exit(1);
+      return;
+    }
     stopping = true;
+    firstSignalAt = Date.now();
     console.log(`[worker] ${sig}: finishing the current job, then exiting`);
   });
 }
