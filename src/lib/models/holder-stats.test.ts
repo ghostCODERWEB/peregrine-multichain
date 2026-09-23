@@ -147,3 +147,10 @@ describe('lorenzCurve', () => {
     expect(firstThird?.supplyShare).toBeCloseTo(0.1, 5);
   });
 });
+
+describe('normalizedHhi on a partial view of supply', () => {
+  it('never goes negative when the observed shares sum to well under 1', () => {
+    const shares = Array.from({ length: 100 }, () => 0.006); // top 100 hold 60%, evenly
+    expect(normalizedHhi(shares)).toBe(0);
+  });
+});

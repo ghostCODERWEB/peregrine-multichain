@@ -2,7 +2,7 @@
 // question in the app goes through here rather than a hardcoded list.
 import raw from '@/config/capabilities.json';
 import type { CapabilityRegistry, ChainCapability } from '@/config/capability-types';
-import { ALL_SUPPORTED_CHAINS } from '@/types/nansen/chain-enums';
+import { ALL_SUPPORTED_CHAINS, CHAIN_ENUMS, type ChainEnumKey } from '@/types/nansen/chain-enums';
 import { chainName } from '@/lib/viz/format';
 
 export const registry = raw as CapabilityRegistry;
@@ -66,4 +66,17 @@ export function unavailableReason(chain: string, module: 'pressure' | 'smartMone
   if (ok) return null;
   const how = c.inferredFromProbe ? 'checked live' : 'per Nansen’s docs';
   return `Not available on ${chainName(chain)} in Nansen API (${how}).`;
+}
+
+/** Whether one specific endpoint accepts this chain, read from that
+ *  endpoint's documented chain enum. Finer than the tier: token-ohlcv
+ *  covers 33 chains while tgm/holders covers 26, so a Tier C token still
+ *  gets candles. */
+export function endpointSupports(endpoint: ChainEnumKey, chain: string): boolean {
+  const e = CHAIN_ENUMS[endpoint] as readonly string[];
+  return e.includes(chain) || e.includes('all');
+}
+
+export function endpointUnavailable(endpoint: ChainEnumKey, chain: string, what: string): string | null {
+  return endpointSupports(endpoint, chain) ? null : `${what}: not available on ${chainName(chain)} in Nansen API.`;
 }

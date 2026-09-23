@@ -27,14 +27,17 @@ export function hhi(shares: number[]): number {
  * holders" — 4 equal holders (HHI 0.25) and 1 whale among many (HHI can
  * also land near 0.25) look identical un-normalized; this separates them.
  * Returns 0 for N <= 1 (normalization is undefined — nothing to spread
- * concentration across).
+ * concentration across). Clamped at 0: shares that are a partial view of
+ * supply (the top 100 holders of a widely held token sum to well under 1)
+ * give an HHI below 1/N, which would otherwise read as negative
+ * concentration.
  */
 export function normalizedHhi(shares: number[]): number {
   const n = shares.length;
   if (n <= 1) return 0;
   const raw = hhi(shares);
   const floor = 1 / n;
-  return (raw - floor) / (1 - floor);
+  return Math.max(0, (raw - floor) / (1 - floor));
 }
 
 /**

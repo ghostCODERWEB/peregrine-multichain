@@ -66,3 +66,31 @@ export function volatilityCone(currentPrice: number, sigma: number, horizons: nu
     };
   });
 }
+
+export interface ConeCoverage {
+  /** Share of past h-step moves that ended inside the 80% band the model
+   *  would have drawn at the time. ~0.8 means the cone is calibrated. */
+  hitRate: number;
+  n: number;
+}
+
+/**
+ * Walk-forward track record for the cone on this token's own history: at
+ * each past close, fit σ on the returns known up to then only, draw the
+ * h-step band, and check where the price actually was h steps later. The
+ * number shown next to the cone, so it never appears without one.
+ */
+export function coneCoverage(closes: number[], horizonSteps: number, minHistory = 12, lambda = LAMBDA): ConeCoverage | null {
+  let hits = 0;
+  let n = 0;
+  for (let i = minHistory; i + horizonSteps < closes.length; i++) {
+    const past = closes.slice(0, i + 1);
+    const sigma = ewmaVolatility(logReturns(past), lambda);
+    const now = closes[i], later = closes[i + horizonSteps];
+    if (!(now > 0) || !(later > 0) || sigma === 0) continue;
+    const move = Math.abs(Math.log(later / now));
+    if (move <= Z_80 * sigma * Math.sqrt(horizonSteps)) hits++;
+    n++;
+  }
+  return n ? { hitRate: hits / n, n } : null;
+}

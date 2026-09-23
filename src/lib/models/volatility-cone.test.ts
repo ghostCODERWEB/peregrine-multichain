@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { logReturns, ewmaVolatility, volatilityCone } from './volatility-cone';
+import { logReturns, ewmaVolatility, volatilityCone, coneCoverage } from './volatility-cone';
 
 describe('logReturns', () => {
   it('computes ln(P_t/P_t-1) for a simple series', () => {
@@ -92,5 +92,25 @@ describe('volatilityCone', () => {
   it('returns one entry per requested horizon, in the order given', () => {
     const bands = volatilityCone(50, 0.02, [1, 3, 7]);
     expect(bands.map((b) => b.horizon)).toEqual([1, 3, 7]);
+  });
+});
+
+describe('coneCoverage', () => {
+  it('returns null when history is too short to test any forecast', () => {
+    expect(coneCoverage([1, 1.01, 0.99], 6)).toBeNull();
+  });
+
+  it('scores a calm series whose moves stay inside the band near 100%', () => {
+    const closes = Array.from({ length: 60 }, (_, i) => 100 * (1 + 0.01 * Math.sin(i)));
+    const r = coneCoverage(closes, 1)!;
+    expect(r.n).toBe(60 - 12 - 1);
+    expect(r.hitRate).toBeGreaterThan(0.7);
+  });
+
+  it('scores a series that jumps far outside its fitted volatility low', () => {
+    const calm = Array.from({ length: 30 }, (_, i) => 100 + 0.1 * (i % 2));
+    const jumps = Array.from({ length: 30 }, (_, i) => (i % 2 ? 60 : 140));
+    const r = coneCoverage([...calm, ...jumps], 1)!;
+    expect(r.hitRate).toBeLessThan(0.8);
   });
 });

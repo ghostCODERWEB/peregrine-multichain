@@ -116,6 +116,28 @@ const MIGRATIONS: string[] = [
     error          TEXT
   );
   `,
+  // 3: every Storm Score TIDE computes (a token page view or the scanner's
+  // storm sweep), so the home ticker ranks real computed scores and the
+  // lab can later compare them with what the price did.
+  `
+  CREATE TABLE storm_scores (
+    id             INTEGER PRIMARY KEY AUTOINCREMENT,
+    chain          TEXT NOT NULL,
+    token_address  TEXT NOT NULL,
+    symbol         TEXT,
+    score          REAL NOT NULL,
+    band           TEXT NOT NULL,
+    confidence     REAL NOT NULL,
+    sub_scores     TEXT NOT NULL,
+    missing        TEXT NOT NULL,
+    market_cap_usd REAL,
+    price_usd      REAL,
+    source         TEXT NOT NULL,
+    computed_at    INTEGER NOT NULL
+  );
+  CREATE INDEX idx_storm_token_time ON storm_scores(chain, token_address, computed_at);
+  CREATE INDEX idx_storm_time ON storm_scores(computed_at);
+  `,
 ];
 
 function migrate(db: Database.Database) {

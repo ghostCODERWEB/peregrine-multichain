@@ -58,5 +58,674 @@
       ]
     },
     "recordedAt": 1790161060324
+  },
+  {
+    "requestHash": "8ae50bbd415b70c6d7672f261e7f67f6206fae35",
+    "request": {
+      "address": "0xed969960c7ecb81636c5e591277417dec8dc4557",
+      "chain": "base",
+      "pagination": {
+        "page": 1,
+        "per_page": 50
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 50,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0xf70da97812cb96acdf810712aa562db8dfa3dbef",
+          "address_label": "🏦 Relay Protocol: EOA Bridge [0xf70da9]",
+          "relation": "First Funder",
+          "transaction_hash": "0x4d814a238284f86b7c22d3d3e38974551a1d9ef09dff179bb2b1a0ce625e5e12",
+          "block_timestamp": "2026-04-17T00:50:11Z",
+          "order": 1,
+          "chain": "base"
+        }
+      ]
+    },
+    "recordedAt": 1790161484841
+  },
+  {
+    "requestHash": "0edfcdfac36bc900d50096c7153e1094e47cd2ed",
+    "request": {
+      "address": "0x4182a46c61c3ee40e61304f8b419f813eeced3b4",
+      "chain": "base",
+      "pagination": {
+        "page": 1,
+        "per_page": 50
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 50,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0x3ecbc034a19e06da23ecdf846a6259fc97d2dc81",
+          "address_label": "[0x3ecbc0]",
+          "relation": "First Funder",
+          "transaction_hash": "0x552a1c054b8f05e958b94fd60c18c99d946f79ccff5c16e9ffc39b47de37f621",
+          "block_timestamp": "2024-05-07T15:04:35Z",
+          "order": 1,
+          "chain": "base"
+        }
+      ]
+    },
+    "recordedAt": 1790161484865
+  },
+  {
+    "requestHash": "98d874365f2bb1744cecb8c3d67ab2dafb596669",
+    "request": {
+      "address": "0x6ea805425a41f874391491e15c31e89a353db23a",
+      "chain": "base",
+      "pagination": {
+        "page": 1,
+        "per_page": 50
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 50,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0x4200000000000000000000000000000000000010",
+          "address_label": "Optimism: L2 Standard Bridge [0x420000]",
+          "relation": "First Funder",
+          "transaction_hash": "0x8f25fbc286815c8c0d4bb8e526cf176e4079ef06926a0748c78aa65db1887ddc",
+          "block_timestamp": "2026-07-20T16:46:29Z",
+          "order": 1,
+          "chain": "base"
+        }
+      ]
+    },
+    "recordedAt": 1790161484971
+  },
+  {
+    "requestHash": "85800f19515f7072aa1b7b9ddb28a8b74194d310",
+    "request": {
+      "address": "0xbf034bc6a3e668d04537169782963a3fa46fbb0b",
+      "chain": "base",
+      "pagination": {
+        "page": 1,
+        "per_page": 50
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 50,
+        "is_last_page": true
+      },
+      "data": []
+    },
+    "recordedAt": 1790161484975
+  },
+  {
+    "requestHash": "043bd66abff9e1c285f7ea19bc37cc92b6822a00",
+    "request": {
+      "address": "0x96841d6c96eba122cfa8724ab496058443845659",
+      "chain": "base",
+      "pagination": {
+        "page": 1,
+        "per_page": 50
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 50,
+        "is_last_page": true
+      },
+      "data": []
+    },
+    "recordedAt": 1790161485032
+  },
+  {
+    "requestHash": "4fac249765549e17f29bba6620632c79490692a8",
+    "request": {
+      "address": "0xb3089b4e200f033e5ff16ad62eed541e0431ba67",
+      "chain": "base",
+      "pagination": {
+        "page": 1,
+        "per_page": 50
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 50,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0x3fa0e8eacb32c3ad79daa76f4af6604ea15b25fb",
+          "address_label": "[0x3fa0e8]",
+          "relation": "First Funder",
+          "transaction_hash": "0xbf6f6b3bad44e4edfe86a52232095e1c0dcb26244cb6f4267541f89d2b6214ee",
+          "block_timestamp": "2024-12-16T19:20:45Z",
+          "order": 1,
+          "chain": "base"
+        }
+      ]
+    },
+    "recordedAt": 1790161485136
+  },
+  {
+    "requestHash": "0a2fdadcdec02a9fe869e62271a7b719515adc5a",
+    "request": {
+      "address": "0x7dafba1d69f6c01ae7567ffd7b046ca03b706f83",
+      "chain": "base",
+      "pagination": {
+        "page": 1,
+        "per_page": 50
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 50,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0xbefa750ed568cc84970eb4fd506af4ff599c42d0",
+          "address_label": "​​🏦 Kraken [0xbefa75]",
+          "relation": "First Funder",
+          "transaction_hash": "0x1db3a43452498d13c26530e5aa7997a27d33f5d261c50f544b4f2039e9b5d430",
+          "block_timestamp": "2025-09-17T14:14:55Z",
+          "order": 1,
+          "chain": "base"
+        }
+      ]
+    },
+    "recordedAt": 1790161485165
+  },
+  {
+    "requestHash": "3d1de2d25d19e49d1cc65659895ff8dd3a79950d",
+    "request": {
+      "address": "0xb373e871163e7264567762157d9f86ee5b1b5ab5",
+      "chain": "base",
+      "pagination": {
+        "page": 1,
+        "per_page": 50
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 50,
+        "is_last_page": true
+      },
+      "data": []
+    },
+    "recordedAt": 1790161485299
+  },
+  {
+    "requestHash": "2680666f878348a39c4ac06884d74dd09a4e397e",
+    "request": {
+      "address": "0x718d295896db46e35f9eef49f4d7bc3c75f668de",
+      "chain": "base",
+      "pagination": {
+        "page": 1,
+        "per_page": 50
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 50,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0x8de14e014402c0677b075a69122f94c0425cc179",
+          "address_label": "High Activity [0x8de14e]",
+          "relation": "Deployed by",
+          "transaction_hash": "0x1aa5cc1f3cc36150a211ef17b0ee9d72b37bcfe445fb38f5b536639578fb5ee1",
+          "block_timestamp": "2024-12-09T19:14:45Z",
+          "order": 6,
+          "chain": "base"
+        },
+        {
+          "address": "0xa6b71e26c5e0845f74c812102ca7114b6a896ab2",
+          "address_label": "🤖 Safe: Proxy Factory 1.3.0 [0xa6b71e]",
+          "relation": "Created by",
+          "transaction_hash": "0x1aa5cc1f3cc36150a211ef17b0ee9d72b37bcfe445fb38f5b536639578fb5ee1",
+          "block_timestamp": "2024-12-09T19:14:45Z",
+          "order": 8,
+          "chain": "base"
+        }
+      ]
+    },
+    "recordedAt": 1790161485331
+  },
+  {
+    "requestHash": "9d828cdaa138c0390858eaad41f7e1d4ff8c7359",
+    "request": {
+      "address": "0xfee662b14b75463e617e650f85aeb0f8a5c81d80",
+      "chain": "base",
+      "pagination": {
+        "page": 1,
+        "per_page": 50
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 50,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0x805e960821170cc6d1835454e6ac44a3d1e92233",
+          "address_label": "[0x805e96]",
+          "relation": "First Funder",
+          "transaction_hash": "0xe6895e1ee12fa959b1e61b29dfd335fb016d97aebc041158f039c0fabd24b7dc",
+          "block_timestamp": "2025-02-08T21:39:43Z",
+          "order": 1,
+          "chain": "base"
+        }
+      ]
+    },
+    "recordedAt": 1790161485340
+  },
+  {
+    "requestHash": "13a6b6338a639bc757254b2d064e78a1075f6510",
+    "request": {
+      "address": "0xbd3e846bef5d81a6fdd9758d7b3e2d1a0f2ce95c",
+      "chain": "base",
+      "pagination": {
+        "page": 1,
+        "per_page": 50
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 50,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0x46d49b99071519580a71961869ace32de0c0fe5f",
+          "address_label": "[0x46d49b]",
+          "relation": "First Funder",
+          "transaction_hash": "0x759d29497a54242b19641ceae83a9f93bfb72221f9c607ad96a81676a74fb665",
+          "block_timestamp": "2026-05-28T19:41:05Z",
+          "order": 1,
+          "chain": "base"
+        }
+      ]
+    },
+    "recordedAt": 1790161485434
+  },
+  {
+    "requestHash": "6f372f4fb0933e45afa09b27c945b5ebdb5d0aa4",
+    "request": {
+      "address": "0x4da32122228ec5ad11547c4fffcdae939be84d16",
+      "chain": "base",
+      "pagination": {
+        "page": 1,
+        "per_page": 50
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 50,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0x91604f590d66ace8975eed6bd16cf55647d1c499",
+          "address_label": "High Activity [0x91604f]",
+          "relation": "First Funder",
+          "transaction_hash": "0xe9c5f829e89ff57999ccc191a5bfb23c3039aa2abf89f7ab927385db1f1c5922",
+          "block_timestamp": "2026-09-07T01:01:31Z",
+          "order": 1,
+          "chain": "base"
+        }
+      ]
+    },
+    "recordedAt": 1790161485535
+  },
+  {
+    "requestHash": "d304d9e90768a3435f10289fce2b674c5355a197",
+    "request": {
+      "address": "0xb833ea50e68b773fcc93a6eb4ba975c51ee5bf6d",
+      "chain": "base",
+      "pagination": {
+        "page": 1,
+        "per_page": 50
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 50,
+        "is_last_page": true
+      },
+      "data": []
+    },
+    "recordedAt": 1790161485537
+  },
+  {
+    "requestHash": "932766da079c5a07e112c8ecd4a94bc4950f5202",
+    "request": {
+      "address": "0xdcd8e8d7f430f6ef97c573d72e8a29faef00fa76",
+      "chain": "base",
+      "pagination": {
+        "page": 1,
+        "per_page": 50
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 50,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0x9f074913c4bdf3a51f18d820626d3c897fb55ccf",
+          "address_label": "[0x9f0749]",
+          "relation": "First Funder",
+          "transaction_hash": "0x0e5cc3e13d14ecc2a93144d4354222b4994ea7bdf74d4a636827e81d384ec1a6",
+          "block_timestamp": "2026-06-24T12:39:31Z",
+          "order": 1,
+          "chain": "base"
+        }
+      ]
+    },
+    "recordedAt": 1790161485637
+  },
+  {
+    "requestHash": "de98581a1f7b477f20b176a39508709ea8126ec5",
+    "request": {
+      "address": "0x4e3ae00e8323558fa5cac04b152238924aa31b60",
+      "chain": "base",
+      "pagination": {
+        "page": 1,
+        "per_page": 50
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 50,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0x11c95bdda3404911fe9e6bf6fa0935ca38238df5",
+          "address_label": "[0x11c95b]",
+          "relation": "First Funder",
+          "transaction_hash": "0xdbb00402860efd19179c92098307cf947f52ad3b1c78ca8c0bb75a266820913f",
+          "block_timestamp": "2023-08-11T18:34:31Z",
+          "order": 1,
+          "chain": "base"
+        }
+      ]
+    },
+    "recordedAt": 1790161485785
+  },
+  {
+    "requestHash": "5dfc79f34d51c36fb6f6dcd74e86154ead1a7e40",
+    "request": {
+      "address": "0x7dc8521ddcbeedc58ebcde289e78f96f0a25b5ab",
+      "chain": "base",
+      "pagination": {
+        "page": 1,
+        "per_page": 50
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 50,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0x975eb831228db77b9ea8fd1f72e23918610352fa",
+          "address_label": "​​Yield Farmer [0x975eb8]",
+          "relation": "First Funder",
+          "transaction_hash": "0xa7b3fbfef7153d053c5ae3d6ce79a9618f6fe1fb76756e10248fa21b177cf540",
+          "block_timestamp": "2026-04-10T10:53:09Z",
+          "order": 1,
+          "chain": "base"
+        }
+      ]
+    },
+    "recordedAt": 1790161485884
+  },
+  {
+    "requestHash": "8b7ae29f7ddcf4d1192390e19e4a9a64e969e429",
+    "request": {
+      "address": "0x57fc69914878fe8fad3c59872300d1391d60f765",
+      "chain": "base",
+      "pagination": {
+        "page": 1,
+        "per_page": 50
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 50,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0x2cff890f0378a11913b6129b2e97417a2c302680",
+          "address_label": "NEAR Intents: Bridge Hot Wallet [0x2cff89]",
+          "relation": "First Funder",
+          "transaction_hash": "0x69c4b0e9f7c77553bed6f9e8dc287b9a0528e451a43c60f1f985c1e54c7be205",
+          "block_timestamp": "2026-02-28T23:02:49Z",
+          "order": 1,
+          "chain": "base"
+        }
+      ]
+    },
+    "recordedAt": 1790161486195
+  },
+  {
+    "requestHash": "d982304bf428948b79b4b2575194f0b286135b42",
+    "request": {
+      "address": "0x6ef591d1abfa03e0d6c390a1ed02da5bfb1288d1",
+      "chain": "base",
+      "pagination": {
+        "page": 1,
+        "per_page": 50
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 50,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0x09a6f0527918a4e3bc2d95ecbc7152bb18758379",
+          "address_label": "​​Trading Bot [0x09a6f0]",
+          "relation": "First Funder",
+          "transaction_hash": "0xbf79b35fef0baa1e50ab881c0bc6c7d80cce38bf8df534e83672d254d993f8b2",
+          "block_timestamp": "2026-06-28T03:07:25Z",
+          "order": 1,
+          "chain": "base"
+        }
+      ]
+    },
+    "recordedAt": 1790161486339
+  },
+  {
+    "requestHash": "8f794938bc96896faf15b77f7c5c31daeee638d1",
+    "request": {
+      "address": "0x3c17f2f1e445a624ff727e7b9c2706242502ff7a",
+      "chain": "base",
+      "pagination": {
+        "page": 1,
+        "per_page": 50
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 50,
+        "is_last_page": true
+      },
+      "data": []
+    },
+    "recordedAt": 1790161486356
+  },
+  {
+    "requestHash": "38188a713f20e193a39856431174a3626e9955c9",
+    "request": {
+      "address": "0x08cacdbef007264e61a0e94a4467cce79977e7c0",
+      "chain": "base",
+      "pagination": {
+        "page": 1,
+        "per_page": 50
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 50,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0xc501492c0bb82d9177040f6e2ae44dfbf9523cd6",
+          "address_label": "[0xc50149]",
+          "relation": "First Funder",
+          "transaction_hash": "0xd7e542d0771f4f19d0f110bd567787d79aa6614c1f3c9f54a2c44367bab5aa99",
+          "block_timestamp": "2026-06-16T08:09:15Z",
+          "order": 1,
+          "chain": "base"
+        }
+      ]
+    },
+    "recordedAt": 1790161486745
+  },
+  {
+    "requestHash": "4d77375c90066f28a77834953260d68b472e1da1",
+    "request": {
+      "address": "0xcd5b5249a39e817069e916842d416a83dfeb722e",
+      "chain": "base",
+      "pagination": {
+        "page": 1,
+        "per_page": 50
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 50,
+        "is_last_page": true
+      },
+      "data": []
+    },
+    "recordedAt": 1790161486787
+  },
+  {
+    "requestHash": "0bbbbacca6d6ab69e969eb084a36f22ba8747378",
+    "request": {
+      "address": "0x2b0c6a06f41be5db6579c3efcae54f0aa7600126",
+      "chain": "base",
+      "pagination": {
+        "page": 1,
+        "per_page": 50
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 50,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0x4200000000000000000000000000000000000010",
+          "address_label": "Optimism: L2 Standard Bridge [0x420000]",
+          "relation": "First Funder",
+          "transaction_hash": "0x38ff2aafbebc8cb06ae6152293ac1aa41725bd009e82bf8d1039e4fc9dfb9219",
+          "block_timestamp": "2026-09-06T18:12:31Z",
+          "order": 1,
+          "chain": "base"
+        }
+      ]
+    },
+    "recordedAt": 1790161486847
+  },
+  {
+    "requestHash": "7becb89f42d6259c9fa4dbcc11a86e861edde5d9",
+    "request": {
+      "address": "0xf8946fdcb70d342d4962484cc94888d27bbf1199",
+      "chain": "base",
+      "pagination": {
+        "page": 1,
+        "per_page": 50
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 50,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0x20fe51a9229eef2cf8ad9e89d91cab9312cf3b7a",
+          "address_label": "🏦 Coinbase: Main Wallet [0x20fe51]",
+          "relation": "First Funder",
+          "transaction_hash": "0x7adbede4024f6a5aa75ce5e729dd530a02067613b0556d00f3fc6de4df513da2",
+          "block_timestamp": "2026-05-14T19:54:45Z",
+          "order": 1,
+          "chain": "base"
+        }
+      ]
+    },
+    "recordedAt": 1790161486983
+  },
+  {
+    "requestHash": "0fb0336ddd33fb681862a584c1db8b2aaa1daebb",
+    "request": {
+      "address": "0x929eeaf888a5a33addcc324804d1cfd9b3888a2c",
+      "chain": "base",
+      "pagination": {
+        "page": 1,
+        "per_page": 50
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 50,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0xbefa750ed568cc84970eb4fd506af4ff599c42d0",
+          "address_label": "​​🏦 Kraken [0xbefa75]",
+          "relation": "First Funder",
+          "transaction_hash": "0x473fd92b92e42af591c6adfbc51bd5ed1308cf564335e534bd9c615fedcf6104",
+          "block_timestamp": "2026-06-18T15:58:31Z",
+          "order": 1,
+          "chain": "base"
+        }
+      ]
+    },
+    "recordedAt": 1790161487076
   }
 ]

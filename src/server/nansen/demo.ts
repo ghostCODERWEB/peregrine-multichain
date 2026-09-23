@@ -67,13 +67,58 @@ export function recordFixture(endpoint: string, request: unknown, response: unkn
 export function replayFixture<T>(endpoint: string, request: unknown): T {
   const hash = requestHash(request);
   const entries = readFixtureFile(endpoint);
-  const hit = entries.find((e) => e.requestHash === hash);
+  const hit = entries.find((e) => e.requestHash === hash) ?? sameButForDate(entries, request);
   if (!hit) throw new FixtureMiss(endpoint, hash);
   return hit.response as T;
+}
+
+/** A dated request recorded on another day: same body apart from its
+ *  `date` window. Replays the newest such recording — it is still a real
+ *  Nansen response for that token, just for the window it was recorded. */
+function sameButForDate(entries: FixtureEntry[], request: unknown): FixtureEntry | undefined {
+  if (!request || typeof request !== 'object' || !('date' in request)) return undefined;
+  const strip = (b: unknown) => JSON.stringify({ ...(b as Record<string, unknown>), date: null });
+  const want = strip(request);
+  return entries
+    .filter((e) => e.request && typeof e.request === 'object' && strip(e.request) === want)
+    .sort((a, b) => b.recordedAt - a.recordedAt)[0];
 }
 
 export type FixtureMode = 'record' | 'replay';
 
 export function fixtureMode(): FixtureMode {
   return process.env.DEMO_MODE === '1' ? 'replay' : 'record';
+}
+
+let demoClock: number | null = null;
+
+/**
+ * "Now" for building request bodies that carry dates (OHLCV windows,
+ * who-bought-sold ranges). Live, it's the wall clock. In DEMO_MODE it's
+ * the newest fixture's recording time, so a replay rebuilds exactly the
+ * bodies that were recorded — a date that moved on would hash to a
+ * request nobody recorded.
+ */
+export function requestNow(): number {
+  if (fixtureMode() !== 'replay') return Date.now();
+  if (demoClock != null) return demoClock;
+  let newest = 0;
+  if (fs.existsSync(FIXTURES_DIR)) {
+    for (const f of fs.readdirSync(FIXTURES_DIR)) {
+      if (!f.endsWith('.json')) continue;
+      try {
+        const entries = JSON.parse(fs.readFileSync(path.join(FIXTURES_DIR, f), 'utf8')) as FixtureEntry[];
+        for (const e of entries) newest = Math.max(newest, e.recordedAt ?? 0);
+      } catch { /* unreadable fixture file: skip it */ }
+    }
+  }
+  demoClock = newest || Date.now();
+  return demoClock;
+}
+
+/** YYYY-MM-DD, `daysAgo` before requestNow(). Day granularity keeps
+ *  request bodies stable across a day, which is what makes both the
+ *  response cache and the demo fixtures hit. */
+export function requestDay(daysAgo: number): string {
+  return new Date(requestNow() - daysAgo * 86_400_000).toISOString().slice(0, 10);
 }
