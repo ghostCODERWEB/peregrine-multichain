@@ -18,7 +18,7 @@ async function once() {
   const s = await runScan();
   const stamp = new Date().toISOString();
   console.log(
-    `[scan ${stamp}] windows=${s.windows.join(',') || 'none due'} chains=${s.chainsScored} trades+=${s.tradesAdded} credits=${s.credits} ${s.ms}ms`,
+    `[scan ${stamp}] windows=${s.windows.join(',') || 'none due'} chains=${s.chainsScored} trades+=${s.tradesAdded} storms=${s.stormsScored} credits=${s.credits} ${s.ms}ms`,
   );
   for (const e of s.errors) console.warn(`  ! ${e}`);
 }

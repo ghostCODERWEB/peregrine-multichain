@@ -24,8 +24,10 @@ export function windTitle(w: WindWave): string {
   const buyer = [...cells].sort((a, b) => b.v - a.v)[0];
   const seller = [...cells].sort((a, b) => a.v - b.v)[0];
   if (buyer.v > 0 && seller.v < 0) return `${SEGMENT_LABEL[buyer.s]} buy ${usd(buyer.v)} while ${SEGMENT_LABEL[seller.s].toLowerCase()} sell ${usd(-seller.v)} (24h)`;
-  if (buyer.v > 0) return `Every labelled segment is net buying — led by ${SEGMENT_LABEL[buyer.s].toLowerCase()} (${usd(buyer.v, { signed: true })}, 24h)`;
-  return `Every labelled segment is net selling — led by ${SEGMENT_LABEL[seller.s].toLowerCase()} (${usd(seller.v, { signed: true })}, 24h)`;
+  const lead = buyer.v > 0 ? buyer : seller;
+  const verb = lead.v > 0 ? 'buying' : 'selling';
+  if (cells.length === 1) return `Only ${SEGMENT_LABEL[lead.s].toLowerCase()} moved in the last day: ${usd(lead.v, { signed: true })}`;
+  return `Every segment with flow is net ${verb} — led by ${SEGMENT_LABEL[lead.s].toLowerCase()} (${usd(lead.v, { signed: true })}, 24h)`;
 }
 
 const W = 440, H = 340, CX = W / 2, CY = H / 2, R0 = 30, RING = 26, GAP = 2;

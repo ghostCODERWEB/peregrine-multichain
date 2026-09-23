@@ -392,6 +392,9 @@ export interface ForensicsWave {
 }
 
 const FORENSIC_TOP = 25;
+/** profiler/address/first-funder takes an EVM address (docs). Sui/Aptos
+ *  addresses are also 0x-hex but 64 digits, so length decides. */
+const isEvmAddress = (a: string) => /^0x[0-9a-fA-F]{40}$/.test(a);
 
 export async function forensicsWave(chain: string, token: string, holders: HolderRow[]): Promise<Wave<ForensicsWave>> {
   const gap = endpointUnavailable('profilerRelatedWallets', chain, 'Insider clusters (related wallets)');
@@ -413,10 +416,12 @@ export async function forensicsWave(chain: string, token: string, holders: Holde
     await Promise.all(top.map(async (h) => {
       const self = h.address.toLowerCase();
       const [ff, rw] = await Promise.all([
-        callNansen<ProfilerAddressFirstFunderResponse>('profiler/address/first-funder', { address: h.address, chain: 'all' }).catch(() => null),
+        isEvmAddress(h.address)
+          ? callNansen<ProfilerAddressFirstFunderResponse>('profiler/address/first-funder', { address: h.address, chain: 'all' }).then((r) => { ffCalls++; return r; }).catch(() => null)
+          : Promise.resolve(null),
         callNansen<ProfilerAddressRelatedWalletsResponse>('profiler/address/related-wallets', { address: h.address, chain, pagination: { page: 1, per_page: 50 } }).catch(() => null),
       ]);
-      ffCalls++; rwCalls++;
+      rwCalls++;
       const f = ff?.data.data[0];
       if (f?.first_funder_address) {
         firstFunder.set(self, f.first_funder_address.toLowerCase());
@@ -425,8 +430,9 @@ export async function forensicsWave(chain: string, token: string, holders: Holde
       if (rw) related.set(self, rw.data.data.map((x) => x.address.toLowerCase()));
     }));
     const deployer = await deployerP;
+    const evm = top.some((h) => isEvmAddress(h.address));
     calls.push(
-      { endpoint: 'profiler/address/first-funder', body: { address: '<each of the top holders>', chain: 'all' }, credits: 1, ref: `${ffCalls} calls · cached 7 days` },
+      ...(evm ? [{ endpoint: 'profiler/address/first-funder', body: { address: '<each of the top holders>', chain: 'all' }, credits: 1, ref: `${ffCalls} calls · cached 7 days` }] : []),
       { endpoint: 'profiler/address/related-wallets', body: { address: '<each of the top holders>', chain, pagination: { page: 1, per_page: 50 } }, credits: 1, ref: `${rwCalls} calls · cached 7 days` },
     );
 
@@ -462,7 +468,8 @@ export async function forensicsWave(chain: string, token: string, holders: Holde
         calls,
         notes: [
           'First funder = who sent the wallet its first gas, resolved across chains by Nansen. A shared funder is evidence of common control, not proof.',
-          ...(missingFunders ? [`${missingFunders} holder(s) had no first funder in Nansen.`] : []),
+          ...(!evm ? ['First-funder lookups take EVM addresses only, so clusters on this chain come from related-wallets alone.']
+            : missingFunders ? [`${missingFunders} holder(s) had no first funder in Nansen.`] : []),
         ],
       },
     };

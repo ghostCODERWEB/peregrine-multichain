@@ -2,7 +2,7 @@
 // forecast strip, each with its ⓘ provenance. The home page renders it
 // server-side; /api/weather serves the same object as JSON for polling and
 // for other agents.
-import { weatherMap, rotationFronts, pressureForecast, scanStatus, type ChainWeather, type Front, type PressureForecast } from './queries';
+import { weatherMap, rotationFronts, pressureForecast, scanStatus, stormTicker, type ChainWeather, type Front, type PressureForecast, type StormTick } from './queries';
 import { cpiProvenance, frontProvenance, forecastProvenance } from './provenance';
 import type { Provenance } from '@/lib/provenance';
 
@@ -15,6 +15,7 @@ export interface WeatherBulletin {
   chains: ChainTile[];
   fronts: FrontWithProvenance[];
   forecasts: ForecastWithProvenance[];
+  storms: StormTick[];
   scan: ReturnType<typeof scanStatus>;
 }
 
@@ -33,5 +34,5 @@ export function buildBulletin(now = Date.now()): WeatherBulletin {
       const f = pressureForecast(c.chain, 24, now);
       return { ...f, provenance: forecastProvenance(f) };
     });
-  return { generatedAt: now, chains, fronts, forecasts, scan: scanStatus() };
+  return { generatedAt: now, chains, fronts, forecasts, storms: stormTicker(12, now), scan: scanStatus() };
 }

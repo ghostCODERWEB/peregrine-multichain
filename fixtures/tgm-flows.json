@@ -252,5 +252,33 @@
       ]
     },
     "recordedAt": 1790161810713
+  },
+  {
+    "requestHash": "689b35a6ca7e9e11f310d4f2ecbecc120addf545",
+    "request": {
+      "chain": "sui",
+      "token_address": "0x76a49ebaf991fa2d4cb6a352af14425d453fe2ba6802b5ed2361b227150b6689::take::TAKE",
+      "label": "whale",
+      "date": {
+        "from": "2026-09-09",
+        "to": "2026-09-24"
+      },
+      "pagination": {
+        "page": 1,
+        "per_page": 100
+      }
+    },
+    "response": {
+      "data": [],
+      "pagination": {
+        "page": 1,
+        "per_page": 100,
+        "is_last_page": true
+      },
+      "warnings": [
+        "total_inflows_dex, total_outflows_dex, total_inflows_cex and total_outflows_cex are only populated when label=exchange and are null for all other labels. For net flow per holder segment (e.g. smart money), use POST /api/v1/tgm/flow-intelligence."
+      ]
+    },
+    "recordedAt": 1790161978168
   }
 ]

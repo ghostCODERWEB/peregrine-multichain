@@ -6,6 +6,7 @@ import { FrontsList, FrontSheet, frontKey } from './FrontsPanel';
 import { PressureLegend } from './PressureLegend';
 import { ForecastStrip } from './ForecastStrip';
 import { ChainTable } from './ChainTable';
+import { StormTicker } from './StormTicker';
 import { mapHeadline, frontsHeadline } from '@/lib/insights';
 import { TimeAgo } from '@/components/TimeAgo';
 import type { WeatherBulletin } from '@/server/weather/bulletin';
@@ -67,6 +68,18 @@ export function WeatherView({ initial }: { initial: WeatherBulletin }) {
             <PressureLegend />
           </div>
         </div>
+      </section>
+
+      <section aria-labelledby="storms-title">
+        <h2 id="storms-title" className="mb-1 text-base font-semibold text-ink">
+          {data.storms[0] && (data.storms[0].band === 'warning' || data.storms[0].band === 'watch')
+            ? `Storm warnings: ${data.storms.filter((s) => s.band === 'warning' || s.band === 'watch').length} token${data.storms.filter((s) => s.band === 'warning' || s.band === 'watch').length === 1 ? '' : 's'} at elevated dump risk`
+            : 'Storm warnings: no token above Cloudy right now'}
+        </h2>
+        <p className="mb-3 text-sm text-ink-2">
+          Highest Storm Scores of the last 48 hours across all chains — concentration, insider clusters, informed selling into fresh buying, exit liquidity and sell pressure. Probabilistic, not financial advice.
+        </p>
+        <StormTicker storms={data.storms} />
       </section>
 
       <section aria-labelledby="fronts-title" className="rounded-xl border border-border bg-surface p-4">

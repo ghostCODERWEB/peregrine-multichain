@@ -252,3 +252,30 @@ export function scanStatus() {
   const trades = (db.prepare('SELECT COUNT(*) AS n FROM smart_money_trades').get() as { n: number }).n;
   return { runs, trades, last: last ?? null };
 }
+
+export interface StormTick {
+  chain: string;
+  tokenAddress: string;
+  symbol: string | null;
+  score: number;
+  band: 'clear' | 'cloudy' | 'watch' | 'warning';
+  confidence: number;
+  missing: string[];
+  source: 'page' | 'sweep';
+  computedAt: number;
+}
+
+/** The home ticker: the latest Storm Score of every token scored in the
+ *  last 48h (token page views and the scanner's sweep), highest first. */
+export function stormTicker(limit = 12, now = Date.now()): StormTick[] {
+  const rows = getDb().prepare(`
+    SELECT s.chain, s.token_address, s.symbol, s.score, s.band, s.confidence, s.missing, s.source, s.computed_at
+    FROM storm_scores s
+    JOIN (SELECT MAX(id) AS id FROM storm_scores WHERE computed_at >= ? GROUP BY chain, token_address) m ON m.id = s.id
+    ORDER BY s.score DESC LIMIT ?
+  `).all(now - 48 * 3_600_000, limit) as Array<{ chain: string; token_address: string; symbol: string | null; score: number; band: StormTick['band']; confidence: number; missing: string; source: StormTick['source']; computed_at: number }>;
+  return rows.map((r) => ({
+    chain: r.chain, tokenAddress: r.token_address, symbol: r.symbol, score: r.score, band: r.band,
+    confidence: r.confidence, missing: JSON.parse(r.missing) as string[], source: r.source, computedAt: r.computed_at,
+  }));
+}

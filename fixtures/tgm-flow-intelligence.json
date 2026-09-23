@@ -146,5 +146,151 @@
       ]
     },
     "recordedAt": 1790161810685
+  },
+  {
+    "requestHash": "7bce29725bbd5be65cab7dc54cce13dad77781f3",
+    "request": {
+      "chain": "sui",
+      "token_address": "0x76a49ebaf991fa2d4cb6a352af14425d453fe2ba6802b5ed2361b227150b6689::take::TAKE",
+      "timeframe": "1d"
+    },
+    "response": {
+      "data": [
+        {
+          "public_figure_net_flow_usd": 0,
+          "public_figure_avg_flow_usd": null,
+          "public_figure_wallet_count": 0,
+          "top_pnl_net_flow_usd": 0,
+          "top_pnl_avg_flow_usd": null,
+          "top_pnl_wallet_count": 0,
+          "whale_net_flow_usd": 0,
+          "whale_avg_flow_usd": null,
+          "whale_wallet_count": 0,
+          "smart_trader_net_flow_usd": 0,
+          "smart_trader_avg_flow_usd": null,
+          "smart_trader_wallet_count": 0,
+          "exchange_net_flow_usd": -101944.64693554796,
+          "exchange_avg_flow_usd": 3270.13713644594,
+          "exchange_wallet_count": 0,
+          "fresh_wallets_net_flow_usd": 0,
+          "fresh_wallets_avg_flow_usd": 0,
+          "fresh_wallets_wallet_count": 0
+        }
+      ],
+      "warnings": [
+        "exchange_wallet_count is always 0 (not tracked), even when exchange net flow is non-zero."
+      ]
+    },
+    "recordedAt": 1790161977118
+  },
+  {
+    "requestHash": "cdb952d61e6448d2c49b35203c8c9a0dd015449e",
+    "request": {
+      "chain": "sui",
+      "token_address": "0x76a49ebaf991fa2d4cb6a352af14425d453fe2ba6802b5ed2361b227150b6689::take::TAKE",
+      "timeframe": "6h"
+    },
+    "response": {
+      "data": [
+        {
+          "public_figure_net_flow_usd": 0,
+          "public_figure_avg_flow_usd": null,
+          "public_figure_wallet_count": 0,
+          "top_pnl_net_flow_usd": 0,
+          "top_pnl_avg_flow_usd": null,
+          "top_pnl_wallet_count": 0,
+          "whale_net_flow_usd": 0,
+          "whale_avg_flow_usd": null,
+          "whale_wallet_count": 0,
+          "smart_trader_net_flow_usd": null,
+          "smart_trader_avg_flow_usd": null,
+          "smart_trader_wallet_count": 0,
+          "exchange_net_flow_usd": -100280.2128585706,
+          "exchange_avg_flow_usd": 928.4939314791378,
+          "exchange_wallet_count": 0,
+          "fresh_wallets_net_flow_usd": null,
+          "fresh_wallets_avg_flow_usd": null,
+          "fresh_wallets_wallet_count": null
+        }
+      ],
+      "warnings": [
+        "fresh_wallets fields are null for the requested timeframe. Please select 1d or 7d.",
+        "exchange_wallet_count is always 0 (not tracked), even when exchange net flow is non-zero."
+      ]
+    },
+    "recordedAt": 1790161977299
+  },
+  {
+    "requestHash": "a770a5acda796f8b96fb4634f4a41f90974641ee",
+    "request": {
+      "chain": "sui",
+      "token_address": "0x76a49ebaf991fa2d4cb6a352af14425d453fe2ba6802b5ed2361b227150b6689::take::TAKE",
+      "timeframe": "7d"
+    },
+    "response": {
+      "data": [
+        {
+          "public_figure_net_flow_usd": 0,
+          "public_figure_avg_flow_usd": null,
+          "public_figure_wallet_count": 0,
+          "top_pnl_net_flow_usd": 0,
+          "top_pnl_avg_flow_usd": null,
+          "top_pnl_wallet_count": 0,
+          "whale_net_flow_usd": 0,
+          "whale_avg_flow_usd": null,
+          "whale_wallet_count": 0,
+          "smart_trader_net_flow_usd": 0,
+          "smart_trader_avg_flow_usd": null,
+          "smart_trader_wallet_count": 0,
+          "exchange_net_flow_usd": -90856.88057371773,
+          "exchange_avg_flow_usd": 22667.56869576189,
+          "exchange_wallet_count": 0,
+          "fresh_wallets_net_flow_usd": 0,
+          "fresh_wallets_avg_flow_usd": 0,
+          "fresh_wallets_wallet_count": 0
+        }
+      ],
+      "warnings": [
+        "exchange_wallet_count is always 0 (not tracked), even when exchange net flow is non-zero."
+      ]
+    },
+    "recordedAt": 1790161977315
+  },
+  {
+    "requestHash": "c106103527dd3ea3f9a946b9b5c95fe4f9bae4b4",
+    "request": {
+      "chain": "sui",
+      "token_address": "0x76a49ebaf991fa2d4cb6a352af14425d453fe2ba6802b5ed2361b227150b6689::take::TAKE",
+      "timeframe": "1h"
+    },
+    "response": {
+      "data": [
+        {
+          "public_figure_net_flow_usd": 0,
+          "public_figure_avg_flow_usd": null,
+          "public_figure_wallet_count": 0,
+          "top_pnl_net_flow_usd": 0,
+          "top_pnl_avg_flow_usd": null,
+          "top_pnl_wallet_count": 0,
+          "whale_net_flow_usd": 0,
+          "whale_avg_flow_usd": null,
+          "whale_wallet_count": 0,
+          "smart_trader_net_flow_usd": null,
+          "smart_trader_avg_flow_usd": null,
+          "smart_trader_wallet_count": 0,
+          "exchange_net_flow_usd": -5847.499625839811,
+          "exchange_avg_flow_usd": 851.4580265965899,
+          "exchange_wallet_count": 0,
+          "fresh_wallets_net_flow_usd": null,
+          "fresh_wallets_avg_flow_usd": null,
+          "fresh_wallets_wallet_count": null
+        }
+      ],
+      "warnings": [
+        "fresh_wallets fields are null for the requested timeframe. Please select 1d or 7d.",
+        "exchange_wallet_count is always 0 (not tracked), even when exchange net flow is non-zero."
+      ]
+    },
+    "recordedAt": 1790161977334
   }
 ]

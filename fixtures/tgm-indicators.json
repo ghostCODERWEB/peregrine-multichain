@@ -47,5 +47,47 @@
       ]
     },
     "recordedAt": 1790161057683
+  },
+  {
+    "requestHash": "118242a442b72087867be9283b826d49985be38c",
+    "request": {
+      "chain": "sui",
+      "token_address": "0x76a49ebaf991fa2d4cb6a352af14425d453fe2ba6802b5ed2361b227150b6689::take::TAKE"
+    },
+    "response": {
+      "token_address": "0x76a49ebaf991fa2d4cb6a352af14425d453fe2ba6802b5ed2361b227150b6689::take::TAKE",
+      "chain": "sui",
+      "token_info": {
+        "market_cap_usd": 68641174.8450061,
+        "market_cap_group": "lowcap",
+        "is_stablecoin": false
+      },
+      "risk_indicators": [
+        {
+          "indicator_type": "btc-reflexivity",
+          "score": "medium",
+          "signal": 0.2,
+          "signal_percentile": 30.32244287849669,
+          "last_trigger_on": "2026-09-15"
+        },
+        {
+          "indicator_type": "liquidity-risk",
+          "score": "medium",
+          "signal": 0.006091881072906792,
+          "signal_percentile": 12.788648799035517,
+          "last_trigger_on": "2026-09-23"
+        }
+      ],
+      "reward_indicators": [
+        {
+          "indicator_type": "price-momentum",
+          "score": "bearish",
+          "signal": 0.4292999877341279,
+          "signal_percentile": 99.04203089450365,
+          "last_trigger_on": "2026-09-23"
+        }
+      ]
+    },
+    "recordedAt": 1790161977771
   }
 ]

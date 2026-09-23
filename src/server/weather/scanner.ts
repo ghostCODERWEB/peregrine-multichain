@@ -19,6 +19,7 @@ import { getDb } from '@/server/nansen/db';
 import { chainPressureWindow, blendChainPressure, flowRatio, type Window, type CpiWindowResult } from '@/lib/models/cpi';
 import { classifySwap, isStablecoin } from '@/lib/models/trade-side';
 import { pressureChains, pressureSource, type PressureSource } from '@/lib/registry';
+import { stormSweep, sweepDue, type SweepCandidate } from '@/server/token/sweep';
 import type { SmartMoneyDexTrade } from '@/types/nansen/smart-money';
 
 const WINDOWS: Window[] = ['1h', '24h', '7d'];
@@ -50,7 +51,7 @@ interface ChainWindowInput {
   source: PressureSource;
 }
 
-interface ScreenerRow { chain: string; token_symbol?: string | null; volume?: number | null; netflow?: number | null }
+interface ScreenerRow { chain: string; token_address?: string | null; token_symbol?: string | null; volume?: number | null; netflow?: number | null; market_cap_usd?: number | null }
 
 function chunk<T>(items: T[], size: number): T[][] {
   const out: T[][] = [];
@@ -138,10 +139,13 @@ function sumByChain(rows: ScreenerRow[], field: 'volume' | 'netflow'): Map<strin
 
 const EMPTY = { sum: 0, count: 0 };
 
-async function gatherInputs(windows: Window[], errors: string[]): Promise<ChainWindowInput[]> {
+async function gatherInputs(windows: Window[], errors: string[]): Promise<{ inputs: ChainWindowInput[]; candidates: SweepCandidate[] }> {
   const chains = orderBySize(pressureChains());
   const smChains = chains.filter((c) => pressureSource(c) === 'smart-money');
   const inputs: ChainWindowInput[] = [];
+  // Token rows from the 24h smart-money pass, kept for the storm sweep —
+  // the scanner already paid for them.
+  const candidates: SweepCandidate[] = [];
 
   for (const w of windows) {
     // All-trader volume and netflow for every pressure chain, one call per
@@ -168,7 +172,15 @@ async function gatherInputs(windows: Window[], errors: string[]): Promise<ChainW
     const smQueried = new Set<string>();
     for (const batch of chunk(smChains, SCREENER_BATCH)) {
       try {
-        for (const [chain, acc] of sumByChain(await fetchScreener(batch, w, true), 'netflow')) smFlow.set(chain, acc);
+        const rows = await fetchScreener(batch, w, true);
+        for (const [chain, acc] of sumByChain(rows, 'netflow')) smFlow.set(chain, acc);
+        if (w === '24h') {
+          for (const r of rows) {
+            if (r.token_address && r.netflow != null) {
+              candidates.push({ chain: r.chain, tokenAddress: r.token_address, symbol: r.token_symbol ?? null, netFlowUsd: r.netflow, marketCapUsd: r.market_cap_usd ?? null });
+            }
+          }
+        }
         for (const chain of batch) smQueried.add(chain);
       } catch (e) {
         errors.push(`token-screener sm ${w} [${batch.join(',')}]: ${(e as Error).message.slice(0, 160)}`);
@@ -189,7 +201,7 @@ async function gatherInputs(windows: Window[], errors: string[]): Promise<ChainW
       inputs.push({ chain, window: w, netFlowUsd: nf.sum, volumeUsd: vol.sum, tokenCount: nf.count, source });
     }
   }
-  return inputs;
+  return { inputs, candidates };
 }
 
 /** This chain's ratios for this window strictly before `at`, within the
@@ -375,6 +387,7 @@ export interface ScanSummary {
   windows: Window[];
   chainsScored: number;
   tradesAdded: number;
+  stormsScored: number;
   credits: number;
   errors: string[];
   ms: number;
@@ -387,15 +400,16 @@ export async function runScan(): Promise<ScanSummary> {
   const errors: string[] = [];
 
   const windows = dueWindows(started);
-  const inputs = await gatherInputs(windows, errors);
+  const { inputs, candidates } = await gatherInputs(windows, errors);
   scoreAndStore(inputs, started);
   const chainsScored = storeBlended(started);
   const tradesAdded = await captureTrades(started, errors);
+  const stormsScored = candidates.length && sweepDue(started) ? await stormSweep(candidates, errors) : 0;
 
   const credits = (db.prepare('SELECT COALESCE(SUM(credits), 0) AS c FROM credit_ledger WHERE called_at >= ?').get(started) as { c: number }).c;
   const finished = Date.now();
   db.prepare('UPDATE scan_runs SET finished_at = ?, chains_scored = ?, trades_added = ?, credits = ?, error = ? WHERE id = ?')
     .run(finished, chainsScored, tradesAdded, credits, errors.length ? errors.join(' | ') : null, runId);
 
-  return { windows, chainsScored, tradesAdded, credits, errors, ms: finished - started };
+  return { windows, chainsScored, tradesAdded, stormsScored, credits, errors, ms: finished - started };
 }

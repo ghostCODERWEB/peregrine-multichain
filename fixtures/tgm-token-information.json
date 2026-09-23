@@ -36,5 +36,43 @@
       }
     },
     "recordedAt": 1790161056672
+  },
+  {
+    "requestHash": "7bce29725bbd5be65cab7dc54cce13dad77781f3",
+    "request": {
+      "chain": "sui",
+      "token_address": "0x76a49ebaf991fa2d4cb6a352af14425d453fe2ba6802b5ed2361b227150b6689::take::TAKE",
+      "timeframe": "1d"
+    },
+    "response": {
+      "data": {
+        "name": "OVERTAKE",
+        "symbol": "TAKE",
+        "contract_address": "0x76a49ebaf991fa2d4cb6a352af14425d453fe2ba6802b5ed2361b227150b6689::take::TAKE",
+        "logo": "https://coin-images.coingecko.com/coins/images/68577/small/overtake.png?1756118725",
+        "token_details": {
+          "token_deployment_date": "",
+          "website": "https://overtake.world/",
+          "x": "overtake_world",
+          "telegram": "overtake_world",
+          "market_cap_usd": 69809340.24253173,
+          "fdv_usd": 194826530.337639,
+          "circulating_supply": 352319444,
+          "total_supply": 1000000000
+        },
+        "spot_metrics": {
+          "volume_total_usd": 1261775.0502219684,
+          "buy_volume_usd": 656924.1251131647,
+          "sell_volume_usd": 604850.9251088037,
+          "total_buys": 2987,
+          "total_sells": 3771,
+          "unique_buyers": 128,
+          "unique_sellers": 304,
+          "liquidity_usd": 81263.93691263339,
+          "total_holders": 5364
+        }
+      }
+    },
+    "recordedAt": 1790161977668
   }
 ]
