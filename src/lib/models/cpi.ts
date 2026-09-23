@@ -34,9 +34,16 @@ export function flowRatio(input: WindowInput): number {
  * Robust z-score: (x - median) / (1.4826 * MAD), the constant scaling MAD
  * to be comparable to a standard deviation under normality. Robust to the
  * occasional huge whale trade that would blow out a mean/stdev z-score.
- * Returns 0 when the sample has no spread (MAD = 0) rather than dividing by
- * zero into +/-Infinity — a chain whose ratio never moves has no pressure
- * signal to report, not an extreme one.
+ *
+ * MAD is 0 whenever more than half the sample is tied — which is the
+ * normal case here, not an edge case: on a quiet window, most Tier A
+ * chains have exactly zero smart-money flow. Returning 0 there made every
+ * chain read CPI 50 on the first live scan, hiding the handful of chains
+ * that actually moved. When MAD is 0 this falls back to the mean absolute
+ * deviation scaled by sqrt(pi/2) ≈ 1.2533 (Iglewicz & Hoaglin's modified
+ * z-score), which still reflects the spread of the untied values. Only
+ * when every value is identical is there truly no spread, and then z = 0 —
+ * no pressure signal to report, not an extreme one.
  */
 export function robustZScore(x: number, sample: number[]): number {
   if (sample.length === 0) return 0;
@@ -44,8 +51,10 @@ export function robustZScore(x: number, sample: number[]): number {
   const median = percentile(sorted, 0.5);
   const deviations = sorted.map((v) => Math.abs(v - median));
   const mad = percentile([...deviations].sort((a, b) => a - b), 0.5);
-  if (mad === 0) return 0;
-  return (x - median) / (1.4826 * mad);
+  if (mad > 0) return (x - median) / (1.4826 * mad);
+  const meanAd = deviations.reduce((a, b) => a + b, 0) / deviations.length;
+  if (meanAd === 0) return 0;
+  return (x - median) / (1.2533 * meanAd);
 }
 
 function percentile(sorted: number[], p: number): number {

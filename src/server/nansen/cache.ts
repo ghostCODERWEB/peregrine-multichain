@@ -6,38 +6,43 @@
 import { getDb } from './db';
 import crypto from 'node:crypto';
 
+// Keyed by the real API path (as passed to callNansen), not the docs
+// page slug — the two differ (docs say "token-god-mode/holders", the API
+// path is "tgm/holders") and keying on the slug meant every entry
+// silently fell through to DEFAULT_TTL.
 const TTL_MS: Record<string, number> = {
-  'smart-money/netflows': 10 * 60_000,
+  'smart-money/netflow': 10 * 60_000,
   'smart-money/dex-trades': 10 * 60_000,
   'smart-money/holdings': 10 * 60_000,
   'token-screener': 5 * 60_000,
-  'token-god-mode/holders': 5 * 60_000,
-  'token-god-mode/flow-intelligence': 5 * 60_000,
-  'token-god-mode/flows': 5 * 60_000,
-  'token-god-mode/who-bought-sold': 5 * 60_000,
-  'token-god-mode/dex-trades': 5 * 60_000,
-  'token-god-mode/token-information': 60 * 60_000,
-  'token-god-mode/nansen-indicators': 6 * 60 * 60_000,
-  'token-god-mode/price-ohlcv': 5 * 60_000,
-  'token-god-mode/pnl-leaderboard': 15 * 60_000,
-  'chain-rank': 30 * 60_000,
-  'profiler/address-first-funder': 7 * 24 * 60 * 60_000,
-  'profiler/address-related-wallets': 7 * 24 * 60 * 60_000,
-  'profiler/address-current-balances': 60_000,
-  'profiler/address-pnl-and-trade-performance': 10 * 60_000,
-  'profiler/address-transactions': 5 * 60_000,
-  'profiler/address-counterparties': 60 * 60_000,
-  search: 60 * 60_000,
+  'tgm/holders': 5 * 60_000,
+  'tgm/flow-intelligence': 5 * 60_000,
+  'tgm/flows': 5 * 60_000,
+  'tgm/who-bought-sold': 5 * 60_000,
+  'tgm/dex-trades': 5 * 60_000,
+  'tgm/token-ohlcv': 5 * 60_000,
+  'tgm/token-information': 60 * 60_000,
+  'tgm/indicators': 6 * 60 * 60_000,
+  'tgm/pnl-leaderboard': 15 * 60_000,
+  'chains/chain-rank': 30 * 60_000,
+  'profiler/address/first-funder': 7 * 24 * 60 * 60_000,
+  'profiler/address/related-wallets': 7 * 24 * 60 * 60_000,
+  'profiler/address/current-balance': 60_000,
+  'profiler/address/pnl-summary': 10 * 60_000,
+  'profiler/address/transactions': 5 * 60_000,
+  'profiler/address/counterparties': 60 * 60_000,
+  'search/general': 60 * 60_000,
+  'smart-alert/list': 30_000,
 };
 
-/** Every backtesting-data/* endpoint reads a fixed point in history, so the
- *  answer for a given request is immutable once observed. */
+/** Every v1beta1 backtesting endpoint reads a fixed point in history, so
+ *  the answer for a given request is immutable once observed. */
 const FOREVER = Number.MAX_SAFE_INTEGER;
 
 const DEFAULT_TTL = 5 * 60_000;
 
 export function ttlFor(endpoint: string): number {
-  if (endpoint.startsWith('backtesting-data/')) return FOREVER;
+  if (endpoint.startsWith('v1beta1/')) return FOREVER;
   return TTL_MS[endpoint] ?? DEFAULT_TTL;
 }
 

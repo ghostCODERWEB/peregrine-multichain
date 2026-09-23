@@ -31,6 +31,18 @@ describe('robustZScore', () => {
     expect(robustZScore(0.5, [0.1, 0.1, 0.1, 0.1])).toBe(0);
   });
 
+  it('still separates movers from quiet chains when over half the sample is tied at zero', () => {
+    // Regression for the first live scan: 10 of 18 Tier A chains had
+    // exactly zero smart-money flow, making MAD = 0, and every chain read
+    // z = 0 (CPI 50). The mean-absolute-deviation fallback must still give
+    // the inflow chain a clearly positive z and the outflow chain a
+    // clearly negative one, while the zero-flow chains stay at 0.
+    const sample = [...Array(10).fill(0), 0.0006, 0.0002, 0.0001, -0.0009, -0.0001, 0.00001, -0.00003, 0.0];
+    expect(robustZScore(0.0006, sample)).toBeGreaterThan(1);
+    expect(robustZScore(-0.0009, sample)).toBeLessThan(-1);
+    expect(robustZScore(0, sample)).toBe(0);
+  });
+
   it('is near 0 for a value at the sample median', () => {
     const sample = [0.1, 0.2, 0.3, 0.4, 0.5];
     expect(Math.abs(robustZScore(0.3, sample))).toBeLessThan(0.1);

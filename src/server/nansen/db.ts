@@ -1,88 +1,141 @@
 // One SQLite database for everything TIDE persists locally: the Nansen
 // response cache, the credit ledger, and the scanner's own time series
-// (CPI inputs, smart-money DEX trades for rotation fronts). A single file
-// keeps `docker compose up` and a judge's local run simple — no separate
-// cache service to stand up.
+// (CPI inputs and blended CPI, smart-money DEX trades for rotation fronts).
+// A single file keeps `docker compose up` and a judge's local run simple —
+// no separate cache service to stand up.
 import Database from 'better-sqlite3';
 import path from 'node:path';
 import fs from 'node:fs';
 
-const DB_PATH = process.env.TIDE_DB_PATH ?? './data/tide.db';
+function dbPath(): string {
+  return path.resolve(process.cwd(), process.env.TIDE_DB_PATH ?? './data/tide.db');
+}
+
+// Ordered, append-only. user_version records how many have run, so each
+// runs exactly once per database file. Never edit a shipped migration —
+// add a new one.
+const MIGRATIONS: string[] = [
+  // 1: cache, ledger, capability probes.
+  `
+  CREATE TABLE IF NOT EXISTS response_cache (
+    cache_key   TEXT PRIMARY KEY,
+    endpoint    TEXT NOT NULL,
+    body        TEXT NOT NULL,
+    fetched_at  INTEGER NOT NULL,
+    expires_at  INTEGER NOT NULL
+  );
+  CREATE INDEX IF NOT EXISTS idx_response_cache_expires ON response_cache(expires_at);
+
+  CREATE TABLE IF NOT EXISTS credit_ledger (
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    endpoint    TEXT NOT NULL,
+    credits     INTEGER NOT NULL,
+    cache_hit   INTEGER NOT NULL DEFAULT 0,
+    called_at   INTEGER NOT NULL
+  );
+  CREATE INDEX IF NOT EXISTS idx_credit_ledger_called_at ON credit_ledger(called_at);
+
+  CREATE TABLE IF NOT EXISTS capability_probes (
+    chain      TEXT NOT NULL,
+    endpoint   TEXT NOT NULL,
+    status     TEXT NOT NULL,
+    detail     TEXT,
+    probed_at  INTEGER NOT NULL,
+    PRIMARY KEY (chain, endpoint)
+  );
+  `,
+  // 2: the scanner's time series. Drops the placeholder versions of these
+  // two tables from the first draft of migration 1 (never written to —
+  // the scanner didn't exist yet) and recreates them with the columns
+  // dedupe, drill-down and forecasting actually need.
+  `
+  DROP TABLE IF EXISTS chain_pressure_snapshots;
+  DROP TABLE IF EXISTS smart_money_trades;
+
+  -- One row per (chain, window, scan). Netflow and volume are stored raw
+  -- alongside the derived ratio and CPI, so the z-score can always be
+  -- recomputed from inputs rather than trusted as a black box.
+  CREATE TABLE chain_pressure_snapshots (
+    id                  INTEGER PRIMARY KEY AUTOINCREMENT,
+    chain               TEXT NOT NULL,
+    window              TEXT NOT NULL,        -- '1h' | '24h' | '7d'
+    net_flow_usd        REAL NOT NULL,
+    volume_usd          REAL NOT NULL,
+    ratio               REAL NOT NULL,
+    z                   REAL NOT NULL,
+    cpi                 REAL NOT NULL,
+    used_cross_section  INTEGER NOT NULL,     -- 1 if z came from peers, not this chain's own history
+    nf_source           TEXT NOT NULL,        -- 'smart-money' | 'market-flow' (registry.ts PressureSource)
+    token_count         INTEGER NOT NULL,     -- tokens summed into net_flow_usd
+    snapshot_at         INTEGER NOT NULL
+  );
+  CREATE INDEX idx_cps_chain_window_time ON chain_pressure_snapshots(chain, window, snapshot_at);
+
+  -- Blended CPI per chain per scan — the series the Holt forecast and the
+  -- barometer's 7-day trend line read.
+  CREATE TABLE chain_cpi (
+    id                   INTEGER PRIMARY KEY AUTOINCREMENT,
+    chain                TEXT NOT NULL,
+    cpi                  REAL NOT NULL,
+    any_cross_section    INTEGER NOT NULL,
+    windows              TEXT NOT NULL,       -- JSON: which windows contributed
+    snapshot_at          INTEGER NOT NULL
+  );
+  CREATE INDEX idx_chain_cpi_chain_time ON chain_cpi(chain, snapshot_at);
+
+  -- Smart-money DEX trades, classified as capital leaving risk on a chain
+  -- ('sell': risk token -> base asset) or entering it ('buy': base asset ->
+  -- risk token). Risk-to-risk and base-to-base swaps aren't stored: they
+  -- don't move capital into or out of a chain's risk assets.
+  CREATE TABLE smart_money_trades (
+    id             INTEGER PRIMARY KEY AUTOINCREMENT,
+    chain          TEXT NOT NULL,
+    tx_hash        TEXT NOT NULL,
+    wallet         TEXT NOT NULL,
+    wallet_label   TEXT,
+    side           TEXT NOT NULL,             -- 'buy' | 'sell'
+    token_address  TEXT NOT NULL,             -- the risk token entered or exited
+    token_symbol   TEXT,
+    usd_value      REAL NOT NULL,
+    traded_at      INTEGER NOT NULL,
+    captured_at    INTEGER NOT NULL,
+    UNIQUE (chain, tx_hash, wallet, token_address, side)
+  );
+  CREATE INDEX idx_smt_wallet_time ON smart_money_trades(wallet, traded_at);
+  CREATE INDEX idx_smt_chain_time ON smart_money_trades(chain, traded_at);
+
+  -- One row per scanner run, so /coverage can show the scan history and
+  -- what each run cost.
+  CREATE TABLE scan_runs (
+    id             INTEGER PRIMARY KEY AUTOINCREMENT,
+    started_at     INTEGER NOT NULL,
+    finished_at    INTEGER,
+    chains_scored  INTEGER,
+    trades_added   INTEGER,
+    credits        INTEGER,
+    error          TEXT
+  );
+  `,
+];
+
+function migrate(db: Database.Database) {
+  const current = db.pragma('user_version', { simple: true }) as number;
+  for (let i = current; i < MIGRATIONS.length; i++) {
+    db.transaction(() => {
+      db.exec(MIGRATIONS[i]);
+      db.pragma(`user_version = ${i + 1}`);
+    })();
+  }
+}
 
 function open(): Database.Database {
-  const resolved = path.resolve(process.cwd(), DB_PATH);
+  const resolved = dbPath();
   fs.mkdirSync(path.dirname(resolved), { recursive: true });
   const db = new Database(resolved);
   db.pragma('journal_mode = WAL');
-  db.pragma('foreign_keys = ON');
+  db.pragma('busy_timeout = 5000'); // the scanner and the web server share this file
   migrate(db);
   return db;
-}
-
-function migrate(db: Database.Database) {
-  db.exec(`
-    CREATE TABLE IF NOT EXISTS response_cache (
-      cache_key   TEXT PRIMARY KEY,
-      endpoint    TEXT NOT NULL,
-      body        TEXT NOT NULL,
-      fetched_at  INTEGER NOT NULL,
-      expires_at  INTEGER NOT NULL
-    );
-    CREATE INDEX IF NOT EXISTS idx_response_cache_expires ON response_cache(expires_at);
-
-    CREATE TABLE IF NOT EXISTS credit_ledger (
-      id          INTEGER PRIMARY KEY AUTOINCREMENT,
-      endpoint    TEXT NOT NULL,
-      credits     INTEGER NOT NULL,
-      cache_hit   INTEGER NOT NULL DEFAULT 0,
-      called_at   INTEGER NOT NULL
-    );
-    CREATE INDEX IF NOT EXISTS idx_credit_ledger_called_at ON credit_ledger(called_at);
-
-    -- Chain Pressure Index inputs, one row per (chain, window, snapshot).
-    -- The scanner writes these every 15 minutes; CPI's z-score needs this
-    -- chain's own trailing history, which only exists once this table has
-    -- rows, so the scanner has to start on day 1 for forecasts to work by
-    -- submission day.
-    CREATE TABLE IF NOT EXISTS chain_pressure_snapshots (
-      id             INTEGER PRIMARY KEY AUTOINCREMENT,
-      chain          TEXT NOT NULL,
-      window         TEXT NOT NULL, -- '1h' | '24h' | '7d'
-      net_flow_usd   REAL NOT NULL,
-      volume_usd     REAL NOT NULL,
-      cpi            REAL,          -- filled in once enough history exists to z-score
-      snapshot_at    INTEGER NOT NULL
-    );
-    CREATE INDEX IF NOT EXISTS idx_cps_chain_window_time
-      ON chain_pressure_snapshots(chain, window, snapshot_at);
-
-    -- Smart-money DEX trades captured for rotation-front detection: a sell
-    -- on chain A followed by a buy on chain B by the same wallet within the
-    -- front's time window.
-    CREATE TABLE IF NOT EXISTS smart_money_trades (
-      id            INTEGER PRIMARY KEY AUTOINCREMENT,
-      chain         TEXT NOT NULL,
-      wallet        TEXT NOT NULL,
-      token_address TEXT NOT NULL,
-      side          TEXT NOT NULL, -- 'buy' | 'sell'
-      usd_value     REAL NOT NULL,
-      traded_at     INTEGER NOT NULL,
-      captured_at   INTEGER NOT NULL
-    );
-    CREATE INDEX IF NOT EXISTS idx_smt_wallet_time ON smart_money_trades(wallet, traded_at);
-    CREATE INDEX IF NOT EXISTS idx_smt_chain_time ON smart_money_trades(chain, traded_at);
-
-    -- Capability probe results: one row per (chain, endpoint) telling the
-    -- registry whether that combination actually answers.
-    CREATE TABLE IF NOT EXISTS capability_probes (
-      chain      TEXT NOT NULL,
-      endpoint   TEXT NOT NULL,
-      status     TEXT NOT NULL, -- 'ok' | 'empty' | 'error'
-      detail     TEXT,
-      probed_at  INTEGER NOT NULL,
-      PRIMARY KEY (chain, endpoint)
-    );
-  `);
 }
 
 let singleton: Database.Database | null = null;

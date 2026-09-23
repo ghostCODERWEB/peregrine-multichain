@@ -12,6 +12,8 @@
     "test:watch": "vitest",
     "e2e": "playwright test",
     "scan": "tsx src/worker/scan.ts",
+    "scan:loop": "tsx src/worker/scan.ts --loop",
+    "rescore": "tsx scripts/rescore.ts",
     "build-capabilities": "tsx scripts/build-capabilities.ts",
     "probe": "tsx scripts/probe.ts",
     "assert-nansen-only": "tsx scripts/assert-nansen-only.ts",
