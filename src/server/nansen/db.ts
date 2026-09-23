@@ -153,7 +153,21 @@ const MIGRATIONS: string[] = [
   );
   CREATE INDEX idx_anchor_subject ON anchor_reports(subject, created_at);
   `,
+  // 5: small shared facts between the scanner and web processes (e.g. the
+  // last credits-remaining header either of them saw).
+  `
+  CREATE TABLE kv (key TEXT PRIMARY KEY, value TEXT NOT NULL, updated_at INTEGER NOT NULL);
+  `,
 ];
+
+export function setKv(key: string, value: string): void {
+  getDb().prepare('INSERT INTO kv (key, value, updated_at) VALUES (?, ?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = excluded.updated_at').run(key, value, Date.now());
+}
+
+export function getKv(key: string): { value: string; updatedAt: number } | null {
+  const r = getDb().prepare('SELECT value, updated_at FROM kv WHERE key = ?').get(key) as { value: string; updated_at: number } | undefined;
+  return r ? { value: r.value, updatedAt: r.updated_at } : null;
+}
 
 function migrate(db: Database.Database) {
   const current = db.pragma('user_version', { simple: true }) as number;

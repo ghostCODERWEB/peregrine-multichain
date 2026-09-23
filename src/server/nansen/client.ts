@@ -8,6 +8,7 @@ import { AsyncLocalStorage } from 'node:async_hooks';
 import { getLimiter, type NansenPlan } from './limiter';
 import { readCache, writeCache } from './cache';
 import { recordCall } from './ledger';
+import { setKv } from './db';
 import { recordFixture, replayFixture, replayLatest, fixtureMode } from './demo';
 import { AgentStreamEvent, AGENT_STREAM_DONE_SENTINEL } from '@/types/nansen/agent';
 
@@ -113,7 +114,7 @@ async function raw<T>(endpoint: string, body: unknown, method: HttpMethod): Prom
     const creditsCost = Number(res.headers.get('x-nansen-credits-cost') ?? 0);
     const creditsUsedHeader = res.headers.get('x-nansen-credits-used');
     const creditsRemainingHeader = res.headers.get('x-nansen-credits-remaining');
-    if (creditsRemainingHeader) lastCreditsRemaining = Number(creditsRemainingHeader);
+    if (creditsRemainingHeader) { lastCreditsRemaining = Number(creditsRemainingHeader); try { setKv('credits_remaining', creditsRemainingHeader); } catch { /* db busy: next call will record it */ } }
 
     if (!res.ok) {
       const text = await res.text().catch(() => '');
@@ -217,7 +218,7 @@ export async function* streamNansen(endpoint: string, body: unknown): AsyncGener
   });
   const cost = Number(res.headers.get('x-nansen-credits-cost') ?? 0);
   const remaining = res.headers.get('x-nansen-credits-remaining');
-  if (remaining) lastCreditsRemaining = Number(remaining);
+  if (remaining) { lastCreditsRemaining = Number(remaining); try { setKv('credits_remaining', remaining); } catch { /* next call */ } }
   if (!res.ok || !res.body) {
     const text = await res.text().catch(() => '');
     throw new NansenApiError(endpoint, res.status, text);
