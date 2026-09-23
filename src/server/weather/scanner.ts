@@ -86,26 +86,34 @@ function orderBySize(chains: string[]): string[] {
   return [...chains].sort((a, b) => (size.get(b) ?? -1) - (size.get(a) ?? -1));
 }
 
+/** The exact token-screener body the scanner sends — exported so the ⓘ
+ *  provenance shows the real request, not a paraphrase of it. */
+export function screenerRequestBody(chains: string[], window: Window, smartMoneyOnly: boolean) {
+  return {
+    chains,
+    timeframe: window,
+    pagination: { page: 1, per_page: PER_PAGE },
+    // Ordered by volume so that if a batch has more than PER_PAGE tokens,
+    // what gets cut is the long tail of the smallest ones.
+    order_by: [{ field: 'volume', direction: 'DESC' }],
+    // Risk assets only: stablecoin and native-token volume would swamp
+    // both sides of the ratio with flows that are cash management, not a
+    // view on the chain. Identical filters on the numerator and
+    // denominator calls, so ratio = netflow / volume divides like by like.
+    filters: {
+      include_stablecoins: false,
+      include_native_tokens: false,
+      ...(smartMoneyOnly ? { trader_type: 'sm' } : {}),
+    },
+  };
+}
+
+export const DEX_TRADES_REQUEST = { chains: ['all'], pagination: { page: 1, per_page: PER_PAGE }, order_by: [{ field: 'block_timestamp', direction: 'DESC' }] };
+
 async function fetchScreener(chains: string[], window: Window, smartMoneyOnly: boolean): Promise<ScreenerRow[]> {
   const r = await callNansen<{ data: ScreenerRow[] }>(
     'token-screener',
-    {
-      chains,
-      timeframe: window,
-      pagination: { page: 1, per_page: PER_PAGE },
-      // Ordered by volume so that if a batch has more than PER_PAGE tokens,
-      // what gets cut is the long tail of the smallest ones.
-      order_by: [{ field: 'volume', direction: 'DESC' }],
-      // Risk assets only: stablecoin and native-token volume would swamp
-      // both sides of the ratio with flows that are cash management, not
-      // a view on the chain. Identical filters on the numerator and
-      // denominator calls, so ratio = netflow / volume divides like by like.
-      filters: {
-        include_stablecoins: false,
-        include_native_tokens: false,
-        ...(smartMoneyOnly ? { trader_type: 'sm' } : {}),
-      },
-    },
+    screenerRequestBody(chains, window, smartMoneyOnly),
     { skipCache: true, record: false },
   );
   return r.data.data ?? [];

@@ -7,22 +7,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
+  --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
+  --font-heading: var(--font-geist-sans);
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
@@ -39,92 +26,194 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+
+  /* TIDE chart roles, exposed as Tailwind colors (bg-surface, text-ink-2...) */
+  --color-page: var(--surface-page);
+  --color-surface: var(--surface-1);
+  --color-raised: var(--surface-2);
+  --color-ink: var(--ink-1);
+  --color-ink-2: var(--ink-2);
+  --color-ink-muted: var(--ink-muted);
+  --color-grid: var(--grid);
+  --color-axis: var(--axis);
+  --color-mid: var(--mid);
+  --color-out-1: var(--out-1);
+  --color-out-2: var(--out-2);
+  --color-out-3: var(--out-3);
+  --color-out-4: var(--out-4);
+  --color-in-1: var(--in-1);
+  --color-in-2: var(--in-2);
+  --color-in-3: var(--in-3);
+  --color-in-4: var(--in-4);
+  --color-storm-1: var(--storm-1);
+  --color-storm-2: var(--storm-2);
+  --color-storm-3: var(--storm-3);
+  --color-storm-4: var(--storm-4);
+
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/*
+ * Two themes, each stepped for its own surface — the dark theme is its own
+ * set of ramp steps validated against the navy surface, not an automatic
+ * inversion of the light one. Every ramp below passed the dataviz ordinal
+ * validator (monotone lightness, adjacent delta L >= 0.06, light end >= 2:1
+ * on its surface) in its mode.
+ *
+ * Pressure is DIVERGING: blue arm = outflow, amber arm = inflow, a neutral
+ * gray midpoint that reads as "nothing". The amber arm was derived by
+ * matching the blue reference ramp's OKLCH lightness step for step, so an
+ * inflow and an outflow of equal magnitude carry equal visual weight.
+ * Arms are ordered from the midpoint outward (1 = mild, 4 = extreme) — in
+ * light mode extremes darken, in dark mode they lighten.
+ *
+ * Storm severity is ORDINAL magenta (cloudy -> watch -> warning -> severe),
+ * always shown with a text band label, never color alone.
+ */
+
+/* Light — "paper chart" */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --surface-page: #f4f2ec;
+  --surface-1: #fcfcfb;
+  --surface-2: #ffffff;
+  --ink-1: #0b0b0b;
+  --ink-2: #52514e;
+  --ink-muted: #6b6a66;
+  --grid: #e1e0d9;
+  --axis: #c3c2b7;
+  --mid: #e6e4df;
+
+  --out-1: #86b6ef;
+  --out-2: #3987e5;
+  --out-3: #1c5cab;
+  --out-4: #104281;
+  --in-1: #f9982f;
+  --in-2: #c26f00;
+  --in-3: #884d01;
+  --in-4: #643701;
+  --storm-1: #f46eb4;
+  --storm-2: #ca488f;
+  --storm-3: #a82571;
+  --storm-4: #820054;
+
+  /* Ink for text set INSIDE a data fill (tile labels) — picked per fill by
+     measured contrast, the one place text sits on a data color. */
+  --on-out-4: #ffffff;
+  --on-out-3: #ffffff;
+  --on-out-1: #0b0b0b;
+  --on-mid: #0b0b0b;
+  --on-in-1: #0b0b0b;
+  --on-in-3: #ffffff;
+  --on-in-4: #ffffff;
+  --on-storm-1: #0b0b0b;
+  --on-storm-2: #0b0b0b;
+  --on-storm-3: #ffffff;
+  --on-storm-4: #ffffff;
+
+  --background: var(--surface-page);
+  --foreground: var(--ink-1);
+  --card: var(--surface-1);
+  --card-foreground: var(--ink-1);
+  --popover: var(--surface-2);
+  --popover-foreground: var(--ink-1);
+  --primary: var(--ink-1);
+  --primary-foreground: var(--surface-1);
+  --secondary: #ecebe6;
+  --secondary-foreground: var(--ink-1);
+  --muted: #ecebe6;
+  --muted-foreground: var(--ink-muted);
+  --accent: #ecebe6;
+  --accent-foreground: var(--ink-1);
+  --destructive: #d03b3b;
+  --border: rgba(11, 11, 11, 0.1);
+  --input: rgba(11, 11, 11, 0.14);
+  --ring: var(--out-2);
+  --radius: 0.5rem;
 }
 
+/* Dark — navy command center (the default; see layout.tsx) */
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --surface-page: #0a1220;
+  --surface-1: #111c2e;
+  --surface-2: #17243a;
+  --ink-1: #e8edf5;
+  --ink-2: #b4bfd0;
+  --ink-muted: #8a96ab;
+  --grid: #1c2940;
+  --axis: #2a3a55;
+  --mid: #2a3447;
+
+  --out-1: #1c5cab;
+  --out-2: #3987e5;
+  --out-3: #6da7ec;
+  --out-4: #b7d3f6;
+  --in-1: #884d01;
+  --in-2: #c26f00;
+  --in-3: #e98916;
+  --in-4: #fec28f;
+  --storm-1: #a82571;
+  --storm-2: #ca488f;
+  --storm-3: #ed68ae;
+  --storm-4: #ff98ca;
+
+  --on-out-4: #0a1220;
+  --on-out-3: #0a1220;
+  --on-out-1: #e8edf5;
+  --on-mid: #e8edf5;
+  --on-in-1: #e8edf5;
+  --on-in-3: #0a1220;
+  --on-in-4: #0a1220;
+  --on-storm-1: #e8edf5;
+  --on-storm-2: #0a1220;
+  --on-storm-3: #0a1220;
+  --on-storm-4: #0a1220;
+
+  --background: var(--surface-page);
+  --foreground: var(--ink-1);
+  --card: var(--surface-1);
+  --card-foreground: var(--ink-1);
+  --popover: var(--surface-2);
+  --popover-foreground: var(--ink-1);
+  --primary: var(--ink-1);
+  --primary-foreground: var(--surface-page);
+  --secondary: #1b2940;
+  --secondary-foreground: var(--ink-1);
+  --muted: #1b2940;
+  --muted-foreground: var(--ink-muted);
+  --accent: #1b2940;
+  --accent-foreground: var(--ink-1);
+  --destructive: #e66767;
+  --border: rgba(232, 237, 245, 0.09);
+  --input: rgba(232, 237, 245, 0.14);
+  --ring: var(--out-3);
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    @apply font-sans;
+  }
   body {
     @apply bg-background text-foreground;
   }
-  html {
-    @apply font-sans;
+}
+
+/* Numbers are the instrument readouts: monospace, per the product spec.
+   Tabular so columns and tickers don't jitter as values update. */
+.num {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

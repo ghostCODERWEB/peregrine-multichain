@@ -1,0 +1,254 @@
+// Read side of the scanner: turns stored snapshots and trades into what the
+// pages show. No Nansen calls here — everything is derived from TIDE's own
+// history, which is why the map loads instantly and costs nothing to view.
+import { getDb } from '@/server/nansen/db';
+import { pressureBand, type Window } from '@/lib/models/cpi';
+import { matchWalletRotations, buildDirectedFronts, netFronts, type Trade, type RotationMatch } from '@/lib/models/rotation-fronts';
+import { holtForecast, mape } from '@/lib/models/holt-forecast';
+import { registry, ALL_CHAIN_IDS, pressureSource, unavailableReason, type PressureSource } from '@/lib/registry';
+import type { Tier } from '@/config/capability-types';
+
+export interface WindowReading {
+  window: Window;
+  netFlowUsd: number;
+  volumeUsd: number;
+  ratio: number;
+  z: number;
+  cpi: number;
+  usedCrossSection: boolean;
+  tokenCount: number;
+  snapshotAt: number;
+}
+
+export interface ChainWeather {
+  chain: string;
+  tier: Tier;
+  source: PressureSource | null;
+  cpi: number | null;
+  band: 'high' | 'neutral' | 'low' | null;
+  /** CPI change over the trailing ~6h — the "rising pressure" isobar cue. */
+  trend6h: number | null;
+  anyCrossSection: boolean;
+  windows: WindowReading[];
+  /** Blended CPI over the trailing 7 days, oldest first. */
+  series: Array<{ t: number; cpi: number }>;
+  updatedAt: number | null;
+  unavailable: string | null;
+}
+
+const DAY = 24 * 60 * 60_000;
+
+function latestWindows(chain: string): WindowReading[] {
+  const rows = getDb().prepare(`
+    SELECT s.* FROM chain_pressure_snapshots s
+    JOIN (SELECT window, MAX(id) AS id FROM chain_pressure_snapshots WHERE chain = ? GROUP BY window) m ON m.id = s.id
+    ORDER BY CASE s.window WHEN '1h' THEN 0 WHEN '24h' THEN 1 ELSE 2 END
+  `).all(chain) as Array<{
+    window: Window; net_flow_usd: number; volume_usd: number; ratio: number; z: number; cpi: number;
+    used_cross_section: number; token_count: number; snapshot_at: number;
+  }>;
+  return rows.map((r) => ({
+    window: r.window, netFlowUsd: r.net_flow_usd, volumeUsd: r.volume_usd, ratio: r.ratio, z: r.z, cpi: r.cpi,
+    usedCrossSection: r.used_cross_section === 1, tokenCount: r.token_count, snapshotAt: r.snapshot_at,
+  }));
+}
+
+function cpiSeries(chain: string, since: number): Array<{ t: number; cpi: number }> {
+  return (getDb()
+    .prepare('SELECT snapshot_at AS t, cpi FROM chain_cpi WHERE chain = ? AND snapshot_at >= ? ORDER BY snapshot_at')
+    .all(chain, since) as Array<{ t: number; cpi: number }>);
+}
+
+export function chainWeather(chain: string, now = Date.now()): ChainWeather {
+  const cap = registry.chains[chain];
+  const source = pressureSource(chain);
+  const series = source ? cpiSeries(chain, now - 7 * DAY) : [];
+  const last = series.at(-1) ?? null;
+  const latestRow = source
+    ? (getDb().prepare('SELECT any_cross_section FROM chain_cpi WHERE chain = ? ORDER BY id DESC LIMIT 1').get(chain) as { any_cross_section: number } | undefined)
+    : undefined;
+  // Only a real 6h-old reading counts: falling back to the oldest snapshot
+  // would print "+0.0 over 6h" on a chain with fifteen minutes of history.
+  const sixHoursAgo = series.filter((p) => p.t <= now - 6 * 60 * 60_000).at(-1);
+  return {
+    chain,
+    tier: cap?.tier ?? 'C',
+    source,
+    cpi: last?.cpi ?? null,
+    band: last ? pressureBand(last.cpi) : null,
+    trend6h: last && sixHoursAgo && sixHoursAgo !== last ? last.cpi - sixHoursAgo.cpi : null,
+    anyCrossSection: latestRow?.any_cross_section === 1,
+    windows: source ? latestWindows(chain) : [],
+    series,
+    updatedAt: last?.t ?? null,
+    unavailable: source ? (last ? null : 'The scanner has not produced a reading for this chain yet.') : unavailableReason(chain, 'pressure'),
+  };
+}
+
+export function weatherMap(now = Date.now()): ChainWeather[] {
+  return ALL_CHAIN_IDS.map((c) => chainWeather(c, now));
+}
+
+// ---------------------------------------------------------------------------
+// Rotation fronts
+// ---------------------------------------------------------------------------
+
+export interface FrontWallet {
+  wallet: string;
+  label: string | null;
+  soldUsd: number;
+  boughtUsd: number;
+  soldTokens: string[];
+  boughtTokens: string[];
+}
+
+export interface Front {
+  from: string;
+  to: string;
+  netUsd: number;
+  grossForward: number;
+  grossBack: number;
+  confidence: number;
+  walletCount: number;
+  inferred: boolean;
+  wallets: FrontWallet[];
+}
+
+interface TradeRow {
+  chain: string; wallet: string; wallet_label: string | null; side: 'buy' | 'sell';
+  token_symbol: string | null; usd_value: number; traded_at: number;
+}
+
+/**
+ * Fronts over the trailing `hours`, measured from stored trades: each
+ * wallet's sells on one chain matched to its later buys on another within
+ * 12h (rotation-fronts.ts), grouped into directed fronts (>= 2 wallets),
+ * then netted per chain pair. The trade query reaches 12h further back
+ * than the display window so a sell just before the window can still
+ * pair with a buy inside it.
+ */
+export function rotationFronts(hours = 24, now = Date.now()): Front[] {
+  const since = now - hours * 60 * 60_000;
+  const rows = getDb().prepare(`
+    SELECT chain, wallet, wallet_label, side, token_symbol, usd_value, traded_at
+    FROM smart_money_trades WHERE traded_at >= ? ORDER BY traded_at
+  `).all(since - 12 * 60 * 60_000) as TradeRow[];
+
+  const byWallet = new Map<string, TradeRow[]>();
+  for (const r of rows) byWallet.set(r.wallet, [...(byWallet.get(r.wallet) ?? []), r]);
+
+  const matches: RotationMatch[] = [];
+  for (const [wallet, trades] of byWallet) {
+    if (new Set(trades.map((t) => t.chain)).size < 2) continue; // one chain can't rotate
+    const asTrades: Trade[] = trades.map((t) => ({ wallet, chain: t.chain, side: t.side, usdValue: t.usd_value, timestamp: t.traded_at }));
+    for (const m of matchWalletRotations(asTrades)) if (m.buyAt >= since) matches.push(m);
+  }
+
+  const directed = buildDirectedFronts(matches);
+  const labels = new Map(rows.filter((r) => r.wallet_label).map((r) => [r.wallet, r.wallet_label]));
+
+  return netFronts(directed)
+    .filter((f) => f.netUsd !== 0)
+    .map((f) => {
+      const { from, to } = f.direction;
+      const pairMatches = matches.filter((m) => m.fromChain === from && m.toChain === to);
+      const walletIds = [...new Set(pairMatches.map((m) => m.wallet))];
+      const wallets: FrontWallet[] = walletIds.map((w) => {
+        const trades = byWallet.get(w) ?? [];
+        const sells = trades.filter((t) => t.chain === from && t.side === 'sell' && t.traded_at >= since - 12 * 60 * 60_000);
+        const buys = trades.filter((t) => t.chain === to && t.side === 'buy' && t.traded_at >= since);
+        return {
+          wallet: w,
+          label: labels.get(w) ?? null,
+          soldUsd: sells.reduce((s, t) => s + t.usd_value, 0),
+          boughtUsd: buys.reduce((s, t) => s + t.usd_value, 0),
+          soldTokens: [...new Set(sells.map((t) => t.token_symbol).filter((s): s is string => !!s))].slice(0, 5),
+          boughtTokens: [...new Set(buys.map((t) => t.token_symbol).filter((s): s is string => !!s))].slice(0, 5),
+        };
+      }).sort((a, b) => b.boughtUsd - a.boughtUsd);
+      return {
+        from, to,
+        netUsd: Math.abs(f.netUsd),
+        grossForward: from === f.chainA ? f.grossAtoB : f.grossBtoA,
+        grossBack: from === f.chainA ? f.grossBtoA : f.grossAtoB,
+        confidence: f.confidence,
+        walletCount: wallets.length,
+        inferred: f.inferred,
+        wallets,
+      };
+    })
+    .filter((f) => f.walletCount >= 2)
+    .sort((a, b) => b.netUsd - a.netUsd);
+}
+
+// ---------------------------------------------------------------------------
+// Forecast
+// ---------------------------------------------------------------------------
+
+export interface PressureForecast {
+  chain: string;
+  horizonHours: number;
+  stepMinutes: number;
+  history: Array<{ t: number; cpi: number }>;
+  points: Array<{ t: number; forecast: number; low80: number; high80: number }>;
+  alpha: number;
+  beta: number;
+  /** In-sample one-step MAPE — the forecast's own track record, shown next
+   *  to it. null when there isn't enough history to have one. */
+  mape: number | null;
+  sampleSize: number;
+  /** Too little history to forecast honestly — the UI shows this instead
+   *  of a fan built on three points. */
+  insufficient: boolean;
+}
+
+/** Fewer snapshots than this and a fitted trend is noise, not a forecast. */
+const MIN_FORECAST_HISTORY = 12;
+
+/**
+ * 24h Holt forecast of blended CPI. Steps are the scanner cadence (the
+ * median gap between snapshots), so the horizon in steps is 24h / cadence.
+ * Forecast values are clamped to CPI's own 0-100 range — a linear trend
+ * extrapolated past 100 is an artifact of the model, not a reading.
+ */
+export function pressureForecast(chain: string, horizonHours = 24, now = Date.now()): PressureForecast {
+  const history = cpiSeries(chain, now - 7 * DAY);
+  const gaps = history.slice(1).map((p, i) => p.t - history[i].t).sort((a, b) => a - b);
+  const stepMs = gaps.length ? gaps[Math.floor(gaps.length / 2)] : 30 * 60_000;
+  const base = {
+    chain, horizonHours, stepMinutes: Math.round(stepMs / 60_000), history,
+    sampleSize: history.length,
+  };
+  if (history.length < MIN_FORECAST_HISTORY) {
+    return { ...base, points: [], alpha: 0, beta: 0, mape: null, insufficient: true };
+  }
+  const values = history.map((p) => p.cpi);
+  const steps = Math.max(1, Math.round((horizonHours * 60 * 60_000) / stepMs));
+  const { fit, points } = holtForecast(values, steps);
+  const clamp = (v: number) => Math.min(100, Math.max(0, v));
+  const lastT = history.at(-1)!.t;
+  return {
+    ...base,
+    points: points.map((p) => ({
+      t: lastT + p.step * stepMs, forecast: clamp(p.forecast), low80: clamp(p.low80), high80: clamp(p.high80),
+    })),
+    alpha: fit.alpha,
+    beta: fit.beta,
+    mape: mape(values, fit.fitted),
+    insufficient: false,
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Scan status
+// ---------------------------------------------------------------------------
+
+export function scanStatus() {
+  const db = getDb();
+  const last = db.prepare('SELECT * FROM scan_runs WHERE finished_at IS NOT NULL ORDER BY id DESC LIMIT 1').get() as
+    | { started_at: number; finished_at: number; chains_scored: number; trades_added: number; credits: number; error: string | null }
+    | undefined;
+  const runs = (db.prepare('SELECT COUNT(*) AS n FROM scan_runs WHERE finished_at IS NOT NULL').get() as { n: number }).n;
+  const trades = (db.prepare('SELECT COUNT(*) AS n FROM smart_money_trades').get() as { n: number }).n;
+  return { runs, trades, last: last ?? null };
+}
