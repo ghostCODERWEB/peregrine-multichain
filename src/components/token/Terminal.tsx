@@ -8,6 +8,7 @@ import { TxDrawer, type TxRef } from './TxDrawer';
 import { COHORT_NAMES } from '@/lib/models/terminal';
 import type { TapeWave, RiverWave, SocialWave, DcaWave, PositionsWave, PnlBoardWave } from '@/server/token/terminal';
 import type { NewsItem } from '@/server/token/ondemand';
+import type { AuthorWeek } from '@/lib/models/author-week';
 import { usd, pct, num, amount, walletName } from '@/lib/viz/format';
 
 const dot = (side: 'buy' | 'sell') => <span className="inline-block h-2 w-2 shrink-0 rounded-full" style={{ background: side === 'buy' ? 'var(--in-3)' : 'var(--out-3)' }} aria-hidden />;
@@ -61,7 +62,8 @@ export const riverTitle = (r: RiverWave) => r.anomalies.length
 
 export function TransferRiver({ r, chain }: { r: RiverWave; chain: string }) {
   const [open, setOpen] = useState<TxRef | null>(null);
-  const max = Math.max(1, ...r.largest.map((x) => x.valueUsd ?? 0));
+  // One scale for anomalies and the rest: anomalies can dwarf every other row.
+  const max = Math.max(1, ...[...r.anomalies, ...r.largest].map((x) => x.valueUsd ?? 0));
   const row = (x: RiverWave['largest'][number], i: number) => (
     <li key={`${x.hash}:${i}`}>
       <button type="button" onClick={() => setOpen({ chain, hash: x.hash, at: x.at })} className="w-full rounded px-1 py-1 text-left hover:bg-accent/60 focus:bg-accent/60 focus:outline-none">
@@ -70,7 +72,7 @@ export function TransferRiver({ r, chain }: { r: RiverWave; chain: string }) {
           <span className="num shrink-0 text-ink">{usd(x.valueUsd)}</span>
         </span>
         <span className="mt-0.5 block h-1.5 rounded-full bg-accent" aria-hidden>
-          <span className="block h-1.5 rounded-full" style={{ width: `${Math.max(2, Math.sqrt((x.valueUsd ?? 0) / max) * 100)}%`, background: x.anomalyZ != null ? 'var(--storm-3, var(--out-3))' : 'var(--ink-2)' }} />
+          <span className="block h-1.5 rounded-full" style={{ width: `${Math.min(100, Math.max(2, Math.sqrt((x.valueUsd ?? 0) / max) * 100))}%`, background: x.anomalyZ != null ? 'var(--storm-3, var(--out-3))' : 'var(--ink-2)' }} />
         </span>
         {x.anomalyZ != null && (
           <span className="mt-0.5 block text-[11px] text-ink-muted">
@@ -111,17 +113,43 @@ export function SocialPulse({ s }: { s: SocialWave }) {
       </div>
       <div className="mt-1 flex justify-between text-[10.5px] text-ink-muted"><span>{s.heat.byDay[0]?.day.slice(5)}</span><span>posts per day</span><span>{s.heat.byDay.at(-1)?.day.slice(5)}</span></div>
       <ul className="mt-3 space-y-2">
-        {s.top.map((p) => (
+        {s.top.map((p, i) => (
           <li key={`${p.username}:${p.at}`} className="text-[12px]">
             <div className="flex justify-between gap-2 text-ink-muted">
               <span className="truncate">@{p.username} · <TimeAgo ts={Date.parse(p.at)} /></span>
               <span className="num shrink-0">{(p.views ?? 0).toLocaleString('en-US')} views · {p.likes ?? 0} likes</span>
             </div>
             <p className="line-clamp-2 text-ink-2">{p.text}</p>
-            {p.id && <a href={`https://x.com/${encodeURIComponent(p.username)}/status/${encodeURIComponent(p.id)}`} target="_blank" rel="noopener noreferrer nofollow" className="text-[11px] text-ink-muted hover:text-ink hover:underline">open post ↗</a>}
+            <div className="flex flex-wrap gap-x-3">
+              {p.id && <a href={`https://x.com/${encodeURIComponent(p.username)}/status/${encodeURIComponent(p.id)}`} target="_blank" rel="noopener noreferrer nofollow" className="text-[11px] text-ink-muted hover:text-ink hover:underline">open post ↗</a>}
+              {s.top.findIndex((q) => q.username === p.username) === i && <AuthorWeekButton username={p.username} symbol={s.symbol} />}
+            </div>
           </li>
         ))}
       </ul>
+    </div>
+  );
+}
+
+type AuthorState = { k: 'idle' } | { k: 'loading' } | { k: 'ok'; w: AuthorWeek } | { k: 'error'; text: string };
+
+/** On demand: the account's week from Nansen (5 credits, cached an hour). */
+function AuthorWeekButton({ username, symbol }: { username: string; symbol: string }) {
+  const [st, setSt] = useState<AuthorState>({ k: 'idle' });
+  async function load() {
+    setSt({ k: 'loading' });
+    const d = (await fetch(`/api/token/author?${new URLSearchParams({ username, symbol })}`).then((r) => r.json()).catch(() => ({ unavailable: 'Network error.' }))) as Partial<AuthorWeek> & { unavailable?: string; error?: string };
+    setSt(d.posts != null ? { k: 'ok', w: d as AuthorWeek } : { k: 'error', text: d.unavailable ?? d.error ?? 'No posts.' });
+  }
+  if (st.k === 'idle') return <button type="button" onClick={load} className="text-[11px] text-ink-muted hover:text-ink hover:underline">@{username}&apos;s week · 5 credits</button>;
+  if (st.k === 'loading') return <span className="animate-pulse text-[11px] text-ink-muted">Reading @{username}…</span>;
+  if (st.k === 'error') return <span className="text-[11px] text-ink-2">{st.text}</span>;
+  const w = st.w;
+  return (
+    <div className="mt-1 w-full rounded-md bg-accent/40 px-2 py-1.5 text-[11.5px] text-ink-2">
+      <p className="text-ink">@{w.username}: {w.posts} posts in 7 days · {w.views.toLocaleString('en-US')} views · {w.likes.toLocaleString('en-US')} likes</p>
+      <p>{w.mentionShare == null ? '' : `${Math.round(w.mentionShare * 100)}% mention ${symbol}. `}{w.distinctTags ? `${w.distinctTags} different cashtags this week${w.distinctTags >= 10 ? ', which reads like a promoter account' : ''}:` : 'No cashtags this week.'}</p>
+      {w.tags.length > 0 && <p className="num break-words text-ink-muted">{w.tags.map((t) => `$${t.tag}${t.posts > 1 ? ` ×${t.posts}` : ''}`).join('  ')}</p>}
     </div>
   );
 }

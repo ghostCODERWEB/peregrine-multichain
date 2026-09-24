@@ -2,7 +2,8 @@ import { validated } from '@/server/portfolio/portfolio';
 import { requestDay } from '@/server/nansen/demo';
 import { contractUnavailable } from '@/server/nansen/support';
 import { isEvm } from './wallet-page';
-import { callNansenPoints } from '@/server/nansen/client';
+import { callNansenPoints, callNansenPointsPage, POINTS_PAGE_SIZE } from '@/server/nansen/client';
+import { findStanding } from '@/lib/models/points-standing';
 import { detectAddress } from '@/lib/address-family';
 import {
   S_ProfilerAddressPnlResponse, S_ProfilerDexTradeResponse, S_PortfolioDefiHoldingsResponse,
@@ -26,7 +27,20 @@ export async function walletDesk(address: string, chain: string, section: DeskSe
     const r = await callNansenPoints(address);
     calls.push({ endpoint: 'GET app.nansen.ai/api/points-leaderboard/{address}', body: { address }, credits: 0 });
     notes.push('Tier information is public and opt-in. The none tier can mean unlinked, ineligible or fewer than 1,000 points; it is not proof of no account. Cached for one day.');
-    return result('Nansen Points tier', 'Public permissionless rewards lookup; no API key or credits required.', [{ title: 'Rewards', columns: ['Tier'], rows: [[r.tier]] }]);
+    const tables: DeskTable[] = [{ title: 'Rewards', columns: ['Tier', 'Points'], rows: [[r.tier, r.points]] }];
+    const standing = r.points != null && r.points > 0 ? await findStanding(r.points, POINTS_PAGE_SIZE, callNansenPointsPage).catch((e: Error) => { notes.push(`Leaderboard standing unavailable: ${e.message}`); return null; }) : null;
+    if (standing) {
+      const s = standing;
+      calls.push({ endpoint: 'GET app.nansen.ai/api/points-leaderboard/api', body: { isEligible: 'all', recordsPerPage: POINTS_PAGE_SIZE, pagesRead: s.pagesRead }, credits: 0 });
+      notes.push(`Rank found by bisection over the public leaderboard (${s.pagesRead} pages of ${POINTS_PAGE_SIZE.toLocaleString('en-US')}, cached 12 hours); equal totals share a rank. The leaderboard API cannot return its first ${POINTS_PAGE_SIZE.toLocaleString('en-US')} ranks, so a wallet above rank ${POINTS_PAGE_SIZE.toLocaleString('en-US')} shows as "top ${POINTS_PAGE_SIZE.toLocaleString('en-US')}".`);
+      if (!s.exact && s.rank != null) notes.push('The leaderboard had no row with exactly this total (it can lag the tier lookup); the rank shown is where the total would sit.');
+      tables.push({ title: 'Leaderboard standing', columns: ['Rank', 'Top', 'Wallets ranked', 'Eligible from'], rows: [[
+        s.rank == null ? `top ${POINTS_PAGE_SIZE.toLocaleString('en-US')}` : `${s.exact ? '' : '≈'}#${s.rank.toLocaleString('en-US')}`,
+        s.topPct == null ? `< ${((POINTS_PAGE_SIZE / s.total) * 100).toFixed(2)}%` : `${s.topPct.toFixed(s.topPct < 1 ? 2 : 1)}%`,
+        s.total, s.eligibleFrom == null ? null : `${s.eligibleFrom.toLocaleString('en-US')} points`,
+      ]] });
+    }
+    return result('Nansen Points', 'Public permissionless rewards lookup and leaderboard; no API key or credits required.', tables);
   }
   if (section === 'pnl') {
     const gap = contractUnavailable('POST /api/v1/profiler/address/pnl', chain, 'Token PnL');

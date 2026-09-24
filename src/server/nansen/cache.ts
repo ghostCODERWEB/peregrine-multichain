@@ -12,6 +12,7 @@ import crypto from 'node:crypto';
 // silently fell through to DEFAULT_TTL.
 const TTL_MS: Record<string, number> = {
   'points/tier': 24 * 60 * 60_000,
+  'points/leaderboard': 12 * 60 * 60_000,
   'smart-money/netflow': 10 * 60_000,
   'smart-money/dex-trades': 10 * 60_000,
   'smart-money/holdings': 10 * 60_000,
@@ -58,6 +59,7 @@ const TTL_MS: Record<string, number> = {
   'search/web-search': 6 * 60 * 60_000,
   'search/web-fetch': 24 * 60 * 60_000,
   'ra-agent/posts-by-token': 30 * 60_000,
+  'ra-agent/posts-by-user': 60 * 60_000,
   'tgm/transfers': 5 * 60_000,
   'tgm/jup-dca': 10 * 60_000,
   'tgm/position-intelligence': 10 * 60_000,

@@ -17,23 +17,50 @@ const HOST = 'https://api.nansen.ai/api';
 
 /** Nansen's public rewards API is keyless. Keep it in the same data layer
  * with a bounded URL, cache, demo replay and ledger; never attach API keys. */
-export async function callNansenPoints(address: string): Promise<{ tier: string }> {
+export async function callNansenPoints(address: string): Promise<{ tier: string; points: number | null }> {
   if (!/^[A-Za-z0-9]{20,100}$/.test(address)) throw new Error('Points require an EVM or Solana wallet address.');
   const endpoint = 'points/tier', body = { address };
-  const cached = readCache<{ tier: string }>(endpoint, body);
+  const cached = readCache<{ tier: string; points?: number | null }>(endpoint, body);
   const tally = callScope.getStore();
   if (tally) tally.calls++;
-  if (cached) { if (tally) tally.cached++; return cached.value; }
-  if (fixtureMode() === 'replay') { if (tally) tally.cached++; return replayFixture<{ tier: string }>(endpoint, body); }
+  if (cached) { if (tally) tally.cached++; return { points: null, ...cached.value }; }
+  if (fixtureMode() === 'replay') { if (tally) tally.cached++; return { points: null, ...replayFixture<{ tier: string; points?: number | null }>(endpoint, body) }; }
   await getLimiter(plan()).acquire();
   const response = await fetch(`https://app.nansen.ai/api/points-leaderboard/${encodeURIComponent(address)}`, { signal: AbortSignal.timeout(15_000), cache: 'no-store' });
   if (!response.ok) throw new Error(`Nansen rewards lookup returned ${response.status}.`);
   const data: unknown = await response.json();
-  const parsed = z.object({ tier: z.string().transform((s) => s.toLowerCase()).pipe(z.enum(['none', 'green', 'ice', 'north', 'star'])) }).safeParse(data);
+  const parsed = z.object({ tier: z.string().transform((s) => s.toLowerCase()).pipe(z.enum(['none', 'green', 'ice', 'north', 'star'])), points: z.number().finite().nonnegative().nullish() }).safeParse(data);
   if (!parsed.success) throw new Error('Nansen rewards response could not be read.');
-  const result = parsed.data;
+  const result = { tier: parsed.data.tier, points: parsed.data.points ?? null };
   writeCache(endpoint, body, result);
   if (!(await currentCaller()).userId) recordFixture(endpoint, body, result);
+  recordCall(endpoint, 0, false);
+  return result;
+}
+
+export interface PointsPage { total: number; rows: Array<{ points: number; rank: number; tier: string; eligible: boolean }> }
+export const POINTS_PAGE_SIZE = 1000;
+const S_PointsPage = z.object({ total: z.number().int().nonnegative(), results: z.array(z.object({ points: z.number().finite(), rank: z.number().int().positive(), tier: z.string().max(40), is_eligible: z.boolean() })) });
+
+/** One page of Nansen's public, keyless points leaderboard. Its offset is
+ * page × recordsPerPage, so page 1 starts at rank 1,001 and the top 1,000 can't
+ * be read (page 0 is refused). Wallet addresses are dropped before caching. */
+export async function callNansenPointsPage(page: number): Promise<PointsPage> {
+  if (!Number.isInteger(page) || page < 1 || page > 10_000) throw new Error('Leaderboard page out of range.');
+  const endpoint = 'points/leaderboard', body = { page, per: POINTS_PAGE_SIZE };
+  const cached = readCache<PointsPage>(endpoint, body);
+  const tally = callScope.getStore();
+  if (tally) tally.calls++;
+  if (cached) { if (tally) tally.cached++; return cached.value; }
+  if (fixtureMode() === 'replay') { if (tally) tally.cached++; return replayFixture<PointsPage>(endpoint, body); }
+  await getLimiter(plan()).acquire();
+  const response = await fetch(`https://app.nansen.ai/api/points-leaderboard/api?isEligible=all&page=${page}&recordsPerPage=${POINTS_PAGE_SIZE}`, { signal: AbortSignal.timeout(15_000), cache: 'no-store' });
+  if (!response.ok) throw new Error(`Nansen points leaderboard returned ${response.status}.`);
+  const parsed = S_PointsPage.safeParse(await response.json());
+  if (!parsed.success) throw new Error('Nansen points leaderboard could not be read.');
+  const result: PointsPage = { total: parsed.data.total, rows: parsed.data.results.map((r) => ({ points: r.points, rank: r.rank, tier: r.tier, eligible: r.is_eligible })) };
+  // Not recorded as a fixture: ~130 KB a page, and the demo doesn't need it.
+  writeCache(endpoint, body, result);
   recordCall(endpoint, 0, false);
   return result;
 }

@@ -9,7 +9,7 @@ const SECTIONS: Array<{ id: DeskSection; label: string; credits: string }> = [
   { id: 'pnl', label: 'Token PnL', credits: '1' }, { id: 'dex', label: 'DEX trades', credits: '1' },
   { id: 'history', label: 'Balance history', credits: 'up to 5' }, { id: 'defi', label: 'DeFi', credits: '1' },
   { id: 'perps', label: 'Hyperliquid', credits: 'up to 7' }, { id: 'prediction', label: 'Prediction markets', credits: '2' },
-  { id: 'points', label: 'Points tier', credits: '0' },
+  { id: 'points', label: 'Points & rank', credits: '0' },
 ];
 type Result = DeskData & { tally: { credits: number; calls: number; cached: number } };
 

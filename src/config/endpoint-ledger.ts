@@ -142,7 +142,7 @@ export interface ExtraEndpoint extends LedgerEntry { credits: number | null; not
 export const EXTRA_ENDPOINTS: ExtraEndpoint[] = [
   { key: 'GET /api/v1/account', class: 'account', credits: 0, usedBy: ['coverage'], notes: 'credit balance and plan in the header; free, API key only. Live: {user_id, plan, credits_remaining}' },
   { key: 'POST /api/v1/ra-agent/posts-by-token', class: 'attribution', credits: 5, usedBy: ['M2'], notes: 'body {date, token_symbol, pagination, order_by} → {data: [{username, timestamp, text, likes, views, tweet_id}]}; token social pulse and the social-heat Storm candidate' },
-  { key: 'POST /api/v1/ra-agent/posts-by-user', class: 'attribution', credits: 5, planned: 'M2', notes: 'social posts by an account; shape to be probed live' },
+  { key: 'POST /api/v1/ra-agent/posts-by-user', class: 'attribution', credits: 5, usedBy: ['M2'], notes: 'token terminal: an author\'s week on click (reach, cashtag breadth); body {date, username, pagination}; cached an hour' },
   { key: 'POST /api/v1/search/web-search', class: 'attribution', credits: 5, usedBy: ['M2'], notes: 'body {queries: string[], num_results} → {results: [{query, organic: [{title, link, snippet, date}]}]}; token news on click, 15 requests/minute' },
   { key: 'POST /api/v1/search/web-fetch', class: 'attribution', credits: 20, usedBy: ['M2'], notes: 'body {urls: string[], question} → {analysis, retrieved_urls, failed_urls}; article summary on click, owner and members only, hourly cap' },
   { key: 'GET /api/v1/perp/builder-fee', class: 'account', credits: 1, usedBy: ['M8'], notes: 'Hyperliquid builder-fee status (1 credit): {approved, max_fee_rate, required_fee (tenths of a bp), builder_address}' },
@@ -160,7 +160,7 @@ export const EXTRA_ENDPOINTS: ExtraEndpoint[] = [
   { key: 'POST /api/v1/perp/transfer', class: 'account', credits: 0, planned: 'M8', notes: 'move USDC between spot and perps' },
   { key: 'POST /api/v1/perp/bridge/execute', class: 'account', credits: 0, planned: 'M8', notes: 'submit a signed withdrawal' },
   { key: 'GET /api/v1/perp/bridge/status', class: 'account', credits: 0, planned: 'M8', notes: 'deposit and withdrawal status' },
-  { key: 'GET app.nansen.ai/api/points-leaderboard/api', class: 'free', credits: null, planned: 'M3', notes: 'public, keyless points leaderboard' },
+  { key: 'GET app.nansen.ai/api/points-leaderboard/api', class: 'free', credits: null, usedBy: ['M3'], notes: 'wallet desk: rank, percentile and eligibility floor by bisection (addresses dropped, cached 12 h); offset is page × recordsPerPage, so the top page is unreadable' },
   { key: 'GET app.nansen.ai/api/points-leaderboard/{address}', class: 'free', credits: null, usedBy: ['M3'], notes: 'public, keyless tier lookup; wallet desk points tier' },
 ];
 

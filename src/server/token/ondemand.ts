@@ -7,7 +7,9 @@ import { callNansen } from '@/server/nansen/client';
 import { callsSince } from '@/server/nansen/ledger';
 import { errText, type Wave } from '@/server/nansen/traced';
 import { contractUnavailable } from '@/server/nansen/support';
-import { S_WebSearchResponse, S_WebFetchResponse } from '@/types/nansen/extra';
+import { S_WebSearchResponse, S_WebFetchResponse, S_RaPostsResponse } from '@/types/nansen/extra';
+import { authorWeek, type AuthorWeek } from '@/lib/models/author-week';
+import { requestDay } from '@/server/nansen/demo';
 import type { TransactionLookupResponse } from '@/types/nansen/api.gen';
 
 // ------------------------------------------------------------ transaction
@@ -70,6 +72,26 @@ export async function newsSearch(name: string | null, symbol: string | null): Pr
     }).slice(0, 8);
     if (!items.length) return { unavailable: `Nansen’s web search found nothing for “${query}”.` };
     return { query, items };
+  } catch (e) {
+    return { unavailable: errText(e) };
+  }
+}
+
+export const HANDLE = /^[A-Za-z0-9_]{1,15}$/;
+
+/** On demand: one author's week (ra-agent/posts-by-user, 5 credits, cached an
+ *  hour): reach, and how many other tokens the same account pushed. */
+export async function authorPosts(username: string, symbol: string | null): Promise<Wave<AuthorWeek>> {
+  if (!HANDLE.test(username)) return { unavailable: 'Not a valid X handle.' };
+  const body = { date: { from: requestDay(7), to: requestDay(0) }, username, pagination: { page: 1, per_page: 100 } };
+  try {
+    const r = await callNansen<unknown>('ra-agent/posts-by-user', body);
+    const parsed = S_RaPostsResponse.safeParse(r.data);
+    if (!parsed.success) return { unavailable: 'Nansen’s social posts answered in an unexpected shape.' };
+    const posts = parsed.data.data.filter((p) => p.username?.toLowerCase() === username.toLowerCase())
+      .map((p) => ({ at: p.timestamp, text: p.text ?? '', views: p.views ?? null, likes: p.likes ?? null, id: p.tweet_id ?? null }));
+    if (!posts.length) return { unavailable: `Nansen has no posts by @${username} in the last 7 days.` };
+    return authorWeek(username, symbol, posts);
   } catch (e) {
     return { unavailable: errText(e) };
   }
