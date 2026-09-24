@@ -48,7 +48,7 @@ export const LEDGER: LedgerEntry[] = [
   e('POST /api/v1/profiler/perp-pnl-summary', 'free', { usedBy: ['M3'], note: 'wallet desk perps' }),
   e('POST /api/v1/profiler/perp-positions', 'free', { usedBy: ['M3'], note: 'wallet desk perps' }),
   e('POST /api/v1/profiler/perp-trades', 'free', { usedBy: ['M3'], note: 'wallet desk perps' }),
-  e('POST /api/v1/smart-money/perp-trades', 'prohibited', { planned: 'M5' }),
+  e('POST /api/v1/smart-money/perp-trades', 'prohibited', { usedBy: ['M4'], note: 'desk perp tilt, private only; M5 reuses it' }),
   // Portfolio
   e('POST /api/v1/portfolio/defi-holdings', 'free', { usedBy: ['M3'], note: 'balance-type data; account-tied (no x402); wallet desk DeFi positions' }),
   // Prediction markets
@@ -83,12 +83,12 @@ export const LEDGER: LedgerEntry[] = [
   e('GET /api/v1/smart-alert/list', 'account', { usedBy: ['alerts'] }),
   e('PATCH /api/v1/smart-alert/toggle', 'account', { usedBy: ['alerts'] }),
   // Smart money
-  e('POST /api/v1/smart-money/dcas', 'prohibited', { planned: 'M4' }),
+  e('POST /api/v1/smart-money/dcas', 'prohibited', { usedBy: ['M4'], note: 'smart-money desk, private only' }),
   e('POST /api/v1/smart-money/dex-trades', 'prohibited', { usedBy: ['weather', 'chain', 'wallet'], note: 'rotation fronts, trade tape, migration trail: private mode only' }),
-  e('POST /api/v1/smart-money/historical-holdings', 'prohibited', { planned: 'M4' }),
-  e('POST /api/v1/smart-money/holdings', 'prohibited', { planned: 'M4' }),
+  e('POST /api/v1/smart-money/historical-holdings', 'prohibited', { usedBy: ['M4'], note: '1 credit per token, 30 daily rows; desk history on click, private only' }),
+  e('POST /api/v1/smart-money/holdings', 'prohibited', { usedBy: ['M4'], note: 'conviction map and crowding, private only; Fund filter deprecated 23 Sep 2026' }),
   e('POST /api/v1/smart-money/netflow', 'restricted', { usedBy: ['chain'], note: '"smart-money inflows" in the guide' }),
-  e('POST /api/v1/smart-money/pnl-leaderboard', 'prohibited', { planned: 'M4' }),
+  e('POST /api/v1/smart-money/pnl-leaderboard', 'prohibited', { usedBy: ['M4'], note: 'leaderboard, follow list and top-trader backing, private only' }),
   // Token God Mode
   e('POST /api/v1/tgm/dex-trades', 'attribution', { usedBy: ['M2'], note: 'token terminal: live DEX tape (labels stripped publicly)' }),
   e('POST /api/v1/tgm/flow-intelligence', 'attribution', { usedBy: ['token'] }),

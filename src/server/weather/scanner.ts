@@ -15,6 +15,7 @@
 // reads the screener filtered to smart money rather than
 // smart-money/netflow.
 import { callNansen } from '@/server/nansen/client';
+import { addressKey } from '@/lib/address-family';
 import { getDb } from '@/server/nansen/db';
 import { chainPressureWindow, blendChainPressure, flowRatio, type Window, type CpiWindowResult } from '@/lib/models/cpi';
 import { classifySwap, isStablecoin } from '@/lib/models/trade-side';
@@ -377,8 +378,9 @@ async function captureTrades(now: number, errors: string[]): Promise<number> {
           const side = classifySwap(t);
           if (!side || !t.trader_address || !t.transaction_hash || t.trade_value_usd == null) continue;
           const result = insert.run({
-            chain: t.chain, tx: t.transaction_hash, wallet: t.trader_address.toLowerCase(),
-            label: t.trader_address_label ?? null, side: side.side, token: side.tokenAddress.toLowerCase(),
+            // Base58 (Solana) is case-sensitive: only EVM hex is lowercased.
+            chain: t.chain, tx: t.transaction_hash, wallet: addressKey(t.trader_address),
+            label: t.trader_address_label ?? null, side: side.side, token: addressKey(side.tokenAddress),
             symbol: side.tokenSymbol, usd: Math.abs(t.trade_value_usd), at: parseTimestamp(t.block_timestamp), now,
           });
           added += result.changes;
@@ -418,7 +420,7 @@ function storeTokenPulse(at: number, window: '1h' | '24h', market: ScreenerRow[]
     }
     for (const list of byChain.values()) {
       for (const r of [...list].sort((a, b) => (b.volume ?? 0) - (a.volume ?? 0)).slice(0, perChain)) {
-        ins.run(at, window, source, r.chain, r.token_address!.startsWith('0x') ? r.token_address!.toLowerCase() : r.token_address!, r.token_symbol ?? null,
+        ins.run(at, window, source, r.chain, addressKey(r.token_address!), r.token_symbol ?? null,
           fin(r.netflow), fin(r.volume), fin(r.buy_volume), fin(r.sell_volume), fin(r.price_usd), fin(r.price_change), fin(r.liquidity), fin(r.market_cap_usd), fin(r.token_age_days));
         n++;
       }

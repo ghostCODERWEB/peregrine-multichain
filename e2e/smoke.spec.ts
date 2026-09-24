@@ -128,6 +128,15 @@ test('alpha: leaders with score rings and a filterable board, or a plain reason 
   expect(w.errors).toEqual([]);
 });
 
+test('smart-money desk: the demo (a public view) explains it is private @mobile', async ({ page }) => {
+  const w = await watch(page);
+  await page.goto('/smart-money');
+  await expect(page.getByRole('heading', { name: 'The smart-money desk is private' })).toBeVisible();
+  await expect(page.getByRole('link', { name: /Sign in with your Nansen key/ })).toBeVisible();
+  await w.noOverflow();
+  expect(w.errors).toEqual([]);
+});
+
 test('lab, coverage and alerts render', async ({ page }) => {
   const w = await watch(page);
   await page.goto('/lab');

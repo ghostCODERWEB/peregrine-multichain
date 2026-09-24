@@ -77,3 +77,10 @@ export const FAMILY_NAMES: Record<AddressFamily, string> = {
   evm: 'EVM', solana: 'Solana', bitcoin: 'Bitcoin', sui: 'Sui', aptos: 'Aptos', starknet: 'Starknet', ton: 'TON', tron: 'Tron',
   near: 'NEAR', stellar: 'Stellar', injective: 'Injective', mantra: 'Mantra', algorand: 'Algorand',
 };
+
+/**
+ * The form to store and compare an address in: EVM hex is case-insensitive
+ * (lowercased), everything else — base58 Solana and Tron, TON, Stellar — is
+ * case-sensitive and kept exactly as Nansen returned it.
+ */
+export const addressKey = (a: string): string => (/^0x[0-9a-fA-F]+$/.test(a) ? a.toLowerCase() : a);

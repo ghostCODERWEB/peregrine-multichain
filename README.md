@@ -48,6 +48,7 @@ Requirements: Node ≥ 22.13 and pnpm (via `corepack enable`).
 | **Search** ⌘K (every page) | One box for tokens, contract addresses, Nansen entities, chains, sectors and wallet addresses of every family Nansen profiles (EVM, Solana, Bitcoin, Sui, TON, Tron, NEAR…); keyboard first. [M1 note](docs/modules/M1.md) |
 | **Entity** `/entity/[name]` | A Nansen entity (exchange, fund, market maker) as one subject: aggregated balances, 30-day trend of its top holdings, realized PnL, counterparties by entity. |
 | **Sectors** `/sectors` | Sector weather: pressure per Nansen sector (built like the CPI), with 7-day sparklines and the top tokens flowing in and out. |
+| **Smart-money desk** `/smart-money` | Private (key owner or a member's own key). A conviction map of what smart money is adding to and trimming, a conviction score weighted by how many top-PnL wallets hold each token, crowded exits, the PnL leaderboard with a private follow list, perp tilt from new Hyperliquid positions, and Jupiter DCAs. [M4 note](docs/modules/M4.md) |
 | **Wallet** `/wallet/[address]` | Balances by chain, 30-day PnL, first funder and related wallets, counterparties, recent transactions, and a **migration trail** of the wallet's smart-money trades drawn over the map. |
 | **Forecast Lab** `/lab` | Backtest: ROC against the expert prior, calibration deciles, Brier score, AUC with a 95% CI, per-tier results, coefficients, cone calibration, CPI forecast error. |
 | **Alerts** `/alerts` | The Nansen Smart Alerts TIDE created, with toggle and delete. |

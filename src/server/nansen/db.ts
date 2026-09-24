@@ -272,6 +272,22 @@ const MIGRATIONS: string[] = [
   CREATE INDEX idx_token_pulse_token ON token_pulse(chain, token_address, window, source, snapshot_at);
   CREATE INDEX idx_token_pulse_time ON token_pulse(snapshot_at);
   `,
+  // 14: the smart-money desk's follow list, private per signed-in user (or
+  // the local instance owner). Addresses only; labels are read live.
+  `
+  CREATE TABLE sm_follows (
+    scope TEXT NOT NULL, address TEXT NOT NULL, created_at INTEGER NOT NULL,
+    PRIMARY KEY (scope, address)
+  );
+  `,
+  // 15: the scanner lowercased every address, which breaks case-sensitive
+  // base58 (every Solana wallet and mint it stored linked to nothing). The
+  // original case can't be recovered, so those rows go; the next scans
+  // refill them correctly. A real base58 address with no capital letter is
+  // vanishingly unlikely (about 1e-11 for 44 characters).
+  `
+  DELETE FROM smart_money_trades WHERE chain = 'solana' AND wallet NOT GLOB '*[A-Z]*' AND token_address NOT GLOB '*[A-Z]*';
+  `,
 ];
 
 export function audit(userId: number | null, action: string, detail?: string): void {

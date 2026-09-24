@@ -134,3 +134,14 @@ test('wallet page: trail withheld, labels stripped', async ({ page }) => {
   assertClean('/wallet', html);
   for (const l of counterpartyLabels) expect(html.includes(l), `/wallet leaks counterparty label "${l}"`).toBe(false);
 });
+
+test('smart-money desk: private explanation only; its API refuses public callers', async ({ page, request }) => {
+  await page.goto('/smart-money');
+  await expect(page.getByRole('heading', { name: 'The smart-money desk is private' })).toBeVisible();
+  await expect(page.locator('#conviction-map, #holdings, #leaders, #sm-perps, #sm-dcas')).toHaveCount(0);
+  assertClean('/smart-money', await page.content());
+  expect((await request.get('/api/smart-money')).status()).toBe(403);
+  const post = await request.post('/api/smart-money', { data: { action: 'desk', chain: 'all' }, headers: { Origin: BASE } });
+  expect(post.status()).toBe(403);
+  expect(await post.text()).not.toContain('holders');
+});
