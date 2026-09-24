@@ -1,0 +1,25 @@
+[
+  {
+    "requestHash": "f3f068d2cf43e6f694293bff204b2b258784e1d4",
+    "request": {
+      "address": "0xcbb811f129782ef87e19dea9d3375045219bae00"
+    },
+    "response": {
+      "data": {
+        "asset_positions": [],
+        "cross_maintenance_margin_used_usd": "0.0",
+        "cross_margin_summary_account_value_usd": "0.0",
+        "cross_margin_summary_total_margin_used_usd": "0.0",
+        "cross_margin_summary_total_net_liquidation_position_on_usd": "0.0",
+        "cross_margin_summary_total_raw_usd": "0.0",
+        "margin_summary_account_value_usd": "0.0",
+        "margin_summary_total_margin_used_usd": "0.0",
+        "margin_summary_total_net_liquidation_position_usd": "0.0",
+        "margin_summary_total_raw_usd": "0.0",
+        "timestamp": 1790204000504,
+        "withdrawable_usd": "0.0"
+      }
+    },
+    "recordedAt": 1790204000896
+  }
+]

@@ -108,7 +108,8 @@ test('entity page: counterparties and every section without labels, flight data 
   const entity = 'Aerodrome Finance';
   await page.goto(`/entity/${encodeURIComponent(entity)}`);
   await expect(page.getByRole('heading', { level: 1, name: entity })).toBeVisible();
-  await expect(page.locator('#cp')).toBeVisible({ timeout: 60_000 });
+  await expect(page.locator('#cp')).toHaveCount(1, { timeout: 60_000 }); // loading card swapped out
+  await expect(page.locator('#cp')).toBeVisible();
   const html = await page.content(); // includes the inline RSC payload scripts
   assertClean('/entity', html);
   // The page's own subject (and any label that is part of its name) is shown by design.

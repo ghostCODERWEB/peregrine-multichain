@@ -8,6 +8,10 @@ import { BalancesCard, PnlCard, CounterpartiesCard } from '@/components/wallet/P
 import { TrailMap } from '@/components/wallet/TrailMap';
 import { trailTitle } from '@/lib/insights';
 import { TimeAgo } from '@/components/TimeAgo';
+import { WalletDesk } from '@/components/wallet/WalletDesk';
+import { WalletLabels } from '@/components/wallet/WalletLabels';
+import { ALL_CHAIN_IDS } from '@/lib/registry';
+import { detectAddress } from '@/lib/address-family';
 import { balances, pnl, origins, counterparties, transactions, migrationTrail } from '@/server/wallet/wallet-page';
 import { isUnavailable } from '@/server/nansen/traced';
 import { displayMode, type DisplayMode } from '@/server/mode';
@@ -30,7 +34,7 @@ const ADDRESS = /^[A-Za-z0-9:._-]{20,120}$/;
 export default async function WalletRoute({ params }: Params) {
   const { address: raw } = await params;
   const address = decodeURIComponent(raw).trim();
-  if (!ADDRESS.test(address)) notFound();
+  if (!ADDRESS.test(address) && !detectAddress(address).some((m) => m.profiled && !m.tokenOnly)) notFound();
 
   const mode = await displayMode();
   // Public views: labels stripped from every section. The trail is built
@@ -77,8 +81,16 @@ export default async function WalletRoute({ params }: Params) {
       <Suspense fallback={<Card id="tx" title="Recent transactions"><WaveLoading what="transactions" /></Card>}>
         <TransactionsCard address={address} mode={mode} />
       </Suspense>
+      <Suspense fallback={<Card id="wallet-desk" title="Wallet desk"><WaveLoading what="wallet chain" /></Card>}>
+        <Desk address={address} mainChain={mainChainP} />
+      </Suspense>
+      <WalletLabels address={address} enabled={mode !== 'public'} />
     </div>
   );
+}
+
+async function Desk({ address, mainChain }: { address: string; mainChain: Promise<string | null> }) {
+  return <WalletDesk address={address} initialChain={(await mainChain) ?? 'ethereum'} chains={ALL_CHAIN_IDS} />;
 }
 
 async function OriginsCard({ address, mainChain, mode }: { address: string; mainChain: Promise<string | null>; mode: DisplayMode }) {

@@ -11,6 +11,7 @@ import crypto from 'node:crypto';
 // path is "tgm/holders") and keying on the slug meant every entry
 // silently fell through to DEFAULT_TTL.
 const TTL_MS: Record<string, number> = {
+  'points/tier': 24 * 60 * 60_000,
   'smart-money/netflow': 10 * 60_000,
   'smart-money/dex-trades': 10 * 60_000,
   'smart-money/holdings': 10 * 60_000,

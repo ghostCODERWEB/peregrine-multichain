@@ -45,30 +45,32 @@ export const LEDGER: LedgerEntry[] = [
   e('POST /api/v1/tgm/perp-pnl-leaderboard', 'prohibited', { planned: 'M5' }),
   e('POST /api/v1/tgm/perp-positions', 'restricted', { planned: 'M5', note: 'restricted with a smart-money label filter; attribution without' }),
   e('POST /api/v1/tgm/perp-trades', 'attribution', { planned: 'M5' }),
-  e('POST /api/v1/profiler/perp-pnl-summary', 'free', { planned: 'M5' }),
-  e('POST /api/v1/profiler/perp-positions', 'free', { planned: 'M5' }),
-  e('POST /api/v1/profiler/perp-trades', 'free', { planned: 'M5' }),
+  e('POST /api/v1/profiler/perp-pnl-summary', 'free', { usedBy: ['M3'], note: 'wallet desk perps' }),
+  e('POST /api/v1/profiler/perp-positions', 'free', { usedBy: ['M3'], note: 'wallet desk perps' }),
+  e('POST /api/v1/profiler/perp-trades', 'free', { usedBy: ['M3'], note: 'wallet desk perps' }),
   e('POST /api/v1/smart-money/perp-trades', 'prohibited', { planned: 'M5' }),
   // Portfolio
-  e('POST /api/v1/portfolio/defi-holdings', 'free', { planned: 'M3', note: 'balance-type data; account-tied (no x402)' }),
+  e('POST /api/v1/portfolio/defi-holdings', 'free', { usedBy: ['M3'], note: 'balance-type data; account-tied (no x402); wallet desk DeFi positions' }),
   // Prediction markets
   ...[
     'address-summary', 'categories', 'event-screener', 'market-screener', 'ohlcv', 'orderbook', 'pnl-by-address',
     'pnl-by-market', 'position-detail', 'top-holders', 'trades-by-address', 'trades-by-market',
-  ].map((p) => e(`POST /api/v1/prediction-market/${p}`, 'attribution', { planned: 'M6' })),
+  ].map((p) => e(`POST /api/v1/prediction-market/${p}`, 'attribution', ['address-summary', 'trades-by-address'].includes(p)
+    ? { usedBy: ['M3'], planned: 'M6', note: 'wallet desk predictions; the M6 prediction desk adds more' }
+    : { planned: 'M6' })),
   // Profiler
   e('POST /api/v1/profiler/address/counterparties', 'attribution', { usedBy: ['wallet', 'M1'], note: 'entity pages: entity_name, grouped by entity' }),
-  e('POST /api/v1/profiler/address/counterparties/batch', 'attribution', { planned: 'M3' }),
+  e('POST /api/v1/profiler/address/counterparties/batch', 'attribution', { usedBy: ['M3'], note: 'portfolio: counterparties shared across a watch set' }),
   e('POST /api/v1/profiler/address/current-balance', 'free', { usedBy: ['wallet', 'M1'], note: 'entity pages: entity_name' }),
   e('POST /api/v1/profiler/address/first-funder', 'attribution', { usedBy: ['token', 'wallet'] }),
-  e('POST /api/v1/profiler/address/historical-balances', 'free', { usedBy: ['M1'], planned: 'M3', note: 'entity holdings trend (top 5 tokens, 30 days); wallet page in M3' }),
-  e('POST /api/v1/profiler/address/labels', 'prohibited', { planned: 'M3', note: '100 credits; explicit per-address click only, private mode' }),
-  e('POST /api/v1/profiler/address/premium-labels', 'prohibited', { planned: 'M3', note: '500 credits; explicit per-address click only, private mode' }),
-  e('POST /api/v1/profiler/address/pnl', 'free', { planned: 'M3' }),
+  e('POST /api/v1/profiler/address/historical-balances', 'free', { usedBy: ['M1', 'M3'], note: 'entity holdings trend (top 5 tokens, 30 days); wallet page in M3; wallet desk net worth over time' }),
+  e('POST /api/v1/profiler/address/labels', 'prohibited', { usedBy: ['M3'], note: '100 credits; explicit per-address click only, private mode; on an explicit click with the price confirmed (428 otherwise)' }),
+  e('POST /api/v1/profiler/address/premium-labels', 'prohibited', { usedBy: ['M3'], note: '500 credits; explicit per-address click only, private mode; on an explicit click with the price confirmed' }),
+  e('POST /api/v1/profiler/address/pnl', 'free', { usedBy: ['M3'], note: 'wallet desk per-token PnL' }),
   e('POST /api/v1/profiler/address/pnl-summary', 'free', { usedBy: ['wallet', 'M1'], note: 'entity pages: entity_name' }),
   e('POST /api/v1/profiler/address/related-wallets', 'attribution', { usedBy: ['token', 'wallet'] }),
   e('POST /api/v1/profiler/address/transactions', 'attribution', { usedBy: ['wallet'] }),
-  e('POST /api/v1/profiler/dex-trades', 'attribution', { planned: 'M3' }),
+  e('POST /api/v1/profiler/dex-trades', 'attribution', { usedBy: ['M3'], note: 'wallet desk DEX trades, one chain at a time (chain all is refused live)' }),
   e('POST /api/v1/transaction-with-token-transfer-lookup', 'attribution', { usedBy: ['M2'], note: 'token terminal: transaction drill-down on click' }),
   // Search
   e('POST /api/v1/search/entity-name', 'attribution', { usedBy: ['M1'], note: 'entity page name resolution and suggestions' }),
@@ -137,7 +139,7 @@ export const EXTRA_ENDPOINTS: ExtraEndpoint[] = [
   { key: 'POST /api/v1/perp/execute', class: 'account', credits: 0, planned: 'M8', notes: 'submit a user-signed perp action' },
   { key: 'POST /api/v1/perp/bridge/quote', class: 'account', credits: 0, planned: 'M8', notes: 'bridge to Hyperliquid quote' },
   { key: 'GET app.nansen.ai/api/points-leaderboard/api', class: 'free', credits: null, planned: 'M3', notes: 'public, keyless points leaderboard' },
-  { key: 'GET app.nansen.ai/api/points-leaderboard/{address}', class: 'free', credits: null, planned: 'M3', notes: 'public, keyless tier lookup' },
+  { key: 'GET app.nansen.ai/api/points-leaderboard/{address}', class: 'free', credits: null, usedBy: ['M3'], notes: 'public, keyless tier lookup; wallet desk points tier' },
 ];
 
 export const ALL_LEDGER: LedgerEntry[] = [...LEDGER, ...EXTRA_ENDPOINTS];

@@ -1,0 +1,31 @@
+[
+  {
+    "requestHash": "f3f068d2cf43e6f694293bff204b2b258784e1d4",
+    "request": {
+      "address": "0xcbb811f129782ef87e19dea9d3375045219bae00"
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 10,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+          "first_seen": "2026-04-10",
+          "wallet_age_days": 166,
+          "realized_pnl_usd": 0,
+          "unrealized_pnl_usd": 0,
+          "total_pnl_usd": 0,
+          "markets_won": 0,
+          "markets_traded": 0,
+          "win_rate": 0,
+          "p2p_tokens_sent": 0,
+          "p2p_tokens_received": 0
+        }
+      ]
+    },
+    "recordedAt": 1790204002164
+  }
+]

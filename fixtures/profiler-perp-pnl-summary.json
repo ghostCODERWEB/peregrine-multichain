@@ -1,0 +1,26 @@
+[
+  {
+    "requestHash": "9983e67565a4763d74489ebf0ae2b222ea5e02c0",
+    "request": {
+      "address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+      "date": {
+        "from": "2026-08-24",
+        "to": "2026-09-23"
+      }
+    },
+    "response": {
+      "data": {
+        "top5_coins": [],
+        "traded_coin_count": 0,
+        "traded_times": 0,
+        "closed_trade_count": 0,
+        "winning_trade_count": 0,
+        "realized_pnl_usd": 0,
+        "realized_pnl_percent": 0,
+        "win_rate": 0,
+        "fees_usd": 0
+      }
+    },
+    "recordedAt": 1790203998889
+  }
+]

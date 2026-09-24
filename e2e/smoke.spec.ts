@@ -76,7 +76,10 @@ test('wallet page: balances and the migration trail', async ({ page }) => {
   const w = await watch(page);
   await page.goto(WALLET);
   await expect(page.locator('#trail')).toBeVisible();
-  await expect(page.locator('#bal')).toBeVisible({ timeout: 30_000 });
+  // While a streamed section swaps in, its loading card and the resolved one
+  // briefly coexist (both carry the id): wait for the swap to finish.
+  await expect(page.locator('#bal')).toHaveCount(1, { timeout: 30_000 });
+  await expect(page.locator('#bal')).toBeVisible();
   expect(w.errors).toEqual([]);
 });
 

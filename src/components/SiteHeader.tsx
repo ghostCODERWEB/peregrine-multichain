@@ -9,6 +9,7 @@ import { Omnibox } from '@/components/search/Omnibox';
 const NAV = [
   { href: '/', label: 'Weather map', short: 'Map' },
   { href: '/sectors', label: 'Sectors', short: 'Sectors' },
+  { href: '/portfolio', label: 'Portfolio', short: 'Portfolio' },
   { href: '/lab', label: 'Forecast Lab', short: 'Lab' },
   { href: '/alerts', label: 'Alerts', short: 'Alerts' },
   { href: '/coverage', label: 'Coverage', short: 'Coverage' },

@@ -250,6 +250,13 @@ const MIGRATIONS: string[] = [
   );
   CREATE INDEX idx_sector_snapshots ON sector_snapshots(sector, source, window, snapshot_at);
   `,
+  // 12: a private watch set per signed-in user (or the local instance owner).
+  `
+  CREATE TABLE portfolio_wallets (
+    scope TEXT NOT NULL, address TEXT NOT NULL, created_at INTEGER NOT NULL,
+    PRIMARY KEY (scope, address)
+  );
+  `,
 ];
 
 export function audit(userId: number | null, action: string, detail?: string): void {

@@ -1,0 +1,20 @@
+[
+  {
+    "requestHash": "3e02c0b4272ac68d069ac5f278fa58590ee2772e",
+    "request": {
+      "wallet_address": "0xcbb811f129782ef87e19dea9d3375045219bae00"
+    },
+    "response": {
+      "summary": {
+        "total_value_usd": 0,
+        "total_assets_usd": 0,
+        "total_debts_usd": 0,
+        "total_rewards_usd": 0,
+        "token_count": 0,
+        "protocol_count": 0
+      },
+      "protocols": []
+    },
+    "recordedAt": 1790203998386
+  }
+]

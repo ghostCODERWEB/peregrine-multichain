@@ -156,5 +156,91 @@
       "win_rate": 0
     },
     "recordedAt": 1790198879640
+  },
+  {
+    "requestHash": "f0430350e7ec77c051bb5efbd75f51b0e3e295c5",
+    "request": {
+      "entity_name": "Aerodrome Finance",
+      "chain": "all",
+      "date": {
+        "from": "2026-08-25",
+        "to": "2026-09-25"
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 1,
+        "is_last_page": true
+      },
+      "top5_tokens": [],
+      "traded_token_count": 0,
+      "traded_times": 0,
+      "realized_pnl_usd": 0,
+      "realized_pnl_percent": 0,
+      "win_rate": 0
+    },
+    "recordedAt": 1790213846895
+  },
+  {
+    "requestHash": "aaec1d1b9edb21629ee922a8cef8b44f5321c046",
+    "request": {
+      "address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+      "chain": "all",
+      "date": {
+        "from": "2026-08-25",
+        "to": "2026-09-25"
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 1,
+        "is_last_page": true
+      },
+      "top5_tokens": [
+        {
+          "realized_pnl": 130371.44837465201,
+          "realized_roi": 6517.050511339733,
+          "token_address": "0x01a8b61e7b03891a736b5df865e0ef9c511850ad",
+          "token_symbol": "⚠️ SYBTC",
+          "chain": "ethereum"
+        },
+        {
+          "realized_pnl": 692.8409710223538,
+          "realized_roi": 0.8255000499933979,
+          "token_address": "0xf125ae348b5413f0aba6cd0c730dbd18c4e23d4e",
+          "token_symbol": "HBM",
+          "chain": "robinhood"
+        },
+        {
+          "realized_pnl": 619.2242938862796,
+          "realized_roi": 2.3825429087354917,
+          "token_address": "0x3c12f8829041bf99deaa2965014e01b750f87905",
+          "token_symbol": "TTAJ",
+          "chain": "polygon"
+        },
+        {
+          "realized_pnl": 354.5408251691957,
+          "realized_roi": 0.30823111890470456,
+          "token_address": "0xc7dcca0a3e69bd762c8db257f868f76be36c8514",
+          "token_symbol": "KIBSHI",
+          "chain": "base"
+        },
+        {
+          "realized_pnl": 241.83243822297132,
+          "realized_roi": 3.235816447214995,
+          "token_address": "0x7002987e5f63716273e77b51e12a578143c222aa",
+          "token_symbol": "HAI",
+          "chain": "base"
+        }
+      ],
+      "traded_token_count": 288,
+      "traded_times": 1116,
+      "realized_pnl_usd": 134086.5244391872,
+      "realized_pnl_percent": 5.062412201821906,
+      "win_rate": 0.3888888888888889
+    },
+    "recordedAt": 1790213851041
   }
 ]

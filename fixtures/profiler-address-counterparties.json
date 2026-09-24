@@ -6840,5 +6840,2682 @@
       ]
     },
     "recordedAt": 1790198885462
+  },
+  {
+    "requestHash": "4a15057542d6fb984f542603151ea9de5ae948b9",
+    "request": {
+      "entity_name": "Aerodrome Finance",
+      "chain": "base",
+      "date": {
+        "from": "2026-08-25",
+        "to": "2026-09-25"
+      },
+      "group_by": "entity",
+      "pagination": {
+        "page": 1,
+        "per_page": 11
+      },
+      "order_by": [
+        {
+          "field": "total_volume_usd",
+          "direction": "DESC"
+        }
+      ]
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 11,
+        "is_last_page": false
+      },
+      "data": [
+        {
+          "counterparty_address": "0xcaf22ce31298cf2bf1d152862f80216478ad7c67",
+          "counterparty_address_label": null,
+          "interaction_count": 3651389,
+          "total_volume_usd": 41877345365.14394,
+          "volume_in_usd": 20938675642.101395,
+          "volume_out_usd": 20938669723.04255,
+          "tokens_info": [
+            {
+              "token_address": "0x4200000000000000000000000000000000000006",
+              "token_symbol": "WETH",
+              "token_name": "Wrapped Ether",
+              "num_transfer": "1527516",
+              "total_token_amount": 8402856.613521367,
+              "token_in_amount": 4201429.393496513,
+              "token_out_amount": 4201427.220024855
+            },
+            {
+              "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+              "token_symbol": "USDC",
+              "token_name": "USD Coin",
+              "num_transfer": "608730",
+              "total_token_amount": 19858727117.921272,
+              "token_in_amount": 9929363558.960636,
+              "token_out_amount": 9929363558.960636
+            },
+            {
+              "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+              "token_symbol": "AERO",
+              "token_name": "Aerodrome",
+              "num_transfer": "579572",
+              "total_token_amount": 85577588.41411822,
+              "token_in_amount": 42788794.20705911,
+              "token_out_amount": 42788794.20705911
+            },
+            {
+              "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+              "token_symbol": "VIRTUAL",
+              "token_name": "Virtual Protocol",
+              "num_transfer": "280462",
+              "total_token_amount": 3842760.965991624,
+              "token_in_amount": 1921380.482995812,
+              "token_out_amount": 1921380.482995812
+            },
+            {
+              "token_address": "0xacfe6019ed1a7dc6f7b508c02d1b04ec88cc21bf",
+              "token_symbol": "VVV",
+              "token_name": "Venice Token",
+              "num_transfer": "148336",
+              "total_token_amount": 471495.3386764606,
+              "token_in_amount": 235747.6693382303,
+              "token_out_amount": 235747.6693382303
+            },
+            {
+              "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+              "token_symbol": "CBBTC",
+              "token_name": "Coinbase Wrapped BTC",
+              "num_transfer": "54922",
+              "total_token_amount": 12933.37250424,
+              "token_in_amount": 6466.68625212,
+              "token_out_amount": 6466.68625212
+            },
+            {
+              "token_address": "0x5ab3d4c385b400f3abb49e80de2faf6a88a7b691",
+              "token_symbol": "FLOCK",
+              "token_name": "FLock.io",
+              "num_transfer": "50202",
+              "total_token_amount": 15625123.74863547,
+              "token_in_amount": 7812561.874317735,
+              "token_out_amount": 7812561.874317735
+            },
+            {
+              "token_address": "0xbf927b841994731c573bdf09ceb0c6b0aa887cdd",
+              "token_symbol": "VELVET",
+              "token_name": "Velvet",
+              "num_transfer": "45930",
+              "total_token_amount": 26409867.09064164,
+              "token_in_amount": 13204933.54532082,
+              "token_out_amount": 13204933.54532082
+            },
+            {
+              "token_address": "0x74ccbe53f77b08632ce0cb91d3a545bf6b8e0979",
+              "token_symbol": "FBOMB",
+              "token_name": "Fantom Bomb",
+              "num_transfer": "41150",
+              "total_token_amount": 291529915.9137896,
+              "token_in_amount": 145764957.9568948,
+              "token_out_amount": 145764957.9568948
+            },
+            {
+              "token_address": "0xc0634090f2fe6c6d75e61be2b949464abb498973",
+              "token_symbol": "KTA",
+              "token_name": "Keeta",
+              "num_transfer": "40348",
+              "total_token_amount": 3452359.3272429532,
+              "token_in_amount": 1726179.6636214766,
+              "token_out_amount": 1726179.6636214766
+            },
+            {
+              "token_address": "0x3ec2156d4c0a9cbdab4a016633b7bcf6a8d68ea2",
+              "token_symbol": "DRB",
+              "token_name": "DebtReliefBot",
+              "num_transfer": "20610",
+              "total_token_amount": 296892346.10082304,
+              "token_in_amount": 148446173.05041152,
+              "token_out_amount": 148446173.05041152
+            },
+            {
+              "token_address": "0xa88594d404727625a9437c3f886c7643872296ae",
+              "token_symbol": "WELL",
+              "token_name": "WELL",
+              "num_transfer": "17644",
+              "total_token_amount": 22035283.228048727,
+              "token_in_amount": 11017641.614024363,
+              "token_out_amount": 11017641.614024363
+            },
+            {
+              "token_address": "0xd9aaec86b65d86f6a7b5b1b0c42ffa531710b6ca",
+              "token_symbol": "USDBC",
+              "token_name": "USD Base Coin",
+              "num_transfer": "16498",
+              "total_token_amount": 279523.050258,
+              "token_in_amount": 139761.525129,
+              "token_out_amount": 139761.525129
+            },
+            {
+              "token_address": "0xc0041ef357b183448b235a8ea73ce4e4ec8c265f",
+              "token_symbol": "COOKIE",
+              "token_name": "Cookie",
+              "num_transfer": "14882",
+              "total_token_amount": 635053.3136146417,
+              "token_in_amount": 317526.65680732083,
+              "token_out_amount": 317526.65680732083
+            },
+            {
+              "token_address": "0x79bbf4508b1391af3a0f4b30bb5fc4aa9ab0e07c",
+              "token_symbol": "ANON",
+              "token_name": "HeyAnon",
+              "num_transfer": "11384",
+              "total_token_amount": 133738.1895176776,
+              "token_in_amount": 66869.0947588388,
+              "token_out_amount": 66869.0947588388
+            },
+            {
+              "token_address": "0xfde4c96c8593536e31f229ea8f37b2ada2699bb2",
+              "token_symbol": "USDT",
+              "token_name": "Tether USD",
+              "num_transfer": "10726",
+              "total_token_amount": 7548657.414064,
+              "token_in_amount": 3774328.707032,
+              "token_out_amount": 3774328.707032
+            },
+            {
+              "token_address": "0x7300b37dfdfab110d83290a29dfb31b1740219fe",
+              "token_symbol": "MAMO",
+              "token_name": "Mamo",
+              "num_transfer": "10508",
+              "total_token_amount": 59193574.64917787,
+              "token_in_amount": 29596787.324588936,
+              "token_out_amount": 29596787.324588936
+            },
+            {
+              "token_address": "0x2a0a59d6b975828e781ecac125dba40d7ee5ddc0",
+              "token_symbol": "RIPE",
+              "token_name": "Ripe DAO Governance Token",
+              "num_transfer": "8312",
+              "total_token_amount": 143057.0631817881,
+              "token_in_amount": 71528.53159089405,
+              "token_out_amount": 71528.53159089405
+            },
+            {
+              "token_address": "0x4ed4e862860bed51a9570b96d89af5e1b0efefed",
+              "token_symbol": "DEGEN",
+              "token_name": "Degen",
+              "num_transfer": "7858",
+              "total_token_amount": 2012904.8275740792,
+              "token_in_amount": 1006452.4137870396,
+              "token_out_amount": 1006452.4137870396
+            },
+            {
+              "token_address": "0xf4d97f2da56e8c3098f3a8d538db630a2606a024",
+              "token_symbol": "DIEM",
+              "token_name": "Diem",
+              "num_transfer": "7756",
+              "total_token_amount": 1160.5552719419422,
+              "token_in_amount": 580.2776359709711,
+              "token_out_amount": 580.2776359709711
+            }
+          ]
+        },
+        {
+          "counterparty_address": "0x51c72848c68a965f66fa7a88855f9f7784502a7f",
+          "counterparty_address_label": null,
+          "interaction_count": 2023411,
+          "total_volume_usd": 2573221060.4858685,
+          "volume_in_usd": 1287771919.6158533,
+          "volume_out_usd": 1285449140.8700151,
+          "tokens_info": [
+            {
+              "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+              "token_symbol": "USDC",
+              "token_name": "USD Coin",
+              "num_transfer": "558253",
+              "total_token_amount": 938161003.807599,
+              "token_in_amount": 469607133.431539,
+              "token_out_amount": 468553870.37606
+            },
+            {
+              "token_address": "0x4200000000000000000000000000000000000006",
+              "token_symbol": "WETH",
+              "token_name": "Wrapped Ether",
+              "num_transfer": "508236",
+              "total_token_amount": 265561.301223481,
+              "token_in_amount": 132653.551541715,
+              "token_out_amount": 132907.749681766
+            },
+            {
+              "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+              "token_symbol": "CBBTC",
+              "token_name": "Coinbase Wrapped BTC",
+              "num_transfer": "398610",
+              "total_token_amount": 7131.80576221,
+              "token_in_amount": 3627.70985881,
+              "token_out_amount": 3504.0959034
+            },
+            {
+              "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+              "token_symbol": "VIRTUAL",
+              "token_name": "Virtual Protocol",
+              "num_transfer": "224307",
+              "total_token_amount": 85086550.3221023,
+              "token_in_amount": 42069824.94923623,
+              "token_out_amount": 43016725.37286605
+            },
+            {
+              "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+              "token_symbol": "AERO",
+              "token_name": "Aerodrome",
+              "num_transfer": "203459",
+              "total_token_amount": 337973017.0929011,
+              "token_in_amount": 165531652.9274424,
+              "token_out_amount": 172441364.16545874
+            },
+            {
+              "token_address": "0xacfe6019ed1a7dc6f7b508c02d1b04ec88cc21bf",
+              "token_symbol": "VVV",
+              "token_name": "Venice Token",
+              "num_transfer": "53089",
+              "total_token_amount": 2650851.821709041,
+              "token_in_amount": 1189266.5854212309,
+              "token_out_amount": 1461585.2362878104
+            },
+            {
+              "token_address": "0xfde4c96c8593536e31f229ea8f37b2ada2699bb2",
+              "token_symbol": "USDT",
+              "token_name": "Tether USD",
+              "num_transfer": "33662",
+              "total_token_amount": 26438388.268488,
+              "token_in_amount": 13226861.545437,
+              "token_out_amount": 13211526.723051
+            },
+            {
+              "token_address": "0x696f9436b67233384889472cd7cd58a6fb5df4f1",
+              "token_symbol": "AVNT",
+              "token_name": "Avantis",
+              "num_transfer": "14681",
+              "total_token_amount": 42383215.384345084,
+              "token_in_amount": 20786953.37006892,
+              "token_out_amount": 21596262.014276166
+            },
+            {
+              "token_address": "0xb200000000000000000000c2e324d24d7eecd1fb",
+              "token_symbol": "AAPL",
+              "token_name": "Apple Inc.",
+              "num_transfer": "11194",
+              "total_token_amount": 110618.18002251,
+              "token_in_amount": 57211.65239806,
+              "token_out_amount": 53406.52762445
+            },
+            {
+              "token_address": "0xf4d97f2da56e8c3098f3a8d538db630a2606a024",
+              "token_symbol": "DIEM",
+              "token_name": "Diem",
+              "num_transfer": "7668",
+              "total_token_amount": 431.5034838980679,
+              "token_in_amount": 207.80489637773422,
+              "token_out_amount": 223.6985875203337
+            },
+            {
+              "token_address": "0xbaa5cc21fd487b8fcc2f632f3f4e8d37262a0842",
+              "token_symbol": "MORPHO",
+              "token_name": "Morpho Token",
+              "num_transfer": "4758",
+              "total_token_amount": 2143067.7554128426,
+              "token_in_amount": 1131780.8022047132,
+              "token_out_amount": 1011286.9532081295
+            },
+            {
+              "token_address": "0x1111111111166b7fe7bd91427724b487980afc69",
+              "token_symbol": "ZORA",
+              "token_name": "Zora",
+              "num_transfer": "4011",
+              "total_token_amount": 145040401.6997096,
+              "token_in_amount": 62297335.03853098,
+              "token_out_amount": 82743066.66117862
+            },
+            {
+              "token_address": "0x60a3e35cc302bfa44cb288bc5a4f316fdb1adb42",
+              "token_symbol": "EURC",
+              "token_name": "EURC",
+              "num_transfer": "1179",
+              "total_token_amount": 5845308.979861,
+              "token_in_amount": 3481901.877259,
+              "token_out_amount": 2363407.102602
+            },
+            {
+              "token_address": "0x9818b6c09f5ecc843060927e8587c427c7c93583",
+              "token_symbol": "RIZE",
+              "token_name": "RIZE",
+              "num_transfer": "206",
+              "total_token_amount": 7768307.58173583,
+              "token_in_amount": 7434638.542494726,
+              "token_out_amount": 333669.03924110427
+            },
+            {
+              "token_address": "0x4f9fd6be4a90f2620860d680c0d4d5fb53d1a825",
+              "token_symbol": "AIXBT",
+              "token_name": "aixbt by Virtuals",
+              "num_transfer": "97",
+              "total_token_amount": 545896.5785300498,
+              "token_in_amount": 242803.88997374848,
+              "token_out_amount": 303092.68855630135
+            },
+            {
+              "token_address": "0xb095274743941e953c746f9c228da9c18bb6ec29",
+              "token_symbol": "LAPTOP",
+              "token_name": "LAPTOP",
+              "num_transfer": "1",
+              "total_token_amount": 2.4614177365e-8,
+              "token_in_amount": 2.4614177365e-8,
+              "token_out_amount": 0
+            }
+          ]
+        },
+        {
+          "counterparty_address": "0x8f10b468b06c6fd214b65f87778827f7d113f996",
+          "counterparty_address_label": null,
+          "interaction_count": 580256,
+          "total_volume_usd": 272843862.7443609,
+          "volume_in_usd": 136270476.37871203,
+          "volume_out_usd": 136573386.36564887,
+          "tokens_info": [
+            {
+              "token_address": "0x4200000000000000000000000000000000000006",
+              "token_symbol": "WETH",
+              "token_name": "Wrapped Ether",
+              "num_transfer": "150818",
+              "total_token_amount": 29506.470937600287,
+              "token_in_amount": 17458.309502502994,
+              "token_out_amount": 12048.161435097294
+            },
+            {
+              "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+              "token_symbol": "USDC",
+              "token_name": "USD Coin",
+              "num_transfer": "147675",
+              "total_token_amount": 59197816.234794,
+              "token_in_amount": 28561190.694992,
+              "token_out_amount": 30636625.539802
+            },
+            {
+              "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+              "token_symbol": "CBBTC",
+              "token_name": "Coinbase Wrapped BTC",
+              "num_transfer": "32284",
+              "total_token_amount": 140.41807688,
+              "token_in_amount": 77.9268501,
+              "token_out_amount": 62.49122678
+            },
+            {
+              "token_address": "0xb200000000000000000000c2e324d24d7eecd1fb",
+              "token_symbol": "AAPL",
+              "token_name": "Apple Inc.",
+              "num_transfer": "30991",
+              "total_token_amount": 49603.47684123,
+              "token_in_amount": 23076.00552902,
+              "token_out_amount": 26527.47131221
+            },
+            {
+              "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+              "token_symbol": "AERO",
+              "token_name": "Aerodrome",
+              "num_transfer": "30277",
+              "total_token_amount": 11260768.966245316,
+              "token_in_amount": 6175257.155042434,
+              "token_out_amount": 5085511.811202883
+            },
+            {
+              "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+              "token_symbol": "VIRTUAL",
+              "token_name": "Virtual Protocol",
+              "num_transfer": "15748",
+              "total_token_amount": 3425954.37551599,
+              "token_in_amount": 1680346.9215000374,
+              "token_out_amount": 1745607.454015952
+            },
+            {
+              "token_address": "0xfde4c96c8593536e31f229ea8f37b2ada2699bb2",
+              "token_symbol": "USDT",
+              "token_name": "Tether USD",
+              "num_transfer": "13738",
+              "total_token_amount": 12646468.741929,
+              "token_in_amount": 6746399.655557,
+              "token_out_amount": 5900069.086372
+            },
+            {
+              "token_address": "0xbf927b841994731c573bdf09ceb0c6b0aa887cdd",
+              "token_symbol": "VELVET",
+              "token_name": "Velvet",
+              "num_transfer": "12299",
+              "total_token_amount": 5844763.476326988,
+              "token_in_amount": 3528935.414302917,
+              "token_out_amount": 2315828.062024071
+            },
+            {
+              "token_address": "0x696f9436b67233384889472cd7cd58a6fb5df4f1",
+              "token_symbol": "AVNT",
+              "token_name": "Avantis",
+              "num_transfer": "11791",
+              "total_token_amount": 3694446.352232365,
+              "token_in_amount": 2094897.093220128,
+              "token_out_amount": 1599549.2590122365
+            },
+            {
+              "token_address": "0xacfe6019ed1a7dc6f7b508c02d1b04ec88cc21bf",
+              "token_symbol": "VVV",
+              "token_name": "Venice Token",
+              "num_transfer": "10087",
+              "total_token_amount": 207989.12457242789,
+              "token_in_amount": 112298.74059580038,
+              "token_out_amount": 95690.38397662752
+            },
+            {
+              "token_address": "0x60a3e35cc302bfa44cb288bc5a4f316fdb1adb42",
+              "token_symbol": "EURC",
+              "token_name": "EURC",
+              "num_transfer": "9946",
+              "total_token_amount": 10868457.040416,
+              "token_in_amount": 5771445.283332,
+              "token_out_amount": 5097011.757084
+            },
+            {
+              "token_address": "0x3ec2156d4c0a9cbdab4a016633b7bcf6a8d68ea2",
+              "token_symbol": "DRB",
+              "token_name": "DebtReliefBot",
+              "num_transfer": "7774",
+              "total_token_amount": 3435737940.570573,
+              "token_in_amount": 1860033445.900822,
+              "token_out_amount": 1575704494.669751
+            },
+            {
+              "token_address": "0xf4d97f2da56e8c3098f3a8d538db630a2606a024",
+              "token_symbol": "DIEM",
+              "token_name": "Diem",
+              "num_transfer": "7752",
+              "total_token_amount": 1778.3440723599804,
+              "token_in_amount": 1068.613598729459,
+              "token_out_amount": 709.7304736305213
+            },
+            {
+              "token_address": "0xa4a2e2ca3fbfe21aed83471d28b6f65a233c6e00",
+              "token_symbol": "TIBBIR",
+              "token_name": "Ribbita by Virtuals",
+              "num_transfer": "5742",
+              "total_token_amount": 5379920.554166317,
+              "token_in_amount": 2555225.9355050335,
+              "token_out_amount": 2824694.6186612835
+            },
+            {
+              "token_address": "0x7300b37dfdfab110d83290a29dfb31b1740219fe",
+              "token_symbol": "MAMO",
+              "token_name": "Mamo",
+              "num_transfer": "5170",
+              "total_token_amount": 60960108.4740133,
+              "token_in_amount": 28392868.520197105,
+              "token_out_amount": 32567239.95381619
+            },
+            {
+              "token_address": "0x9d0e8f5b25384c7310cb8c6ae32c8fbeb645d083",
+              "token_symbol": "DRV",
+              "token_name": "Derive",
+              "num_transfer": "5000",
+              "total_token_amount": 8544698.601689644,
+              "token_in_amount": 3980191.2885183105,
+              "token_out_amount": 4564507.313171335
+            },
+            {
+              "token_address": "0x1111111111166b7fe7bd91427724b487980afc69",
+              "token_symbol": "ZORA",
+              "token_name": "Zora",
+              "num_transfer": "4904",
+              "total_token_amount": 61419205.25730264,
+              "token_in_amount": 37686003.93437699,
+              "token_out_amount": 23733201.322925657
+            },
+            {
+              "token_address": "0x22af33fe49fd1fa80c7149773dde5890d3c76f3b",
+              "token_symbol": "BNKR",
+              "token_name": "BankrCoin",
+              "num_transfer": "4634",
+              "total_token_amount": 3712952603.2468076,
+              "token_in_amount": 1843635964.0963707,
+              "token_out_amount": 1869316639.1504374
+            },
+            {
+              "token_address": "0xed6e000def95780fb89734c07ee2ce9f6dcaf110",
+              "token_symbol": "EDGE",
+              "token_name": "Edge",
+              "num_transfer": "3832",
+              "total_token_amount": 6497209.076081427,
+              "token_in_amount": 2682458.545680918,
+              "token_out_amount": 3814750.530400509
+            },
+            {
+              "token_address": "0xc1cba3fcea344f92d9239c08c0568f6f2f0ee452",
+              "token_symbol": "WSTETH",
+              "token_name": "Wrapped liquid staked Ether 2.0",
+              "num_transfer": "3727",
+              "total_token_amount": 7198.717199444694,
+              "token_in_amount": 2456.6658630326115,
+              "token_out_amount": 4742.0513364120825
+            }
+          ]
+        },
+        {
+          "counterparty_address": "0x4f6f91599858bf0d19fabcf2c5d591fe13f7c059",
+          "counterparty_address_label": null,
+          "interaction_count": 637318,
+          "total_volume_usd": 181019253.29518998,
+          "volume_in_usd": 81732028.89911853,
+          "volume_out_usd": 99287224.39607146,
+          "tokens_info": [
+            {
+              "token_address": "0x4200000000000000000000000000000000000006",
+              "token_symbol": "WETH",
+              "token_name": "Wrapped Ether",
+              "num_transfer": "221544",
+              "total_token_amount": 17103.0868501169,
+              "token_in_amount": 8330.972797775092,
+              "token_out_amount": 8772.114052341807
+            },
+            {
+              "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+              "token_symbol": "USDC",
+              "token_name": "USD Coin",
+              "num_transfer": "103118",
+              "total_token_amount": 38782482.008326,
+              "token_in_amount": 17892757.511371,
+              "token_out_amount": 20889724.496955
+            },
+            {
+              "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+              "token_symbol": "VIRTUAL",
+              "token_name": "Virtual Protocol",
+              "num_transfer": "34157",
+              "total_token_amount": 4798938.514493903,
+              "token_in_amount": 2583306.1958697336,
+              "token_out_amount": 2215632.3186241696
+            },
+            {
+              "token_address": "0x9d0e8f5b25384c7310cb8c6ae32c8fbeb645d083",
+              "token_symbol": "DRV",
+              "token_name": "Derive",
+              "num_transfer": "24995",
+              "total_token_amount": 20698512.543604746,
+              "token_in_amount": 10550267.462205624,
+              "token_out_amount": 10148245.081399124
+            },
+            {
+              "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+              "token_symbol": "CBBTC",
+              "token_name": "Coinbase Wrapped BTC",
+              "num_transfer": "21772",
+              "total_token_amount": 78.66588601,
+              "token_in_amount": 36.27042776,
+              "token_out_amount": 42.39545825
+            },
+            {
+              "token_address": "0xacfe6019ed1a7dc6f7b508c02d1b04ec88cc21bf",
+              "token_symbol": "VVV",
+              "token_name": "Venice Token",
+              "num_transfer": "17345",
+              "total_token_amount": 462336.9399233075,
+              "token_in_amount": 247794.18230424312,
+              "token_out_amount": 214542.7576190644
+            },
+            {
+              "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+              "token_symbol": "AERO",
+              "token_name": "Aerodrome",
+              "num_transfer": "14427",
+              "total_token_amount": 12649583.219631428,
+              "token_in_amount": 6781241.492462187,
+              "token_out_amount": 5868341.727169242
+            },
+            {
+              "token_address": "0xa4a2e2ca3fbfe21aed83471d28b6f65a233c6e00",
+              "token_symbol": "TIBBIR",
+              "token_name": "Ribbita by Virtuals",
+              "num_transfer": "12418",
+              "total_token_amount": 6179324.927527854,
+              "token_in_amount": 3493496.706907953,
+              "token_out_amount": 2685828.2206199015
+            },
+            {
+              "token_address": "0x3ec2156d4c0a9cbdab4a016633b7bcf6a8d68ea2",
+              "token_symbol": "DRB",
+              "token_name": "DebtReliefBot",
+              "num_transfer": "12212",
+              "total_token_amount": 5293764012.803062,
+              "token_in_amount": 1677884622.2944345,
+              "token_out_amount": 3615879390.5086274
+            },
+            {
+              "token_address": "0xf4d97f2da56e8c3098f3a8d538db630a2606a024",
+              "token_symbol": "DIEM",
+              "token_name": "Diem",
+              "num_transfer": "9087",
+              "total_token_amount": 2258.82521186422,
+              "token_in_amount": 1130.7435199172087,
+              "token_out_amount": 1128.0816919470114
+            },
+            {
+              "token_address": "0xc0634090f2fe6c6d75e61be2b949464abb498973",
+              "token_symbol": "KTA",
+              "token_name": "Keeta",
+              "num_transfer": "8206",
+              "total_token_amount": 29176665.40115974,
+              "token_in_amount": 12848442.580313936,
+              "token_out_amount": 16328222.820845807
+            },
+            {
+              "token_address": "0xb200000000000000000000c2e324d24d7eecd1fb",
+              "token_symbol": "AAPL",
+              "token_name": "Apple Inc.",
+              "num_transfer": "8110",
+              "total_token_amount": 4563.40089278,
+              "token_in_amount": 2036.70959972,
+              "token_out_amount": 2526.69129306
+            },
+            {
+              "token_address": "0xbf927b841994731c573bdf09ceb0c6b0aa887cdd",
+              "token_symbol": "VELVET",
+              "token_name": "Velvet",
+              "num_transfer": "7711",
+              "total_token_amount": 2510442.70501897,
+              "token_in_amount": 1001780.1809709736,
+              "token_out_amount": 1508662.5240479964
+            },
+            {
+              "token_address": "0x1111111111166b7fe7bd91427724b487980afc69",
+              "token_symbol": "ZORA",
+              "token_name": "Zora",
+              "num_transfer": "6857",
+              "total_token_amount": 53285705.90432418,
+              "token_in_amount": 28786943.75230075,
+              "token_out_amount": 24498762.152023423
+            },
+            {
+              "token_address": "0x7300b37dfdfab110d83290a29dfb31b1740219fe",
+              "token_symbol": "MAMO",
+              "token_name": "Mamo",
+              "num_transfer": "6514",
+              "total_token_amount": 90935865.81051843,
+              "token_in_amount": 33025620.45195217,
+              "token_out_amount": 57910245.35856627
+            },
+            {
+              "token_address": "0xbaa5cc21fd487b8fcc2f632f3f4e8d37262a0842",
+              "token_symbol": "MORPHO",
+              "token_name": "Morpho Token",
+              "num_transfer": "6492",
+              "total_token_amount": 198315.79928145418,
+              "token_in_amount": 49774.91029272973,
+              "token_out_amount": 148540.88898872444
+            },
+            {
+              "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
+              "token_symbol": "NOCK",
+              "token_name": "Nock",
+              "num_transfer": "6253",
+              "total_token_amount": 149364972.3201543,
+              "token_in_amount": 77206170.08927213,
+              "token_out_amount": 72158802.2308822
+            },
+            {
+              "token_address": "0xcd2f22236dd9dfe2356d7c543161d4d260fd9bcb",
+              "token_symbol": "GHST",
+              "token_name": "Aavegotchi GHST Token",
+              "num_transfer": "5995",
+              "total_token_amount": 10886576.867534645,
+              "token_in_amount": 5157237.43654508,
+              "token_out_amount": 5729339.430989564
+            },
+            {
+              "token_address": "0x22af33fe49fd1fa80c7149773dde5890d3c76f3b",
+              "token_symbol": "BNKR",
+              "token_name": "BankrCoin",
+              "num_transfer": "5950",
+              "total_token_amount": 5593372999.493725,
+              "token_in_amount": 2370642197.9137473,
+              "token_out_amount": 3222730801.5799775
+            },
+            {
+              "token_address": "0xa88594d404727625a9437c3f886c7643872296ae",
+              "token_symbol": "WELL",
+              "token_name": "WELL",
+              "num_transfer": "5739",
+              "total_token_amount": 140279314.60827732,
+              "token_in_amount": 61112491.084232524,
+              "token_out_amount": 79166823.52404481
+            }
+          ]
+        },
+        {
+          "counterparty_address": "0x698cb2b6dd822994581fea6ea4fc755d1363a92f",
+          "counterparty_address_label": null,
+          "interaction_count": 92954,
+          "total_volume_usd": 91667974.67244571,
+          "volume_in_usd": 44314907.681845486,
+          "volume_out_usd": 47353066.99060022,
+          "tokens_info": [
+            {
+              "token_address": "0x4200000000000000000000000000000000000006",
+              "token_symbol": "WETH",
+              "token_name": "Wrapped Ether",
+              "num_transfer": "37772",
+              "total_token_amount": 19489.066690770334,
+              "token_in_amount": 9047.318322449248,
+              "token_out_amount": 10441.74836832109
+            },
+            {
+              "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+              "token_symbol": "USDC",
+              "token_name": "USD Coin",
+              "num_transfer": "22884",
+              "total_token_amount": 10226903.253516,
+              "token_in_amount": 5560997.530285,
+              "token_out_amount": 4665905.723231
+            },
+            {
+              "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+              "token_symbol": "CBBTC",
+              "token_name": "Coinbase Wrapped BTC",
+              "num_transfer": "18824",
+              "total_token_amount": 356.66910786,
+              "token_in_amount": 176.48399671,
+              "token_out_amount": 180.18511115
+            },
+            {
+              "token_address": "0x7300b37dfdfab110d83290a29dfb31b1740219fe",
+              "token_symbol": "MAMO",
+              "token_name": "Mamo",
+              "num_transfer": "5785",
+              "total_token_amount": 36595350.56280175,
+              "token_in_amount": 17321788.871666465,
+              "token_out_amount": 19273561.691135284
+            },
+            {
+              "token_address": "0x7ba6f01772924a82d9626c126347a28299e98c98",
+              "token_symbol": "MSETH",
+              "token_name": "Metronome Synth ETH",
+              "num_transfer": "2066",
+              "total_token_amount": 877.0759731005801,
+              "token_in_amount": 442.4988553396321,
+              "token_out_amount": 434.577117760948
+            },
+            {
+              "token_address": "0xacfe6019ed1a7dc6f7b508c02d1b04ec88cc21bf",
+              "token_symbol": "VVV",
+              "token_name": "Venice Token",
+              "num_transfer": "1512",
+              "total_token_amount": 99439.83804966352,
+              "token_in_amount": 49289.97295558662,
+              "token_out_amount": 50149.8650940769
+            },
+            {
+              "token_address": "0x236aa50979d5f3de3bd1eeb40e81137f22ab794b",
+              "token_symbol": "TBTC",
+              "token_name": "Base tBTC v2",
+              "num_transfer": "780",
+              "total_token_amount": 1.973675318727991,
+              "token_in_amount": 0.8693018718103462,
+              "token_out_amount": 1.1043734469176447
+            },
+            {
+              "token_address": "0xb095274743941e953c746f9c228da9c18bb6ec29",
+              "token_symbol": "LAPTOP",
+              "token_name": "LAPTOP",
+              "num_transfer": "744",
+              "total_token_amount": 22188.06260761204,
+              "token_in_amount": 10666.26373304951,
+              "token_out_amount": 11521.798874562528
+            },
+            {
+              "token_address": "0x15d0e0c55a3e7ee67152ad7e89acf164253ff68d",
+              "token_symbol": "HYPE",
+              "token_name": "HYPE",
+              "num_transfer": "443",
+              "total_token_amount": 289.05830848819517,
+              "token_in_amount": 40.27598272029702,
+              "token_out_amount": 248.78232576789813
+            },
+            {
+              "token_address": "0x9d0e8f5b25384c7310cb8c6ae32c8fbeb645d083",
+              "token_symbol": "DRV",
+              "token_name": "Derive",
+              "num_transfer": "377",
+              "total_token_amount": 1028893.5479463167,
+              "token_in_amount": 626992.0273685567,
+              "token_out_amount": 401901.5205777599
+            },
+            {
+              "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+              "token_symbol": "AERO",
+              "token_name": "Aerodrome",
+              "num_transfer": "337",
+              "total_token_amount": 339869.91950735636,
+              "token_in_amount": 258735.52331913385,
+              "token_out_amount": 81134.39618822248
+            },
+            {
+              "token_address": "0x60a3e35cc302bfa44cb288bc5a4f316fdb1adb42",
+              "token_symbol": "EURC",
+              "token_name": "EURC",
+              "num_transfer": "316",
+              "total_token_amount": 22127.182144,
+              "token_in_amount": 16380.5888,
+              "token_out_amount": 5746.593344
+            },
+            {
+              "token_address": "0x50f88fe97f72cd3e75b9eb4f747f59bceba80d59",
+              "token_symbol": "JESSE",
+              "token_name": "jesse",
+              "num_transfer": "311",
+              "total_token_amount": 251480.8113757757,
+              "token_in_amount": 142596.82616200123,
+              "token_out_amount": 108883.98521377446
+            },
+            {
+              "token_address": "0xb20000000000000000000078ee7ce2fe4908108c",
+              "token_symbol": "NVDA",
+              "token_name": "NVIDIA Corporation",
+              "num_transfer": "240",
+              "total_token_amount": 133.34079435,
+              "token_in_amount": 60.98226111,
+              "token_out_amount": 72.35853324
+            },
+            {
+              "token_address": "0x54f16bd3996169914c84dbb2a16635100cf48a0a",
+              "token_symbol": "PEPTAI",
+              "token_name": "Peptai",
+              "num_transfer": "151",
+              "total_token_amount": 11210.136041022804,
+              "token_in_amount": 10328.504030887729,
+              "token_out_amount": 881.6320101350749
+            },
+            {
+              "token_address": "0x311935cd80b76769bf2ecc9d8ab7635b2139cf82",
+              "token_symbol": "SOL",
+              "token_name": "Solana",
+              "num_transfer": "116",
+              "total_token_amount": 4.538865173,
+              "token_in_amount": 2.860823964,
+              "token_out_amount": 1.678041209
+            },
+            {
+              "token_address": "0x8b7dde054be9d180c1be7fae0874697374a49832",
+              "token_symbol": "PROS",
+              "token_name": "Wrapped PROS",
+              "num_transfer": "86",
+              "total_token_amount": 63.772577549593606,
+              "token_in_amount": 26.671624840839378,
+              "token_out_amount": 37.10095270875423
+            },
+            {
+              "token_address": "0x6b2504a03ca4d43d0d73776f6ad46dab2f2a4cfd",
+              "token_symbol": "REI",
+              "token_name": "Unit 00 - Rei",
+              "num_transfer": "64",
+              "total_token_amount": 57362.64930730591,
+              "token_in_amount": 14879.583867548889,
+              "token_out_amount": 42483.065439757025
+            },
+            {
+              "token_address": "0x0c03ce270b4826ec62e7dd007f0b716068639f7b",
+              "token_symbol": "TIG",
+              "token_name": "The Innovation Game",
+              "num_transfer": "52",
+              "total_token_amount": 5300.167810098887,
+              "token_in_amount": 4817.279528291242,
+              "token_out_amount": 482.88828180764386
+            },
+            {
+              "token_address": "0xff8104251e7761163fac3211ef5583fb3f8583d6",
+              "token_symbol": "REPPO",
+              "token_name": "REPPO",
+              "num_transfer": "46",
+              "total_token_amount": 460837.6702618673,
+              "token_in_amount": 1390.0732770552609,
+              "token_out_amount": 459447.596984812
+            }
+          ]
+        },
+        {
+          "counterparty_address": "0x0000000000000000000000000000000000000000",
+          "counterparty_address_label": null,
+          "interaction_count": 434812,
+          "total_volume_usd": 87213995.84293748,
+          "volume_in_usd": 71121263.02593663,
+          "volume_out_usd": 16092732.817000847,
+          "tokens_info": [
+            {
+              "token_address": "0x4200000000000000000000000000000000000006",
+              "token_symbol": "WETH",
+              "token_name": "Wrapped Ether",
+              "num_transfer": "288634",
+              "total_token_amount": 29242.56385906678,
+              "token_in_amount": 23032.50263028675,
+              "token_out_amount": 6210.061228780028
+            },
+            {
+              "token_address": "0xacfe6019ed1a7dc6f7b508c02d1b04ec88cc21bf",
+              "token_symbol": "VVV",
+              "token_name": "Venice Token",
+              "num_transfer": "116725",
+              "total_token_amount": 21431.953439168283,
+              "token_in_amount": 0,
+              "token_out_amount": 21431.953439168283
+            },
+            {
+              "token_address": "0x74ccbe53f77b08632ce0cb91d3a545bf6b8e0979",
+              "token_symbol": "FBOMB",
+              "token_name": "Fantom Bomb",
+              "num_transfer": "27785",
+              "total_token_amount": 2369272.7954521994,
+              "token_in_amount": 0,
+              "token_out_amount": 2369272.7954521994
+            },
+            {
+              "token_address": "0x90678c02823b21772fa7e91b27ee70490257567b",
+              "token_symbol": "ALTITUDE",
+              "token_name": "ALTITUDE",
+              "num_transfer": "69",
+              "total_token_amount": 1767.5292622840311,
+              "token_in_amount": 0,
+              "token_out_amount": 1767.5292622840311
+            },
+            {
+              "token_address": "0xc75799e0646470128a42d07335ab3bfa9e8ee7c2",
+              "token_symbol": "SAMM-JEUR/EURC",
+              "token_name": "Stable AMM - jEUR/EURC",
+              "num_transfer": "53",
+              "total_token_amount": 0.9894774649631667,
+              "token_in_amount": 0,
+              "token_out_amount": 0.9894774649631667
+            },
+            {
+              "token_address": "0x91f0f34916ca4e2cce120116774b0e4fa0cdcaa8",
+              "token_symbol": "VAMM-WEETH.BASE/WETH",
+              "token_name": "Volatile AMM - weETH.base/WETH",
+              "num_transfer": "45",
+              "total_token_amount": 12.911438909523152,
+              "token_in_amount": 0,
+              "token_out_amount": 12.911438909523152
+            },
+            {
+              "token_address": "0xc3b22240657fa67b77d0f1b7a1c1012db60d46fb",
+              "token_symbol": "VAMM-WETH/TLOS",
+              "token_name": "Volatile AMM - WETH/TLOS",
+              "num_transfer": "39",
+              "total_token_amount": 4096.262072991297,
+              "token_in_amount": 0,
+              "token_out_amount": 4096.262072991297
+            },
+            {
+              "token_address": "0xffdf1e3160b60c2e499fa25e51b5c192b9b15e3b",
+              "token_symbol": "SAMM-BD/USDC",
+              "token_name": "Stable AMM - BD/USDC",
+              "num_transfer": "31",
+              "total_token_amount": 0.05934246735902579,
+              "token_in_amount": 0,
+              "token_out_amount": 0.05934246735902579
+            },
+            {
+              "token_address": "0x0b15b1d434f86ecaa83d14398c8db6d162f3921e",
+              "token_symbol": "VAMM-LUSD/POOL",
+              "token_name": "Volatile AMM - LUSD/POOL",
+              "num_transfer": "29",
+              "total_token_amount": 424.8858860678572,
+              "token_in_amount": 0,
+              "token_out_amount": 424.8858860678572
+            },
+            {
+              "token_address": "0x0cd7adbda66220d98ae8f85564cc7e87da5b67cf",
+              "token_symbol": "SAMM-EUSD/FRXUSD",
+              "token_name": "Stable AMM - eUSD/frxUSD",
+              "num_transfer": "22",
+              "total_token_amount": 9203.484189885601,
+              "token_in_amount": 0,
+              "token_out_amount": 9203.484189885601
+            },
+            {
+              "token_address": "0x7810f8f3253ced11e8c56c6c8497f3134055d44c",
+              "token_symbol": "VAMM-AERO/TAROT",
+              "token_name": "Volatile AMM - AERO/TAROT",
+              "num_transfer": "22",
+              "total_token_amount": 247106.81542798664,
+              "token_in_amount": 0,
+              "token_out_amount": 247106.81542798664
+            },
+            {
+              "token_address": "0x2d25e0514f23c6367687de89bd5167dc754d4934",
+              "token_symbol": "VAMM-WETH/TAROT",
+              "token_name": "Volatile AMM - WETH/TAROT",
+              "num_transfer": "20",
+              "total_token_amount": 782.3896894854407,
+              "token_in_amount": 0,
+              "token_out_amount": 782.3896894854407
+            },
+            {
+              "token_address": "0xc395664b295ed5bf1d249ae8be9740655aa174ef",
+              "token_symbol": "VAMM-FBOMB/USDBC",
+              "token_name": "Volatile AMM - fBOMB/USDbC",
+              "num_transfer": "18",
+              "total_token_amount": 1.3738790695222638,
+              "token_in_amount": 0,
+              "token_out_amount": 1.3738790695222638
+            },
+            {
+              "token_address": "0x5e7801e9b3aff7c785e4e74ff2076d4967d0cb6b",
+              "token_symbol": "VAMM-USDC/USDT",
+              "token_name": "Volatile AMM - USDC/USDT",
+              "num_transfer": "17",
+              "total_token_amount": 2.131855747e-9,
+              "token_in_amount": 0,
+              "token_out_amount": 2.131855747e-9
+            },
+            {
+              "token_address": "0x55f618171d851d57906431ce9feee96dc6f3877e",
+              "token_symbol": "VAMM-BOTTO/WETH",
+              "token_name": "Volatile AMM - BOTTO/WETH",
+              "num_transfer": "17",
+              "total_token_amount": 1974.6153926951074,
+              "token_in_amount": 0,
+              "token_out_amount": 1974.6153926951074
+            },
+            {
+              "token_address": "0xa260a129622c5600e67d75b6006fb3c612cf26c3",
+              "token_symbol": "SAMM-SOL/USOL",
+              "token_name": "Stable AMM - SOL/uSOL",
+              "num_transfer": "17",
+              "total_token_amount": 0.000958498454969873,
+              "token_in_amount": 0,
+              "token_out_amount": 0.000958498454969873
+            },
+            {
+              "token_address": "0x27a8afa3bd49406e48a074350fb7b2020c43b2bd",
+              "token_symbol": "SAMM-USDC/USDBC",
+              "token_name": "Stable AMM - USDC/USDbC",
+              "num_transfer": "17",
+              "total_token_amount": 6.7343494e-11,
+              "token_in_amount": 0,
+              "token_out_amount": 6.7343494e-11
+            },
+            {
+              "token_address": "0xc4fbb564d11a36b71d0152a1a8cddec709e20908",
+              "token_symbol": "VAMM-TAOT/USDC",
+              "token_name": "Volatile AMM - TAOT/USDC",
+              "num_transfer": "15",
+              "total_token_amount": 0.05995675718712817,
+              "token_in_amount": 0,
+              "token_out_amount": 0.05995675718712817
+            },
+            {
+              "token_address": "0x8ea57c4d7a6a88c90bcf038d37939fae61305a88",
+              "token_symbol": "EVRGROW",
+              "token_name": "EVRGROW",
+              "num_transfer": "14",
+              "total_token_amount": 22480.300965279424,
+              "token_in_amount": 0,
+              "token_out_amount": 22480.300965279424
+            },
+            {
+              "token_address": "0xff8e0bd2d8f02904e7e18dd00ea50aec68f37a10",
+              "token_symbol": "VAMM-FBOMB/USDC",
+              "token_name": "Volatile AMM - fBOMB/USDC",
+              "num_transfer": "14",
+              "total_token_amount": 1.1086904747856274,
+              "token_in_amount": 0,
+              "token_out_amount": 1.1086904747856274
+            }
+          ]
+        },
+        {
+          "counterparty_address": "0x4200000000000000000000000000000000000006",
+          "counterparty_address_label": null,
+          "interaction_count": 288634,
+          "total_volume_usd": 73532529.54837029,
+          "volume_in_usd": 15623472.998949893,
+          "volume_out_usd": 57909056.549420394,
+          "tokens_info": [
+            {
+              "token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+              "token_symbol": "ETH",
+              "token_name": "Ethereum",
+              "num_transfer": "288634",
+              "total_token_amount": 29242.56385906678,
+              "token_in_amount": 6210.061228780028,
+              "token_out_amount": 23032.50263028675
+            }
+          ]
+        },
+        {
+          "counterparty_address": "0xd8ba9d1a99fc21f0eca24e9b85737c28a194a4e2",
+          "counterparty_address_label": null,
+          "interaction_count": 242387,
+          "total_volume_usd": 59593179.581838764,
+          "volume_in_usd": 29188035.785935596,
+          "volume_out_usd": 30405143.79590317,
+          "tokens_info": [
+            {
+              "token_address": "0x4200000000000000000000000000000000000006",
+              "token_symbol": "WETH",
+              "token_name": "Wrapped Ether",
+              "num_transfer": "102862",
+              "total_token_amount": 10913.276134765756,
+              "token_in_amount": 5244.481685726953,
+              "token_out_amount": 5668.794449038802
+            },
+            {
+              "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+              "token_symbol": "USDC",
+              "token_name": "USD Coin",
+              "num_transfer": "92276",
+              "total_token_amount": 23538365.995051,
+              "token_in_amount": 11520250.38224,
+              "token_out_amount": 12018115.612811
+            },
+            {
+              "token_address": "0xfde4c96c8593536e31f229ea8f37b2ada2699bb2",
+              "token_symbol": "USDT",
+              "token_name": "Tether USD",
+              "num_transfer": "20076",
+              "total_token_amount": 3784754.636874,
+              "token_in_amount": 1892381.927029,
+              "token_out_amount": 1892372.709845
+            },
+            {
+              "token_address": "0xb200000000000000000000c2e324d24d7eecd1fb",
+              "token_symbol": "AAPL",
+              "token_name": "Apple Inc.",
+              "num_transfer": "14334",
+              "total_token_amount": 8145.48509037,
+              "token_in_amount": 4371.04960556,
+              "token_out_amount": 3774.43548481
+            },
+            {
+              "token_address": "0xacfe6019ed1a7dc6f7b508c02d1b04ec88cc21bf",
+              "token_symbol": "VVV",
+              "token_name": "Venice Token",
+              "num_transfer": "7856",
+              "total_token_amount": 59789.080258846996,
+              "token_in_amount": 30371.71955653204,
+              "token_out_amount": 29417.36070231496
+            },
+            {
+              "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+              "token_symbol": "VIRTUAL",
+              "token_name": "Virtual Protocol",
+              "num_transfer": "1062",
+              "total_token_amount": 536061.1849414291,
+              "token_in_amount": 349698.57211746444,
+              "token_out_amount": 186362.61282396465
+            },
+            {
+              "token_address": "0xf4d97f2da56e8c3098f3a8d538db630a2606a024",
+              "token_symbol": "DIEM",
+              "token_name": "Diem",
+              "num_transfer": "719",
+              "total_token_amount": 61.595481510360266,
+              "token_in_amount": 29.921601361371906,
+              "token_out_amount": 31.67388014898836
+            },
+            {
+              "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
+              "token_symbol": "NOCK",
+              "token_name": "Nock",
+              "num_transfer": "639",
+              "total_token_amount": 2274033.0382712786,
+              "token_in_amount": 434907.9567291449,
+              "token_out_amount": 1839125.0815421338
+            },
+            {
+              "token_address": "0x22af33fe49fd1fa80c7149773dde5890d3c76f3b",
+              "token_symbol": "BNKR",
+              "token_name": "BankrCoin",
+              "num_transfer": "615",
+              "total_token_amount": 440663933.77202153,
+              "token_in_amount": 228013143.67291465,
+              "token_out_amount": 212650790.09910688
+            },
+            {
+              "token_address": "0x1111111111166b7fe7bd91427724b487980afc69",
+              "token_symbol": "ZORA",
+              "token_name": "Zora",
+              "num_transfer": "416",
+              "total_token_amount": 7445934.922372339,
+              "token_in_amount": 4247077.457529819,
+              "token_out_amount": 3198857.4648425197
+            },
+            {
+              "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+              "token_symbol": "AERO",
+              "token_name": "Aerodrome",
+              "num_transfer": "406",
+              "total_token_amount": 172240.58660665932,
+              "token_in_amount": 91730.39315214999,
+              "token_out_amount": 80510.19345450932
+            },
+            {
+              "token_address": "0xcb17c9db87b595717c857a08468793f5bab6445f",
+              "token_symbol": "CBLTC",
+              "token_name": "Coinbase Wrapped LTC",
+              "num_transfer": "226",
+              "total_token_amount": 689.06976995,
+              "token_in_amount": 320.0527748,
+              "token_out_amount": 369.01699515
+            },
+            {
+              "token_address": "0x532f27101965dd16442e59d40670faf5ebb142e4",
+              "token_symbol": "BRETT",
+              "token_name": "Brett",
+              "num_transfer": "217",
+              "total_token_amount": 3642185.4465540918,
+              "token_in_amount": 2057790.254959672,
+              "token_out_amount": 1584395.1915944195
+            },
+            {
+              "token_address": "0x9d0e8f5b25384c7310cb8c6ae32c8fbeb645d083",
+              "token_symbol": "DRV",
+              "token_name": "Derive",
+              "num_transfer": "153",
+              "total_token_amount": 51727.44537343233,
+              "token_in_amount": 23449.128885324903,
+              "token_out_amount": 28278.316488107434
+            },
+            {
+              "token_address": "0xc0634090f2fe6c6d75e61be2b949464abb498973",
+              "token_symbol": "KTA",
+              "token_name": "Keeta",
+              "num_transfer": "135",
+              "total_token_amount": 186147.26369242225,
+              "token_in_amount": 0,
+              "token_out_amount": 186147.26369242225
+            },
+            {
+              "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+              "token_symbol": "CBBTC",
+              "token_name": "Coinbase Wrapped BTC",
+              "num_transfer": "123",
+              "total_token_amount": 0.58019365,
+              "token_in_amount": 0.26572467,
+              "token_out_amount": 0.31446898
+            },
+            {
+              "token_address": "0xa4a2e2ca3fbfe21aed83471d28b6f65a233c6e00",
+              "token_symbol": "TIBBIR",
+              "token_name": "Ribbita by Virtuals",
+              "num_transfer": "93",
+              "total_token_amount": 18830.118414189055,
+              "token_in_amount": 4785.242565700846,
+              "token_out_amount": 14044.875848488207
+            },
+            {
+              "token_address": "0xfb31f85a8367210b2e4ed2360d2da9dc2d2ccc95",
+              "token_symbol": "EDEL",
+              "token_name": "Edel",
+              "num_transfer": "52",
+              "total_token_amount": 196356.78853179398,
+              "token_in_amount": 0,
+              "token_out_amount": 196356.78853179398
+            },
+            {
+              "token_address": "0x696f9436b67233384889472cd7cd58a6fb5df4f1",
+              "token_symbol": "AVNT",
+              "token_name": "Avantis",
+              "num_transfer": "32",
+              "total_token_amount": 18516.01830385872,
+              "token_in_amount": 7806.201154585701,
+              "token_out_amount": 10709.81714927302
+            },
+            {
+              "token_address": "0xbaa5cc21fd487b8fcc2f632f3f4e8d37262a0842",
+              "token_symbol": "MORPHO",
+              "token_name": "Morpho Token",
+              "num_transfer": "14",
+              "total_token_amount": 507.17619348354805,
+              "token_in_amount": 203.12010334276286,
+              "token_out_amount": 304.05609014078516
+            }
+          ]
+        },
+        {
+          "counterparty_address": "0x411d2c093e4c2e69bf0d8e94be1bf13dadd879c6",
+          "counterparty_address_label": null,
+          "interaction_count": 204552,
+          "total_volume_usd": 49529840.73902037,
+          "volume_in_usd": 49529094.77084916,
+          "volume_out_usd": 745.9681712063989,
+          "tokens_info": [
+            {
+              "token_address": "0x4200000000000000000000000000000000000006",
+              "token_symbol": "WETH",
+              "token_name": "Wrapped Ether",
+              "num_transfer": "63773",
+              "total_token_amount": 3256.6754392293637,
+              "token_in_amount": 3256.674568732796,
+              "token_out_amount": 0.00087049656778721
+            },
+            {
+              "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+              "token_symbol": "USDC",
+              "token_name": "USD Coin",
+              "num_transfer": "35316",
+              "total_token_amount": 16209567.209526,
+              "token_in_amount": 16209567.209526,
+              "token_out_amount": 0
+            },
+            {
+              "token_address": "0xfde4c96c8593536e31f229ea8f37b2ada2699bb2",
+              "token_symbol": "USDT",
+              "token_name": "Tether USD",
+              "num_transfer": "28281",
+              "total_token_amount": 8788917.775577,
+              "token_in_amount": 8788917.775577,
+              "token_out_amount": 0
+            },
+            {
+              "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+              "token_symbol": "CBBTC",
+              "token_name": "Coinbase Wrapped BTC",
+              "num_transfer": "16978",
+              "total_token_amount": 10.06767761,
+              "token_in_amount": 10.06766957,
+              "token_out_amount": 0.00000804
+            },
+            {
+              "token_address": "0xb200000000000000000000c2e324d24d7eecd1fb",
+              "token_symbol": "AAPL",
+              "token_name": "Apple Inc.",
+              "num_transfer": "13380",
+              "total_token_amount": 4926.76525955,
+              "token_in_amount": 4924.43318728,
+              "token_out_amount": 2.33207227
+            },
+            {
+              "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+              "token_symbol": "VIRTUAL",
+              "token_name": "Virtual Protocol",
+              "num_transfer": "9326",
+              "total_token_amount": 1143860.9453953938,
+              "token_in_amount": 1143860.9453953938,
+              "token_out_amount": 0
+            },
+            {
+              "token_address": "0xbf927b841994731c573bdf09ceb0c6b0aa887cdd",
+              "token_symbol": "VELVET",
+              "token_name": "Velvet",
+              "num_transfer": "6812",
+              "total_token_amount": 8655646.726151433,
+              "token_in_amount": 8655646.726151433,
+              "token_out_amount": 0
+            },
+            {
+              "token_address": "0x752c5a95d202972e124390f30a50154409d3c858",
+              "token_symbol": "OFC",
+              "token_name": "OFC",
+              "num_transfer": "5483",
+              "total_token_amount": 12389487.661619842,
+              "token_in_amount": 12389487.661619842,
+              "token_out_amount": 0
+            },
+            {
+              "token_address": "0xb3b32f9f8827d4634fe7d973fa1034ec9fddb3b3",
+              "token_symbol": "B3",
+              "token_name": "B3",
+              "num_transfer": "2388",
+              "total_token_amount": 609731755.2390152,
+              "token_in_amount": 609731755.2390152,
+              "token_out_amount": 0
+            },
+            {
+              "token_address": "0x5ab3d4c385b400f3abb49e80de2faf6a88a7b691",
+              "token_symbol": "FLOCK",
+              "token_name": "FLock.io",
+              "num_transfer": "2215",
+              "total_token_amount": 9422078.635588992,
+              "token_in_amount": 9422078.635588992,
+              "token_out_amount": 0
+            },
+            {
+              "token_address": "0x50da645f148798f68ef2d7db7c1cb22a6819bb2c",
+              "token_symbol": "SPX",
+              "token_name": "SPX6900",
+              "num_transfer": "2000",
+              "total_token_amount": 211068.6706462,
+              "token_in_amount": 211068.6706462,
+              "token_out_amount": 0
+            },
+            {
+              "token_address": "0xf4d97f2da56e8c3098f3a8d538db630a2606a024",
+              "token_symbol": "DIEM",
+              "token_name": "Diem",
+              "num_transfer": "1912",
+              "total_token_amount": 141.9291297086235,
+              "token_in_amount": 141.9291297086235,
+              "token_out_amount": 0
+            },
+            {
+              "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+              "token_symbol": "AERO",
+              "token_name": "Aerodrome",
+              "num_transfer": "1576",
+              "total_token_amount": 568418.6787369119,
+              "token_in_amount": 568418.6787369119,
+              "token_out_amount": 0
+            },
+            {
+              "token_address": "0xacfe6019ed1a7dc6f7b508c02d1b04ec88cc21bf",
+              "token_symbol": "VVV",
+              "token_name": "Venice Token",
+              "num_transfer": "1519",
+              "total_token_amount": 22676.452070416664,
+              "token_in_amount": 22676.452070416664,
+              "token_out_amount": 0
+            },
+            {
+              "token_address": "0x60a3e35cc302bfa44cb288bc5a4f316fdb1adb42",
+              "token_symbol": "EURC",
+              "token_name": "EURC",
+              "num_transfer": "1320",
+              "total_token_amount": 6546167.999046,
+              "token_in_amount": 6546167.999046,
+              "token_out_amount": 0
+            },
+            {
+              "token_address": "0x7300b37dfdfab110d83290a29dfb31b1740219fe",
+              "token_symbol": "MAMO",
+              "token_name": "Mamo",
+              "num_transfer": "1002",
+              "total_token_amount": 8213258.431074615,
+              "token_in_amount": 8213258.431074615,
+              "token_out_amount": 0
+            },
+            {
+              "token_address": "0x3ec2156d4c0a9cbdab4a016633b7bcf6a8d68ea2",
+              "token_symbol": "DRB",
+              "token_name": "DebtReliefBot",
+              "num_transfer": "950",
+              "total_token_amount": 585735311.6484945,
+              "token_in_amount": 585735311.6484945,
+              "token_out_amount": 0
+            },
+            {
+              "token_address": "0x1111111111166b7fe7bd91427724b487980afc69",
+              "token_symbol": "ZORA",
+              "token_name": "Zora",
+              "num_transfer": "734",
+              "total_token_amount": 7340869.475024568,
+              "token_in_amount": 7340869.475024568,
+              "token_out_amount": 0
+            },
+            {
+              "token_address": "0x532f27101965dd16442e59d40670faf5ebb142e4",
+              "token_symbol": "BRETT",
+              "token_name": "Brett",
+              "num_transfer": "732",
+              "total_token_amount": 20458026.744397752,
+              "token_in_amount": 20458026.744397752,
+              "token_out_amount": 0
+            },
+            {
+              "token_address": "0x22af33fe49fd1fa80c7149773dde5890d3c76f3b",
+              "token_symbol": "BNKR",
+              "token_name": "BankrCoin",
+              "num_transfer": "697",
+              "total_token_amount": 843566011.6180512,
+              "token_in_amount": 843566011.6180512,
+              "token_out_amount": 0
+            }
+          ]
+        },
+        {
+          "counterparty_address": "0x082738d007001080a00099a000004f3006152085",
+          "counterparty_address_label": null,
+          "interaction_count": 77754,
+          "total_volume_usd": 42032334.41665742,
+          "volume_in_usd": 21020377.23708968,
+          "volume_out_usd": 21011957.17956774,
+          "tokens_info": [
+            {
+              "token_address": "0x4200000000000000000000000000000000000006",
+              "token_symbol": "WETH",
+              "token_name": "Wrapped Ether",
+              "num_transfer": "23270",
+              "total_token_amount": 5414.135185246478,
+              "token_in_amount": 2168.9380466085063,
+              "token_out_amount": 3245.197138637971
+            },
+            {
+              "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+              "token_symbol": "USDC",
+              "token_name": "USD Coin",
+              "num_transfer": "16994",
+              "total_token_amount": 5964621.941388,
+              "token_in_amount": 3038015.180864,
+              "token_out_amount": 2926606.760524
+            },
+            {
+              "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+              "token_symbol": "AERO",
+              "token_name": "Aerodrome",
+              "num_transfer": "4040",
+              "total_token_amount": 4149964.771279451,
+              "token_in_amount": 1635257.2226200597,
+              "token_out_amount": 2514707.548659391
+            },
+            {
+              "token_address": "0xacfe6019ed1a7dc6f7b508c02d1b04ec88cc21bf",
+              "token_symbol": "VVV",
+              "token_name": "Venice Token",
+              "num_transfer": "3265",
+              "total_token_amount": 85754.4056226443,
+              "token_in_amount": 42062.200935336856,
+              "token_out_amount": 43692.20468730744
+            },
+            {
+              "token_address": "0xfde4c96c8593536e31f229ea8f37b2ada2699bb2",
+              "token_symbol": "USDT",
+              "token_name": "Tether USD",
+              "num_transfer": "2727",
+              "total_token_amount": 2085611.935884,
+              "token_in_amount": 1173334.708394,
+              "token_out_amount": 912277.22749
+            },
+            {
+              "token_address": "0xf4d97f2da56e8c3098f3a8d538db630a2606a024",
+              "token_symbol": "DIEM",
+              "token_name": "Diem",
+              "num_transfer": "2250",
+              "total_token_amount": 582.7192098281065,
+              "token_in_amount": 313.3973926937124,
+              "token_out_amount": 269.3218171343941
+            },
+            {
+              "token_address": "0x9d0e8f5b25384c7310cb8c6ae32c8fbeb645d083",
+              "token_symbol": "DRV",
+              "token_name": "Derive",
+              "num_transfer": "2173",
+              "total_token_amount": 2302143.610730856,
+              "token_in_amount": 1204114.7700415708,
+              "token_out_amount": 1098028.8406892854
+            },
+            {
+              "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+              "token_symbol": "CBBTC",
+              "token_name": "Coinbase Wrapped BTC",
+              "num_transfer": "2115",
+              "total_token_amount": 22.2833869,
+              "token_in_amount": 13.2787134,
+              "token_out_amount": 9.0046735
+            },
+            {
+              "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+              "token_symbol": "VIRTUAL",
+              "token_name": "Virtual Protocol",
+              "num_transfer": "1705",
+              "total_token_amount": 242326.97690651665,
+              "token_in_amount": 142721.0431065765,
+              "token_out_amount": 99605.93379994015
+            },
+            {
+              "token_address": "0xb3b32f9f8827d4634fe7d973fa1034ec9fddb3b3",
+              "token_symbol": "B3",
+              "token_name": "B3",
+              "num_transfer": "1282",
+              "total_token_amount": 243251551.11561248,
+              "token_in_amount": 124496278.28365768,
+              "token_out_amount": 118755272.83195479
+            },
+            {
+              "token_address": "0x526728dbc96689597f85ae4cd716d4f7fccbae9d",
+              "token_symbol": "MSUSD",
+              "token_name": "Metronome Synth USD",
+              "num_transfer": "1091",
+              "total_token_amount": 926418.1820305593,
+              "token_in_amount": 300184.61838825064,
+              "token_out_amount": 626233.5636423086
+            },
+            {
+              "token_address": "0x11dc28d01984079b7efe7763b533e6ed9e3722b9",
+              "token_symbol": "SYND",
+              "token_name": "Syndicate",
+              "num_transfer": "939",
+              "total_token_amount": 1559869.776685065,
+              "token_in_amount": 1149553.936887733,
+              "token_out_amount": 410315.83979733195
+            },
+            {
+              "token_address": "0x5ab3d4c385b400f3abb49e80de2faf6a88a7b691",
+              "token_symbol": "FLOCK",
+              "token_name": "FLock.io",
+              "num_transfer": "924",
+              "total_token_amount": 1822847.557708523,
+              "token_in_amount": 1103246.8143667376,
+              "token_out_amount": 719600.7433417855
+            },
+            {
+              "token_address": "0x3ec2156d4c0a9cbdab4a016633b7bcf6a8d68ea2",
+              "token_symbol": "DRB",
+              "token_name": "DebtReliefBot",
+              "num_transfer": "832",
+              "total_token_amount": 396133703.86971986,
+              "token_in_amount": 163069466.96009737,
+              "token_out_amount": 233064236.9096225
+            },
+            {
+              "token_address": "0x7300b37dfdfab110d83290a29dfb31b1740219fe",
+              "token_symbol": "MAMO",
+              "token_name": "Mamo",
+              "num_transfer": "615",
+              "total_token_amount": 5272222.57432481,
+              "token_in_amount": 1363825.5098395932,
+              "token_out_amount": 3908397.064485217
+            },
+            {
+              "token_address": "0x2a0a59d6b975828e781ecac125dba40d7ee5ddc0",
+              "token_symbol": "RIPE",
+              "token_name": "Ripe DAO Governance Token",
+              "num_transfer": "544",
+              "total_token_amount": 57328.44057718524,
+              "token_in_amount": 46491.29063710753,
+              "token_out_amount": 10837.149940077703
+            },
+            {
+              "token_address": "0xa88594d404727625a9437c3f886c7643872296ae",
+              "token_symbol": "WELL",
+              "token_name": "WELL",
+              "num_transfer": "519",
+              "total_token_amount": 19502627.145759713,
+              "token_in_amount": 7899322.271801098,
+              "token_out_amount": 11603304.873958616
+            },
+            {
+              "token_address": "0x1111111111166b7fe7bd91427724b487980afc69",
+              "token_symbol": "ZORA",
+              "token_name": "Zora",
+              "num_transfer": "513",
+              "total_token_amount": 11104624.950113947,
+              "token_in_amount": 5580685.422493585,
+              "token_out_amount": 5523939.52762036
+            },
+            {
+              "token_address": "0xcd2f22236dd9dfe2356d7c543161d4d260fd9bcb",
+              "token_symbol": "GHST",
+              "token_name": "Aavegotchi GHST Token",
+              "num_transfer": "475",
+              "total_token_amount": 773919.1270923779,
+              "token_in_amount": 403937.9607388042,
+              "token_out_amount": 369981.16635357373
+            },
+            {
+              "token_address": "0xc1cba3fcea344f92d9239c08c0568f6f2f0ee452",
+              "token_symbol": "WSTETH",
+              "token_name": "Wrapped liquid staked Ether 2.0",
+              "num_transfer": "460",
+              "total_token_amount": 2002.8422302043884,
+              "token_in_amount": 1533.357596238332,
+              "token_out_amount": 469.48463396605615
+            }
+          ]
+        },
+        {
+          "counterparty_address": "0x498581ff718922c3f8e6a244956af099b2652b2b",
+          "counterparty_address_label": null,
+          "interaction_count": 333686,
+          "total_volume_usd": 25928801.892308455,
+          "volume_in_usd": 12888066.055838535,
+          "volume_out_usd": 13040735.83646992,
+          "tokens_info": [
+            {
+              "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+              "token_symbol": "USDC",
+              "token_name": "USD Coin",
+              "num_transfer": "57050",
+              "total_token_amount": 7266651.38926,
+              "token_in_amount": 3603904.636544,
+              "token_out_amount": 3662746.752716
+            },
+            {
+              "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+              "token_symbol": "VIRTUAL",
+              "token_name": "Virtual Protocol",
+              "num_transfer": "25507",
+              "total_token_amount": 3541072.5756655526,
+              "token_in_amount": 1154488.6456736152,
+              "token_out_amount": 2386583.9299919377
+            },
+            {
+              "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+              "token_symbol": "AERO",
+              "token_name": "Aerodrome",
+              "num_transfer": "24183",
+              "total_token_amount": 1504567.0404546505,
+              "token_in_amount": 906231.147695445,
+              "token_out_amount": 598335.8927592055
+            },
+            {
+              "token_address": "0x3ec2156d4c0a9cbdab4a016633b7bcf6a8d68ea2",
+              "token_symbol": "DRB",
+              "token_name": "DebtReliefBot",
+              "num_transfer": "19167",
+              "total_token_amount": 631454722.1347973,
+              "token_in_amount": 355443828.197585,
+              "token_out_amount": 276010893.9372123
+            },
+            {
+              "token_address": "0x5ab000ff9b9ffe0349ce5ffa5fd86f217c3680f5",
+              "token_symbol": "STONKEX",
+              "token_name": "The Stonks Exchange",
+              "num_transfer": "14696",
+              "total_token_amount": 233576598.1891272,
+              "token_in_amount": 160219293.19670302,
+              "token_out_amount": 73357304.99242418
+            },
+            {
+              "token_address": "0x5ab3d4c385b400f3abb49e80de2faf6a88a7b691",
+              "token_symbol": "FLOCK",
+              "token_name": "FLock.io",
+              "num_transfer": "12967",
+              "total_token_amount": 5666575.148460141,
+              "token_in_amount": 2676964.9808113114,
+              "token_out_amount": 2989610.167648829
+            },
+            {
+              "token_address": "0xacfe6019ed1a7dc6f7b508c02d1b04ec88cc21bf",
+              "token_symbol": "VVV",
+              "token_name": "Venice Token",
+              "num_transfer": "12123",
+              "total_token_amount": 60801.90013738643,
+              "token_in_amount": 35094.2627366679,
+              "token_out_amount": 25707.63740071853
+            },
+            {
+              "token_address": "0x4200000000000000000000000000000000000006",
+              "token_symbol": "WETH",
+              "token_name": "Wrapped Ether",
+              "num_transfer": "9934",
+              "total_token_amount": 712.3364936572635,
+              "token_in_amount": 350.56704636729415,
+              "token_out_amount": 361.76944728996943
+            },
+            {
+              "token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+              "token_symbol": "CBBTC",
+              "token_name": "Coinbase Wrapped BTC",
+              "num_transfer": "9772",
+              "total_token_amount": 27.95556701,
+              "token_in_amount": 15.51110719,
+              "token_out_amount": 12.44445982
+            },
+            {
+              "token_address": "0x22af33fe49fd1fa80c7149773dde5890d3c76f3b",
+              "token_symbol": "BNKR",
+              "token_name": "BankrCoin",
+              "num_transfer": "7012",
+              "total_token_amount": 520156128.883735,
+              "token_in_amount": 215200028.38231036,
+              "token_out_amount": 304956100.5014246
+            },
+            {
+              "token_address": "0x5f980dcfc4c0fa3911554cf5ab288ed0eb13dba3",
+              "token_symbol": "GITLAWB",
+              "token_name": "gitlawb",
+              "num_transfer": "6979",
+              "total_token_amount": 633643512.1729198,
+              "token_in_amount": 426371845.34900683,
+              "token_out_amount": 207271666.8239129
+            },
+            {
+              "token_address": "0xfde4c96c8593536e31f229ea8f37b2ada2699bb2",
+              "token_symbol": "USDT",
+              "token_name": "Tether USD",
+              "num_transfer": "6681",
+              "total_token_amount": 3354441.822622,
+              "token_in_amount": 1625619.664703,
+              "token_out_amount": 1728822.157919
+            },
+            {
+              "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
+              "token_symbol": "NOCK",
+              "token_name": "Nock",
+              "num_transfer": "6542",
+              "total_token_amount": 23151111.96106111,
+              "token_in_amount": 14319586.054478865,
+              "token_out_amount": 8831525.906582244
+            },
+            {
+              "token_address": "0xd9aaec86b65d86f6a7b5b1b0c42ffa531710b6ca",
+              "token_symbol": "USDBC",
+              "token_name": "USD Base Coin",
+              "num_transfer": "5659",
+              "total_token_amount": 292543.690711,
+              "token_in_amount": 192741.548869,
+              "token_out_amount": 99802.141842
+            },
+            {
+              "token_address": "0x1111111111166b7fe7bd91427724b487980afc69",
+              "token_symbol": "ZORA",
+              "token_name": "Zora",
+              "num_transfer": "4107",
+              "total_token_amount": 15880047.843822036,
+              "token_in_amount": 7314463.900433229,
+              "token_out_amount": 8565583.943388805
+            },
+            {
+              "token_address": "0xef5997c2cf2f6c138196f8a6203afc335206b3c1",
+              "token_symbol": "OWB",
+              "token_name": "OWB",
+              "num_transfer": "3963",
+              "total_token_amount": 5230451.868795156,
+              "token_in_amount": 2305128.713358072,
+              "token_out_amount": 2925323.1554370825
+            },
+            {
+              "token_address": "0x11030f79109269d796fd0fb956d6244e502757f7",
+              "token_symbol": "CTR",
+              "token_name": "CTR",
+              "num_transfer": "3894",
+              "total_token_amount": 5985518.0610523885,
+              "token_in_amount": 3898298.274563306,
+              "token_out_amount": 2087219.7864890823
+            },
+            {
+              "token_address": "0xb200000000000000000000c2e324d24d7eecd1fb",
+              "token_symbol": "AAPL",
+              "token_name": "Apple Inc.",
+              "num_transfer": "3807",
+              "total_token_amount": 2211.98452003,
+              "token_in_amount": 220.74750345,
+              "token_out_amount": 1991.23701658
+            },
+            {
+              "token_address": "0xf4d97f2da56e8c3098f3a8d538db630a2606a024",
+              "token_symbol": "DIEM",
+              "token_name": "Diem",
+              "num_transfer": "3193",
+              "total_token_amount": 197.5278890103278,
+              "token_in_amount": 122.09434439801332,
+              "token_out_amount": 75.43354461231449
+            },
+            {
+              "token_address": "0xb095274743941e953c746f9c228da9c18bb6ec29",
+              "token_symbol": "LAPTOP",
+              "token_name": "LAPTOP",
+              "num_transfer": "3189",
+              "total_token_amount": 22832.23656131803,
+              "token_in_amount": 12206.449962920087,
+              "token_out_amount": 10625.78659839794
+            }
+          ]
+        }
+      ]
+    },
+    "recordedAt": 1790212810555
+  },
+  {
+    "requestHash": "ba7972d355253feba3562542922e1280bcdc0177",
+    "request": {
+      "address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+      "chain": "bnb",
+      "date": {
+        "from": "2026-08-25",
+        "to": "2026-09-25"
+      },
+      "group_by": "wallet",
+      "pagination": {
+        "page": 1,
+        "per_page": 10
+      },
+      "order_by": [
+        {
+          "field": "total_volume_usd",
+          "direction": "DESC"
+        }
+      ]
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 10,
+        "is_last_page": false
+      },
+      "data": [
+        {
+          "counterparty_address": "0x5994814f2c4040b863a0125a45de152a8c2a4dec",
+          "counterparty_address_label": null,
+          "interaction_count": 228,
+          "total_volume_usd": 8689.181875518932,
+          "volume_in_usd": 8689.181875518932,
+          "volume_out_usd": 0,
+          "tokens_info": [
+            {
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "token_symbol": "USDT",
+              "token_name": "Tether USD",
+              "num_transfer": "226",
+              "total_token_amount": 8524.75604356878,
+              "token_in_amount": 8524.75604356878,
+              "token_out_amount": 0
+            },
+            {
+              "token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+              "token_symbol": "BNB",
+              "token_name": "BinanceCoin",
+              "num_transfer": "2",
+              "total_token_amount": 0.23511922881289735,
+              "token_in_amount": 0.23511922881289735,
+              "token_out_amount": 0
+            }
+          ]
+        },
+        {
+          "counterparty_address": "0x3e4f42afb8e80c3116c972cdb4e5866d7ccf7881",
+          "counterparty_address_label": null,
+          "interaction_count": 5,
+          "total_volume_usd": 2952.1004715872637,
+          "volume_in_usd": 1895.3404563941826,
+          "volume_out_usd": 1056.760015193081,
+          "tokens_info": [
+            {
+              "token_address": "0xf2557688c18cab42bec4b5b053e05e3482527777",
+              "token_symbol": "SPACEMOON",
+              "token_name": "SpaceMoon",
+              "num_transfer": "5",
+              "total_token_amount": 16186641.75726312,
+              "token_in_amount": 8216569.419930518,
+              "token_out_amount": 7970072.337332603
+            }
+          ]
+        },
+        {
+          "counterparty_address": "0x69a52a0570636ca391175ce619bbb9d348040bbc",
+          "counterparty_address_label": null,
+          "interaction_count": 45,
+          "total_volume_usd": 2704.078314678325,
+          "volume_in_usd": 0,
+          "volume_out_usd": 2704.078314678325,
+          "tokens_info": [
+            {
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "token_symbol": "USDT",
+              "token_name": "Tether USD",
+              "num_transfer": "35",
+              "total_token_amount": 1877.56,
+              "token_in_amount": 0,
+              "token_out_amount": 1877.56
+            },
+            {
+              "token_address": "0x0a73d885cdd66adf69c6d64c0609e55c527db2be",
+              "token_symbol": "K",
+              "token_name": "Sidekick",
+              "num_transfer": "2",
+              "total_token_amount": 578995.0960608923,
+              "token_in_amount": 0,
+              "token_out_amount": 578995.0960608923
+            },
+            {
+              "token_address": "0x6ced5c6d3f913b48d59fa07abbfe9060c409087c",
+              "token_symbol": "ANTFUN",
+              "token_name": "AntFun",
+              "num_transfer": "2",
+              "total_token_amount": 15371.989331186714,
+              "token_in_amount": 0,
+              "token_out_amount": 15371.989331186714
+            },
+            {
+              "token_address": "0xf39e4b21c84e737df08e2c3b32541d856f508e48",
+              "token_symbol": "ESPORTS",
+              "token_name": "Yooldo Games",
+              "num_transfer": "1",
+              "total_token_amount": 5317.174456488597,
+              "token_in_amount": 0,
+              "token_out_amount": 5317.174456488597
+            },
+            {
+              "token_address": "0xc748673057861a797275cd8a068abb95a902e8de",
+              "token_symbol": "BABYDOGE",
+              "token_name": "Baby Doge Coin",
+              "num_transfer": "1",
+              "total_token_amount": 732908316023.73,
+              "token_in_amount": 0,
+              "token_out_amount": 732908316023.73
+            },
+            {
+              "token_address": "0x7e7ec10e7b55194714cfbc4daa14eaa4e423b774",
+              "token_symbol": "CAI",
+              "token_name": "CharacterX",
+              "num_transfer": "1",
+              "total_token_amount": 1405.3349913528054,
+              "token_in_amount": 0,
+              "token_out_amount": 1405.3349913528054
+            },
+            {
+              "token_address": "0x3131f6b80c26936ab03f7d9d29eb4ddf36ac3fb5",
+              "token_symbol": "NES",
+              "token_name": "Nesa",
+              "num_transfer": "1",
+              "total_token_amount": 12534.404777315081,
+              "token_in_amount": 0,
+              "token_out_amount": 12534.404777315081
+            },
+            {
+              "token_address": "0x59537849f2a119ec698c7aa6c6daadc40c398a25",
+              "token_symbol": "BOT",
+              "token_name": "HyperBot",
+              "num_transfer": "1",
+              "total_token_amount": 346211.4461080282,
+              "token_in_amount": 0,
+              "token_out_amount": 346211.4461080282
+            },
+            {
+              "token_address": "0x65e7a112db1142eae919201b1232f7aa488ed83c",
+              "token_symbol": "REAL",
+              "token_name": "RealLink",
+              "num_transfer": "1",
+              "total_token_amount": 3054.726475,
+              "token_in_amount": 0,
+              "token_out_amount": 3054.726475
+            }
+          ]
+        },
+        {
+          "counterparty_address": "0x7a7ad9aa93cd0a2d0255326e5fb145cec14997ff",
+          "counterparty_address_label": null,
+          "interaction_count": 154,
+          "total_volume_usd": 2439.0398738704575,
+          "volume_in_usd": 0,
+          "volume_out_usd": 2439.0398738704575,
+          "tokens_info": [
+            {
+              "token_address": "0x1219c409fabe2c27bd0d1a565daeed9bd9f271de",
+              "token_symbol": "TAC",
+              "token_name": "TAC Token",
+              "num_transfer": "47",
+              "total_token_amount": 63367863.39555537,
+              "token_in_amount": 0,
+              "token_out_amount": 63367863.39555537
+            },
+            {
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "token_symbol": "USDT",
+              "token_name": "Tether USD",
+              "num_transfer": "42",
+              "total_token_amount": 816.568988,
+              "token_in_amount": 0,
+              "token_out_amount": 816.568988
+            },
+            {
+              "token_address": "0x3ee457bb9cb719948cbec2ebd49d56dc02a41f9b",
+              "token_symbol": "XFI",
+              "token_name": "XFI",
+              "num_transfer": "14",
+              "total_token_amount": 35628.9619202693,
+              "token_in_amount": 0,
+              "token_out_amount": 35628.9619202693
+            },
+            {
+              "token_address": "0x49c6c91ec839a581de2b882e868494215250ee59",
+              "token_symbol": "DGRAM",
+              "token_name": "Datagram",
+              "num_transfer": "8",
+              "total_token_amount": 8914316.010220489,
+              "token_in_amount": 0,
+              "token_out_amount": 8914316.010220489
+            },
+            {
+              "token_address": "0x44f161ae29361e332dea039dfa2f404e0bc5b5cc",
+              "token_symbol": "H",
+              "token_name": "Humanity",
+              "num_transfer": "6",
+              "total_token_amount": 9262338.085099388,
+              "token_in_amount": 0,
+              "token_out_amount": 9262338.085099388
+            },
+            {
+              "token_address": "0xb035723d62e0e2ea7499d76355c9d560f13ba404",
+              "token_symbol": "OIK",
+              "token_name": "Space Nation Oikos",
+              "num_transfer": "4",
+              "total_token_amount": 792095.3530651012,
+              "token_in_amount": 0,
+              "token_out_amount": 792095.3530651012
+            },
+            {
+              "token_address": "0x338cfc61e23d9d086779f37542e7acb8517e9fae",
+              "token_symbol": "DDDD",
+              "token_name": "DDDD",
+              "num_transfer": "4",
+              "total_token_amount": 4147420.1075063637,
+              "token_in_amount": 0,
+              "token_out_amount": 4147420.1075063637
+            },
+            {
+              "token_address": "0xf758cfb1467a227516d73d87da7d36e7cb6f71f1",
+              "token_symbol": "SN3",
+              "token_name": "Supernova Nebula3",
+              "num_transfer": "3",
+              "total_token_amount": 1309852.6617787192,
+              "token_in_amount": 0,
+              "token_out_amount": 1309852.6617787192
+            },
+            {
+              "token_address": "0xfc5a743271672e91d77f0176e5cea581fbd5d834",
+              "token_symbol": "SLAY",
+              "token_name": "SatLayer",
+              "num_transfer": "3",
+              "total_token_amount": 251369.716,
+              "token_in_amount": 0,
+              "token_out_amount": 251369.716
+            },
+            {
+              "token_address": "0x2aa89a0113bcbbcdc5812c6df794e2d9650fc1af",
+              "token_symbol": "STRIKE",
+              "token_name": "StrikeBit",
+              "num_transfer": "2",
+              "total_token_amount": 65964.45983857288,
+              "token_in_amount": 0,
+              "token_out_amount": 65964.45983857288
+            },
+            {
+              "token_address": "0x59f4f336bf3d0c49dbfba4a74ebd2a6ace40539a",
+              "token_symbol": "CAT",
+              "token_name": "Catcoin",
+              "num_transfer": "2",
+              "total_token_amount": 106132503358.03348,
+              "token_in_amount": 0,
+              "token_out_amount": 106132503358.03348
+            },
+            {
+              "token_address": "0x9558a9254890b2a8b057a789f413631b9084f4a3",
+              "token_symbol": "AIN",
+              "token_name": "Infinity Ground AI",
+              "num_transfer": "2",
+              "total_token_amount": 3095.0506153573638,
+              "token_in_amount": 0,
+              "token_out_amount": 3095.0506153573638
+            },
+            {
+              "token_address": "0x0a73d885cdd66adf69c6d64c0609e55c527db2be",
+              "token_symbol": "K",
+              "token_name": "Sidekick",
+              "num_transfer": "2",
+              "total_token_amount": 816173.8101099324,
+              "token_in_amount": 0,
+              "token_out_amount": 816173.8101099324
+            },
+            {
+              "token_address": "0x90869b3a42e399951bd5f5ff278b8cc5ee1dc0fe",
+              "token_symbol": "REX",
+              "token_name": "REX",
+              "num_transfer": "2",
+              "total_token_amount": 4288973.702839759,
+              "token_in_amount": 0,
+              "token_out_amount": 4288973.702839759
+            },
+            {
+              "token_address": "0x7e7ec10e7b55194714cfbc4daa14eaa4e423b774",
+              "token_symbol": "CAI",
+              "token_name": "CharacterX",
+              "num_transfer": "2",
+              "total_token_amount": 1405.3349913528054,
+              "token_in_amount": 0,
+              "token_out_amount": 1405.3349913528054
+            },
+            {
+              "token_address": "0xa394dcea3fd3847fd793afbfd163e2e3858b7c65",
+              "token_symbol": "H4B",
+              "token_name": "Robinhood",
+              "num_transfer": "2",
+              "total_token_amount": 0.09958422732710617,
+              "token_in_amount": 0,
+              "token_out_amount": 0.09958422732710617
+            },
+            {
+              "token_address": "0xd5d0322b6bab6a762c79f8c81a0b674778e13aed",
+              "token_symbol": "FIRO",
+              "token_name": "Firo",
+              "num_transfer": "1",
+              "total_token_amount": 20.26901457,
+              "token_in_amount": 0,
+              "token_out_amount": 20.26901457
+            },
+            {
+              "token_address": "0xac45475abe6f9516e233a824aa013933b61bbb5c",
+              "token_symbol": "BRG",
+              "token_name": "BridgeAI",
+              "num_transfer": "1",
+              "total_token_amount": 14826.214463832719,
+              "token_in_amount": 0,
+              "token_out_amount": 14826.214463832719
+            },
+            {
+              "token_address": "0xa3cfb853339b77f385b994799b015cb04b208fe6",
+              "token_symbol": "POP",
+              "token_name": "Zypher Token",
+              "num_transfer": "1",
+              "total_token_amount": 10752.723836857504,
+              "token_in_amount": 0,
+              "token_out_amount": 10752.723836857504
+            },
+            {
+              "token_address": "0xf2b34f7c2048cd167ca5f35fa5d14b1660a5f06b",
+              "token_symbol": "RKS",
+              "token_name": "RocketSnake",
+              "num_transfer": "1",
+              "total_token_amount": 4251698.116551216,
+              "token_in_amount": 0,
+              "token_out_amount": 4251698.116551216
+            }
+          ]
+        },
+        {
+          "counterparty_address": "0x62d27aee19b32fa63b6d6c18fbbdcbe870b083e3",
+          "counterparty_address_label": null,
+          "interaction_count": 235,
+          "total_volume_usd": 1960.4440369525312,
+          "volume_in_usd": 0,
+          "volume_out_usd": 1960.4440369525312,
+          "tokens_info": [
+            {
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "token_symbol": "USDT",
+              "token_name": "Tether USD",
+              "num_transfer": "103",
+              "total_token_amount": 1094.21076,
+              "token_in_amount": 0,
+              "token_out_amount": 1094.21076
+            },
+            {
+              "token_address": "0x1219c409fabe2c27bd0d1a565daeed9bd9f271de",
+              "token_symbol": "TAC",
+              "token_name": "TAC Token",
+              "num_transfer": "61",
+              "total_token_amount": 48373144.35094184,
+              "token_in_amount": 0,
+              "token_out_amount": 48373144.35094184
+            },
+            {
+              "token_address": "0x44f161ae29361e332dea039dfa2f404e0bc5b5cc",
+              "token_symbol": "H",
+              "token_name": "Humanity",
+              "num_transfer": "21",
+              "total_token_amount": 790521909.6095982,
+              "token_in_amount": 0,
+              "token_out_amount": 790521909.6095982
+            },
+            {
+              "token_address": "0x49c6c91ec839a581de2b882e868494215250ee59",
+              "token_symbol": "DGRAM",
+              "token_name": "Datagram",
+              "num_transfer": "13",
+              "total_token_amount": 7196303.375042995,
+              "token_in_amount": 0,
+              "token_out_amount": 7196303.375042995
+            },
+            {
+              "token_address": "0x76e9b54b49739837be8ad10c3687fc6b543de852",
+              "token_symbol": "KLINK",
+              "token_name": "Klink Finance",
+              "num_transfer": "11",
+              "total_token_amount": 353283.5557186524,
+              "token_in_amount": 0,
+              "token_out_amount": 353283.5557186524
+            },
+            {
+              "token_address": "0x3131f6b80c26936ab03f7d9d29eb4ddf36ac3fb5",
+              "token_symbol": "NES",
+              "token_name": "Nesa",
+              "num_transfer": "7",
+              "total_token_amount": 25602.663732887122,
+              "token_in_amount": 0,
+              "token_out_amount": 25602.663732887122
+            },
+            {
+              "token_address": "0x1a4c5c74fb1ec39e839799baa0a91caeaeadedf7",
+              "token_symbol": "AKITA",
+              "token_name": "AKITA-BSC",
+              "num_transfer": "4",
+              "total_token_amount": 70261.346824901,
+              "token_in_amount": 0,
+              "token_out_amount": 70261.346824901
+            },
+            {
+              "token_address": "0x37eff3ff1321fb9abc734761ca72fafdc044534a",
+              "token_symbol": "TALE",
+              "token_name": "PrompTale AI",
+              "num_transfer": "3",
+              "total_token_amount": 162121.2708508907,
+              "token_in_amount": 0,
+              "token_out_amount": 162121.2708508907
+            },
+            {
+              "token_address": "0xb035723d62e0e2ea7499d76355c9d560f13ba404",
+              "token_symbol": "OIK",
+              "token_name": "Space Nation Oikos",
+              "num_transfer": "2",
+              "total_token_amount": 16165.211287042881,
+              "token_in_amount": 0,
+              "token_out_amount": 16165.211287042881
+            },
+            {
+              "token_address": "0x9558a9254890b2a8b057a789f413631b9084f4a3",
+              "token_symbol": "AIN",
+              "token_name": "Infinity Ground AI",
+              "num_transfer": "2",
+              "total_token_amount": 752.7224727952279,
+              "token_in_amount": 0,
+              "token_out_amount": 752.7224727952279
+            },
+            {
+              "token_address": "0xc12efb9e4a1a753e7f6523482c569793c2271dbb",
+              "token_symbol": "GAIX",
+              "token_name": "GaiAI Token",
+              "num_transfer": "2",
+              "total_token_amount": 10872.840980683997,
+              "token_in_amount": 0,
+              "token_out_amount": 10872.840980683997
+            },
+            {
+              "token_address": "0xf758cfb1467a227516d73d87da7d36e7cb6f71f1",
+              "token_symbol": "SN3",
+              "token_name": "Supernova Nebula3",
+              "num_transfer": "2",
+              "total_token_amount": 57854.78391786215,
+              "token_in_amount": 0,
+              "token_out_amount": 57854.78391786215
+            },
+            {
+              "token_address": "0xf8f331dfa811132c43c308757cd802ca982b7211",
+              "token_symbol": "MCH",
+              "token_name": "Moonchain",
+              "num_transfer": "2",
+              "total_token_amount": 152891043261690.1,
+              "token_in_amount": 0,
+              "token_out_amount": 152891043261690.1
+            },
+            {
+              "token_address": "0x59f4f336bf3d0c49dbfba4a74ebd2a6ace40539a",
+              "token_symbol": "CAT",
+              "token_name": "Catcoin",
+              "num_transfer": "1",
+              "total_token_amount": 696076238240.0754,
+              "token_in_amount": 0,
+              "token_out_amount": 696076238240.0754
+            },
+            {
+              "token_address": "0x834baf4f7832cc3c00734ddb2e0c61c68d975822",
+              "token_symbol": "42",
+              "token_name": "Semantic Layer",
+              "num_transfer": "1",
+              "total_token_amount": 38225.5204924544,
+              "token_in_amount": 0,
+              "token_out_amount": 38225.5204924544
+            }
+          ]
+        },
+        {
+          "counterparty_address": "0x9a8d68089adbe8428f79c244d34276a9f4251070",
+          "counterparty_address_label": null,
+          "interaction_count": 45,
+          "total_volume_usd": 1069.4651298322171,
+          "volume_in_usd": 10.876312951215422,
+          "volume_out_usd": 1058.5888168810018,
+          "tokens_info": [
+            {
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "token_symbol": "USDT",
+              "token_name": "Tether USD",
+              "num_transfer": "38",
+              "total_token_amount": 1059.0668,
+              "token_in_amount": 0,
+              "token_out_amount": 1059.0668
+            },
+            {
+              "token_address": "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c",
+              "token_symbol": "WBNB",
+              "token_name": "Wrapped BNB",
+              "num_transfer": "5",
+              "total_token_amount": 0.008249058609737993,
+              "token_in_amount": 0.008249058609737993,
+              "token_out_amount": 0
+            },
+            {
+              "token_address": "0x8d0d000ee44948fc98c9b98a4fa4921476f08b0d",
+              "token_symbol": "USD1",
+              "token_name": "World Liberty Financial USD",
+              "num_transfer": "2",
+              "total_token_amount": 4.446846080606216,
+              "token_in_amount": 4.446846080606216,
+              "token_out_amount": 0
+            }
+          ]
+        },
+        {
+          "counterparty_address": "0x28e2ea090877bf75740558f6bfb36a5ffee9e9df",
+          "counterparty_address_label": null,
+          "interaction_count": 95,
+          "total_volume_usd": 1058.0033484796927,
+          "volume_in_usd": 1058.0033484796927,
+          "volume_out_usd": 0,
+          "tokens_info": [
+            {
+              "token_address": "0x1219c409fabe2c27bd0d1a565daeed9bd9f271de",
+              "token_symbol": "TAC",
+              "token_name": "TAC Token",
+              "num_transfer": "38",
+              "total_token_amount": 53160270.53037042,
+              "token_in_amount": 53160270.53037042,
+              "token_out_amount": 0
+            },
+            {
+              "token_address": "0x44f161ae29361e332dea039dfa2f404e0bc5b5cc",
+              "token_symbol": "H",
+              "token_name": "Humanity",
+              "num_transfer": "14",
+              "total_token_amount": 811631280.4651678,
+              "token_in_amount": 811631280.4651678,
+              "token_out_amount": 0
+            },
+            {
+              "token_address": "0x3131f6b80c26936ab03f7d9d29eb4ddf36ac3fb5",
+              "token_symbol": "NES",
+              "token_name": "Nesa",
+              "num_transfer": "9",
+              "total_token_amount": 37790.35665008728,
+              "token_in_amount": 37790.35665008728,
+              "token_out_amount": 0
+            },
+            {
+              "token_address": "0x76e9b54b49739837be8ad10c3687fc6b543de852",
+              "token_symbol": "KLINK",
+              "token_name": "Klink Finance",
+              "num_transfer": "6",
+              "total_token_amount": 448362.21841395757,
+              "token_in_amount": 448362.21841395757,
+              "token_out_amount": 0
+            },
+            {
+              "token_address": "0x49c6c91ec839a581de2b882e868494215250ee59",
+              "token_symbol": "DGRAM",
+              "token_name": "Datagram",
+              "num_transfer": "5",
+              "total_token_amount": 7250400.170519303,
+              "token_in_amount": 7250400.170519303,
+              "token_out_amount": 0
+            },
+            {
+              "token_address": "0x37eff3ff1321fb9abc734761ca72fafdc044534a",
+              "token_symbol": "TALE",
+              "token_name": "PrompTale AI",
+              "num_transfer": "5",
+              "total_token_amount": 585688.5984550525,
+              "token_in_amount": 585688.5984550525,
+              "token_out_amount": 0
+            },
+            {
+              "token_address": "0x65e7a112db1142eae919201b1232f7aa488ed83c",
+              "token_symbol": "REAL",
+              "token_name": "RealLink",
+              "num_transfer": "3",
+              "total_token_amount": 596.447254,
+              "token_in_amount": 596.447254,
+              "token_out_amount": 0
+            },
+            {
+              "token_address": "0x9558a9254890b2a8b057a789f413631b9084f4a3",
+              "token_symbol": "AIN",
+              "token_name": "Infinity Ground AI",
+              "num_transfer": "3",
+              "total_token_amount": 754.2259316085298,
+              "token_in_amount": 754.2259316085298,
+              "token_out_amount": 0
+            },
+            {
+              "token_address": "0xb035723d62e0e2ea7499d76355c9d560f13ba404",
+              "token_symbol": "OIK",
+              "token_name": "Space Nation Oikos",
+              "num_transfer": "2",
+              "total_token_amount": 191177.76088147418,
+              "token_in_amount": 191177.76088147418,
+              "token_out_amount": 0
+            },
+            {
+              "token_address": "0x59f4f336bf3d0c49dbfba4a74ebd2a6ace40539a",
+              "token_symbol": "CAT",
+              "token_name": "Catcoin",
+              "num_transfer": "2",
+              "total_token_amount": 2952891896351.096,
+              "token_in_amount": 2952891896351.096,
+              "token_out_amount": 0
+            },
+            {
+              "token_address": "0xf758cfb1467a227516d73d87da7d36e7cb6f71f1",
+              "token_symbol": "SN3",
+              "token_name": "Supernova Nebula3",
+              "num_transfer": "2",
+              "total_token_amount": 199234.36424525164,
+              "token_in_amount": 199234.36424525164,
+              "token_out_amount": 0
+            },
+            {
+              "token_address": "0x834baf4f7832cc3c00734ddb2e0c61c68d975822",
+              "token_symbol": "42",
+              "token_name": "Semantic Layer",
+              "num_transfer": "2",
+              "total_token_amount": 38225.5204924544,
+              "token_in_amount": 38225.5204924544,
+              "token_out_amount": 0
+            },
+            {
+              "token_address": "0xc12efb9e4a1a753e7f6523482c569793c2271dbb",
+              "token_symbol": "GAIX",
+              "token_name": "GaiAI Token",
+              "num_transfer": "1",
+              "total_token_amount": 10921.863926385366,
+              "token_in_amount": 10921.863926385366,
+              "token_out_amount": 0
+            },
+            {
+              "token_address": "0x6ced5c6d3f913b48d59fa07abbfe9060c409087c",
+              "token_symbol": "ANTFUN",
+              "token_name": "AntFun",
+              "num_transfer": "1",
+              "total_token_amount": 462.0164910677224,
+              "token_in_amount": 462.0164910677224,
+              "token_out_amount": 0
+            },
+            {
+              "token_address": "0xf8f331dfa811132c43c308757cd802ca982b7211",
+              "token_symbol": "MCH",
+              "token_name": "Moonchain",
+              "num_transfer": "1",
+              "total_token_amount": 135001898763191.88,
+              "token_in_amount": 135001898763191.88,
+              "token_out_amount": 0
+            },
+            {
+              "token_address": "0x0a73d885cdd66adf69c6d64c0609e55c527db2be",
+              "token_symbol": "K",
+              "token_name": "Sidekick",
+              "num_transfer": "1",
+              "total_token_amount": 55384.69816469837,
+              "token_in_amount": 55384.69816469837,
+              "token_out_amount": 0
+            }
+          ]
+        },
+        {
+          "counterparty_address": "0xe742f9df04a61ac0a6aea0b87d3c3b96ac6eea88",
+          "counterparty_address_label": null,
+          "interaction_count": 1,
+          "total_volume_usd": 786.5265049478904,
+          "volume_in_usd": 786.5265049478904,
+          "volume_out_usd": 0,
+          "tokens_info": [
+            {
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "token_symbol": "USDT",
+              "token_name": "Tether USD",
+              "num_transfer": "1",
+              "total_token_amount": 786.69950848801,
+              "token_in_amount": 786.69950848801,
+              "token_out_amount": 0
+            }
+          ]
+        },
+        {
+          "counterparty_address": "0x1e40450f8e21bb68490d7d91ab422888fb3d60f1",
+          "counterparty_address_label": null,
+          "interaction_count": 25,
+          "total_volume_usd": 770.6757922822873,
+          "volume_in_usd": 0,
+          "volume_out_usd": 770.6757922822873,
+          "tokens_info": [
+            {
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "token_symbol": "USDT",
+              "token_name": "Tether USD",
+              "num_transfer": "25",
+              "total_token_amount": 771.3032,
+              "token_in_amount": 0,
+              "token_out_amount": 771.3032
+            }
+          ]
+        },
+        {
+          "counterparty_address": "0xeeb320c9b48b6c87d410e44c0c4cc4d39f249b28",
+          "counterparty_address_label": null,
+          "interaction_count": 12,
+          "total_volume_usd": 669.1668381487424,
+          "volume_in_usd": 257.4266215770422,
+          "volume_out_usd": 411.74021657170016,
+          "tokens_info": [
+            {
+              "token_address": "0x985c6c2a7b35a3cd8ce0bc576b614c7c254ef782",
+              "token_symbol": "SDM",
+              "token_name": "SDM Token",
+              "num_transfer": "8",
+              "total_token_amount": 338.54359394554734,
+              "token_in_amount": 169.27179697277367,
+              "token_out_amount": 169.27179697277367
+            },
+            {
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "token_symbol": "USDT",
+              "token_name": "Tether USD",
+              "num_transfer": "4",
+              "total_token_amount": 154.38,
+              "token_in_amount": 0,
+              "token_out_amount": 154.38
+            }
+          ]
+        }
+      ]
+    },
+    "recordedAt": 1790212817647
   }
 ]

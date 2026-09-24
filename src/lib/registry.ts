@@ -74,7 +74,7 @@ export function unavailableReason(chain: string, module: 'pressure' | 'smartMone
  *  gets candles. */
 export function endpointSupports(endpoint: ChainEnumKey, chain: string): boolean {
   const e = CHAIN_ENUMS[endpoint] as readonly string[];
-  return e.includes(chain) || e.includes('all');
+  return e.includes(chain);
 }
 
 export function endpointUnavailable(endpoint: ChainEnumKey, chain: string, what: string): string | null {

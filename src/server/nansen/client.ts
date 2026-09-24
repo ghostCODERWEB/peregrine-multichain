@@ -3,7 +3,7 @@
 // cache, the credit ledger, and DEMO_MODE record/replay — so every route,
 // the scanner, and the backtest pipeline inherit all of it for free instead
 // of each having to remember the rules.
-import type { ZodType } from 'zod';
+import { z, type ZodType } from 'zod';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { getLimiter, type NansenPlan } from './limiter';
 import { readCache, writeCache } from './cache';
@@ -14,6 +14,29 @@ import { recordFixture, replayFixture, replayLatest, fixtureMode } from './demo'
 import { AgentStreamEvent, AGENT_STREAM_DONE_SENTINEL } from '@/types/nansen/agent';
 
 const HOST = 'https://api.nansen.ai/api';
+
+/** Nansen's public rewards API is keyless. Keep it in the same data layer
+ * with a bounded URL, cache, demo replay and ledger; never attach API keys. */
+export async function callNansenPoints(address: string): Promise<{ tier: string }> {
+  if (!/^[A-Za-z0-9]{20,100}$/.test(address)) throw new Error('Points require an EVM or Solana wallet address.');
+  const endpoint = 'points/tier', body = { address };
+  const cached = readCache<{ tier: string }>(endpoint, body);
+  const tally = callScope.getStore();
+  if (tally) tally.calls++;
+  if (cached) { if (tally) tally.cached++; return cached.value; }
+  if (fixtureMode() === 'replay') { if (tally) tally.cached++; return replayFixture<{ tier: string }>(endpoint, body); }
+  await getLimiter(plan()).acquire();
+  const response = await fetch(`https://app.nansen.ai/api/points-leaderboard/${encodeURIComponent(address)}`, { signal: AbortSignal.timeout(15_000), cache: 'no-store' });
+  if (!response.ok) throw new Error(`Nansen rewards lookup returned ${response.status}.`);
+  const data: unknown = await response.json();
+  const parsed = z.object({ tier: z.string().transform((s) => s.toLowerCase()).pipe(z.enum(['none', 'green', 'ice', 'north', 'star'])) }).safeParse(data);
+  if (!parsed.success) throw new Error('Nansen rewards response could not be read.');
+  const result = parsed.data;
+  writeCache(endpoint, body, result);
+  if (!(await currentCaller()).userId) recordFixture(endpoint, body, result);
+  recordCall(endpoint, 0, false);
+  return result;
+}
 
 export type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'DELETE';
 

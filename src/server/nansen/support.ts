@@ -6,7 +6,7 @@ import { chainName } from '@/lib/viz/format';
 
 export function contractSupports(key: EndpointKey, chain: string): boolean {
   const chains: readonly string[] | null = ENDPOINTS[key].chains;
-  return !chains || chains.includes(chain) || chains.includes('all');
+  return !chains || chains.includes(chain);
 }
 
 /** The plain "not available" sentence, or null when the chain is served. */
