@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { usd, pct, shortAddress } from '@/lib/viz/format';
+import { toBaseUnits } from '@/lib/units';
 
 type Eth = { request: (a: { method: string; params?: unknown[] }) => Promise<unknown> };
 const eth = (): Eth | null => (typeof window !== 'undefined' ? ((window as unknown as { ethereum?: Eth }).ethereum ?? null) : null);
@@ -17,15 +18,6 @@ async function post<T>(body: object): Promise<T> {
   const j = await r.json().catch(() => ({}));
   if (!r.ok) throw new Error(j.error ?? `Request failed (${r.status}).`);
   return j as T;
-}
-
-/** Decimal string → integer base units, without floating point. */
-export function toBaseUnits(amount: string, decimals: number): string | null {
-  const m = /^(\d+)(?:\.(\d+))?$/.exec(amount.trim());
-  if (!m) return null;
-  const frac = (m[2] ?? '').slice(0, decimals).padEnd(decimals, '0');
-  const v = BigInt(m[1] + frac);
-  return v > BigInt(0) ? v.toString() : null;
 }
 
 const hex = (v: unknown) => (v == null ? undefined : typeof v === 'string' && v.startsWith('0x') ? v : `0x${BigInt(String(v)).toString(16)}`);

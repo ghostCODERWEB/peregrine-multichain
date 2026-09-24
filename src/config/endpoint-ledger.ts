@@ -117,7 +117,7 @@ export const LEDGER: LedgerEntry[] = [
   e('POST /api/v1/tgm/who-bought-sold', 'attribution', { usedBy: ['token'] }),
   e('POST /api/v1/token-screener', 'attribution', { usedBy: ['weather', 'chain', 'token', 'M1'], note: 'restricted with trader_type=sm (the CPI smart-money numerator); sectors filter builds sector membership' }),
   // Trading (the key owner's own account; user-signed only)
-  e('GET /api/v1/trade/bridge-status', 'account', { planned: 'M8', note: 'wired in /api/trade; cross-chain routes are not offered in the UI yet (Base same-chain only)' }),
+  e('GET /api/v1/trade/bridge-status', 'account', { skipped: 'tracks cross-chain spot routes, and TIDE\'s spot trading is same-chain on Base: nothing it offers creates one. It also rejects hyperliquid as to_chain, so Hyperliquid deposits use perp/bridge/status instead', note: 'still wired in /api/trade (action "bridge") for a future cross-chain spot route' }),
   e('POST /api/v1/trade/execute', 'account', { usedBy: ['M8'], note: 'broadcasts a swap the user signed in their own wallet (wallets that sign without sending); TIDE never signs' }),
   e('POST /api/v1/trade/prepare', 'account', { usedBy: ['M8'], note: 'builds and simulates the swap; nothing is broadcast' }),
   e('GET /api/v1/trade/quote', 'account', { usedBy: ['ride', 'M8'] }),
@@ -150,7 +150,7 @@ export const EXTRA_ENDPOINTS: ExtraEndpoint[] = [
   { key: 'POST /api/v1/perp/order', class: 'account', credits: 0, usedBy: ['M8'], notes: 'prepares a market order; EIP-712 domain "Exchange", chainId 1337 (browser wallets bound to their network may refuse)' },
   { key: 'POST /api/v1/perp/close', class: 'account', credits: 0, usedBy: ['M8'], notes: 'prepares a reduce-only close' },
   { key: 'POST /api/v1/perp/execute', class: 'account', credits: 0, usedBy: ['M8'], notes: 'submits the prepared action, nonce and the user\'s signature, byte-for-byte' },
-  { key: 'POST /api/v1/perp/bridge/quote', class: 'account', credits: 0, planned: 'M8', notes: 'deposit or withdrawal quote; funding the account is not in the UI yet' },
+  { key: 'POST /api/v1/perp/bridge/quote', class: 'account', credits: 0, usedBy: ['M8'], notes: '/trade: deposit USDC to perps from Base, Arbitrum, Ethereum or Polygon; the quote is checked (amount and scale, perps destination, wallet, chain, exact approval to the deposit contract) before the wallet sees a transaction' },
   { key: 'GET /api/v1/perp/account', class: 'account', credits: 1, usedBy: ['M8'], notes: 'perps margin and spot USDC for the connected wallet' },
   { key: 'GET /api/v1/perp/positions', class: 'account', credits: 1, usedBy: ['M8'], notes: 'open positions for the connected wallet; source of truth for closing' },
   { key: 'GET /api/v1/perp/orders', class: 'account', credits: 1, usedBy: ['M8'], notes: '/trade resting orders with cancel (perp coins only; spot orders like "@156" share the list); header reported 0 credits live' },
@@ -158,8 +158,8 @@ export const EXTRA_ENDPOINTS: ExtraEndpoint[] = [
   { key: 'POST /api/v1/perp/leverage', class: 'account', credits: 0, usedBy: ['M8'], notes: '/trade: body {wallet_address, coin, leverage 1-200, is_cross}; applies to positions opened afterwards' },
   { key: 'POST /api/v1/perp/cancel', class: 'account', credits: 0, usedBy: ['M8'], notes: '/trade: body {wallet_address, coin, order_id}; one order per call' },
   { key: 'POST /api/v1/perp/transfer', class: 'account', credits: 0, usedBy: ['M8'], notes: '/trade: body {wallet_address, amount, to_perp}; wallet-signed domain HyperliquidSignTransaction, chainId 421614' },
-  { key: 'POST /api/v1/perp/bridge/execute', class: 'account', credits: 0, planned: 'M8', notes: 'submit a signed withdrawal' },
-  { key: 'GET /api/v1/perp/bridge/status', class: 'account', credits: 0, planned: 'M8', notes: 'deposit and withdrawal status' },
+  { key: 'POST /api/v1/perp/bridge/execute', class: 'account', credits: 0, skipped: 'withdrawals only: a generic {target_url, body} proxy, and the quote names only relative paths (a Relay "/authorize" plus a Hyperliquid sendAsset), so TIDE would be guessing third-party URLs for a funds-moving flow it cannot verify without moving real money. Withdraw on Hyperliquid', notes: 'body {target_url (HTTPS only), body}' },
+  { key: 'GET /api/v1/perp/bridge/status', class: 'account', credits: 0, usedBy: ['M8'], notes: '/trade: polls a deposit by the quote\'s request_id until success, refund or failure' },
   { key: 'GET app.nansen.ai/api/points-leaderboard/api', class: 'free', credits: null, usedBy: ['M3'], notes: 'wallet desk: rank, percentile and eligibility floor by bisection (addresses dropped, cached 12 h); offset is page × recordsPerPage, so the top page is unreadable' },
   { key: 'GET app.nansen.ai/api/points-leaderboard/{address}', class: 'free', credits: null, usedBy: ['M3'], notes: 'public, keyless tier lookup; wallet desk points tier' },
 ];

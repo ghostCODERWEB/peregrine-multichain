@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { splitSignature, typedDataForWallet } from './perp';
-import { toBaseUnits } from '@/components/trade/SpotTrade';
+import { toBaseUnits } from '@/lib/units';
 
 describe('trade helpers', () => {
   it('turns a decimal amount into base units without floating point', () => {

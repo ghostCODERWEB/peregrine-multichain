@@ -5,6 +5,7 @@ import { allow, clientId } from '@/server/rate';
 import { audit } from '@/server/nansen/db';
 import { tradeRefusal, spotQuote, spotPrepare, spotExecute, bridgeStatus, tradeSignals } from '@/server/trade/spot';
 import { perpReads, perpPrepare, perpExecute, typedDataForWallet } from '@/server/trade/perp';
+import { perpDepositQuote, perpDepositSteps, perpBridgeStatus, DEPOSIT_CHAINS, type DepositChain } from '@/server/trade/perp-bridge';
 
 export const dynamic = 'force-dynamic';
 
@@ -23,6 +24,9 @@ const Body = z.discriminatedUnion('action', [
     leverage: z.object({ coin: z.string().regex(/^[A-Za-z0-9][A-Za-z0-9:]{0,19}$/), leverage: z.number().int().min(1).max(200), isCross: z.boolean() }).optional(),
     transfer: z.object({ amount: z.number().positive().max(10_000_000), toPerp: z.boolean() }).optional() }),
   z.object({ action: z.literal('perp-execute'), id: z.string().min(8).max(40), wallet: z.string().regex(EVM), signature: z.string().max(200), confirm: z.literal(true) }),
+  z.object({ action: z.literal('perp-deposit-quote'), wallet: z.string().regex(EVM), chain: z.enum(Object.keys(DEPOSIT_CHAINS) as [DepositChain, ...DepositChain[]]), amount: z.string().regex(/^\d{1,9}(\.\d{1,6})?$/) }),
+  z.object({ action: z.literal('perp-deposit-steps'), id: z.string().min(8).max(40), wallet: z.string().regex(EVM), confirm: z.literal(true) }),
+  z.object({ action: z.literal('perp-bridge-status'), requestId: z.string().regex(/^0x[0-9a-fA-F]{64}$/).optional(), txHash: z.string().regex(/^0x[0-9a-fA-F]{64}$/).optional() }),
 ]);
 
 export async function POST(req: Request) {
@@ -34,7 +38,7 @@ export async function POST(req: Request) {
   if (!parsed.success) return fail('Check the trade fields.');
   const b = parsed.data;
   const who = ctx.user ? `u${ctx.user.id}` : clientId(req);
-  if (!allow(`trade-${b.action}`, who, b.action === 'execute' || b.action === 'perp-execute' ? 5 : 20)) return fail('Please wait a minute.', 429);
+  if (!allow(`trade-${b.action}`, who, b.action === 'execute' || b.action === 'perp-execute' || b.action === 'perp-deposit-steps' ? 5 : b.action === 'perp-bridge-status' ? 30 : 20)) return fail('Please wait a minute.', 429);
   try {
     const data = await contextScope.run(ctx, async () => {
       switch (b.action) {
@@ -62,6 +66,13 @@ export async function POST(req: Request) {
           audit(ctx.user?.id ?? null, 'trade.perp', r.kind);
           return r;
         }
+        case 'perp-deposit-quote': return perpDepositQuote(b.wallet, b.chain, b.amount);
+        case 'perp-deposit-steps': {
+          const r = perpDepositSteps(b.id, b.wallet);
+          audit(ctx.user?.id ?? null, 'trade.deposit', `chain ${r.chainId}, ${r.txs.length} wallet transactions released`);
+          return r;
+        }
+        case 'perp-bridge-status': return perpBridgeStatus({ requestId: b.requestId, txHash: b.txHash });
       }
     });
     return Response.json(data, { headers: { 'Cache-Control': 'private, no-store' } });

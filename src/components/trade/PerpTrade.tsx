@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { usd, pct, shortAddress, num } from '@/lib/viz/format';
+import { PerpDeposit } from './PerpDeposit';
 
 type Eth = { request: (a: { method: string; params?: unknown[] }) => Promise<unknown> };
 const eth = (): Eth | null => (typeof window !== 'undefined' ? ((window as unknown as { ethereum?: Eth }).ethereum ?? null) : null);
@@ -121,6 +122,7 @@ export function PerpTrade({ marks, initialCoin }: { marks: PerpMark[]; initialCo
               {[true, false].map((toPerp) => <button key={String(toPerp)} disabled={!(Number(moveAmt) > 0)} onClick={() => prepare('transfer', undefined, { transfer: { amount: Number(moveAmt), toPerp } }, `Move ${moveAmt} USDC from ${toPerp ? 'spot to perps (usable as margin)' : 'perps to spot'}. Signed by your wallet’s own key.`)} className="rounded-full border border-border px-3 py-1 text-[13px] text-ink hover:bg-raised disabled:opacity-45">{toPerp ? 'Spot → perps' : 'Perps → spot'}</button>)}
             </div>
           )}
+          {wallet && state && <PerpDeposit wallet={wallet} onFunded={() => refresh()} />}
         </section>
 
         <section className={card}>
