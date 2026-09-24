@@ -1183,7 +1183,7 @@
               "to_address_label": null
             }
           ],
-          "volume_usd": 94.63371708180696,
+          "volume_usd": 94.48024903147041,
           "block_timestamp": "2026-09-24T04:47:11",
           "transaction_hash": "0xffa6275d137c102a99fa7deb661b2e97544650c31310f5dda04966608b480b81",
           "source_type": "transfer"
@@ -1242,7 +1242,7 @@
               "to_address_label": null
             }
           ],
-          "volume_usd": 93.0373418770374,
+          "volume_usd": 92.88646267767106,
           "block_timestamp": "2026-09-24T04:25:47",
           "transaction_hash": "0xc948ae1b992df5df46c291b9057a21aeb9bf9f1aebb31c2129cf1b5d3f1d2344",
           "source_type": "transfer"
@@ -1278,7 +1278,7 @@
               "to_address_label": null
             }
           ],
-          "volume_usd": 78.7600868183669,
+          "volume_usd": 78.72409384404155,
           "block_timestamp": "2026-09-24T04:21:34",
           "transaction_hash": "0x972b9749bc0358845388cc64f34355283d9a80e9f04030d6e25261afa7eb41cc",
           "source_type": "transfer"
@@ -2236,6 +2236,6 @@
         }
       ]
     },
-    "recordedAt": 1790233377089
+    "recordedAt": 1790234588671
   }
 ]

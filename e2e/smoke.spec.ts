@@ -137,6 +137,20 @@ test('smart-money desk: the demo (a public view) explains it is private @mobile'
   expect(w.errors).toEqual([]);
 });
 
+test('perps: pressure grid, crowding map, and a coin opens its ladder @mobile', async ({ page }) => {
+  const w = await watch(page);
+  await page.goto('/perps');
+  await expect(page.getByRole('heading', { level: 1 })).toContainText(/Hyperliquid perps/);
+  const tiles = page.getByRole('list', { name: /coins by Perp Pressure Index/ }).getByRole('button');
+  await expect(tiles.first()).toBeVisible();
+  await expect(page.locator('svg[aria-label^="Crowding map"]')).toBeVisible();
+  await tiles.first().click();
+  await expect(page.locator('section[aria-labelledby="coin-ladder"]')).toBeVisible();
+  await expect(page.locator('section[aria-labelledby="coin-ladder"]')).toContainText(/Mark|No open Hyperliquid|No recorded fixture|Nansen/, { timeout: 60_000 });
+  await w.noOverflow();
+  expect(w.errors).toEqual([]);
+});
+
 test('lab, coverage and alerts render', async ({ page }) => {
   const w = await watch(page);
   await page.goto('/lab');

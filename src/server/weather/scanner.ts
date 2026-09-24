@@ -16,6 +16,7 @@
 // smart-money/netflow.
 import { callNansen } from '@/server/nansen/client';
 import { addressKey } from '@/lib/address-family';
+import { scanPerps } from '@/server/perps/scan';
 import { getDb } from '@/server/nansen/db';
 import { chainPressureWindow, blendChainPressure, flowRatio, type Window, type CpiWindowResult } from '@/lib/models/cpi';
 import { classifySwap, isStablecoin } from '@/lib/models/trade-side';
@@ -470,6 +471,8 @@ export async function runScan(opts: { sweep?: 'inline' | 'defer' } = {}): Promis
   }
   const chainsScored = storeBlended(started);
   const tradesAdded = await captureTrades(started, errors);
+  // Hourly: Hyperliquid perp snapshots for the Perp Pressure Index (2 credits).
+  try { await scanPerps(started, errors); } catch (e) { errors.push(`perps: ${(e as Error).message.slice(0, 120)}`); }
   const due = candidates.length > 0 && sweepDue(started);
   const deferSweep = opts.sweep === 'defer';
   const stormsScored = due && !deferSweep ? await stormSweep(candidates, errors) : 0;

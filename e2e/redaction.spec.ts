@@ -145,3 +145,19 @@ test('smart-money desk: private explanation only; its API refuses public callers
   expect(post.status()).toBe(403);
   expect(await post.text()).not.toContain('holders');
 });
+
+test('perps: pressure board public, trader leaderboard withheld, coin detail without labels', async ({ page, request }) => {
+  await page.goto('/perps');
+  await expect(page.getByRole('heading', { level: 1 })).toContainText(/Hyperliquid perps/);
+  await expect(page.locator('section[aria-labelledby="leaders"]')).toContainText('Nansen does not allow its perp leaderboard in public views');
+  await expect(page.locator('section[aria-labelledby="leaders"] table')).toHaveCount(0);
+  assertClean('/perps', await page.content());
+  const leaders = await request.post('/api/perps', { data: { action: 'leaders' }, headers: { Origin: BASE } });
+  expect(leaders.status()).toBe(403);
+  const coin = await request.post('/api/perps', { data: { action: 'coin', symbol: 'BTC' }, headers: { Origin: BASE }, timeout: 90_000 });
+  if (coin.ok()) {
+    const body = await coin.text();
+    assertClean('/api/perps coin', body);
+    expect(JSON.parse(body).pnl).toBeNull(); // the coin's PnL leaderboard is owner-only
+  }
+});

@@ -40,11 +40,11 @@ export const LEDGER: LedgerEntry[] = [
   // Chains
   e('POST /api/v1/chains/chain-rank', 'attribution', { usedBy: ['chain'] }),
   // Perps / Hyperliquid
-  e('POST /api/v1/perp-leaderboard', 'prohibited', { planned: 'M5' }),
-  e('POST /api/v1/perp-screener', 'attribution', { planned: 'M5' }),
-  e('POST /api/v1/tgm/perp-pnl-leaderboard', 'prohibited', { planned: 'M5' }),
-  e('POST /api/v1/tgm/perp-positions', 'restricted', { usedBy: ['token'], note: 'restricted with a smart-money label filter; attribution without. The token page\'s liquidation ladder uses all_traders only (publicSafe)' }),
-  e('POST /api/v1/tgm/perp-trades', 'attribution', { planned: 'M5' }),
+  e('POST /api/v1/perp-leaderboard', 'prohibited', { usedBy: ['M5'], note: 'copy-trade candidate scores (7d and 30d), private only' }),
+  e('POST /api/v1/perp-screener', 'attribution', { usedBy: ['M5', 'weather'], note: 'hourly scanner snapshots for the Perp Pressure Index; restricted with trader_type=sm (owner view only)' }),
+  e('POST /api/v1/tgm/perp-pnl-leaderboard', 'prohibited', { usedBy: ['M5'], note: 'coin PnL leaders on /perps, private only' }),
+  e('POST /api/v1/tgm/perp-positions', 'restricted', { usedBy: ['token', 'M5'], note: 'restricted with a smart-money label filter; attribution without. The token page\'s liquidation ladder uses all_traders only (publicSafe)' }),
+  e('POST /api/v1/tgm/perp-trades', 'attribution', { usedBy: ['M5'], note: 'coin trade tape on /perps; labels stripped in public views' }),
   e('POST /api/v1/profiler/perp-pnl-summary', 'free', { usedBy: ['M3'], note: 'wallet desk perps' }),
   e('POST /api/v1/profiler/perp-positions', 'free', { usedBy: ['M3'], note: 'wallet desk perps' }),
   e('POST /api/v1/profiler/perp-trades', 'free', { usedBy: ['M3'], note: 'wallet desk perps' }),

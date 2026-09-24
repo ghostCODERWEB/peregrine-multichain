@@ -288,6 +288,19 @@ const MIGRATIONS: string[] = [
   `
   DELETE FROM smart_money_trades WHERE chain = 'solana' AND wallet NOT GLOB '*[A-Z]*' AND token_address NOT GLOB '*[A-Z]*';
   `,
+  // 16: hourly Hyperliquid perp screener snapshots (all traders, and smart
+  // money for the key owner), the history the Perp Pressure Index scores
+  // each coin against. Kept 7 days.
+  `
+  CREATE TABLE perp_snapshots (
+    snapshot_at INTEGER NOT NULL, source TEXT NOT NULL, symbol TEXT NOT NULL,
+    mark_price REAL, previous_price REAL, funding REAL, open_interest REAL,
+    volume REAL, buy_volume REAL, sell_volume REAL, trader_count INTEGER,
+    net_position_change REAL, longs_usd REAL, shorts_usd REAL, longs_count INTEGER, shorts_count INTEGER,
+    PRIMARY KEY (snapshot_at, source, symbol)
+  );
+  CREATE INDEX idx_perp_snapshots_symbol ON perp_snapshots(source, symbol, snapshot_at);
+  `,
 ];
 
 export function audit(userId: number | null, action: string, detail?: string): void {

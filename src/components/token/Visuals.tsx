@@ -159,7 +159,11 @@ export function leverageTitle(w: LeverageWave): string {
   const l = w.ladder, d = l.densest;
   if (!d || d.usd <= 0) return `${w.symbol} perp: ${usd(l.longUsd + l.shortUsd)} open in the top 100, none within 100% of the mark`;
   const side = d.side === 'long' ? 'longs' : 'shorts';
-  return `${w.symbol} perp: ${usd(d.usd)} of ${side} liquidate ${d.side === 'long' ? 'below' : 'above'} ${fmtPrice(d.price)} (${pct(d.outer, 0)})`;
+  // The band runs from its inner edge to its outer edge: name the price
+  // where liquidations start (the inner edge), and the band's width.
+  const start = l.mark * (1 + d.inner);
+  const span = `${d.inner === 0 ? '0' : `${d.inner > 0 ? '+' : ''}${pct(d.inner, 0)}`} to ${d.outer > 0 ? '+' : ''}${pct(d.outer, 0)}`;
+  return `${w.symbol.replace(/^[^:]+:/, '')} perp: ${usd(d.usd)} of ${side} liquidate ${d.side === 'long' ? 'below' : 'above'} ${fmtPrice(start)} (${span} from the mark)`;
 }
 
 /**

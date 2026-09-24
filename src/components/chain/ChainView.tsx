@@ -37,6 +37,13 @@ export function ChainView({ d, gaps }: { d: ChainPageData; gaps: ModuleGaps }) {
         {d.weather.source == null && gaps.pressure}
       </>} />
 
+      {d.chain === 'hyperliquid' && (
+        <p className="glass rounded-2xl px-4 py-3 text-[13px] text-ink-2">
+          Hyperliquid is a perp venue: its reading here is the Perp Pressure Index, weighted by open interest across its coins.{' '}
+          <Link href="/perps" className="text-ink underline-offset-2 hover:underline">Open the perps terminal →</Link>
+        </p>
+      )}
+
       <Card id="grid" title={d.grid.tiles.length ? gridTitle(d.chain, d.grid.tiles) : `${name} market`}
         sub="The chain's most-traded tokens today, one tile each: colour is the 24h move (amber up, blue down), the bar is volume. All traders."
         action={d.grid.provenance ? <InfoPopover p={d.grid.provenance} /> : undefined}>

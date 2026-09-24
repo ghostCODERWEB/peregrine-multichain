@@ -27,6 +27,8 @@ export const DEMO_TABLES: Array<{ name: string; where?: string }> = [
   { name: 'sector_members' },
   // Alpha board: the last 12 hours of all-trader token snapshots.
   { name: 'token_pulse', where: "source = 'market-flow' AND snapshot_at >= (SELECT MAX(snapshot_at) FROM token_pulse) - 43200000" },
+  // Perps board: the last two days of all-trader perp snapshots.
+  { name: 'perp_snapshots', where: "source = 'all' AND snapshot_at >= (SELECT MAX(snapshot_at) FROM perp_snapshots) - 172800000" },
 ];
 
 /** Row filters mirroring DEMO_TABLES, for sanitizing an existing export. */
@@ -40,6 +42,7 @@ export const PUBLIC_DEMO_FILTERS: Record<string, (row: Record<string, unknown>) 
   sector_snapshots: (r) => r.source === 'market-flow',
   sector_members: () => true,
   token_pulse: (r) => r.source === 'market-flow',
+  perp_snapshots: (r) => r.source === 'all',
 };
 
 const TIME_COLUMNS = new Set(['snapshot_at', 'traded_at', 'captured_at', 'computed_at', 'created_at', 'started_at', 'finished_at', 'called_at', 'refreshed_at']);

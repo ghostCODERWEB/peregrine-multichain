@@ -46,7 +46,12 @@ const DAY = 24 * 60 * 60_000;
  */
 export type PressureView = 'private' | 'public';
 
+/** Hyperliquid is a perp venue: its reading is the Perp Pressure Index,
+ *  written into the same series by the scanner's hourly perp step. */
+export const PERP_VENUE = 'hyperliquid';
+
 export function sourceFor(chain: string, view: PressureView): PressureSource | null {
+  if (chain === PERP_VENUE) return view === 'public' ? 'market-flow' : 'smart-money';
   const native = pressureSource(chain);
   if (!native) return null;
   return view === 'public' ? 'market-flow' : native;

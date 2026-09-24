@@ -20,6 +20,10 @@ const TTL_MS: Record<string, number> = {
   'smart-money/dcas': 15 * 60_000,
   // Daily snapshots: today's row can still move, earlier ones can't.
   'smart-money/historical-holdings': 6 * 60 * 60_000,
+  'perp-screener': 10 * 60_000,
+  'perp-leaderboard': 30 * 60_000,
+  'tgm/perp-trades': 5 * 60_000,
+  'tgm/perp-pnl-leaderboard': 30 * 60_000,
   'token-screener': 5 * 60_000,
   'tgm/holders': 5 * 60_000,
   'tgm/flow-intelligence': 5 * 60_000,

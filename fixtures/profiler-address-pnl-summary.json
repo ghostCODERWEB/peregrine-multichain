@@ -180,7 +180,7 @@
       "realized_pnl_percent": 0,
       "win_rate": 0
     },
-    "recordedAt": 1790233365327
+    "recordedAt": 1790234582642
   },
   {
     "requestHash": "aaec1d1b9edb21629ee922a8cef8b44f5321c046",
@@ -208,7 +208,7 @@
         },
         {
           "realized_pnl": 671.4937226028844,
-          "realized_roi": 0.7148902591943901,
+          "realized_roi": 0.7148902591943899,
           "token_address": "0xf125ae348b5413f0aba6cd0c730dbd18c4e23d4e",
           "token_symbol": "HBM",
           "chain": "robinhood"
@@ -237,10 +237,10 @@
       ],
       "traded_token_count": 286,
       "traded_times": 1117,
-      "realized_pnl_usd": 134152.7948279007,
-      "realized_pnl_percent": 5.026959169957595,
+      "realized_pnl_usd": 134152.79482790068,
+      "realized_pnl_percent": 5.026959169957594,
       "win_rate": 0.3916083916083916
     },
-    "recordedAt": 1790233374624
+    "recordedAt": 1790234587357
   }
 ]
