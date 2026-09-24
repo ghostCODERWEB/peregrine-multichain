@@ -62,6 +62,7 @@ function bulletinPrompt(mode: DisplayMode): { prompt: string; facts: unknown } {
       ? 'CPI 0-100: smart-money flow normalized against history or peers. Above 65 = high relative pressure, below 35 = low, 50 = neutral. A high score does not necessarily mean positive net flow. Hyperliquid is PPI (perp positioning), not spot CPI.'
       : 'CPI 0-100: all-trader DEX flow normalized against history or peers. Above 65 = high relative pressure, below 35 = low, 50 = neutral. A high score does not necessarily mean positive net flow. Hyperliquid is PPI (perp positioning), not spot CPI.',
     pressure_extremes: chains, rotation_fronts_24h: fronts, storm_warnings: storms, forecasts_24h: forecasts,
+    inferred_rotation_candidates: b.inference?.fronts.slice(0, 3).map((f) => ({ from: f.from, to: f.to, candidate_notional_usd: f.netUsd, independent_groups: f.walletCount, status: 'INFERRED: direct funding plus trade timing; NOT established ownership or a measured bridge transfer' })) ?? [],
     cross_module_layers: b.layers?.map((l) => ({ layer: l.title, definition: l.description, observed_at: l.at, recorded_demo: l.recorded, value_unit: l.metric, unavailable: l.unavailable, readings: l.readings.slice(0, 5) })),
     cross_layer_caveat: 'Layer populations and units differ. Prediction activity is volume heat, never directional net flow or a YES probability. Missing observations are unknown, not zero. Cite observation age; never describe recorded or stale observations as live.',
   };

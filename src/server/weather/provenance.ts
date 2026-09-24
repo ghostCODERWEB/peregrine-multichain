@@ -60,7 +60,7 @@ export function frontProvenance(f: Front): Provenance {
     ],
     calls: [{ endpoint: 'smart-money/dex-trades', body: DEX_TRADES_REQUEST, credits: 5, ref: 'captured every scan into smart_money_trades; trailing 24h + 12h matching window' }],
     notes: [
-      'Same-address matching works across EVM chains, where a wallet has one address everywhere. Solana and other non-EVM wallets have different addresses, so their fronts would need first-funder linking ("inferred") and are not shown yet.',
+      'These are observed same-address matches. Distinct-wallet funding hypotheses live in the separate Inferred rotations section and use dashed arcs only when explicitly enabled. Neither is proof of a bridge transfer.',
     ],
   };
 }

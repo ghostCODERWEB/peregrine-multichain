@@ -9,6 +9,7 @@ import { ChainTable } from './ChainTable';
 import { StormTicker } from './StormTicker';
 import { PulseBand } from './PulseBand';
 import { LayerPanel } from './LayerPanel';
+import { InferenceControls } from './InferenceControls';
 import { AnchorCard } from '@/components/AnchorCard';
 import type { AnchorReport } from '@/server/agents/anchor';
 import { mapHeadline, frontsHeadline } from '@/lib/insights';
@@ -22,7 +23,7 @@ async function fetchBulletin(): Promise<WeatherBulletin> {
 }
 
 export function WeatherView({ initial, anchor, alpha }: { initial: WeatherBulletin; anchor: AnchorReport | null; alpha?: React.ReactNode }) {
-  const { data, isFetching } = useQuery({
+  const { data, isFetching, refetch } = useQuery({
     queryKey: ['weather'],
     queryFn: fetchBulletin,
     initialData: initial,
@@ -32,7 +33,9 @@ export function WeatherView({ initial, anchor, alpha }: { initial: WeatherBullet
   const [layer, setLayer] = useState('spot');
   const activeLayer = data.layers?.find((l) => l.id === layer);
   const [selected, setSelected] = useState<string | null>(null);
-  const selectedFront = data.fronts.find((f) => frontKey(f) === selected) ?? null;
+  const [showInferred, setShowInferred] = useState(false);
+  const inferred = data.inference?.fronts ?? [];
+  const selectedFront = [...data.fronts, ...inferred].find((f) => frontKey(f) === selected) ?? null;
 
   const scored = data.chains.filter((c) => c.cpi != null).length;
 
@@ -70,7 +73,7 @@ export function WeatherView({ initial, anchor, alpha }: { initial: WeatherBullet
         </div>
         <div className="glass rounded-2xl p-4">
           {activeLayer ? <LayerPanel layer={activeLayer} table={view === 'table'} /> : view === 'map' ? (
-            <HexMap chains={data.chains} fronts={data.fronts} selectedFront={selected} onSelectFront={setSelected} />
+            <HexMap chains={data.chains} fronts={[...data.fronts, ...(showInferred ? inferred : [])]} selectedFront={selected} onSelectFront={setSelected} />
           ) : (
             <ChainTable chains={data.chains} />
           )}
@@ -108,6 +111,19 @@ export function WeatherView({ initial, anchor, alpha }: { initial: WeatherBullet
         {data.withheld.includes('fronts')
           ? <p className="rounded-lg border border-dashed border-border px-3 py-4 text-sm text-ink-2">Fronts are built from Nansen smart-money DEX trades, which Nansen&apos;s redistribution rules keep out of public views. Run TIDE with your own Nansen key to see them; this public view shows all-trader pressure instead.</p>
           : <FrontsList fronts={data.fronts} onSelect={setSelected} />}
+      </section>
+
+      <section aria-labelledby="inferred-title" className="glass rounded-2xl border border-dashed border-border p-4">
+        <h2 id="inferred-title" className="text-base font-semibold text-ink">Inferred rotations · evidence, not ownership</h2>
+        <p className="mt-2 text-sm text-ink-2">Direct first-funding relationships plus a sell and subsequent buy within 12 hours. At least two independent relationship groups must agree. Related wallets do not establish common control or a bridge transfer.</p>
+        {!data.inference ? <p className="mt-2 text-sm text-ink-muted">Owner-only: these candidates use the instance&apos;s private smart-money trade history. Public and member views do not receive the evidence.</p> : <>
+          <p className="mt-2 text-xs text-ink-muted">Last check <TimeAgo ts={data.inference.at} /> · {data.inference.checked} wallets checked · {data.inference.links} eligible direct funding records · {data.inference.failures} unavailable responses. {data.inference.stale ? 'Evidence expired after 24 hours; candidates are withheld.' : ''}</p>
+          {inferred.length ? <>
+            <label className="my-3 flex items-center gap-2 text-sm"><input type="checkbox" checked={showInferred} onChange={(e) => { setShowInferred(e.target.checked); setSelected(null); }} />Show inferred candidates as dashed arcs on the spot map</label>
+            <FrontsList fronts={inferred} onSelect={setSelected} />
+          </> : <p className="mt-3 text-sm text-ink-2">No qualifying inferred front in the available evidence. Same-chain funding, shared funders or similar trading alone cannot establish a cross-chain link. Non-EVM addresses are never guessed or lowercased.</p>}
+          <InferenceControls maxCredits={data.inference.maxCredits} onUpdated={refetch} />
+        </>}
       </section>
 
       <section aria-labelledby="forecast-title">

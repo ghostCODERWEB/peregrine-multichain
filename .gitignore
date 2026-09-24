@@ -20,6 +20,7 @@
 /.next-demo/
 /.next-public/
 /.next-prod/
+/.next-verify/
 /out/
 
 # production

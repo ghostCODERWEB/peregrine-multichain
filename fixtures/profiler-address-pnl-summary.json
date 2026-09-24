@@ -180,7 +180,7 @@
       "realized_pnl_percent": 0,
       "win_rate": 0
     },
-    "recordedAt": 1790238000528
+    "recordedAt": 1790251213741
   },
   {
     "requestHash": "aaec1d1b9edb21629ee922a8cef8b44f5321c046",
@@ -207,8 +207,8 @@
           "chain": "ethereum"
         },
         {
-          "realized_pnl": 671.4937226028844,
-          "realized_roi": 0.7148902591943899,
+          "realized_pnl": 671.4937226028845,
+          "realized_roi": 0.7148902591943901,
           "token_address": "0xf125ae348b5413f0aba6cd0c730dbd18c4e23d4e",
           "token_symbol": "HBM",
           "chain": "robinhood"
@@ -221,26 +221,26 @@
           "chain": "polygon"
         },
         {
-          "realized_pnl": 354.5408251691958,
+          "realized_pnl": 354.5408251691957,
           "realized_roi": 0.30823111890470456,
           "token_address": "0xc7dcca0a3e69bd762c8db257f868f76be36c8514",
           "token_symbol": "KIBSHI",
           "chain": "base"
         },
         {
-          "realized_pnl": 307.2535801407084,
-          "realized_roi": 0.6145098596876205,
+          "realized_pnl": 307.2535801407083,
+          "realized_roi": 0.6145098596876202,
           "token_address": "0xf4d2888d29d722226fafa5d9b24f9164c092421e",
           "token_symbol": "LOOKS",
           "chain": "ethereum"
         }
       ],
-      "traded_token_count": 286,
-      "traded_times": 1117,
-      "realized_pnl_usd": 134152.79482790068,
-      "realized_pnl_percent": 5.026959169957594,
-      "win_rate": 0.3916083916083916
+      "traded_token_count": 289,
+      "traded_times": 1121,
+      "realized_pnl_usd": 134039.0217990656,
+      "realized_pnl_percent": 4.985345899663864,
+      "win_rate": 0.3875432525951557
     },
-    "recordedAt": 1790238004790
+    "recordedAt": 1790251229165
   }
 ]

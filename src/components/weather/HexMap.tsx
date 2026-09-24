@@ -113,14 +113,14 @@ export function HexMap({
           const a = pos.get(f.from);
           const b = pos.get(f.to);
           if (!a || !b) return null;
-          const key = `${f.from}>${f.to}`;
+          const key = `${f.inferred ? 'inferred:' : ''}${f.from}>${f.to}`;
           const dx = b.cx - a.cx, dy = b.cy - a.cy;
           const dist = Math.hypot(dx, dy);
           // Start/end at the tile edge, not its centre, so arcs don't bury the numbers.
           const ux = dx / dist, uy = dy / dist;
           const x1 = a.cx + ux * r * 0.7, y1 = a.cy + uy * r * 0.7;
           const x2 = b.cx - ux * r * 0.95, y2 = b.cy - uy * r * 0.95;
-          const bow = Math.min(90, dist * 0.28);
+          const bow = Math.min(90, dist * 0.28) * (f.inferred ? -1 : 1);
           const mx = (x1 + x2) / 2 - uy * bow, my = (y1 + y2) / 2 + ux * bow;
           const d = `M${x1},${y1} Q${mx},${my} ${x2},${y2}`;
           const width = 1.5 + 6 * Math.sqrt(f.netUsd / maxFront);
@@ -128,7 +128,7 @@ export function HexMap({
           const selected = selectedFront === key;
           return (
             <g key={key} className="cursor-pointer" onClick={() => onSelectFront(key)}>
-              <title>{`${chainName(f.from)} → ${chainName(f.to)}: ${usd(f.netUsd)} net, ${f.walletCount} wallets`}</title>
+              <title>{`${f.inferred ? 'Inferred candidate: ' : ''}${chainName(f.from)} → ${chainName(f.to)}: ${usd(f.netUsd)} net, ${f.walletCount} ${f.inferred ? 'groups (not ownership probability)' : 'wallets'}`}</title>
               {/* Surface halo keeps the arc legible where it crosses tiles. */}
               <path d={d} fill="none" stroke="var(--surface-1)" strokeWidth={width + 3} strokeLinecap="round" opacity={0.7} className="pointer-events-none" />
               <path
@@ -139,7 +139,8 @@ export function HexMap({
                 strokeLinecap="round"
                 opacity={selected ? 1 : opacity}
                 markerEnd="url(#front-head)"
-                className="front-flow pointer-events-none"
+                strokeDasharray={f.inferred ? '6 5' : undefined}
+                className={f.inferred ? 'pointer-events-none' : 'front-flow pointer-events-none'}
               />
               {/* Fat invisible hit area: arcs are thin, readers aim loosely.
                   Tiles sit above this layer, so a click on a tile always

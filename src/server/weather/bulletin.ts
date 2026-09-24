@@ -6,6 +6,7 @@ import { weatherMap, rotationFronts, pressureForecast, scanStatus, stormTicker, 
 import { cpiProvenance, frontProvenance, forecastProvenance } from './provenance';
 import type { Provenance } from '@/lib/provenance';
 import { weatherLayers, type WeatherLayer } from './layers';
+import { inferredWeather } from './inferred';
 
 export interface ChainTile extends ChainWeather { provenance: Provenance | null }
 export interface FrontWithProvenance extends Front { provenance: Provenance }
@@ -14,6 +15,7 @@ export interface ForecastWithProvenance extends PressureForecast { provenance: P
 export interface WeatherBulletin {
   generatedAt: number;
   layers?: WeatherLayer[];
+  inference?: ReturnType<typeof inferredWeather>;
   chains: ChainTile[];
   fronts: FrontWithProvenance[];
   forecasts: ForecastWithProvenance[];
@@ -41,5 +43,5 @@ export function buildBulletin(mode: PressureView = 'private', now = Date.now()):
       const f = pressureForecast(c.chain, 24, now, mode);
       return { ...f, provenance: forecastProvenance(f) };
     });
-  return { generatedAt: now, layers: weatherLayers(mode, now), chains, fronts, forecasts, storms: stormTicker(12, now), mode, withheld: mode === 'public' ? ['fronts'] : [], scan: scanStatus() };
+  return { generatedAt: now, inference: inferredWeather(mode, now), layers: weatherLayers(mode, now), chains, fronts, forecasts, storms: stormTicker(12, now), mode, withheld: mode === 'public' ? ['fronts'] : [], scan: scanStatus() };
 }

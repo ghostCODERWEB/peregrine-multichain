@@ -1157,6 +1157,230 @@
           "method": "dagSwapTo(uint256,address,(uint256,address,uint256,uint256,uint256),(address[],address[],uint256[],bytes[],uint256)[])",
           "tokens_sent": [
             {
+              "token_symbol": "USDC",
+              "token_amount": -0.025,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+              "chain": "ethereum",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x6803d01a5e44827d7afb2b63e65eb30de9f29c81",
+              "from_address_label": null,
+              "to_address_label": null
+            },
+            {
+              "token_symbol": "USDC",
+              "token_amount": -0.175,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+              "chain": "ethereum",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x7797c4a7f786f77dbce13d71d2c710310cb92aa3",
+              "from_address_label": null,
+              "to_address_label": null
+            },
+            {
+              "token_symbol": "USDC",
+              "token_amount": -14.442,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+              "chain": "ethereum",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0xcaf0beadeaefc66fef60ac6526ab566d58c8647a",
+              "from_address_label": null,
+              "to_address_label": null
+            },
+            {
+              "token_symbol": "USDC",
+              "token_amount": -35.358,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+              "chain": "ethereum",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0xcaf0beadeaefc66fef60ac6526ab566d58c8647a",
+              "from_address_label": null,
+              "to_address_label": null
+            }
+          ],
+          "tokens_received": [
+            {
+              "token_symbol": "STMX",
+              "token_amount": 3667733.056412866,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0xa62cc35625b0c8dc1faea39d33625bb4c15bd71c",
+              "chain": "ethereum",
+              "from_address": "0x000000000004444c5dc75cb358380d2e3de08a90",
+              "to_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "from_address_label": null,
+              "to_address_label": null
+            },
+            {
+              "token_symbol": "STMX",
+              "token_amount": 1496449.792738967,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0xa62cc35625b0c8dc1faea39d33625bb4c15bd71c",
+              "chain": "ethereum",
+              "from_address": "0xcc874fe777b88432f24558f325ef88ff0b59326e",
+              "to_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "from_address_label": null,
+              "to_address_label": null
+            }
+          ],
+          "volume_usd": 50.016449645215,
+          "block_timestamp": "2026-09-24T09:55:47",
+          "transaction_hash": "0x19e7aa072d5b3f4d9c2ddd727c298f4014cd8e64ec5e8252aa017404a1bc7d08",
+          "source_type": "transfer"
+        },
+        {
+          "chain": "bsc",
+          "method": "dagSwapTo(uint256,address,(uint256,address,uint256,uint256,uint256),(address[],address[],uint256[],bytes[],uint256)[])",
+          "tokens_sent": [
+            {
+              "token_symbol": "USDT",
+              "token_amount": -0.025,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x6803d01a5e44827d7afb2b63e65eb30de9f29c81",
+              "from_address_label": null,
+              "to_address_label": null
+            },
+            {
+              "token_symbol": "USDT",
+              "token_amount": -0.175,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x7797c4a7f786f77dbce13d71d2c710310cb92aa3",
+              "from_address_label": null,
+              "to_address_label": null
+            },
+            {
+              "token_symbol": "USDT",
+              "token_amount": -1.992,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x1114e352349076d4159e7486a2430cd0d47b226b",
+              "from_address_label": null,
+              "to_address_label": null
+            },
+            {
+              "token_symbol": "USDT",
+              "token_amount": -16.434,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x69a52a0570636ca391175ce619bbb9d348040bbc",
+              "from_address_label": null,
+              "to_address_label": null
+            },
+            {
+              "token_symbol": "USDT",
+              "token_amount": -31.374,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0x55d398326f99059ff775485246999027b3197955",
+              "chain": "bsc",
+              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "to_address": "0x69a52a0570636ca391175ce619bbb9d348040bbc",
+              "from_address_label": null,
+              "to_address_label": null
+            }
+          ],
+          "tokens_received": [],
+          "volume_usd": 49.952181381524255,
+          "block_timestamp": "2026-09-24T09:42:48",
+          "transaction_hash": "0x465160e9eb7b9da61f4053d493c2aced3d09e424ff13bcf9f5dee6abe45b1c70",
+          "source_type": "transfer"
+        },
+        {
+          "chain": "bsc",
+          "method": "airdrop(address[])",
+          "tokens_sent": [],
+          "tokens_received": [
+            {
+              "token_symbol": "🌱 币安时代",
+              "token_amount": 8e-18,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0xc803a5090c76d7978382b0d3017ec01814793a8d",
+              "chain": "bsc",
+              "from_address": "0xc803a5090c76d7978382b0d3017ec01814793a8d",
+              "to_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "from_address_label": null,
+              "to_address_label": null
+            }
+          ],
+          "volume_usd": 1.752332697627264e-23,
+          "block_timestamp": "2026-09-24T09:39:22",
+          "transaction_hash": "0x243e4896aafafcaf1802eb4c3338f5617a9c442e299f32d090def2273c0b7294",
+          "source_type": "transfer"
+        },
+        {
+          "chain": "arc",
+          "method": "received",
+          "tokens_sent": [],
+          "tokens_received": [
+            {
+              "token_symbol": "🌱 KAWAY",
+              "token_amount": 200,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0xc134464f609736ecff5b09ff917b89246528348f",
+              "chain": "arc",
+              "from_address": "0xda3ea3309b214aef16f68b0d80e6b67c82fade16",
+              "to_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "from_address_label": null,
+              "to_address_label": null
+            }
+          ],
+          "volume_usd": null,
+          "block_timestamp": "2026-09-24T09:18:53",
+          "transaction_hash": "0x3812b35d4759086d98f67c67d9da6a7f9be6da82c287a9bba1cdb71de21a9002",
+          "source_type": "transfer"
+        },
+        {
+          "chain": "arc",
+          "method": "dagSwapTo(uint256,address,(uint256,address,uint256,uint256,uint256),(address[],address[],uint256[],bytes[],uint256)[])",
+          "tokens_sent": [],
+          "tokens_received": [
+            {
+              "token_symbol": "USDC",
+              "token_amount": 86.177953,
+              "price_usd": null,
+              "value_usd": null,
+              "token_address": "0xfffffffffffffffffffffffffffffffffffffffe",
+              "chain": "arc",
+              "from_address": "0x4e3bcce28caf98a143fd8bd9e4875ccab3e7bbe0",
+              "to_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
+              "from_address_label": null,
+              "to_address_label": null
+            }
+          ],
+          "volume_usd": 86.15918029570776,
+          "block_timestamp": "2026-09-24T09:18:46",
+          "transaction_hash": "0x27322b9cba8aab66583c360a4c89f68bcb884994a95c50759ea1bf4cd2548052",
+          "source_type": "transfer"
+        },
+        {
+          "chain": "ethereum",
+          "method": "dagSwapTo(uint256,address,(uint256,address,uint256,uint256,uint256),(address[],address[],uint256[],bytes[],uint256)[])",
+          "tokens_sent": [
+            {
               "token_symbol": "LOOKS",
               "token_amount": -1364528.0024031224,
               "price_usd": null,
@@ -1183,7 +1407,7 @@
               "to_address_label": null
             }
           ],
-          "volume_usd": 94.68780991945509,
+          "volume_usd": 97.97866189350532,
           "block_timestamp": "2026-09-24T04:47:11",
           "transaction_hash": "0xffa6275d137c102a99fa7deb661b2e97544650c31310f5dda04966608b480b81",
           "source_type": "transfer"
@@ -1206,7 +1430,7 @@
               "to_address_label": null
             }
           ],
-          "volume_usd": 9.42786169873499e-25,
+          "volume_usd": 2.764347648664707e-24,
           "block_timestamp": "2026-09-24T04:37:39",
           "transaction_hash": "0xdd20b38435513c1e2564d71f0b7f3aa2c5779131a5e339a7e90029cbc416b6bc",
           "source_type": "transfer"
@@ -1242,7 +1466,7 @@
               "to_address_label": null
             }
           ],
-          "volume_usd": 93.09052222316096,
+          "volume_usd": 97.97866189350532,
           "block_timestamp": "2026-09-24T04:25:47",
           "transaction_hash": "0xc948ae1b992df5df46c291b9057a21aeb9bf9f1aebb31c2129cf1b5d3f1d2344",
           "source_type": "transfer"
@@ -1278,7 +1502,7 @@
               "to_address_label": null
             }
           ],
-          "volume_usd": 78.7925153800397,
+          "volume_usd": 78.75024548026688,
           "block_timestamp": "2026-09-24T04:21:34",
           "transaction_hash": "0x972b9749bc0358845388cc64f34355283d9a80e9f04030d6e25261afa7eb41cc",
           "source_type": "transfer"
@@ -1995,247 +2219,9 @@
           "block_timestamp": "2026-09-23T14:01:15",
           "transaction_hash": "0xccb2d6a04063542d56445a1c8a491e02cd6f25f698db02a6b7e7b41aff0c57a6",
           "source_type": "transfer"
-        },
-        {
-          "chain": "base",
-          "method": "dagSwapTo(uint256,address,(uint256,address,uint256,uint256,uint256),(address[],address[],uint256[],bytes[],uint256)[])",
-          "tokens_sent": [
-            {
-              "token_symbol": "USDC",
-              "token_amount": -0.0005,
-              "price_usd": null,
-              "value_usd": null,
-              "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
-              "chain": "base",
-              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
-              "to_address": "0x6803d01a5e44827d7afb2b63e65eb30de9f29c81",
-              "from_address_label": null,
-              "to_address_label": null
-            },
-            {
-              "token_symbol": "USDC",
-              "token_amount": -0.0035,
-              "price_usd": null,
-              "value_usd": null,
-              "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
-              "chain": "base",
-              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
-              "to_address": "0x7797c4a7f786f77dbce13d71d2c710310cb92aa3",
-              "from_address_label": null,
-              "to_address_label": null
-            },
-            {
-              "token_symbol": "USDC",
-              "token_amount": -0.996,
-              "price_usd": null,
-              "value_usd": null,
-              "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
-              "chain": "base",
-              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
-              "to_address": "0x6667c8dc9fbfec411e7c1ee2b24de960149f930f",
-              "from_address_label": null,
-              "to_address_label": null
-            }
-          ],
-          "tokens_received": [
-            {
-              "token_symbol": "LIBRECHAT",
-              "token_amount": 3611348.675787655,
-              "price_usd": null,
-              "value_usd": null,
-              "token_address": "0x7791b1fd1b973c4f5bc01281fca8f1301e0bdba3",
-              "chain": "base",
-              "from_address": "0x498581ff718922c3f8e6a244956af099b2652b2b",
-              "to_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
-              "from_address_label": null,
-              "to_address_label": null
-            }
-          ],
-          "volume_usd": 0.999159608965189,
-          "block_timestamp": "2026-09-23T14:01:03",
-          "transaction_hash": "0xf013d699a11ef150d1e69ee0e691d97e4d47adef2accaa63c0a136e9e9259a24",
-          "source_type": "transfer"
-        },
-        {
-          "chain": "base",
-          "method": "dagSwapTo(uint256,address,(uint256,address,uint256,uint256,uint256),(address[],address[],uint256[],bytes[],uint256)[])",
-          "tokens_sent": [],
-          "tokens_received": [
-            {
-              "token_symbol": "USDC",
-              "token_amount": 17.229319,
-              "price_usd": null,
-              "value_usd": null,
-              "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
-              "chain": "base",
-              "from_address": "0x67d03631fe51b741c0c00c4e16eb662ac84381df",
-              "to_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
-              "from_address_label": null,
-              "to_address_label": null
-            }
-          ],
-          "volume_usd": 17.2148396347765,
-          "block_timestamp": "2026-09-23T14:00:27",
-          "transaction_hash": "0xe0991529fbc3d48ee7f873aa4f45dbed5e61d8a26166996704b949d60c09c5bd",
-          "source_type": "transfer"
-        },
-        {
-          "chain": "polygon",
-          "method": "dagSwapTo(uint256,address,(uint256,address,uint256,uint256,uint256),(address[],address[],uint256[],bytes[],uint256)[])",
-          "tokens_sent": [
-            {
-              "token_symbol": "EBCC",
-              "token_amount": -170.12328123712913,
-              "price_usd": null,
-              "value_usd": null,
-              "token_address": "0x49ddee75d588b79a3eb1225dd386644eeeeeaf08",
-              "chain": "polygon",
-              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
-              "to_address": "0x6747bcaf9bd5a5f0758cbe08903490e45ddfacb5",
-              "from_address_label": null,
-              "to_address_label": null
-            }
-          ],
-          "tokens_received": [
-            {
-              "token_symbol": "USDC",
-              "token_amount": 31.378909,
-              "price_usd": null,
-              "value_usd": null,
-              "token_address": "0x3c499c542cef5e3811e1192ce70d8cc03d5c3359",
-              "chain": "polygon",
-              "from_address": "0x3c4829196bfadff4394726b45159aeaac6fcd41c",
-              "to_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
-              "from_address_label": null,
-              "to_address_label": null
-            }
-          ],
-          "volume_usd": 31.374732875997218,
-          "block_timestamp": "2026-09-23T13:22:50",
-          "transaction_hash": "0x0e53dd0cf2336811af4c396d093f8b2d4f50e04142fc65d8738edda6e9d4d63d",
-          "source_type": "transfer"
-        },
-        {
-          "chain": "base",
-          "method": "dagSwapTo(uint256,address,(uint256,address,uint256,uint256,uint256),(address[],address[],uint256[],bytes[],uint256)[])",
-          "tokens_sent": [
-            {
-              "token_symbol": "USDC",
-              "token_amount": -0.01,
-              "price_usd": null,
-              "value_usd": null,
-              "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
-              "chain": "base",
-              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
-              "to_address": "0x6803d01a5e44827d7afb2b63e65eb30de9f29c81",
-              "from_address_label": null,
-              "to_address_label": null
-            },
-            {
-              "token_symbol": "USDC",
-              "token_amount": -0.07,
-              "price_usd": null,
-              "value_usd": null,
-              "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
-              "chain": "base",
-              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
-              "to_address": "0x7797c4a7f786f77dbce13d71d2c710310cb92aa3",
-              "from_address_label": null,
-              "to_address_label": null
-            },
-            {
-              "token_symbol": "USDC",
-              "token_amount": -19.92,
-              "price_usd": null,
-              "value_usd": null,
-              "token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
-              "chain": "base",
-              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
-              "to_address": "0x0bf54dd1664e14a01fc8ac3abe8dd630ea9344d8",
-              "from_address_label": null,
-              "to_address_label": null
-            }
-          ],
-          "tokens_received": [],
-          "volume_usd": 19.983192179303778,
-          "block_timestamp": "2026-09-23T12:34:37",
-          "transaction_hash": "0x21c77f99ce80af5203f381d67161b71a767ce468609d0279d023cb94fcee9d0c",
-          "source_type": "transfer"
-        },
-        {
-          "chain": "bsc",
-          "method": "dagSwapTo(uint256,address,(uint256,address,uint256,uint256,uint256),(address[],address[],uint256[],bytes[],uint256)[])",
-          "tokens_sent": [
-            {
-              "token_symbol": "KLINK",
-              "token_amount": -10632.394167208424,
-              "price_usd": null,
-              "value_usd": null,
-              "token_address": "0x76e9b54b49739837be8ad10c3687fc6b543de852",
-              "chain": "bsc",
-              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
-              "to_address": "0x62d27aee19b32fa63b6d6c18fbbdcbe870b083e3",
-              "from_address_label": null,
-              "to_address_label": null
-            },
-            {
-              "token_symbol": "KLINK",
-              "token_amount": -10632.394167208424,
-              "price_usd": null,
-              "value_usd": null,
-              "token_address": "0x76e9b54b49739837be8ad10c3687fc6b543de852",
-              "chain": "bsc",
-              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
-              "to_address": "0x62d27aee19b32fa63b6d6c18fbbdcbe870b083e3",
-              "from_address_label": null,
-              "to_address_label": null
-            },
-            {
-              "token_symbol": "KLINK",
-              "token_amount": -53161.97083604213,
-              "price_usd": null,
-              "value_usd": null,
-              "token_address": "0x76e9b54b49739837be8ad10c3687fc6b543de852",
-              "chain": "bsc",
-              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
-              "to_address": "0x62d27aee19b32fa63b6d6c18fbbdcbe870b083e3",
-              "from_address_label": null,
-              "to_address_label": null
-            },
-            {
-              "token_symbol": "KLINK",
-              "token_amount": -457192.9491899623,
-              "price_usd": null,
-              "value_usd": null,
-              "token_address": "0x76e9b54b49739837be8ad10c3687fc6b543de852",
-              "chain": "bsc",
-              "from_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
-              "to_address": "0x1794b5428c0663986717a61d0dd03de2d62656f1",
-              "from_address_label": null,
-              "to_address_label": null
-            }
-          ],
-          "tokens_received": [
-            {
-              "token_symbol": "USDT",
-              "token_amount": 23.95983483965165,
-              "price_usd": null,
-              "value_usd": null,
-              "token_address": "0x55d398326f99059ff775485246999027b3197955",
-              "chain": "bsc",
-              "from_address": "0x5994814f2c4040b863a0125a45de152a8c2a4dec",
-              "to_address": "0xcbb811f129782ef87e19dea9d3375045219bae00",
-              "from_address_label": null,
-              "to_address_label": null
-            }
-          ],
-          "volume_usd": 26.107505355892318,
-          "block_timestamp": "2026-09-23T12:23:35",
-          "transaction_hash": "0xfb268df7a7a92b66a707e734160d104d0c40585cc65c1569511816d23014dc20",
-          "source_type": "transfer"
         }
       ]
     },
-    "recordedAt": 1790238010798
+    "recordedAt": 1790251227068
   }
 ]

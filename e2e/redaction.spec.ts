@@ -72,6 +72,7 @@ test('weather API and public API expose no private data', async ({ request }) =>
   const w = await (await request.get('/api/weather')).json();
   expect(w.mode).toBe('public');
   expect(w.fronts).toEqual([]);
+  expect(w.inference).toBeNull();
   for (const c of w.chains) if (c.source) expect(c.source).toBe('market-flow');
   assertClean('/api/weather', JSON.stringify(w));
   expect((await request.get('/api/public/fronts')).status()).toBe(403);

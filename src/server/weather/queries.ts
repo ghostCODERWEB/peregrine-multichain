@@ -122,6 +122,7 @@ export interface FrontWallet {
 }
 
 export interface Front {
+  evidence?: import('@/lib/models/inferred-rotations').InferredMatch[];
   from: string;
   to: string;
   netUsd: number;
@@ -150,8 +151,8 @@ export function rotationFronts(hours = 24, now = Date.now()): Front[] {
   const since = now - hours * 60 * 60_000;
   const rows = getDb().prepare(`
     SELECT chain, wallet, wallet_label, side, token_symbol, usd_value, traded_at
-    FROM smart_money_trades WHERE traded_at >= ? ORDER BY traded_at
-  `).all(since - 12 * 60 * 60_000) as TradeRow[];
+    FROM smart_money_trades WHERE traded_at >= ? AND traded_at <= ? ORDER BY traded_at
+  `).all(since - 12 * 60 * 60_000, now) as TradeRow[];
 
   const byWallet = new Map<string, TradeRow[]>();
   for (const r of rows) byWallet.set(r.wallet, [...(byWallet.get(r.wallet) ?? []), r]);

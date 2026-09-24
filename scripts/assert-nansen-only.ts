@@ -20,6 +20,7 @@ const ALLOWED_HOSTS = [
   'api.telegram.org',
   'discord.com',
   'hooks.slack.com', // Slack webhook format check for Smart Alert destinations: Nansen posts there; TIDE never calls it
+  'invalid',         // RFC 2606 reserved TLD: cross-origin test fixtures that can never resolve
 ];
 
 // Requires an explicit http(s):// prefix. A bare `a.b.c` pattern (matching
