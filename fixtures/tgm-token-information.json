@@ -359,25 +359,25 @@
           "website": "https://aerodrome.finance/",
           "x": "aerodromefi",
           "telegram": "",
-          "market_cap_usd": 665315416.332634,
-          "fdv_usd": 1322020390.12628,
-          "circulating_supply": 991830546.8058937,
-          "total_supply": 1983240735.576791
+          "market_cap_usd": 681827143.4929988,
+          "fdv_usd": 1358289305.23384,
+          "circulating_supply": 996637705.8927149,
+          "total_supply": 1988034890.229641
         },
         "spot_metrics": {
-          "volume_total_usd": 30501854.357263148,
-          "buy_volume_usd": 14242374.978202183,
-          "sell_volume_usd": 16259479.379060965,
-          "total_buys": 30905,
-          "total_sells": 37128,
-          "unique_buyers": 951,
-          "unique_sellers": 2231,
-          "liquidity_usd": 29861749.01875286,
-          "total_holders": 97322
+          "volume_total_usd": 24863170.177009143,
+          "buy_volume_usd": 12115306.10366242,
+          "sell_volume_usd": 12747864.073346721,
+          "total_buys": 23722,
+          "total_sells": 27818,
+          "unique_buyers": 1045,
+          "unique_sellers": 1812,
+          "liquidity_usd": 27730402.35658285,
+          "total_holders": 97773
         }
       }
     },
-    "recordedAt": 1790200760320
+    "recordedAt": 1790256732467
   },
   {
     "requestHash": "486882a051074b041b69b830829293fc0651537e",

@@ -314,6 +314,24 @@ const MIGRATIONS: string[] = [
     token_hash TEXT PRIMARY KEY, scope TEXT NOT NULL, user_id INTEGER, created_at INTEGER NOT NULL, last_used_at INTEGER
   );
   `,
+  // 18: call cards (L1). A saved decision on a token (stance, horizon,
+  // optional invalidation, setup, one-line thesis) with its entry receipt,
+  // graded later from Nansen candles. Private per desk: the owner, a member,
+  // or an anonymous visitor's desk cookie. source is 'live' or 'replay'
+  // (the Time Machine's historical calls).
+  `
+  CREATE TABLE calls (
+    id INTEGER PRIMARY KEY AUTOINCREMENT, scope TEXT NOT NULL, source TEXT NOT NULL DEFAULT 'live',
+    chain TEXT NOT NULL, token TEXT NOT NULL, symbol TEXT,
+    stance TEXT NOT NULL, horizon TEXT NOT NULL, setup TEXT NOT NULL, thesis TEXT,
+    entry_price REAL NOT NULL, entry_at INTEGER NOT NULL, invalidation REAL,
+    created_at INTEGER NOT NULL, due_at INTEGER NOT NULL,
+    context TEXT, entry_receipt TEXT NOT NULL,
+    grade TEXT, exit_price REAL, ret REAL, graded_at INTEGER, grade_receipt TEXT, grade_detail TEXT, grade_note TEXT
+  );
+  CREATE INDEX idx_calls_scope ON calls(scope, created_at);
+  CREATE INDEX idx_calls_due ON calls(scope, grade, due_at);
+  `,
 ];
 
 export function audit(userId: number | null, action: string, detail?: string): void {

@@ -220,5 +220,69 @@
       }
     },
     "recordedAt": 1790215537968
+  },
+  {
+    "requestHash": "a36ecc809ff06a1affb12ec2520b612d1af4bd28",
+    "request": {
+      "date": {
+        "from": "2026-09-17",
+        "to": "2026-09-24"
+      },
+      "token_symbol": "AERO",
+      "pagination": {
+        "page": 1,
+        "per_page": 100
+      }
+    },
+    "response": {
+      "data": [
+        {
+          "username": "wacy_time1",
+          "timestamp": "2026-09-22T10:56:12Z",
+          "text": "Revenue-generating tokens are going to win in this cycle.\n\nThe biggest upside could come from protocols\nthat share their success with token holders.\n\n10 revenue machines worth watching:\n\n$STONK - @LaunchOnSF\n$AERO - @aeroxyz\n$PUMP - @Pumpfun\n$RAY - @Raydium\n$HYPE - @HyperliquidX https://t.co/iiodjNnjae",
+          "likes": 29,
+          "views": 6966,
+          "tweet_id": "2102351252206088255"
+        },
+        {
+          "username": "wacy_time1",
+          "timestamp": "2026-09-22T10:52:10Z",
+          "text": "Revenue-generating tokens are going to win in this cycle.\n\nThe biggest upside could come from protocols \nthat share their success with token holders.\n\n10 revenue machines worth watching:\n$STONK - @StonkFun\n$AERO - @AerodromeFi\n$PUMP - @Pumpfun\n$RAY - @RaydiumProtocol\n$HYPE - https://t.co/UtBaU34ISQ",
+          "likes": 0,
+          "views": 0,
+          "tweet_id": "2102350234617602194"
+        },
+        {
+          "username": "wacy_time1",
+          "timestamp": "2026-09-22T10:22:42Z",
+          "text": "Most crypto tokens give holders nothing but hope.\n\nThese projects are actually sending value back:\n\n$STONK\n$AERO\n$PUMP\n$RAY\n$HYPE\n$UNI\n$LIT\n$ASTER\n$PENDLE\n$VVV\n\nHow it works:\n- Protocols generate fees from real activity.\n- Part of that revenue is used to buy back tokens, burn https://t.co/QGpQAb5kjR",
+          "likes": 0,
+          "views": 0,
+          "tweet_id": "2102342819302051944"
+        },
+        {
+          "username": "0xAbhiP",
+          "timestamp": "2026-09-20T16:47:46Z",
+          "text": "some of the smartest people I know are long $AERO, so now i am too 🙂",
+          "likes": 28,
+          "views": 2049,
+          "tweet_id": "2101714948799992204"
+        },
+        {
+          "username": "TassoLago",
+          "timestamp": "2026-09-19T04:32:03Z",
+          "text": "Best tickers for now:\n$ONDO\n$MET\n$JUP\n$ASTER\n$AERO\n$ARB\n\nLow cap\n$PERPSPAD (5-10x min from here)\n$STONK (2-5x)",
+          "likes": 0,
+          "views": 226,
+          "tweet_id": "2101167412338884766"
+        }
+      ],
+      "pagination": {
+        "page": 1,
+        "per_page": 100,
+        "is_last_page": true
+      }
+    },
+    "recordedAt": 1790256733544
   }
 ]

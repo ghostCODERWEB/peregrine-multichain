@@ -10369,21 +10369,21 @@
           "chain": "base",
           "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
           "token_symbol": "AERO",
-          "token_age_days": 1122,
-          "token_age_hours": 26948,
+          "token_age_days": 1123,
+          "token_age_hours": 26963,
           "token_deployment_date": "2023-08-28T02:40:47",
-          "market_cap_usd": 665826172.591903,
-          "liquidity": 29861749.01875286,
-          "price_usd": 0.670022832261015,
-          "price_change": 0.2691366739634797,
-          "fdv": 1330347516.20732,
-          "fdv_mc_ratio": 1.9980402858430653,
-          "buy_volume": 77322288.82643394,
-          "inflow_fdv_ratio": 0.05812187258173835,
-          "outflow_fdv_ratio": 0.058065709020987254,
-          "sell_volume": 77247571.77288736,
-          "volume": 154569860.5993213,
-          "netflow": 74717.05354657769
+          "market_cap_usd": 680939484.280729,
+          "liquidity": 27730402.35658285,
+          "price_usd": 0.683947043826154,
+          "price_change": 0.22608390335359432,
+          "fdv": 1358289305.23384,
+          "fdv_mc_ratio": 1.994728366601608,
+          "buy_volume": 78100030.3591132,
+          "inflow_fdv_ratio": 0.05749881859348637,
+          "outflow_fdv_ratio": 0.05705820076349882,
+          "sell_volume": 77501543.87294577,
+          "volume": 155601574.23205897,
+          "netflow": 598486.4861674309
         }
       ],
       "pagination": {
@@ -10392,7 +10392,7 @@
         "is_last_page": true
       }
     },
-    "recordedAt": 1790201554901
+    "recordedAt": 1790256735431
   },
   {
     "requestHash": "747f0b00a1b004813e0d26e51fbb2eecf2c54341",

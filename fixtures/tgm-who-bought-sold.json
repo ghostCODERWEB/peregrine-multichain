@@ -8350,5 +8350,469 @@
       }
     },
     "recordedAt": 1790216800028
+  },
+  {
+    "requestHash": "554c2ce81cb15bdbf07c095551cfbaccf6c919e1",
+    "request": {
+      "chain": "base",
+      "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+      "buy_or_sell": "SELL",
+      "date": {
+        "from": "2026-09-17",
+        "to": "2026-09-25"
+      },
+      "pagination": {
+        "page": 1,
+        "per_page": 20
+      },
+      "order_by": [
+        {
+          "field": "sold_volume_usd",
+          "direction": "DESC"
+        }
+      ]
+    },
+    "response": {
+      "data": [
+        {
+          "address": "0x2192bc3b4028acc1113f2cd9ac2cba70c36520db",
+          "address_label": null,
+          "bought_token_volume": 4865973.292442138,
+          "sold_token_volume": 5554804.986554361,
+          "token_trade_volume": 688831.6941122226,
+          "bought_volume_usd": 3160731.5452387887,
+          "sold_volume_usd": 3680253.6021252694,
+          "trade_volume_usd": 519522.05688648066
+        },
+        {
+          "address": "0x69ed665a6660031992bd51cda7bef34c7fbb8fc6",
+          "address_label": null,
+          "bought_token_volume": 891988.3188401386,
+          "sold_token_volume": 1830064.2174125183,
+          "token_trade_volume": 938075.8985723797,
+          "bought_volume_usd": 615505.5512984573,
+          "sold_volume_usd": 1242348.2332799586,
+          "trade_volume_usd": 626842.6819815013
+        },
+        {
+          "address": "0x1594b251df6b70ca9a01d4de0836ab4fd9811241",
+          "address_label": null,
+          "bought_token_volume": 0,
+          "sold_token_volume": 1827259.6695032897,
+          "token_trade_volume": 1827259.6695032897,
+          "bought_volume_usd": 0,
+          "sold_volume_usd": 1239061.7360967782,
+          "trade_volume_usd": 1239061.7360967782
+        },
+        {
+          "address": "0xd13da05b9288ba4961973110594bd0fe3428791f",
+          "address_label": null,
+          "bought_token_volume": 0,
+          "sold_token_volume": 1820000.459804994,
+          "token_trade_volume": 1820000.459804994,
+          "bought_volume_usd": 0,
+          "sold_volume_usd": 1206691.51775358,
+          "trade_volume_usd": 1206691.51775358
+        },
+        {
+          "address": "0x8b12ca0e3f55da41b11be7381d673efb96e61a8e",
+          "address_label": null,
+          "bought_token_volume": 730026.3283551616,
+          "sold_token_volume": 1305544.46328605,
+          "token_trade_volume": 575518.1349308883,
+          "bought_volume_usd": 497739.3529092997,
+          "sold_volume_usd": 876066.6359129103,
+          "trade_volume_usd": 378327.2830036106
+        },
+        {
+          "address": "0x4a3ba5c2327b9f3583e6a632279a53b5d02b589d",
+          "address_label": null,
+          "bought_token_volume": 735322.2909759217,
+          "sold_token_volume": 1239208.1946346161,
+          "token_trade_volume": 503885.9036586945,
+          "bought_volume_usd": 475302.64933317364,
+          "sold_volume_usd": 827527.3789233372,
+          "trade_volume_usd": 352224.72959016357
+        },
+        {
+          "address": "0x0f0067cd819cb8f20bda62046daff7a2b5c88280",
+          "address_label": null,
+          "bought_token_volume": 605204.7465649993,
+          "sold_token_volume": 683780.6041608198,
+          "token_trade_volume": 78575.85759582045,
+          "bought_volume_usd": 396175.0402185875,
+          "sold_volume_usd": 462532.80971503403,
+          "trade_volume_usd": 66357.76949644653
+        },
+        {
+          "address": "0x3c078aa7227d14a1139b29dd84baff38e6b1ca99",
+          "address_label": null,
+          "bought_token_volume": 655483.0147091597,
+          "sold_token_volume": 655483.0147091597,
+          "token_trade_volume": 0,
+          "bought_volume_usd": 432866.44618861494,
+          "sold_volume_usd": 437112.0608167766,
+          "trade_volume_usd": 4245.614628161653
+        },
+        {
+          "address": "0xc9419f3aa84711b38937632619f03ba67bb8182a",
+          "address_label": null,
+          "bought_token_volume": 0,
+          "sold_token_volume": 588440.7688190982,
+          "token_trade_volume": 588440.7688190982,
+          "bought_volume_usd": 0,
+          "sold_volume_usd": 388541.0240374461,
+          "trade_volume_usd": 388541.0240374461
+        },
+        {
+          "address": "0x3de52fc645a215d841c6891b9cbf193ebc728814",
+          "address_label": null,
+          "bought_token_volume": 450690.77203523804,
+          "sold_token_volume": 550690.7713760588,
+          "token_trade_volume": 99999.99934082077,
+          "bought_volume_usd": 288901.6739678267,
+          "sold_volume_usd": 374975.5042159533,
+          "trade_volume_usd": 86073.83024812659
+        },
+        {
+          "address": "0x42c8d86dca92aa64ff42c42164c3f133a4839806",
+          "address_label": null,
+          "bought_token_volume": 535475.1879228493,
+          "sold_token_volume": 542996.0716274708,
+          "token_trade_volume": 7520.883704621461,
+          "bought_volume_usd": 360897.7003283923,
+          "sold_volume_usd": 361205.81157966563,
+          "trade_volume_usd": 308.1112512733089
+        },
+        {
+          "address": "0x0d26e5f668f89268420208c2e7a48659445907a3",
+          "address_label": null,
+          "bought_token_volume": 399312.196001138,
+          "sold_token_volume": 500260.0980914377,
+          "token_trade_volume": 100947.9020902997,
+          "bought_volume_usd": 262070.6004412165,
+          "sold_volume_usd": 333588.78861752374,
+          "trade_volume_usd": 71518.18817630725
+        },
+        {
+          "address": "0x966e944dad4ca785eb67358eca79133d7dcd2ae9",
+          "address_label": null,
+          "bought_token_volume": 0,
+          "sold_token_volume": 493231,
+          "token_trade_volume": 493231,
+          "bought_volume_usd": 0,
+          "sold_volume_usd": 319729.2301717794,
+          "trade_volume_usd": 319729.2301717794
+        },
+        {
+          "address": "0x0c675a57cd06fd7c2c8454bc2d67687b322e587f",
+          "address_label": null,
+          "bought_token_volume": 0,
+          "sold_token_volume": 435556.46764679987,
+          "token_trade_volume": 435556.46764679987,
+          "bought_volume_usd": 0,
+          "sold_volume_usd": 298262.7442100384,
+          "trade_volume_usd": 298262.7442100384
+        },
+        {
+          "address": "0xec2ca51afc5529bff84909fb04dec81be3b2490f",
+          "address_label": null,
+          "bought_token_volume": 158772.42621049169,
+          "sold_token_volume": 416044.794784,
+          "token_trade_volume": 257272.36857350834,
+          "bought_volume_usd": 93383.90836012308,
+          "sold_volume_usd": 277664.65291156946,
+          "trade_volume_usd": 184280.74455144638
+        },
+        {
+          "address": "0xf2043109af60d2e1e9a0321fd8d6ec1f28baa727",
+          "address_label": null,
+          "bought_token_volume": 0,
+          "sold_token_volume": 350000,
+          "token_trade_volume": 350000,
+          "bought_volume_usd": 0,
+          "sold_volume_usd": 252757.73896543714,
+          "trade_volume_usd": 252757.73896543714
+        },
+        {
+          "address": "0xf6aba15dce592340cd95effa01bab64bf2c093db",
+          "address_label": null,
+          "bought_token_volume": 0,
+          "sold_token_volume": 318038.8904544314,
+          "token_trade_volume": 318038.8904544314,
+          "bought_volume_usd": 0,
+          "sold_volume_usd": 203510.86062053972,
+          "trade_volume_usd": 203510.86062053972
+        },
+        {
+          "address": "0x6eade34ae349bce412b59835435d5bc1d16c6b29",
+          "address_label": null,
+          "bought_token_volume": 202734.22867945654,
+          "sold_token_volume": 300867.1106203717,
+          "token_trade_volume": 98132.88194091516,
+          "bought_volume_usd": 133016.70898686667,
+          "sold_volume_usd": 199607.4750258704,
+          "trade_volume_usd": 66590.76603900373
+        },
+        {
+          "address": "0x61040e143a77f165ba44543af4a079f2c809d14b",
+          "address_label": null,
+          "bought_token_volume": 49345.99721773829,
+          "sold_token_volume": 262627.687711452,
+          "token_trade_volume": 213281.69049371372,
+          "bought_volume_usd": 32631.49451722939,
+          "sold_volume_usd": 174924.68068867616,
+          "trade_volume_usd": 142293.18617144678
+        },
+        {
+          "address": "0x44734ddac252d78751f7daca93d73081277db70f",
+          "address_label": null,
+          "bought_token_volume": 0,
+          "sold_token_volume": 251308.81524845396,
+          "token_trade_volume": 251308.81524845396,
+          "bought_volume_usd": 0,
+          "sold_volume_usd": 167416.8113133013,
+          "trade_volume_usd": 167416.8113133013
+        }
+      ],
+      "pagination": {
+        "page": 1,
+        "per_page": 20,
+        "is_last_page": false
+      }
+    },
+    "recordedAt": 1790256733459
+  },
+  {
+    "requestHash": "186ac853871deede8e085fadd478b869c18261c4",
+    "request": {
+      "chain": "base",
+      "token_address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+      "buy_or_sell": "BUY",
+      "date": {
+        "from": "2026-09-17",
+        "to": "2026-09-25"
+      },
+      "pagination": {
+        "page": 1,
+        "per_page": 20
+      },
+      "order_by": [
+        {
+          "field": "bought_volume_usd",
+          "direction": "DESC"
+        }
+      ]
+    },
+    "response": {
+      "data": [
+        {
+          "address": "0x51c72848c68a965f66fa7a88855f9f7784502a7f",
+          "address_label": null,
+          "bought_token_volume": 70254726.26247925,
+          "sold_token_volume": 59561239.624305956,
+          "token_trade_volume": 10693486.63817329,
+          "bought_volume_usd": 46133731.68538968,
+          "sold_volume_usd": 39242330.20378282,
+          "trade_volume_usd": 6891401.481606863
+        },
+        {
+          "address": "0x278d858f05b94576c1e6f73285886876ff6ef8d2",
+          "address_label": null,
+          "bought_token_volume": 13143652.867347065,
+          "sold_token_volume": 13060606.90292022,
+          "token_trade_volume": 83045.96442684531,
+          "bought_volume_usd": 8673496.323200544,
+          "sold_volume_usd": 8658221.588240152,
+          "trade_volume_usd": 15274.734960392118
+        },
+        {
+          "address": "0xa9231b80411c0e18d27edee7786692acd2138fdf",
+          "address_label": null,
+          "bought_token_volume": 5045988.06890166,
+          "sold_token_volume": 5036248.3348199995,
+          "token_trade_volume": 9739.734081660397,
+          "bought_volume_usd": 3334729.025852168,
+          "sold_volume_usd": 3327801.0186258615,
+          "trade_volume_usd": 6928.007226306479
+        },
+        {
+          "address": "0x01989c93890aed05a63d179b03424997075b6acf",
+          "address_label": null,
+          "bought_token_volume": 4003342.5156492833,
+          "sold_token_volume": 3966954.765222991,
+          "token_trade_volume": 36387.75042629242,
+          "bought_volume_usd": 2675782.5799854686,
+          "sold_volume_usd": 2669220.9228751003,
+          "trade_volume_usd": 6561.657110368367
+        },
+        {
+          "address": "0x08fb33543ad633db94282df364ad80feb8d9fc35",
+          "address_label": null,
+          "bought_token_volume": 1879476.576353819,
+          "sold_token_volume": 1635816.3704418605,
+          "token_trade_volume": 243660.2059119586,
+          "bought_volume_usd": 1294777.7544664284,
+          "sold_volume_usd": 1137087.2538479362,
+          "trade_volume_usd": 157690.50061849225
+        },
+        {
+          "address": "0x18affb4cc2dd922137056d35c60ad5d0b0b1325f",
+          "address_label": null,
+          "bought_token_volume": 1407869.5642838161,
+          "sold_token_volume": 1389252.3534385525,
+          "token_trade_volume": 18617.210845263675,
+          "bought_volume_usd": 900699.8328442436,
+          "sold_volume_usd": 888779.3938292542,
+          "trade_volume_usd": 11920.439014989417
+        },
+        {
+          "address": "0x6c3ed2461e4f90e8f22d975994173544af9b5bd3",
+          "address_label": null,
+          "bought_token_volume": 1018575.6461670845,
+          "sold_token_volume": 967970.9334404771,
+          "token_trade_volume": 50604.71272660734,
+          "bought_volume_usd": 668488.7502919075,
+          "sold_volume_usd": 645686.2347531462,
+          "trade_volume_usd": 22802.515538761276
+        },
+        {
+          "address": "0x3c078aa7227d14a1139b29dd84baff38e6b1ca99",
+          "address_label": null,
+          "bought_token_volume": 655483.0147091597,
+          "sold_token_volume": 655483.0147091597,
+          "token_trade_volume": 0,
+          "bought_volume_usd": 432866.44618861494,
+          "sold_volume_usd": 437112.0608167766,
+          "trade_volume_usd": -4245.614628161653
+        },
+        {
+          "address": "0x4446adc0b8136ffc55ddb7a488ba5509ace2a5ef",
+          "address_label": null,
+          "bought_token_volume": 688920.7211444128,
+          "sold_token_volume": 642035.2894005654,
+          "token_trade_volume": 46885.43174384732,
+          "bought_volume_usd": 424325.8686638213,
+          "sold_volume_usd": 395788.65339022275,
+          "trade_volume_usd": 28537.21527359856
+        },
+        {
+          "address": "0x4ccfeb186c61217f05d8756314c600089b27a1c3",
+          "address_label": null,
+          "bought_token_volume": 500053.2487613982,
+          "sold_token_volume": 90038,
+          "token_trade_volume": 410015.2487613982,
+          "bought_volume_usd": 342824.97227208014,
+          "sold_volume_usd": 55697.2349226606,
+          "trade_volume_usd": 287127.7373494195
+        },
+        {
+          "address": "0xc207df8dc9ee5113c6374c70c2a29bb87e94cfdf",
+          "address_label": null,
+          "bought_token_volume": 516211.449997138,
+          "sold_token_volume": 268533.6163855351,
+          "token_trade_volume": 247677.8336116029,
+          "bought_volume_usd": 319038.3365513777,
+          "sold_volume_usd": 164687.28764760375,
+          "trade_volume_usd": 154351.04890377398
+        },
+        {
+          "address": "0x990c6b162f71aaee6dc08ac024a78607a95e49dd",
+          "address_label": null,
+          "bought_token_volume": 486306.8978919437,
+          "sold_token_volume": 0,
+          "token_trade_volume": 486306.8978919437,
+          "bought_volume_usd": 311965.7257788114,
+          "sold_volume_usd": 0,
+          "trade_volume_usd": 311965.7257788114
+        },
+        {
+          "address": "0x0962f833f91b3c72d160cccd97632c11ee7c781f",
+          "address_label": null,
+          "bought_token_volume": 434686.06187062676,
+          "sold_token_volume": 0,
+          "token_trade_volume": 434686.06187062676,
+          "bought_volume_usd": 297922.7568075832,
+          "sold_volume_usd": 0,
+          "trade_volume_usd": 297922.7568075832
+        },
+        {
+          "address": "0xfc93233ac03580efedda4f31c173fec58cdd7aec",
+          "address_label": null,
+          "bought_token_volume": 380533.4110058095,
+          "sold_token_volume": 345477.6495630083,
+          "token_trade_volume": 35055.76144280122,
+          "bought_volume_usd": 264090.03617970436,
+          "sold_volume_usd": 238036.9737447022,
+          "trade_volume_usd": 26053.062435002154
+        },
+        {
+          "address": "0xf974e1388ed613000febdbfda6f42a830a24f1aa",
+          "address_label": null,
+          "bought_token_volume": 325575.6402530323,
+          "sold_token_volume": 0,
+          "token_trade_volume": 325575.6402530323,
+          "bought_volume_usd": 216059.4070675936,
+          "sold_volume_usd": 0,
+          "trade_volume_usd": 216059.4070675936
+        },
+        {
+          "address": "0xc9814f18a8751214f719de15c54d01b3d78ef14f",
+          "address_label": null,
+          "bought_token_volume": 316395.0252283396,
+          "sold_token_volume": 0,
+          "token_trade_volume": 316395.0252283396,
+          "bought_volume_usd": 193642.5267596763,
+          "sold_volume_usd": 0,
+          "trade_volume_usd": 193642.5267596763
+        },
+        {
+          "address": "0xa0bc91c30b3be9fc4b8da16e1d982bd9887964bc",
+          "address_label": null,
+          "bought_token_volume": 275318.6922195739,
+          "sold_token_volume": 0,
+          "token_trade_volume": 275318.6922195739,
+          "bought_volume_usd": 177789.94291738258,
+          "sold_volume_usd": 0,
+          "trade_volume_usd": 177789.94291738258
+        },
+        {
+          "address": "0x08c8315549f059ab63e95d0c70770582e2fa80cb",
+          "address_label": null,
+          "bought_token_volume": 249309.92099682434,
+          "sold_token_volume": 177757.5074348243,
+          "token_trade_volume": 71552.41356200003,
+          "bought_volume_usd": 168723.66717067015,
+          "sold_volume_usd": 121795.28417933595,
+          "trade_volume_usd": 46928.38299133419
+        },
+        {
+          "address": "0x11331c538eab48dd7ac6fccf556b76cf8e49ac26",
+          "address_label": null,
+          "bought_token_volume": 244975.43456644277,
+          "sold_token_volume": 0,
+          "token_trade_volume": 244975.43456644277,
+          "bought_volume_usd": 158181.5403923559,
+          "sold_volume_usd": 0,
+          "trade_volume_usd": 158181.5403923559
+        },
+        {
+          "address": "0x910dad4796f21bc1258cd4760dbbb57cbf081d0d",
+          "address_label": null,
+          "bought_token_volume": 231433.600689567,
+          "sold_token_volume": 213503.1476272783,
+          "token_trade_volume": 17930.453062288725,
+          "bought_volume_usd": 149696.85487109757,
+          "sold_volume_usd": 139516.118357211,
+          "trade_volume_usd": 10180.736513886572
+        }
+      ],
+      "pagination": {
+        "page": 1,
+        "per_page": 20,
+        "is_last_page": false
+      }
+    },
+    "recordedAt": 1790256733578
   }
 ]

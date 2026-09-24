@@ -23,6 +23,7 @@ import { num } from '@/lib/viz/format';
 import { TokenHero, LiquidationLadder, leverageTitle, CohortBars } from './Visuals';
 import { HolderSphere } from './HolderSphere';
 import type { ReactNode } from 'react';
+import { CallForm } from '@/components/desk/CallForm';
 
 interface State {
   header?: Wave<TokenHeader>;
@@ -82,6 +83,7 @@ type Row = { cols: 2 | 3; items: Array<[string, number?]> };
 const LAYOUT: Record<View, Row[]> = {
   overview: [
     { cols: 3, items: [['storm'], ['market', 2]] },
+    { cols: 2, items: [['call', 2]] },
     { cols: 3, items: [['sphere', 2], ['cohorts']] },
     { cols: 3, items: [['odds'], ['leverage', 2]] },
     { cols: 2, items: [['ask', 2]] },
@@ -107,6 +109,7 @@ const LAYOUT: Record<View, Row[]> = {
   ],
   all: [
     { cols: 3, items: [['storm'], ['market', 2]] },
+    { cols: 2, items: [['call', 2]] },
     { cols: 3, items: [['sphere', 2], ['cohorts']] },
     { cols: 3, items: [['odds'], ['wind'], ['traders']] },
     { cols: 2, items: [['holders'], ['insiders']] },
@@ -147,6 +150,11 @@ export function TokenView({ chain, address, tier, mode }: { chain: string; addre
   const title = ok(s.storm) ? stormTitle(symbol, s.storm) : h ? `${h.name ?? h.symbol} on ${chainName(chain)}` : gone(s.header) ? `Token on ${chainName(chain)}` : 'Reading the token from Nansen…';
 
   const cards: Record<string, (cls: string) => ReactNode> = {
+    call: (cls) => (
+      <Card id="call" className={cls} title={`Make a call on ${symbol ?? 'this token'}`} sub="Bull, bear or pass, a horizon, and what would prove you wrong. Saved to your Desk with Nansen’s price now, graded when the horizon passes.">
+        <CallForm chain={chain} token={address} symbol={symbol} price={ok(s.market) ? s.market.candles.at(-1)?.c ?? null : null} />
+      </Card>
+    ),
     storm: (cls) => (
       <Card id="storm" className={cls} title={ok(s.storm) ? `Storm Score: ${Math.round(s.storm.result.score)} of 100` : 'Storm Score'} sub="Probability-style dump-risk score from six Nansen-derived inputs. Not financial advice.">
         {ok(s.storm) ? <StormDial s={s.storm} indicators={[...(h?.risk ?? []), ...(h?.reward ?? [])]} /> : gone(s.storm) ? <Unavailable text={s.storm.unavailable} /> : pending(s.storm) ? <WaveLoading what="the Storm Score inputs" height={420} /> : null}
