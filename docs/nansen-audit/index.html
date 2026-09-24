@@ -165,10 +165,10 @@ footer { margin-top: 80px; padding-top: 24px; border-top: 1px solid var(--line);
   <header class="mast">
     <span class="eyebrow">A product audit for the Nansen team · September 2026</span>
     <h1>Nansen's data, read <em>like a forecast</em></h1>
-    <p class="dek">TIDE is a smart-money weather service built only on the Nansen API: 51 of its 94 operations, across all 38 chains the API lists. Building it meant reading Nansen's product and API closely. This page shows what we'd bring into app.nansen.ai, each idea with a screenshot and the exact endpoints behind it, then the API issues we hit and how to fix them.</p>
+    <p class="dek">TIDE is a smart-money weather service built only on the Nansen API: 93 of its 103 operations, across all 38 chains the API lists. Building it meant reading Nansen's product and API closely. This page shows what we'd bring into app.nansen.ai, each idea with a screenshot and the exact endpoints behind it, then the API issues we hit and how to fix them.</p>
     <div class="meta">
       <span class="chip">Data <b>Nansen API only</b></span>
-      <span class="chip">Operations used <b class="num">51 of 94</b></span>
+      <span class="chip">Operations used <b class="num">93 of 103</b></span>
       <span class="chip">Chains <b class="num">38</b></span>
       <span class="chip">Screenshots <b>public view, labels removed</b></span>
     </div>
@@ -352,7 +352,7 @@ footer { margin-top: 80px; padding-top: 24px; border-top: 1px solid var(--line);
       <div class="panel">
         <h3>A public view that follows the rules</h3>
         <p>Nansen's redistribution classes are enforced in code. Public pages strip every label, withhold smart-money-filtered data, and explain what's withheld and why. A browser test crawls the public site and fails if any real label appears, including in React's serialized page data.</p>
-        <div class="built"><span>redaction e2e 9/9</span><span>fixture policy</span></div>
+        <div class="built"><span>redaction e2e 15/15</span><span>fixture policy</span></div>
       </div>
       <div class="panel">
         <h3>Pay per call, signed by the visitor</h3>
@@ -365,7 +365,7 @@ footer { margin-top: 80px; padding-top: 24px; border-top: 1px solid var(--line);
   <section aria-labelledby="api">
     <div class="sec-head">
       <span class="eyebrow">For the API team</span>
-      <h2 id="api">Nine things we hit in the API</h2>
+      <h2 id="api">Thirteen things we hit in the API</h2>
       <p>Each was found in live calls, and TIDE works around each one in code. Most are small doc or schema fixes.</p>
     </div>
     <div class="table-wrap">
@@ -380,6 +380,10 @@ footer { margin-top: 80px; padding-top: 24px; border-top: 1px solid var(--line);
           <tr><td><code>transaction-with-token-transfer-lookup</code><br><span class="sev docs">schema vs live</span></td><td>Returns <code>nft_transfer_array: null</code> where the schema promises an array.</td><td>Return <code>[]</code>, or mark the field nullable.</td></tr>
           <tr><td><code>tgm/jup-dca</code><br><span class="sev shape">response shape</span></td><td>Input and output mint addresses end in a NUL character (<code>\u0000</code>), so comparing mints fails.</td><td>Trim the mints on the server.</td></tr>
           <tr><td><code>profiler/dex-trades</code><br><span class="sev docs">schema vs live</span></td><td>Rejects <code>chain: "all"</code>, so a wallet's DEX trades take one call per chain.</td><td>Accept <code>all</code>, or list the allowed chains in this endpoint's enum.</td></tr>
+          <tr><td><code>perp/bridge/quote</code><br><span class="sev docs">docs vs live</span></td><td>The perp-trading guide's deposit example passes <code>"origin_token": "USDC"</code>, which returns 422: the field takes a token address (EVM <code>0x</code>+40 hex, Hyperliquid <code>0x</code>+32 hex) or <code>perps</code>.</td><td>Fix the example, or accept <code>USDC</code> as a symbol on the listed chains.</td></tr>
+          <tr><td><code>perp/orders</code><br><span class="sev shape">response shape</span></td><td>Spot orders (coins like <code>@156</code>) are listed together with perp orders, but <code>perp/cancel</code> only cancels perps.</td><td>Add a <code>market</code> field (<code>perp</code> / <code>spot</code>) or a filter parameter.</td></tr>
+          <tr><td>perp read endpoints<br><span class="sev cost">cost clarity</span></td><td><code>perp/account</code>, <code>positions</code>, <code>orders</code> and <code>builder-fee</code> returned <code>x-nansen-credits-cost: 0</code>. The perp-trading guide prices them at 1 credit each.</td><td>Align the guide and the header, so apps can budget polling.</td></tr>
+          <tr><td>Points leaderboard (<code>app.nansen.ai</code>)<br><span class="sev shape">request shape</span></td><td>The offset is <code>page × recordsPerPage</code>, and <code>page=0</code> is refused, so ranks 1 to <code>recordsPerPage</code> can never be fetched.</td><td>Make <code>page</code> 1-based (offset <code>(page − 1) × size</code>), or accept <code>page=0</code>.</td></tr>
           <tr><td>13 operations without a schema<br><span class="sev docs">no schema</span></td><td><code>account</code>, <code>ra-agent/*</code>, <code>search/web-search</code>, <code>search/web-fetch</code> and the perp trading endpoints appear in the docs without a published schema. We found their request shapes through 422 messages.</td><td>Publish them in the OpenAPI file. The 422 messages are already clear enough to generate schemas from.</td></tr>
         </tbody>
       </table>
