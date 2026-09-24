@@ -51,7 +51,7 @@ const PM_USE: Record<string, Omit<LedgerEntry, 'key' | 'class'>> = {
 export const LEDGER: LedgerEntry[] = [
   // Agents
   e('POST /api/v1/agent/fast', 'restricted', { usedBy: ['anchor'], note: 'output inherits the class of its inputs; public mode feeds it public-class facts only' }),
-  e('POST /api/v1/agent/expert', 'restricted', { planned: 'M7' }),
+  e('POST /api/v1/agent/expert', 'restricted', { usedBy: ['M7'], note: 'research agent: owner or members, price confirmed per question, EXPERT_DAILY_CAP; answers saved privately, never published' }),
   // Chains
   e('POST /api/v1/chains/chain-rank', 'attribution', { usedBy: ['chain'] }),
   // Perps / Hyperliquid
@@ -91,7 +91,7 @@ export const LEDGER: LedgerEntry[] = [
   e('GET /api/v1/search/token-sectors', 'attribution', { usedBy: ['M1'], note: 'sector list for daily sector membership and the omnibox' }),
   // Smart alerts (the key owner's own account)
   e('POST /api/v1/smart-alert', 'account', { usedBy: ['alerts'] }),
-  e('PATCH /api/v1/smart-alert', 'account', { planned: 'M7' }),
+  e('PATCH /api/v1/smart-alert', 'account', { usedBy: ['M7'], note: 'alert builder: rename, window, destination of TIDE\'s own alerts' }),
   e('DELETE /api/v1/smart-alert/{alert_id}', 'account', { usedBy: ['alerts'] }),
   e('GET /api/v1/smart-alert/list', 'account', { usedBy: ['alerts'] }),
   e('PATCH /api/v1/smart-alert/toggle', 'account', { usedBy: ['alerts'] }),

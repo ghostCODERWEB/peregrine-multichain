@@ -53,7 +53,9 @@ Requirements: Node ≥ 22.13 and pnpm (via `corepack enable`).
 | **Smart-money desk** `/smart-money` | Private (key owner or a member's own key). A conviction map of what smart money is adding to and trimming, a conviction score weighted by how many top-PnL wallets hold each token, crowded exits, the PnL leaderboard with a private follow list, perp tilt from new Hyperliquid positions, and Jupiter DCAs. [M4 note](docs/modules/M4.md) |
 | **Wallet** `/wallet/[address]` | Balances by chain, 30-day PnL, first funder and related wallets, counterparties, recent transactions, and a **migration trail** of the wallet's smart-money trades drawn over the map. |
 | **Forecast Lab** `/lab` | Backtest: ROC against the expert prior, calibration deciles, Brier score, AUC with a 95% CI, per-tier results, coefficients, cone calibration, CPI forecast error. |
-| **Alerts** `/alerts` | The Nansen Smart Alerts TIDE created, with toggle and delete. |
+| **Alerts** `/alerts` | Nansen Smart Alerts from TIDE's signals (storm, follow list, rotation fronts, chain inflow surges, token buying, deployer moves, any wallets), on all three alert types. Each previews the exact request and is created on your account only on your click; toggle, edit and delete. [M7 note](docs/modules/M7.md) |
+| **Research agent** `/agent` | Nansen's agent in expert mode (750 credits a question, price confirmed each time, daily cap), with follow-ups and tool chips; answers saved privately. |
+| **MCP** `/api/mcp` | TIDE as an MCP server: ten tools for pressure, storms, alpha, perp pressure, prediction weather, sectors, fronts and conviction. Public by default; a personal token acts as your account. |
 | **Coverage** `/coverage` | The endpoint ledger (how much of the Nansen API is in use), chains × endpoints heatmap, and live counters of API calls, credits and scanner runs. The instance owner also sees error rates, schema drift, per-key usage, job health and x402 payments. |
 | **Account** `/account` | Sign in with a wallet and bring your own Nansen key, or pay per call (x402) from the priced buttons without one. |
 

@@ -27,8 +27,8 @@
           "side": "Long",
           "action": "Close",
           "token_amount": 1123.65533,
-          "price_usd": 84356.5174037309,
-          "value_usd": 94787650.40094,
+          "price_usd": 84356.51740373092,
+          "value_usd": 94787650.40094002,
           "type": "MARKET",
           "block_timestamp": "2026-09-23T14:13:10.087000Z",
           "transaction_hash": "0x9c702d8dbee2e0e59de9044509939f020d9b007359e5ffb74038d8e07de6bad0"
@@ -40,8 +40,8 @@
           "side": "Long",
           "action": "Reduce",
           "token_amount": 738.19012,
-          "price_usd": 83756.87946578042,
-          "value_usd": 61828500.90366999,
+          "price_usd": 83756.87946578047,
+          "value_usd": 61828500.90367001,
           "type": "MARKET",
           "block_timestamp": "2026-09-24T02:07:54.590000Z",
           "transaction_hash": "0xb98dba15cbbd076ebb07044512b4e602044d00fb66b026405d5665688ab0e159"
@@ -53,8 +53,8 @@
           "side": "Long",
           "action": "Open",
           "token_amount": 526.76769,
-          "price_usd": 84309.62401312045,
-          "value_usd": 44411585.88615999,
+          "price_usd": 84309.62401312047,
+          "value_usd": 44411585.88616,
           "type": "MARKET",
           "block_timestamp": "2026-09-24T07:28:13.127000Z",
           "transaction_hash": "0xd8790a56643683b6d9f2044516ca99020156003bff39a2887c41b5a9233a5da1"
@@ -79,8 +79,8 @@
           "side": "Long",
           "action": "Close",
           "token_amount": 206.99977,
-          "price_usd": 85542.1769291338,
-          "value_usd": 17707210.949630003,
+          "price_usd": 85542.17692913378,
+          "value_usd": 17707210.94963,
           "type": "MARKET",
           "block_timestamp": "2026-09-23T11:28:15.757000Z",
           "transaction_hash": "0x3c637c7f6b2ff61f3ddd0445077b4c0203de0065062314f1e02c27d22a23d009"
@@ -92,8 +92,8 @@
           "side": "Short",
           "action": "Open",
           "token_amount": 200,
-          "price_usd": 85549.1315209,
-          "value_usd": 17109826.30418,
+          "price_usd": 85549.13152090002,
+          "value_usd": 17109826.304180004,
           "type": "MARKET",
           "block_timestamp": "2026-09-23T12:05:59.023000Z",
           "transaction_hash": "0x97ee9d2d164dd2549968044507f5ab0205450012b140f1263bb7487fd541ac3f"
@@ -118,8 +118,8 @@
           "side": "Long",
           "action": "Close",
           "token_amount": 200,
-          "price_usd": 83744.48576244999,
-          "value_usd": 16748897.152489997,
+          "price_usd": 83744.48576245,
+          "value_usd": 16748897.15249,
           "type": "MARKET",
           "block_timestamp": "2026-09-23T16:01:22.143000Z",
           "transaction_hash": "0xdf7525c1d95c260de0ee04450af36c02151900a7745f44df833dd114985ffff8"
@@ -131,8 +131,8 @@
           "side": "Long",
           "action": "Close",
           "token_amount": 191.78602,
-          "price_usd": 84103.27946588601,
-          "value_usd": 16129833.237710003,
+          "price_usd": 84103.27946588598,
+          "value_usd": 16129833.237709997,
           "type": "MARKET",
           "block_timestamp": "2026-09-24T01:58:02.003000Z",
           "transaction_hash": "0x94df83516cd367cb965904451294730201ae003707d6869d38a82ea42bd741b6"
@@ -144,8 +144,8 @@
           "side": "Long",
           "action": "Open",
           "token_amount": 172.24366,
-          "price_usd": 84201.21897943878,
-          "value_usd": 14503126.133480001,
+          "price_usd": 84201.21897943875,
+          "value_usd": 14503126.133479996,
           "type": "LIMIT",
           "block_timestamp": "2026-09-23T14:13:10.087000Z",
           "transaction_hash": "0x9c702d8dbee2e0e59de9044509939f020d9b007359e5ffb74038d8e07de6bad0"
@@ -170,8 +170,8 @@
           "side": "Long",
           "action": "Close",
           "token_amount": 150,
-          "price_usd": 83926.52385246666,
-          "value_usd": 12588978.57787,
+          "price_usd": 83926.52385246665,
+          "value_usd": 12588978.577869998,
           "type": "MARKET",
           "block_timestamp": "2026-09-24T02:01:14.302000Z",
           "transaction_hash": "0x45eeb2f1ac5c251347680445129ed7020d7200d7475f43e5e9b75e446b5ffefd"
@@ -183,8 +183,8 @@
           "side": "Short",
           "action": "Reduce",
           "token_amount": 127.40633,
-          "price_usd": 84400.12894869507,
-          "value_usd": 10753110.680879997,
+          "price_usd": 84400.1289486951,
+          "value_usd": 10753110.68088,
           "type": "LIMIT",
           "block_timestamp": "2026-09-23T14:13:10.087000Z",
           "transaction_hash": "0x9c702d8dbee2e0e59de9044509939f020d9b007359e5ffb74038d8e07de6bad0"
@@ -196,8 +196,8 @@
           "side": "Short",
           "action": "Reduce",
           "token_amount": 124.41045,
-          "price_usd": 84507.48566603528,
-          "value_usd": 10513614.320079999,
+          "price_usd": 84507.4856660353,
+          "value_usd": 10513614.32008,
           "type": "LIMIT",
           "block_timestamp": "2026-09-23T14:13:10.087000Z",
           "transaction_hash": "0x9c702d8dbee2e0e59de9044509939f020d9b007359e5ffb74038d8e07de6bad0"
@@ -213,7 +213,7 @@
           "value_usd": 9759478.341260001,
           "type": "LIMIT",
           "block_timestamp": "2026-09-23T15:00:01.606000Z",
-          "transaction_hash": "0x3f3a4de470063adb40b404450a2ba2020b2e00ca0b0959ade302f9372f0a14c5"
+          "transaction_hash": "0x54a4d168a79f75f5561e04450a2ba202180f004e429294c7f86d7cbb66934fdf"
         },
         {
           "trader_address_label": null,
@@ -222,8 +222,8 @@
           "side": "Short",
           "action": "Open",
           "token_amount": 112.75277,
-          "price_usd": 84595.5836359497,
-          "value_usd": 9538386.384720001,
+          "price_usd": 84595.58363594969,
+          "value_usd": 9538386.38472,
           "type": "MARKET",
           "block_timestamp": "2026-09-23T14:16:29.605000Z",
           "transaction_hash": "0xb106110f0cb930f1b27f0445099e640206e700f4a7bc4fc354cebc61cbbd0adc"
@@ -248,8 +248,8 @@
           "side": "Long",
           "action": "Add",
           "token_amount": 112.30554,
-          "price_usd": 83756.68497083939,
-          "value_usd": 9406339.73426,
+          "price_usd": 83756.68497083936,
+          "value_usd": 9406339.734259998,
           "type": "LIMIT",
           "block_timestamp": "2026-09-24T02:07:54.590000Z",
           "transaction_hash": "0xb98dba15cbbd076ebb07044512b4e602044d00fb66b026405d5665688ab0e159"
@@ -261,8 +261,8 @@
           "side": "Short",
           "action": "Reduce",
           "token_amount": 107.99574,
-          "price_usd": 84369.59496383839,
-          "value_usd": 9111556.84162,
+          "price_usd": 84369.59496383836,
+          "value_usd": 9111556.841619996,
           "type": "LIMIT",
           "block_timestamp": "2026-09-23T14:13:10.087000Z",
           "transaction_hash": "0x9c702d8dbee2e0e59de9044509939f020d9b007359e5ffb74038d8e07de6bad0"
@@ -274,8 +274,8 @@
           "side": "Long",
           "action": "Reduce",
           "token_amount": 105.475,
-          "price_usd": 84625.99999999999,
-          "value_usd": 8925927.349999998,
+          "price_usd": 84626,
+          "value_usd": 8925927.35,
           "type": "LIMIT",
           "block_timestamp": "2026-09-23T15:08:06.563000Z",
           "transaction_hash": "0x6d0e2d6b2f11e8ae6e8704450a45cb020cba0050ca15078010d6d8bdee15c299"
@@ -287,8 +287,8 @@
           "side": "Short",
           "action": "Add",
           "token_amount": 100,
-          "price_usd": 85517.3750549,
-          "value_usd": 8551737.50549,
+          "price_usd": 85517.37505490001,
+          "value_usd": 8551737.505490001,
           "type": "MARKET",
           "block_timestamp": "2026-09-23T12:06:54.640000Z",
           "transaction_hash": "0x594b5471268d77135ac5044507f8c60202220056c18095e5fd13ffc3e58150fd"
@@ -326,8 +326,8 @@
           "side": "Long",
           "action": "Reduce",
           "token_amount": 100,
-          "price_usd": 84602.272226,
-          "value_usd": 8460227.2226,
+          "price_usd": 84602.27222599996,
+          "value_usd": 8460227.222599996,
           "type": "MARKET",
           "block_timestamp": "2026-09-23T14:13:19.512000Z",
           "transaction_hash": "0xf93efd6b1125f0fafab804450994240217060050ac290fcd9d07a8bdd029cae5"
@@ -352,8 +352,8 @@
           "side": "Long",
           "action": "Add",
           "token_amount": 100,
-          "price_usd": 84479.53922720003,
-          "value_usd": 8447953.922720004,
+          "price_usd": 84479.5392272,
+          "value_usd": 8447953.92272,
           "type": "MARKET",
           "block_timestamp": "2026-09-23T14:20:47.666000Z",
           "transaction_hash": "0xdba8908871204b09dd22044509ac4b020803006e0c2369db7f713bdb302424f4"
@@ -365,8 +365,8 @@
           "side": "Long",
           "action": "Add",
           "token_amount": 100,
-          "price_usd": 84405.5061276,
-          "value_usd": 8440550.61276,
+          "price_usd": 84405.50612760002,
+          "value_usd": 8440550.612760002,
           "type": "MARKET",
           "block_timestamp": "2026-09-23T14:34:42.522000Z",
           "transaction_hash": "0x751f640aead29b067699044509d997020bda00f085d5b9d818e80f5da9d674f1"
@@ -391,8 +391,8 @@
           "side": "Long",
           "action": "Add",
           "token_amount": 100,
-          "price_usd": 84355.62120129999,
-          "value_usd": 8435562.120129999,
+          "price_usd": 84355.6212013,
+          "value_usd": 8435562.12013,
           "type": "MARKET",
           "block_timestamp": "2026-09-23T14:33:17.052000Z",
           "transaction_hash": "0x9b629aa5b885a4ea9cdc044509d4ec020904008b5388c3bc3f2b45f877897ed5"
@@ -404,8 +404,8 @@
           "side": "Long",
           "action": "Add",
           "token_amount": 100,
-          "price_usd": 84311.21642960001,
-          "value_usd": 8431121.64296,
+          "price_usd": 84311.21642959998,
+          "value_usd": 8431121.642959999,
           "type": "MARKET",
           "block_timestamp": "2026-09-23T14:33:12.057000Z",
           "transaction_hash": "0x4a35549c08ba40cd4baf044509d4a50203a20081a3bd5f9fedfdffeec7be1ab7"
@@ -443,8 +443,8 @@
           "side": "Long",
           "action": "Add",
           "token_amount": 100,
-          "price_usd": 84074.48558770001,
-          "value_usd": 8407448.558770001,
+          "price_usd": 84074.4855877,
+          "value_usd": 8407448.55877,
           "type": "MARKET",
           "block_timestamp": "2026-09-23T16:05:48.408000Z",
           "transaction_hash": "0xcc6ac0217df6da35cde404450b021c020683000718f9f90770336b743cfab420"
@@ -456,8 +456,8 @@
           "side": "Long",
           "action": "Add",
           "token_amount": 100,
-          "price_usd": 84073.5362073,
-          "value_usd": 8407353.62073,
+          "price_usd": 84073.53620730001,
+          "value_usd": 8407353.620730001,
           "type": "MARKET",
           "block_timestamp": "2026-09-23T16:06:00.849000Z",
           "transaction_hash": "0x4d79b3ef4144a1024ef304450b02cb0211d500d4dc47bfd4f1425f4200487aec"
@@ -482,8 +482,8 @@
           "side": "Long",
           "action": "Reduce",
           "token_amount": 100,
-          "price_usd": 83865.63372849999,
-          "value_usd": 8386563.372849999,
+          "price_usd": 83865.6337285,
+          "value_usd": 8386563.37285,
           "type": "MARKET",
           "block_timestamp": "2026-09-23T14:31:10.282000Z",
           "transaction_hash": "0xc5f70659b47c89a6c770044509ce0d020cb6003f4f7fa87869bfb1ac73706391"
@@ -495,8 +495,8 @@
           "side": "Long",
           "action": "Reduce",
           "token_amount": 100,
-          "price_usd": 83669.390159,
-          "value_usd": 8366939.0159,
+          "price_usd": 83669.39015899997,
+          "value_usd": 8366939.015899997,
           "type": "MARKET",
           "block_timestamp": "2026-09-23T16:01:27.268000Z",
           "transaction_hash": "0x9f096f0e207776d9a08304450af3b40208f300f3bb7a95ab42d21a60df7b50c4"
@@ -508,8 +508,8 @@
           "side": "Long",
           "action": "Reduce",
           "token_amount": 100,
-          "price_usd": 83667.21683180002,
-          "value_usd": 8366721.6831800025,
+          "price_usd": 83667.2168318,
+          "value_usd": 8366721.683180001,
           "type": "MARKET",
           "block_timestamp": "2026-09-23T16:01:48.674000Z",
           "transaction_hash": "0xf7ac3b4e52f005d1f92504450af4ef0208f40033edf324a49b74e6a111f3dfbc"
@@ -521,8 +521,8 @@
           "side": "Long",
           "action": "Reduce",
           "token_amount": 100,
-          "price_usd": 83600.53307540002,
-          "value_usd": 8360053.307540002,
+          "price_usd": 83600.5330754,
+          "value_usd": 8360053.30754,
           "type": "MARKET",
           "block_timestamp": "2026-09-23T16:01:37.093000Z",
           "transaction_hash": "0xc4af8b352415605bc62904450af445020aa8001abf187f2d68783687e3193a46"
@@ -561,7 +561,7 @@
           "action": "Reduce",
           "token_amount": 94.10038,
           "price_usd": 84323.48151091418,
-          "value_usd": 7934871.653099999,
+          "value_usd": 7934871.653099998,
           "type": "LIMIT",
           "block_timestamp": "2026-09-24T07:28:13.127000Z",
           "transaction_hash": "0xd8790a56643683b6d9f2044516ca99020156003bff39a2887c41b5a9233a5da1"
@@ -574,7 +574,7 @@
           "action": "Reduce",
           "token_amount": 93.2131,
           "price_usd": 83932.07391546898,
-          "value_usd": 7823568.799090001,
+          "value_usd": 7823568.799090002,
           "type": "MARKET",
           "block_timestamp": "2026-09-23T14:29:49.073000Z",
           "transaction_hash": "0xa14b576e89696a20a2c5044509c9a60206200054246c88f2451402c1486d440b"
@@ -586,8 +586,8 @@
           "side": "Long",
           "action": "Close",
           "token_amount": 89.6231,
-          "price_usd": 84334.03330748435,
-          "value_usd": 7558277.50052,
+          "price_usd": 84334.03330748434,
+          "value_usd": 7558277.500519999,
           "type": "MARKET",
           "block_timestamp": "2026-09-23T23:50:56.515000Z",
           "transaction_hash": "0x44a8d67050afb1004622044510f4ca0000e3ee55eba2cfd2e87181c30fa38aea"
@@ -600,7 +600,7 @@
           "action": "Reduce",
           "token_amount": 88.67857,
           "price_usd": 84546.99999447443,
-          "value_usd": 7497507.0573,
+          "value_usd": 7497507.0572999995,
           "type": "MARKET",
           "block_timestamp": "2026-09-23T15:00:01.606000Z",
           "transaction_hash": "0x3b7cce29a03761893cf604450a2ba2020e29000f3b3a805bdf45797c5f3b3b73"
@@ -613,7 +613,7 @@
           "action": "Add",
           "token_amount": 87.10177,
           "price_usd": 84058.35916950942,
-          "value_usd": 7321631.86696,
+          "value_usd": 7321631.866960001,
           "type": "MARKET",
           "block_timestamp": "2026-09-23T14:29:31.306000Z",
           "transaction_hash": "0xccf3d2535b29d7a1ce6d044509c8ad0206390038f62cf67370bc7da61a2db18c"
@@ -625,8 +625,8 @@
           "side": "Short",
           "action": "Add",
           "token_amount": 86.14485,
-          "price_usd": 84983.64873431202,
-          "value_usd": 7320903.672669999,
+          "price_usd": 84983.64873431204,
+          "value_usd": 7320903.672670001,
           "type": "MARKET",
           "block_timestamp": "2026-09-23T14:11:24.747000Z",
           "transaction_hash": "0x1f74fec549189ca420ee0445098de70205ce00aae41bbb76c33daa18081c768e"
@@ -639,7 +639,7 @@
           "action": "Add",
           "token_amount": 87.23769,
           "price_usd": 83894.24360502897,
-          "value_usd": 7318740.016399999,
+          "value_usd": 7318740.0164,
           "type": "MARKET",
           "block_timestamp": "2026-09-23T14:31:05.855000Z",
           "transaction_hash": "0xc441feea24af9cb4c5bb044509cdd202041800cfbfa2bb86680aaa3ce3a3769f"
@@ -664,8 +664,8 @@
           "side": "Short",
           "action": "Open",
           "token_amount": 86.82812,
-          "price_usd": 84266.24116933547,
-          "value_usd": 7316679.3002,
+          "price_usd": 84266.24116933545,
+          "value_usd": 7316679.300199999,
           "type": "MARKET",
           "block_timestamp": "2026-09-23T14:26:00.227000Z",
           "transaction_hash": "0xfdaeaadccb0ad87bff28044509bd510209b300c2660df74ea177562f8a0eb266"
@@ -677,6 +677,6 @@
         "is_last_page": false
       }
     },
-    "recordedAt": 1790235354471
+    "recordedAt": 1790236523793
   }
 ]

@@ -19,6 +19,7 @@ const ALLOWED_HOSTS = [
   'x.com',          // "open post" links on the social posts Nansen returned (ra-agent); never fetched
   'api.telegram.org',
   'discord.com',
+  'hooks.slack.com', // Slack webhook format check for Smart Alert destinations: Nansen posts there; TIDE never calls it
 ];
 
 // Requires an explicit http(s):// prefix. A bare `a.b.c` pattern (matching

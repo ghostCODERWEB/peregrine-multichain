@@ -1,19 +1,37 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { AlertsList } from '@/components/AlertsList';
+import { AlertBuilder } from '@/components/alerts/AlertBuilder';
+import { displayMode } from '@/server/mode';
 
-export const metadata: Metadata = { title: 'Storm alerts — TIDE' };
+export const metadata: Metadata = { title: 'Alerts — TIDE' };
+export const dynamic = 'force-dynamic';
 
-export default function AlertsPage() {
+export default async function AlertsPage() {
+  const mode = await displayMode();
   return (
     <div className="space-y-4">
-      <div>
-        <h1 className="text-xl font-semibold text-ink sm:text-2xl">Storm alerts, running on Nansen</h1>
-        <p className="mt-1 max-w-3xl text-sm text-ink-2">
-          Nansen Smart Alerts TIDE created from token Storm Scores. They keep watching with this tab closed and deliver to your Telegram or Discord.
-          Only alerts TIDE created are listed here; your other Nansen alerts are untouched.
+      <section aria-labelledby="alerts-title" className="glass rise rounded-2xl p-4 sm:p-6">
+        <div className="text-[12px] text-ink-muted">Nansen Smart Alerts</div>
+        <h1 id="alerts-title" className="mt-1 text-lg font-semibold text-ink sm:text-xl">Alerts that keep watching after you close the tab</h1>
+        <p className="mt-1 max-w-3xl text-[13.5px] text-ink-2">
+          TIDE turns its signals into Nansen Smart Alerts on your own Nansen account: storm warnings, your follow list, rotation fronts, chain inflow surges,
+          token buying and deployer moves. Nansen delivers them to your Telegram, Discord, Slack or webhook. Only alerts TIDE created are listed; your other Nansen alerts are untouched.
         </p>
-      </div>
-      <section className="glass rounded-2xl p-4"><AlertsList /></section>
+      </section>
+      <section aria-labelledby="alerts-list" className="glass rise rounded-2xl p-4 sm:p-5">
+        <h2 id="alerts-list" className="mb-3 text-[15px] font-semibold text-ink">Your TIDE alerts</h2>
+        {mode === 'public'
+          ? <p className="text-sm text-ink-2">Smart Alerts live on a Nansen account: they are managed by this instance&apos;s owner, or by you once you <Link href="/account" className="text-ink underline-offset-2 hover:underline">sign in with your own Nansen key</Link>.</p>
+          : <AlertsList />}
+      </section>
+      {mode !== 'public' && (
+        <section aria-labelledby="alerts-new" className="glass rise rounded-2xl p-4 sm:p-5">
+          <h2 id="alerts-new" className="text-[15px] font-semibold text-ink">New alert from a TIDE signal</h2>
+          <p className="mb-3 mt-1 text-[12.5px] text-ink-2">Pick a template, preview the exact request, then create it. Nothing is created until you click Create. Up to 20 TIDE alerts per account.</p>
+          <AlertBuilder />
+        </section>
+      )}
     </div>
   );
 }

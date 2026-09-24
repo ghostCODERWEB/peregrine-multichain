@@ -12,8 +12,8 @@
           "public_figure_net_flow_usd": -7482.270970335036,
           "public_figure_avg_flow_usd": 17176.813617204672,
           "public_figure_wallet_count": 2,
-          "top_pnl_net_flow_usd": -14786.330846508195,
-          "top_pnl_avg_flow_usd": 3185.5449236363042,
+          "top_pnl_net_flow_usd": -14710.959646275152,
+          "top_pnl_avg_flow_usd": 3183.22014596201,
           "top_pnl_wallet_count": 3,
           "whale_net_flow_usd": 0,
           "whale_avg_flow_usd": null,
@@ -21,8 +21,8 @@
           "smart_trader_net_flow_usd": -15641.100973487826,
           "smart_trader_avg_flow_usd": 22024.118673395104,
           "smart_trader_wallet_count": 5,
-          "exchange_net_flow_usd": 346595.80646149465,
-          "exchange_avg_flow_usd": 92309.56319728115,
+          "exchange_net_flow_usd": 362614.53594289784,
+          "exchange_avg_flow_usd": 92907.29705380253,
           "exchange_wallet_count": 0,
           "fresh_wallets_net_flow_usd": 266493.52978056896,
           "fresh_wallets_avg_flow_usd": 238815.01115851602,
@@ -34,7 +34,7 @@
         "fresh_wallets_wallet_count is always 0 (not tracked), even when fresh-wallet net flow is non-zero."
       ]
     },
-    "recordedAt": 1790235333294
+    "recordedAt": 1790236503870
   },
   {
     "requestHash": "7904c97c2e2ec6655cb54ee780adee9a28d69ff7",
@@ -71,7 +71,7 @@
         "fresh_wallets_wallet_count is always 0 (not tracked), even when fresh-wallet net flow is non-zero."
       ]
     },
-    "recordedAt": 1790235333392
+    "recordedAt": 1790236503428
   },
   {
     "requestHash": "34140f1f207aed9c5adfddf6f1496c387c5bffd2",
@@ -86,8 +86,8 @@
           "public_figure_net_flow_usd": 0,
           "public_figure_avg_flow_usd": 2654.4135405244024,
           "public_figure_wallet_count": 0,
-          "top_pnl_net_flow_usd": 304.1456202706231,
-          "top_pnl_avg_flow_usd": 1296.0286284644897,
+          "top_pnl_net_flow_usd": 371.25311418573045,
+          "top_pnl_avg_flow_usd": 969.3931097093541,
           "top_pnl_wallet_count": 2,
           "whale_net_flow_usd": 0,
           "whale_avg_flow_usd": null,
@@ -95,8 +95,8 @@
           "smart_trader_net_flow_usd": null,
           "smart_trader_avg_flow_usd": null,
           "smart_trader_wallet_count": 0,
-          "exchange_net_flow_usd": 10882.059085576857,
-          "exchange_avg_flow_usd": 9019.452087074453,
+          "exchange_net_flow_usd": 22224.395588176332,
+          "exchange_avg_flow_usd": 13579.401157695094,
           "exchange_wallet_count": 0,
           "fresh_wallets_net_flow_usd": null,
           "fresh_wallets_avg_flow_usd": null,
@@ -108,7 +108,7 @@
         "exchange_wallet_count is always 0 (not tracked), even when exchange net flow is non-zero."
       ]
     },
-    "recordedAt": 1790235333304
+    "recordedAt": 1790236504333
   },
   {
     "requestHash": "8035b64e15bc563e10c1b856a43c251a04feae0e",
@@ -123,8 +123,8 @@
           "public_figure_net_flow_usd": 0,
           "public_figure_avg_flow_usd": 11160.914304368802,
           "public_figure_wallet_count": 0,
-          "top_pnl_net_flow_usd": -1114.8639386594955,
-          "top_pnl_avg_flow_usd": 1428.4425304369468,
+          "top_pnl_net_flow_usd": -815.372835032131,
+          "top_pnl_avg_flow_usd": 1709.1290193222185,
           "top_pnl_wallet_count": 2,
           "whale_net_flow_usd": 0,
           "whale_avg_flow_usd": null,
@@ -132,8 +132,8 @@
           "smart_trader_net_flow_usd": null,
           "smart_trader_avg_flow_usd": null,
           "smart_trader_wallet_count": 0,
-          "exchange_net_flow_usd": 100628.92650623934,
-          "exchange_avg_flow_usd": 52751.06436935348,
+          "exchange_net_flow_usd": 112796.38443133366,
+          "exchange_avg_flow_usd": 54221.75095398365,
           "exchange_wallet_count": 0,
           "fresh_wallets_net_flow_usd": null,
           "fresh_wallets_avg_flow_usd": null,
@@ -145,7 +145,7 @@
         "exchange_wallet_count is always 0 (not tracked), even when exchange net flow is non-zero."
       ]
     },
-    "recordedAt": 1790235333397
+    "recordedAt": 1790236503923
   },
   {
     "requestHash": "7bce29725bbd5be65cab7dc54cce13dad77781f3",

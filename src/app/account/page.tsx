@@ -4,6 +4,7 @@ import { keyInfo } from '@/server/auth/keys';
 import { vaultReady } from '@/server/auth/vault';
 import { AccountPanel } from '@/components/auth/AccountPanel';
 import { x402Enabled, x402Resources } from '@/server/nansen/x402';
+import { McpAccess } from '@/components/account/McpAccess';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = { title: 'Account — TIDE' };
@@ -23,6 +24,10 @@ export default async function AccountPage() {
       </div>
       <section className="glass rounded-2xl p-4">
         <AccountPanel user={ctx.user ? { family: ctx.user.family, address: ctx.user.address } : null} keyInfo={info ? { last4: info.last4, plan: info.plan } : null} vault={vaultReady()} mode={ctx.mode} />
+      </section>
+      <section aria-labelledby="mcp" className="glass rounded-2xl p-4">
+        <h2 id="mcp" className="mb-2 font-medium text-ink">MCP access</h2>
+        <McpAccess />
       </section>
       {x402Enabled() && (
         <section className="glass rounded-2xl p-4 text-sm text-ink-2">

@@ -179,3 +179,18 @@ test('alerts API: public callers cannot list, create, toggle or delete Smart Ale
   expect((await request.patch('/api/alerts', { headers: h, data: { id: 'x', isEnabled: false } })).status()).toBe(403);
   expect((await request.delete('/api/alerts?id=x', { headers: h })).status()).toBe(403);
 });
+
+test('MCP and research agent: public callers get public tools only, no agent', async ({ request }) => {
+  const list = await request.post('/api/mcp', { data: { jsonrpc: '2.0', id: 1, method: 'tools/list' } });
+  const names = ((await list.json()).result.tools as Array<{ name: string }>).map((t) => t.name);
+  expect(names).not.toContain('tide_fronts');
+  expect(names).not.toContain('tide_smart_money');
+  const sm = await request.post('/api/mcp', { data: { jsonrpc: '2.0', id: 2, method: 'tools/call', params: { name: 'tide_smart_money', arguments: {} } } });
+  expect((await sm.json()).result.isError).toBe(true);
+  for (const tool of ['tide_weather', 'tide_perps', 'tide_alpha']) {
+    const r = await request.post('/api/mcp', { data: { jsonrpc: '2.0', id: 3, method: 'tools/call', params: { name: tool, arguments: {} } } });
+    assertClean(`mcp ${tool}`, await r.text());
+  }
+  expect((await request.post('/api/mcp', { headers: { Authorization: 'Bearer tide_mcp_notarealtokennotarealtoken' }, data: { jsonrpc: '2.0', id: 4, method: 'tools/list' } })).status()).toBe(401);
+  expect((await request.get('/api/agent')).status()).toBe(403);
+});

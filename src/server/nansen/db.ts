@@ -301,6 +301,19 @@ const MIGRATIONS: string[] = [
   );
   CREATE INDEX idx_perp_snapshots_symbol ON perp_snapshots(source, symbol, snapshot_at);
   `,
+  // 17: research-agent (agent/expert) questions and answers, private per
+  // account; follow-ups share a conversation id. And personal MCP tokens
+  // (hashed), so an MCP client acts as the member who created one.
+  `
+  CREATE TABLE expert_reports (
+    id INTEGER PRIMARY KEY AUTOINCREMENT, scope TEXT NOT NULL, question TEXT NOT NULL, answer TEXT NOT NULL,
+    tool_calls TEXT NOT NULL, conversation_id TEXT, credits INTEGER NOT NULL, created_at INTEGER NOT NULL
+  );
+  CREATE INDEX idx_expert_reports_scope ON expert_reports(scope, created_at);
+  CREATE TABLE mcp_tokens (
+    token_hash TEXT PRIMARY KEY, scope TEXT NOT NULL, user_id INTEGER, created_at INTEGER NOT NULL, last_used_at INTEGER
+  );
+  `,
 ];
 
 export function audit(userId: number | null, action: string, detail?: string): void {

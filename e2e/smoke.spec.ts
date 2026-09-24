@@ -165,6 +165,22 @@ test('predictions: category weather, repricing, and a market opens its detail @m
   expect(w.errors).toEqual([]);
 });
 
+test('agents: research agent explains it runs on a key; MCP answers tools/list @mobile', async ({ page, request }) => {
+  const w = await watch(page);
+  await page.goto('/agent');
+  await expect(page.getByRole('heading', { name: 'Research agent' })).toBeVisible();
+  await expect(page.getByText(/runs on a Nansen key/)).toBeVisible();
+  await w.noOverflow();
+  expect(w.errors).toEqual([]);
+  const init = await request.post('/api/mcp', { data: { jsonrpc: '2.0', id: 1, method: 'initialize', params: { protocolVersion: '2025-06-18', capabilities: {}, clientInfo: { name: 'e2e', version: '0' } } } });
+  expect((await init.json()).result.serverInfo.name).toBe('tide');
+  const list = await request.post('/api/mcp', { data: { jsonrpc: '2.0', id: 2, method: 'tools/list' } });
+  const names = ((await list.json()).result.tools as Array<{ name: string }>).map((t) => t.name);
+  expect(names).toEqual(expect.arrayContaining(['tide_weather', 'tide_storm', 'tide_perps']));
+  const call = await request.post('/api/mcp', { data: { jsonrpc: '2.0', id: 3, method: 'tools/call', params: { name: 'tide_weather', arguments: {} } } });
+  expect((await call.json()).result.content[0].text).toContain('Nansen API, via TIDE');
+});
+
 test('lab, coverage and alerts render', async ({ page }) => {
   const w = await watch(page);
   await page.goto('/lab');
@@ -172,6 +188,6 @@ test('lab, coverage and alerts render', async ({ page }) => {
   await page.goto('/coverage');
   await expect(page.getByRole('heading', { level: 1 })).toContainText('38 chains');
   await page.goto('/alerts');
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('Storm alerts');
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('Alerts that keep watching');
   expect(w.errors.filter((e) => !/alerts/.test(e))).toEqual([]);
 });

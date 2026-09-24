@@ -8,6 +8,7 @@ import { AsyncLocalStorage } from 'node:async_hooks';
 import { cookieFrom, sessionUser, SESSION_COOKIE, type SessionUser } from './auth/session';
 import { userApiKey, keyInfo } from './auth/keys';
 import { resolveMode, type DisplayMode } from './mode';
+import { getDb } from './nansen/db';
 
 export interface RequestContext {
   mode: DisplayMode;
@@ -44,6 +45,22 @@ export const requestContext = cache(async (): Promise<RequestContext> => {
     return { ...PUBLIC_CTX, mode: build(null).mode };
   }
 });
+
+/** A signed-in member's context without a session (their personal MCP token). */
+export function contextForUser(userId: number): RequestContext {
+  const user = getDb().prepare('SELECT id, family, address FROM users WHERE id = ?').get(userId) as SessionUser | undefined;
+  if (!user) return { ...PUBLIC_CTX };
+  const info = keyInfo(user.id);
+  const apiKey = info ? userApiKey(user.id) : null;
+  const mode = resolveMode({
+    demo: process.env.DEMO_MODE === '1',
+    instancePrivate: process.env.TIDE_DISPLAY_MODE === 'private',
+    userAddress: user.address,
+    ownerAddress: process.env.TIDE_OWNER_ADDRESS ?? null,
+    userHasKey: !!apiKey,
+  });
+  return { mode, user, apiKey: mode === 'member' ? apiKey : null, keyLast4: info?.last4 ?? null, keyPlan: info?.plan ?? null };
+}
 
 /** Route handlers. */
 export function contextFromRequest(req: Request): RequestContext {
