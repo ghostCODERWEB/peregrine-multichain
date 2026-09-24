@@ -7,7 +7,7 @@ import { detectAddress } from '@/lib/address-family';
 import {
   S_ProfilerAddressPnlResponse, S_ProfilerDexTradeResponse, S_PortfolioDefiHoldingsResponse,
   S_PerpPositionsResponse, S_PerpTradeResponse, S_PerpPnlSummaryResponse,
-  S_AddressSummaryResponse, S_TradesByAddressResponse, S_ProfilerAddressHistoricalBalancesResponse,
+  S_AddressSummaryResponse, S_TradesByAddressResponse, S_PnlByAddressResponse, S_ProfilerAddressHistoricalBalancesResponse,
 } from '@/types/nansen/api.gen';
 import type { Provenance } from '@/lib/provenance';
 import { usd, pct, chainName } from '@/lib/viz/format';
@@ -77,10 +77,15 @@ export async function walletDesk(address: string, chain: string, section: DeskSe
     if (!isEvm(address)) throw new Error('Prediction-market profiles require an EVM wallet address.');
     const r = await validated('prediction-market/address-summary', { address }, S_AddressSummaryResponse);
     calls.push(r.call);
-    const t = await validated('prediction-market/trades-by-address', { address, date: date(), pagination }, S_TradesByAddressResponse);
+    const [t, pm] = await Promise.all([
+      validated('prediction-market/trades-by-address', { address, date: date(), pagination }, S_TradesByAddressResponse),
+      validated('prediction-market/pnl-by-address', { address, pagination: { page: 1, per_page: 25 }, order_by: [{ field: 'total_pnl_usd', direction: 'DESC' }] }, S_PnlByAddressResponse).catch(() => null),
+    ]);
     calls.push(t.call);
-    return result('Prediction-market activity', 'Account performance as reported by Nansen, with recent 30-day trades. Summary metrics are lifetime, not a 30-day forecast.', [
+    if (pm) calls.push(pm.call); else notes.push('Per-market PnL is unavailable for this address.');
+    return result('Prediction-market activity', 'Account performance as reported by Nansen, its best and worst markets, and recent 30-day trades. Summary metrics are lifetime, not a 30-day forecast.', [
       { title: 'Account summary', columns: ['Realized PnL', 'Unrealized PnL', 'Markets traded', 'Win rate'], rows: r.data.data.map((s) => [usd(s.realized_pnl_usd), usd(s.unrealized_pnl_usd), s.markets_traded ?? null, s.win_rate == null ? '—' : pct(s.win_rate)]) },
+      ...(pm ? [{ title: 'PnL by market (largest first)', columns: ['Market', 'Side held', 'Total PnL', 'Resolved'], rows: pm.data.data.map((x) => [x.question ?? x.market_id ?? '—', x.side_held ?? '—', usd(x.total_pnl_usd, { signed: true }), x.market_resolved ? 'yes' : 'no']) }] : []),
       { title: 'Recent market trades', columns: ['Market', 'Outcome', 'Taker action', 'Value'], rows: t.data.data.map((x) => [x.market_question ?? x.market_id ?? '—', x.side ?? '—', x.taker_action ?? '—', usd(x.usdc_value)]) },
     ]);
   }

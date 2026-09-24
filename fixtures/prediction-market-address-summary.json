@@ -27,5 +27,665 @@
       ]
     },
     "recordedAt": 1790204002164
+  },
+  {
+    "requestHash": "e4f16cdbb49d40444c1c2dc3491b5bd600f8cfb1",
+    "request": {
+      "address": "0xc07d5961e7a361992983c1a3a865d00dc28cb1df",
+      "pagination": {
+        "page": 1,
+        "per_page": 1
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 1,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0xc07d5961e7a361992983c1a3a865d00dc28cb1df",
+          "first_seen": "2026-06-03",
+          "wallet_age_days": 113,
+          "realized_pnl_usd": -30782.200871000005,
+          "unrealized_pnl_usd": 134054.73943188784,
+          "total_pnl_usd": 103272.53856088774,
+          "markets_won": 3613,
+          "markets_traded": 6309,
+          "win_rate": 0.5726739578380092,
+          "p2p_tokens_sent": 15647457.345948998,
+          "p2p_tokens_received": 0
+        }
+      ]
+    },
+    "recordedAt": 1790234955200
+  },
+  {
+    "requestHash": "31a09f3f425edf3566ac7f9eed4a139789e62d3a",
+    "request": {
+      "address": "0x3e856790872025b26922999651992ea70bfe788b",
+      "pagination": {
+        "page": 1,
+        "per_page": 1
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 1,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0x3e856790872025b26922999651992ea70bfe788b",
+          "first_seen": "2026-02-14",
+          "wallet_age_days": 222,
+          "realized_pnl_usd": 15470.479145000005,
+          "unrealized_pnl_usd": 38481.25988936867,
+          "total_pnl_usd": 53951.73903436868,
+          "markets_won": 970,
+          "markets_traded": 1664,
+          "win_rate": 0.5829326923076923,
+          "p2p_tokens_sent": 861311.2799219999,
+          "p2p_tokens_received": 0
+        }
+      ]
+    },
+    "recordedAt": 1790234955210
+  },
+  {
+    "requestHash": "1fa19460e5c73c346411073b83a2ccbc8f226ddc",
+    "request": {
+      "address": "0x5bfe9469c7c4035325024c846bc530c9d29e3258",
+      "pagination": {
+        "page": 1,
+        "per_page": 1
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 1,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0x5bfe9469c7c4035325024c846bc530c9d29e3258",
+          "first_seen": "2026-09-08",
+          "wallet_age_days": 16,
+          "realized_pnl_usd": -36026.583056999996,
+          "unrealized_pnl_usd": 65223.2561626497,
+          "total_pnl_usd": 29196.67310564968,
+          "markets_won": 60,
+          "markets_traded": 88,
+          "win_rate": 0.6818181818181818,
+          "p2p_tokens_sent": 2001190.1315080004,
+          "p2p_tokens_received": 0
+        }
+      ]
+    },
+    "recordedAt": 1790234955234
+  },
+  {
+    "requestHash": "617503a62c654a82e6dd09f0d8b99eb9556ccbe3",
+    "request": {
+      "address": "0xe766364c3bb0bcf1cf0de44ba1a4a617ed867843",
+      "pagination": {
+        "page": 1,
+        "per_page": 1
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 1,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0xe766364c3bb0bcf1cf0de44ba1a4a617ed867843",
+          "first_seen": "2026-05-20",
+          "wallet_age_days": 127,
+          "realized_pnl_usd": 4556.056038999999,
+          "unrealized_pnl_usd": 1545.1976482527084,
+          "total_pnl_usd": 6101.253687252707,
+          "markets_won": 623,
+          "markets_traded": 1162,
+          "win_rate": 0.536144578313253,
+          "p2p_tokens_sent": 29411.278656999995,
+          "p2p_tokens_received": 54
+        }
+      ]
+    },
+    "recordedAt": 1790234955247
+  },
+  {
+    "requestHash": "20a5ac0a2987b81a8fdc9791f12731ca49f91d34",
+    "request": {
+      "address": "0x5fd2d9c60781d711721145ff2b906aa63a18afce",
+      "pagination": {
+        "page": 1,
+        "per_page": 1
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 1,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0x5fd2d9c60781d711721145ff2b906aa63a18afce",
+          "first_seen": "2026-07-27",
+          "wallet_age_days": 59,
+          "realized_pnl_usd": 28087.973621999998,
+          "unrealized_pnl_usd": 1320.4310993669042,
+          "total_pnl_usd": 29408.404721366915,
+          "markets_won": 398,
+          "markets_traded": 579,
+          "win_rate": 0.687392055267703,
+          "p2p_tokens_sent": 534617.2230240001,
+          "p2p_tokens_received": 0
+        }
+      ]
+    },
+    "recordedAt": 1790234955285
+  },
+  {
+    "requestHash": "6180a1542fe4490e6b1bab64274327d114faf5b0",
+    "request": {
+      "address": "0xaff6108be2e138ef1d382c7f561946f69f1b4a29",
+      "pagination": {
+        "page": 1,
+        "per_page": 1
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 1,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0xaff6108be2e138ef1d382c7f561946f69f1b4a29",
+          "first_seen": "2026-04-08",
+          "wallet_age_days": 169,
+          "realized_pnl_usd": -130.65453,
+          "unrealized_pnl_usd": 763.5404067439819,
+          "total_pnl_usd": 632.8858767439837,
+          "markets_won": 44840,
+          "markets_traded": 44939,
+          "win_rate": 0.9977970137297225,
+          "p2p_tokens_sent": 994461.4572059998,
+          "p2p_tokens_received": 0
+        }
+      ]
+    },
+    "recordedAt": 1790234955291
+  },
+  {
+    "requestHash": "e1186944c1771e45d04965a4b372344de2082c2f",
+    "request": {
+      "address": "0x0d2d845a6ff64e31e04a70afce8a573940767ff5",
+      "pagination": {
+        "page": 1,
+        "per_page": 1
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 1,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0x0d2d845a6ff64e31e04a70afce8a573940767ff5",
+          "first_seen": "2026-05-05",
+          "wallet_age_days": 142,
+          "realized_pnl_usd": 769859.825425,
+          "unrealized_pnl_usd": -765934.2054850506,
+          "total_pnl_usd": 3925.619939949218,
+          "markets_won": 54183,
+          "markets_traded": 106638,
+          "win_rate": 0.5081021774601924,
+          "p2p_tokens_sent": 81134528.88329698,
+          "p2p_tokens_received": 3687466.7546000006
+        }
+      ]
+    },
+    "recordedAt": 1790234955394
+  },
+  {
+    "requestHash": "2878d73d8757043b4de35c251bab19530f24a035",
+    "request": {
+      "address": "0x821dab0565ebf5b327f51db06223fdcfe01acf16",
+      "pagination": {
+        "page": 1,
+        "per_page": 1
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 1,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0x821dab0565ebf5b327f51db06223fdcfe01acf16",
+          "first_seen": "2026-08-11",
+          "wallet_age_days": 44,
+          "realized_pnl_usd": 0,
+          "unrealized_pnl_usd": 1679797.4799479062,
+          "total_pnl_usd": 1679797.4799479062,
+          "markets_won": 36670,
+          "markets_traded": 66736,
+          "win_rate": 0.5494785423159914,
+          "p2p_tokens_sent": 148748915.6120933,
+          "p2p_tokens_received": 0
+        }
+      ]
+    },
+    "recordedAt": 1790234955486
+  },
+  {
+    "requestHash": "9b603a84d9a21eaccd73f9f539a778e43b3c894e",
+    "request": {
+      "address": "0xc4fe817476491890086330a639ac417d51bf601f",
+      "pagination": {
+        "page": 1,
+        "per_page": 1
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 1,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0xc4fe817476491890086330a639ac417d51bf601f",
+          "first_seen": "2025-04-06",
+          "wallet_age_days": 536,
+          "realized_pnl_usd": 879.2857529999998,
+          "unrealized_pnl_usd": -120670.97496416382,
+          "total_pnl_usd": -119791.6892111638,
+          "markets_won": 28875,
+          "markets_traded": 60311,
+          "win_rate": 0.47876838387690474,
+          "p2p_tokens_sent": 24795281.87833399,
+          "p2p_tokens_received": 0
+        }
+      ]
+    },
+    "recordedAt": 1790234955487
+  },
+  {
+    "requestHash": "d4365f6d7157db762a0110753db0ae5c9245aff0",
+    "request": {
+      "address": "0xb595d09ce5bbc4d39e3b3d04e80c402d2c8d5922",
+      "pagination": {
+        "page": 1,
+        "per_page": 1
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 1,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0xb595d09ce5bbc4d39e3b3d04e80c402d2c8d5922",
+          "first_seen": "2026-01-30",
+          "wallet_age_days": 237,
+          "realized_pnl_usd": 97493.23410800014,
+          "unrealized_pnl_usd": 351014.1605022261,
+          "total_pnl_usd": 448507.39461022505,
+          "markets_won": 68144,
+          "markets_traded": 69753,
+          "win_rate": 0.9769328917752641,
+          "p2p_tokens_sent": 23854576.93159097,
+          "p2p_tokens_received": 0
+        }
+      ]
+    },
+    "recordedAt": 1790234955533
+  },
+  {
+    "requestHash": "fa68c87e7029bb996e643a8e92dc779bceedb14f",
+    "request": {
+      "address": "0x6db983ff1cbc85249e64e6ccd101aaa613ba4ab5",
+      "pagination": {
+        "page": 1,
+        "per_page": 1
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 1,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0x6db983ff1cbc85249e64e6ccd101aaa613ba4ab5",
+          "first_seen": "2025-09-25",
+          "wallet_age_days": 364,
+          "realized_pnl_usd": 482962.72550799994,
+          "unrealized_pnl_usd": -366449.0234607282,
+          "total_pnl_usd": 116513.70204727173,
+          "markets_won": 459,
+          "markets_traded": 1144,
+          "win_rate": 0.4012237762237762,
+          "p2p_tokens_sent": 2501258.043785,
+          "p2p_tokens_received": 0
+        }
+      ]
+    },
+    "recordedAt": 1790235056077
+  },
+  {
+    "requestHash": "42f2eb13bcaaf4e93e498598568e2872e95c6f9c",
+    "request": {
+      "address": "0x744c072005bde6ddab8764a7477f61d3d22ae37f",
+      "pagination": {
+        "page": 1,
+        "per_page": 1
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 1,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0x744c072005bde6ddab8764a7477f61d3d22ae37f",
+          "first_seen": "2024-05-23",
+          "wallet_age_days": 854,
+          "realized_pnl_usd": 79530.711936,
+          "unrealized_pnl_usd": -60452.47765922516,
+          "total_pnl_usd": 19078.234276774827,
+          "markets_won": 576,
+          "markets_traded": 823,
+          "win_rate": 0.6998784933171325,
+          "p2p_tokens_sent": 478128.172694,
+          "p2p_tokens_received": 0
+        }
+      ]
+    },
+    "recordedAt": 1790235056078
+  },
+  {
+    "requestHash": "5c3426697543ae5ea89d87bf8e20e6d0f31b3ecf",
+    "request": {
+      "address": "0xe339bba7fba043520d83516ce22add16beb6e01b",
+      "pagination": {
+        "page": 1,
+        "per_page": 1
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 1,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0xe339bba7fba043520d83516ce22add16beb6e01b",
+          "first_seen": "2026-04-27",
+          "wallet_age_days": 150,
+          "realized_pnl_usd": 26495.036656,
+          "unrealized_pnl_usd": -25338.03627580338,
+          "total_pnl_usd": 1157.0003801966159,
+          "markets_won": 63,
+          "markets_traded": 156,
+          "win_rate": 0.40384615384615385,
+          "p2p_tokens_sent": 51137.229337,
+          "p2p_tokens_received": 0
+        }
+      ]
+    },
+    "recordedAt": 1790235056172
+  },
+  {
+    "requestHash": "180b616d40bd3c09e409356006f377e1c1bf2d3a",
+    "request": {
+      "address": "0x55e2436d747835c7e40b0c6cf92f632bf1215fc9",
+      "pagination": {
+        "page": 1,
+        "per_page": 1
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 1,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0x55e2436d747835c7e40b0c6cf92f632bf1215fc9",
+          "first_seen": "2026-02-18",
+          "wallet_age_days": 218,
+          "realized_pnl_usd": -4112.216307000007,
+          "unrealized_pnl_usd": 109096.17986266433,
+          "total_pnl_usd": 104983.96355566433,
+          "markets_won": 412,
+          "markets_traded": 609,
+          "win_rate": 0.6765188834154351,
+          "p2p_tokens_sent": 5354653.7104360005,
+          "p2p_tokens_received": 3545676
+        }
+      ]
+    },
+    "recordedAt": 1790235056278
+  },
+  {
+    "requestHash": "16d985189d16d49ccc889f4a92b306f1ff54313d",
+    "request": {
+      "address": "0xd1049158a102840ce595efc6ab683a0cb6fbacef",
+      "pagination": {
+        "page": 1,
+        "per_page": 1
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 1,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0xd1049158a102840ce595efc6ab683a0cb6fbacef",
+          "first_seen": "2026-06-06",
+          "wallet_age_days": 110,
+          "realized_pnl_usd": -319732.116745,
+          "unrealized_pnl_usd": 98968.95068909702,
+          "total_pnl_usd": -220763.16605590298,
+          "markets_won": 160,
+          "markets_traded": 256,
+          "win_rate": 0.625,
+          "p2p_tokens_sent": 5285150.7761969995,
+          "p2p_tokens_received": 0
+        }
+      ]
+    },
+    "recordedAt": 1790235056302
+  },
+  {
+    "requestHash": "8917162b5bc6532e1362c27ad69fc7e1e976d9d6",
+    "request": {
+      "address": "0x1cd24cc49782240413903b4b7e7694779f917f85",
+      "pagination": {
+        "page": 1,
+        "per_page": 1
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 1,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0x1cd24cc49782240413903b4b7e7694779f917f85",
+          "first_seen": "2025-11-09",
+          "wallet_age_days": 319,
+          "realized_pnl_usd": 17102.412706999996,
+          "unrealized_pnl_usd": 89135.17866308935,
+          "total_pnl_usd": 106237.59137008936,
+          "markets_won": 389,
+          "markets_traded": 599,
+          "win_rate": 0.6494156928213689,
+          "p2p_tokens_sent": 872279.3111190001,
+          "p2p_tokens_received": 0
+        }
+      ]
+    },
+    "recordedAt": 1790235056336
+  },
+  {
+    "requestHash": "9f4156376c6d74897a71458fb772d747a5a14b5f",
+    "request": {
+      "address": "0x661daf6af6d884012dd6db73c09d72e8be224dc6",
+      "pagination": {
+        "page": 1,
+        "per_page": 1
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 1,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0x661daf6af6d884012dd6db73c09d72e8be224dc6",
+          "first_seen": "2025-10-28",
+          "wallet_age_days": 331,
+          "realized_pnl_usd": 1315202.5846189999,
+          "unrealized_pnl_usd": -825810.6104106605,
+          "total_pnl_usd": 489391.9742083395,
+          "markets_won": 3895,
+          "markets_traded": 7717,
+          "win_rate": 0.5047298172865103,
+          "p2p_tokens_sent": 5141600.317339,
+          "p2p_tokens_received": 20
+        }
+      ]
+    },
+    "recordedAt": 1790235056436
+  },
+  {
+    "requestHash": "c84c615d8f78cf1191a007c08266c4aeb777f48c",
+    "request": {
+      "address": "0x06dc51826bc524d9a83770e7de9dd7e005b04524",
+      "pagination": {
+        "page": 1,
+        "per_page": 1
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 1,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0x06dc51826bc524d9a83770e7de9dd7e005b04524",
+          "first_seen": "2026-03-24",
+          "wallet_age_days": 184,
+          "realized_pnl_usd": 74883.940143,
+          "unrealized_pnl_usd": 516184.2128488542,
+          "total_pnl_usd": 591068.1529918546,
+          "markets_won": 11457,
+          "markets_traded": 14653,
+          "win_rate": 0.7818876680543233,
+          "p2p_tokens_sent": 116904527.18285395,
+          "p2p_tokens_received": 0
+        }
+      ]
+    },
+    "recordedAt": 1790235056538
+  },
+  {
+    "requestHash": "d8d6b44e7a556afb38f6a17508f450d53a81c3fa",
+    "request": {
+      "address": "0xcc500cbcc8b7cf5bd21975ebbea34f21b5644c82",
+      "pagination": {
+        "page": 1,
+        "per_page": 1
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 1,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0xcc500cbcc8b7cf5bd21975ebbea34f21b5644c82",
+          "first_seen": "2024-03-22",
+          "wallet_age_days": 916,
+          "realized_pnl_usd": 1652734.1246500001,
+          "unrealized_pnl_usd": 518605.0882694309,
+          "total_pnl_usd": 2171339.212919431,
+          "markets_won": 11891,
+          "markets_traded": 22071,
+          "win_rate": 0.5387612704453808,
+          "p2p_tokens_sent": 18957515.449417,
+          "p2p_tokens_received": 0
+        }
+      ]
+    },
+    "recordedAt": 1790235056539
+  },
+  {
+    "requestHash": "5912d474cf9ee038d6bd308ef3fe6926e83089f7",
+    "request": {
+      "address": "0xf705fa045201391d9632b7f3cde06a5e24453ca7",
+      "pagination": {
+        "page": 1,
+        "per_page": 1
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 1,
+        "is_last_page": true
+      },
+      "data": [
+        {
+          "address": "0xf705fa045201391d9632b7f3cde06a5e24453ca7",
+          "first_seen": "2025-09-25",
+          "wallet_age_days": 364,
+          "realized_pnl_usd": 2405695.3604959995,
+          "unrealized_pnl_usd": -36262.78407061901,
+          "total_pnl_usd": 2369432.576425382,
+          "markets_won": 1222,
+          "markets_traded": 2470,
+          "win_rate": 0.49473684210526314,
+          "p2p_tokens_sent": 0,
+          "p2p_tokens_received": 1527669.969997
+        }
+      ]
+    },
+    "recordedAt": 1790235056575
   }
 ]

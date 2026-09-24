@@ -1,0 +1,265 @@
+[
+  {
+    "requestHash": "abedf6408670cc09328fef1f15570dfd140d1d71",
+    "request": {
+      "market_id": "4052418",
+      "pagination": {
+        "page": 1,
+        "per_page": 5
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 5,
+        "is_last_page": false
+      },
+      "data": [
+        {
+          "timestamp": "2026-09-24T07:30:27",
+          "seller": "0xd1049158a102840ce595efc6ab683a0cb6fbacef",
+          "buyer": "0xcc500cbcc8b7cf5bd21975ebbea34f21b5644c82",
+          "taker_action": "buy",
+          "side": "Yes",
+          "outcome_index": 1,
+          "size": 3000,
+          "price": 0.4,
+          "usdc_value": 1200,
+          "tx_hash": "0x9ffd5ca6d928aa6626c01ef111cad1d6e1aa13eb77b7becd2e83f3051a9479d9",
+          "market_id": "4052418"
+        },
+        {
+          "timestamp": "2026-09-24T07:30:26",
+          "seller": "0xd1049158a102840ce595efc6ab683a0cb6fbacef",
+          "buyer": "0xcc500cbcc8b7cf5bd21975ebbea34f21b5644c82",
+          "taker_action": "buy",
+          "side": "Yes",
+          "outcome_index": 1,
+          "size": 6000,
+          "price": 0.4,
+          "usdc_value": 2400,
+          "tx_hash": "0xda9bfe34551d253204f3be1a319abcf2b4a01239d4a47ef843a4158fe0f6cf13",
+          "market_id": "4052418"
+        },
+        {
+          "timestamp": "2026-09-24T07:30:14",
+          "seller": "0xd1049158a102840ce595efc6ab683a0cb6fbacef",
+          "buyer": "0x726fd4fd2d3f3a48fcbd54d1cecdd933d207d8e7",
+          "taker_action": "buy",
+          "side": "Yes",
+          "outcome_index": 1,
+          "size": 100,
+          "price": 0.4,
+          "usdc_value": 40,
+          "tx_hash": "0xfec9d02efdc5bc50e861d61f3dc369de6a5dbc8d2106fea3083d450a6b9aa298",
+          "market_id": "4052418"
+        },
+        {
+          "timestamp": "2026-09-24T07:30:14",
+          "seller": "0xd1049158a102840ce595efc6ab683a0cb6fbacef",
+          "buyer": "0x726fd4fd2d3f3a48fcbd54d1cecdd933d207d8e7",
+          "taker_action": "buy",
+          "side": "Yes",
+          "outcome_index": 1,
+          "size": 100,
+          "price": 0.4,
+          "usdc_value": 40,
+          "tx_hash": "0xf3feaf12803bb4f34137af5d10b525a59ee2df775a2960c41c9349e363fe3547",
+          "market_id": "4052418"
+        },
+        {
+          "timestamp": "2026-09-24T07:30:12",
+          "seller": "0xd1049158a102840ce595efc6ab683a0cb6fbacef",
+          "buyer": "0x726fd4fd2d3f3a48fcbd54d1cecdd933d207d8e7",
+          "taker_action": "buy",
+          "side": "Yes",
+          "outcome_index": 1,
+          "size": 100,
+          "price": 0.4,
+          "usdc_value": 40,
+          "tx_hash": "0x78ec69decf2f3918df4bf70fc75104bf1a3a0aead0fddbea5b6a67d4348a48f1",
+          "market_id": "4052418"
+        }
+      ]
+    },
+    "recordedAt": 1790235084848
+  },
+  {
+    "requestHash": "7cc467f9d9900c7556ad91ef3e55bcfe6fbb6bad",
+    "request": {
+      "market_id": "4052418",
+      "date": {
+        "from": "2026-09-23",
+        "to": "2026-09-24"
+      },
+      "pagination": {
+        "page": 1,
+        "per_page": 5
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 5,
+        "is_last_page": false
+      },
+      "data": [
+        {
+          "timestamp": "2026-09-24T07:30:27",
+          "seller": "0xd1049158a102840ce595efc6ab683a0cb6fbacef",
+          "buyer": "0xcc500cbcc8b7cf5bd21975ebbea34f21b5644c82",
+          "taker_action": "buy",
+          "side": "Yes",
+          "outcome_index": 1,
+          "size": 3000,
+          "price": 0.4,
+          "usdc_value": 1200,
+          "tx_hash": "0x9ffd5ca6d928aa6626c01ef111cad1d6e1aa13eb77b7becd2e83f3051a9479d9",
+          "market_id": "4052418"
+        },
+        {
+          "timestamp": "2026-09-24T07:30:26",
+          "seller": "0xd1049158a102840ce595efc6ab683a0cb6fbacef",
+          "buyer": "0xcc500cbcc8b7cf5bd21975ebbea34f21b5644c82",
+          "taker_action": "buy",
+          "side": "Yes",
+          "outcome_index": 1,
+          "size": 6000,
+          "price": 0.4,
+          "usdc_value": 2400,
+          "tx_hash": "0xda9bfe34551d253204f3be1a319abcf2b4a01239d4a47ef843a4158fe0f6cf13",
+          "market_id": "4052418"
+        },
+        {
+          "timestamp": "2026-09-24T07:30:14",
+          "seller": "0xd1049158a102840ce595efc6ab683a0cb6fbacef",
+          "buyer": "0x726fd4fd2d3f3a48fcbd54d1cecdd933d207d8e7",
+          "taker_action": "buy",
+          "side": "Yes",
+          "outcome_index": 1,
+          "size": 100,
+          "price": 0.4,
+          "usdc_value": 40,
+          "tx_hash": "0xf3feaf12803bb4f34137af5d10b525a59ee2df775a2960c41c9349e363fe3547",
+          "market_id": "4052418"
+        },
+        {
+          "timestamp": "2026-09-24T07:30:14",
+          "seller": "0xd1049158a102840ce595efc6ab683a0cb6fbacef",
+          "buyer": "0x726fd4fd2d3f3a48fcbd54d1cecdd933d207d8e7",
+          "taker_action": "buy",
+          "side": "Yes",
+          "outcome_index": 1,
+          "size": 100,
+          "price": 0.4,
+          "usdc_value": 40,
+          "tx_hash": "0xfec9d02efdc5bc50e861d61f3dc369de6a5dbc8d2106fea3083d450a6b9aa298",
+          "market_id": "4052418"
+        },
+        {
+          "timestamp": "2026-09-24T07:30:12",
+          "seller": "0xd1049158a102840ce595efc6ab683a0cb6fbacef",
+          "buyer": "0x726fd4fd2d3f3a48fcbd54d1cecdd933d207d8e7",
+          "taker_action": "buy",
+          "side": "Yes",
+          "outcome_index": 1,
+          "size": 100,
+          "price": 0.4,
+          "usdc_value": 40,
+          "tx_hash": "0x78ec69decf2f3918df4bf70fc75104bf1a3a0aead0fddbea5b6a67d4348a48f1",
+          "market_id": "4052418"
+        }
+      ]
+    },
+    "recordedAt": 1790235085383
+  },
+  {
+    "requestHash": "cb328795ab9a79e9f627afef3ecd6282651afed6",
+    "request": {
+      "market_id": "4052418",
+      "date": {
+        "from": "2026-09-23T00:00:00Z",
+        "to": "2026-09-24T07:31:22.621Z"
+      },
+      "pagination": {
+        "page": 1,
+        "per_page": 5
+      }
+    },
+    "response": {
+      "pagination": {
+        "page": 1,
+        "per_page": 5,
+        "is_last_page": false
+      },
+      "data": [
+        {
+          "timestamp": "2026-09-24T07:30:27",
+          "seller": "0xd1049158a102840ce595efc6ab683a0cb6fbacef",
+          "buyer": "0xcc500cbcc8b7cf5bd21975ebbea34f21b5644c82",
+          "taker_action": "buy",
+          "side": "Yes",
+          "outcome_index": 1,
+          "size": 3000,
+          "price": 0.4,
+          "usdc_value": 1200,
+          "tx_hash": "0x9ffd5ca6d928aa6626c01ef111cad1d6e1aa13eb77b7becd2e83f3051a9479d9",
+          "market_id": "4052418"
+        },
+        {
+          "timestamp": "2026-09-24T07:30:26",
+          "seller": "0xd1049158a102840ce595efc6ab683a0cb6fbacef",
+          "buyer": "0xcc500cbcc8b7cf5bd21975ebbea34f21b5644c82",
+          "taker_action": "buy",
+          "side": "Yes",
+          "outcome_index": 1,
+          "size": 6000,
+          "price": 0.4,
+          "usdc_value": 2400,
+          "tx_hash": "0xda9bfe34551d253204f3be1a319abcf2b4a01239d4a47ef843a4158fe0f6cf13",
+          "market_id": "4052418"
+        },
+        {
+          "timestamp": "2026-09-24T07:30:14",
+          "seller": "0xd1049158a102840ce595efc6ab683a0cb6fbacef",
+          "buyer": "0x726fd4fd2d3f3a48fcbd54d1cecdd933d207d8e7",
+          "taker_action": "buy",
+          "side": "Yes",
+          "outcome_index": 1,
+          "size": 100,
+          "price": 0.4,
+          "usdc_value": 40,
+          "tx_hash": "0xf3feaf12803bb4f34137af5d10b525a59ee2df775a2960c41c9349e363fe3547",
+          "market_id": "4052418"
+        },
+        {
+          "timestamp": "2026-09-24T07:30:14",
+          "seller": "0xd1049158a102840ce595efc6ab683a0cb6fbacef",
+          "buyer": "0x726fd4fd2d3f3a48fcbd54d1cecdd933d207d8e7",
+          "taker_action": "buy",
+          "side": "Yes",
+          "outcome_index": 1,
+          "size": 100,
+          "price": 0.4,
+          "usdc_value": 40,
+          "tx_hash": "0xfec9d02efdc5bc50e861d61f3dc369de6a5dbc8d2106fea3083d450a6b9aa298",
+          "market_id": "4052418"
+        },
+        {
+          "timestamp": "2026-09-24T07:30:12",
+          "seller": "0xd1049158a102840ce595efc6ab683a0cb6fbacef",
+          "buyer": "0x726fd4fd2d3f3a48fcbd54d1cecdd933d207d8e7",
+          "taker_action": "buy",
+          "side": "Yes",
+          "outcome_index": 1,
+          "size": 100,
+          "price": 0.4,
+          "usdc_value": 40,
+          "tx_hash": "0x78ec69decf2f3918df4bf70fc75104bf1a3a0aead0fddbea5b6a67d4348a48f1",
+          "market_id": "4052418"
+        }
+      ]
+    },
+    "recordedAt": 1790235085973
+  }
+]

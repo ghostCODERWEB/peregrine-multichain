@@ -33,6 +33,21 @@ export interface LedgerEntry {
 
 const e = (key: string, cls: RedistributionClass, rest: Omit<LedgerEntry, 'key' | 'class'> = {}): LedgerEntry => ({ key, class: cls, ...rest });
 
+const PM_USE: Record<string, Omit<LedgerEntry, 'key' | 'class'>> = {
+  'address-summary': { usedBy: ['M3', 'M6'], note: 'wallet desk record; /predict checks the largest holders\' records (cached a day)' },
+  'trades-by-address': { usedBy: ['M3'], note: 'wallet desk predictions' },
+  'pnl-by-address': { usedBy: ['M3'], note: 'wallet desk: PnL by market' },
+  categories: { usedBy: ['M6'], note: 'category weather' },
+  'event-screener': { usedBy: ['M6'], note: 'busiest events' },
+  'market-screener': { usedBy: ['M6'], note: 'markets, implied probabilities, repricing' },
+  ohlcv: { usedBy: ['M6'], note: 'market detail: YES probability, hourly' },
+  orderbook: { usedBy: ['M6'], note: 'market detail: order book depth' },
+  'top-holders': { usedBy: ['M6'], note: 'market detail: who holds each side' },
+  'trades-by-market': { usedBy: ['M6'], note: 'market detail: largest trades (sorted by TIDE; the endpoint sorts only by time)' },
+  'pnl-by-market': { usedBy: ['M6'], note: 'records check: who is winning in the market' },
+  'position-detail': { skipped: 'for these views it repeats top-holders (sizes, entries) plus pnl-by-market (profit), at 5 credits more per market' },
+};
+
 export const LEDGER: LedgerEntry[] = [
   // Agents
   e('POST /api/v1/agent/fast', 'restricted', { usedBy: ['anchor'], note: 'output inherits the class of its inputs; public mode feeds it public-class facts only' }),
@@ -51,13 +66,11 @@ export const LEDGER: LedgerEntry[] = [
   e('POST /api/v1/smart-money/perp-trades', 'prohibited', { usedBy: ['M4'], note: 'desk perp tilt, private only; M5 reuses it' }),
   // Portfolio
   e('POST /api/v1/portfolio/defi-holdings', 'free', { usedBy: ['M3'], note: 'balance-type data; account-tied (no x402); wallet desk DeFi positions' }),
-  // Prediction markets
+  // Prediction markets (M6 /predict; the wallet desk reads a wallet's own record)
   ...[
     'address-summary', 'categories', 'event-screener', 'market-screener', 'ohlcv', 'orderbook', 'pnl-by-address',
     'pnl-by-market', 'position-detail', 'top-holders', 'trades-by-address', 'trades-by-market',
-  ].map((p) => e(`POST /api/v1/prediction-market/${p}`, 'attribution', ['address-summary', 'trades-by-address'].includes(p)
-    ? { usedBy: ['M3'], planned: 'M6', note: 'wallet desk predictions; the M6 prediction desk adds more' }
-    : { planned: 'M6' })),
+  ].map((p) => e(`POST /api/v1/prediction-market/${p}`, 'attribution', PM_USE[p])),
   // Profiler
   e('POST /api/v1/profiler/address/counterparties', 'attribution', { usedBy: ['wallet', 'M1'], note: 'entity pages: entity_name, grouped by entity' }),
   e('POST /api/v1/profiler/address/counterparties/batch', 'attribution', { usedBy: ['M3'], note: 'portfolio: counterparties shared across a watch set' }),

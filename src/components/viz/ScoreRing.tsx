@@ -5,13 +5,15 @@ export function ScoreRing({ score, size = 64, stroke = 6, color, label, sublabel
 }) {
   const r = (size - stroke) / 2;
   const c = 2 * Math.PI * r;
-  const v = Math.max(0, Math.min(100, score));
+  // Rounded: scores often come out of tanh/log, whose last digit can differ
+  // between Node and the browser and break hydration of the SVG attributes.
+  const v = Math.round(Math.max(0, Math.min(100, score)) * 100) / 100;
   return (
     <div className="relative inline-flex shrink-0 items-center justify-center" style={{ width: size, height: size }} role="img" aria-label={`${label ?? 'Score'} ${Math.round(v)} of 100`}>
       <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="-rotate-90" aria-hidden>
         <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="var(--grid)" strokeWidth={stroke} />
         <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke={color} strokeWidth={stroke} strokeLinecap="round"
-          strokeDasharray={`${(v / 100) * c} ${c}`} style={{ filter: `drop-shadow(0 0 ${stroke}px color-mix(in oklab, ${color} 45%, transparent))` }} />
+          strokeDasharray={`${((v / 100) * c).toFixed(2)} ${c.toFixed(2)}`} style={{ filter: `drop-shadow(0 0 ${stroke}px color-mix(in oklab, ${color} 45%, transparent))` }} />
       </svg>
       <span className="absolute inset-0 flex flex-col items-center justify-center leading-none">
         <span className="num font-semibold text-ink" style={{ fontSize: size * 0.3 }}>{Math.round(v)}</span>

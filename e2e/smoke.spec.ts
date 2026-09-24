@@ -151,6 +151,20 @@ test('perps: pressure grid, crowding map, and a coin opens its ladder @mobile', 
   expect(w.errors).toEqual([]);
 });
 
+test('predictions: category weather, repricing, and a market opens its detail @mobile', async ({ page }) => {
+  const w = await watch(page);
+  await page.goto('/predict');
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+  await expect(page.getByRole('list', { name: 'Prediction categories by heat' }).getByRole('listitem').first()).toBeVisible();
+  const market = page.locator('section[aria-labelledby="markets"] tbody tr').first();
+  await expect(market).toBeVisible();
+  await market.click();
+  await expect(page.locator('section[aria-labelledby="pm-price"]')).toBeVisible();
+  await expect(page.locator('section[aria-labelledby="pm-price"]')).toContainText(/implied probability|No recorded fixture|Nansen/, { timeout: 60_000 });
+  await w.noOverflow();
+  expect(w.errors).toEqual([]);
+});
+
 test('lab, coverage and alerts render', async ({ page }) => {
   const w = await watch(page);
   await page.goto('/lab');

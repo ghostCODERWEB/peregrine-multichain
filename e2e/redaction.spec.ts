@@ -161,3 +161,9 @@ test('perps: pressure board public, trader leaderboard withheld, coin detail wit
     expect(JSON.parse(body).pnl).toBeNull(); // the coin's PnL leaderboard is owner-only
   }
 });
+
+test('predictions: public page and market detail carry no labels', async ({ page }) => {
+  await page.goto('/predict');
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+  assertClean('/predict', await page.content());
+});
