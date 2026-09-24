@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { InfoPopover } from '@/components/InfoPopover';
 import { SETUPS, type Setup, type Stance } from '@/lib/models/calls';
 import type { CandlePoint, ReplayAt } from '@/lib/models/replay';
@@ -25,6 +25,8 @@ function PricePath({ points, label, tfMs }: { points: CandlePoint[]; label: stri
 
 export function TimeMachine({ chain, token }: { chain: string; token: string }) {
   const [horizon, setHorizon] = useState<ReplayAt>('24h');
+  // ⌘K "/replay TOKEN 7d" opens this page with ?at= (L5); read after mount to keep hydration stable.
+  useEffect(() => { const a = new URLSearchParams(window.location.search).get('at'); if (a === '1h' || a === '24h' || a === '7d') setHorizon(a); }, []);
   const [preview, setPreview] = useState<Preview | null>(null);
   const [stance, setStance] = useState<Stance | null>(null);
   const [setup, setSetup] = useState<Setup>('other');

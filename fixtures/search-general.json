@@ -1054,60 +1054,70 @@
           "symbol": "AERO",
           "chain": "hyperliquid",
           "address": "AERO",
-          "price": 0.66942,
-          "volume_24h": 10084788.001849996,
-          "market_cap": 666824402.996185,
-          "rank": 93
+          "price": 0.70366,
+          "volume_24h": 4978454.738149999,
+          "market_cap": 695444299.141046,
+          "rank": 105
         },
         {
           "name": "Aerodrome",
           "symbol": "AERO",
           "chain": "base",
           "address": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
-          "price": 0.671799926271318,
-          "volume_24h": 29699169.90018667,
-          "market_cap": 666824402.996185,
-          "rank": 404
+          "price": 0.697785634266986,
+          "volume_24h": 21175130.633927952,
+          "market_cap": 695444299.141046,
+          "rank": 417
         },
         {
           "name": "AEROBUD",
           "symbol": "AEROBUD",
           "chain": "base",
           "address": "0xfad8cb754230dbfd249db0e8eccb5142dd675a0d",
-          "price": 0.000897215759913848,
-          "volume_24h": 1403.623561564465,
-          "market_cap": 897215.759913848,
-          "rank": 2815
+          "price": 0.000883626155936692,
+          "volume_24h": 4793.668693219354,
+          "market_cap": 883626.155936692,
+          "rank": 2558
         },
         {
           "name": "Firefly Aerospace - Backpack Securities",
           "symbol": "FLY",
           "chain": "solana",
           "address": "FLYRq3en8r2Z69gN3KyAnDrvnitEJNkwPYY7favinHeD",
-          "price": 21.759869966940993,
-          "volume_24h": 6608.19382513581,
+          "price": 22.927773822283463,
+          "volume_24h": 8128.590136164776,
           "market_cap": null,
-          "rank": 4889
+          "rank": 4451
         },
         {
           "name": "Firefly Aerospace Inc. • Robinhood Token",
           "symbol": "FLY",
           "chain": "robinhood",
           "address": "0x03bc731ffb162cdd7b98d3c6542bfc291126075d",
-          "price": 21.8993994034977,
-          "volume_24h": 931.6491872367124,
-          "market_cap": 23405.9692424433,
-          "rank": 6254
+          "price": 22.7768556580098,
+          "volume_24h": 1303.5667629719449,
+          "market_cap": 24343.7901263083,
+          "rank": 5235
+        },
+        {
+          "name": "Howmet Aerospace • Robinhood Token",
+          "symbol": "HWM",
+          "chain": "robinhood",
+          "address": "0xaea445c5f3db1a462998ccc422a875a361ee5d99",
+          "price": 222.000981195349,
+          "volume_24h": 357.875914812169,
+          "market_cap": 10588.114797131,
+          "rank": 6949
         },
         {
           "name": "AeroVironment • Robinhood Token",
           "symbol": "AVAV",
           "chain": "robinhood",
           "address": "0xf6290b5e7c26502e2da514c31509849718ea76a5",
-          "price": 152.76265029174,
-          "volume_24h": 250.4614745747817,
-          "market_cap": 12363.845101362,
-          "rank": 7376
+          "price": 156.583304520966,
+          "volume_24h": 344.9991099040523,
+          "market_cap": 12673.0697514044,
+          "rank": 6989
         }
       ],
       "entities": [
@@ -1121,21 +1131,11 @@
             "Exchange"
           ],
           "rank": 10001
-        },
-        {
-          "name": "Aeroswap",
-          "tags": [
-            "Finance",
-            "CeFi",
-            "CEX",
-            "Exchange"
-          ],
-          "rank": 10001
         }
       ],
       "total_results": 8
     },
-    "recordedAt": 1790198426506
+    "recordedAt": 1790269776538
   },
   {
     "requestHash": "9e5defb18ba5da2e781d6d89a9fa4297baa799c1",
