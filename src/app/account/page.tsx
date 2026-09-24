@@ -21,11 +21,11 @@ export default async function AccountPage() {
           calls return are yours to see, and the credits are yours.
         </p>
       </div>
-      <section className="rounded-xl border border-border bg-surface p-4">
+      <section className="glass rounded-2xl p-4">
         <AccountPanel user={ctx.user ? { family: ctx.user.family, address: ctx.user.address } : null} keyInfo={info ? { last4: info.last4, plan: info.plan } : null} vault={vaultReady()} mode={ctx.mode} />
       </section>
       {x402Enabled() && (
-        <section className="rounded-xl border border-border bg-surface p-4 text-sm text-ink-2">
+        <section className="glass rounded-2xl p-4 text-sm text-ink-2">
           <h2 className="mb-1 font-medium text-ink">No key? Pay per call</h2>
           <p>
             Some sections offer a priced button instead: Nansen sells {resources ?? 'most of its'} endpoints per call through x402, paid in USDC on Base or

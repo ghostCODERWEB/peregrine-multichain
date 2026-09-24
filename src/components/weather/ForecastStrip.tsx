@@ -58,7 +58,7 @@ export function ForecastStrip({ forecasts }: { forecasts: ForecastWithProvenance
         const now = f.history.at(-1)?.cpi ?? null;
         const end = f.points.at(-1)?.forecast ?? null;
         return (
-          <div key={f.chain} className="rounded-lg border border-border bg-surface p-2.5">
+          <div key={f.chain} className="glass rounded-xl p-2.5">
             <div className="mb-1 flex items-start justify-between gap-1">
               <Link href={`/chain/${f.chain}`} className="text-[12.5px] font-medium text-ink hover:underline">
                 {chainName(f.chain)}

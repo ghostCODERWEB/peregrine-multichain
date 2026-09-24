@@ -54,7 +54,7 @@ function ModelSection({ id, r, title }: { id: string; r: ModelReport; title: str
       </div>
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
         {tiles.map(([k, v, sub]) => (
-          <div key={k} className="rounded-lg border border-border bg-surface px-3 py-2">
+          <div key={k} className="glass rounded-xl px-3 py-2">
             <div className="text-[11px] text-ink-muted">{k}</div>
             <div className="num text-xl font-semibold text-ink">{v}</div>
             <div className="num text-[11px] text-ink-muted">{sub}</div>
@@ -150,7 +150,7 @@ export default async function LabPage() {
       </div>
 
       {bt && (
-        <section className="rounded-xl border border-border bg-surface p-4">
+        <section className="glass rounded-2xl p-4">
           <h2 className="text-[15px] font-semibold text-ink">Method and limits</h2>
           <ul className="mt-2 list-disc space-y-1 pl-5 text-[13px] text-ink-2">
             {bt.notes.map((n) => <li key={n}>{n}</li>)}

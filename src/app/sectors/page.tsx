@@ -31,7 +31,7 @@ function Tile({ s }: { s: SectorReading }) {
   const cls = pressureClass(s.pressure);
   const share = s.netFlow24hUsd != null && s.volume24hUsd ? s.netFlow24hUsd / s.volume24hUsd : null;
   return (
-    <li id={encodeURIComponent(s.sector)} className="scroll-mt-20 rounded-xl border border-border bg-surface p-3 target:ring-2 target:ring-ring">
+    <li id={encodeURIComponent(s.sector)} className="scroll-mt-20 glass rounded-2xl p-3 target:ring-2 target:ring-ring">
       <div className="flex items-start justify-between gap-2">
         <h3 className="text-[13.5px] font-medium leading-snug text-ink">{s.sector}</h3>
         <span className="num rounded px-1.5 py-0.5 text-[13px] font-semibold" style={{ background: fillVar(cls), color: onFillVar(cls) }} title={`Sector pressure ${num(s.pressure, 1)} of 100`}>

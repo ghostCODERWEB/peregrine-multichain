@@ -75,15 +75,15 @@ export function Omnibox() {
   return (
     <>
       <button ref={trigger} type="button" onClick={() => setOpen(true)} aria-label="Search tokens, wallets, entities, chains and sectors"
-        className="flex items-center gap-2 rounded-md border border-border px-2 py-1 text-[12px] text-ink-muted hover:bg-accent hover:text-ink">
+        className="flex items-center gap-2 rounded-md border border-border px-2 py-1 text-[12px] text-ink-muted hover:bg-accent hover:text-ink lg:w-full lg:rounded-lg lg:bg-background/40 lg:px-2.5 lg:py-2">
         <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" strokeWidth="1.6" /><path d="M11 11l3.5 3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" /></svg>
-        <span className="hidden lg:inline">Search</span>
-        <kbd className="hidden rounded border border-border px-1 text-[10px] lg:inline">⌘K</kbd>
+        <span className="hidden lg:inline">Search tokens, wallets…</span>
+        <kbd className="hidden rounded border border-border px-1 text-[10px] lg:ml-auto lg:inline">⌘K</kbd>
       </button>
 
       {open && (
         <div className="fixed inset-0 z-50 bg-background/70 px-4 pt-[12vh] backdrop-blur-sm" onMouseDown={(e) => { if (e.target === e.currentTarget) close(); }}>
-          <div role="dialog" aria-modal="true" aria-label="Search" className="mx-auto w-full max-w-xl overflow-hidden rounded-xl border border-border bg-surface shadow-2xl">
+          <div role="dialog" aria-modal="true" aria-label="Search" className="glass mx-auto w-full max-w-xl overflow-hidden rounded-2xl shadow-2xl">
             <div className="flex items-center gap-2 border-b border-border px-3">
               <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden className="shrink-0 text-ink-muted"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" strokeWidth="1.6" /><path d="M11 11l3.5 3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" /></svg>
               <input

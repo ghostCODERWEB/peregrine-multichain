@@ -93,25 +93,25 @@
           "website": "https://www.stonkfun.xyz/",
           "x": "LaunchOnSF",
           "telegram": "StonkFunXyz",
-          "market_cap_usd": 261058443.47709104,
-          "fdv_usd": 262503598.081923,
-          "circulating_supply": 823595307.1381447,
-          "total_supply": 823566562.3296868
+          "market_cap_usd": 294247993.2930023,
+          "fdv_usd": 293500660.431626,
+          "circulating_supply": 822070442.6272073,
+          "total_supply": 821673314.4374329
         },
         "spot_metrics": {
-          "volume_total_usd": 69158200.29554072,
-          "buy_volume_usd": 34660563.14721433,
-          "sell_volume_usd": 34497637.14832639,
-          "total_buys": 112450,
-          "total_sells": 110135,
-          "unique_buyers": 9176,
-          "unique_sellers": 13623,
-          "liquidity_usd": 10088434.55780451,
-          "total_holders": 50789
+          "volume_total_usd": 58099134.47439362,
+          "buy_volume_usd": 30245588.695205487,
+          "sell_volume_usd": 27853545.77918813,
+          "total_buys": 101173,
+          "total_sells": 96994,
+          "unique_buyers": 8128,
+          "unique_sellers": 11117,
+          "liquidity_usd": 9000461.253573453,
+          "total_holders": 52372
         }
       }
     },
-    "recordedAt": 1790167560686
+    "recordedAt": 1790213901288
   },
   {
     "requestHash": "8477970807419b95922db6949abc1a94f248558a",
@@ -137,19 +137,19 @@
           "total_supply": 0
         },
         "spot_metrics": {
-          "volume_total_usd": 26179714.373800322,
-          "buy_volume_usd": 9876482.2777249,
-          "sell_volume_usd": 16303232.096075423,
-          "total_buys": 55073,
-          "total_sells": 61582,
-          "unique_buyers": 342,
-          "unique_sellers": 445,
+          "volume_total_usd": 44925035.64192574,
+          "buy_volume_usd": 17528686.100953367,
+          "sell_volume_usd": 27396349.540972374,
+          "total_buys": 104766,
+          "total_sells": 116355,
+          "unique_buyers": 573,
+          "unique_sellers": 638,
           "liquidity_usd": 0,
-          "total_holders": 21014
+          "total_holders": 21134
         }
       }
     },
-    "recordedAt": 1790167562382
+    "recordedAt": 1790213903174
   },
   {
     "requestHash": "5064db18a10749fd4545b1af1f9cd57049e2026b",
@@ -169,25 +169,25 @@
           "website": "https://ponsfamily.com/",
           "x": "ponsdotfamily",
           "telegram": "",
-          "market_cap_usd": 475778028.8793507,
-          "fdv_usd": 478965589.784667,
-          "circulating_supply": 684351012.49385,
-          "total_supply": 684351012.49385
+          "market_cap_usd": 434638204.07555616,
+          "fdv_usd": 434604428.275108,
+          "circulating_supply": 684255815.8814063,
+          "total_supply": 684206813.5685115
         },
         "spot_metrics": {
-          "volume_total_usd": 69116694.87088114,
-          "buy_volume_usd": 35837867.11472784,
-          "sell_volume_usd": 33278827.756153308,
-          "total_buys": 44261,
-          "total_sells": 41935,
-          "unique_buyers": 2525,
-          "unique_sellers": 2984,
-          "liquidity_usd": 22676837.139910962,
-          "total_holders": 52982
+          "volume_total_usd": 60092116.702019855,
+          "buy_volume_usd": 27371872.97374002,
+          "sell_volume_usd": 32720243.72827984,
+          "total_buys": 35931,
+          "total_sells": 38115,
+          "unique_buyers": 1980,
+          "unique_sellers": 2396,
+          "liquidity_usd": 23804886.42160379,
+          "total_holders": 51864
         }
       }
     },
-    "recordedAt": 1790167564441
+    "recordedAt": 1790213922428
   },
   {
     "requestHash": "0c002d3872286086ba2f72fa41dd990ceb2c5e4e",
@@ -207,25 +207,25 @@
           "website": "https://artificialinu.com",
           "x": "artificiallyinu",
           "telegram": "artificially_inu",
-          "market_cap_usd": 258084881.64648485,
-          "fdv_usd": 257897520.965524,
-          "circulating_supply": 991276114.9513733,
-          "total_supply": 991276114.9513733
+          "market_cap_usd": 226224858.15391627,
+          "fdv_usd": 225757758.50149,
+          "circulating_supply": 991273455.9741277,
+          "total_supply": 991273455.9741277
         },
         "spot_metrics": {
-          "volume_total_usd": 11450455.343288202,
-          "buy_volume_usd": 5946260.165641899,
-          "sell_volume_usd": 5504195.177646303,
-          "total_buys": 2954,
-          "total_sells": 3005,
-          "unique_buyers": 1266,
-          "unique_sellers": 1517,
-          "liquidity_usd": 22382888.206848104,
-          "total_holders": 28980
+          "volume_total_usd": 6538389.812199888,
+          "buy_volume_usd": 2870943.7705516173,
+          "sell_volume_usd": 3667446.0416482706,
+          "total_buys": 2315,
+          "total_sells": 2529,
+          "unique_buyers": 824,
+          "unique_sellers": 983,
+          "liquidity_usd": 21672193.417443503,
+          "total_holders": 28403
         }
       }
     },
-    "recordedAt": 1790167566354
+    "recordedAt": 1790213928980
   },
   {
     "requestHash": "34f3533b2ba2d7199b00fd53c15d7777b6a68da8",
@@ -416,5 +416,81 @@
       }
     },
     "recordedAt": 1790200805535
+  },
+  {
+    "requestHash": "4ed8c574950918821c004487d37b0d7100eebe03",
+    "request": {
+      "chain": "solana",
+      "token_address": "HTmQz7My6MehV7bjhJ6jde8nDND1yvsz68d24LP7YgUQ",
+      "timeframe": "1d"
+    },
+    "response": {
+      "data": {
+        "name": "RuneScape Gold",
+        "symbol": "GP",
+        "contract_address": "HTmQz7My6MehV7bjhJ6jde8nDND1yvsz68d24LP7YgUQ",
+        "logo": "https://assets.geckoterminal.com/impmw9hk7z0qugxrb6xt64joe6t9",
+        "token_details": {
+          "token_deployment_date": "2026-09-08 01:36:28",
+          "website": "",
+          "x": "",
+          "telegram": "",
+          "market_cap_usd": 24194824.218991544,
+          "fdv_usd": 22828538.6254492,
+          "circulating_supply": 1000000000.0000005,
+          "total_supply": 1000000000.0000005
+        },
+        "spot_metrics": {
+          "volume_total_usd": 9233773.088596754,
+          "buy_volume_usd": 4251051.781472421,
+          "sell_volume_usd": 4982721.307124333,
+          "total_buys": 43943,
+          "total_sells": 41747,
+          "unique_buyers": 8114,
+          "unique_sellers": 10847,
+          "liquidity_usd": 2115273.658255509,
+          "total_holders": 12155
+        }
+      }
+    },
+    "recordedAt": 1790213916915
+  },
+  {
+    "requestHash": "0ad5fac14b189359cb7dbdeeda5567199a639083",
+    "request": {
+      "chain": "solana",
+      "token_address": "XsoCS1TfEyfFhfvj8EtZ528L3CaKBDBRqRapnBbDF2W",
+      "timeframe": "1d"
+    },
+    "response": {
+      "data": {
+        "name": "SP500 xStock",
+        "symbol": "SPYX",
+        "contract_address": "XsoCS1TfEyfFhfvj8EtZ528L3CaKBDBRqRapnBbDF2W",
+        "logo": "https://coin-images.coingecko.com/coins/images/66695/small/Ticker_SPX__Company_Name_SP500__size_200x200_2x.png?1750266819",
+        "token_details": {
+          "token_deployment_date": "2025-06-11 09:41:51",
+          "website": "",
+          "x": "",
+          "telegram": "",
+          "market_cap_usd": 67078688.939281486,
+          "fdv_usd": 73830377.871595,
+          "circulating_supply": 86844.3535111013,
+          "total_supply": 269051.4927305771
+        },
+        "spot_metrics": {
+          "volume_total_usd": 7772513.543747481,
+          "buy_volume_usd": 3039950.2554417457,
+          "sell_volume_usd": 4732563.288305735,
+          "total_buys": 21418,
+          "total_sells": 28522,
+          "unique_buyers": 832,
+          "unique_sellers": 2035,
+          "liquidity_usd": 6928869.330259037,
+          "total_holders": 18407
+        }
+      }
+    },
+    "recordedAt": 1790213924058
   }
 ]

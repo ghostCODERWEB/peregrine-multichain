@@ -52,7 +52,7 @@ export default async function CoveragePage() {
           ['Scanner runs', u.scans.runs.toLocaleString('en-US'), `${num(u.scans.runs ? u.scans.credits / u.scans.runs : null, 0)} credits per run`],
           ['Counting since', u.since ? new Date(u.since).toISOString().slice(0, 10) : '—', 'first call in the ledger'],
         ].map(([k, v, sub]) => (
-          <div key={k} className="rounded-lg border border-border bg-surface px-3 py-2">
+          <div key={k} className="glass rounded-xl px-3 py-2">
             <div className="text-[11px] text-ink-muted">{k}</div>
             <div className="num text-xl font-semibold text-ink">{v}</div>
             <div className="text-[11px] text-ink-muted">{sub}</div>

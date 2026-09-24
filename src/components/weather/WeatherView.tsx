@@ -60,7 +60,7 @@ export function WeatherView({ initial, anchor }: { initial: WeatherBulletin; anc
             ))}
           </div>
         </div>
-        <div className="rounded-xl border border-border bg-surface p-4">
+        <div className="glass rounded-2xl p-4">
           {view === 'map' ? (
             <HexMap chains={data.chains} fronts={data.fronts} selectedFront={selected} onSelectFront={setSelected} />
           ) : (
@@ -72,7 +72,7 @@ export function WeatherView({ initial, anchor }: { initial: WeatherBulletin; anc
         </div>
       </section>
 
-      <section aria-labelledby="anchor-title" className="rounded-xl border border-border bg-surface p-4">
+      <section aria-labelledby="anchor-title" className="glass rounded-2xl p-4">
         <h2 id="anchor-title" className="mb-2 text-base font-semibold text-ink">The weather report, read by Nansen&apos;s own agent</h2>
         <AnchorCard query="kind=bulletin" initial={anchor} label="Nansen's agent reads the pressure extremes, rotation fronts, storm warnings and forecasts above and writes four sentences." />
       </section>
@@ -89,7 +89,7 @@ export function WeatherView({ initial, anchor }: { initial: WeatherBulletin; anc
         <StormTicker storms={data.storms} />
       </section>
 
-      <section aria-labelledby="fronts-title" className="rounded-xl border border-border bg-surface p-4">
+      <section aria-labelledby="fronts-title" className="glass rounded-2xl p-4">
         <h2 id="fronts-title" className="text-base font-semibold text-ink">{data.withheld.includes('fronts') ? 'Rotation fronts: key-owner view only' : frontsHeadline(data.fronts)}</h2>
         <p className="mb-2 mt-1 text-sm text-ink-2">
           Rotation fronts: the same wallet sold risk on one chain and bought risk on another within 12 hours. Measured from

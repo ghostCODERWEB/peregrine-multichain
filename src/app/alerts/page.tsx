@@ -13,7 +13,7 @@ export default function AlertsPage() {
           Only alerts TIDE created are listed here; your other Nansen alerts are untouched.
         </p>
       </div>
-      <section className="rounded-xl border border-border bg-surface p-4"><AlertsList /></section>
+      <section className="glass rounded-2xl p-4"><AlertsList /></section>
     </div>
   );
 }
