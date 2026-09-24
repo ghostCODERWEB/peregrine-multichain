@@ -30,7 +30,7 @@ export async function SiteHeader() {
     : 'Public view: smart-money trades, holdings and labels are withheld per Nansen’s redistribution rules.';
 
   return (
-    <header className="glass fixed inset-x-0 top-0 z-40 flex h-14 items-center gap-2 rounded-none border-x-0 border-t-0 px-3
+    <header className="glass glass-strong fixed inset-x-0 top-0 z-40 flex h-14 items-center gap-2 rounded-none border-x-0 border-t-0 px-3
       lg:inset-y-3 lg:left-3 lg:right-auto lg:h-auto lg:w-[232px] lg:flex-col lg:items-stretch lg:gap-0 lg:rounded-2xl lg:border lg:p-3">
       <Link href="/" className="flex items-center gap-2.5 lg:px-1 lg:pb-3 lg:pt-1" aria-label="TIDE home">
         <BrandMark />

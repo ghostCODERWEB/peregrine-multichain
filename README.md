@@ -3,6 +3,8 @@
 
 **TIDE turns the Nansen API into a live weather map of capital across all 38 chains it lists:** pressure systems where smart money piles in, *fronts* where the same wallets rotate between chains, *storm warnings* on tokens likely to dump, and forecasts that publish their own accuracy. An AI anchor built on Nansen's own agent reads the forecast, and storm warnings become Nansen Smart Alerts that keep watching after the tab closes.
 
+The interface uses a restrained **Web3 Liquid Glass** system: one shared mint/violet light field, layered navigation material and tactile controls, with stable data panels and automatic reduced-motion/transparency fallbacks. See the [V6 design note](docs/modules/V6.md).
+
 ![The weather map: 38 chains colored by smart-money pressure, with rotation fronts between them](docs/img/map.png)
 
 - **The only data source is the Nansen API.** No RPC, no price feeds, no explorers. Even the narration is Nansen's `agent/fast`. A CI guard (`pnpm assert-nansen-only`) fails if any other host appears in `src/`.
