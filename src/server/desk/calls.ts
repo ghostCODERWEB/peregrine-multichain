@@ -12,6 +12,7 @@ import type { RequestContext } from '@/server/context';
 import { addressKey } from '@/lib/address-family';
 import { HORIZONS, gradeCall, invalidationProblem, traderDna, type Grade, type Horizon, type Setup, type Stance } from '@/lib/models/calls';
 import type { TokenOHLCVResponse } from '@/types/nansen/api.gen';
+import { closedBy } from '@/lib/models/replay';
 
 export const DESK_COOKIE = 'tide_desk';
 export const MAX_OPEN = 50;
@@ -20,7 +21,7 @@ const GRADE_DELAY = 10 * 60_000; // let the last candles land
 
 export interface Receipt { endpoint: string; body: unknown; at: number; served: 'live' | 'cache' | 'recorded'; credits: number; excerpt: string }
 export interface GaugeSnapshot { direction: number | null; confidence: number | null; coordination: number | null }
-export interface CallContext { storm: { score: number; band: string } | null; chainCpi: number | null; chainSource: string | null; gauges?: GaugeSnapshot | null }
+export interface CallContext { storm: { score: number; band: string } | null; chainCpi: number | null; chainSource: string | null; gauges?: GaugeSnapshot | null; replayAt?: number }
 export interface CallCard {
   id: number; source: 'live' | 'replay'; chain: string; token: string; symbol: string | null;
   stance: Stance; horizon: Horizon; setup: Setup; thesis: string | null;
@@ -39,7 +40,7 @@ export function deskScope(ctx: RequestContext, deskId: string | null): string | 
 
 type Row = Record<string, unknown>;
 const json = <T,>(v: unknown): T | null => { try { return typeof v === 'string' ? JSON.parse(v) as T : null; } catch { return null; } };
-const toCard = (r: Row): CallCard => ({
+export const toCard = (r: Row): CallCard => ({
   id: r.id as number, source: r.source as CallCard['source'], chain: r.chain as string, token: r.token as string, symbol: (r.symbol as string | null) ?? null,
   stance: r.stance as Stance, horizon: r.horizon as Horizon, setup: r.setup as Setup, thesis: (r.thesis as string | null) ?? null,
   entry: r.entry_price as number, entryAt: r.entry_at as number, invalidation: (r.invalidation as number | null) ?? null, createdAt: r.created_at as number, dueAt: r.due_at as number,
@@ -48,11 +49,11 @@ const toCard = (r: Row): CallCard => ({
   gradeReceipt: json<Receipt>(r.grade_receipt), gradeDetail: json<CallCard['gradeDetail']>(r.grade_detail), gradeNote: (r.grade_note as string | null) ?? null,
 });
 
-const candlesOf = (d: TokenOHLCVResponse | undefined) => (d?.data ?? [])
+export const candlesOf = (d: TokenOHLCVResponse | undefined) => (d?.data ?? [])
   .filter((x) => x.close != null && x.close > 0)
   .map((x) => ({ t: Date.parse(x.interval_start), c: x.close! }))
   .filter((x) => Number.isFinite(x.t)).sort((a, b) => a.t - b.t);
-const served = (cacheHit: boolean): Receipt['served'] => (fixtureMode() === 'replay' ? 'recorded' : cacheHit ? 'cache' : 'live');
+export const served = (cacheHit: boolean): Receipt['served'] => (fixtureMode() === 'replay' ? 'recorded' : cacheHit ? 'cache' : 'live');
 
 /** The latest close, from the same request the token page's price chart makes
  *  (so it is usually already cached and costs nothing). */
@@ -107,7 +108,8 @@ export async function gradeDue(scope: string, now = Date.now(), max = 6): Promis
     const body = { chain: c.chain, token_address: c.token, timeframe: hz.timeframe, date_range: { start: new Date(c.createdAt).toISOString(), end: new Date(c.dueAt).toISOString() } };
     try {
       const res = await callNansen<TokenOHLCVResponse>('tgm/token-ohlcv', body);
-      const g = gradeCall({ stance: c.stance, entry: c.entry, invalidation: c.invalidation, createdAt: c.createdAt, dueAt: c.dueAt, band: hz.band }, candlesOf(res.data));
+      const tfMs = c.horizon === '1h' ? 300_000 : c.horizon === '24h' ? 3_600_000 : 4 * 3_600_000;
+      const g = gradeCall({ stance: c.stance, entry: c.entry, invalidation: c.invalidation, createdAt: c.createdAt, dueAt: c.dueAt, band: hz.band }, closedBy(candlesOf(res.data), c.dueAt, tfMs));
       if (!g) { db.prepare('UPDATE calls SET grade_note = ? WHERE id = ?').run(`Nansen returned no ${hz.timeframe} candles for this window yet (checked ${new Date(now).toISOString()}).`, c.id); continue; }
       const receipt: Receipt = { endpoint: 'tgm/token-ohlcv', body, at: now, served: served(res.meta.cacheHit), credits: res.meta.cacheHit ? 0 : res.meta.creditsCost, excerpt: `${g.candles} ${hz.timeframe} closes; last ${g.exit} at ${new Date(g.exitAt).toISOString()}${g.invalidatedAt ? `; invalidation crossed at ${new Date(g.invalidatedAt).toISOString()}` : ''}${res.data.truncated ? ' (Nansen truncated the window)' : ''}` };
       db.prepare('UPDATE calls SET grade = ?, exit_price = ?, ret = ?, graded_at = ?, grade_receipt = ?, grade_detail = ?, grade_note = NULL WHERE id = ?')

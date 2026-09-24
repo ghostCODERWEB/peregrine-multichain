@@ -65,6 +65,7 @@ export function CallForm({ chain, token, symbol, price, gauges }: { chain: strin
       </div>
       {err && <p className="text-ink">{err}</p>}
       <p className="text-[11.5px] text-ink-muted">{GRADE_RULES} Not financial advice.</p>
+      <Link href={`/replay/${chain}/${encodeURIComponent(token)}`} className="inline-block text-sm text-ink underline underline-offset-4">Practice in the Time Machine →</Link>
     </div>
   );
 }

@@ -62,6 +62,14 @@ describe('call cards (L1)', () => {
     await gradeDue('owner');
     expect(listCalls('owner')[0]).toMatchObject({ grade: null, gradeNote: expect.stringContaining('503') });
   });
+  it('does not grade from a candle whose close occurs after the exact deadline', async () => {
+    const t0 = Date.now() - 3 * 3_600_000;
+    vi.mocked(callNansen).mockResolvedValueOnce(candles([t0 - 1000, 100]) as never);
+    const c = await createCall('owner', owner, { ...call, horizon: '1h', invalidation: null }, t0);
+    vi.mocked(callNansen).mockResolvedValueOnce(candles([t0 + 300_000, 101], [c.dueAt - 60_000, 500]) as never);
+    await gradeDue('owner');
+    expect(listCalls('owner')[0]).toMatchObject({ exit: 101, gradeDetail: { candles: 1 } });
+  });
   it('the route gives a public visitor an httpOnly desk cookie, and refuses cross-site or malformed calls', async () => {
     vi.mocked(callNansen).mockResolvedValue(candles([Date.now() - 1000, 0.72]) as never);
     expect((await POST(req('POST', { action: 'create', ...call }, undefined, 'https://elsewhere.invalid'))).status).toBe(403);

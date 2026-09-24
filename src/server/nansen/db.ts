@@ -332,6 +332,14 @@ const MIGRATIONS: string[] = [
   CREATE INDEX idx_calls_scope ON calls(scope, created_at);
   CREATE INDEX idx_calls_due ON calls(scope, grade, due_at);
   `,
+  // 19: server-held replay outcomes. Only a scoped, immutable decision unlocks them.
+  `
+  CREATE TABLE replay_sessions (
+    id TEXT PRIMARY KEY, scope TEXT NOT NULL, view TEXT NOT NULL,
+    prepared_at INTEGER NOT NULL, payload TEXT NOT NULL, call_id INTEGER REFERENCES calls(id)
+  );
+  CREATE INDEX idx_replay_scope ON replay_sessions(scope, prepared_at);
+  `,
 ];
 
 export function audit(userId: number | null, action: string, detail?: string): void {

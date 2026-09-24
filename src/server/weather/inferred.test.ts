@@ -30,7 +30,7 @@ describe('private funding evidence', () => {
     const req = (body: unknown, origin?: string) => new Request('http://localhost/api/weather/inferred', { method: 'POST', headers: { 'content-type': 'application/json', ...(origin ? { origin } : {}) }, body: JSON.stringify(body) });
     expect((await POST(req({ confirmCredits: 12 }))).status).toBe(403);
     vi.stubEnv('TIDE_DISPLAY_MODE', 'private');
-    expect((await POST(req({ confirmCredits: 12 }, 'https://elsewhere.invalid'))).status).toBe(403);
+    expect((await POST(req({ confirmCredits: 12 }, 'http://localhost:9999'))).status).toBe(403);
     expect((await POST(req({ confirmCredits: 1 }))).status).toBe(428);
     expect(callNansen).not.toHaveBeenCalled();
   });

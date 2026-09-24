@@ -43,6 +43,7 @@ function CallRow({ c, now }: { c: CallCard; now: number | null }) {
         {c.grade && c.gradeReceipt && <span>exit {fmtPrice(c.exit)} <InfoPopover p={receiptProvenance('Grade', c.gradeReceipt, [GRADE_RULES])} /></span>}
         {c.gradeDetail && c.stance !== 'pass' && <span>best {pctS(c.gradeDetail.best)} · worst {pctS(c.gradeDetail.worst)} your way</span>}
         {c.context?.storm && <span>at the call: Storm {c.context.storm.score} {c.context.storm.band}</span>}
+        {c.context?.replayAt != null && <span>replayed cutoff {utc(c.context.replayAt)}</span>}
         {c.context?.chainCpi != null && <span>{chainName(c.chain)} pressure {c.context.chainCpi}</span>}
         {c.context?.gauges && c.context.gauges.direction != null && <span>gauges then: direction {c.context.gauges.direction > 0 ? '+' : c.context.gauges.direction < 0 ? '−' : ''}{Math.abs(c.context.gauges.direction)} · confidence {c.context.gauges.confidence ?? '—'} · coordination {c.context.gauges.coordination ?? '—'}</span>}
       </div>
@@ -107,7 +108,7 @@ export function DeskView({ initial }: { initial: DeskData }) {
       <section className={card} aria-labelledby="dna">
         <h2 id="dna" className="text-[15px] font-semibold text-ink">Trader DNA: {graded.length ? `${graded.length} graded call${graded.length === 1 ? '' : 's'}` : 'nothing graded yet'}</h2>
         <p className="mt-1 text-[12px] text-ink-muted">Hit rate counts decisive outcomes only (won ÷ won + lost + invalidated). Fewer than 10 is an anecdote, not a record.</p>
-        {graded.length > 0 && <div className="mt-3 space-y-4"><Dna title="Setup" rows={data.dna.bySetup} /><Dna title="Horizon" rows={data.dna.byHorizon} />{data.dna.bySource.length > 1 && <Dna title="Source" rows={data.dna.bySource} />}</div>}
+        {graded.length > 0 && <div className="mt-3 space-y-4"><Dna title="Setup" rows={data.dna.bySetup} /><Dna title="Horizon" rows={data.dna.byHorizon} /><Dna title="Source" rows={data.dna.bySource} /></div>}
       </section>
       <section className={card} aria-labelledby="open-calls">
         <h2 id="open-calls" className="text-[15px] font-semibold text-ink">Open calls ({open.length})</h2>

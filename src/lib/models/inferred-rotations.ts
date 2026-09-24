@@ -30,6 +30,8 @@ export function inferRotations(trades: Trade[], links: FundingLink[], now: numbe
   const since = now - 24 * 3_600_000;
   const clean = trades.filter((t) => Number.isFinite(t.usdValue) && t.usdValue > 0 && t.timestamp >= since - WINDOW && t.timestamp <= now);
   const eligible = links.filter((e) => Number.isFinite(e.at) && e.at <= now && !!e.transactionHash && identity(e.child) !== identity(e.funder));
+  if (!eligible.length) return [];
+  const linked = new Set(eligible.flatMap((e) => [identity(e.child), identity(e.funder)]));
   const parent = new Map<string, string>();
   const root = (x: string): string => { const p = parent.get(x); return p && p !== x ? root(p) : x; };
   for (const e of eligible) {
@@ -37,11 +39,11 @@ export function inferRotations(trades: Trade[], links: FundingLink[], now: numbe
     if (a !== b) parent.set(b, a);
   }
   const byIdentity = new Map<string, Trade[]>();
-  for (const t of clean) { const k = identity(ref(t)); byIdentity.set(k, [...(byIdentity.get(k) ?? []), t]); }
+  for (const t of clean) { const k = identity(ref(t)); if (!linked.has(k)) continue; const ts = byIdentity.get(k) ?? []; ts.push(t); byIdentity.set(k, ts); }
   // Conservatively exclude all recent activity by a wallet with an observed
   // same-wallet rotation, so observed and inferred fronts never reuse it.
   const observed = new Set([...byIdentity].filter(([, ts]) => matchWalletRotations(ts).some((m) => m.buyAt >= since)).map(([k]) => k));
-  const available = clean.filter((t) => !observed.has(identity(ref(t))));
+  const available = clean.filter((t) => linked.has(identity(ref(t))) && !observed.has(identity(ref(t))));
   const used = new Set<Trade>();
   const matches: InferredMatch[] = [];
   for (const sell of available.filter((t) => t.side === 'sell').sort((a, b) => a.timestamp - b.timestamp)) {
