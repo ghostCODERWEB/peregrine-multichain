@@ -43,12 +43,14 @@ test('chain page: Tier A with every module, and an unsupported chain says so', a
 
 test('token page: waves stream in and the Storm Score lands @mobile', async ({ page }) => {
   const w = await watch(page);
-  await page.goto(TOKEN);
+  await page.goto(`${TOKEN}?view=all`);
   await expect(page.getByRole('heading', { name: /Storm Score: \d+ of 100/ })).toBeVisible({ timeout: 60_000 });
   await expect(page.locator('svg[aria-label^="Wind rose"]')).toBeVisible();
   await expect(page.locator('svg[aria-label^="Wind rose"] path')).toHaveCount(24); // 6 segments × 4 windows
   await expect(page.locator('#odds')).toBeVisible();
-  await expect(page.getByText(/this page: \d+ Nansen calls/)).toBeVisible({ timeout: 60_000 });
+  await expect(page.getByText(/This page: \d+ Nansen calls/)).toBeVisible({ timeout: 60_000 });
+  // The hero carries the Storm ring once the score lands.
+  await expect(page.getByRole('region', { name: /Storm/ }).first().getByRole('img', { name: /^Storm Score \d+ of 100$/ })).toBeVisible();
   // The terminal (M2): tape, transfer river, social pulse; owner-only
   // sections say why they are withheld in the public demo.
   await expect(page.getByRole('heading', { name: /buyers vs \d+ sellers in the latest \d+ trades/ })).toBeVisible();
@@ -56,12 +58,34 @@ test('token page: waves stream in and the Storm Score lands @mobile', async ({ p
   await expect(page.getByRole('heading', { name: /Social heat \d+|Social pulse/ })).toBeVisible();
   await expect(page.locator('section[aria-labelledby="pnlboard"]')).toContainText('Nansen does not allow its PnL leaderboard in public views');
   await expect(page.getByText(/Storm v2 candidates/)).toBeVisible();
+  // V3 visuals: the holder sphere, cohort bars and the liquidation ladder
+  // (or Nansen's plain reason there is none).
+  await expect(page.locator('svg[aria-label^="Holder constellation"]')).toBeVisible();
+  await expect(page.getByRole('list', { name: /Net flow by segment, 1d/ })).toBeVisible();
+  await expect(page.locator('section[aria-labelledby="leverage"]')).toContainText(/Mark|No open Hyperliquid perp positions|No recorded fixture|not available/);
+  await w.noOverflow();
+  expect(w.errors).toEqual([]);
+});
+
+test('token views: tabs switch the layout and keep it in the URL', async ({ page }) => {
+  const w = await watch(page);
+  await page.goto(TOKEN);
+  await expect(page.getByRole('tab', { name: 'Overview' })).toHaveAttribute('aria-selected', 'true');
+  await expect(page.locator('#sphere')).toBeVisible({ timeout: 60_000 });
+  await expect(page.locator('#tape')).toHaveCount(0);
+  await page.getByRole('tab', { name: 'Terminal' }).click();
+  await expect(page).toHaveURL(/view=terminal/);
+  await expect(page.locator('#tape')).toBeVisible();
+  await expect(page.locator('#sphere')).toHaveCount(0);
+  await page.getByRole('tab', { name: 'Leverage' }).click();
+  await expect(page.locator('#leverage')).toBeVisible();
+  await expect(page.locator('#positions')).toBeVisible();
   await w.noOverflow();
   expect(w.errors).toEqual([]);
 });
 
 test('token terminal: a trade opens its transaction; news loads on request', async ({ page }) => {
-  await page.goto(TOKEN);
+  await page.goto(`${TOKEN}?view=terminal`);
   const firstTrade = page.locator('section[aria-labelledby="tape"] tbody tr').first();
   await expect(firstTrade).toBeVisible({ timeout: 60_000 });
   await firstTrade.click();

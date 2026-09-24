@@ -180,7 +180,7 @@
       "realized_pnl_percent": 0,
       "win_rate": 0
     },
-    "recordedAt": 1790214950877
+    "recordedAt": 1790215851401
   },
   {
     "requestHash": "aaec1d1b9edb21629ee922a8cef8b44f5321c046",
@@ -208,7 +208,7 @@
         },
         {
           "realized_pnl": 692.8409710223538,
-          "realized_roi": 0.8255000499933979,
+          "realized_roi": 0.8255000499933977,
           "token_address": "0xf125ae348b5413f0aba6cd0c730dbd18c4e23d4e",
           "token_symbol": "HBM",
           "chain": "robinhood"
@@ -221,8 +221,8 @@
           "chain": "polygon"
         },
         {
-          "realized_pnl": 354.5408251691957,
-          "realized_roi": 0.30823111890470456,
+          "realized_pnl": 354.5408251691958,
+          "realized_roi": 0.3082311189047045,
           "token_address": "0xc7dcca0a3e69bd762c8db257f868f76be36c8514",
           "token_symbol": "KIBSHI",
           "chain": "base"
@@ -237,10 +237,10 @@
       ],
       "traded_token_count": 288,
       "traded_times": 1116,
-      "realized_pnl_usd": 134086.5244391872,
-      "realized_pnl_percent": 5.062412201821906,
+      "realized_pnl_usd": 134086.52443918725,
+      "realized_pnl_percent": 5.062412201821908,
       "win_rate": 0.3888888888888889
     },
-    "recordedAt": 1790214957700
+    "recordedAt": 1790215854833
   }
 ]

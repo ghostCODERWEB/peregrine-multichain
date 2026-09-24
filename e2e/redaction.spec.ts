@@ -88,8 +88,9 @@ test('chain page: all-trader flows, trade tape and sectors withheld', async ({ p
 });
 
 test('token page: every wave arrives with labels stripped', async ({ page }) => {
-  await page.goto('/token/base/0x9b5e262cf9bb04869ab40b19af91d2dc85761722');
-  await expect(page.getByText(/this page: \d+ Nansen calls/)).toBeVisible({ timeout: 90_000 });
+  // Every card on one view, so every wave is on the page.
+  await page.goto('/token/base/0x9b5e262cf9bb04869ab40b19af91d2dc85761722?view=all');
+  await expect(page.getByText(/This page: \d+ Nansen calls/)).toBeVisible({ timeout: 90_000 });
   assertClean('/token/base/NOCK', await page.content());
 });
 

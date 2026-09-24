@@ -492,5 +492,43 @@
       }
     },
     "recordedAt": 1790213924058
+  },
+  {
+    "requestHash": "da46f9ca415c3af5694731cf2d375ebc70e49675",
+    "request": {
+      "chain": "base",
+      "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+      "timeframe": "1d"
+    },
+    "response": {
+      "data": {
+        "name": "Virtual Protocol",
+        "symbol": "VIRTUAL",
+        "contract_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+        "logo": "https://coin-images.coingecko.com/coins/images/34057/small/LOGOMARK.png?1708356054",
+        "token_details": {
+          "token_deployment_date": "2024-03-14 13:36:05",
+          "website": "",
+          "x": "",
+          "telegram": "",
+          "market_cap_usd": 461371852.4966902,
+          "fdv_usd": 348548384.612365,
+          "circulating_supply": 658385841.8252224,
+          "total_supply": 1000000000
+        },
+        "spot_metrics": {
+          "volume_total_usd": 14520755.119925603,
+          "buy_volume_usd": 7031874.9555616975,
+          "sell_volume_usd": 7488880.164363905,
+          "total_buys": 37773,
+          "total_sells": 39659,
+          "unique_buyers": 1051,
+          "unique_sellers": 1150,
+          "liquidity_usd": 24901709.829590693,
+          "total_holders": 105616
+        }
+      }
+    },
+    "recordedAt": 1790215536118
   }
 ]

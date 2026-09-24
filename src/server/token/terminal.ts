@@ -14,6 +14,8 @@ import {
 import type { Provenance } from '@/lib/provenance';
 import type { TGMDexTradesResponse, TGMTransfersResponse, TGMJupDcaResponse, TGMPositionIntelligenceResponse, TGMPnlLeaderboardResponse } from '@/types/nansen/api.gen';
 import type { RaPostsResponse } from '@/types/nansen/extra';
+import type { TGMPerpPositionsResponse } from '@/types/nansen/api.gen';
+import { liquidationLadder, parseLeverage, type Ladder } from '@/lib/models/liquidation';
 import { usd, num, pct, chainName } from '@/lib/viz/format';
 
 // ------------------------------------------------------------- live tape
@@ -309,6 +311,61 @@ export async function pnlBoardWave(chain: string, token: string): Promise<Wave<P
         inputs: [{ label: 'Top trader', value: `${usd(rows[0].pnlUsd, { signed: true })} over ${rows[0].trades ?? '?'} trades` }],
         calls: [r.call],
         notes: ['Owner’s and members’ view only: Nansen does not allow this leaderboard in public views.'],
+      },
+    };
+  } catch (e) {
+    return { unavailable: errText(e) };
+  }
+}
+
+// ------------------------------------------------ liquidation ladder (all)
+
+export interface LeverageWave {
+  symbol: string;
+  ladder: Ladder;
+  top: Array<{ address: string; label: string | null; side: 'long' | 'short'; valueUsd: number; leverage: number | null; entry: number | null; liquidation: number | null; upnlUsd: number | null }>;
+  provenance: Provenance;
+}
+
+/**
+ * The Hyperliquid perp that shares the token's symbol: its 100 largest open
+ * positions (all traders, no smart-money filter, so public-class data) and
+ * where they are forced out. 5 credits, cached 10 minutes.
+ */
+export async function leverageWave(symbol: string | null): Promise<Wave<LeverageWave>> {
+  if (!symbol) return { unavailable: 'Perp positions are looked up by symbol, and Nansen returned none for this token.' };
+  const body = { token_symbol: symbol, label_type: 'all_traders', pagination: { page: 1, per_page: 100 }, order_by: [{ field: 'position_value_usd', direction: 'DESC' }] };
+  try {
+    const r = await traced<TGMPerpPositionsResponse>('tgm/perp-positions', body, 5, { publicSafe: true });
+    const rows = r.data.data.filter((x) => (x.position_value_usd ?? 0) > 0);
+    if (!rows.length) return { unavailable: `No open Hyperliquid perp positions in ${symbol}.` };
+    const marks = rows.map((x) => x.mark_price).filter((m): m is number => m != null && m > 0).sort((a, b) => a - b);
+    const mark = marks[Math.floor(marks.length / 2)] ?? 0;
+    const positions = rows.map((x) => ({
+      side: (String(x.side ?? '').toLowerCase().startsWith('s') ? 'short' : 'long') as 'long' | 'short',
+      valueUsd: x.position_value_usd ?? 0, liquidationPrice: x.liquidation_price ?? null, leverage: parseLeverage(x.leverage),
+    }));
+    const ladder = liquidationLadder(positions, mark);
+    if (!ladder) return { unavailable: `Nansen returned no mark price for the ${symbol} perp.` };
+    const d = ladder.densest;
+    return {
+      symbol, ladder,
+      top: rows.slice(0, 12).map((x, i) => ({ address: x.address ?? '', label: x.address_label ?? null, side: positions[i].side, valueUsd: positions[i].valueUsd, leverage: positions[i].leverage, entry: x.entry_price ?? null, liquidation: x.liquidation_price ?? null, upnlUsd: x.upnl_usd ?? null })),
+      provenance: {
+        title: `Liquidation ladder, ${symbol} perp (Hyperliquid)`,
+        formula: 'per open position: distance = liquidation price ÷ mark − 1\nlongs liquidate below the mark (forced sells), shorts above (forced buys)\nband notional = Σ position value liquidating inside the band',
+        inputs: [
+          { label: 'Mark', value: num(mark, mark < 1 ? 5 : 2) },
+          { label: 'Open long · short (top 100)', value: `${usd(ladder.longUsd)} · ${usd(ladder.shortUsd)}` },
+          { label: 'Within 10% of the mark', value: `${usd(ladder.near.longUsd)} long · ${usd(ladder.near.shortUsd)} short` },
+          { label: 'Densest band', value: d && d.usd > 0 ? `${usd(d.usd)} of ${d.side}s at ${pct(d.outer, 0)}` : '—' },
+          { label: 'Average leverage', value: ladder.avgLeverage != null ? `${num(ladder.avgLeverage, 1)}×` : '—' },
+        ],
+        calls: [r.call],
+        notes: [
+          'The 100 largest open positions, all traders (no smart-money filter). Smaller positions add to every band but are not counted here.',
+          ...(ladder.unpriced ? [`${ladder.unpriced} positions have no liquidation price on the right side of the mark (fully collateralized, or already being unwound).`] : []),
+        ],
       },
     };
   } catch (e) {

@@ -5,7 +5,7 @@
 import { ALL_CHAIN_IDS, chainCapability } from '@/lib/registry';
 import { headerWave, marketWave, windWave, holdersWave, forensicsWave, isUnavailable, type Wave, type ForensicsWave } from '@/server/token/waves';
 import { computeStorm, saveStorm, stormCandidates } from '@/server/token/storm';
-import { tapeWave, riverWave, socialWave, dcaWave, positionsWave, pnlBoardWave } from '@/server/token/terminal';
+import { tapeWave, riverWave, socialWave, dcaWave, positionsWave, pnlBoardWave, leverageWave } from '@/server/token/terminal';
 import { forecastWave } from '@/server/token/forecast';
 import { callScope, type CallTally } from '@/server/nansen/client';
 import { contextFromRequest, contextScope } from '@/server/context';
@@ -60,6 +60,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ chain: s
           const [social, dca] = await Promise.all([
             socialWave(symbol).then((w) => { send('social', w); return w; }),
             dcaWave(chain, token, volume).then((w) => { send('dca', w); return w; }),
+            leverageWave(symbol).then((w) => { send('leverage', w); return w; }),
             priv ? positionsWave(symbol).then((w) => { send('positions', w); return w; }) : Promise.resolve(null),
             priv ? pnlBoardWave(chain, token).then((w) => { send('pnlboard', w); return w; }) : Promise.resolve(null),
           ]);

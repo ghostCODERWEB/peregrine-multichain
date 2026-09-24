@@ -172,6 +172,11 @@ export interface CallOptions {
    *  as a compact export instead), and recording every scan's thousand-row
    *  pages grew the fixture files by ~5 MB per run. */
   record?: boolean;
+  /** The caller vouches this response is public-class data even though the
+   *  endpoint's class is restricted (e.g. tgm/perp-positions for all
+   *  traders, without a smart-money filter): it may be recorded as a
+   *  fixture, labels still stripped. */
+  publicSafe?: boolean;
 }
 
 /** Per-request tally: run a page's work inside `callScope.run(tally, fn)`
@@ -235,7 +240,7 @@ export async function callNansen<T>(
   if (schema) schema.parse(result.data);
 
   if (!skipCache) writeCache(endpoint, body, result.data, scope);
-  if (record) recordFixture(endpoint, body, result.data);
+  if (record) recordFixture(endpoint, body, result.data, options.publicSafe ?? false);
   recordCall(endpoint, result.meta.creditsCost, false, caller.userId);
   const tally = callScope.getStore();
   if (tally) { tally.calls++; tally.credits += result.meta.creditsCost; }

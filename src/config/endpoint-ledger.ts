@@ -43,7 +43,7 @@ export const LEDGER: LedgerEntry[] = [
   e('POST /api/v1/perp-leaderboard', 'prohibited', { planned: 'M5' }),
   e('POST /api/v1/perp-screener', 'attribution', { planned: 'M5' }),
   e('POST /api/v1/tgm/perp-pnl-leaderboard', 'prohibited', { planned: 'M5' }),
-  e('POST /api/v1/tgm/perp-positions', 'restricted', { planned: 'M5', note: 'restricted with a smart-money label filter; attribution without' }),
+  e('POST /api/v1/tgm/perp-positions', 'restricted', { usedBy: ['token'], note: 'restricted with a smart-money label filter; attribution without. The token page\'s liquidation ladder uses all_traders only (publicSafe)' }),
   e('POST /api/v1/tgm/perp-trades', 'attribution', { planned: 'M5' }),
   e('POST /api/v1/profiler/perp-pnl-summary', 'free', { usedBy: ['M3'], note: 'wallet desk perps' }),
   e('POST /api/v1/profiler/perp-positions', 'free', { usedBy: ['M3'], note: 'wallet desk perps' }),

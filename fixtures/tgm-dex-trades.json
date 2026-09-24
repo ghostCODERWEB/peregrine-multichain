@@ -4615,6 +4615,36 @@
     "response": {
       "data": [
         {
+          "block_timestamp": "2026-09-24T02:01:05Z",
+          "transaction_hash": "0xaacddef101daa63dc4b5b4260cd26b3a4d231c0a2d5325dacf8d02c704ef9a18",
+          "trader_address": "0xa75990bbe6a02c264e10708d4efc967586e3abbd",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
+          "token_name": "NOCK",
+          "token_amount": 1189.80707307,
+          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "traded_token_name": "USDC",
+          "traded_token_amount": 34.638129,
+          "estimated_swap_price_usd": 0.029154479601667258,
+          "estimated_value_usd": 34.68820604173874
+        },
+        {
+          "block_timestamp": "2026-09-24T01:59:39Z",
+          "transaction_hash": "0xe8fed481abad510dcf079f462b418b090167914dfa62bc645ca7c2a6002cfd57",
+          "trader_address": "0xb380ecc6e502e5570b254382688eb206cdc2f401",
+          "trader_address_label": null,
+          "action": "BUY",
+          "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
+          "token_name": "NOCK",
+          "token_amount": 1015.605740837049,
+          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "traded_token_name": "USDC",
+          "traded_token_amount": 30,
+          "estimated_swap_price_usd": 0.029581726842477323,
+          "estimated_value_usd": 30.043371605093398
+        },
+        {
           "block_timestamp": "2026-09-24T01:50:13Z",
           "transaction_hash": "0x89a434aa349a617999e08af57bbaf7cb3a72dbf0c99714cc5c166dd9dd6f4127",
           "trader_address": "0xb200fc2ae3bd585f42fb6c11bd67e0e44134e3fd",
@@ -4626,8 +4656,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 518.566597,
-          "estimated_swap_price_usd": 0.029193087476126287,
-          "estimated_value_usd": 518.7214618517966
+          "estimated_swap_price_usd": 0.029226564283403627,
+          "estimated_value_usd": 519.316299188657
         },
         {
           "block_timestamp": "2026-09-24T01:49:35Z",
@@ -4641,8 +4671,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 728.566926,
-          "estimated_swap_price_usd": 0.029151380215998734,
-          "estimated_value_usd": 728.7845053999683
+          "estimated_swap_price_usd": 0.02918480919599811,
+          "estimated_value_usd": 729.6202298999527
         },
         {
           "block_timestamp": "2026-09-24T01:41:01Z",
@@ -4656,8 +4686,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 530.383038,
-          "estimated_swap_price_usd": 0.029251884640047732,
-          "estimated_value_usd": 530.5414317165457
+          "estimated_swap_price_usd": 0.029285428872236084,
+          "estimated_value_usd": 531.1498234557458
         },
         {
           "block_timestamp": "2026-09-24T01:39:37Z",
@@ -4671,8 +4701,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 210.423151,
-          "estimated_swap_price_usd": 0.029282023108895387,
-          "estimated_value_usd": 210.48599181983434
+          "estimated_swap_price_usd": 0.02931560190199525,
+          "estimated_value_usd": 210.72736399358934
         },
         {
           "block_timestamp": "2026-09-24T01:37:09Z",
@@ -4686,8 +4716,8 @@
           "traded_token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
           "traded_token_name": "ETH",
           "traded_token_amount": 0.000316262599474717,
-          "estimated_swap_price_usd": 0.02961502803581435,
-          "estimated_value_usd": 0.8472675242853511
+          "estimated_swap_price_usd": 0.02956841209671263,
+          "estimated_value_usd": 0.8459338712742115
         },
         {
           "block_timestamp": "2026-09-24T01:35:07Z",
@@ -4701,8 +4731,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 9,
-          "estimated_swap_price_usd": 0.02972045204423743,
-          "estimated_value_usd": 9.002687762139391
+          "estimated_swap_price_usd": 0.029754533600225435,
+          "estimated_value_usd": 9.01301148152802
         },
         {
           "block_timestamp": "2026-09-24T01:33:13Z",
@@ -4716,8 +4746,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 50,
-          "estimated_swap_price_usd": 0.029824570309604188,
-          "estimated_value_usd": 50.014932011885506
+          "estimated_swap_price_usd": 0.02985877126190841,
+          "estimated_value_usd": 50.072286008488994
         },
         {
           "block_timestamp": "2026-09-24T01:33:11Z",
@@ -4731,8 +4761,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 20,
-          "estimated_swap_price_usd": 0.029821714821880528,
-          "estimated_value_usd": 20.0059728047542
+          "estimated_swap_price_usd": 0.029855912499689993,
+          "estimated_value_usd": 20.0289144033956
         },
         {
           "block_timestamp": "2026-09-24T01:33:09Z",
@@ -4746,8 +4776,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 20,
-          "estimated_swap_price_usd": 0.029820082641544204,
-          "estimated_value_usd": 20.0059728047542
+          "estimated_swap_price_usd": 0.029854278447671315,
+          "estimated_value_usd": 20.0289144033956
         },
         {
           "block_timestamp": "2026-09-24T01:33:07Z",
@@ -4761,8 +4791,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 20,
-          "estimated_swap_price_usd": 0.029818450505874745,
-          "estimated_value_usd": 20.0059728047542
+          "estimated_swap_price_usd": 0.029852644440370727,
+          "estimated_value_usd": 20.0289144033956
         },
         {
           "block_timestamp": "2026-09-24T01:32:53Z",
@@ -4776,23 +4806,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 2462.114934,
-          "estimated_swap_price_usd": 0.029361636779723026,
-          "estimated_value_usd": 2462.8502205891596
-        },
-        {
-          "block_timestamp": "2026-09-24T01:21:15Z",
-          "transaction_hash": "0xbe12431ccb94da3d2fe5aba673197721a2310be67268c73bd68c4b6c8032afbf",
-          "trader_address": "0xeb7c90d3d8eb5cce9c3da4725ba9d5177cf8cc50",
-          "trader_address_label": null,
-          "action": "SELL",
-          "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
-          "token_name": "NOCK",
-          "token_amount": 1000,
-          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
-          "traded_token_name": "USDC",
-          "traded_token_amount": 29.47162,
-          "estimated_swap_price_usd": 0.029480421411602502,
-          "estimated_value_usd": 29.480421411602503
+          "estimated_swap_price_usd": 0.029395306868802363,
+          "estimated_value_usd": 2465.6744632204004
         },
         {
           "block_timestamp": "2026-09-24T01:21:15Z",
@@ -4806,23 +4821,23 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 44.162321,
-          "estimated_swap_price_usd": 0.029450339764027514,
-          "estimated_value_usd": 44.17550964604127
+          "estimated_swap_price_usd": 0.02948411157214266,
+          "estimated_value_usd": 44.22616735821399
         },
         {
-          "block_timestamp": "2026-09-24T01:18:05Z",
-          "transaction_hash": "0xa7f384448ce0552ffbc4e2aa45b581a12da7803fa000e59cc5f06a319e7a95a1",
-          "trader_address": "0x2d044b16650b074fd819a311a09c7b6f61190449",
+          "block_timestamp": "2026-09-24T01:21:15Z",
+          "transaction_hash": "0xbe12431ccb94da3d2fe5aba673197721a2310be67268c73bd68c4b6c8032afbf",
+          "trader_address": "0xeb7c90d3d8eb5cce9c3da4725ba9d5177cf8cc50",
           "trader_address_label": null,
           "action": "SELL",
           "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
           "token_name": "NOCK",
-          "token_amount": 1500,
+          "token_amount": 1000,
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
-          "traded_token_amount": 44.171332,
-          "estimated_swap_price_usd": 0.0294563488913923,
-          "estimated_value_usd": 44.18452333708845
+          "traded_token_amount": 29.47162,
+          "estimated_swap_price_usd": 0.029514227715470093,
+          "estimated_value_usd": 29.514227715470092
         },
         {
           "block_timestamp": "2026-09-24T01:18:05Z",
@@ -4836,8 +4851,23 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 29.477633,
-          "estimated_swap_price_usd": 0.029486436207326255,
-          "estimated_value_usd": 29.486436207326253
+          "estimated_swap_price_usd": 0.02952024940858547,
+          "estimated_value_usd": 29.52024940858547
+        },
+        {
+          "block_timestamp": "2026-09-24T01:18:05Z",
+          "transaction_hash": "0xa7f384448ce0552ffbc4e2aa45b581a12da7803fa000e59cc5f06a319e7a95a1",
+          "trader_address": "0x2d044b16650b074fd819a311a09c7b6f61190449",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
+          "token_name": "NOCK",
+          "token_amount": 1500,
+          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "traded_token_name": "USDC",
+          "traded_token_amount": 44.171332,
+          "estimated_swap_price_usd": 0.029490127590398964,
+          "estimated_value_usd": 44.23519138559845
         },
         {
           "block_timestamp": "2026-09-24T01:17:05Z",
@@ -4851,8 +4881,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 59.037569,
-          "estimated_swap_price_usd": 0.02952759999681999,
-          "estimated_value_usd": 59.05519999363998
+          "estimated_swap_price_usd": 0.02956146040213904,
+          "estimated_value_usd": 59.122920804278074
         },
         {
           "block_timestamp": "2026-09-24T01:17:05Z",
@@ -4866,8 +4896,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 29.481101,
-          "estimated_swap_price_usd": 0.029489905243010595,
-          "estimated_value_usd": 29.489905243010593
+          "estimated_swap_price_usd": 0.02952372242234302,
+          "estimated_value_usd": 29.52372242234302
         },
         {
           "block_timestamp": "2026-09-24T01:17:03Z",
@@ -4881,8 +4911,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 1181.081943,
-          "estimated_swap_price_usd": 0.029535866539805312,
-          "estimated_value_usd": 1181.4346615922125
+          "estimated_swap_price_usd": 0.029569736424678944,
+          "estimated_value_usd": 1182.7894569871578
         },
         {
           "block_timestamp": "2026-09-24T01:14:29Z",
@@ -4896,8 +4926,8 @@
           "traded_token_address": "0x3ec2156d4c0a9cbdab4a016633b7bcf6a8d68ea2",
           "traded_token_name": "DRB",
           "traded_token_amount": 7271.1092210447005,
-          "estimated_swap_price_usd": 0.028585272592412055,
-          "estimated_value_usd": 1.3119544211528844
+          "estimated_swap_price_usd": 0.028539037642624172,
+          "estimated_value_usd": 1.309832414214175
         },
         {
           "block_timestamp": "2026-09-24T01:04:45Z",
@@ -4911,8 +4941,8 @@
           "traded_token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
           "traded_token_name": "ETH",
           "traded_token_amount": 0.030258534597354267,
-          "estimated_swap_price_usd": 0.02925268761359484,
-          "estimated_value_usd": 81.06261612781218
+          "estimated_swap_price_usd": 0.029206642021380378,
+          "estimated_value_usd": 80.93501841045494
         },
         {
           "block_timestamp": "2026-09-24T00:58:45Z",
@@ -4926,8 +4956,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 59.178669,
-          "estimated_swap_price_usd": 0.029598171065888763,
-          "estimated_value_usd": 59.19634213177753
+          "estimated_swap_price_usd": 0.029632112397697013,
+          "estimated_value_usd": 59.26422479539403
         },
         {
           "block_timestamp": "2026-09-24T00:57:57Z",
@@ -4941,8 +4971,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 1000,
-          "estimated_swap_price_usd": 0.029696975297761607,
-          "estimated_value_usd": 1000.2986402377101
+          "estimated_swap_price_usd": 0.029731029932084756,
+          "estimated_value_usd": 1001.44572016978
         },
         {
           "block_timestamp": "2026-09-24T00:56:35Z",
@@ -4956,8 +4986,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 1000,
-          "estimated_swap_price_usd": 0.029615078722742112,
-          "estimated_value_usd": 1000.2986402377101
+          "estimated_swap_price_usd": 0.02964903944319401,
+          "estimated_value_usd": 1001.44572016978
         },
         {
           "block_timestamp": "2026-09-24T00:55:23Z",
@@ -4971,8 +5001,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 37.298601,
-          "estimated_swap_price_usd": 0.029398528625491627,
-          "estimated_value_usd": 37.30973986306889
+          "estimated_swap_price_usd": 0.02943224101983285,
+          "estimated_value_usd": 37.35252433977027
         },
         {
           "block_timestamp": "2026-09-24T00:54:57Z",
@@ -4986,8 +5016,8 @@
           "traded_token_address": "0x60555ab88a0caaf893ab284c1332c9d0a05af222",
           "traded_token_name": "ZKAT",
           "traded_token_amount": 0.05294869046003363,
-          "estimated_swap_price_usd": 0.0291979756964812,
-          "estimated_value_usd": 0.0010596316804935616
+          "estimated_swap_price_usd": 0.0289622995781413,
+          "estimated_value_usd": 0.0010510786943576493
         },
         {
           "block_timestamp": "2026-09-24T00:54:55Z",
@@ -5001,8 +5031,8 @@
           "traded_token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
           "traded_token_name": "ETH",
           "traded_token_amount": 0.9546304824039122,
-          "estimated_swap_price_usd": 0.03064134438043775,
-          "estimated_value_usd": 2557.455123612722
+          "estimated_swap_price_usd": 0.03059311295408536,
+          "estimated_value_usd": 2553.4295264681396
         },
         {
           "block_timestamp": "2026-09-24T00:54:31Z",
@@ -5016,8 +5046,8 @@
           "traded_token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
           "traded_token_name": "ETH",
           "traded_token_amount": 0.6369653239236768,
-          "estimated_swap_price_usd": 0.030459171772966188,
-          "estimated_value_usd": 1706.4301436615938
+          "estimated_swap_price_usd": 0.030411227097893106,
+          "estimated_value_usd": 1703.7441140025278
         },
         {
           "block_timestamp": "2026-09-24T00:54:19Z",
@@ -5031,8 +5061,8 @@
           "traded_token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
           "traded_token_name": "ETH",
           "traded_token_amount": 0.9554526967477007,
-          "estimated_swap_price_usd": 0.030350388232214844,
-          "estimated_value_usd": 2559.657835892488
+          "estimated_swap_price_usd": 0.03030261478935889,
+          "estimated_value_usd": 2555.628771538576
         },
         {
           "block_timestamp": "2026-09-24T00:54:05Z",
@@ -5046,8 +5076,8 @@
           "traded_token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
           "traded_token_name": "ETH",
           "traded_token_amount": 1.2739394136043811,
-          "estimated_swap_price_usd": 0.030433433438729552,
-          "estimated_value_usd": 3412.883770786827
+          "estimated_swap_price_usd": 0.03038552927743278,
+          "estimated_value_usd": 3407.5116745042283
         },
         {
           "block_timestamp": "2026-09-24T00:53:55Z",
@@ -5061,8 +5091,8 @@
           "traded_token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
           "traded_token_name": "ETH",
           "traded_token_amount": 1.2739394136043811,
-          "estimated_swap_price_usd": 0.02972778430702385,
-          "estimated_value_usd": 3412.883770786827
+          "estimated_swap_price_usd": 0.029680990882374397,
+          "estimated_value_usd": 3407.5116745042283
         },
         {
           "block_timestamp": "2026-09-24T00:46:25Z",
@@ -5076,8 +5106,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 10,
-          "estimated_swap_price_usd": 0.029291068589270254,
-          "estimated_value_usd": 10.0029864023771
+          "estimated_swap_price_usd": 0.029324657755161403,
+          "estimated_value_usd": 10.0144572016978
         },
         {
           "block_timestamp": "2026-09-24T00:45:27Z",
@@ -5091,8 +5121,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 2853.101394,
-          "estimated_swap_price_usd": 0.028539503019681035,
-          "estimated_value_usd": 2853.953444878515
+          "estimated_swap_price_usd": 0.028572230337172287,
+          "estimated_value_usd": 2857.226180231733
         },
         {
           "block_timestamp": "2026-09-24T00:45:21Z",
@@ -5106,8 +5136,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 100,
-          "estimated_swap_price_usd": 0.029098604413898933,
-          "estimated_value_usd": 100.02986402377101
+          "estimated_swap_price_usd": 0.029131972873908524,
+          "estimated_value_usd": 100.14457201697799
         },
         {
           "block_timestamp": "2026-09-24T00:45:01Z",
@@ -5121,8 +5151,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 2894.630533,
-          "estimated_swap_price_usd": 0.02895491797492509,
-          "estimated_value_usd": 2895.494986150458
+          "estimated_swap_price_usd": 0.028988121664311167,
+          "estimated_value_usd": 2898.815358745619
         },
         {
           "block_timestamp": "2026-09-24T00:45:01Z",
@@ -5136,8 +5166,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 58.261457,
-          "estimated_swap_price_usd": 0.02909132593498473,
-          "estimated_value_usd": 58.27885621536782
+          "estimated_swap_price_usd": 0.029124686048489827,
+          "estimated_value_usd": 58.34568676350567
         },
         {
           "block_timestamp": "2026-09-24T00:44:37Z",
@@ -5151,8 +5181,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 35,
-          "estimated_swap_price_usd": 0.029657849332496346,
-          "estimated_value_usd": 35.01045240831985
+          "estimated_swap_price_usd": 0.029691859099609072,
+          "estimated_value_usd": 35.050600205942295
         },
         {
           "block_timestamp": "2026-09-24T00:44:29Z",
@@ -5166,8 +5196,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 0.000298,
-          "estimated_swap_price_usd": 0.021952404063830817,
-          "estimated_value_usd": 0.0002980889947908376
+          "estimated_swap_price_usd": 0.021977577708130008,
+          "estimated_value_usd": 0.0002984308246105944
         },
         {
           "block_timestamp": "2026-09-24T00:44:29Z",
@@ -5181,23 +5211,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 1454.670136,
-          "estimated_swap_price_usd": 0.029102091180704098,
-          "estimated_value_usd": 1455.1045590352048
-        },
-        {
-          "block_timestamp": "2026-09-24T00:43:53Z",
-          "transaction_hash": "0x64c44390bd744355742315b895b7ba4da99c5b7bb1df3fefd1b0b54cb54f344d",
-          "trader_address": "0x1086b5e613495c15a3b7b45656557cc330077315",
-          "trader_address_label": null,
-          "action": "SELL",
-          "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
-          "token_name": "NOCK",
-          "token_amount": 150000,
-          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
-          "traded_token_name": "USDC",
-          "traded_token_amount": 4393.283643,
-          "estimated_swap_price_usd": 0.02929730436180982,
-          "estimated_value_usd": 4394.595654271473
+          "estimated_swap_price_usd": 0.029135463639119834,
+          "estimated_value_usd": 1456.7731819559917
         },
         {
           "block_timestamp": "2026-09-24T00:43:53Z",
@@ -5211,8 +5226,23 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 176.356224,
-          "estimated_swap_price_usd": 0.029377311925383662,
-          "estimated_value_usd": 176.408891064657
+          "estimated_swap_price_usd": 0.029410999989739877,
+          "estimated_value_usd": 176.61118575010303
+        },
+        {
+          "block_timestamp": "2026-09-24T00:43:53Z",
+          "transaction_hash": "0x64c44390bd744355742315b895b7ba4da99c5b7bb1df3fefd1b0b54cb54f344d",
+          "trader_address": "0x1086b5e613495c15a3b7b45656557cc330077315",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
+          "token_name": "NOCK",
+          "token_amount": 150000,
+          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "traded_token_name": "USDC",
+          "traded_token_amount": 4393.283643,
+          "estimated_swap_price_usd": 0.029330900678494993,
+          "estimated_value_usd": 4399.635101774249
         },
         {
           "block_timestamp": "2026-09-24T00:43:47Z",
@@ -5226,8 +5256,8 @@
           "traded_token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
           "traded_token_name": "ETH",
           "traded_token_amount": 0.00000372,
-          "estimated_swap_price_usd": 0.030349828544536335,
-          "estimated_value_usd": 0.009965880238689032
+          "estimated_swap_price_usd": 0.03030205598266441,
+          "estimated_value_usd": 0.00995019330887286
         },
         {
           "block_timestamp": "2026-09-24T00:43:37Z",
@@ -5241,8 +5271,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 3025.582201,
-          "estimated_swap_price_usd": 0.029566785803066774,
-          "estimated_value_usd": 3026.485761587718
+          "estimated_swap_price_usd": 0.029600691144218143,
+          "estimated_value_usd": 3029.9563462133133
         },
         {
           "block_timestamp": "2026-09-24T00:42:07Z",
@@ -5256,8 +5286,8 @@
           "traded_token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
           "traded_token_name": "ETH",
           "traded_token_amount": 0.5200345513404505,
-          "estimated_swap_price_usd": 0.030123301703965318,
-          "estimated_value_usd": 1393.1725964084173
+          "estimated_swap_price_usd": 0.03007588570975871,
+          "estimated_value_usd": 1390.9796540673256
         },
         {
           "block_timestamp": "2026-09-24T00:38:17Z",
@@ -5271,8 +5301,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 50,
-          "estimated_swap_price_usd": 0.030220132669407717,
-          "estimated_value_usd": 50.014932011885506
+          "estimated_swap_price_usd": 0.030254787227891697,
+          "estimated_value_usd": 50.072286008488994
         },
         {
           "block_timestamp": "2026-09-24T00:37:31Z",
@@ -5286,8 +5316,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 659.627116,
-          "estimated_swap_price_usd": 0.02976371666902368,
-          "estimated_value_usd": 659.8241071987222
+          "estimated_swap_price_usd": 0.029797847838178064,
+          "estimated_value_usd": 660.580752226135
         },
         {
           "block_timestamp": "2026-09-24T00:37:01Z",
@@ -5301,8 +5331,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 293.552929,
-          "estimated_swap_price_usd": 0.029802836309969948,
-          "estimated_value_usd": 293.64059571649705
+          "estimated_swap_price_usd": 0.029837012339082418,
+          "estimated_value_usd": 293.97732439035326
         },
         {
           "block_timestamp": "2026-09-24T00:36:43Z",
@@ -5316,23 +5346,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 29.807211,
-          "estimated_swap_price_usd": 0.029816112632578513,
-          "estimated_value_usd": 29.816112632578513
-        },
-        {
-          "block_timestamp": "2026-09-24T00:35:23Z",
-          "transaction_hash": "0xe0b3f48dbf2424207f39327b4c6569bfb9930ef0dcf63489653089db58e43fd1",
-          "trader_address": "0xeb7c90d3d8eb5cce9c3da4725ba9d5177cf8cc50",
-          "trader_address_label": null,
-          "action": "SELL",
-          "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
-          "token_name": "NOCK",
-          "token_amount": 1000,
-          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
-          "traded_token_name": "USDC",
-          "traded_token_amount": 29.813327,
-          "estimated_swap_price_usd": 0.029822230459062207,
-          "estimated_value_usd": 29.822230459062208
+          "estimated_swap_price_usd": 0.029850303886147588,
+          "estimated_value_usd": 29.850303886147586
         },
         {
           "block_timestamp": "2026-09-24T00:35:23Z",
@@ -5346,8 +5361,23 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 44.674353,
-          "estimated_swap_price_usd": 0.02979179637293298,
-          "estimated_value_usd": 44.68769455939947
+          "estimated_swap_price_usd": 0.029825959742135984,
+          "estimated_value_usd": 44.738939613203975
+        },
+        {
+          "block_timestamp": "2026-09-24T00:35:23Z",
+          "transaction_hash": "0xe0b3f48dbf2424207f39327b4c6569bfb9930ef0dcf63489653089db58e43fd1",
+          "trader_address": "0xeb7c90d3d8eb5cce9c3da4725ba9d5177cf8cc50",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
+          "token_name": "NOCK",
+          "token_amount": 1000,
+          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "traded_token_name": "USDC",
+          "traded_token_amount": 29.813327,
+          "estimated_swap_price_usd": 0.02985642872817215,
+          "estimated_value_usd": 29.856428728172148
         },
         {
           "block_timestamp": "2026-09-24T00:32:51Z",
@@ -5361,8 +5391,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 99.988788,
-          "estimated_swap_price_usd": 0.029827561407982758,
-          "estimated_value_usd": 100.01864867541666
+          "estimated_swap_price_usd": 0.029861765790291574,
+          "estimated_value_usd": 100.13334380756345
         },
         {
           "block_timestamp": "2026-09-24T00:32:15Z",
@@ -5376,8 +5406,8 @@
           "traded_token_address": "0x60555ab88a0caaf893ab284c1332c9d0a05af222",
           "traded_token_name": "ZKAT",
           "traded_token_amount": 0.4766655673795443,
-          "estimated_swap_price_usd": 0.0291979756964812,
-          "estimated_value_usd": 0.000100147463669551
+          "estimated_swap_price_usd": 0.0289622995781413,
+          "estimated_value_usd": 0.00009933910744155158
         },
         {
           "block_timestamp": "2026-09-24T00:30:45Z",
@@ -5391,8 +5421,8 @@
           "traded_token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
           "traded_token_name": "ETH",
           "traded_token_amount": 0.0000028474870232,
-          "estimated_swap_price_usd": 0.029047577556580516,
-          "estimated_value_usd": 0.007628417917858156
+          "estimated_swap_price_usd": 0.029001854820650888,
+          "estimated_value_usd": 0.007616410302512619
         },
         {
           "block_timestamp": "2026-09-24T00:30:19Z",
@@ -5406,8 +5436,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 29.827683,
-          "estimated_swap_price_usd": 0.02983659074634146,
-          "estimated_value_usd": 29.83659074634146
+          "estimated_swap_price_usd": 0.0298708054829309,
+          "estimated_value_usd": 29.8708054829309
         },
         {
           "block_timestamp": "2026-09-24T00:30:19Z",
@@ -5421,8 +5451,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 44.695866,
-          "estimated_swap_price_usd": 0.029806142656031265,
-          "estimated_value_usd": 44.7092139840469
+          "estimated_swap_price_usd": 0.02984032247665466,
+          "estimated_value_usd": 44.76048371498199
         },
         {
           "block_timestamp": "2026-09-24T00:28:51Z",
@@ -5436,8 +5466,8 @@
           "traded_token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
           "traded_token_name": "ETH",
           "traded_token_amount": 0.0311,
-          "estimated_swap_price_usd": 0.030066181224200683,
-          "estimated_value_usd": 83.31690199549165
+          "estimated_swap_price_usd": 0.030018855141264893,
+          "estimated_value_usd": 83.18575588869516
         },
         {
           "block_timestamp": "2026-09-24T00:26:39Z",
@@ -5451,8 +5481,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 149.145476,
-          "estimated_swap_price_usd": 0.029838003368081206,
-          "estimated_value_usd": 149.19001684040603
+          "estimated_swap_price_usd": 0.029872219724576928,
+          "estimated_value_usd": 149.36109862288464
         },
         {
           "block_timestamp": "2026-09-24T00:14:29Z",
@@ -5466,8 +5496,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 100,
-          "estimated_swap_price_usd": 0.029666902895561866,
-          "estimated_value_usd": 100.02986402377101
+          "estimated_swap_price_usd": 0.02970092304473459,
+          "estimated_value_usd": 100.14457201697799
         },
         {
           "block_timestamp": "2026-09-24T00:14:09Z",
@@ -5481,8 +5511,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 494.471708,
-          "estimated_swap_price_usd": 0.029505287041578,
-          "estimated_value_usd": 494.61937714841804
+          "estimated_swap_price_usd": 0.0295391218597952,
+          "estimated_value_usd": 495.18657572164113
         },
         {
           "block_timestamp": "2026-09-24T00:13:03Z",
@@ -5496,8 +5526,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 1000,
-          "estimated_swap_price_usd": 0.029662462530447572,
-          "estimated_value_usd": 1000.2986402377101
+          "estimated_swap_price_usd": 0.02969647758768724,
+          "estimated_value_usd": 1001.44572016978
         },
         {
           "block_timestamp": "2026-09-24T00:10:13Z",
@@ -5511,8 +5541,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 188.202091,
-          "estimated_swap_price_usd": 0.029614942249563878,
-          "estimated_value_usd": 188.25829571719376
+          "estimated_swap_price_usd": 0.029648902813516873,
+          "estimated_value_usd": 188.47417855895347
         },
         {
           "block_timestamp": "2026-09-24T00:10:07Z",
@@ -5526,8 +5556,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 0.108009,
-          "estimated_swap_price_usd": 0.029406026026543745,
-          "estimated_value_usd": 0.10804125583343482
+          "estimated_swap_price_usd": 0.02943974701843568,
+          "estimated_value_usd": 0.10816515078981775
         },
         {
           "block_timestamp": "2026-09-24T00:08:51Z",
@@ -5541,8 +5571,8 @@
           "traded_token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
           "traded_token_name": "ETH",
           "traded_token_amount": 0.2693181500913439,
-          "estimated_swap_price_usd": 0.028999348690762185,
-          "estimated_value_usd": 721.5033413751643
+          "estimated_swap_price_usd": 0.028953701870137086,
+          "estimated_value_usd": 720.367649192717
         },
         {
           "block_timestamp": "2026-09-24T00:06:55Z",
@@ -5556,8 +5586,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 1000,
-          "estimated_swap_price_usd": 0.029626507126235418,
-          "estimated_value_usd": 1000.2986402377101
+          "estimated_swap_price_usd": 0.02966048095206583,
+          "estimated_value_usd": 1001.44572016978
         },
         {
           "block_timestamp": "2026-09-24T00:05:09Z",
@@ -5571,8 +5601,8 @@
           "traded_token_address": "0x60555ab88a0caaf893ab284c1332c9d0a05af222",
           "traded_token_name": "ZKAT",
           "traded_token_amount": 8797.54102020933,
-          "estimated_swap_price_usd": 0.0291979756964812,
-          "estimated_value_usd": 0.2535733808744626
+          "estimated_swap_price_usd": 0.0289622995781413,
+          "estimated_value_usd": 0.25152662288205757
         },
         {
           "block_timestamp": "2026-09-24T00:01:07Z",
@@ -5586,8 +5616,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 2374.446976,
-          "estimated_swap_price_usd": 0.02948723513312815,
-          "estimated_value_usd": 2375.1560814093427
+          "estimated_swap_price_usd": 0.029521049250545526,
+          "estimated_value_usd": 2377.8797618852764
         },
         {
           "block_timestamp": "2026-09-24T00:00:43Z",
@@ -5601,8 +5631,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 977.216736,
-          "estimated_swap_price_usd": 0.0296214718860101,
-          "estimated_value_usd": 977.5085722383333
+          "estimated_swap_price_usd": 0.02965543993774187,
+          "estimated_value_usd": 978.6295179454817
         },
         {
           "block_timestamp": "2026-09-24T00:00:39Z",
@@ -5616,8 +5646,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 44.4372,
-          "estimated_swap_price_usd": 0.029633647157314112,
-          "estimated_value_usd": 44.450470735971166
+          "estimated_swap_price_usd": 0.029667629170885695,
+          "estimated_value_usd": 44.50144375632854
         },
         {
           "block_timestamp": "2026-09-24T00:00:35Z",
@@ -5631,8 +5661,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 44.442655,
-          "estimated_swap_price_usd": 0.02963728491003578,
-          "estimated_value_usd": 44.45592736505367
+          "estimated_swap_price_usd": 0.029671271095154717,
+          "estimated_value_usd": 44.506906642732076
         },
         {
           "block_timestamp": "2026-09-23T23:56:27Z",
@@ -5756,21 +5786,6 @@
         },
         {
           "block_timestamp": "2026-09-23T23:39:23Z",
-          "transaction_hash": "0x4da4dda20d7dea81687bfa138d0334fa2f03194b5504939958c78e132f568c77",
-          "trader_address": "0x2d044b16650b074fd819a311a09c7b6f61190449",
-          "trader_address_label": null,
-          "action": "SELL",
-          "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
-          "token_name": "NOCK",
-          "token_amount": 1500,
-          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
-          "traded_token_name": "USDC",
-          "traded_token_amount": 44.755272,
-          "estimated_swap_price_usd": 0.029811773380433778,
-          "estimated_value_usd": 44.717660070650666
-        },
-        {
-          "block_timestamp": "2026-09-23T23:39:23Z",
           "transaction_hash": "0x1b4dcc6b3f62f38d710ae20d6f3c146a39c364da1bdce941d1d658b37fcbcdff",
           "trader_address": "0x855986efe38b8d29ce8f23fae3e0526efb74ca03",
           "trader_address_label": null,
@@ -5783,6 +5798,21 @@
           "traded_token_amount": 821.483322,
           "estimated_swap_price_usd": 0.03008397396157078,
           "estimated_value_usd": 820.7929547809445
+        },
+        {
+          "block_timestamp": "2026-09-23T23:39:23Z",
+          "transaction_hash": "0x4da4dda20d7dea81687bfa138d0334fa2f03194b5504939958c78e132f568c77",
+          "trader_address": "0x2d044b16650b074fd819a311a09c7b6f61190449",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
+          "token_name": "NOCK",
+          "token_amount": 1500,
+          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "traded_token_name": "USDC",
+          "traded_token_amount": 44.755272,
+          "estimated_swap_price_usd": 0.029811773380433778,
+          "estimated_value_usd": 44.717660070650666
         },
         {
           "block_timestamp": "2026-09-23T23:34:17Z",
@@ -6011,21 +6041,6 @@
         },
         {
           "block_timestamp": "2026-09-23T23:24:39Z",
-          "transaction_hash": "0x2ddfa6843e2b99bb0bb78f79132ac8634b25adcca58b858d6eedd89b1508f3aa",
-          "trader_address": "0x2d044b16650b074fd819a311a09c7b6f61190449",
-          "trader_address_label": null,
-          "action": "SELL",
-          "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
-          "token_name": "NOCK",
-          "token_amount": 1500,
-          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
-          "traded_token_name": "USDC",
-          "traded_token_amount": 44.991441,
-          "estimated_swap_price_usd": 0.029969087064226917,
-          "estimated_value_usd": 44.953630596340375
-        },
-        {
-          "block_timestamp": "2026-09-23T23:24:39Z",
           "transaction_hash": "0x0c580ac1085d748aabea548bbc6d20c035c1f5e110df73b476f0a9d937f89b05",
           "trader_address": "0x128cecbe5845876d053fe4a8fc2f057c1f9706ce",
           "trader_address_label": null,
@@ -6038,6 +6053,21 @@
           "traded_token_amount": 99.970216,
           "estimated_swap_price_usd": 0.029996825300614927,
           "estimated_value_usd": 99.88620192672548
+        },
+        {
+          "block_timestamp": "2026-09-23T23:24:39Z",
+          "transaction_hash": "0x2ddfa6843e2b99bb0bb78f79132ac8634b25adcca58b858d6eedd89b1508f3aa",
+          "trader_address": "0x2d044b16650b074fd819a311a09c7b6f61190449",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
+          "token_name": "NOCK",
+          "token_amount": 1500,
+          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "traded_token_name": "USDC",
+          "traded_token_amount": 44.991441,
+          "estimated_swap_price_usd": 0.029969087064226917,
+          "estimated_value_usd": 44.953630596340375
         },
         {
           "block_timestamp": "2026-09-23T23:24:37Z",
@@ -6083,36 +6113,6 @@
           "traded_token_amount": 60.017003,
           "estimated_swap_price_usd": 0.029983282624371287,
           "estimated_value_usd": 59.966565248742576
-        },
-        {
-          "block_timestamp": "2026-09-23T23:24:29Z",
-          "transaction_hash": "0xe6d937f1bb96f98bf7153c5b3aa0691b15af745ac49e2f64d6a217397a98a32d",
-          "trader_address": "0x2d044b16650b074fd819a311a09c7b6f61190449",
-          "trader_address_label": null,
-          "action": "SELL",
-          "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
-          "token_name": "NOCK",
-          "token_amount": 2000,
-          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
-          "traded_token_name": "USDC",
-          "traded_token_amount": 60.026892,
-          "estimated_swap_price_usd": 0.02998822296905781,
-          "estimated_value_usd": 59.976445938115624
-        },
-        {
-          "block_timestamp": "2026-09-23T23:24:27Z",
-          "transaction_hash": "0xa8d9188de85911f2b2c386df4d842a27626a37e39f2d1406607ec0f81606eb31",
-          "trader_address": "0x2d044b16650b074fd819a311a09c7b6f61190449",
-          "trader_address_label": null,
-          "action": "SELL",
-          "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
-          "token_name": "NOCK",
-          "token_amount": 2000,
-          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
-          "traded_token_name": "USDC",
-          "traded_token_amount": 60.036783,
-          "estimated_swap_price_usd": 0.029993164312903952,
-          "estimated_value_usd": 59.98632862580791
         }
       ],
       "pagination": {
@@ -6121,6 +6121,1537 @@
         "is_last_page": false
       }
     },
-    "recordedAt": 1790214946976
+    "recordedAt": 1790215609421
+  },
+  {
+    "requestHash": "afa1a3ec64539bebe71a6ade85b8079d330ee400",
+    "request": {
+      "chain": "base",
+      "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+      "date": {
+        "from": "2026-09-23",
+        "to": "2026-09-24"
+      },
+      "pagination": {
+        "page": 1,
+        "per_page": 100
+      },
+      "order_by": [
+        {
+          "field": "block_timestamp",
+          "direction": "DESC"
+        }
+      ]
+    },
+    "response": {
+      "data": [
+        {
+          "block_timestamp": "2026-09-24T02:05:19Z",
+          "transaction_hash": "0xcd28124b750d782b03b27d72f17107ee5e636dadbb38a7cc2b714d812eeefb7e",
+          "trader_address": "0xbee3211ab312a8d065c4fef0247448e17a8da000",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 23.265189723078755,
+          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "traded_token_name": "USDC",
+          "traded_token_amount": 16.185409,
+          "estimated_swap_price_usd": 0.6964434664425486,
+          "estimated_value_usd": 16.202889378184526
+        },
+        {
+          "block_timestamp": "2026-09-24T02:05:19Z",
+          "transaction_hash": "0x0fec0becc085e14c12ef425b68a90fb03d1fcc5e193fcdf57d3a3193bd18e523",
+          "trader_address": "0xbee3211ab312a8d065c4fef0247448e17a8da000",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 130.44146379799463,
+          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "traded_token_name": "USDC",
+          "traded_token_amount": 90.716731,
+          "estimated_swap_price_usd": 0.6962104164591478,
+          "estimated_value_usd": 90.81470583434269
+        },
+        {
+          "block_timestamp": "2026-09-24T02:05:19Z",
+          "transaction_hash": "0xa07eb715ebe6e1c82f3eaa37cff87933a90f8fd00df379202efe0ec558d55653",
+          "trader_address": "0x278d858f05b94576c1e6f73285886876ff6ef8d2",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 154.8533018718696,
+          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "traded_token_name": "USDC",
+          "traded_token_amount": 107.672874,
+          "estimated_swap_price_usd": 0.6960727366403436,
+          "estimated_value_usd": 107.78916161174553
+        },
+        {
+          "block_timestamp": "2026-09-24T02:05:17Z",
+          "transaction_hash": "0x37d7ff2649e89f0d8d938b79562324b5d646dff27764ef13ebb9102f4a105a54",
+          "trader_address": "0x51c72848c68a965f66fa7a88855f9f7784502a7f",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 882.791239786596,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.22995081184672278,
+          "estimated_swap_price_usd": 0.6965328179321496,
+          "estimated_value_usd": 614.8930698943736
+        },
+        {
+          "block_timestamp": "2026-09-24T02:05:17Z",
+          "transaction_hash": "0x2a0ac9888aa700bb35be1a64cdb7a036c1a8721c1cd5f741894687881911a69c",
+          "trader_address": "0x278d858f05b94576c1e6f73285886876ff6ef8d2",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 276.0782647159312,
+          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "traded_token_name": "USDC",
+          "traded_token_amount": 192.011782,
+          "estimated_swap_price_usd": 0.6962487848916946,
+          "estimated_value_usd": 192.2191563434747
+        },
+        {
+          "block_timestamp": "2026-09-24T02:05:17Z",
+          "transaction_hash": "0x072498b0ef4b5fe3a5ad58b853c2e5b7f42225e580d534fadd4c0cb1850e845f",
+          "trader_address": "0x278d858f05b94576c1e6f73285886876ff6ef8d2",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 19.28657425293777,
+          "traded_token_address": "0xac1bd2486aaf3b5c0fc3fd868558b082a531b2b4",
+          "traded_token_name": "TOSHI",
+          "traded_token_amount": 108089.94471796049,
+          "estimated_swap_price_usd": 0.6969678442057853,
+          "estimated_value_usd": 13.44212207918484
+        },
+        {
+          "block_timestamp": "2026-09-24T02:05:17Z",
+          "transaction_hash": "0x92c89e8f6b43f9c0b5f876bb1faab37644512667251d49f35971ef3343e0468d",
+          "trader_address": "0x278d858f05b94576c1e6f73285886876ff6ef8d2",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 196.8875240773346,
+          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "traded_token_name": "USDC",
+          "traded_token_amount": 136.906558,
+          "estimated_swap_price_usd": 0.6961051436814826,
+          "estimated_value_usd": 137.05441823694437
+        },
+        {
+          "block_timestamp": "2026-09-24T02:05:17Z",
+          "transaction_hash": "0x0d9e9cda2285d82c5a7b733c7497fe1eff299a853049a4ee3862fcd32481fe97",
+          "trader_address": "0x278d858f05b94576c1e6f73285886876ff6ef8d2",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 49.432409730429704,
+          "traded_token_address": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
+          "traded_token_name": "CBBTC",
+          "traded_token_amount": 0.00040929,
+          "estimated_swap_price_usd": 0.6966780278922985,
+          "estimated_value_usd": 34.438473724959834
+        },
+        {
+          "block_timestamp": "2026-09-24T02:05:17Z",
+          "transaction_hash": "0x6823df52021e3ad12408f3ae0c03241a0f4e26d5c86da2713214471610cded67",
+          "trader_address": "0x51c72848c68a965f66fa7a88855f9f7784502a7f",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 357.6599425307234,
+          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "traded_token_name": "USDC",
+          "traded_token_amount": 248.793792,
+          "estimated_swap_price_usd": 0.6963667489031926,
+          "estimated_value_usd": 249.06249139302258
+        },
+        {
+          "block_timestamp": "2026-09-24T02:05:17Z",
+          "transaction_hash": "0x40760c5e8148cbfc5995f963cb0b2f7efc4b06eb5594071fc3bd52fecb2ff54d",
+          "trader_address": "0x51c72848c68a965f66fa7a88855f9f7784502a7f",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 428.03734095508975,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.11150419502891062,
+          "estimated_swap_price_usd": 0.6965851318623424,
+          "estimated_value_usd": 298.1644475912076
+        },
+        {
+          "block_timestamp": "2026-09-24T02:05:17Z",
+          "transaction_hash": "0xf64709df335f4e3c0977882001127a20deb8944da8e31fd213b9470605e827bc",
+          "trader_address": "0xbeeb9eee061925cc6d2122f05a4e6536f0feb000",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 392.3541584885554,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.1022188923821802,
+          "estimated_swap_price_usd": 0.6966546847897636,
+          "estimated_value_usd": 273.3353626077975
+        },
+        {
+          "block_timestamp": "2026-09-24T02:05:17Z",
+          "transaction_hash": "0xc0e7ff2f51448982a9c0f865485f9f87dc2cc2c29eea84e27c747c2c98eaae6d",
+          "trader_address": "0x51c72848c68a965f66fa7a88855f9f7784502a7f",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 539.733659250579,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.1405990383648694,
+          "estimated_swap_price_usd": 0.6965743827992043,
+          "estimated_value_usd": 375.9646405684281
+        },
+        {
+          "block_timestamp": "2026-09-24T02:05:15Z",
+          "transaction_hash": "0x4af3e20ad2ca199f7c3653e37dab002b7beffc8cc85fcb7b59d10815c62cf69c",
+          "trader_address": "0x3581939739f2df2c33b96b8a14aca451a1917f43",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 17.59595677745657,
+          "traded_token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "traded_token_name": "ETH",
+          "traded_token_amount": 0.004584718674624439,
+          "estimated_swap_price_usd": 0.6969750743220288,
+          "estimated_value_usd": 12.263943282735
+        },
+        {
+          "block_timestamp": "2026-09-24T02:05:13Z",
+          "transaction_hash": "0x5afa48118c218ff19ad413f29e341802c75a42c32054043a89881b890fba78f7",
+          "trader_address": "0x08fb33543ad633db94282df364ad80feb8d9fc35",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 510.23482722744274,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.1329405215041785,
+          "estimated_swap_price_usd": 0.6967098174075479,
+          "estimated_value_usd": 355.4856133126034
+        },
+        {
+          "block_timestamp": "2026-09-24T02:05:13Z",
+          "transaction_hash": "0x9183d8cdbdfd18f0956c0f47d67d7b25bcd4c42e6168f94cf37538ac6f3f9ed5",
+          "trader_address": "0x2192bc3b4028acc1113f2cd9ac2cba70c36520db",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 121.94073035054328,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.03176866078097772,
+          "estimated_swap_price_usd": 0.6966502009406044,
+          "estimated_value_usd": 84.95003430155003
+        },
+        {
+          "block_timestamp": "2026-09-24T02:05:01Z",
+          "transaction_hash": "0xabbd9f1aa0c4abd33f6137c6a9f0b02c52a26f1b51585e894bda9733352200b0",
+          "trader_address": "0x278d858f05b94576c1e6f73285886876ff6ef8d2",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 42.4967234544898,
+          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "traded_token_name": "USDC",
+          "traded_token_amount": 29.564507,
+          "estimated_swap_price_usd": 0.6964404431914205,
+          "estimated_value_usd": 29.596436916828115
+        },
+        {
+          "block_timestamp": "2026-09-24T02:05:01Z",
+          "transaction_hash": "0x5ef1dc0302aae1b7d914b5aaf412ce5619ec618ed63ce85cade0fb3ddbd0a846",
+          "trader_address": "0x51c72848c68a965f66fa7a88855f9f7784502a7f",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 239.4010945441267,
+          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "traded_token_name": "USDC",
+          "traded_token_amount": 166.620692,
+          "estimated_swap_price_usd": 0.6967413581371457,
+          "estimated_value_usd": 166.80064375219405
+        },
+        {
+          "block_timestamp": "2026-09-24T02:05:01Z",
+          "transaction_hash": "0xa324af031100839f613ff023c46e147751719fb01e0e186c1be0f6a6324ca713",
+          "trader_address": "0x278d858f05b94576c1e6f73285886876ff6ef8d2",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 12.50409797795884,
+          "traded_token_address": "0xac1bd2486aaf3b5c0fc3fd868558b082a531b2b4",
+          "traded_token_name": "TOSHI",
+          "traded_token_amount": 70125.49546957423,
+          "estimated_swap_price_usd": 0.6974388174609834,
+          "estimated_value_usd": 8.720843307163888
+        },
+        {
+          "block_timestamp": "2026-09-24T02:04:57Z",
+          "transaction_hash": "0xd052bc33c675fbaec1bdf4b88afb1c77382723f3968ad67f0c3c6892d5d1a479",
+          "trader_address": "0x51c72848c68a965f66fa7a88855f9f7784502a7f",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 289.01424883423823,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.07531055867371345,
+          "estimated_swap_price_usd": 0.6967889677307371,
+          "estimated_value_usd": 201.38194010468322
+        },
+        {
+          "block_timestamp": "2026-09-24T02:04:57Z",
+          "transaction_hash": "0x9a5e69d0a7c0f0e72359a23fc251403f879487fcc7a9daf13e90f4aced9c823f",
+          "trader_address": "0x51c72848c68a965f66fa7a88855f9f7784502a7f",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 150.23132459622187,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.03914619024450967,
+          "estimated_swap_price_usd": 0.6967767602327075,
+          "estimated_value_usd": 104.67769563762374
+        },
+        {
+          "block_timestamp": "2026-09-24T02:04:53Z",
+          "transaction_hash": "0xc1e0546a480fe986044d527dbb522441eec377f24b63cb71061de6527e36b10b",
+          "trader_address": "0xbeeb9eee061925cc6d2122f05a4e6536f0feb000",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 408.35993483267197,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.10640826500175589,
+          "estimated_swap_price_usd": 0.6967819428627013,
+          "estimated_value_usd": 284.53782877999527
+        },
+        {
+          "block_timestamp": "2026-09-24T02:04:37Z",
+          "transaction_hash": "0xa67f866bf66a994f9db21891bb248fe930293b49e3dd53fd59919461c0a13c92",
+          "trader_address": "0xbee3211ab312a8d065c4fef0247448e17a8da000",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 83.94847933082342,
+          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "traded_token_name": "USDC",
+          "traded_token_amount": 58.425665,
+          "estimated_swap_price_usd": 0.6967221524086703,
+          "estimated_value_usd": 58.488765210806065
+        },
+        {
+          "block_timestamp": "2026-09-24T02:04:35Z",
+          "transaction_hash": "0xa537c9fd132d6ef97bd4acd6618d6e6ba87d8412df4ae023375dcf513528120f",
+          "trader_address": "0x899afbe7c6062cbb03b7bb358ee8c9857903d2ff",
+          "trader_address_label": null,
+          "action": "BUY",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 14.839070281378183,
+          "traded_token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "traded_token_name": "ETH",
+          "traded_token_amount": 0.00387,
+          "estimated_swap_price_usd": 0.697624484768413,
+          "estimated_value_usd": 10.352098759488724
+        },
+        {
+          "block_timestamp": "2026-09-24T02:04:35Z",
+          "transaction_hash": "0xa3661e7e55533131b64777ac364cd8aad90577cbc97f4b52ba86d6b0ad438232",
+          "trader_address": "0x51c72848c68a965f66fa7a88855f9f7784502a7f",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 266.3083507351187,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.06940038128562956,
+          "estimated_swap_price_usd": 0.6968538802975154,
+          "estimated_value_usd": 185.57800756539916
+        },
+        {
+          "block_timestamp": "2026-09-24T02:04:35Z",
+          "transaction_hash": "0xabf53d214c54286a3b114c36921aa76034e4f670dd214afeb61b147402a140ff",
+          "trader_address": "0x51c72848c68a965f66fa7a88855f9f7784502a7f",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 178.038940354361,
+          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "traded_token_name": "USDC",
+          "traded_token_amount": 123.95826,
+          "estimated_swap_price_usd": 0.6969943525778427,
+          "estimated_value_usd": 124.092135965933
+        },
+        {
+          "block_timestamp": "2026-09-24T02:04:35Z",
+          "transaction_hash": "0x0a5c70ed28452e109602f378a7c86a55d8105afb02f9108e5653597eb0fd8eb1",
+          "trader_address": "0x51c72848c68a965f66fa7a88855f9f7784502a7f",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 288.7368962725264,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.07525020221134511,
+          "estimated_swap_price_usd": 0.6968993166957699,
+          "estimated_value_usd": 201.22054571718104
+        },
+        {
+          "block_timestamp": "2026-09-24T02:04:35Z",
+          "transaction_hash": "0xf2a3d3325db8732e1096fa6495b11403073ad98728a2674732c0c08ce7b8f1bb",
+          "trader_address": "0x51c72848c68a965f66fa7a88855f9f7784502a7f",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 268.4742602881534,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.06996940893694609,
+          "estimated_swap_price_usd": 0.6968995786961423,
+          "estimated_value_usd": 187.09959888557253
+        },
+        {
+          "block_timestamp": "2026-09-24T02:04:33Z",
+          "transaction_hash": "0x0f5323f609da54cb79365f08ae10381551d5e473b7a7017cd4cd4dc6ead8672d",
+          "trader_address": "0xbeeb9eee061925cc6d2122f05a4e6536f0feb000",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 390.05773400926586,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.10166086151391977,
+          "estimated_swap_price_usd": 0.6969306161712822,
+          "estimated_value_usd": 271.84317690545174
+        },
+        {
+          "block_timestamp": "2026-09-24T02:04:33Z",
+          "transaction_hash": "0xca6cd11883d7fb6d0d54fc3afafd9c903d6e9d7afd70f81cede5a4c6cc9c7f75",
+          "trader_address": "0x51c72848c68a965f66fa7a88855f9f7784502a7f",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 471.3417320637074,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.12286368832200416,
+          "estimated_swap_price_usd": 0.6970313415880593,
+          "estimated_value_usd": 328.5399598468056
+        },
+        {
+          "block_timestamp": "2026-09-24T02:04:33Z",
+          "transaction_hash": "0x30b1a5c06cfc9441194e7d9a013239075667db9cc764c79b0b60f64518530a25",
+          "trader_address": "0x3581939739f2df2c33b96b8a14aca451a1917f43",
+          "trader_address_label": null,
+          "action": "BUY",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 17.59595677745657,
+          "traded_token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "traded_token_name": "ETH",
+          "traded_token_amount": 0.00459,
+          "estimated_swap_price_usd": 0.6977779484801584,
+          "estimated_value_usd": 12.278070621719186
+        },
+        {
+          "block_timestamp": "2026-09-24T02:04:33Z",
+          "transaction_hash": "0x81f04d16468d1c4a92fa333cd6ea2499e5ceb005fcd79150eb0b42fd9a8d9e79",
+          "trader_address": "0x51c72848c68a965f66fa7a88855f9f7784502a7f",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 188.43801255409068,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.04911983936760327,
+          "estimated_swap_price_usd": 0.6970325736589666,
+          "estimated_value_usd": 131.3474328657585
+        },
+        {
+          "block_timestamp": "2026-09-24T02:04:33Z",
+          "transaction_hash": "0x39dbc650c0a3c66445dfe8b23ebfbfe1bdecb9f5c615516520af8285fa98d519",
+          "trader_address": "0xbeeb9eee061925cc6d2122f05a4e6536f0feb000",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 344.71907418221235,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.08986076331729363,
+          "estimated_swap_price_usd": 0.6970588410164295,
+          "estimated_value_usd": 240.28947832570952
+        },
+        {
+          "block_timestamp": "2026-09-24T02:04:33Z",
+          "transaction_hash": "0x2721de66c5637e69c01b4c0fa461c5d4eacc38cdf5ed736cc416fe1b858cfc41",
+          "trader_address": "0xbeeb9eee061925cc6d2122f05a4e6536f0feb000",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 463.00445721934415,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.12067294881145182,
+          "estimated_swap_price_usd": 0.696930393540317,
+          "estimated_value_usd": 322.6818785807984
+        },
+        {
+          "block_timestamp": "2026-09-24T02:04:33Z",
+          "transaction_hash": "0x0a60f1bce1612cb825bf9f0197daf254ffdaba8c48c0c03581eeb1aeb4931ab9",
+          "trader_address": "0x51c72848c68a965f66fa7a88855f9f7784502a7f",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 235.43559216571967,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.06137563745503877,
+          "estimated_swap_price_usd": 0.6970895120734393,
+          "estimated_value_usd": 164.11968206752277
+        },
+        {
+          "block_timestamp": "2026-09-24T02:04:31Z",
+          "transaction_hash": "0xf7d6b2826edaab618f3fcca63758754de00609d403fc5ca1a247e644fd7092fd",
+          "trader_address": "0x51c72848c68a965f66fa7a88855f9f7784502a7f",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 143.60853992882346,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.03744423182446164,
+          "estimated_swap_price_usd": 0.6972191544658316,
+          "estimated_value_usd": 100.12662478324691
+        },
+        {
+          "block_timestamp": "2026-09-24T02:04:31Z",
+          "transaction_hash": "0x15e322a71f3b6a149292153c40e17a662c281e70788934704a4cf33c0c30a6db",
+          "trader_address": "0x51c72848c68a965f66fa7a88855f9f7784502a7f",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 353.5445525822573,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.09217049318574715,
+          "estimated_swap_price_usd": 0.6971278170979816,
+          "estimated_value_usd": 246.46574218855162
+        },
+        {
+          "block_timestamp": "2026-09-24T02:04:31Z",
+          "transaction_hash": "0xf7bba14db4265917acda17f9d6f6a1b83d44c858a2b5e073560d77cb162205b5",
+          "trader_address": "0x51c72848c68a965f66fa7a88855f9f7784502a7f",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 145.32339252701735,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.0378862861307075,
+          "estimated_swap_price_usd": 0.6971258038887302,
+          "estimated_value_usd": 101.30868683923447
+        },
+        {
+          "block_timestamp": "2026-09-24T02:04:21Z",
+          "transaction_hash": "0x7442a0c12c5f21e8fcf0c0e7d93eb14ef9f545bbad1ffa1e3930c659f602601a",
+          "trader_address": "0x51c72848c68a965f66fa7a88855f9f7784502a7f",
+          "trader_address_label": null,
+          "action": "BUY",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 147.23963462545305,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.03839860054582676,
+          "estimated_swap_price_usd": 0.6973572441465554,
+          "estimated_value_usd": 102.67862583155168
+        },
+        {
+          "block_timestamp": "2026-09-24T02:04:13Z",
+          "transaction_hash": "0x26a50d703a3560af802bcc0175056ca3ccfcb7ea3661cac8b8b778665cb6f0c9",
+          "trader_address": "0x51c72848c68a965f66fa7a88855f9f7784502a7f",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 150.97382481200594,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.039364644502057115,
+          "estimated_swap_price_usd": 0.6972191823480913,
+          "estimated_value_usd": 105.26184669139077
+        },
+        {
+          "block_timestamp": "2026-09-24T02:04:11Z",
+          "transaction_hash": "0x8b6eb1c1c2cc759b69f07797c3cbff262520af09879fdad02537935256f8c53a",
+          "trader_address": "0x51c72848c68a965f66fa7a88855f9f7784502a7f",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 253.27793458974452,
+          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "traded_token_name": "USDC",
+          "traded_token_amount": 176.411394,
+          "estimated_swap_price_usd": 0.6972653187454312,
+          "estimated_value_usd": 176.6019197929027
+        },
+        {
+          "block_timestamp": "2026-09-24T02:04:11Z",
+          "transaction_hash": "0x620a36c35ffec9977d51bbb4e59840580a87c56d5d45d59efe456ceabd87f2c1",
+          "trader_address": "0xbee3211ab312a8d065c4fef0247448e17a8da000",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 17.2465412732281,
+          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "traded_token_name": "USDC",
+          "traded_token_amount": 12.009536,
+          "estimated_swap_price_usd": 0.6970966647555569,
+          "estimated_value_usd": 12.022506400136365
+        },
+        {
+          "block_timestamp": "2026-09-24T02:04:07Z",
+          "transaction_hash": "0xe0f6e2f4ae9e6ae5945408c848210ccef3d7c758d68fa42873d74ce958b0e5ad",
+          "trader_address": "0x2192bc3b4028acc1113f2cd9ac2cba70c36520db",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 354.47344524113026,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.09242417342940983,
+          "estimated_swap_price_usd": 0.6972146758852159,
+          "estimated_value_usd": 247.14408823371048
+        },
+        {
+          "block_timestamp": "2026-09-24T02:04:07Z",
+          "transaction_hash": "0xc796d2d15bd18b24271ff79b349a66857b35605d43a76a28f423c8efe653313e",
+          "trader_address": "0x51c72848c68a965f66fa7a88855f9f7784502a7f",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 189.20453272475729,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.04934192888785616,
+          "estimated_swap_price_usd": 0.6973474830893451,
+          "estimated_value_usd": 131.94130468470513
+        },
+        {
+          "block_timestamp": "2026-09-24T02:04:07Z",
+          "transaction_hash": "0xc642d7aa485e6f0ec92c64a15a5b3803aa4dcec2852a9b4ff2b4555d74bf150f",
+          "trader_address": "0x278d858f05b94576c1e6f73285886876ff6ef8d2",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 283.3985799237034,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.07388643324098847,
+          "estimated_swap_price_usd": 0.6971587517067265,
+          "estimated_value_usd": 197.573800215068
+        },
+        {
+          "block_timestamp": "2026-09-24T02:04:07Z",
+          "transaction_hash": "0x16c584d1e6c0b4e54e2495add97cc20edf5e260b9f9fb5e0a61154b26b4bf5e3",
+          "trader_address": "0x278d858f05b94576c1e6f73285886876ff6ef8d2",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 166.7612572064055,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.04348248781215592,
+          "estimated_swap_price_usd": 0.6972425370693055,
+          "estimated_value_usd": 116.27304205946118
+        },
+        {
+          "block_timestamp": "2026-09-24T02:04:07Z",
+          "transaction_hash": "0xb55c522a41c3d39187b4db93a207e8a61203fa0749f67296cc912d3678b34101",
+          "trader_address": "0xbeeb9eee061925cc6d2122f05a4e6536f0feb000",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 226.76227026798628,
+          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "traded_token_name": "USDC",
+          "traded_token_amount": 158.01124,
+          "estimated_swap_price_usd": 0.6975670744718974,
+          "estimated_value_usd": 158.1818934714449
+        },
+        {
+          "block_timestamp": "2026-09-24T02:04:07Z",
+          "transaction_hash": "0x9983a7ac031030b3a664b997dd1e46c692dd87453a62afcbb36a9307172dc382",
+          "trader_address": "0x278d858f05b94576c1e6f73285886876ff6ef8d2",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 169.98500073868288,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.044321915529302945,
+          "estimated_swap_price_usd": 0.6972243906735238,
+          "estimated_value_usd": 118.51768856366667
+        },
+        {
+          "block_timestamp": "2026-09-24T02:04:07Z",
+          "transaction_hash": "0x228bc45d21a489ce52fad86ad581e491097c464b1aa704211d30acfadbac309e",
+          "trader_address": "0x278d858f05b94576c1e6f73285886876ff6ef8d2",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 52.85987361756357,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.013781837311647468,
+          "estimated_swap_price_usd": 0.697181171387564,
+          "estimated_value_usd": 36.85290860809156
+        },
+        {
+          "block_timestamp": "2026-09-24T02:04:05Z",
+          "transaction_hash": "0x5f80b5b6434678041784c007c509b438b949fdb4a0f5276ad28e15a914b46f01",
+          "trader_address": "0x278d858f05b94576c1e6f73285886876ff6ef8d2",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 88.19500820677996,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.022998928567603685,
+          "estimated_swap_price_usd": 0.6973137847456523,
+          "estimated_value_usd": 61.4995949683436
+        },
+        {
+          "block_timestamp": "2026-09-24T02:04:05Z",
+          "transaction_hash": "0x71e984d6c453b2c262b26213a43dc4ab60aa68a7d87dadeebb8ec92895ea90f3",
+          "trader_address": "0x278d858f05b94576c1e6f73285886876ff6ef8d2",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 292.988922850982,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.07640011161970867,
+          "estimated_swap_price_usd": 0.6972803766278928,
+          "estimated_value_usd": 204.29542647333335
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:55Z",
+          "transaction_hash": "0xe3c5955a3db772f1edb8abdd328d4e43e584e9ebe4e3e82e6de6dad4cb760dcd",
+          "trader_address": "0x899afbe7c6062cbb03b7bb358ee8c9857903d2ff",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 14.80819336267829,
+          "traded_token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "traded_token_name": "ETH",
+          "traded_token_amount": 0.003861745106097424,
+          "estimated_swap_price_usd": 0.6975879493130949,
+          "estimated_value_usd": 10.330017240902531
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:49Z",
+          "transaction_hash": "0xa6d2ba85f313539033f4cf484bf595462dcdced65a5bad1bb5daef753b1e0d5d",
+          "trader_address": "0x51c72848c68a965f66fa7a88855f9f7784502a7f",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 374.2597056410651,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.09763151740068084,
+          "estimated_swap_price_usd": 0.6975600798717755,
+          "estimated_value_usd": 261.0686301597686
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:49Z",
+          "transaction_hash": "0x53c50a7cf8a42116c9c425a5b3b7e431a7c5966db5d3cb0b7abbcb80d9942f03",
+          "trader_address": "0x278d858f05b94576c1e6f73285886876ff6ef8d2",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 219.04249706044536,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.057123518827243217,
+          "estimated_swap_price_usd": 0.6973506687712444,
+          "estimated_value_usd": 152.7494318144249
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:49Z",
+          "transaction_hash": "0x471550dea45c3efce2ef60e806f9da72182831d44b763ffe99d4bb18bf99a21c",
+          "trader_address": "0x278d858f05b94576c1e6f73285886876ff6ef8d2",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 201.5743857971191,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.0525720048195903,
+          "estimated_swap_price_usd": 0.6974030543204561,
+          "estimated_value_usd": 140.57859232768084
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:47Z",
+          "transaction_hash": "0xa9c8f4e582d0f358cbedf64cebf5765c421628a80d2f835c343728a217b4acdf",
+          "trader_address": "0x278d858f05b94576c1e6f73285886876ff6ef8d2",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 72.93178969535317,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.019027688820297806,
+          "estimated_swap_price_usd": 0.6976439310181164,
+          "estimated_value_usd": 50.88042045925274
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:47Z",
+          "transaction_hash": "0x5e05dc3ed9483b9f55bb62b1874520965fb6994d285e2d5cf0dea3230af63a61",
+          "trader_address": "0x51c72848c68a965f66fa7a88855f9f7784502a7f",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 265.040532192881,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.06916390074786971,
+          "estimated_swap_price_usd": 0.6978013979508082,
+          "estimated_value_usd": 184.94565387781856
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:47Z",
+          "transaction_hash": "0x7407bf386cb68d62b8d8798b3a6b8413278a306cd84036a31c0a1a0952d1ddf1",
+          "trader_address": "0xc9e528d0b43f3cf7306eed6515a9bfdb6399705c",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 189.45322898980393,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.04940188484906127,
+          "estimated_swap_price_usd": 0.6972783141700706,
+          "estimated_value_usd": 132.10162812408683
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:47Z",
+          "transaction_hash": "0x497836d50dab33191a54e663b1cf56ba4c49e2c9492ccb01b2e95fef86ef541c",
+          "trader_address": "0x278d858f05b94576c1e6f73285886876ff6ef8d2",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 148.41348176347438,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.03870760892673521,
+          "estimated_swap_price_usd": 0.6974091517320752,
+          "estimated_value_usd": 103.50492042226848
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:47Z",
+          "transaction_hash": "0xc51d1b879a8c525e6f7836139b8831e4841cfd68e10c5ed0995b86035f7ff51d",
+          "trader_address": "0x278d858f05b94576c1e6f73285886876ff6ef8d2",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 192.18987838430976,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.05013930632761461,
+          "estimated_swap_price_usd": 0.6976096193685593,
+          "estimated_value_usd": 134.07350790616803
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:47Z",
+          "transaction_hash": "0x9f1be51d1313740b8426460277a61d78476a7a28ec7a58f00528c21eee5aceb7",
+          "trader_address": "0xbeeb9eee061925cc6d2122f05a4e6536f0feb000",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 396.034478587002,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.1033158218699698,
+          "estimated_swap_price_usd": 0.6975871772135244,
+          "estimated_value_usd": 276.2685739967367
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:47Z",
+          "transaction_hash": "0x5c0cbc2abba7fa1b7f9047d5129718fbf53221e54fc0453d0a5fe3065d917698",
+          "trader_address": "0x01989c93890aed05a63d179b03424997075b6acf",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 224.4920585193134,
+          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "traded_token_name": "USDC",
+          "traded_token_amount": 156.492974,
+          "estimated_swap_price_usd": 0.6978509118080275,
+          "estimated_value_usd": 156.66198773136392
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:47Z",
+          "transaction_hash": "0x698760c87d3a4cc6b833fdbde54441210ffc8eec847d4b0af56cf38ae0697cab",
+          "trader_address": "0x51c72848c68a965f66fa7a88855f9f7784502a7f",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 172.525181331765,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.04500251739291032,
+          "estimated_swap_price_usd": 0.6975076370305703,
+          "estimated_value_usd": 120.33763155899005
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:47Z",
+          "transaction_hash": "0x4f87175446739a1ed3bbcbdefae0926919dbbc2913ae84efd61d70c3b1ef205e",
+          "trader_address": "0xc9e528d0b43f3cf7306eed6515a9bfdb6399705c",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 1286.9700765912044,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.33565527072387424,
+          "estimated_swap_price_usd": 0.6974124133471623,
+          "estimated_value_usd": 897.5489070210541
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:47Z",
+          "transaction_hash": "0x7f74a373b00b15d604f679e34a6b5e96fb9bcb72c138b1b3876f1218c07e8265",
+          "trader_address": "0x278d858f05b94576c1e6f73285886876ff6ef8d2",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 440.0424317091229,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.11477978504713421,
+          "estimated_swap_price_usd": 0.6974860120185421,
+          "estimated_value_usd": 306.9234408117378
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:47Z",
+          "transaction_hash": "0x4bd0109f8e64e59384742db0e93175ab692d05ae324caf67265a57d1300ff7de",
+          "trader_address": "0xbeeb9eee061925cc6d2122f05a4e6536f0feb000",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 229.34504905775776,
+          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "traded_token_name": "USDC",
+          "traded_token_amount": 159.941423,
+          "estimated_swap_price_usd": 0.6981365490259007,
+          "estimated_value_usd": 160.11416108535892
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:47Z",
+          "transaction_hash": "0x0762beb11fc8011d45b22d5f2f8bcc1e56081c61be720cdc4a1a0ea4ac3b4d65",
+          "trader_address": "0x278d858f05b94576c1e6f73285886876ff6ef8d2",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 94.35085249645807,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.024611929891466267,
+          "estimated_swap_price_usd": 0.6975325715350503,
+          "estimated_value_usd": 65.81279276837863
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:45Z",
+          "transaction_hash": "0x6b9383df9376e4379541c1676858d0d6443d3b198439a6b972f89b0f69a79712",
+          "trader_address": "0x3581939739f2df2c33b96b8a14aca451a1917f43",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 17.91092701317825,
+          "traded_token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "traded_token_name": "ETH",
+          "traded_token_amount": 0.004674020448384875,
+          "estimated_swap_price_usd": 0.698055551698171,
+          "estimated_value_usd": 12.502822037609818
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:41Z",
+          "transaction_hash": "0xcb287b3730ea8a66f8ae7ed19ea5f555d68822c297ef2fc9e01b802b675f6fe4",
+          "trader_address": "0xfbd5f0043d6f7f8b23db6ab95d60f4ab02527c4e",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 7.699447593019121,
+          "traded_token_address": "0x311935cd80b76769bf2ecc9d8ab7635b2139cf82",
+          "traded_token_name": "SOL",
+          "traded_token_amount": 0.046645914,
+          "estimated_swap_price_usd": 0.6901281533610419,
+          "estimated_value_usd": 5.313605549270405
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:37Z",
+          "transaction_hash": "0x467c6eb8281eaea58fea48e2123de5d5a65922094a1d65213aaba391703f9ea5",
+          "trader_address": "0xbee3211ab312a8d065c4fef0247448e17a8da000",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 51.502359123288755,
+          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "traded_token_name": "USDC",
+          "traded_token_amount": 35.937,
+          "estimated_swap_price_usd": 0.6985274631182646,
+          "estimated_value_usd": 35.975812262996705
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:29Z",
+          "transaction_hash": "0x26e038f9fca238d420c8474d346b06605ec50c788af204988a11fb6bbb94284e",
+          "trader_address": "0x51c72848c68a965f66fa7a88855f9f7784502a7f",
+          "trader_address_label": null,
+          "action": "BUY",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 154.83259467802657,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.040415760065638566,
+          "estimated_swap_price_usd": 0.6979961225571079,
+          "estimated_value_usd": 108.07255073071883
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:19Z",
+          "transaction_hash": "0x03e1a34cd5f8d2bdeb28c07047b80cfc98eda06cfc2ea9b39f6d9d51a2d80843",
+          "trader_address": "0x51c72848c68a965f66fa7a88855f9f7784502a7f",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 158.54023252728723,
+          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "traded_token_name": "USDC",
+          "traded_token_amount": 110.602005,
+          "estimated_swap_price_usd": 0.6983808105546025,
+          "estimated_value_usd": 110.72145609792202
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:13Z",
+          "transaction_hash": "0x77f7df3d4e9dfde45491e0f8baaf6e1dd74b6519c59f4893831ecef4529f15d2",
+          "trader_address": "0x899afbe7c6062cbb03b7bb358ee8c9857903d2ff",
+          "trader_address_label": null,
+          "action": "BUY",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 14.808193362678292,
+          "traded_token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "traded_token_name": "ETH",
+          "traded_token_amount": 0.00387,
+          "estimated_swap_price_usd": 0.6990791182926845,
+          "estimated_value_usd": 10.352098759488724
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:13Z",
+          "transaction_hash": "0xfdcb844c97cc5d971e5bce3854ef4abd5dce0603af1eeb9b2aea43635eff436b",
+          "trader_address": "0x51c72848c68a965f66fa7a88855f9f7784502a7f",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 153.2264832723792,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.03998784326905142,
+          "estimated_swap_price_usd": 0.6978447222353233,
+          "estimated_value_usd": 106.92829265830888
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:11Z",
+          "transaction_hash": "0x8be9d38b71fa8b59ce4102f3c2f94343c0a7d5a77585e41930022f12cb1da615",
+          "trader_address": "0x51c72848c68a965f66fa7a88855f9f7784502a7f",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 150.89053310635558,
+          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "traded_token_name": "USDC",
+          "traded_token_amount": 105.29475,
+          "estimated_swap_price_usd": 0.6985757624931801,
+          "estimated_value_usd": 105.40846921777478
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:09Z",
+          "transaction_hash": "0x1b2dd22dc0123078f2012b9ce5c0c307fb826ad9b72ef4e6b81449d46df55b7f",
+          "trader_address": "0x278d858f05b94576c1e6f73285886876ff6ef8d2",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 388.5275765132911,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.10137597206863523,
+          "estimated_swap_price_usd": 0.6977146365354547,
+          "estimated_value_usd": 271.081376830972
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:09Z",
+          "transaction_hash": "0x03af40439c2a38d2cfba24b2fb5797dc53650f9a21070216f33cb750f14579a9",
+          "trader_address": "0x278d858f05b94576c1e6f73285886876ff6ef8d2",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 159.3851388706157,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.04159629266754659,
+          "estimated_swap_price_usd": 0.6978650538377089,
+          "estimated_value_usd": 111.22931851887293
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:09Z",
+          "transaction_hash": "0x58aaa92fa03e7816c4e84d52ba6bc123f0c8c9708752866f3d98600ac6dc93f4",
+          "trader_address": "0xc9e528d0b43f3cf7306eed6515a9bfdb6399705c",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 657.7112322193028,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.1715884905773678,
+          "estimated_swap_price_usd": 0.6976177889276239,
+          "estimated_value_usd": 458.83105557369305
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:09Z",
+          "transaction_hash": "0x267bed3a81f7dee2c52153b5e9d7ca8f958d19e0f3fe01cab2fe15c97075aa87",
+          "trader_address": "0x278d858f05b94576c1e6f73285886876ff6ef8d2",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 221.62486719314063,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.05783076625342422,
+          "estimated_swap_price_usd": 0.6977584579541605,
+          "estimated_value_usd": 154.64062557698142
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:09Z",
+          "transaction_hash": "0x00cd092f12c3a8e1fb87ea5d2bfcf300958891d894c47e02a497b343a8b3939e",
+          "trader_address": "0x278d858f05b94576c1e6f73285886876ff6ef8d2",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 70.88690433707553,
+          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "traded_token_name": "USDC",
+          "traded_token_amount": 49.476347,
+          "estimated_swap_price_usd": 0.6987155432319557,
+          "estimated_value_usd": 49.52978187191141
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:09Z",
+          "transaction_hash": "0x8bbc876c2f7e57835c182c989d7625a4b4a10075d6045ef41f20225830599e25",
+          "trader_address": "0x51c72848c68a965f66fa7a88855f9f7784502a7f",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 176.08765490181827,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.04596216205461662,
+          "estimated_swap_price_usd": 0.6979690918469766,
+          "estimated_value_usd": 122.90374057728592
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:09Z",
+          "transaction_hash": "0x585c719a08694e1b9132b14cef94bf381cc1b3f8c5ad5e66e5a3662c056690eb",
+          "trader_address": "0x278d858f05b94576c1e6f73285886876ff6ef8d2",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 306.3180350521316,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.07993825039887846,
+          "estimated_swap_price_usd": 0.6978253183663515,
+          "estimated_value_usd": 213.75648033160897
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:09Z",
+          "transaction_hash": "0x4653345cdc71e7b8fbb26aa470c449b0d130ce11425ae8409c8665ab9018b5be",
+          "trader_address": "0x278d858f05b94576c1e6f73285886876ff6ef8d2",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 79.46963467455083,
+          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "traded_token_name": "USDC",
+          "traded_token_amount": 55.474289,
+          "estimated_swap_price_usd": 0.6988103308549143,
+          "estimated_value_usd": 55.534201699842036
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:07Z",
+          "transaction_hash": "0x78869688366fb2f87f9b1c2c8a9dfec5a09905049bd2bf5a289d7e0f8c1046e2",
+          "trader_address": "0x278d858f05b94576c1e6f73285886876ff6ef8d2",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 115.44339688344432,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.030129573590092173,
+          "estimated_swap_price_usd": 0.6978925130964537,
+          "estimated_value_usd": 80.56708237137828
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:07Z",
+          "transaction_hash": "0x915a9fc4415b817fd35af393722d5c7bcdbd6308489508d1cc6d423f48270422",
+          "trader_address": "0x278d858f05b94576c1e6f73285886876ff6ef8d2",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 79.77536431641774,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.020821750660032588,
+          "estimated_swap_price_usd": 0.6979319765824232,
+          "estimated_value_usd": 55.67777769994034
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:07Z",
+          "transaction_hash": "0xc70f8af041b65af5937b1f88e2bea936180ed31303b71ce81f04dec17f84cb35",
+          "trader_address": "0x278d858f05b94576c1e6f73285886876ff6ef8d2",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 73.15238641619722,
+          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "traded_token_name": "USDC",
+          "traded_token_amount": 51.071525,
+          "estimated_swap_price_usd": 0.6989065590658645,
+          "estimated_value_usd": 51.12668267760088
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:07Z",
+          "transaction_hash": "0xb232930a030e8752d953c958b6e3dd1cffea96f0afe6168064895a7951f3e2f6",
+          "trader_address": "0xc9e528d0b43f3cf7306eed6515a9bfdb6399705c",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 1012.8654286872285,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.26431781122603387,
+          "estimated_swap_price_usd": 0.6978134444678488,
+          "estimated_value_usd": 706.7911135746391
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:05Z",
+          "transaction_hash": "0xad586aa9179cb701410904354a24bb8d115366d955bfb7e7979f9bdd4afdc10f",
+          "trader_address": "0x278d858f05b94576c1e6f73285886876ff6ef8d2",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 98.10732870637574,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.02560830729368435,
+          "estimated_swap_price_usd": 0.697981759083485,
+          "estimated_value_usd": 68.47712586945782
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:05Z",
+          "transaction_hash": "0x86d70efb05b2118d87cefc33626d4d313c34344767c8298c66be75c08e5a4bd2",
+          "trader_address": "0x3581939739f2df2c33b96b8a14aca451a1917f43",
+          "trader_address_label": null,
+          "action": "BUY",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 17.910927013178256,
+          "traded_token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "traded_token_name": "ETH",
+          "traded_token_amount": 0.00468,
+          "estimated_swap_price_usd": 0.6989485857034128,
+          "estimated_value_usd": 12.518817104497993
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:05Z",
+          "transaction_hash": "0x804d804d6b07b36059a1a0e48f9102ca5d1309cd52a07e308ff2def91f183c62",
+          "trader_address": "0x278d858f05b94576c1e6f73285886876ff6ef8d2",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 190.9021892318053,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.04982798808575011,
+          "estimated_swap_price_usd": 0.6979544720635339,
+          "estimated_value_usd": 133.2410367010575
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:05Z",
+          "transaction_hash": "0x0c39e9464b827f26e1373d6579a24d3306c08198f258acf63919cff3c702249a",
+          "trader_address": "0x51c72848c68a965f66fa7a88855f9f7784502a7f",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 146.92768747829004,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.038357571387419374,
+          "estimated_swap_price_usd": 0.698091114083196,
+          "estimated_value_usd": 102.56891304138715
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:05Z",
+          "transaction_hash": "0xf03d2c946864ec41dfa9f5e8596da9996e83ba04d2873052802ddb78856a0e37",
+          "trader_address": "0x278d858f05b94576c1e6f73285886876ff6ef8d2",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 148.45231138216784,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.03874690501899594,
+          "estimated_swap_price_usd": 0.6979345622458338,
+          "estimated_value_usd": 103.60999895889552
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:05Z",
+          "transaction_hash": "0xc65f0d3a05da42942439a3d91515eadfa8d597e4171aa7d3f93e1f604e16a490",
+          "trader_address": "0x278d858f05b94576c1e6f73285886876ff6ef8d2",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 73.27822671157267,
+          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "traded_token_name": "USDC",
+          "traded_token_amount": 51.166141,
+          "estimated_swap_price_usd": 0.6989989136239475,
+          "estimated_value_usd": 51.22140086367863
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:03Z",
+          "transaction_hash": "0x22b20126f6ed56c7149548be2da43fb5c7b7815a1be54ed6ab9657794e18f382",
+          "trader_address": "0x51c72848c68a965f66fa7a88855f9f7784502a7f",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 211.5867560590829,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.05524846420411393,
+          "estimated_swap_price_usd": 0.6982265856461805,
+          "estimated_value_usd": 147.73549825108472
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:03Z",
+          "transaction_hash": "0x75cf2eb9177114aa1ffc07d852caa5c04bc7e23fa0fc92e0c50e65630ce2fbbf",
+          "trader_address": "0x51c72848c68a965f66fa7a88855f9f7784502a7f",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 287.2845408536804,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.07500486658650216,
+          "estimated_swap_price_usd": 0.6981389000384461,
+          "estimated_value_usd": 200.5645133496385
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:03Z",
+          "transaction_hash": "0x382b4aa8c9dbd4966e53a09e1b008a915b2188e8c0bd01dafeeeb1af036e3bca",
+          "trader_address": "0x278d858f05b94576c1e6f73285886876ff6ef8d2",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 121.59140332251583,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.03174392322024564,
+          "estimated_swap_price_usd": 0.6981076231536738,
+          "estimated_value_usd": 84.88388556940124
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:03Z",
+          "transaction_hash": "0xb921f090a359639d3940f5c6385ca1bba1edb77656f00c139772c9e0968ee842",
+          "trader_address": "0x278d858f05b94576c1e6f73285886876ff6ef8d2",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 547.7131763091334,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.1429780890941846,
+          "estimated_swap_price_usd": 0.6980410301172739,
+          "estimated_value_usd": 382.3262697996315
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:03Z",
+          "transaction_hash": "0x9f907843c15a4c19fd0ed2d7de0d7499a651323678bf7cdfbe3c59723e9696d7",
+          "trader_address": "0x278d858f05b94576c1e6f73285886876ff6ef8d2",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 99.03841187000083,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.025856719995834644,
+          "estimated_swap_price_usd": 0.6981269701095134,
+          "estimated_value_usd": 69.14138640326175
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:03Z",
+          "transaction_hash": "0xac991f04aa4bd0392bd6587fc84414372ed705d241ca7f158ab75433d4eab64f",
+          "trader_address": "0x278d858f05b94576c1e6f73285886876ff6ef8d2",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 91.00329712482537,
+          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "traded_token_name": "USDC",
+          "traded_token_amount": 63.570221,
+          "estimated_swap_price_usd": 0.6993029855541472,
+          "estimated_value_usd": 63.63887737466151
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:03Z",
+          "transaction_hash": "0x7c83b181d3f2abc0f7fc3ddbe2b2cdb723e482f7bdd2fdf1cf4f6fa0a0f68dbe",
+          "trader_address": "0x278d858f05b94576c1e6f73285886876ff6ef8d2",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 474.4515029694731,
+          "traded_token_address": "0x4200000000000000000000000000000000000006",
+          "traded_token_name": "WETH",
+          "traded_token_amount": 0.12387890952795863,
+          "estimated_swap_price_usd": 0.6981844921613944,
+          "estimated_value_usd": 331.2546816559519
+        },
+        {
+          "block_timestamp": "2026-09-24T02:03:03Z",
+          "transaction_hash": "0x964d582b0cdc5fbb0547519890f0b1d424e8050aebff9f49b09eb0150380247d",
+          "trader_address": "0x278d858f05b94576c1e6f73285886876ff6ef8d2",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
+          "token_name": "VIRTUAL",
+          "token_amount": 79.41927325572804,
+          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "traded_token_name": "USDC",
+          "traded_token_amount": 55.461737,
+          "estimated_swap_price_usd": 0.6990952431004746,
+          "estimated_value_usd": 55.52163614357622
+        }
+      ],
+      "pagination": {
+        "page": 1,
+        "per_page": 100,
+        "is_last_page": false
+      }
+    },
+    "recordedAt": 1790215536166
   }
 ]
