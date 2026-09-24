@@ -5,12 +5,25 @@ import { usd, pct, shortAddress } from '@/lib/viz/format';
 import { toBaseUnits } from '@/lib/units';
 
 type Eth = { request: (a: { method: string; params?: unknown[] }) => Promise<unknown> };
+type SolanaTx = { serialize: () => Uint8Array };
+type SolanaProvider = {
+  publicKey?: { toString: () => string };
+  connect: () => Promise<{ publicKey?: { toString: () => string } }>;
+  signTransaction: (transaction: SolanaTx) => Promise<SolanaTx>;
+};
+type TradeChain = 'base' | 'solana';
+type BaseAsset = 'USDC' | 'ETH' | 'SOL';
 const eth = (): Eth | null => (typeof window !== 'undefined' ? ((window as unknown as { ethereum?: Eth }).ethereum ?? null) : null);
+const solana = (): SolanaProvider | null => {
+  if (typeof window === 'undefined') return null;
+  const w = window as unknown as { solana?: SolanaProvider; phantom?: { solana?: SolanaProvider } };
+  return w.phantom?.solana ?? w.solana ?? null;
+};
 const BASE_CHAIN = '0x2105';
-const DECIMALS = { USDC: 6, ETH: 18 } as const;
+const DECIMALS = { USDC: 6, ETH: 18, SOL: 9 } as const;
 
 interface Quote { id: string; aggregator: string; inUsd: number | null; outUsd: number | null; outAmount: string | null; priceImpactPct: number | null; tradingFeeUsd: number | null; networkFeeUsd: number | null }
-interface Prepared { simulationPassed: boolean | null; needsApproval: boolean; approvalTx: Record<string, unknown> | null; swapTx: Record<string, unknown> | null; error: string | null }
+interface Prepared { chain: TradeChain; simulationPassed: boolean | null; needsApproval: boolean; approvalTx: Record<string, unknown> | null; swapTx: Record<string, unknown> | null; transaction: string | null; error: string | null }
 interface Signals { symbol: string | null; storm: { score: number; band: string } | null; chainPressure: { cpi: number; band: string | null } | null; trackRecord: string }
 
 async function post<T>(body: object): Promise<T> {
@@ -36,11 +49,13 @@ async function waitReceipt(w: Eth, hash: string, onTick: (s: string) => void): P
 }
 
 export function SpotTrade({ initialToken }: { initialToken: string }) {
+  const [chain, setChain] = useState<TradeChain>('base');
   const [wallet, setWallet] = useState<string | null>(null);
   const [side, setSide] = useState<'buy' | 'sell'>('buy');
-  const [base, setBase] = useState<'USDC' | 'ETH'>('USDC');
+  const [base, setBase] = useState<BaseAsset>('USDC');
   const [token, setToken] = useState(initialToken);
   const [amount, setAmount] = useState('');
+  const [solanaTokenDecimals, setSolanaTokenDecimals] = useState('6');
   const [signals, setSignals] = useState<Signals | null>(null);
   const [quotes, setQuotes] = useState<Quote[] | null>(null);
   const [picked, setPicked] = useState<Quote | null>(null);
@@ -50,23 +65,40 @@ export function SpotTrade({ initialToken }: { initialToken: string }) {
   const [status, setStatus] = useState<string | null>(null);
   const [err, setErr] = useState<string | null>(null);
   const [done, setDone] = useState<{ hash: string; ok: boolean | null; via: 'nansen' | 'wallet' } | null>(null);
-  const validToken = /^0x[0-9a-fA-F]{40}$/.test(token.trim());
+  const validToken = chain === 'base' ? /^0x[0-9a-fA-F]{40}$/.test(token.trim()) : /^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(token.trim());
 
   useEffect(() => {
     setSignals(null);
-    if (validToken) post<Signals>({ action: 'signals', chain: 'base', token: token.trim() }).then(setSignals).catch(() => {});
-  }, [token, validToken]);
+    if (validToken) post<Signals>({ action: 'signals', chain, token: token.trim() }).then(setSignals).catch(() => {});
+  }, [chain, token, validToken]);
   // Any change invalidates quotes and preparation.
-  useEffect(() => { setQuotes(null); setPicked(null); setPrep(null); setApproved(false); setConfirmSwap(false); setDone(null); }, [side, base, token, amount, wallet]);
+  useEffect(() => { setQuotes(null); setPicked(null); setPrep(null); setApproved(false); setConfirmSwap(false); setDone(null); }, [chain, side, base, token, amount, wallet, solanaTokenDecimals]);
+
+  function chooseChain(next: TradeChain) {
+    setChain(next);
+    setWallet(null);
+    setBase('USDC');
+    setToken(next === 'base' && /^0x[0-9a-fA-F]{40}$/.test(initialToken) ? initialToken : '');
+    setErr(null);
+  }
 
   async function connect() {
     setErr(null);
-    const w = eth();
-    if (!w) { setErr('No Ethereum wallet found in this browser.'); return; }
     try {
-      const [a] = (await w.request({ method: 'eth_requestAccounts' })) as string[];
-      await w.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: BASE_CHAIN }] });
-      setWallet(a);
+      if (chain === 'base') {
+        const w = eth();
+        if (!w) throw new Error('No Ethereum wallet found in this browser.');
+        const [a] = (await w.request({ method: 'eth_requestAccounts' })) as string[];
+        await w.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: BASE_CHAIN }] });
+        setWallet(a);
+      } else {
+        const w = solana();
+        if (!w) throw new Error('No Solana wallet found in this browser.');
+        const connected = await w.connect();
+        const address = connected.publicKey?.toString() ?? w.publicKey?.toString();
+        if (!address) throw new Error('The Solana wallet did not return an address.');
+        setWallet(address);
+      }
     } catch (e) { setErr(walletMsg(e)); }
   }
 
@@ -81,10 +113,11 @@ export function SpotTrade({ initialToken }: { initialToken: string }) {
   async function getQuotes() {
     setErr(null); setStatus('Asking Nansen for routes…');
     try {
-      const decimals = side === 'buy' ? DECIMALS[base] : await sellDecimals();
+      const decimals = side === 'buy' ? DECIMALS[base] : chain === 'base' ? await sellDecimals() : Number(solanaTokenDecimals);
+      if (!Number.isInteger(decimals) || decimals < 0 || decimals > 18) throw new Error('Enter token decimals from 0 to 18.');
       const units = toBaseUnits(amount, decimals);
       if (!units) throw new Error('Enter an amount.');
-      const r = await post<{ quotes: Quote[] }>({ action: 'quote', chain: 'base', side, base, token: token.trim(), amount: units, wallet });
+      const r = await post<{ quotes: Quote[] }>({ action: 'quote', chain, side, base, token: token.trim(), amount: units, wallet });
       setQuotes(r.quotes);
       if (!r.quotes.length) setErr('Nansen found no route for this pair and size.');
     } catch (e) { setErr((e as Error).message); } finally { setStatus(null); }
@@ -108,12 +141,25 @@ export function SpotTrade({ initialToken }: { initialToken: string }) {
   }
 
   async function swap() {
-    if (!prep?.swapTx || !wallet) return;
+    if (!prep || !wallet || (chain === 'base' ? !prep.swapTx : !prep.transaction)) return;
     setConfirmSwap(false); setErr(null);
-    const w = eth()!;
-    const params = txParams(wallet, prep.swapTx);
     try {
       setStatus('Sign the swap in your wallet…');
+      if (chain === 'solana') {
+        const w = solana();
+        if (!w || !prep.transaction) throw new Error('Reconnect your Solana wallet.');
+        const { decodeSwapForWallet, bytesToBase64 } = await import('@/lib/solana-tx');
+        const decoded = decodeSwapForWallet(prep.transaction, wallet);
+        if ('error' in decoded) throw new Error(decoded.error);
+        const signed = await w.signTransaction(decoded.tx);
+        setStatus('Broadcasting the signed transaction through Nansen…');
+        const r = await post<{ txHash: string | null; status: string | null }>({ action: 'execute', chain, signedTx: bytesToBase64(signed.serialize()), confirm: true });
+        if (!r.txHash) throw new Error('Nansen did not return a transaction signature.');
+        setDone({ hash: r.txHash, ok: /confirm|success|final/i.test(r.status ?? '') ? true : null, via: 'nansen' });
+        return;
+      }
+      const w = eth()!;
+      const params = txParams(wallet, prep.swapTx!);
       let signed: string | null = null;
       try { signed = (await w.request({ method: 'eth_signTransaction', params: [params] })) as string; } catch (e) {
         if (/reject|denied|4001/i.test(String((e as Error).message))) throw e;
@@ -121,7 +167,7 @@ export function SpotTrade({ initialToken }: { initialToken: string }) {
       }
       if (signed) {
         setStatus('Broadcasting through Nansen…');
-        const r = await post<{ txHash: string | null }>({ action: 'execute', chain: 'base', signedTx: signed, confirm: true });
+        const r = await post<{ txHash: string | null }>({ action: 'execute', chain, signedTx: signed, confirm: true });
         if (!r.txHash) throw new Error('Nansen did not return a transaction hash.');
         setDone({ hash: r.txHash, ok: null, via: 'nansen' });
         setDone({ hash: r.txHash, ok: await waitReceipt(w, r.txHash, setStatus), via: 'nansen' });
@@ -134,7 +180,7 @@ export function SpotTrade({ initialToken }: { initialToken: string }) {
     } catch (e) { setErr(walletMsg(e)); } finally { setStatus(null); }
   }
 
-  const readyToSwap = prep && prep.swapTx && prep.simulationPassed !== false && (!prep.needsApproval || approved);
+  const readyToSwap = prep && (chain === 'base' ? prep.swapTx : prep.transaction) && prep.simulationPassed !== false && (!prep.needsApproval || approved);
   const card = 'glass rounded-2xl p-4';
   return (
     <div className="grid gap-4 lg:grid-cols-[1fr_300px]">
@@ -142,21 +188,28 @@ export function SpotTrade({ initialToken }: { initialToken: string }) {
         <section className={card}>
           <div className="flex flex-wrap items-center justify-between gap-2">
             <h2 className="text-[15px] font-semibold text-ink">1 · Wallet and trade</h2>
-            {wallet ? <span className="num text-[12.5px] text-ink-2">{shortAddress(wallet)} · Base</span> : <button onClick={connect} className="rounded-full bg-brand/15 px-3 py-1 text-[13px] text-ink ring-1 ring-brand/40">Connect wallet</button>}
+            {wallet ? <span className="num text-[12.5px] text-ink-2">{shortAddress(wallet)} · {chain === 'base' ? 'Base' : 'Solana'}</span> : <button onClick={connect} className="rounded-full bg-brand/15 px-3 py-1 text-[13px] text-ink ring-1 ring-brand/40">Connect {chain === 'base' ? 'EVM' : 'Solana'} wallet</button>}
           </div>
           <div className="mt-3 grid gap-3 sm:grid-cols-2">
+            <div className="flex gap-1 sm:col-span-2" role="radiogroup" aria-label="Chain">
+              {(['base', 'solana'] as const).map((x) => <button key={x} role="radio" aria-checked={chain === x} onClick={() => chooseChain(x)} className={`flex-1 rounded-lg px-3 py-1.5 text-[13px] ${chain === x ? 'bg-brand/15 text-ink ring-1 ring-brand/40' : 'border border-border text-ink-2'}`}>{x === 'base' ? 'Base' : 'Solana'}</button>)}
+            </div>
             <div className="flex gap-1" role="radiogroup" aria-label="Side">
               {(['buy', 'sell'] as const).map((x) => <button key={x} role="radio" aria-checked={side === x} onClick={() => setSide(x)} className={`flex-1 rounded-lg px-3 py-1.5 text-[13px] ${side === x ? 'bg-brand/15 text-ink ring-1 ring-brand/40' : 'border border-border text-ink-2'}`}>{x === 'buy' ? 'Buy token' : 'Sell token'}</button>)}
             </div>
             <label className="text-[12.5px] text-ink-2">{side === 'buy' ? 'Pay with' : 'Receive'}
-              <select value={base} onChange={(e) => setBase(e.target.value as 'USDC' | 'ETH')} className="mt-1 block w-full rounded-lg border border-border bg-raised px-2.5 py-1.5 text-[13px] text-ink"><option>USDC</option><option>ETH</option></select>
+              <select value={base} onChange={(e) => setBase(e.target.value as BaseAsset)} className="mt-1 block w-full rounded-lg border border-border bg-raised px-2.5 py-1.5 text-[13px] text-ink"><option>USDC</option><option>{chain === 'base' ? 'ETH' : 'SOL'}</option></select>
             </label>
-            <label className="text-[12.5px] text-ink-2 sm:col-span-2">Token on Base
-              <input value={token} onChange={(e) => setToken(e.target.value)} placeholder="0x…" className="num mt-1 block w-full rounded-lg border border-border bg-raised px-2.5 py-1.5 text-[13px] text-ink" />
+            <label className="text-[12.5px] text-ink-2 sm:col-span-2">Token on {chain === 'base' ? 'Base' : 'Solana'}
+              <input value={token} onChange={(e) => setToken(e.target.value)} placeholder={chain === 'base' ? '0x…' : 'Base58 mint…'} className="num mt-1 block w-full rounded-lg border border-border bg-raised px-2.5 py-1.5 text-[13px] text-ink" />
             </label>
             <label className="text-[12.5px] text-ink-2">Amount of {side === 'buy' ? base : signals?.symbol ?? 'the token'}
               <input value={amount} onChange={(e) => setAmount(e.target.value.replace(/[^\d.]/g, ''))} inputMode="decimal" placeholder="e.g. 5" className="num mt-1 block w-full rounded-lg border border-border bg-raised px-2.5 py-1.5 text-[13px] text-ink" />
             </label>
+            {chain === 'solana' && side === 'sell' && <label className="text-[12.5px] text-ink-2">Token decimals
+              <input value={solanaTokenDecimals} onChange={(e) => setSolanaTokenDecimals(e.target.value.replace(/\D/g, '').slice(0, 2))} inputMode="numeric" aria-describedby="solana-decimals-help" className="num mt-1 block w-full rounded-lg border border-border bg-raised px-2.5 py-1.5 text-[13px] text-ink" />
+              <span id="solana-decimals-help" className="mt-1 block text-[11px] text-ink-muted">Verify this in your wallet or explorer; it controls the exact sell amount.</span>
+            </label>}
             <div className="flex items-end"><button onClick={getQuotes} disabled={!wallet || !validToken || !amount} className="w-full rounded-lg border border-border px-3 py-1.5 text-[13px] text-ink hover:bg-raised disabled:opacity-45">Get quotes</button></div>
           </div>
         </section>
@@ -215,12 +268,12 @@ export function SpotTrade({ initialToken }: { initialToken: string }) {
 
       <aside className={`${card} h-fit space-y-2 text-[12.5px]`}>
         <h2 className="text-[13px] font-semibold text-ink">What TIDE sees</h2>
-        {!validToken ? <p className="text-ink-2">Enter a Base token address.</p> : !signals ? <p className="animate-pulse text-ink-muted">Reading TIDE&apos;s signals…</p> : (
+        {!validToken ? <p className="text-ink-2">Enter a valid {chain === 'base' ? 'Base token address' : 'Solana mint'}.</p> : !signals ? <p className="animate-pulse text-ink-muted">Reading TIDE&apos;s signals…</p> : (
           <>
             <div className="flex justify-between"><span className="text-ink-2">Storm Score</span><span className="num text-ink">{signals.storm ? `${signals.storm.score} · ${signals.storm.band}` : 'not computed'}</span></div>
-            <div className="flex justify-between"><span className="text-ink-2">Base pressure</span><span className="num text-ink">{signals.chainPressure ? `${signals.chainPressure.cpi} · ${signals.chainPressure.band ?? ''}` : '—'}</span></div>
+            <div className="flex justify-between"><span className="text-ink-2">{chain === 'base' ? 'Base' : 'Solana'} pressure</span><span className="num text-ink">{signals.chainPressure ? `${signals.chainPressure.cpi} · ${signals.chainPressure.band ?? ''}` : '—'}</span></div>
             <p className="text-[11.5px] text-ink-muted">{signals.trackRecord}</p>
-            <Link href={`/token/base/${token.trim()}`} className="text-ink-2 underline-offset-2 hover:text-ink hover:underline">Open the token page →</Link>
+            <Link href={`/token/${chain}/${token.trim()}`} className="text-ink-2 underline-offset-2 hover:text-ink hover:underline">Open the token page →</Link>
           </>
         )}
         <p className="border-t border-border pt-2 text-[11.5px] text-ink-muted">TIDE never signs or sends a transaction: your wallet does, after your confirmation. Readings, not advice.</p>

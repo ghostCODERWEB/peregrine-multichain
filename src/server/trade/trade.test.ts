@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { splitSignature, typedDataForWallet } from './perp';
 import { toBaseUnits } from '@/lib/units';
+import { tradeAddressKey, validSignedTransaction, validTradeAddress } from './spot';
 
 describe('trade helpers', () => {
   it('turns a decimal amount into base units without floating point', () => {
@@ -23,5 +24,21 @@ describe('trade helpers', () => {
     expect((t.types as Record<string, unknown>).EIP712Domain).toEqual([{ name: 'name', type: 'string' }, { name: 'version', type: 'string' }, { name: 'chainId', type: 'uint256' }, { name: 'verifyingContract', type: 'address' }]);
     const given = typedDataForWallet({ domain: { name: 'X' }, types: { EIP712Domain: [{ name: 'name', type: 'string' }] }, primaryType: 'X', message: {} });
     expect((given.types as Record<string, unknown>).EIP712Domain).toEqual([{ name: 'name', type: 'string' }]);
+  });
+
+  it('validates each spot chain without lowercasing Solana public keys', () => {
+    const sol = 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v';
+    expect(validTradeAddress('solana', sol)).toBe(true);
+    expect(validTradeAddress('base', sol)).toBe(false);
+    expect(tradeAddressKey('solana', sol)).toBe(sol);
+    expect(tradeAddressKey('base', '0x000000000000000000000000000000000000dEaD')).toBe('0x000000000000000000000000000000000000dead');
+  });
+
+  it('accepts only chain-appropriate signed transaction encodings', () => {
+    const solana = Buffer.alloc(96, 7).toString('base64');
+    expect(validSignedTransaction('solana', solana)).toBe(true);
+    expect(validSignedTransaction('solana', '0x' + 'ab'.repeat(70))).toBe(false);
+    expect(validSignedTransaction('base', '0x' + 'ab'.repeat(70))).toBe(true);
+    expect(validSignedTransaction('base', solana)).toBe(false);
   });
 });

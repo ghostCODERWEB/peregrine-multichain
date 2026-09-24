@@ -3,18 +3,19 @@ import { sameOrigin, fail } from '@/server/auth/http';
 import { contextFromRequest, contextScope } from '@/server/context';
 import { allow, clientId } from '@/server/rate';
 import { audit } from '@/server/nansen/db';
-import { tradeRefusal, spotQuote, spotPrepare, spotExecute, bridgeStatus, tradeSignals } from '@/server/trade/spot';
+import { tradeRefusal, spotQuote, spotPrepare, spotExecute, bridgeStatus, tradeSignals, TRADE_CHAINS, type TradeChain, type SpotQuoteInput } from '@/server/trade/spot';
 import { perpReads, perpPrepare, perpExecute, typedDataForWallet } from '@/server/trade/perp';
 import { perpDepositQuote, perpDepositSteps, perpBridgeStatus, DEPOSIT_CHAINS, type DepositChain } from '@/server/trade/perp-bridge';
 
 export const dynamic = 'force-dynamic';
 
 const EVM = /^0x[0-9a-fA-F]{40}$/;
+const TRADE_ADDRESS = /^(?:0x[0-9a-fA-F]{40}|[1-9A-HJ-NP-Za-km-z]{32,44})$/;
 const Body = z.discriminatedUnion('action', [
-  z.object({ action: z.literal('signals'), chain: z.literal('base'), token: z.string().regex(EVM) }),
-  z.object({ action: z.literal('quote'), chain: z.literal('base'), side: z.enum(['buy', 'sell']), base: z.enum(['USDC', 'ETH']), token: z.string().regex(EVM), amount: z.string().regex(/^\d{1,30}$/), wallet: z.string().regex(EVM) }),
-  z.object({ action: z.literal('prepare'), quoteId: z.string().min(8).max(40), wallet: z.string().regex(EVM) }),
-  z.object({ action: z.literal('execute'), chain: z.literal('base'), signedTx: z.string().max(200_000), confirm: z.literal(true) }),
+  z.object({ action: z.literal('signals'), chain: z.enum(TRADE_CHAINS), token: z.string().regex(TRADE_ADDRESS) }),
+  z.object({ action: z.literal('quote'), chain: z.enum(TRADE_CHAINS), side: z.enum(['buy', 'sell']), base: z.enum(['USDC', 'ETH', 'SOL']), token: z.string().regex(TRADE_ADDRESS), amount: z.string().regex(/^\d{1,30}$/), wallet: z.string().regex(TRADE_ADDRESS) }),
+  z.object({ action: z.literal('prepare'), quoteId: z.string().min(8).max(40), wallet: z.string().regex(TRADE_ADDRESS) }),
+  z.object({ action: z.literal('execute'), chain: z.enum(TRADE_CHAINS), signedTx: z.string().max(200_000), confirm: z.literal(true) }),
   z.object({ action: z.literal('bridge'), txHash: z.string().max(120), from: z.string().max(20), to: z.string().max(20), aggregator: z.string().max(20).optional() }),
   z.object({ action: z.literal('perp-state'), wallet: z.string().regex(EVM) }),
   z.object({ action: z.literal('perp-prepare'), kind: z.enum(['approve-builder-fee', 'order', 'close', 'cancel', 'leverage', 'transfer']), wallet: z.string().regex(EVM),
@@ -43,10 +44,10 @@ export async function POST(req: Request) {
     const data = await contextScope.run(ctx, async () => {
       switch (b.action) {
         case 'signals': return tradeSignals(ctx, b.chain, b.token);
-        case 'quote': return { quotes: await spotQuote(b) };
+        case 'quote': return { quotes: await spotQuote(b as SpotQuoteInput) };
         case 'prepare': return spotPrepare(b.quoteId, b.wallet);
         case 'execute': {
-          const r = await spotExecute(b.chain, b.signedTx);
+          const r = await spotExecute(b.chain as TradeChain, b.signedTx);
           audit(ctx.user?.id ?? null, 'trade.execute', `${b.chain} ${r.txHash ?? '?'}`);
           return r;
         }
