@@ -26,6 +26,8 @@ import type { ReactNode } from 'react';
 import { CallForm } from '@/components/desk/CallForm';
 import { Gauges, gaugesTitle, gaugeReadings } from './Gauges';
 import type { GaugeInputs } from '@/lib/models/gauges';
+import { FollowThrough, followTitle } from './FollowThrough';
+import type { FollowReport } from '@/server/smart-money/follow';
 
 interface State {
   header?: Wave<TokenHeader>;
@@ -92,6 +94,7 @@ const LAYOUT: Record<View, Row[]> = {
   ],
   flow: [
     { cols: 3, items: [['cohorts'], ['wind'], ['traders']] },
+    { cols: 2, items: [['follow', 2]] },
     { cols: 3, items: [['market', 2], ['river']] },
     { cols: 2, items: [['dca'], ['social']] },
   ],
@@ -114,6 +117,7 @@ const LAYOUT: Record<View, Row[]> = {
     { cols: 3, items: [['gauges', 2], ['call']] },
     { cols: 3, items: [['sphere', 2], ['cohorts']] },
     { cols: 3, items: [['odds'], ['wind'], ['traders']] },
+    { cols: 2, items: [['follow', 2]] },
     { cols: 2, items: [['holders'], ['insiders']] },
     { cols: 3, items: [['leverage', 2], ['positions']] },
     { cols: 3, items: [['tape', 2], ['river']] },
@@ -142,6 +146,7 @@ function useView(): [View, (v: View) => void] {
 export function TokenView({ chain, address, tier, mode }: { chain: string; address: string; tier: string; mode: 'owner' | 'member' | 'public' }) {
   const s = useTokenStream(chain, address);
   const [view, setView] = useView();
+  const [followReport, setFollowReport] = useState<FollowReport | null>(null);
   const h = ok(s.header) ? s.header : null;
   const symbol = h?.symbol ?? null;
   const clustered = useMemo(
@@ -159,6 +164,11 @@ export function TokenView({ chain, address, tier, mode }: { chain: string; addre
     comparedHolders: ok(s.forensics) ? s.forensics.nodes.length : gone(s.forensics) ? 0 : null,
   };
   const cards: Record<string, (cls: string) => ReactNode> = {
+    follow: (cls) => (
+      <Card id="follow" className={cls} title={followTitle(followReport)} sub="After a smart-money buy, did other wallets buy faster in the next 10 minutes, and where was the price 24 hours later?">
+        <FollowThrough chain={chain} token={address} mode={mode} onReport={setFollowReport} />
+      </Card>
+    ),
     gauges: (cls) => (
       <Card id="gauges" className={cls} title={gaugesTitle(gaugeInputs)} sub="Who is on which side, how much evidence there is, and whether the holders move as one. Three readings, never one score.">
         {gone(s.wind) && gone(s.header) ? <Unavailable text={s.wind.unavailable} /> : pending(s.wind) && pending(s.header) ? <WaveLoading what="flows for the three gauges" height={220} /> : (
