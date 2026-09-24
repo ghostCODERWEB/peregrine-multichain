@@ -1,7 +1,7 @@
 // The app's navigation, in the order a visitor meets the product: the
 // weather first, then what to look at, then research and the tools that act.
 export interface NavItem { href: string; label: string; icon: NavIcon; group: 'Explore' | 'Research' | 'Act' }
-export type NavIcon = 'map' | 'sparkles' | 'layers' | 'activity' | 'target' | 'bot' | 'brain' | 'briefcase' | 'flask' | 'gauge' | 'bell' | 'key';
+export type NavIcon = 'map' | 'sparkles' | 'layers' | 'activity' | 'target' | 'bot' | 'swap' | 'brain' | 'briefcase' | 'flask' | 'gauge' | 'bell' | 'key';
 
 export const NAV: NavItem[] = [
   { href: '/', label: 'Weather map', icon: 'map', group: 'Explore' },
@@ -15,5 +15,6 @@ export const NAV: NavItem[] = [
   { href: '/coverage', label: 'Coverage', icon: 'gauge', group: 'Research' },
   { href: '/agent', label: 'Research agent', icon: 'bot', group: 'Act' },
   { href: '/alerts', label: 'Alerts', icon: 'bell', group: 'Act' },
+  { href: '/trade', label: 'Trade', icon: 'swap', group: 'Act' },
   { href: '/account', label: 'Account', icon: 'key', group: 'Act' },
 ];

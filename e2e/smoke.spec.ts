@@ -181,6 +181,14 @@ test('agents: research agent explains it runs on a key; MCP answers tools/list @
   expect((await call.json()).result.content[0].text).toContain('Nansen API, via TIDE');
 });
 
+test('trade: off unless the operator turns it on, and says so', async ({ page }) => {
+  const w = await watch(page);
+  await page.goto('/trade');
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('Swap with TIDE');
+  await expect(page.getByText(/Trading is off on this instance|Trading runs on a Nansen key/)).toBeVisible();
+  expect(w.errors).toEqual([]);
+});
+
 test('lab, coverage and alerts render', async ({ page }) => {
   const w = await watch(page);
   await page.goto('/lab');

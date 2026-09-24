@@ -194,3 +194,11 @@ test('MCP and research agent: public callers get public tools only, no agent', a
   expect((await request.post('/api/mcp', { headers: { Authorization: 'Bearer tide_mcp_notarealtokennotarealtoken' }, data: { jsonrpc: '2.0', id: 4, method: 'tools/list' } })).status()).toBe(401);
   expect((await request.get('/api/agent')).status()).toBe(403);
 });
+
+test('trade API: public callers cannot quote, prepare or execute', async ({ request }) => {
+  const h = { Origin: BASE };
+  const q = await request.post('/api/trade', { headers: h, data: { action: 'quote', chain: 'base', side: 'buy', base: 'USDC', token: '0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b', amount: '5000000', wallet: '0x000000000000000000000000000000000000dEaD' } });
+  expect(q.status()).toBe(403);
+  const x = await request.post('/api/trade', { headers: h, data: { action: 'execute', chain: 'base', signedTx: '0x' + 'ab'.repeat(80), confirm: true } });
+  expect(x.status()).toBe(403);
+});
