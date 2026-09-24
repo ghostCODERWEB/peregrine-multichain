@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { TimeAgo } from '@/components/TimeAgo';
 import type { AnchorReport } from '@/server/agents/anchor';
+import { plainAnchorText } from '@/lib/plain-text';
 
 type Status = 'idle' | 'loading' | 'streaming' | 'done' | 'error';
 
@@ -76,7 +77,7 @@ export function AnchorCard({ query, initial, label }: { query: string; initial?:
       )}
       {text ? (
         <p className="text-[15px] leading-relaxed text-ink" aria-live="polite">
-          {text.slice(0, shown)}
+          {plainAnchorText(text.slice(0, shown))}
           {status === 'streaming' || shown < text.length ? <span className="ml-0.5 inline-block h-4 w-1.5 animate-pulse bg-ink-2 align-middle" aria-hidden /> : null}
         </p>
       ) : status === 'loading' ? (

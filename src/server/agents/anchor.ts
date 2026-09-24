@@ -6,6 +6,7 @@
 // explicit request.
 import { getDb } from '@/server/nansen/db';
 import { streamNansen } from '@/server/nansen/client';
+import { plainAnchorText } from '@/lib/plain-text';
 import { fixtureMode } from '@/server/nansen/demo';
 import { buildBulletin } from '@/server/weather/bulletin';
 import { chainName } from '@/lib/viz/format';
@@ -42,7 +43,7 @@ const RULES = [
   'Use only the numbers in the JSON. Cite at least three of them.',
   'Write exactly four sentences, like a weather broadcast: calm, specific, no hype.',
   'Probabilistic language only ("suggests", "odds", "tends to"). Never tell anyone to buy, sell or hold.',
-  'If a field is missing, do not guess it. Plain text, no markdown, no lists.',
+  'If a field is missing, do not guess it. Plain text, no markdown, no lists, no links or URLs.',
 ].join(' ');
 
 /** Indices describe relative pressure; never equate a score to a signed flow. */
@@ -141,7 +142,7 @@ export async function* anchorStream(kind: 'bulletin' | 'token', mode: DisplayMod
   }
   if (!text.trim()) return;
   // A DEMO_MODE replay spends nothing, so it doesn't count toward the cap.
-  const report: AnchorReport = { subject, text: text.trim(), toolCalls: tools, credits: fixtureMode() === 'replay' ? 0 : 200, createdAt: Date.now() };
+  const report: AnchorReport = { subject, text: plainAnchorText(text).trim(), toolCalls: tools, credits: fixtureMode() === 'replay' ? 0 : 200, createdAt: Date.now() };
   getDb().prepare('INSERT INTO anchor_reports (subject, prompt, text, tool_calls, conversation_id, credits, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)')
     .run(subject, built.prompt, report.text, JSON.stringify(tools), conversation, report.credits, report.createdAt);
   yield { type: 'done', report, cached: false };
