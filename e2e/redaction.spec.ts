@@ -167,3 +167,15 @@ test('predictions: public page and market detail carry no labels', async ({ page
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
   assertClean('/predict', await page.content());
 });
+
+test('alerts API: public callers cannot list, create, toggle or delete Smart Alerts', async ({ request }) => {
+  const h = { Origin: BASE };
+  const list = await request.get('/api/alerts');
+  // DEMO_MODE answers with an empty list and a note; a live public instance refuses.
+  if (list.status() !== 200) expect(list.status()).toBe(403);
+  expect((await list.json()).alerts ?? []).toEqual([]);
+  const create = await request.post('/api/alerts', { headers: h, data: { chain: 'base', address: '0x9b5e262cf9bb04869ab40b19af91d2dc85761722', channel: { type: 'telegram', chatId: '123456789' } } });
+  expect(create.ok()).toBe(false);
+  expect((await request.patch('/api/alerts', { headers: h, data: { id: 'x', isEnabled: false } })).status()).toBe(403);
+  expect((await request.delete('/api/alerts?id=x', { headers: h })).status()).toBe(403);
+});
