@@ -46,6 +46,19 @@ export interface PeerRow {
 
 export interface TidePoint { t: number; flowUsd: number; cumulativeUsd: number }
 
+export interface GridTile {
+  address: string;
+  symbol: string;
+  priceChange: number;
+  volumeUsd: number;
+  netFlowUsd: number | null;
+  liquidityUsd: number | null;
+  marketCapUsd: number | null;
+}
+
+/** The chain's most-traded tokens today, one tile each (all traders). */
+export interface GridSection { tiles: GridTile[]; provenance: Provenance | null; unavailable: string | null }
+
 export interface ChainPageData {
   chain: string;
   weather: ChainWeather;
@@ -54,6 +67,7 @@ export interface ChainPageData {
   forecastProvenance: Provenance;
   tide: { points: TidePoint[]; forecast: Array<{ t: number; forecast: number; low80: number; high80: number }>; provenance: Provenance };
   flows: FlowSection;
+  grid: GridSection;
   peers: { rows: PeerRow[]; self: PeerRow | null; growthPercentile: number | null; provenance: Provenance } | { rows: []; self: null; growthPercentile: null; provenance: null; error: string };
   tape: TapeRow[];
   /** scanner: the owner's recorded history. live: fetched just now with the
@@ -128,15 +142,64 @@ async function smartMoneyFlows(chain: string): Promise<FlowSection> {
   };
 }
 
-interface ScreenerFlowRow { token_address: string; token_symbol: string; netflow?: number | null; volume?: number | null; market_cap_usd?: number | null }
+interface ScreenerFlowRow {
+  token_address: string; token_symbol: string; netflow?: number | null; volume?: number | null; market_cap_usd?: number | null;
+  price_change?: number | null; liquidity?: number | null;
+}
 
-async function marketFlows(chain: string): Promise<FlowSection> {
-  const body = {
-    chains: [chain], timeframe: '24h', pagination: { page: 1, per_page: 200 },
-    order_by: [{ field: 'volume', direction: 'DESC' }],
-    filters: { include_stablecoins: false, include_native_tokens: false },
-  };
-  const r = await callNansen<{ data: ScreenerFlowRow[] }>('token-screener', body);
+/** One all-trader screener read per chain (1 credit, cached 5 min), shared
+ *  by the token flows and the market grid so a view never pays twice. */
+const screenerBody = (chain: string) => ({
+  chains: [chain], timeframe: '24h', pagination: { page: 1, per_page: 200 },
+  order_by: [{ field: 'volume', direction: 'DESC' }],
+  filters: { include_stablecoins: false, include_native_tokens: false },
+});
+type Screener = () => ReturnType<typeof callNansen<{ data: ScreenerFlowRow[] }>>;
+/** Memoized per page request: the flows and the grid share one promise
+ *  (the cache alone would not stop two concurrent cold calls). */
+function screener24h(chain: string): Screener {
+  let p: ReturnType<Screener> | null = null;
+  return () => (p ??= callNansen<{ data: ScreenerFlowRow[] }>('token-screener', screenerBody(chain)));
+}
+
+const GRID_MAX = 96;
+
+async function marketGrid(chain: string, screener: Screener): Promise<GridSection> {
+  if (!chainCapability(chain)?.screener) return { tiles: [], provenance: null, unavailable: unavailableReason(chain, 'tokenGodMode') ?? `Not available on ${chain} in Nansen API.` };
+  try {
+    const body = screenerBody(chain);
+    const r = await screener();
+    const tiles: GridTile[] = (r.data.data ?? [])
+      .filter((x) => x.price_change != null && Number.isFinite(x.price_change) && (x.volume ?? 0) > 0 && !isStablecoin(x.token_symbol))
+      .slice(0, GRID_MAX)
+      .map((x) => ({
+        address: x.token_address, symbol: x.token_symbol || x.token_address.slice(0, 6), priceChange: x.price_change!,
+        volumeUsd: x.volume ?? 0, netFlowUsd: x.netflow ?? null, liquidityUsd: x.liquidity ?? null, marketCapUsd: x.market_cap_usd ?? null,
+      }));
+    if (!tiles.length) return { tiles, provenance: null, unavailable: `Nansen's screener returned no traded tokens on ${chain} in the last 24 hours.` };
+    const up = tiles.filter((t) => t.priceChange > 0).length;
+    return {
+      tiles, unavailable: null,
+      provenance: {
+        title: `${chain} market grid, 24h (all traders)`,
+        formula: 'one tile per token, the most-traded first\ncolor = 24h price change (or net flow ÷ volume), anchored to the largest move on screen\nbar = 24h volume against the most-traded token',
+        inputs: [
+          { label: 'Tokens', value: String(tiles.length) },
+          { label: 'Up · down', value: `${up} · ${tiles.length - up}` },
+          { label: 'Median change', value: pct([...tiles].sort((a, b) => a.priceChange - b.priceChange)[Math.floor(tiles.length / 2)].priceChange) },
+        ],
+        calls: [{ endpoint: 'token-screener', body, credits: 1, ref: r.meta.cacheHit ? 'served from cache (5 min TTL)' : 'live' }],
+        notes: ['Stablecoins and native tokens are excluded, as in the pressure index.'],
+      },
+    };
+  } catch (e) {
+    return { tiles: [], provenance: null, unavailable: `Nansen call failed: ${(e as Error).message.slice(0, 140)}` };
+  }
+}
+
+async function marketFlows(chain: string, screener: Screener): Promise<FlowSection> {
+  const body = screenerBody(chain);
+  const r = await screener();
   const flows: TokenFlow[] = (r.data.data ?? [])
     .filter((x) => x.netflow != null && Number.isFinite(x.netflow) && !isStablecoin(x.token_symbol))
     .map((x) => ({ address: x.token_address, symbol: x.token_symbol, netFlowUsd: x.netflow!, sectors: [], traders: null, marketCapUsd: x.market_cap_usd ?? null }));
@@ -159,11 +222,11 @@ async function marketFlows(chain: string): Promise<FlowSection> {
   };
 }
 
-async function tokenFlows(chain: string, mode: DisplayMode): Promise<FlowSection> {
+async function tokenFlows(chain: string, mode: DisplayMode, screener: Screener): Promise<FlowSection> {
   const cap = chainCapability(chain);
   try {
     if (cap?.smartMoney && mode !== 'public') return await smartMoneyFlows(chain);
-    if (cap?.screener) return await marketFlows(chain);
+    if (cap?.screener) return await marketFlows(chain, screener);
   } catch (e) {
     return { kind: 'unavailable', inflows: [], outflows: [], sectors: [], provenance: null, unavailable: `Nansen call failed: ${(e as Error).message.slice(0, 140)}` };
   }
@@ -277,8 +340,9 @@ export async function chainPage(chain: string, mode: DisplayMode = 'owner', now 
   const weather = chainWeather(chain, now, view);
   const forecast = pressureForecast(chain, 24, now, view);
   const hasSmartMoney = !unavailableReason(chain, 'smartMoney');
-  const [flows, peerData, liveTape] = await Promise.all([
-    tokenFlows(chain, mode), peers(chain),
+  const screener = screener24h(chain);
+  const [flows, grid, peerData, liveTape] = await Promise.all([
+    tokenFlows(chain, mode, screener), marketGrid(chain, screener), peers(chain),
     mode === 'member' && hasSmartMoney ? memberTape(chain).catch(() => null) : Promise.resolve(null),
   ]);
   const tape = mode === 'owner' ? scannerTape(chain) : liveTape ?? [];
@@ -290,6 +354,7 @@ export async function chainPage(chain: string, mode: DisplayMode = 'owner', now 
     forecastProvenance: forecastProvenance(forecast),
     tide: tide(chain, now, view),
     flows,
+    grid,
     peers: peerData,
     tape,
     tapeSource: mode === 'owner' ? 'scanner' : mode === 'member' ? (liveTape ? 'live' : 'error') : 'withheld',

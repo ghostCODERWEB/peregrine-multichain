@@ -4615,6 +4615,51 @@
     "response": {
       "data": [
         {
+          "block_timestamp": "2026-09-24T02:17:45Z",
+          "transaction_hash": "0x6c22d263fd676b710ec7677b0d6802c1e84ad6cdc614869cd2e3de2b6928213d",
+          "trader_address": "0xc062a2ca82ffe4a95ec29337f762acdd7de0067c",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
+          "token_name": "NOCK",
+          "token_amount": 171.29321961592544,
+          "traded_token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "traded_token_name": "ETH",
+          "traded_token_amount": 0.001847748669571524,
+          "estimated_swap_price_usd": 0.02881249988504195,
+          "estimated_value_usd": 4.9353858704923175
+        },
+        {
+          "block_timestamp": "2026-09-24T02:15:37Z",
+          "transaction_hash": "0xbaffbeb4b695e31494f9d64573d2b308a1af9a37222e958642fa465f39f8850c",
+          "trader_address": "0x4ede629216256eace56b32c620261da2360313d9",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
+          "token_name": "NOCK",
+          "token_amount": 40000,
+          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "traded_token_name": "USDC",
+          "traded_token_amount": 1162.875111,
+          "estimated_swap_price_usd": 0.02896735569823695,
+          "estimated_value_usd": 1158.694227929478
+        },
+        {
+          "block_timestamp": "2026-09-24T02:12:55Z",
+          "transaction_hash": "0xb9eadff1946ec4c55d31455afdd7ba9e2084da9ac3fb51f8730a042d0aa544c0",
+          "trader_address": "0x8b79f2def2336b4a50365d180ca8c868bae539b0",
+          "trader_address_label": null,
+          "action": "BUY",
+          "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
+          "token_name": "NOCK",
+          "token_amount": 3405.5410341994316,
+          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "traded_token_name": "USDC",
+          "traded_token_amount": 100,
+          "estimated_swap_price_usd": 0.02925833785455849,
+          "estimated_value_usd": 99.6404701561695
+        },
+        {
           "block_timestamp": "2026-09-24T02:01:05Z",
           "transaction_hash": "0xaacddef101daa63dc4b5b4260cd26b3a4d231c0a2d5325dacf8d02c704ef9a18",
           "trader_address": "0xa75990bbe6a02c264e10708d4efc967586e3abbd",
@@ -4626,8 +4671,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 34.638129,
-          "estimated_swap_price_usd": 0.029154479601667258,
-          "estimated_value_usd": 34.68820604173874
+          "estimated_swap_price_usd": 0.02900772349574859,
+          "estimated_value_usd": 34.513594588900496
         },
         {
           "block_timestamp": "2026-09-24T01:59:39Z",
@@ -4641,8 +4686,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 30,
-          "estimated_swap_price_usd": 0.029581726842477323,
-          "estimated_value_usd": 30.043371605093398
+          "estimated_swap_price_usd": 0.029432820084508524,
+          "estimated_value_usd": 29.892141046850853
         },
         {
           "block_timestamp": "2026-09-24T01:50:13Z",
@@ -4656,8 +4701,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 518.566597,
-          "estimated_swap_price_usd": 0.029226564283403627,
-          "estimated_value_usd": 519.316299188657
+          "estimated_swap_price_usd": 0.029079445321850677,
+          "estimated_value_usd": 516.7021953236488
         },
         {
           "block_timestamp": "2026-09-24T01:49:35Z",
@@ -4671,8 +4716,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 728.566926,
-          "estimated_swap_price_usd": 0.02918480919599811,
-          "estimated_value_usd": 729.6202298999527
+          "estimated_swap_price_usd": 0.02903790041875006,
+          "estimated_value_usd": 725.9475104687515
         },
         {
           "block_timestamp": "2026-09-24T01:41:01Z",
@@ -4686,8 +4731,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 530.383038,
-          "estimated_swap_price_usd": 0.029285428872236084,
-          "estimated_value_usd": 531.1498234557458
+          "estimated_swap_price_usd": 0.029138013601575516,
+          "estimated_value_usd": 528.4761526917752
         },
         {
           "block_timestamp": "2026-09-24T01:39:37Z",
@@ -4701,8 +4746,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 210.423151,
-          "estimated_swap_price_usd": 0.02931560190199525,
-          "estimated_value_usd": 210.72736399358934
+          "estimated_swap_price_usd": 0.02916803474811085,
+          "estimated_value_usd": 209.66661697382648
         },
         {
           "block_timestamp": "2026-09-24T01:37:09Z",
@@ -4716,8 +4761,8 @@
           "traded_token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
           "traded_token_name": "ETH",
           "traded_token_amount": 0.000316262599474717,
-          "estimated_swap_price_usd": 0.02956841209671263,
-          "estimated_value_usd": 0.8459338712742115
+          "estimated_swap_price_usd": 0.02952688545455301,
+          "estimated_value_usd": 0.8447458198817929
         },
         {
           "block_timestamp": "2026-09-24T01:35:07Z",
@@ -4731,8 +4776,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 9,
-          "estimated_swap_price_usd": 0.029754533600225435,
-          "estimated_value_usd": 9.01301148152802
+          "estimated_swap_price_usd": 0.029604756977755872,
+          "estimated_value_usd": 8.967642314055254
         },
         {
           "block_timestamp": "2026-09-24T01:33:13Z",
@@ -4746,8 +4791,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 50,
-          "estimated_swap_price_usd": 0.02985877126190841,
-          "estimated_value_usd": 50.072286008488994
+          "estimated_swap_price_usd": 0.02970846993402385,
+          "estimated_value_usd": 49.82023507808475
         },
         {
           "block_timestamp": "2026-09-24T01:33:11Z",
@@ -4761,8 +4806,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 20,
-          "estimated_swap_price_usd": 0.029855912499689993,
-          "estimated_value_usd": 20.0289144033956
+          "estimated_swap_price_usd": 0.029705625562074664,
+          "estimated_value_usd": 19.9280940312339
         },
         {
           "block_timestamp": "2026-09-24T01:33:09Z",
@@ -4776,8 +4821,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 20,
-          "estimated_swap_price_usd": 0.029854278447671315,
-          "estimated_value_usd": 20.0289144033956
+          "estimated_swap_price_usd": 0.029703999735451,
+          "estimated_value_usd": 19.9280940312339
         },
         {
           "block_timestamp": "2026-09-24T01:33:07Z",
@@ -4791,8 +4836,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 20,
-          "estimated_swap_price_usd": 0.029852644440370727,
-          "estimated_value_usd": 20.0289144033956
+          "estimated_swap_price_usd": 0.029702373953320326,
+          "estimated_value_usd": 19.9280940312339
         },
         {
           "block_timestamp": "2026-09-24T01:32:53Z",
@@ -4806,23 +4851,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 2462.114934,
-          "estimated_swap_price_usd": 0.029395306868802363,
-          "estimated_value_usd": 2465.6744632204004
-        },
-        {
-          "block_timestamp": "2026-09-24T01:21:15Z",
-          "transaction_hash": "0x04ddc00bf9f989d986695d5e4dfaabb92f5ba49f2991c3cd3e515d0040f0c0f4",
-          "trader_address": "0x2d044b16650b074fd819a311a09c7b6f61190449",
-          "trader_address_label": null,
-          "action": "SELL",
-          "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
-          "token_name": "NOCK",
-          "token_amount": 1500,
-          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
-          "traded_token_name": "USDC",
-          "traded_token_amount": 44.162321,
-          "estimated_swap_price_usd": 0.02948411157214266,
-          "estimated_value_usd": 44.22616735821399
+          "estimated_swap_price_usd": 0.029247338500740558,
+          "estimated_value_usd": 2453.2628960228626
         },
         {
           "block_timestamp": "2026-09-24T01:21:15Z",
@@ -4836,23 +4866,23 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 29.47162,
-          "estimated_swap_price_usd": 0.029514227715470093,
-          "estimated_value_usd": 29.514227715470092
+          "estimated_swap_price_usd": 0.029365660730639682,
+          "estimated_value_usd": 29.365660730639682
         },
         {
-          "block_timestamp": "2026-09-24T01:18:05Z",
-          "transaction_hash": "0xb329c9a2e83ea6c4214a8ebc6aa520e749f7e84809839911c3e6fcd4e8e99902",
-          "trader_address": "0xeb7c90d3d8eb5cce9c3da4725ba9d5177cf8cc50",
+          "block_timestamp": "2026-09-24T01:21:15Z",
+          "transaction_hash": "0x04ddc00bf9f989d986695d5e4dfaabb92f5ba49f2991c3cd3e515d0040f0c0f4",
+          "trader_address": "0x2d044b16650b074fd819a311a09c7b6f61190449",
           "trader_address_label": null,
           "action": "SELL",
           "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
           "token_name": "NOCK",
-          "token_amount": 1000,
+          "token_amount": 1500,
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
-          "traded_token_amount": 29.477633,
-          "estimated_swap_price_usd": 0.02952024940858547,
-          "estimated_value_usd": 29.52024940858547
+          "traded_token_amount": 44.162321,
+          "estimated_swap_price_usd": 0.02933569618418452,
+          "estimated_value_usd": 44.00354427627678
         },
         {
           "block_timestamp": "2026-09-24T01:18:05Z",
@@ -4866,23 +4896,23 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 44.171332,
-          "estimated_swap_price_usd": 0.029490127590398964,
-          "estimated_value_usd": 44.23519138559845
+          "estimated_swap_price_usd": 0.0293416819193617,
+          "estimated_value_usd": 44.01252287904255
         },
         {
-          "block_timestamp": "2026-09-24T01:17:05Z",
-          "transaction_hash": "0xc7c98e273847bc52791da20b65367421ffaccac642c10b5ea9ac32b960026fb8",
+          "block_timestamp": "2026-09-24T01:18:05Z",
+          "transaction_hash": "0xb329c9a2e83ea6c4214a8ebc6aa520e749f7e84809839911c3e6fcd4e8e99902",
           "trader_address": "0xeb7c90d3d8eb5cce9c3da4725ba9d5177cf8cc50",
           "trader_address_label": null,
           "action": "SELL",
           "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
           "token_name": "NOCK",
-          "token_amount": 2000,
+          "token_amount": 1000,
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
-          "traded_token_amount": 59.037569,
-          "estimated_swap_price_usd": 0.02956146040213904,
-          "estimated_value_usd": 59.122920804278074
+          "traded_token_amount": 29.477633,
+          "estimated_swap_price_usd": 0.029371652112110173,
+          "estimated_value_usd": 29.371652112110173
         },
         {
           "block_timestamp": "2026-09-24T01:17:05Z",
@@ -4896,8 +4926,23 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 29.481101,
-          "estimated_swap_price_usd": 0.02952372242234302,
-          "estimated_value_usd": 29.52372242234302
+          "estimated_swap_price_usd": 0.029375107643615186,
+          "estimated_value_usd": 29.375107643615188
+        },
+        {
+          "block_timestamp": "2026-09-24T01:17:05Z",
+          "transaction_hash": "0xc7c98e273847bc52791da20b65367421ffaccac642c10b5ea9ac32b960026fb8",
+          "trader_address": "0xeb7c90d3d8eb5cce9c3da4725ba9d5177cf8cc50",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
+          "token_name": "NOCK",
+          "token_amount": 2000,
+          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "traded_token_name": "USDC",
+          "traded_token_amount": 59.037569,
+          "estimated_swap_price_usd": 0.029412655660186488,
+          "estimated_value_usd": 58.825311320372975
         },
         {
           "block_timestamp": "2026-09-24T01:17:03Z",
@@ -4911,8 +4956,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 1181.081943,
-          "estimated_swap_price_usd": 0.029569736424678944,
-          "estimated_value_usd": 1182.7894569871578
+          "estimated_swap_price_usd": 0.029420890023370543,
+          "estimated_value_usd": 1176.8356009348217
         },
         {
           "block_timestamp": "2026-09-24T01:14:29Z",
@@ -4926,8 +4971,8 @@
           "traded_token_address": "0x3ec2156d4c0a9cbdab4a016633b7bcf6a8d68ea2",
           "traded_token_name": "DRB",
           "traded_token_amount": 7271.1092210447005,
-          "estimated_swap_price_usd": 0.028539037642624172,
-          "estimated_value_usd": 1.309832414214175
+          "estimated_swap_price_usd": 0.029029262839667128,
+          "estimated_value_usd": 1.3323318713224406
         },
         {
           "block_timestamp": "2026-09-24T01:04:45Z",
@@ -4941,8 +4986,8 @@
           "traded_token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
           "traded_token_name": "ETH",
           "traded_token_amount": 0.030258534597354267,
-          "estimated_swap_price_usd": 0.029206642021380378,
-          "estimated_value_usd": 80.93501841045494
+          "estimated_swap_price_usd": 0.02916562345846469,
+          "estimated_value_usd": 80.82135117879164
         },
         {
           "block_timestamp": "2026-09-24T00:58:45Z",
@@ -4956,8 +5001,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 59.178669,
-          "estimated_swap_price_usd": 0.029632112397697013,
-          "estimated_value_usd": 59.26422479539403
+          "estimated_swap_price_usd": 0.029482952011881666,
+          "estimated_value_usd": 58.96590402376333
         },
         {
           "block_timestamp": "2026-09-24T00:57:57Z",
@@ -4971,8 +5016,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 1000,
-          "estimated_swap_price_usd": 0.029731029932084756,
-          "estimated_value_usd": 1001.44572016978
+          "estimated_swap_price_usd": 0.029581371620998498,
+          "estimated_value_usd": 996.404701561695
         },
         {
           "block_timestamp": "2026-09-24T00:56:35Z",
@@ -4986,8 +5031,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 1000,
-          "estimated_swap_price_usd": 0.02964903944319401,
-          "estimated_value_usd": 1001.44572016978
+          "estimated_swap_price_usd": 0.029499793851011893,
+          "estimated_value_usd": 996.404701561695
         },
         {
           "block_timestamp": "2026-09-24T00:55:23Z",
@@ -5001,8 +5046,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 37.298601,
-          "estimated_swap_price_usd": 0.02943224101983285,
-          "estimated_value_usd": 37.35252433977027
+          "estimated_swap_price_usd": 0.029284086734812326,
+          "estimated_value_usd": 37.16450139807374
         },
         {
           "block_timestamp": "2026-09-24T00:54:57Z",
@@ -5016,8 +5061,8 @@
           "traded_token_address": "0x60555ab88a0caaf893ab284c1332c9d0a05af222",
           "traded_token_name": "ZKAT",
           "traded_token_amount": 0.05294869046003363,
-          "estimated_swap_price_usd": 0.0289622995781413,
-          "estimated_value_usd": 0.0010510786943576493
+          "estimated_swap_price_usd": 0.0293199738090442,
+          "estimated_value_usd": 0.001064059147191116
         },
         {
           "block_timestamp": "2026-09-24T00:54:55Z",
@@ -5031,8 +5076,8 @@
           "traded_token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
           "traded_token_name": "ETH",
           "traded_token_amount": 0.9546304824039122,
-          "estimated_swap_price_usd": 0.03059311295408536,
-          "estimated_value_usd": 2553.4295264681396
+          "estimated_swap_price_usd": 0.030550147195557723,
+          "estimated_value_usd": 2549.843424046453
         },
         {
           "block_timestamp": "2026-09-24T00:54:31Z",
@@ -5046,8 +5091,8 @@
           "traded_token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
           "traded_token_name": "ETH",
           "traded_token_amount": 0.6369653239236768,
-          "estimated_swap_price_usd": 0.030411227097893106,
-          "estimated_value_usd": 1703.7441140025278
+          "estimated_swap_price_usd": 0.030368516784562836,
+          "estimated_value_usd": 1701.3513317346697
         },
         {
           "block_timestamp": "2026-09-24T00:54:19Z",
@@ -5061,8 +5106,8 @@
           "traded_token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
           "traded_token_name": "ETH",
           "traded_token_amount": 0.9554526967477007,
-          "estimated_swap_price_usd": 0.03030261478935889,
-          "estimated_value_usd": 2555.628771538576
+          "estimated_swap_price_usd": 0.030260057013961866,
+          "estimated_value_usd": 2552.039580440272
         },
         {
           "block_timestamp": "2026-09-24T00:54:05Z",
@@ -5076,8 +5121,8 @@
           "traded_token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
           "traded_token_name": "ETH",
           "traded_token_amount": 1.2739394136043811,
-          "estimated_swap_price_usd": 0.03038552927743278,
-          "estimated_value_usd": 3407.5116745042283
+          "estimated_swap_price_usd": 0.03034285505478574,
+          "estimated_value_usd": 3402.7260770396424
         },
         {
           "block_timestamp": "2026-09-24T00:53:55Z",
@@ -5091,8 +5136,8 @@
           "traded_token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
           "traded_token_name": "ETH",
           "traded_token_amount": 1.2739394136043811,
-          "estimated_swap_price_usd": 0.029680990882374397,
-          "estimated_value_usd": 3407.5116745042283
+          "estimated_swap_price_usd": 0.02963930613165854,
+          "estimated_value_usd": 3402.7260770396424
         },
         {
           "block_timestamp": "2026-09-24T00:46:25Z",
@@ -5106,8 +5151,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 10,
-          "estimated_swap_price_usd": 0.029324657755161403,
-          "estimated_value_usd": 10.0144572016978
+          "estimated_swap_price_usd": 0.029177045016455575,
+          "estimated_value_usd": 9.96404701561695
         },
         {
           "block_timestamp": "2026-09-24T00:45:27Z",
@@ -5121,8 +5166,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 2853.101394,
-          "estimated_swap_price_usd": 0.028572230337172287,
-          "estimated_value_usd": 2857.226180231733
+          "estimated_swap_price_usd": 0.02842840512338061,
+          "estimated_value_usd": 2842.843643013826
         },
         {
           "block_timestamp": "2026-09-24T00:45:21Z",
@@ -5136,8 +5181,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 100,
-          "estimated_swap_price_usd": 0.029131972873908524,
-          "estimated_value_usd": 100.14457201697799
+          "estimated_swap_price_usd": 0.02898533006103325,
+          "estimated_value_usd": 99.6404701561695
         },
         {
           "block_timestamp": "2026-09-24T00:45:01Z",
@@ -5151,8 +5196,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 2894.630533,
-          "estimated_swap_price_usd": 0.028988121664311167,
-          "estimated_value_usd": 2898.815358745619
+          "estimated_swap_price_usd": 0.028842202961200176,
+          "estimated_value_usd": 2884.223472365235
         },
         {
           "block_timestamp": "2026-09-24T00:45:01Z",
@@ -5166,8 +5211,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 58.261457,
-          "estimated_swap_price_usd": 0.029124686048489827,
-          "estimated_value_usd": 58.34568676350567
+          "estimated_swap_price_usd": 0.02897807991560808,
+          "estimated_value_usd": 58.05198967463453
         },
         {
           "block_timestamp": "2026-09-24T00:44:37Z",
@@ -5181,8 +5226,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 35,
-          "estimated_swap_price_usd": 0.029691859099609072,
-          "estimated_value_usd": 35.050600205942295
+          "estimated_swap_price_usd": 0.029542397964357137,
+          "estimated_value_usd": 34.87416455465932
         },
         {
           "block_timestamp": "2026-09-24T00:44:29Z",
@@ -5196,8 +5241,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 0.000298,
-          "estimated_swap_price_usd": 0.021977577708130008,
-          "estimated_value_usd": 0.0002984308246105944
+          "estimated_swap_price_usd": 0.02186694826915399,
+          "estimated_value_usd": 0.0002969286010653851
         },
         {
           "block_timestamp": "2026-09-24T00:44:29Z",
@@ -5211,8 +5256,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 1454.670136,
-          "estimated_swap_price_usd": 0.029135463639119834,
-          "estimated_value_usd": 1456.7731819559917
+          "estimated_swap_price_usd": 0.028988803254635806,
+          "estimated_value_usd": 1449.4401627317902
         },
         {
           "block_timestamp": "2026-09-24T00:43:53Z",
@@ -5226,8 +5271,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 176.356224,
-          "estimated_swap_price_usd": 0.029410999989739877,
-          "estimated_value_usd": 176.61118575010303
+          "estimated_swap_price_usd": 0.029262952626568233,
+          "estimated_value_usd": 175.72217074326744
         },
         {
           "block_timestamp": "2026-09-24T00:43:53Z",
@@ -5241,8 +5286,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 4393.283643,
-          "estimated_swap_price_usd": 0.029330900678494993,
-          "estimated_value_usd": 4399.635101774249
+          "estimated_swap_price_usd": 0.02918325651452861,
+          "estimated_value_usd": 4377.488477179291
         },
         {
           "block_timestamp": "2026-09-24T00:43:47Z",
@@ -5256,8 +5301,8 @@
           "traded_token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
           "traded_token_name": "ETH",
           "traded_token_amount": 0.00000372,
-          "estimated_swap_price_usd": 0.03030205598266441,
-          "estimated_value_usd": 0.00995019330887286
+          "estimated_swap_price_usd": 0.030259498992069957,
+          "estimated_value_usd": 0.009936219000221957
         },
         {
           "block_timestamp": "2026-09-24T00:43:37Z",
@@ -5271,8 +5316,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 3025.582201,
-          "estimated_swap_price_usd": 0.029600691144218143,
-          "estimated_value_usd": 3029.9563462133133
+          "estimated_swap_price_usd": 0.029451688924861826,
+          "estimated_value_usd": 3014.7043300377813
         },
         {
           "block_timestamp": "2026-09-24T00:42:07Z",
@@ -5286,8 +5331,8 @@
           "traded_token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
           "traded_token_name": "ETH",
           "traded_token_amount": 0.5200345513404505,
-          "estimated_swap_price_usd": 0.03007588570975871,
-          "estimated_value_usd": 1390.9796540673256
+          "estimated_swap_price_usd": 0.030033646358541013,
+          "estimated_value_usd": 1389.0261262905606
         },
         {
           "block_timestamp": "2026-09-24T00:38:17Z",
@@ -5301,8 +5346,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 50,
-          "estimated_swap_price_usd": 0.030254787227891697,
-          "estimated_value_usd": 50.072286008488994
+          "estimated_swap_price_usd": 0.030102492458112667,
+          "estimated_value_usd": 49.82023507808475
         },
         {
           "block_timestamp": "2026-09-24T00:37:31Z",
@@ -5316,8 +5361,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 659.627116,
-          "estimated_swap_price_usd": 0.029797847838178064,
-          "estimated_value_usd": 660.580752226135
+          "estimated_swap_price_usd": 0.02964785318304321,
+          "estimated_value_usd": 657.2555596599816
         },
         {
           "block_timestamp": "2026-09-24T00:37:01Z",
@@ -5331,8 +5376,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 293.552929,
-          "estimated_swap_price_usd": 0.029837012339082418,
-          "estimated_value_usd": 293.97732439035326
+          "estimated_swap_price_usd": 0.029686820539984737,
+          "estimated_value_usd": 292.49751861280646
         },
         {
           "block_timestamp": "2026-09-24T00:36:43Z",
@@ -5346,8 +5391,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 29.807211,
-          "estimated_swap_price_usd": 0.029850303886147588,
-          "estimated_value_usd": 29.850303886147586
+          "estimated_swap_price_usd": 0.02970004518084147,
+          "estimated_value_usd": 29.70004518084147
         },
         {
           "block_timestamp": "2026-09-24T00:35:23Z",
@@ -5361,8 +5406,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 44.674353,
-          "estimated_swap_price_usd": 0.029825959742135984,
-          "estimated_value_usd": 44.738939613203975
+          "estimated_swap_price_usd": 0.029675823578951214,
+          "estimated_value_usd": 44.51373536842682
         },
         {
           "block_timestamp": "2026-09-24T00:35:23Z",
@@ -5376,8 +5421,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 29.813327,
-          "estimated_swap_price_usd": 0.02985642872817215,
-          "estimated_value_usd": 29.856428728172148
+          "estimated_swap_price_usd": 0.029706139191996224,
+          "estimated_value_usd": 29.706139191996225
         },
         {
           "block_timestamp": "2026-09-24T00:32:51Z",
@@ -5391,8 +5436,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 99.988788,
-          "estimated_swap_price_usd": 0.029861765790291574,
-          "estimated_value_usd": 100.13334380756345
+          "estimated_swap_price_usd": 0.029711449388726035,
+          "estimated_value_usd": 99.6292984666556
         },
         {
           "block_timestamp": "2026-09-24T00:32:15Z",
@@ -5406,8 +5451,8 @@
           "traded_token_address": "0x60555ab88a0caaf893ab284c1332c9d0a05af222",
           "traded_token_name": "ZKAT",
           "traded_token_amount": 0.4766655673795443,
-          "estimated_swap_price_usd": 0.0289622995781413,
-          "estimated_value_usd": 0.00009933910744155158
+          "estimated_swap_price_usd": 0.0293199738090442,
+          "estimated_value_usd": 0.00010056591053972662
         },
         {
           "block_timestamp": "2026-09-24T00:30:45Z",
@@ -5421,23 +5466,8 @@
           "traded_token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
           "traded_token_name": "ETH",
           "traded_token_amount": 0.0000028474870232,
-          "estimated_swap_price_usd": 0.029001854820650888,
-          "estimated_value_usd": 0.007616410302512619
-        },
-        {
-          "block_timestamp": "2026-09-24T00:30:19Z",
-          "transaction_hash": "0x073ab02cb5efe86eb32e7a3c3d1275ea20ca7e33ad786e41016f771eae6462f3",
-          "trader_address": "0xeb7c90d3d8eb5cce9c3da4725ba9d5177cf8cc50",
-          "trader_address_label": null,
-          "action": "SELL",
-          "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
-          "token_name": "NOCK",
-          "token_amount": 1000,
-          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
-          "traded_token_name": "USDC",
-          "traded_token_amount": 29.827683,
-          "estimated_swap_price_usd": 0.0298708054829309,
-          "estimated_value_usd": 29.8708054829309
+          "estimated_swap_price_usd": 0.028961123866172736,
+          "estimated_value_usd": 0.007605713619033683
         },
         {
           "block_timestamp": "2026-09-24T00:30:19Z",
@@ -5451,8 +5481,23 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 44.695866,
-          "estimated_swap_price_usd": 0.02984032247665466,
-          "estimated_value_usd": 44.76048371498199
+          "estimated_swap_price_usd": 0.02969011401518101,
+          "estimated_value_usd": 44.535171022771515
+        },
+        {
+          "block_timestamp": "2026-09-24T00:30:19Z",
+          "transaction_hash": "0x073ab02cb5efe86eb32e7a3c3d1275ea20ca7e33ad786e41016f771eae6462f3",
+          "trader_address": "0xeb7c90d3d8eb5cce9c3da4725ba9d5177cf8cc50",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
+          "token_name": "NOCK",
+          "token_amount": 1000,
+          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "traded_token_name": "USDC",
+          "traded_token_amount": 29.827683,
+          "estimated_swap_price_usd": 0.029720443577891845,
+          "estimated_value_usd": 29.720443577891846
         },
         {
           "block_timestamp": "2026-09-24T00:28:51Z",
@@ -5466,8 +5511,8 @@
           "traded_token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
           "traded_token_name": "ETH",
           "traded_token_amount": 0.0311,
-          "estimated_swap_price_usd": 0.030018855141264893,
-          "estimated_value_usd": 83.18575588869516
+          "estimated_swap_price_usd": 0.029976695885251568,
+          "estimated_value_usd": 83.06892766314593
         },
         {
           "block_timestamp": "2026-09-24T00:26:39Z",
@@ -5481,8 +5526,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 149.145476,
-          "estimated_swap_price_usd": 0.029872219724576928,
-          "estimated_value_usd": 149.36109862288464
+          "estimated_swap_price_usd": 0.02972185070061139,
+          "estimated_value_usd": 148.60925350305695
         },
         {
           "block_timestamp": "2026-09-24T00:14:29Z",
@@ -5496,8 +5541,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 100,
-          "estimated_swap_price_usd": 0.02970092304473459,
-          "estimated_value_usd": 100.14457201697799
+          "estimated_swap_price_usd": 0.029551416283928406,
+          "estimated_value_usd": 99.6404701561695
         },
         {
           "block_timestamp": "2026-09-24T00:14:09Z",
@@ -5511,8 +5556,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 494.471708,
-          "estimated_swap_price_usd": 0.0295391218597952,
-          "estimated_value_usd": 495.18657572164113
+          "estimated_swap_price_usd": 0.02939042956428419,
+          "estimated_value_usd": 492.69393464044157
         },
         {
           "block_timestamp": "2026-09-24T00:13:03Z",
@@ -5526,8 +5571,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 1000,
-          "estimated_swap_price_usd": 0.02969647758768724,
-          "estimated_value_usd": 1001.44572016978
+          "estimated_swap_price_usd": 0.029546993204161463,
+          "estimated_value_usd": 996.404701561695
         },
         {
           "block_timestamp": "2026-09-24T00:10:13Z",
@@ -5541,8 +5586,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 188.202091,
-          "estimated_swap_price_usd": 0.029648902813516873,
-          "estimated_value_usd": 188.47417855895347
+          "estimated_swap_price_usd": 0.02949965790909319,
+          "estimated_value_usd": 187.52544831614196
         },
         {
           "block_timestamp": "2026-09-24T00:10:07Z",
@@ -5556,8 +5601,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 0.108009,
-          "estimated_swap_price_usd": 0.02943974701843568,
-          "estimated_value_usd": 0.10816515078981775
+          "estimated_swap_price_usd": 0.02929155495016054,
+          "estimated_value_usd": 0.10762067541097711
         },
         {
           "block_timestamp": "2026-09-24T00:08:51Z",
@@ -5571,8 +5616,8 @@
           "traded_token_address": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
           "traded_token_name": "ETH",
           "traded_token_amount": 0.2693181500913439,
-          "estimated_swap_price_usd": 0.028953701870137086,
-          "estimated_value_usd": 720.367649192717
+          "estimated_swap_price_usd": 0.028913038542907176,
+          "estimated_value_usd": 719.3559462479141
         },
         {
           "block_timestamp": "2026-09-24T00:06:55Z",
@@ -5586,8 +5631,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 1000,
-          "estimated_swap_price_usd": 0.02966048095206583,
-          "estimated_value_usd": 1001.44572016978
+          "estimated_swap_price_usd": 0.029511177766288803,
+          "estimated_value_usd": 996.404701561695
         },
         {
           "block_timestamp": "2026-09-24T00:05:09Z",
@@ -5601,8 +5646,8 @@
           "traded_token_address": "0x60555ab88a0caaf893ab284c1332c9d0a05af222",
           "traded_token_name": "ZKAT",
           "traded_token_amount": 8797.54102020933,
-          "estimated_swap_price_usd": 0.0289622995781413,
-          "estimated_value_usd": 0.25152662288205757
+          "estimated_swap_price_usd": 0.0293199738090442,
+          "estimated_value_usd": 0.2546328883617104
         },
         {
           "block_timestamp": "2026-09-24T00:01:07Z",
@@ -5616,8 +5661,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 2374.446976,
-          "estimated_swap_price_usd": 0.029521049250545526,
-          "estimated_value_usd": 2377.8797618852764
+          "estimated_swap_price_usd": 0.029372447927872775,
+          "estimated_value_usd": 2365.910130495349
         },
         {
           "block_timestamp": "2026-09-24T00:00:43Z",
@@ -5631,8 +5676,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 977.216736,
-          "estimated_swap_price_usd": 0.02965543993774187,
-          "estimated_value_usd": 978.6295179454817
+          "estimated_swap_price_usd": 0.029506162127126475,
+          "estimated_value_usd": 973.7033501951737
         },
         {
           "block_timestamp": "2026-09-24T00:00:39Z",
@@ -5646,8 +5691,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 44.4372,
-          "estimated_swap_price_usd": 0.029667629170885695,
-          "estimated_value_usd": 44.50144375632854
+          "estimated_swap_price_usd": 0.029518290002824903,
+          "estimated_value_usd": 44.277435004237354
         },
         {
           "block_timestamp": "2026-09-24T00:00:35Z",
@@ -5661,8 +5706,8 @@
           "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
           "traded_token_name": "USDC",
           "traded_token_amount": 44.442655,
-          "estimated_swap_price_usd": 0.029671271095154717,
-          "estimated_value_usd": 44.506906642732076
+          "estimated_swap_price_usd": 0.029521913594589583,
+          "estimated_value_usd": 44.28287039188437
         },
         {
           "block_timestamp": "2026-09-23T23:56:27Z",
@@ -5786,21 +5831,6 @@
         },
         {
           "block_timestamp": "2026-09-23T23:39:23Z",
-          "transaction_hash": "0x1b4dcc6b3f62f38d710ae20d6f3c146a39c364da1bdce941d1d658b37fcbcdff",
-          "trader_address": "0x855986efe38b8d29ce8f23fae3e0526efb74ca03",
-          "trader_address_label": null,
-          "action": "BUY",
-          "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
-          "token_name": "NOCK",
-          "token_amount": 27283.395332991047,
-          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
-          "traded_token_name": "USDC",
-          "traded_token_amount": 821.483322,
-          "estimated_swap_price_usd": 0.03008397396157078,
-          "estimated_value_usd": 820.7929547809445
-        },
-        {
-          "block_timestamp": "2026-09-23T23:39:23Z",
           "transaction_hash": "0x4da4dda20d7dea81687bfa138d0334fa2f03194b5504939958c78e132f568c77",
           "trader_address": "0x2d044b16650b074fd819a311a09c7b6f61190449",
           "trader_address_label": null,
@@ -5813,6 +5843,21 @@
           "traded_token_amount": 44.755272,
           "estimated_swap_price_usd": 0.029811773380433778,
           "estimated_value_usd": 44.717660070650666
+        },
+        {
+          "block_timestamp": "2026-09-23T23:39:23Z",
+          "transaction_hash": "0x1b4dcc6b3f62f38d710ae20d6f3c146a39c364da1bdce941d1d658b37fcbcdff",
+          "trader_address": "0x855986efe38b8d29ce8f23fae3e0526efb74ca03",
+          "trader_address_label": null,
+          "action": "BUY",
+          "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
+          "token_name": "NOCK",
+          "token_amount": 27283.395332991047,
+          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "traded_token_name": "USDC",
+          "traded_token_amount": 821.483322,
+          "estimated_swap_price_usd": 0.03008397396157078,
+          "estimated_value_usd": 820.7929547809445
         },
         {
           "block_timestamp": "2026-09-23T23:34:17Z",
@@ -5891,21 +5936,6 @@
         },
         {
           "block_timestamp": "2026-09-23T23:24:59Z",
-          "transaction_hash": "0x1137363b4a41d677b9626aa77580b3c8339c926c3faf2404b3bf5546a8636500",
-          "trader_address": "0x2d044b16650b074fd819a311a09c7b6f61190449",
-          "trader_address_label": null,
-          "action": "SELL",
-          "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
-          "token_name": "NOCK",
-          "token_amount": 1500,
-          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
-          "traded_token_name": "USDC",
-          "traded_token_amount": 44.93469,
-          "estimated_swap_price_usd": 0.029931284859581325,
-          "estimated_value_usd": 44.89692728937199
-        },
-        {
-          "block_timestamp": "2026-09-23T23:24:59Z",
           "transaction_hash": "0xc4c1297c3dd149abc668fadbdda29e188551d93f780d3598feac9c49b44010b9",
           "trader_address": "0x128cecbe5845876d053fe4a8fc2f057c1f9706ce",
           "trader_address_label": null,
@@ -5918,6 +5948,21 @@
           "traded_token_amount": 99.974925,
           "estimated_swap_price_usd": 0.02995528518196091,
           "estimated_value_usd": 99.89090696932409
+        },
+        {
+          "block_timestamp": "2026-09-23T23:24:59Z",
+          "transaction_hash": "0x1137363b4a41d677b9626aa77580b3c8339c926c3faf2404b3bf5546a8636500",
+          "trader_address": "0x2d044b16650b074fd819a311a09c7b6f61190449",
+          "trader_address_label": null,
+          "action": "SELL",
+          "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
+          "token_name": "NOCK",
+          "token_amount": 1500,
+          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+          "traded_token_name": "USDC",
+          "traded_token_amount": 44.93469,
+          "estimated_swap_price_usd": 0.029931284859581325,
+          "estimated_value_usd": 44.89692728937199
         },
         {
           "block_timestamp": "2026-09-23T23:24:57Z",
@@ -6068,51 +6113,6 @@
           "traded_token_amount": 44.991441,
           "estimated_swap_price_usd": 0.029969087064226917,
           "estimated_value_usd": 44.953630596340375
-        },
-        {
-          "block_timestamp": "2026-09-23T23:24:37Z",
-          "transaction_hash": "0xf7618bd47a0a11b8af5f5ae98bb93360c72c43008312a280e1da62e3b42d3ced",
-          "trader_address": "0x2d044b16650b074fd819a311a09c7b6f61190449",
-          "trader_address_label": null,
-          "action": "SELL",
-          "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
-          "token_name": "NOCK",
-          "token_amount": 2000,
-          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
-          "traded_token_name": "USDC",
-          "traded_token_amount": 59.997233,
-          "estimated_swap_price_usd": 0.029973405931636665,
-          "estimated_value_usd": 59.94681186327333
-        },
-        {
-          "block_timestamp": "2026-09-23T23:24:35Z",
-          "transaction_hash": "0xa69158f620e581ea52e52896c01cf2f5564485b66847923b6cbc9d9a530f8e3c",
-          "trader_address": "0x2d044b16650b074fd819a311a09c7b6f61190449",
-          "trader_address_label": null,
-          "action": "SELL",
-          "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
-          "token_name": "NOCK",
-          "token_amount": 2000,
-          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
-          "traded_token_name": "USDC",
-          "traded_token_amount": 60.007117,
-          "estimated_swap_price_usd": 0.029978343778424173,
-          "estimated_value_usd": 59.956687556848344
-        },
-        {
-          "block_timestamp": "2026-09-23T23:24:31Z",
-          "transaction_hash": "0xdb19cadfb6eeb615bcd53e7c352998bebb99ed104571b1470b601cef8d780bd9",
-          "trader_address": "0x2d044b16650b074fd819a311a09c7b6f61190449",
-          "trader_address_label": null,
-          "action": "SELL",
-          "token_address": "0x9b5e262cf9bb04869ab40b19af91d2dc85761722",
-          "token_name": "NOCK",
-          "token_amount": 2000,
-          "traded_token_address": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
-          "traded_token_name": "USDC",
-          "traded_token_amount": 60.017003,
-          "estimated_swap_price_usd": 0.029983282624371287,
-          "estimated_value_usd": 59.966565248742576
         }
       ],
       "pagination": {
@@ -6121,7 +6121,7 @@
         "is_last_page": false
       }
     },
-    "recordedAt": 1790215609421
+    "recordedAt": 1790216298219
   },
   {
     "requestHash": "afa1a3ec64539bebe71a6ade85b8079d330ee400",

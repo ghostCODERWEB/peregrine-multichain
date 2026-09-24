@@ -6,12 +6,13 @@ import { TideChart, tideTitle } from './TideChart';
 import { FlowBars, flowsTitle } from './FlowBars';
 import { SectorTreemap, sectorsTitle } from './SectorTreemap';
 import { PeersSlope, peersTitle } from './PeersSlope';
+import { ChainHero, MarketGrid, gridTitle, ChainRank, rankTitle } from './Visuals';
 import { TradeTape } from './TradeTape';
 import { PaidTradeTape } from '@/components/x402/PaidTradeTape';
 import { ForecastMultiple } from '@/components/weather/ForecastStrip';
 import { InfoPopover } from '@/components/InfoPopover';
 import { chainName, num } from '@/lib/viz/format';
-import type { ChainPageData } from '@/server/weather/chain-page';
+import type { ChainPageData, PeerRow } from '@/server/weather/chain-page';
 
 export interface ModuleGaps {
   /** null when available; otherwise the plain "not available" sentence. */
@@ -27,18 +28,20 @@ export function ChainView({ d, gaps }: { d: ChainPageData; gaps: ModuleGaps }) {
   const fEnd = f.points.at(-1)?.forecast;
 
   return (
-    <div className="space-y-5">
-      <div>
-        <Link href="/" className="text-[12.5px] text-ink-2 hover:text-ink">← Weather map</Link>
-        <h1 className="mt-1 text-xl font-semibold text-ink sm:text-2xl">{barometerTitle(d.weather)}</h1>
-        <p className="mt-1 text-sm text-ink-2">
-          Nansen coverage tier {gaps.tier}.{' '}
-          {d.weather.source === 'smart-money' && 'Pressure is measured from Nansen smart-money labels.'}
-          {d.mode !== 'owner' && d.weather.source === 'market-flow' && gaps.tier === 'A' && ' Pressure here is all-trader flow; the scanner\'s smart-money pressure is the instance owner\'s view only.'}
-          {d.weather.source === 'market-flow' && `Nansen has no smart-money labels on ${name}, so pressure here reads all-trader flow and is ranked only against other all-trader chains.`}
-          {d.weather.source == null && gaps.pressure}
-        </p>
-      </div>
+    <div className="space-y-4">
+      <Link href="/" className="text-[12.5px] text-ink-2 hover:text-ink">← Weather map</Link>
+      <ChainHero d={d} tier={gaps.tier} title={barometerTitle(d.weather)} note={<>
+        {d.weather.source === 'smart-money' && 'Pressure is measured from Nansen smart-money labels.'}
+        {d.mode !== 'owner' && d.weather.source === 'market-flow' && gaps.tier === 'A' && ' Pressure here is all-trader flow; the scanner\'s smart-money pressure is the instance owner\'s view only.'}
+        {d.weather.source === 'market-flow' && ` Nansen has no smart-money labels on ${name}, so pressure here reads all-trader flow and is ranked only against other all-trader chains.`}
+        {d.weather.source == null && gaps.pressure}
+      </>} />
+
+      <Card id="grid" title={d.grid.tiles.length ? gridTitle(d.chain, d.grid.tiles) : `${name} market`}
+        sub="The chain's most-traded tokens today, one tile each: colour is the 24h move (amber up, blue down), the bar is volume. All traders."
+        action={d.grid.provenance ? <InfoPopover p={d.grid.provenance} /> : undefined}>
+        {d.grid.tiles.length ? <MarketGrid chain={d.chain} tiles={d.grid.tiles} /> : <Unavailable text={d.grid.unavailable ?? `Nansen returned no tokens for ${name}.`} />}
+      </Card>
 
       <div className="grid gap-4 lg:grid-cols-3">
         <Card id="baro" title="Barometer" sub="Chain Pressure Index, 0–100. 50 is calm; above 65 is high pressure (net buying), below 35 low.">
@@ -88,18 +91,23 @@ export function ChainView({ d, gaps }: { d: ChainPageData; gaps: ModuleGaps }) {
         </Card>
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-5">
+      <div className="grid gap-4 lg:grid-cols-2">
+        <Card id="rank" title={rankTitle(d.chain, d.peers.rows as PeerRow[])} sub="Every chain Nansen ranks, by one weekly metric at a time; this chain highlighted."
+          action={d.peers.provenance ? <InfoPopover p={d.peers.provenance} /> : undefined}>
+          <ChainRank chain={d.chain} rows={d.peers.rows as PeerRow[]} />
+        </Card>
         <Card
           id="peers"
-          className="lg:col-span-2"
           title={peersTitle(d.chain, d.peers)}
           sub="DEX volume indexed to 100 over the prior 7 days. Every other chain in gray."
         >
           <PeersSlope chain={d.chain} p={d.peers} />
         </Card>
+      </div>
+
+      <div>
         <Card
           id="tape"
-          className="lg:col-span-3"
           title={`Latest smart-money trades on ${name}`}
           sub="DEX swaps by Nansen-labelled smart money, recorded by the scanner. Buy = stable or native in, risk token out of the pool."
         >

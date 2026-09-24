@@ -36,6 +36,12 @@ test('chain page: Tier A with every module, and an unsupported chain says so', a
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Base');
   await expect(page.locator('#flows')).toBeVisible();
   await expect(page.locator('#tape')).toBeVisible();
+  // V4: the hero's pressure ring, the market grid and the chain ranking.
+  await expect(page.getByRole('img', { name: /^Chain Pressure Index \d+ of 100$/ })).toBeVisible();
+  await expect(page.locator('#grid')).toBeVisible();
+  await expect(page.locator('section[aria-labelledby="grid"]')).toContainText(/most-traded tokens up|Nansen/);
+  await expect(page.getByRole('list', { name: /Chains by DEX volume|Chains by/ })).toBeVisible();
+  await w.noOverflow();
   await page.goto('/chain/algorand');
   await expect(page.getByText(/Not available on Algorand in Nansen API/).first()).toBeVisible();
   expect(w.errors).toEqual([]);
