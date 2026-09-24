@@ -37,12 +37,17 @@ export async function BalancesCard({ p, what = 'Balances' }: { p: Promise<Wave<B
 export async function PnlCard({ p, mode }: { p: Promise<Wave<PnlSummary>>; mode: DisplayMode }) {
   const r = forMode(mode, await p);
   if (isUnavailable(r)) return <Card id="pnl" title="PnL, 30 days"><Unavailable text={r.unavailable} /></Card>;
+  if (!r.tokens && !r.exits) return (
+    <Card id="pnl" title="No realized exits in 30 days" sub="Nansen reports no realized token activity in this window; open positions are not marked." action={<InfoPopover p={r.provenance} />}>
+      <p className="text-[12.5px] text-ink-2">The current holdings still inform the wallet-weather concentration and stability readings.</p>
+    </Card>
+  );
   const title = `${r.realizedUsd >= 0 ? 'Up' : 'Down'} ${usd(Math.abs(r.realizedUsd))} realized in 30 days, winning ${pct(r.winRate, 0)} of exits`;
   const max = Math.max(1, ...r.top.map((t) => Math.abs(t.pnlUsd ?? 0)));
   return (
     <Card id="pnl" title={title} sub="Realized only, as Nansen reports it; open positions are not marked." action={<InfoPopover p={r.provenance} />}>
       <dl className="grid grid-cols-3 gap-2 text-center">
-        {[['Return', pct(r.realizedPct)], ['Tokens', String(r.tokens)], ['Sales', String(r.sales)]].map(([k, v]) => (
+        {[['Return', pct(r.realizedPct)], ['Tokens', String(r.tokens)], ['Exits', String(r.exits)]].map(([k, v]) => (
           <div key={k} className="rounded-md bg-accent/50 px-2 py-1.5"><dt className="text-[10.5px] text-ink-muted">{k}</dt><dd className="num text-sm text-ink">{v}</dd></div>
         ))}
       </dl>

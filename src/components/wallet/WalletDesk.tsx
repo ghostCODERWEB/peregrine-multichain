@@ -24,6 +24,7 @@ export function WalletDesk({ address, initialChain, chains }: { address: string;
       const d = await r.json();
       if (!r.ok) throw new Error(d.error ?? 'This section could not be loaded.');
       setResult(d);
+      if (d.weather) window.dispatchEvent(new CustomEvent('tide:wallet-weather', { detail: d.weather }));
     } catch (e) { setError((e as Error).message); } finally { setBusy(false); }
   }
   return <Card id="wallet-desk" title="Follow the wallet beyond its balance" sub="Explore trading, protocol positions and account history. Each section loads only when requested.">

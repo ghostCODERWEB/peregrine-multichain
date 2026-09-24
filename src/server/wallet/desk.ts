@@ -12,10 +12,11 @@ import {
 } from '@/types/nansen/api.gen';
 import type { Provenance } from '@/lib/provenance';
 import { usd, pct, chainName } from '@/lib/viz/format';
+import type { WalletWeatherEnrichment } from '@/lib/models/wallet-weather';
 
 export type DeskSection = 'pnl' | 'dex' | 'defi' | 'perps' | 'prediction' | 'history' | 'points';
 export interface DeskTable { title: string; columns: string[]; rows: Array<Array<string | number | null>> }
-export interface DeskData { title: string; description: string; tables: DeskTable[]; provenance: Provenance }
+export interface DeskData { title: string; description: string; tables: DeskTable[]; provenance: Provenance; weather?: WalletWeatherEnrichment }
 const date = () => ({ from: requestDay(30), to: requestDay(0) });
 const pagination = { page: 1, per_page: 50 };
 
@@ -62,7 +63,10 @@ export async function walletDesk(address: string, chain: string, section: DeskSe
     const r = await validated('portfolio/defi-holdings', { wallet_address: address }, S_PortfolioDefiHoldingsResponse);
     calls.push(r.call);
     notes.push('DeFi values are shown separately from spot balances to avoid double-counting receipt tokens. Protocol coverage is determined by Nansen.');
-    return result(`${usd(r.data.summary.total_value_usd)} in DeFi positions`, 'Assets, debt and rewards by protocol across Nansen-supported networks. Net value is reported by Nansen.', [{ title: 'Protocols', columns: ['Protocol', 'Chain', 'Net value', 'Assets', 'Debt', 'Rewards'], rows: r.data.protocols.map((p) => [p.protocol_name, chainName(p.chain), usd(p.total_value_usd), usd(p.total_assets_usd), usd(p.total_debts_usd), usd(p.total_rewards_usd)]) }]);
+    return {
+      ...result(`${usd(r.data.summary.total_value_usd)} in DeFi positions`, 'Assets, debt and rewards by protocol across Nansen-supported networks. Net value is reported by Nansen.', [{ title: 'Protocols', columns: ['Protocol', 'Chain', 'Net value', 'Assets', 'Debt', 'Rewards'], rows: r.data.protocols.map((p) => [p.protocol_name, chainName(p.chain), usd(p.total_value_usd), usd(p.total_assets_usd), usd(p.total_debts_usd), usd(p.total_rewards_usd)]) }]),
+      weather: { kind: 'farmer', protocols: r.data.protocols.length, valueUsd: r.data.summary.total_value_usd },
+    };
   }
   if (section === 'perps') {
     if (!isEvm(address)) throw new Error('Hyperliquid profiles require an EVM wallet address.');
@@ -85,7 +89,13 @@ export async function walletDesk(address: string, chain: string, section: DeskSe
       calls.push(trades.value.call);
       tables.push({ title: 'Recent fills · 30 days', columns: ['Time (UTC)', 'Coin', 'Action', 'Value', 'Closed PnL'], rows: trades.value.data.data.map((t) => [t.timestamp, t.token_symbol, t.action, usd(t.value_usd), usd(t.closed_pnl)]) });
     } else notes.push(`Fills unavailable: ${String(trades.reason).slice(0, 150)}`);
-    return result('Hyperliquid exposure', 'Positions and activity on Hyperliquid, independent of the selected spot chain. Signed size indicates direction; collateral is not added to spot holdings.', tables);
+    const openPositions = positions.status === 'fulfilled' ? (positions.value.data.data.assetPositions ?? []).filter((a) => a.position).length : null;
+    const fills30d = trades.status === 'fulfilled' ? trades.value.data.data.length : null;
+    const closedTrades30d = summary.status === 'fulfilled' ? summary.value.data.data.closed_trade_count : null;
+    return {
+      ...result('Hyperliquid exposure', 'Positions and activity on Hyperliquid, independent of the selected spot chain. Signed size indicates direction; collateral is not added to spot holdings.', tables),
+      weather: { kind: 'perp', openPositions, fills30d, closedTrades30d },
+    };
   }
   if (section === 'prediction') {
     if (!isEvm(address)) throw new Error('Prediction-market profiles require an EVM wallet address.');

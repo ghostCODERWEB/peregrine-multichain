@@ -28,6 +28,8 @@ const whose = (s: Subject) => (typeof s === 'string' ? 'this wallet' : s.entity)
 export interface Balances {
   totalUsd: number;
   byChain: Array<{ chain: string; valueUsd: number; tokens: number }>;
+  /** Every positive priced position returned by the one balance call. */
+  positions: Array<{ chain: string; symbol: string; tokenAddress: string; valueUsd: number; amount: number | null }>;
   top: Array<{ chain: string; symbol: string; tokenAddress: string; valueUsd: number; amount: number | null }>;
   provenance: Provenance;
 }
@@ -47,9 +49,11 @@ export async function balances(subject: Subject): Promise<Wave<Balances>> {
     }
     const byChain = [...m.entries()].map(([chain, v]) => ({ chain, ...v })).sort((a, b) => b.valueUsd - a.valueUsd);
     const totalUsd = byChain.reduce((s, c) => s + c.valueUsd, 0);
+    const positions = rows.map((x) => ({ chain: x.chain, symbol: x.token_symbol, tokenAddress: x.token_address, valueUsd: x.value_usd!, amount: x.token_amount ?? null }));
     return {
       totalUsd, byChain,
-      top: rows.slice(0, 12).map((x) => ({ chain: x.chain, symbol: x.token_symbol, tokenAddress: x.token_address, valueUsd: x.value_usd!, amount: x.token_amount ?? null })),
+      positions,
+      top: positions.slice(0, 12),
       provenance: {
         title: 'Balances across every chain',
         formula: 'per chain: Σ value_usd of the tokens Nansen prices (spam hidden)',
@@ -74,7 +78,7 @@ export interface PnlSummary {
   realizedPct: number;
   winRate: number;
   tokens: number;
-  sales: number;
+  exits: number;
   top: Array<{ symbol: string; chain: string; tokenAddress: string; pnlUsd: number | null; roi: number | null }>;
   provenance: Provenance;
 }
@@ -84,9 +88,8 @@ export async function pnl(subject: Subject): Promise<Wave<PnlSummary>> {
   try {
     const r = await traced<ProfilerAddressPnlSummaryResponse>('profiler/address/pnl-summary', body, 1);
     const d = r.data;
-    if (!d.traded_token_count && !d.traded_times) return { unavailable: 'No realized trades in the last 30 days in Nansen.' };
     return {
-      realizedUsd: d.realized_pnl_usd, realizedPct: d.realized_pnl_percent, winRate: d.win_rate, tokens: d.traded_token_count, sales: d.traded_times,
+      realizedUsd: d.realized_pnl_usd, realizedPct: d.realized_pnl_percent, winRate: d.win_rate, tokens: d.traded_token_count, exits: d.traded_times,
       top: d.top5_tokens.map((t) => ({ symbol: t.token_symbol, chain: t.chain, tokenAddress: t.token_address, pnlUsd: t.realized_pnl, roi: t.realized_roi })),
       provenance: {
         title: 'Realized PnL, 30 days',
@@ -95,7 +98,7 @@ export async function pnl(subject: Subject): Promise<Wave<PnlSummary>> {
           { label: 'Realized PnL', value: usd(d.realized_pnl_usd, { signed: true }) },
           { label: 'Realized return', value: pct(d.realized_pnl_percent) },
           { label: 'Win rate', value: pct(d.win_rate, 0) },
-          { label: 'Tokens · sales', value: `${d.traded_token_count} · ${d.traded_times}` },
+          { label: 'Tokens · exits', value: `${d.traded_token_count} · ${d.traded_times}` },
         ],
         calls: [r.call],
       },

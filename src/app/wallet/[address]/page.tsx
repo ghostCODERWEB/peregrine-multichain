@@ -10,6 +10,7 @@ import { trailTitle } from '@/lib/insights';
 import { TimeAgo } from '@/components/TimeAgo';
 import { WalletDesk } from '@/components/wallet/WalletDesk';
 import { WalletLabels } from '@/components/wallet/WalletLabels';
+import { WalletWeather } from '@/components/wallet/WalletWeather';
 import { ALL_CHAIN_IDS } from '@/lib/registry';
 import { detectAddress } from '@/lib/address-family';
 import { balances, pnl, origins, counterparties, transactions, migrationTrail } from '@/server/wallet/wallet-page';
@@ -18,6 +19,7 @@ import { displayMode, type DisplayMode } from '@/server/mode';
 import { forMode, redacted } from '@/server/redact';
 import { chainName, shortAddress, usd, walletName } from '@/lib/viz/format';
 import { AskNansen } from '@/components/agent/AskNansen';
+import { walletWeatherReading } from '@/server/wallet/weather';
 
 export const dynamic = 'force-dynamic';
 
@@ -43,7 +45,9 @@ export default async function WalletRoute({ params }: Params) {
   // owner's view only.
   const trail = forMode(mode, migrationTrail(address));
   const balP = balances(address);
+  const pnlP = pnl(address);
   const mainChainP = balP.then((b) => (isUnavailable(b) ? null : b.byChain[0]?.chain ?? null));
+  const weatherP = Promise.all([balP, pnlP]).then(([b, p]) => walletWeatherReading(b, p));
 
   return (
     <div className="space-y-5">
@@ -70,9 +74,13 @@ export default async function WalletRoute({ params }: Params) {
         </Card>
       </div>
 
+      <Suspense fallback={<Card id="wallet-weather" title="Wallet weather"><WaveLoading what="wallet weather" height={280} /></Card>}>
+        <WalletWeather p={redacted(mode, weatherP)} />
+      </Suspense>
+
       <div className="grid gap-4 lg:grid-cols-3">
         <Suspense fallback={<Card id="pnl" title="PnL, 30 days"><WaveLoading what="PnL" /></Card>}>
-          <PnlCard p={redacted(mode, pnl(address))} mode={mode} />
+          <PnlCard p={redacted(mode, pnlP)} mode={mode} />
         </Suspense>
         <Suspense fallback={<Card id="origins" title="Origins"><WaveLoading what="first funder and related wallets" /></Card>}>
           <OriginsCard address={address} mainChain={mainChainP} mode={mode} />
