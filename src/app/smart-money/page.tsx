@@ -22,10 +22,9 @@ export default async function SmartMoneyPage() {
         <section aria-labelledby="sm-title" className="glass rise rounded-2xl p-4 sm:p-6">
           <div className="text-[12px] text-ink-muted">Smart-money desk</div>
           <h1 id="sm-title" className="mt-1 text-lg font-semibold text-ink sm:text-xl">The smart-money desk is private</h1>
-          <p className="mt-2 max-w-[68ch] text-[13.5px] text-ink-2">
-            It is built from Nansen&apos;s smart-money holdings, PnL leaderboard, perp trades and DCAs. Nansen&apos;s redistribution rules don&apos;t allow those in public views,
-            so the desk is shown only to this instance&apos;s owner, or to you once you sign in with your own Nansen API key.
-          </p>
+          <p className="mt-2 max-w-[68ch] text-[13px] text-ink-2">
+          Nansen smart-money holdings, PnL leaderboard, perp trades and DCAs. Nansen&apos;s redistribution rules keep these out of public views: shown only to this instance&apos;s owner, or to you with your own Nansen key.
+        </p>
           <Link href="/account" className="mt-4 inline-flex rounded bg-brand/15 px-3.5 py-1.5 text-[13px] text-ink ring-1 ring-brand/40 hover:bg-brand/25">Sign in with your Nansen key</Link>
         </section>
         <section aria-labelledby="sm-what" className="glass rise rounded-2xl p-4 sm:p-6">

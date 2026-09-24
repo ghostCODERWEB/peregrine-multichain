@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { InfoPopover } from '@/components/InfoPopover';
-import { SETUPS, type Setup, type Stance } from '@/lib/models/calls';
+import { SETUPS, setupLabel, type Setup, type Stance } from '@/lib/models/calls';
 import type { CandlePoint, ReplayAt } from '@/lib/models/replay';
 import type { CallCard, Receipt } from '@/server/desk/calls';
 import type { ReplayReading } from '@/server/desk/replay';
@@ -53,7 +53,7 @@ export function TimeMachine({ chain, token }: { chain: string; token: string }) 
   return <div className="space-y-5">
     <div className="glass rounded-2xl p-4 sm:p-6">
       <h1 className="text-2xl font-semibold">Time Machine</h1>
-      <p className="mt-2 max-w-3xl text-sm text-ink-2">Read the evidence at a past cutoff. Lock BUY, PASS or SHORT before revealing what followed. This is a historical exercise, not a trade; current token waves are not loaded here.</p>
+      <p className="mt-2 max-w-3xl text-sm text-ink-2">Read the evidence at a past cutoff, lock BUY, PASS or SHORT, then reveal what followed. A historical exercise, not a trade.</p>
       <p className="mt-2 break-all text-xs text-ink-muted">{chain} · {token}</p>
       <div className="mt-4 flex flex-wrap items-center gap-3"><label className="text-sm">Replay window <select aria-label="Replay window" value={horizon} onChange={(e) => setHorizon(e.target.value as ReplayAt)} disabled={busy} className="rounded-lg border border-border bg-raised p-2">{(['1h', '24h', '7d'] as const).map((h) => <option key={h} value={h}>T−{h}</option>)}</select></label>
         <button disabled={busy} onClick={prepare} className="rounded bg-brand/15 px-4 py-2 text-sm ring-1 ring-brand/40 disabled:opacity-40">{busy ? 'Working…' : 'Load historical evidence · up to 1 credit'}</button></div>
@@ -65,10 +65,10 @@ export function TimeMachine({ chain, token }: { chain: string; token: string }) 
       <p className="text-sm">Entry {fmtPrice(preview.entry)} <InfoPopover p={receiptProvenance('Replay candle source', preview.receipt)} /> · Outcome window: {preview.horizon}. {preview.receipt.served === 'recorded' ? 'Real recorded Nansen candles, not live.' : 'Reconstructed from historical Nansen candles.'}</p>
       <PricePath points={preview.history} label="Before the cutoff · fully closed candles only" tfMs={preview.horizon === '1h' ? 300_000 : preview.horizon === '24h' ? 3_600_000 : 14_400_000} />
       <div className="grid gap-3 sm:grid-cols-2">{preview.readings.map((r) => <div key={r.name} className="rounded-xl border border-border p-3"><div className="text-sm text-ink-2">{r.name}</div><div className="num text-xl">{r.name.includes('USD') ? '$' : ''}{r.value.toLocaleString('en-US', { maximumFractionDigits: 2 })}</div><p className="mt-1 text-xs text-ink-muted">{r.source} · {utc(r.at)}</p></div>)}</div>
-      <p className="text-xs text-ink-muted">{preview.readings.length ? 'Only locally stored observations timestamped at or before the cutoff are shown; check their ages.' : 'No local model observations existed at this cutoff. Candle history is available; Storm, pressure and flow readings are unavailable, not zero.'} Current gauges are not substituted for historical ones.</p>
+      <p className="text-xs text-ink-muted">{preview.readings.length ? 'Only locally stored observations timestamped at or before the cutoff are shown; check their ages.' : 'No local model observations existed at this cutoff. Candle history is available; Dump Risk and flow readings are unavailable, not zero.'} Current gauges are not substituted for historical ones.</p>
       {!result ? <div className="space-y-3 border-t border-border pt-4">
         <div role="radiogroup" aria-label="Replay decision" className="flex flex-wrap gap-2">{([['bull', 'BUY'], ['pass', 'PASS'], ['bear', 'SHORT']] as const).map(([k, label]) => <button key={k} role="radio" aria-checked={stance === k} onClick={() => setStance(k)} className={`rounded-lg border border-border px-5 py-2 ${stance === k ? 'bg-brand/15 ring-1 ring-brand/40' : ''}`}>{label}</button>)}</div>
-        <label className="block text-sm">Setup <select aria-label="Replay setup" value={setup} onChange={(e) => setSetup(e.target.value as Setup)} className="rounded-lg border border-border bg-raised p-2">{SETUPS.map((s) => <option key={s}>{s}</option>)}</select></label>
+        <label className="block text-sm">Setup <select aria-label="Replay setup" value={setup} onChange={(e) => setSetup(e.target.value as Setup)} className="rounded-lg border border-border bg-raised p-2">{SETUPS.map((s) => <option key={s} value={s}>{setupLabel(s)}</option>)}</select></label>
         <input aria-label="Replay thesis" placeholder="Why this decision?" maxLength={200} value={thesis} onChange={(e) => setThesis(e.target.value)} className="w-full rounded-lg border border-border bg-raised p-2 text-sm" />
         <button disabled={!stance || busy} onClick={lock} className="rounded bg-brand/15 px-4 py-2 ring-1 ring-brand/40 disabled:opacity-40">Lock decision & reveal</button>
         <p className="text-xs text-ink-muted">No edits after locking. Reveal uses the server-held outcome, costs no extra credits, and saves a replay call to your Desk. Prior knowledge of this token can still bias a replay.</p>

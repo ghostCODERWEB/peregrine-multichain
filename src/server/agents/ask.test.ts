@@ -17,7 +17,7 @@ describe('Ask Nansen context (L5a)', () => {
     db.prepare("INSERT INTO chain_cpi (chain, cpi, any_cross_section, windows, snapshot_at, source) VALUES ('base', 62, 1, '[]', ?, 'market-flow')").run(now);
     const c = buildContext({ kind: 'token', chain: 'base', address: T }, 'public');
     expect(c.view).toBe('public');
-    expect(c.lines.map((l) => l.label)).toEqual(['Token', 'Storm Score (7-day dump risk, 0–100)', '24h all-trader net flow', '24h buy / sell volume', 'Price', 'Liquidity', 'Base pressure index (0–100, 50 = normal)']);
+    expect(c.lines.map((l) => l.label)).toEqual(['Token', 'Dump Risk (7-day, 0–100)', '24h all-trader net flow', '24h buy / sell volume', 'Price', 'Liquidity', 'Base Flow Index (0–100, 50 = neutral)']);
     expect(c.lines.every((l) => l.at != null || l.label === 'Token')).toBe(true);
   });
 

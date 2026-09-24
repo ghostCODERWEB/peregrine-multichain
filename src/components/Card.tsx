@@ -9,7 +9,8 @@ export function Card({ id, title, sub, children, className = '', action }: { id:
         <h2 id={id} className="text-[14px] font-semibold leading-snug text-ink">{title}</h2>
         {action}
       </div>
-      {sub && <p className="mt-0.5 text-[12px] text-ink-muted">{sub}</p>}
+      {/* One line, never a paragraph: the full sentence is on hover and in the ⓘ receipt. */}
+      {sub && <p className="mt-0.5 truncate text-[12px] text-ink-muted" title={typeof sub === 'string' ? sub : undefined}>{sub}</p>}
       <div className="mt-3">{children}</div>
     </section>
   );

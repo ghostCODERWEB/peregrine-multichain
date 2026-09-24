@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import { TokenLogo } from '@/components/Logo';
 import { useEffect, useMemo, useState } from 'react';
 import { Card, WaveLoading, Unavailable } from '@/components/Card';
 import { InfoPopover } from '@/components/InfoPopover';
@@ -21,8 +22,9 @@ async function post<T>(body: object): Promise<T> {
 /** "xyz:SP500" is a builder-deployed market on Hyperliquid (HIP-3). */
 export function Sym({ s, className = '' }: { s: string; className?: string }) {
   const i = s.indexOf(':');
-  if (i < 0) return <span className={className}>{s}</span>;
-  return <span className={className}>{s.slice(i + 1)} <span className="text-[10.5px] font-normal text-ink-muted">{s.slice(0, i)}</span></span>;
+  // Builder markets ("xyz:TSLA") never borrow a crypto logo: TokenLogo shows a badge for them.
+  if (i < 0) return <span className={`inline-flex min-w-0 items-center gap-1.5 ${className}`}><TokenLogo symbol={s} size={14} />{s}</span>;
+  return <span className={`inline-flex min-w-0 items-center gap-1.5 ${className}`}><TokenLogo symbol={null} size={14} />{s.slice(i + 1)} <span className="text-[10.5px] font-normal text-ink-muted">{s.slice(0, i)}</span></span>;
 }
 
 const pressureColor = (p: number | null) => (p == null ? 'var(--surface-2)' : p >= 50 ? 'var(--in-2)' : 'var(--out-2)');
@@ -31,7 +33,7 @@ const pressureMix = (p: number | null) => {
   const k = Math.sqrt(Math.min(1, Math.abs(p - 50) / 50));
   return `color-mix(in oklab, ${pressureColor(p)} ${Math.round(8 + k * 62)}%, var(--surface-1))`;
 };
-const bandText = (p: number) => (p > 65 ? 'Long pressure' : p < 35 ? 'Short pressure' : 'Balanced');
+const bandText = (p: number) => (p > 65 ? 'Long bias' : p < 35 ? 'Short bias' : 'Balanced');
 const signedPct = (v: number | null, d = 1) => (v == null ? '—' : `${v >= 0 ? '+' : '−'}${pct(Math.abs(v), d)}`);
 
 // ------------------------------------------------------------------ hero
@@ -67,9 +69,9 @@ function Hero({ b, title, mode }: { b: PerpBoard; title: string; mode: 'owner' |
         <div className="flex shrink-0 items-center gap-4 rounded-2xl border border-border/70 bg-raised/40 p-4 lg:w-[230px] lg:flex-col lg:text-center">
           {v?.ppi != null ? (
             <>
-              <ScoreRing score={v.ppi} size={112} stroke={9} color={pressureColor(v.ppi)} label="Perp Pressure Index" sublabel="PPI" />
+              <ScoreRing score={v.ppi} size={112} stroke={9} color={pressureColor(v.ppi)} label="Perp Flow Index" sublabel="0–100" />
               <div>
-                <div className="text-[11px] uppercase tracking-wider text-ink-muted">Perp Pressure Index</div>
+                <div className="text-[11px] uppercase tracking-wider text-ink-muted">Perp Flow Index</div>
                 <div className="text-[15px] font-semibold text-ink">{bandText(v.ppi)}</div>
                 <div className="text-[11.5px] text-ink-2">open-interest weighted</div>
               </div>
@@ -80,7 +82,7 @@ function Hero({ b, title, mode }: { b: PerpBoard; title: string; mode: 'owner' |
       <div className="relative mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-border/60 pt-3 text-[11.5px] text-ink-muted">
         {b.provenance && <InfoPopover p={b.provenance} />}
         <span>Built from Peregrine&apos;s hourly perp snapshots: this page makes no Nansen call until you open a coin.</span>
-        <span className="ml-auto">Readings, not forecasts · not financial advice</span>
+        <span className="ml-auto">Readings, not predictions · not financial advice</span>
       </div>
     </section>
   );
@@ -93,11 +95,11 @@ function PressureGrid({ coins, onPick, picked }: { coins: PerpCoin[]; onPick: (c
   const peak = Math.max(1, ...tiles.map((c) => c.openInterest ?? 0));
   return (
     <div>
-      <ul className="grid grid-cols-[repeat(auto-fill,minmax(76px,1fr))] gap-1.5 sm:grid-cols-[repeat(auto-fill,minmax(88px,1fr))]" aria-label={`${tiles.length} coins by Perp Pressure Index, largest open interest first`}>
+      <ul className="grid grid-cols-[repeat(auto-fill,minmax(76px,1fr))] gap-1.5 sm:grid-cols-[repeat(auto-fill,minmax(88px,1fr))]" aria-label={`${tiles.length} coins by Perp Flow Index, largest open interest first`}>
         {tiles.map((c) => (
           <li key={c.symbol}>
             <button onClick={() => onPick(c)} aria-pressed={picked === c.symbol}
-              aria-label={`${c.symbol}: Perp Pressure ${num(c.ppi, 0)}, funding ${c.fundingApr != null ? pct(c.fundingApr, 1) : 'unknown'} a year, ${usd(c.openInterest)} open interest`}
+              aria-label={`${c.symbol}: Perp Flow ${num(c.ppi, 0)}, funding ${c.fundingApr != null ? pct(c.fundingApr, 1) : 'unknown'} a year, ${usd(c.openInterest)} open interest`}
               className={`flex h-[62px] w-full flex-col justify-between overflow-hidden rounded-lg border px-2 py-1.5 text-left transition-transform hover:scale-[1.04] ${picked === c.symbol ? 'border-ink ring-1 ring-ink' : 'border-border/40'}`}
               style={{ background: pressureMix(c.ppi) }}>
               <Sym s={c.symbol} className="truncate text-[12px] font-semibold text-ink" />
@@ -109,7 +111,7 @@ function PressureGrid({ coins, onPick, picked }: { coins: PerpCoin[]; onPick: (c
       </ul>
       <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-ink-muted">
         <span className="inline-flex items-center gap-2"><span className="num">0</span><span aria-hidden className="h-2 w-28 rounded-full" style={{ background: 'linear-gradient(90deg, var(--out-2), var(--surface-1) 50%, var(--in-2))' }} /><span className="num">100</span></span>
-        <span>red: short pressure · green: long pressure · number: PPI · bar: open interest · select a coin</span>
+        <span>red: short bias · green: long bias · number: Perp Flow Index · bar: open interest · select a coin</span>
       </div>
     </div>
   );
@@ -185,14 +187,14 @@ function CrowdingMap({ coins, useSm, onPick }: { coins: PerpCoin[]; useSm: boole
       </div>
       {hover && (
         <div className="glass pointer-events-none absolute right-3 top-3 max-w-[240px] rounded-xl p-2.5 text-[12px]">
-          <div className="font-medium text-ink"><Sym s={hover.symbol} /> · PPI {num(hover.ppi, 0)}</div>
+          <div className="font-medium text-ink"><Sym s={hover.symbol} /> · Perp flow {num(hover.ppi, 0)}</div>
           <div className="num text-ink-2">funding {pct(hover.fundingApr!, 1)} a year · OI {usd(hover.openInterest)}</div>
           <div className="num text-ink-2">{useSm ? `smart money ${signedPct(hover.sm?.skew ?? null, 0)} long skew` : `takers ${signedPct(hover.taker)} net buying`}</div>
           {hover.divergence && <div className="text-ink">{hover.divergence === 'crowded-long' ? 'Crowd paying to be long; smart money net short' : 'Crowd paying to be short; smart money net long'}</div>}
         </div>
       )}
       <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-ink-muted">
-        <span>colour: PPI (green long, red short) · size: open interest</span>
+        <span>colour: Perp Flow Index (green long, red short) · size: open interest</span>
         {useSm && <span className="inline-flex items-center gap-1.5"><span className="inline-block h-3 w-3 rounded-full border-[1.5px] border-dashed" style={{ borderColor: 'var(--storm-2)' }} />crowd and smart money disagree</span>}
       </div>
     </div>
@@ -228,8 +230,8 @@ export function PerpsView({ board, title, mode }: { board: PerpBoard; title: str
     <div className="space-y-4">
       <Hero b={board} title={title} mode={mode} />
 
-      <Card id="pressure" title={hot.length ? `Most long pressure: ${hot.slice(0, 2).map((c) => `${c.symbol.replace(/^[^:]+:/, '')} ${num(c.ppi, 0)}`).join(', ')}; most short: ${hot.slice(-2).reverse().map((c) => `${c.symbol.replace(/^[^:]+:/, '')} ${num(c.ppi, 0)}`).join(', ')}` : 'Perp pressure by coin'}
-        sub="Every Hyperliquid coin with $1M+ open interest, largest first, coloured by its Perp Pressure Index."
+      <Card id="pressure" title={hot.length ? `Most long bias: ${hot.slice(0, 2).map((c) => `${c.symbol.replace(/^[^:]+:/, '')} ${num(c.ppi, 0)}`).join(', ')}; most short: ${hot.slice(-2).reverse().map((c) => `${c.symbol.replace(/^[^:]+:/, '')} ${num(c.ppi, 0)}`).join(', ')}` : 'Perp flow by coin'}
+        sub="Every Hyperliquid coin with $1M+ open interest, largest first, coloured by its Perp Flow Index."
         action={board.provenance ? <InfoPopover p={board.provenance} /> : undefined}>
         <PressureGrid coins={board.coins} onPick={pick} picked={picked} />
       </Card>
@@ -244,7 +246,7 @@ export function PerpsView({ board, title, mode }: { board: PerpBoard; title: str
           <div className="max-h-[440px] overflow-auto">
             <table className="w-full text-left text-[12.5px]">
               <thead className="sticky top-0 bg-surface text-[11px] uppercase tracking-wider text-ink-muted">
-                <tr><th className="py-2 font-normal">Coin</th><th className="font-normal">PPI</th><th className="font-normal">Funding</th><th className="text-right font-normal">OI</th></tr>
+                <tr><th className="py-2 font-normal">Coin</th><th className="font-normal">Perp flow</th><th className="font-normal">Funding</th><th className="text-right font-normal">OI</th></tr>
               </thead>
               <tbody>
                 {board.coins.filter((c) => c.ppi != null).slice(0, 80).map((c) => (
@@ -367,7 +369,7 @@ export function PerpsView({ board, title, mode }: { board: PerpBoard; title: str
             </div>
           ) : leaders.state === 'error' ? <Unavailable text={leaders.message} /> : <WaveLoading what="the Hyperliquid leaderboard" height={320} />}
       </Card>
-      <p className="text-[11.5px] text-ink-muted">Perp pressure and copy-trade scores are readings of positioning, not forecasts, and have no track record until the M9 backtest. Peregrine never places or signs a trade. Not financial advice.</p>
+      <p className="text-[11.5px] text-ink-muted">Perp flow and copy-trade scores are readings of positioning, not predictions, and have no track record until the M9 backtest. Peregrine never places or signs a trade. Not financial advice.</p>
     </div>
   );
 }

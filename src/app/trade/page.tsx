@@ -22,9 +22,8 @@ export default async function TradePage({ searchParams }: { searchParams: Promis
       <section aria-labelledby="trade-title" className="glass rise rounded-2xl p-4 sm:p-6">
         <div className="text-[12px] text-ink-muted">Nansen trading · Base + Solana</div>
         <h1 id="trade-title" className="mt-1 text-lg font-semibold text-ink sm:text-xl">Swap with Peregrine&apos;s signals in view</h1>
-        <p className="mt-1 max-w-3xl text-[13.5px] text-ink-2">
-          Nansen finds the route and builds the transaction, and simulates it before you sign. You sign each step in your own wallet; Peregrine never holds keys,
-          never signs, and never sends a transaction for you. Trading spends no Nansen credits: you pay only the route and network fees shown.
+        <p className="mt-1 max-w-3xl text-[13px] text-ink-2">
+          Nansen routes and simulates; you sign every step in your own wallet. Peregrine never holds keys or signs.
         </p>
       </section>
       {off ? <p className="glass rounded-2xl p-4 text-sm text-ink-2">{off} {mode === 'public' && <Link href="/account" className="text-ink underline-offset-2 hover:underline">Sign in</Link>}</p> : (

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { ScoreRing } from '@/components/viz/ScoreRing';
 import { InfoPopover } from '@/components/InfoPopover';
 import { STORM_LABEL } from '@/lib/viz/scales';
+import { TokenLogo, ChainLogo } from '@/components/Logo';
 import { chainName, num, pct, shortAddress, usd, walletName } from '@/lib/viz/format';
 import { WIND_SEGMENTS, WIND_TIMEFRAMES, type WindTimeframe } from '@/lib/wind';
 import { SEGMENT_LABEL } from './WindRose';
@@ -81,7 +82,10 @@ export function TokenHero({ chain, address, tier, h, m, storm, done, title }: {
       <div className="relative flex flex-col gap-5 lg:flex-row lg:items-start">
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-[13px] font-bold text-on-brand" style={{ background: 'linear-gradient(135deg, var(--brand), var(--brand-2))' }}>{initials}</div>
+            <div className="relative shrink-0">
+              <TokenLogo symbol={h?.symbol ?? initials} logo={h?.logo} size={44} />
+              <span className="absolute -bottom-1 -right-1 rounded-md bg-surface p-0.5 ring-1 ring-border"><ChainLogo chain={chain} size={16} /></span>
+            </div>
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-2 text-[12px] text-ink-2">
                 <span className="rounded border border-border px-2 py-0.5">{chainName(chain)}</span>
@@ -128,15 +132,15 @@ export function TokenHero({ chain, address, tier, h, m, storm, done, title }: {
         <div className="flex shrink-0 items-center gap-4 rounded-2xl border border-border/70 bg-raised/40 p-4 lg:w-[230px] lg:flex-col lg:text-center">
           {storm ? (
             <>
-              <ScoreRing score={storm.result.score} size={112} stroke={9} color={STORM_RING[storm.result.band]} label="Storm Score" sublabel="of 100" />
+              <ScoreRing score={storm.result.score} size={112} stroke={9} color={STORM_RING[storm.result.band]} label="Dump Risk" sublabel="of 100" />
               <div>
-                <div className="text-[11px] uppercase tracking-wider text-ink-muted">Storm Score{storm.final ? '' : ' · provisional'}</div>
+                <div className="text-[11px] uppercase tracking-wider text-ink-muted">Dump Risk{storm.final ? '' : ' · provisional'}</div>
                 <div className="text-[15px] font-semibold text-ink">{STORM_LABEL[storm.result.band]}</div>
                 <div className="text-[11.5px] text-ink-2">{pct(storm.result.confidence, 0)} of the model&apos;s inputs present</div>
               </div>
             </>
           ) : (
-            <div className="py-6 text-[12.5px] text-ink-2">Storm Score lands once holders, flows and liquidity are in.</div>
+            <div className="py-6 text-[12.5px] text-ink-2">Dump Risk lands once holders, flows and liquidity are in.</div>
           )}
         </div>
       </div>

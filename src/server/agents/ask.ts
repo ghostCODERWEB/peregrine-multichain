@@ -31,7 +31,7 @@ function chainLines(chain: string, view: 'public' | 'private'): ContextLine[] {
   const source = view === 'private' ? 'smart-money' : 'market-flow';
   const r = getDb().prepare('SELECT cpi, snapshot_at FROM chain_cpi WHERE chain = ? AND source = ? ORDER BY snapshot_at DESC LIMIT 1').get(chain, source) as { cpi: number; snapshot_at: number } | undefined
     ?? (view === 'private' ? getDb().prepare("SELECT cpi, snapshot_at FROM chain_cpi WHERE chain = ? AND source = 'market-flow' ORDER BY snapshot_at DESC LIMIT 1").get(chain) as { cpi: number; snapshot_at: number } | undefined : undefined);
-  return r ? [{ label: `${chainName(chain)} pressure index (0–100, 50 = normal)`, value: String(Math.round(r.cpi)), at: r.snapshot_at, source: `Peregrine Chain Pressure Index, ${source === 'smart-money' ? 'smart-money' : 'all-trader'} flow from Nansen` }] : [];
+  return r ? [{ label: `${chainName(chain)} Flow Index (0–100, 50 = neutral)`, value: String(Math.round(r.cpi)), at: r.snapshot_at, source: `Peregrine Chain Pressure Index, ${source === 'smart-money' ? 'smart-money' : 'all-trader'} flow from Nansen` }] : [];
 }
 
 export function buildContext(s: Subject, mode: DisplayMode): AskContext {
@@ -50,7 +50,7 @@ export function buildContext(s: Subject, mode: DisplayMode): AskContext {
     { symbol: string | null; netflow: number | null; volume: number | null; buy_volume: number | null; sell_volume: number | null; price_usd: number | null; liquidity: number | null; snapshot_at: number; source: string } | undefined;
   const symbol = clean(storm?.symbol ?? pulse?.symbol ?? '', 24) || null;
   const lines: ContextLine[] = [{ label: 'Token', value: `${symbol ?? 'unknown symbol'} (${clean(s.address, 80)}) on ${chainName(s.chain)}`, at: null, source: 'the page address' }];
-  if (storm) lines.push({ label: 'Storm Score (7-day dump risk, 0–100)', value: `${Math.round(storm.score)}, ${storm.band}, confidence ${storm.confidence.toFixed(2)}`, at: storm.computed_at, source: 'Peregrine Storm Score from Nansen holders, flows and indicators' });
+  if (storm) lines.push({ label: 'Dump Risk (7-day, 0–100)', value: `${Math.round(storm.score)}, ${storm.band}, confidence ${storm.confidence.toFixed(2)}`, at: storm.computed_at, source: 'Peregrine Dump Risk from Nansen holders, flows and indicators' });
   if (pulse) {
     const flowSrc = pulse.source === 'smart-money' ? 'smart-money' : 'all-trader';
     if (pulse.netflow != null) lines.push({ label: `24h ${flowSrc} net flow`, value: usdS(pulse.netflow), at: pulse.snapshot_at, source: 'Peregrine scanner, Nansen token-screener' });

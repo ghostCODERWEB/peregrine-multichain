@@ -19,7 +19,7 @@ export function FrontsList({
   if (!fronts.length) {
     return (
       <p className="text-sm text-ink-2">
-        No two smart-money wallets have sold on one chain and bought on another within 12 hours in the last day. Fronts need
+        No two smart-money wallets have sold on one chain and bought on another within 12 hours in the last day. Rotations need
         at least two wallets moving the same way — one wallet is an anecdote.
       </p>
     );
@@ -126,7 +126,7 @@ export function FrontSheet({ front, onClose }: { front: FrontWithProvenance | nu
                 </tbody>
               </table>
               <p className="mt-3 text-xs text-ink-muted">
-                Totals are each wallet&apos;s full sell and buy activity on those chains in the window; the front counts only the
+                Totals are each wallet&apos;s full sell and buy activity on those chains in the window; the rotation counts only the
                 matched part, min(sold, bought) per pair.
               </p>
               </>}

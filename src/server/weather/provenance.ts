@@ -16,24 +16,24 @@ export function cpiProvenance(w: ChainWeather): Provenance | null {
   }
   if (!sm) {
     notes.push(
-      `Market-flow pressure: Nansen returns no smart-money or whale rows for ${w.chain} (checked live), so this reads all-trader net flow. Weaker signal; not comparable to smart-money chains.`,
+      `All-trader flow: Nansen returns no smart-money or whale rows for ${w.chain} (checked live), so this reads all-trader net flow. Weaker signal; not comparable to smart-money chains.`,
     );
   }
   const quiet = w.windows.filter((x) => sm && x.tokenCount === 0).map((x) => x.window);
   if (quiet.length) notes.push(`No smart-money trades on ${w.chain} in the ${quiet.join(', ')} window — recorded as zero flow, which is a reading, not missing data.`);
 
   return {
-    title: `Chain Pressure Index — ${w.chain}`,
+    title: `Flow Index — ${w.chain}`,
     formula:
       'r = net_flow / max(volume, $10K)\n' +
       'z = (r − median) / (1.4826·MAD)   [history or peers]\n' +
       'CPI_w = 50 + 50·tanh(z/2)\n' +
-      'CPI = 0.2·CPI_1h + 0.5·CPI_24h + 0.3·CPI_7d',
+      'Flow = 0.2·Flow_1h + 0.5·Flow_24h + 0.3·Flow_7d',
     inputs: w.windows.flatMap((x) => [
       { label: `${x.window} net flow (${x.tokenCount} tokens)`, value: usd(x.netFlowUsd, { signed: true }) },
       { label: `${x.window} volume`, value: usd(x.volumeUsd) },
-      { label: `${x.window} r · z · CPI`, value: `${x.ratio.toExponential(2)} · ${num(x.z, 2)} · ${num(x.cpi)}` },
-    ]).concat([{ label: 'Blended CPI', value: num(w.cpi) }, { label: 'Updated', value: ago(w.updatedAt) }]),
+      { label: `${x.window} r · z · Flow`, value: `${x.ratio.toExponential(2)} · ${num(x.z, 2)} · ${num(x.cpi)}` },
+    ]).concat([{ label: 'Blended Flow Index', value: num(w.cpi) }, { label: 'Updated', value: ago(w.updatedAt) }]),
     calls: [
       ...(sm ? [{ endpoint: 'token-screener', body: screenerRequestBody([w.chain], '24h', true), credits: 1, ref: 'net flow · batched ≤5 chains per call' }] : []),
       { endpoint: 'token-screener', body: screenerRequestBody([w.chain], '24h', false), credits: 1, ref: `volume${sm ? '' : ' + net flow'} · one call per window (1h, 24h, 7d)` },
@@ -44,7 +44,7 @@ export function cpiProvenance(w: ChainWeather): Provenance | null {
 
 export function frontProvenance(f: Front): Provenance {
   return {
-    title: `Rotation front ${f.from} → ${f.to}`,
+    title: `Capital rotation ${f.from} → ${f.to}`,
     formula:
       'per wallet: a sell on A (risk → stable/native) matched to\n' +
       '  its largest later buy on B (stable/native → risk) within 12h,\n' +
@@ -54,7 +54,7 @@ export function frontProvenance(f: Front): Provenance {
     inputs: [
       { label: `R(${f.from}→${f.to})`, value: usd(f.grossForward) },
       { label: `R(${f.to}→${f.from})`, value: usd(f.grossBack) },
-      { label: 'Net front', value: usd(f.netUsd) },
+      { label: 'Net rotation', value: usd(f.netUsd) },
       { label: 'Wallets', value: String(f.walletCount) },
       { label: 'Confidence', value: num(f.confidence, 2) },
     ],
@@ -67,9 +67,9 @@ export function frontProvenance(f: Front): Provenance {
 
 export function forecastProvenance(f: PressureForecast): Provenance {
   return {
-    title: `24h pressure forecast — ${f.chain}`,
+    title: `24h flow projection — ${f.chain}`,
     formula:
-      'Holt linear smoothing on blended CPI snapshots\n' +
+      'Holt linear smoothing on blended Flow Index snapshots\n' +
       'level_t = α·y_t + (1−α)(level + trend)\n' +
       'trend_t = β·(level_t − level) + (1−β)·trend\n' +
       'fan = ±1.28·σ_resid·√h  (80%)',
@@ -85,7 +85,7 @@ export function forecastProvenance(f: PressureForecast): Provenance {
     notes: [
       f.insufficient
         ? `Needs 12 snapshots of history before a trend means anything; the scanner adds one every scan interval.`
-        : 'MAPE here is in-sample one-step error. Out-of-sample accuracy is in the Forecast Lab.',
+        : 'MAPE here is in-sample one-step error. Out-of-sample accuracy is in the Backtest Lab.',
     ],
   };
 }

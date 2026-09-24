@@ -9,11 +9,11 @@ import type { StormScoreResult } from '@/lib/models/storm-score';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
-export const alt = 'Peregrine Storm Score for this token';
+export const alt = 'Peregrine Dump Risk for this token';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
-const LABELS: Record<string, string> = { concentration: 'Concentration', insider: 'Insider clusters', windShear: 'Wind shear', exitLiquidity: 'Exit liquidity', sellPressure: 'Sell pressure', nansenRisk: 'Nansen risk' };
+const LABELS: Record<string, string> = { concentration: 'Concentration', insider: 'Insider clusters', windShear: 'Cohort shear', exitLiquidity: 'Exit liquidity', sellPressure: 'Sell pressure', nansenRisk: 'Nansen risk' };
 
 export default async function Image({ params }: { params: Promise<{ chain: string; address: string }> }) {
   const { chain, address } = await params;
@@ -41,7 +41,7 @@ export default async function Image({ params }: { params: Promise<{ chain: strin
         <div style={{ display: 'flex', flexDirection: 'column', marginLeft: 40, flex: 1 }}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 16 }}>
             <div style={{ display: 'flex', fontSize: 30, fontWeight: 700, letterSpacing: -0.5 }}>Peregrine</div>
-            <div style={{ display: 'flex', fontSize: 22, color: OG.muted }}>Storm Score · 7-day dump risk</div>
+            <div style={{ display: 'flex', fontSize: 22, color: OG.muted }}>Dump Risk · 7 days</div>
           </div>
           <div style={{ display: 'flex', fontSize: 60, fontWeight: 700, marginTop: 18 }}>{r?.symbol ?? shortAddress(token)}</div>
           <div style={{ display: 'flex', fontSize: 26, color: OG.ink2 }}>{chainName(chain)}{r ? ` · confidence ${Math.round(r.confidence * 100)}%` : ''}</div>

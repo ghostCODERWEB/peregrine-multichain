@@ -103,9 +103,9 @@ export function ppiForward(view: PressureView, horizonHours = 6, maxMoments = 48
       if (p0 && p1) pairs.push({ score: c.ppi, fwd: p1 / p0 - 1 });
     }
   }
-  return summarize(`Perp Pressure Index (${view === 'public' ? 'all traders' : 'with smart money'})`, horizonHours, pairs, moments,
-    [['long pressure (65+)', (s) => s > 65], ['balanced', (s) => s >= 35 && s <= 65], ['short pressure (under 35)', (s) => s < 35]],
-    'Coins with $5M+ open interest. Forward return = mark price at the next hourly snapshot at least the horizon later ÷ mark at the reading − 1. Long pressure "hits" when price rises.',
+  return summarize(`Perp Flow Index (${view === 'public' ? 'all traders' : 'with smart money'})`, horizonHours, pairs, moments,
+    [['long bias (65+)', (s) => s > 65], ['balanced', (s) => s >= 35 && s <= 65], ['short bias (under 35)', (s) => s < 35]],
+    'Coins with $5M+ open interest. Forward return = mark price at the next hourly snapshot at least the horizon later ÷ mark at the reading − 1. Long bias "hits" when price rises.',
     times[0] != null && !moments.length ? times[0] + h : null);
 }
 

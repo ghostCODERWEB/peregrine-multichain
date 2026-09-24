@@ -89,16 +89,16 @@ export function planTemplate(ctx: RequestContext, template: TemplateId, input: T
         { title: 'Follow-list alert', formula: 'common-token-transfer, realtime: subjects = your followed wallets (up to 20); events buy, sell, swap; value ≥ threshold', inputs: [{ label: 'Wallets', value: String(wallets.length) }, { label: 'Threshold', value: usd(min) }], notes: ['Watches every chain in Nansen\'s smart-money set.'] });
     }
     case 'front': {
-      if (ctx.mode !== 'owner') throw new Error('Rotation fronts come from the scanner\'s smart-money trades, which only the key owner sees.');
+      if (ctx.mode !== 'owner') throw new Error('Capital rotations come from the scanner\'s smart-money trades, which only the key owner sees.');
       const fronts = rotationFronts(24);
       const f = fronts[input.front ?? 0];
-      if (!f) throw new Error('No rotation front in the last 24 hours.');
+      if (!f) throw new Error('No capital rotation in the last 24 hours.');
       const wallets = f.wallets.map((w) => w.wallet).slice(0, MAX_SUBJECTS);
       const min = minUsd(5_000);
       const data = CommonTokenTransferAlertData.parse({ chains: [f.to], subjects: wallets.map((value) => ({ type: 'address', value })), events: ['buy', 'swap'], usdValue: { min } });
-      return draft(`front ${chainName(f.from)} → ${chainName(f.to)} wallets buying`, 'common-token-transfer', 'realtime', data, channel,
-        `Peregrine rotation front: one of the ${wallets.length} wallets that moved ${usd(f.netUsd)} from ${chainName(f.from)} into ${chainName(f.to)} buys over ${usd(min)} on ${chainName(f.to)}.`,
-        { title: 'Rotation-front alert', formula: 'common-token-transfer, realtime: subjects = the front\'s wallets; chain = its destination; events buy, swap; value ≥ threshold', inputs: [{ label: 'Front', value: `${chainName(f.from)} → ${chainName(f.to)} (${usd(f.netUsd)})` }, { label: 'Wallets', value: String(wallets.length) }, { label: 'Threshold', value: usd(min) }], notes: [] });
+      return draft(`rotation ${chainName(f.from)} → ${chainName(f.to)} wallets buying`, 'common-token-transfer', 'realtime', data, channel,
+        `Peregrine capital rotation: one of the ${wallets.length} wallets that moved ${usd(f.netUsd)} from ${chainName(f.from)} into ${chainName(f.to)} buys over ${usd(min)} on ${chainName(f.to)}.`,
+        { title: 'Capital-rotation alert', formula: 'common-token-transfer, realtime: subjects = the rotation\'s wallets; chain = its destination; events buy, swap; value ≥ threshold', inputs: [{ label: 'Front', value: `${chainName(f.from)} → ${chainName(f.to)} (${usd(f.netUsd)})` }, { label: 'Wallets', value: String(wallets.length) }, { label: 'Threshold', value: usd(min) }], notes: [] });
     }
     case 'chain-inflow': {
       const chain = input.chain ?? '';
@@ -107,7 +107,7 @@ export function planTemplate(ctx: RequestContext, template: TemplateId, input: T
       const min = minUsd(suggested);
       const data = SmTokenFlowsAlertData.parse({ chains: [chain], events: ['sm-token-flows'], inflow_1h: { min } });
       return draft(`${chainName(chain)} smart-money inflow surge`, 'sm-token-flows', '1h', data, channel,
-        `Peregrine pressure alert: smart money buys over ${usd(min)} of a single token on ${chainName(chain)} within an hour.`,
+        `Peregrine flow alert: smart money buys over ${usd(min)} of a single token on ${chainName(chain)} within an hour.`,
         { title: 'Chain inflow alert', formula: 'sm-token-flows, 1h window: any token on the chain with smart-money inflow ≥ threshold\ndefault = 90th percentile of the positive hourly smart-money token net flows the scanner saw on this chain over 3 days, at least $25K', inputs: [{ label: 'Chain', value: chainName(chain) }, { label: 'Suggested', value: usd(suggested) }, { label: 'Threshold', value: usd(min) }], notes: [] });
     }
     case 'deployer': {

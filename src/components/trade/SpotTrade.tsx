@@ -270,7 +270,7 @@ export function SpotTrade({ initialToken }: { initialToken: string }) {
         <h2 className="text-[13px] font-semibold text-ink">What Peregrine sees</h2>
         {!validToken ? <p className="text-ink-2">Enter a valid {chain === 'base' ? 'Base token address' : 'Solana mint'}.</p> : !signals ? <p className="animate-pulse text-ink-muted">Reading Peregrine&apos;s signals…</p> : (
           <>
-            <div className="flex justify-between"><span className="text-ink-2">Storm Score</span><span className="num text-ink">{signals.storm ? `${signals.storm.score} · ${signals.storm.band}` : 'not computed'}</span></div>
+            <div className="flex justify-between"><span className="text-ink-2">Dump Risk</span><span className="num text-ink">{signals.storm ? `${signals.storm.score} · ${signals.storm.band}` : 'not computed'}</span></div>
             <div className="flex justify-between"><span className="text-ink-2">{chain === 'base' ? 'Base' : 'Solana'} pressure</span><span className="num text-ink">{signals.chainPressure ? `${signals.chainPressure.cpi} · ${signals.chainPressure.band ?? ''}` : '—'}</span></div>
             <p className="text-[11.5px] text-ink-muted">{signals.trackRecord}</p>
             <Link href={`/token/${chain}/${token.trim()}`} className="text-ink-2 underline-offset-2 hover:text-ink hover:underline">Open the token page →</Link>

@@ -1,5 +1,6 @@
 'use client';
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
+import { ChainLogo, TokenLogo } from '@/components/Logo';
 import { usePathname, useRouter } from 'next/navigation';
 import { detectAddress, FAMILY_NAMES } from '@/lib/address-family';
 import { COMMANDS, parseCommand } from '@/lib/commands';
@@ -7,7 +8,7 @@ import type { SearchResponse, ResultKind } from '@/server/search/omnibox';
 import type { CommandAnswer, CommandPreview } from '@/server/search/commands';
 
 const KIND: Record<ResultKind, string> = { token: 'Token', wallet: 'Wallet', entity: 'Entity', chain: 'Chain', sector: 'Sector', note: 'Note' };
-interface Item { key: string; kind: string; title: string; subtitle: string; badge?: string; disabled?: boolean; pick: () => void }
+interface Item { key: string; kind: string; chain?: string; symbol?: string; title: string; subtitle: string; badge?: string; disabled?: boolean; pick: () => void }
 
 /**
  * ⌘K / Ctrl+K (or "/") search across tokens, entities, chains, sectors and
@@ -82,7 +83,7 @@ export function Omnibox() {
   let items: Item[] = [];
   if (!commandMode) {
     const results = res?.query === query ? res.results : res?.results ?? [];
-    items = results.map((r) => ({ key: `${r.kind}:${r.href ?? r.title}`, kind: KIND[r.kind], title: r.title, subtitle: r.subtitle, disabled: !r.href, pick: () => { if (r.href) nav(r.href); } }));
+    items = results.map((r) => ({ key: `${r.kind}:${r.href ?? r.title}`, kind: KIND[r.kind], chain: r.chain, symbol: r.symbol, title: r.title, subtitle: r.subtitle, disabled: !r.href, pick: () => { if (r.href) nav(r.href); } }));
   } else if (!preview || preview.command.kind === 'help') {
     const typed = query.split(' ')[0].toLowerCase();
     items = COMMANDS.filter((c) => typed === '/' || c.usage.toLowerCase().startsWith(typed) || !typed.startsWith('/')).map((c) => ({
@@ -137,7 +138,7 @@ export function Omnibox() {
                 <li key={r.key} id={`${listId}-${i}`} role="option" aria-selected={i === active} aria-disabled={r.disabled}
                   onMouseEnter={() => setActive(i)} onMouseDown={(e) => { e.preventDefault(); r.pick(); }}
                   className={`flex cursor-pointer items-center gap-3 px-3 py-2 ${i === active ? 'bg-accent' : ''} ${r.disabled ? 'cursor-default opacity-80' : ''}`}>
-                  <span className="w-14 shrink-0 text-[10.5px] uppercase tracking-wider text-ink-muted">{r.kind}</span>
+                  <span className="flex w-14 shrink-0 items-center gap-1.5 text-[10.5px] uppercase tracking-wider text-ink-muted">{r.symbol ? <TokenLogo symbol={r.symbol} size={16} /> : r.chain ? <ChainLogo chain={r.chain} size={16} /> : null}{r.kind}</span>
                   <span className="min-w-0 flex-1">
                     <span className="block truncate text-[13.5px] text-ink">{r.title}</span>
                     <span className="block truncate text-[11.5px] text-ink-muted">{r.subtitle}</span>

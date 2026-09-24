@@ -12,14 +12,14 @@ import { chainName, num, pct, usd } from '@/lib/viz/format';
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = { title: 'Sectors — Peregrine' };
 
-const BAND_WORD = { high: 'High pressure', neutral: 'Neutral', low: 'Low pressure' } as const;
+const BAND_WORD = { high: 'Accumulation', neutral: 'Neutral', low: 'Distribution' } as const;
 
 function ScaleLegend() {
   return (
     <div className="flex items-center gap-2 text-[11px] text-ink-muted">
       <span>Outflow</span>
       <span className="flex overflow-hidden rounded-sm" aria-hidden>
-        {PRESSURE_LEGEND.map((s) => <span key={s.cls} className="h-2.5 w-7" style={{ background: fillVar(s.cls) }} title={`pressure ${s.label}`} />)}
+        {PRESSURE_LEGEND.map((s) => <span key={s.cls} className="h-2.5 w-7" style={{ background: fillVar(s.cls) }} title={`Flow Index ${s.label}`} />)}
       </span>
       <span>Inflow</span>
       <span className="sr-only">Sector pressure scale: {PRESSURE_LEGEND.map((s) => s.label).join(', ')}; below 35 is low pressure, above 65 high.</span>
@@ -34,7 +34,7 @@ function Tile({ s }: { s: SectorReading }) {
     <li id={encodeURIComponent(s.sector)} className="scroll-mt-20 glass rounded-2xl p-3 target:ring-2 target:ring-ring">
       <div className="flex items-start justify-between gap-2">
         <h3 className="text-[13.5px] font-medium leading-snug text-ink">{s.sector}</h3>
-        <span className="num rounded px-1.5 py-0.5 text-[13px] font-semibold" style={{ background: fillVar(cls), color: onFillVar(cls) }} title={`Sector pressure ${num(s.pressure, 1)} of 100`}>
+        <span className="num rounded px-1.5 py-0.5 text-[13px] font-semibold" style={{ background: fillVar(cls), color: onFillVar(cls) }} title={`Sector flow ${num(s.pressure, 1)} of 100`}>
           {num(s.pressure, 0)}
         </span>
       </div>
@@ -77,7 +77,7 @@ export default async function SectorsPage() {
   const solid = w.sectors.filter((x) => (x.tokens ?? 0) >= 5);
   const inflow = solid.filter((x) => (x.netFlow24hUsd ?? 0) > 0).sort((a, b) => b.pressure - a.pressure)[0];
   const outflow = solid.filter((x) => (x.netFlow24hUsd ?? 0) < 0).sort((a, b) => a.pressure - b.pressure)[0];
-  const title = !w.sectors.length ? 'Sector weather'
+  const title = !w.sectors.length ? 'Sector flows'
     : inflow && outflow ? `${who.name} ${who.are} rotating into ${inflow.sector} (${usd(inflow.netFlow24hUsd, { signed: true })}); ${outflow.sector} is being sold (${usd(outflow.netFlow24hUsd, { signed: true })})`
     : inflow ? `${who.name} ${who.are} rotating into ${inflow.sector} (${usd(inflow.netFlow24hUsd, { signed: true })} in 24h)`
     : outflow ? `No sector took in net ${w.source === 'smart-money' ? 'smart money' : 'flow'} in 24h; ${outflow.sector} lost the most (${usd(outflow.netFlow24hUsd, { signed: true })})`
@@ -87,10 +87,9 @@ export default async function SectorsPage() {
     <div className="space-y-5">
       <div>
         <h1 className="text-xl font-semibold text-ink sm:text-2xl">{title}</h1>
-        <p className="mt-1 max-w-3xl text-sm text-ink-2">
-          Pressure per Nansen sector, built like the chain pressure index: net flow as a share of volume, compared with the sector&apos;s own last 7 days
-          (or with the other sectors, until it has {MIN_HISTORY} snapshots of its own), on a 0–100 scale where 50 is normal.{' '}
-          {w.source === 'market-flow' ? 'Public view: all-trader flows. Smart-money sector flows are shown to the API key owner only.' : 'Owner view: smart-money flows (Nansen labels), with all-trader volume as the denominator.'}
+        <p className="mt-1 max-w-3xl text-[13px] text-ink-2">
+          Net flow per Nansen sector as a share of volume, 0–100 against its own 7-day history; 50 = neutral.{' '}
+          {w.source === 'market-flow' ? 'Public view: all-trader flows.' : 'Owner view: smart-money flows.'}
         </p>
       </div>
 

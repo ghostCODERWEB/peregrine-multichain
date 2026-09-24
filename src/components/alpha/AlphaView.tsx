@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import { ChainLogo, TokenLogo } from '@/components/Logo';
 import { useMemo, useState } from 'react';
 import { Card, Unavailable } from '@/components/Card';
 import { InfoPopover } from '@/components/InfoPopover';
@@ -29,8 +30,8 @@ function Leader({ row, rank }: { row: AlphaRow; rank: number }) {
       <ScoreRing score={row.score} size={76} stroke={7} color={ringColor(row.score)} label={`${row.symbol ?? 'Token'} alpha score`} sublabel="alpha" />
       <div className="min-w-0 flex-1">
         <div className="flex items-baseline justify-between gap-2">
-          <div className="truncate text-[17px] font-semibold text-ink group-hover:underline">{row.symbol ?? 'Token'}</div>
-          <span className="text-[11px] text-ink-muted">#{rank} · {chainName(row.chain)}</span>
+          <div className="flex items-center gap-2 truncate text-[17px] font-semibold text-ink group-hover:underline"><TokenLogo symbol={row.symbol} size={20} />{row.symbol ?? 'Token'}</div>
+          <span className="inline-flex items-center gap-1 text-[11px] text-ink-muted">#{rank} · <ChainLogo chain={row.chain} size={12} />{chainName(row.chain)}</span>
         </div>
         <div className="num mt-0.5 text-[12px] text-ink-2">
           {row.flowShare != null ? `${pct(row.flowShare, 1)} net buying` : '—'} · {usd(row.volume24hUsd)} vol · {usd(row.liquidityUsd)} liq
@@ -67,7 +68,7 @@ export function AlphaView({ board }: { board: AlphaBoard }) {
           {[['all', board.rows.length] as const, ...counts].map(([c, n]) => (
             <button key={c} role="tab" aria-selected={chain === c} onClick={() => setChain(c)}
               className={`rounded border px-2.5 py-1 text-[12px] ${chain === c ? 'border-brand/40 bg-brand/12 text-ink' : 'border-border text-ink-2 hover:bg-accent hover:text-ink'}`}>
-              {c === 'all' ? 'All chains' : chainName(c)} <span className="num text-ink-muted">{n}</span>
+              {c === 'all' ? 'All chains' : <span className="inline-flex items-center gap-1"><ChainLogo chain={c} size={13} />{chainName(c)}</span>} <span className="num text-ink-muted">{n}</span>
             </button>
           ))}
         </div>
@@ -86,8 +87,8 @@ export function AlphaView({ board }: { board: AlphaBoard }) {
                 <tr key={`${r.chain}:${r.tokenAddress}`} className="border-b border-border/50 hover:bg-accent/40">
                   <td className="py-1.5 pr-2"><ScoreRing score={r.score} size={34} stroke={3.5} color={ringColor(r.score)} label={`${r.symbol ?? 'Token'} alpha score`} /></td>
                   <td className="py-1.5 pr-2">
-                    <Link href={`/token/${r.chain}/${encodeURIComponent(r.tokenAddress)}`} className="font-medium text-ink hover:underline">{r.symbol ?? 'Token'}</Link>
-                    <div className="text-[11px] text-ink-muted">{chainName(r.chain)}</div>
+                    <Link href={`/token/${r.chain}/${encodeURIComponent(r.tokenAddress)}`} className="inline-flex items-center gap-1.5 font-medium text-ink hover:underline"><TokenLogo symbol={r.symbol} size={16} />{r.symbol ?? 'Token'}</Link>
+                    <div className="flex items-center gap-1 text-[11px] text-ink-muted"><ChainLogo chain={r.chain} size={12} />{chainName(r.chain)}</div>
                   </td>
                   <td className="num py-1.5 pr-2 text-right" style={{ color: (r.flowShare ?? 0) >= 0 ? 'var(--in-3)' : 'var(--out-3)' }}>{r.flowShare != null ? pct(r.flowShare, 1) : '—'}</td>
                   <td className="py-1.5 pr-2"><FlowSpark values={r.hourly} label={`${r.symbol ?? 'Token'} hourly net-flow share`} /></td>

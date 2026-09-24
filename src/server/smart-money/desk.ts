@@ -132,7 +132,7 @@ export async function smDesk(chain: SmChain): Promise<SmDesk> {
             { label: 'Crowded exits', value: String(holdings.filter((x) => x.crowdedExit).length) },
           ],
           calls: [h.call, l.call],
-          notes: ['A reading of positioning, not a forecast: conviction has no out-of-sample track record yet (M9 backtests it).'],
+          notes: ['A reading of positioning, not a prediction: conviction has no out-of-sample track record yet (M9 backtests it).'],
         },
       },
     };

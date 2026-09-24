@@ -141,7 +141,7 @@ export async function runStormV2(opts: { chain?: string; anchorsDaysAgo?: number
   const count = (k: keyof StormSubScores) => observations.filter((o) => o.subScores[k] != null).length;
   const perObs = PER_OBSERVATION_CREDITS;
   const power = [
-    { event: '50% drawdown within 7 days (the Storm event)', baseRate: 0.042 },
+    { event: '50% drawdown within 7 days (the dump event)', baseRate: 0.042 },
     { event: '30% drawdown within 7 days', baseRate: 0.15 },
   ].map((p) => { const need = requiredObservations(0.7, 0.6, p.baseRate); return { ...p, needed: need, credits: need ? need.n * perObs : null }; });
   return {
@@ -149,7 +149,7 @@ export async function runStormV2(opts: { chain?: string; anchorsDaysAgo?: number
     creditsSpent: b.spent, creditsNominal: b.nominal, calls: b.calls, perObservationCredits: perObs, observations,
     coverage: { concentration: count('concentration'), windShear: count('windShear'), sellPressure: count('sellPressure'), nansenRisk: count('nansenRisk'), exitLiquidity: count('exitLiquidity'), label: observations.filter((o) => o.maxDrawdown7d != null).length },
     power,
-    decision: `Expert priors kept. Replacing them needs an out-of-sample AUC above 0.70 with a 95% lower bound above 0.60; at the Storm event's ${(power[0].baseRate * 100).toFixed(1)}% base rate that takes about ${power[0].needed?.n.toLocaleString('en-US')} point-in-time observations (≈${power[0].credits?.toLocaleString('en-US')} credits at ${perObs} credits each), and ${power[1].needed?.n.toLocaleString('en-US')} (≈${power[1].credits?.toLocaleString('en-US')} credits) for a 30% drawdown. Both exceed the 5,000-credit budget for this module.`,
+    decision: `Expert priors kept. Replacing them needs an out-of-sample AUC above 0.70 with a 95% lower bound above 0.60; at the dump event's ${(power[0].baseRate * 100).toFixed(1)}% base rate that takes about ${power[0].needed?.n.toLocaleString('en-US')} point-in-time observations (≈${power[0].credits?.toLocaleString('en-US')} credits at ${perObs} credits each), and ${power[1].needed?.n.toLocaleString('en-US')} (≈${power[1].credits?.toLocaleString('en-US')} credits) for a 30% drawdown. Both exceed the 5,000-credit budget for this module.`,
     failed: b.failed,
   };
 }

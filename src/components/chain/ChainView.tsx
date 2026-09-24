@@ -31,19 +31,18 @@ export function ChainView({ d, gaps }: { d: ChainPageData; gaps: ModuleGaps }) {
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <Link href="/" className="text-[12.5px] text-ink-2 hover:text-ink">← Weather map</Link>
+        <Link href="/" className="text-[12.5px] text-ink-2 hover:text-ink">← Radar</Link>
         <AskNansen subject={{ kind: 'chain', chain: d.chain }} label={`the ${name} chain page`} />
       </div>
       <ChainHero d={d} tier={gaps.tier} title={barometerTitle(d.weather)} note={<>
-        {d.weather.source === 'smart-money' && 'Pressure is measured from Nansen smart-money labels.'}
-        {d.mode !== 'owner' && d.weather.source === 'market-flow' && gaps.tier === 'A' && ' Pressure here is all-trader flow; the scanner\'s smart-money pressure is the instance owner\'s view only.'}
-        {d.weather.source === 'market-flow' && ` Nansen has no smart-money labels on ${name}, so pressure here reads all-trader flow and is ranked only against other all-trader chains.`}
+        {d.weather.source === 'smart-money' && 'Smart-money flow (Nansen labels).'}
+        {d.weather.source === 'market-flow' && (d.mode !== 'owner' && gaps.tier === 'A' ? 'All-trader flow; smart-money flow is owner-only.' : `All-trader flow: Nansen has no smart-money labels on ${name}.`)}
         {d.weather.source == null && gaps.pressure}
       </>} />
 
       {d.chain === 'hyperliquid' && (
         <p className="glass rounded-2xl px-4 py-3 text-[13px] text-ink-2">
-          Hyperliquid is a perp venue: its reading here is the Perp Pressure Index, weighted by open interest across its coins.{' '}
+          Hyperliquid is a perp venue: its reading here is the Perp Flow Index, weighted by open interest across its coins.{' '}
           <Link href="/perps" className="text-ink underline-offset-2 hover:underline">Open the perps terminal →</Link>
         </p>
       )}
@@ -55,13 +54,13 @@ export function ChainView({ d, gaps }: { d: ChainPageData; gaps: ModuleGaps }) {
       </Card>
 
       <div className="grid gap-4 lg:grid-cols-3">
-        <Card id="baro" title="Barometer" sub="Chain Pressure Index, 0–100. 50 is calm; above 65 is high pressure (net buying), below 35 low.">
+        <Card id="baro" title="Flow gauge" sub="0–100 · 50 neutral · above 65 accumulation · below 35 distribution">
           <Barometer w={d.weather} provenance={d.cpiProvenance} />
           {d.weather.cpi != null && (
             <div className="mt-4 border-t border-border pt-3">
               <div className="mb-1 flex items-start justify-between gap-2">
                 <span className="text-[12.5px] font-medium text-ink">
-                  {f.insufficient ? '24h forecast' : `24h forecast: ${num(d.weather.cpi, 0)} → ${num(fEnd, 0)}`}
+                  {f.insufficient ? '24h projection' : `24h projection: ${num(d.weather.cpi, 0)} → ${num(fEnd, 0)}`}
                 </span>
                 <InfoPopover p={d.forecastProvenance} />
               </div>
@@ -76,8 +75,8 @@ export function ChainView({ d, gaps }: { d: ChainPageData; gaps: ModuleGaps }) {
         <Card
           id="tide"
           className="lg:col-span-2"
-          title={d.weather.source ? tideTitle(d.chain, d.tide, `${who} flow`) : 'Tide'}
-          sub={`Running total of ${who} net flow into ${name} from Peregrine's own snapshots. The shaded fan is a 24h Holt forecast with an 80% band.`}
+          title={d.weather.source ? tideTitle(d.chain, d.tide, `${who} flow`) : 'Cumulative flow'}
+          sub={`Running total of ${who} net flow into ${name} from Peregrine's own snapshots. The shaded fan is a 24h Holt projection with an 80% band.`}
         >
           {d.weather.source ? <TideChart tide={d.tide} /> : <p className="text-sm text-ink-2">{gaps.pressure}</p>}
         </Card>

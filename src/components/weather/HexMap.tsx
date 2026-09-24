@@ -5,6 +5,7 @@ import { layoutHexMap, hexPoints } from '@/lib/viz/hexmap-layout';
 import { pressureClass, fillVar, onFillVar } from '@/lib/viz/scales';
 import { chainName, num, signed, usd } from '@/lib/viz/format';
 import type { ChainTile, FrontWithProvenance } from '@/server/weather/bulletin';
+import { chainLogoSrc, ChainLogo } from '@/components/Logo';
 
 const TILE_LABEL: Record<string, string> = {
   bnb: 'BNB', hyperevm: 'HyperEVM', iotaevm: 'IOTA', hyperliquid: 'HL perps', robinhood: 'Robinhood',
@@ -68,7 +69,7 @@ export function HexMap({
         viewBox={`${-pad} ${-pad} ${layout.width + pad * 2} ${layout.height + pad * 2}`}
         className="h-auto w-full"
         role="img"
-        aria-label="Hex map of every chain the Nansen API lists, colored by Chain Pressure Index"
+        aria-label="Hex map of every chain the Nansen API lists, colored by Flow Index"
       >
         <defs>
           <marker id="front-head" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.2" markerHeight="3.2" orient="auto-start-reverse">
@@ -160,12 +161,14 @@ export function HexMap({
             const ink = cls ? onFillVar(cls) : 'var(--ink-muted)';
             const halo = cls ? fillVar(cls) : 'var(--surface-1)';
             const textProps = { stroke: halo, strokeWidth: 3, paintOrder: 'stroke' as const, strokeLinejoin: 'round' as const };
+            const logo = chainLogoSrc(t.chain);
             return (
               <g key={t.chain}>
-                <text x={t.cx} y={t.cy - 4} textAnchor="middle" className="text-[9.5px] font-medium" fill={ink} {...textProps}>
+                {logo && <image href={logo} x={t.cx - 7} y={t.cy - 26} width={14} height={14} opacity={w?.cpi != null ? 1 : 0.55} />}
+                <text x={t.cx} y={t.cy + (logo ? 1 : -4)} textAnchor="middle" className="text-[9.5px] font-medium" fill={ink} {...textProps}>
                   {tileLabel(t.chain)}
                 </text>
-                <text x={t.cx} y={t.cy + 11} textAnchor="middle" className="num text-[12px] font-semibold" fill={ink} {...textProps}>
+                <text x={t.cx} y={t.cy + (logo ? 15 : 11)} textAnchor="middle" className="num text-[12px] font-semibold" fill={ink} {...textProps}>
                   {w?.cpi != null ? num(w.cpi, 0) : 'n/a'}
                 </text>
                 <text x={t.cx + r * 0.6} y={t.cy - r * 0.4} textAnchor="middle" className="text-[8px] font-semibold" fill={ink} opacity={0.8}>
@@ -179,7 +182,7 @@ export function HexMap({
         {/* Layer 4: transparent tile click/focus targets, topmost. */}
         {layout.tiles.map((t) => {
           const w = byChain.get(t.chain);
-          const label = `${chainName(t.chain)}: ${w?.cpi != null ? `CPI ${num(w.cpi)}` : 'no pressure reading'}. Open chain page.`;
+          const label = `${chainName(t.chain)}: ${w?.cpi != null ? `Flow ${num(w.cpi)}` : 'no flow reading'}. Open chain page.`;
           return (
             <Link
               key={t.chain}
@@ -239,14 +242,14 @@ function TileTooltip({ w, chain, x, y, containerWidth }: {
       role="tooltip"
     >
       <div className="flex items-baseline justify-between">
-        <span className="font-medium text-ink">{chainName(chain)}</span>
+        <span className="flex items-center gap-1.5 font-medium text-ink"><ChainLogo chain={chain} size={16} />{chainName(chain)}</span>
         <span className="text-ink-muted">Tier {w?.tier ?? '—'}</span>
       </div>
       {w?.cpi != null ? (
         <>
           <div className="mt-1 flex items-baseline gap-2">
             <span className="num text-xl font-semibold text-ink">{num(w.cpi)}</span>
-            <span className="text-ink-2">CPI{w.trend6h != null ? ` · ${signed(w.trend6h)} over 6h` : ''}</span>
+            <span className="text-ink-2">Flow Index{w.trend6h != null ? ` · ${signed(w.trend6h)} over 6h` : ''}</span>
           </div>
           <table className="mt-2 w-full">
             <tbody>

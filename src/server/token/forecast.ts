@@ -64,10 +64,10 @@ const log10 = (v: number | null | undefined) => (v != null && v > 0 ? Math.log10
 
 export async function forecastWave(chain: string, token: string, candles: Candle[] | null): Promise<Wave<ForecastWave>> {
   const bt = loadBacktest();
-  if (!bt) return { unavailable: 'No backtest has been run yet (pnpm backtest), so there is no fitted model to forecast with.' };
-  const gap = endpointUnavailable('tokenScreener', chain, 'Forecast inputs (token screener)');
+  if (!bt) return { unavailable: 'No backtest has been run yet (pnpm backtest), so there is no fitted model to project with.' };
+  const gap = endpointUnavailable('tokenScreener', chain, 'Projection inputs (token screener)');
   if (gap) return { unavailable: gap };
-  if (!candles || candles.length < 13 * 6) return { unavailable: 'The forecast needs two weeks of candles for this token’s volatility, and Nansen has fewer.' };
+  if (!candles || candles.length < 13 * 6) return { unavailable: 'The projection needs two weeks of candles for this token’s volatility, and Nansen has fewer.' };
   try {
     const body = (smart: boolean) => ({
       chains: [chain], timeframe: '7d', pagination: { page: 1, per_page: 5 },
@@ -109,7 +109,7 @@ export async function forecastWave(chain: string, token: string, candles: Candle
       storm, breakout, extrapolated, trainedOn: bt.chains,
       provenance: {
         title: '7-day odds — calibrated logistic models',
-        formula: 'P = sigmoid(b0 + Σ w_j · clip((x_j − μ_j)/σ_j, ±5))\nw, μ, σ fitted in the Forecast Lab (train: older anchors, test: newest)',
+        formula: 'P = sigmoid(b0 + Σ w_j · clip((x_j − μ_j)/σ_j, ±5))\nw, μ, σ fitted in the Backtest Lab (train: older anchors, test: newest)',
         inputs: [
           { label: 'Sell skew, 7d', value: pct(x[0], 0) },
           { label: 'Volume / mcap, 7d', value: `${num(10 ** x[1], 2)}×` },
@@ -117,11 +117,11 @@ export async function forecastWave(chain: string, token: string, candles: Candle
           { label: 'Market cap', value: usd(row.market_cap_usd) },
           { label: 'Smart-money net, 7d', value: sm ? usd(smNet, { signed: true }) : 'no labels on chain' },
           { label: 'Daily volatility (EWMA)', value: pct(vol) },
-          { label: 'P(storm) · P(breakout)', value: `${pct(storm.p, 1)} · ${pct(breakout.p, 1)}` },
+          { label: 'P(dump) · P(breakout)', value: `${pct(storm.p, 1)} · ${pct(breakout.p, 1)}` },
         ],
         calls: [all.call, ...(smr ? [smr.call] : [])],
         notes: [
-          `Out of sample (${bt.storm.test.anchor}): storm AUC ${num(bt.storm.fitted.auc, 2)} on ${bt.storm.test.events} events; breakout AUC ${num(bt.breakout.fitted.auc, 2)} on ${bt.breakout.test.events}.`,
+          `Out of sample (${bt.storm.test.anchor}): dump AUC ${num(bt.storm.fitted.auc, 2)} on ${bt.storm.test.events} events; breakout AUC ${num(bt.breakout.fitted.auc, 2)} on ${bt.breakout.test.events}.`,
           ...(extrapolated ? [`Trained on ${bt.chains.join(', ')}; applying it on this chain is an extrapolation.`] : []),
         ],
       },

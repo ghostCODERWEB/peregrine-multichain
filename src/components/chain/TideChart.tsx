@@ -7,7 +7,7 @@ import type { ChainPageData } from '@/server/weather/chain-page';
 
 export function tideTitle(chain: string, tide: ChainPageData['tide'], label: string): string {
   const pts = tide.points;
-  if (pts.length < 2) return `The ${label} tide on ${chainName(chain)} starts with the next scans`;
+  if (pts.length < 2) return `The ${label} cumulative flow on ${chainName(chain)} starts with the next scans`;
   const net = pts.at(-1)!.cumulativeUsd;
   const hours = Math.max(1, Math.round((pts.at(-1)!.t - pts[0].t) / 3_600_000));
   return `${label[0].toUpperCase()}${label.slice(1)} has ${net >= 0 ? 'put' : 'pulled'} ${usd(Math.abs(net))} ${net >= 0 ? 'into' : 'out of'} ${chainName(chain)} over the last ${hours}h`;
@@ -18,7 +18,7 @@ export function TideChart({ tide }: { tide: ChainPageData['tide'] }) {
   if (tide.points.length < 2) {
     return (
       <p className="text-sm text-ink-2">
-        {tide.points.length} snapshot{tide.points.length === 1 ? '' : 's'} so far. The tide needs a few scans of history to draw a
+        {tide.points.length} snapshot{tide.points.length === 1 ? '' : 's'} so far. The cumulative flow needs a few scans of history to draw a
         line; the scanner adds one every scan interval.
       </p>
     );
@@ -38,21 +38,21 @@ export function TideChart({ tide }: { tide: ChainPageData['tide'] }) {
       axisPointer: { type: 'line' as const, lineStyle: { color: c['ink-muted'], width: 1 } },
       formatter: (raw: unknown) => {
         const params = (Array.isArray(raw) ? raw : [raw]) as Array<{ dataIndex: number; seriesName: string; value: [number, number] }>;
-        const p = params.find((x) => x.seriesName === 'Tide');
+        const p = params.find((x) => x.seriesName === 'Cumulative flow');
         if (p) {
           const pt = tide.points[p.dataIndex];
-          return `<b>${usd(pt.cumulativeUsd, { signed: true })}</b> tide<br/>${usd(pt.flowUsd, { signed: true })} this interval<br/><span style="opacity:.7">${new Date(pt.t).toLocaleString()}</span>`;
+          return `<b>${usd(pt.cumulativeUsd, { signed: true })}</b> cumulative flow<br/>${usd(pt.flowUsd, { signed: true })} this interval<br/><span style="opacity:.7">${new Date(pt.t).toLocaleString()}</span>`;
         }
-        const f = params.find((x) => x.seriesName === 'Forecast');
-        return f ? `<b>${usd(f.value[1], { signed: true })}</b> forecast` : '';
+        const f = params.find((x) => x.seriesName === 'Projection');
+        return f ? `<b>${usd(f.value[1], { signed: true })}</b> projection` : '';
       },
     },
     series: [
-      { name: 'Tide', type: 'line' as const, data: hist, showSymbol: false, lineStyle: { color: c['ink-1'], width: 2 }, areaStyle: { color: c['ink-1'], opacity: 0.08 }, emphasis: { disabled: true } },
+      { name: 'Cumulative flow', type: 'line' as const, data: hist, showSymbol: false, lineStyle: { color: c['ink-1'], width: 2 }, areaStyle: { color: c['ink-1'], opacity: 0.08 }, emphasis: { disabled: true } },
       ...(fc.length ? [
         { name: 'low', type: 'line' as const, data: [[last.t, last.cumulativeUsd], ...fc.map((p) => [p.t, p.low80])], stack: 'fan', lineStyle: { opacity: 0 }, showSymbol: false, silent: true },
         { name: 'band', type: 'line' as const, data: [[last.t, 0], ...fc.map((p) => [p.t, p.high80 - p.low80])], stack: 'fan', lineStyle: { opacity: 0 }, areaStyle: { color: c['ink-1'], opacity: 0.12 }, showSymbol: false, silent: true },
-        { name: 'Forecast', type: 'line' as const, data: [[last.t, last.cumulativeUsd], ...fc.map((p) => [p.t, p.forecast])], showSymbol: false, lineStyle: { color: c['ink-2'], width: 2, type: 'solid' as const } },
+        { name: 'Projection', type: 'line' as const, data: [[last.t, last.cumulativeUsd], ...fc.map((p) => [p.t, p.forecast])], showSymbol: false, lineStyle: { color: c['ink-2'], width: 2, type: 'solid' as const } },
       ] : []),
     ],
   };

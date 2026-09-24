@@ -41,10 +41,10 @@ export function weatherLayers(view: PressureView, now = Date.now()): WeatherLaye
     catch { prediction = null; }
   }
   return [
-    { id: 'perps', title: 'Perp pressure', metric: 'Open interest', href: '/perps', at: perps.at, recorded, provenance: perps.provenance,
-      description: 'Top 24 Hyperliquid coins by open interest • PPI combines taker flow and funding, plus owner-only smart-money positioning. Positioning is not a price forecast.',
+    { id: 'perps', title: 'Perp flow', metric: 'Open interest', href: '/perps', at: perps.at, recorded, provenance: perps.provenance,
+      description: 'Top 24 Hyperliquid coins by open interest • Perp Flow Index combines taker flow and funding, plus owner-only smart-money positioning. Positioning is not a price forecast.',
       readings: [...perps.coins].sort((a, b) => (b.openInterest ?? 0) - (a.openInterest ?? 0)).slice(0, 24).map((c) => ({ name: c.symbol, score: c.ppi, value: c.openInterest })), unavailable: perps.unavailable },
-    { id: 'sectors', title: 'Sector pressure', metric: '24h net flow', href: '/sectors', at: sectors.at, recorded, provenance: sectors.provenance,
+    { id: 'sectors', title: 'Sector flow', metric: '24h net flow', href: '/sectors', at: sectors.at, recorded, provenance: sectors.provenance,
       description: `Sector baskets • ${sectors.source} flow normalized against history (peers until enough history). A high relative score need not mean positive net flow. Membership overlaps.`,
       readings: [...sectors.sectors].sort((a, b) => Math.abs(b.pressure - 50) - Math.abs(a.pressure - 50)).map((s) => ({ name: s.sector, score: s.pressure, value: s.netFlow24hUsd })), unavailable: sectors.unavailable },
     { id: 'predictions', title: 'Prediction activity', metric: '24h volume', href: '/predict', at: prediction?.fetchedAt || null, recorded,

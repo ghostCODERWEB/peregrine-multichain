@@ -119,9 +119,9 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
           <div className="flex shrink-0 items-center gap-4 rounded-2xl border border-border/70 bg-raised/40 p-4 lg:w-[230px] lg:flex-col lg:text-center">
             {overall.weather != null ? (
               <>
-                <ScoreRing score={overall.weather} size={112} stroke={9} color={heatColor(overall.weather)} label="Prediction weather" sublabel="heat" />
+                <ScoreRing score={overall.weather} size={112} stroke={9} color={heatColor(overall.weather)} label="Prediction flows" sublabel="heat" />
                 <div>
-                  <div className="text-[11px] uppercase tracking-wider text-ink-muted">Prediction weather</div>
+                  <div className="text-[11px] uppercase tracking-wider text-ink-muted">Prediction flows</div>
                   <div className="text-[15px] font-semibold text-ink">{heatLabel(overall.weather)}</div>
                   <div className="num text-[11.5px] text-ink-2">{num(overall.heat, 2)}× the week&apos;s daily pace (categories summed)</div>
                 </div>
@@ -131,11 +131,11 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
         </div>
         <div className="relative mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-border/60 pt-3 text-[11.5px] text-ink-muted">
           <InfoPopover p={board.provenance} />
-          <span>Prices are implied probabilities, not forecasts from Peregrine · not financial advice</span>
+          <span>Prices are implied probabilities, not predictions from Peregrine · not financial advice</span>
         </div>
       </section>
 
-      <Card id="weather" title={cats[0] ? `${cats.filter((c) => (c.weather ?? 0) >= 70).length} categories running hot, ${cats.filter((c) => c.weather != null && c.weather <= 30).length} quiet` : 'Category weather'}
+      <Card id="weather" title={cats[0] ? `${cats.filter((c) => (c.weather ?? 0) >= 70).length} categories running hot, ${cats.filter((c) => c.weather != null && c.weather <= 30).length} quiet` : 'Category activity'}
         sub="Each category's 24h volume against its daily pace over the last week: green is busier than usual, red quieter. Hover for its busiest market.">
         <ul className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-2" aria-label="Prediction categories by heat">
           {cats.map((c) => (

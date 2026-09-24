@@ -72,7 +72,7 @@ describe('Ask Nansen: context on the first question only (L5a)', () => {
     const [sentEndpoint, sentBody] = vi.mocked(streamNansen).mock.calls[0];
     expect(sentEndpoint).toBe('agent/expert');
     expect((sentBody as { text: string }).text).toContain('<tide_context>');
-    expect((sentBody as { text: string }).text).toContain('Storm Score');
+    expect((sentBody as { text: string }).text).toContain('Dump Risk');
     const done = events.find((e) => e.type === 'done')!;
     expect(done.report!.subject).toBe(JSON.stringify({ kind: 'token', chain: 'base', address: T }));
     expect(done.report!.context).toMatchObject({ view: 'private' });

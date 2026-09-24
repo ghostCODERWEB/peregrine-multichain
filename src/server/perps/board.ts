@@ -114,19 +114,19 @@ export function perpBoard(view: PressureView, now = Date.now()): PerpBoard {
     at, coins, scans, view, unavailable: null,
     venue: { ppi, openInterest: oi, fundingMedianApr, takerAll: buy + sell > 0 ? (buy - sell) / (buy + sell) : null, smSkew: withSm && smL + smS > 0 ? (smL - smS) / (smL + smS) : null },
     provenance: {
-      title: `Perp Pressure Index, Hyperliquid (${withSm ? 'with smart money' : 'all traders'})`,
+      title: `Perp Flow Index, Hyperliquid (${withSm ? 'with smart money' : 'all traders'})`,
       formula: `per coin: taker = (buy − sell volume) ÷ max(volume, $50K); funding = hourly rate${withSm ? '; sm skew = (SM longs − SM shorts) ÷ (SM longs + SM shorts)' : ''}\neach a robust z against the coin's own hourly history (≥ ${MIN_HISTORY} snapshots), else against the other coins now\nPPI = 50 + 50·tanh(z̄/2), z̄ = ${withSm ? '0.4·taker + 0.2·funding + 0.4·sm (0.65/0.35 without a smart-money book)' : '0.65·taker + 0.35·funding'}\nvenue = open-interest-weighted mean of coin PPIs`,
       inputs: [
         { label: 'Coins scored (OI ≥ $1M)', value: String(coins.filter((c) => c.ppi != null).length) },
         { label: 'Open interest', value: usd(oi) },
         { label: 'Hourly snapshots in 7 days', value: String(scans) },
-        { label: 'Most pressured', value: lead ? `${lead.symbol} ${num(lead.ppi, 0)}` : '—' },
+        { label: 'Most extreme', value: lead ? `${lead.symbol} ${num(lead.ppi, 0)}` : '—' },
         { label: 'Median funding (annualized)', value: fundingMedianApr != null ? pct(fundingMedianApr, 1) : '—' },
       ],
       calls: [{ endpoint: 'perp-screener', body: withSm ? '24h window, all traders + trader_type sm, 250 coins by open interest' : '24h window, all traders, 250 coins by open interest', credits: withSm ? 2 : 1, ref: 'scanner snapshots, hourly' }],
       notes: [
         ...(cross ? [`Scored against the other coins until each has ${MIN_HISTORY} hourly readings of its own (the scanner started snapshotting perps with M5).`] : []),
-        'A reading of positioning, not a forecast; its track record comes with the M9 backtest.',
+        'A reading of positioning, not a prediction; its track record comes with the M9 backtest.',
       ],
     },
   };
@@ -136,7 +136,7 @@ export function perpTitle(b: PerpBoard): string {
   if (!b.venue || b.venue.ppi == null) return 'Hyperliquid perps: no reading yet';
   const lead = [...b.coins].filter((c) => c.ppi != null && (c.openInterest ?? 0) >= 10_000_000).sort((x, y) => Math.abs(y.ppi! - 50) - Math.abs(x.ppi! - 50))[0];
   const p = b.venue.ppi;
-  const mood = p > 65 ? 'long pressure' : p < 35 ? 'short pressure' : 'balanced';
+  const mood = p > 65 ? 'long bias' : p < 35 ? 'short bias' : 'balanced';
   const name = (sym: string) => (sym.includes(':') ? `${sym.split(':')[1]} (${sym.split(':')[0]})` : sym);
   return `Hyperliquid perps are ${mood} (${num(p, 0)})${lead ? `; ${name(lead.symbol)} is the most pressured large coin at ${num(lead.ppi, 0)}` : ''}`;
 }

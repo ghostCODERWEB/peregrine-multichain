@@ -73,8 +73,8 @@ export function alphaScore(x: AlphaInput): { score: number; parts: AlphaPart[] }
 
   // 7. TIDE's own dump-risk reading, when the token has one.
   if (x.stormScore != null) {
-    if (x.stormScore >= 60) parts.push({ id: 'storm', label: 'Storm warning', points: -15, detail: `Storm Score ${x.stormScore.toFixed(0)}` });
-    else if (x.stormScore <= 30) parts.push({ id: 'calm', label: 'Calm Storm reading', points: 4, detail: `Storm Score ${x.stormScore.toFixed(0)}` });
+    if (x.stormScore >= 60) parts.push({ id: 'storm', label: 'Risk alert', points: -15, detail: `Dump Risk ${x.stormScore.toFixed(0)}` });
+    else if (x.stormScore <= 30) parts.push({ id: 'calm', label: 'Low Dump Risk', points: 4, detail: `Dump Risk ${x.stormScore.toFixed(0)}` });
   }
 
   // 8. Whether it has any history at all.

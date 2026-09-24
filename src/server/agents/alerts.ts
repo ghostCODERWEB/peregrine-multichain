@@ -61,7 +61,7 @@ export function planStormAlerts(chain: string, token: string, clusterWallets: st
   const r = getDb().prepare(`
     SELECT symbol, score, band, market_cap_usd FROM storm_scores WHERE chain = ? AND token_address = ? ORDER BY id DESC LIMIT 1
   `).get(chain, token.toLowerCase()) as { symbol: string | null; score: number; band: string; market_cap_usd: number | null } | undefined;
-  if (!r) throw new Error('No Storm Score for this token yet: open its page first so Peregrine can compute one.');
+  if (!r) throw new Error('No Dump Risk for this token yet: open its page first so Peregrine can compute one.');
   const symbol = r.symbol ?? token.slice(0, 8);
   const threshold = outflowThreshold(r.score, r.market_cap_usd);
   const tokenRef = [{ chain, address: token }];
@@ -74,7 +74,7 @@ export function planStormAlerts(chain: string, token: string, clusterWallets: st
   const requests: CreateAlertRequest[] = [CreateAlertRequest.parse({
     name: `${TIDE_PREFIX}${symbol} smart-money outflow`,
     type: 'sm-token-flows', timeWindow: '1h', channels: [channel], data: flows,
-    description: `Peregrine storm alert: smart money sold over ${usd(threshold)} of ${symbol} (${chain}) in a day. Threshold from Storm Score ${num(r.score, 0)} (${r.band}).`,
+    description: `Peregrine risk alert: smart money sold over ${usd(threshold)} of ${symbol} (${chain}) in a day. Threshold from Dump Risk ${num(r.score, 0)} (${r.band}).`,
   })];
 
   const wallets = [...new Set(clusterWallets.filter((w) => /^[A-Za-z0-9]{20,70}$/.test(w)))].slice(0, 20);
@@ -88,16 +88,16 @@ export function planStormAlerts(chain: string, token: string, clusterWallets: st
     requests.push(CreateAlertRequest.parse({
       name: `${TIDE_PREFIX}${symbol} insider cluster moves`,
       type: 'common-token-transfer', timeWindow: 'realtime', channels: [channel], data: transfer,
-      description: `Peregrine storm alert: one of ${wallets.length} clustered insider wallets sold or sent over ${usd(insiderThreshold)} of ${symbol} (${chain}).`,
+      description: `Peregrine risk alert: one of ${wallets.length} clustered insider wallets sold or sent over ${usd(insiderThreshold)} of ${symbol} (${chain}).`,
     }));
   }
   return {
     symbol, storm: r.score, band: r.band, outflowThresholdUsd: threshold, insiderThresholdUsd: insiderThreshold, insiderWallets: wallets.length, requests,
     provenance: {
-      title: `Storm alert thresholds — ${symbol}`,
-      formula: 'outflow alert: smart money sells > clamp($5K, 0.2% × mcap × (1.5 − Storm/100), $5M) in 1 day\ninsider alert: a clustered wallet sells/sends > max($2K, 0.05% × mcap), realtime',
+      title: `Risk alert thresholds — ${symbol}`,
+      formula: 'outflow alert: smart money sells > clamp($5K, 0.2% × mcap × (1.5 − Dump Risk/100), $5M) in 1 day\ninsider alert: a clustered wallet sells/sends > max($2K, 0.05% × mcap), realtime',
       inputs: [
-        { label: 'Storm Score', value: `${num(r.score, 0)} (${r.band})` },
+        { label: 'Dump Risk', value: `${num(r.score, 0)} (${r.band})` },
         { label: 'Market cap', value: usd(r.market_cap_usd) },
         { label: 'Outflow threshold', value: usd(threshold) },
         { label: 'Insider wallets watched', value: String(wallets.length) },

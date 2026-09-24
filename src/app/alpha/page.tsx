@@ -18,11 +18,9 @@ export default async function AlphaPage() {
         <h1 className="mt-1 text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
           {lead ? <>Money is leaning into <span className="brand-text">{lead.symbol ?? 'a token'}</span> on {chainName(lead.chain)}</> : 'What to look at, across every chain'}
         </h1>
-        <p className="mt-1 max-w-3xl text-sm text-ink-2">
-          Every token the scanner saw trading in the last scans, scored from what the flows say: net buying, whether it persists and accelerates,
-          depth to exit through, how far the price already ran, and Peregrine&apos;s Storm reading.{' '}
-          {mode === 'public' ? 'Public view: all-trader flows; smart-money flow is added in the key owner’s view.' : 'Your view adds Nansen smart-money flow.'}{' '}
-          A shortlist, not advice.
+        <p className="mt-1 max-w-3xl text-[13px] text-ink-2">
+          Tokens from recent scans, scored on net buying, persistence, acceleration, exit depth, prior run-up and Dump Risk.{' '}
+          {mode === 'public' ? 'Public view: all-trader flows.' : 'Includes Nansen smart-money flow.'} Not advice.
         </p>
       </div>
       <AlphaView board={board} />

@@ -22,7 +22,7 @@ function sameOrigin(req: Request): boolean {
 
 const fail = (message: string, status = 400) => Response.json({ error: message }, { status });
 
-const DEMO_NOTE = 'Smart Alerts live on a Nansen account, so DEMO_MODE can\u2019t list or create them. Run with a NANSEN_API_KEY to use storm alerts.';
+const DEMO_NOTE = 'Smart Alerts live on a Nansen account, so DEMO_MODE can\u2019t list or create them. Run with a NANSEN_API_KEY to use risk alerts.';
 const PUBLIC_NOTE = 'Smart Alerts live on a Nansen account: they are managed by this instance\u2019s owner, or by you once you sign in with your own Nansen key.';
 
 /** Alerts act on a Nansen account: the key owner's, or a signed-in member's

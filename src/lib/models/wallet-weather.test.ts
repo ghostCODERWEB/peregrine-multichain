@@ -28,7 +28,7 @@ describe('wallet weather', () => {
     expect(p.storm.score).toBe(80);
     expect(p.storm.coveredUsd).toBe(600);
     expect(p.storm.coverage).toBe(.75);
-    expect(p.headline).toMatch(/High Storm/);
+    expect(p.headline).toMatch(/High dump-risk exposure/);
     expect(p.style.primary).toBe('mixed');
   });
 

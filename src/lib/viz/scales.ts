@@ -46,10 +46,10 @@ export const STORM_CLASS: Record<StormBand, string> = {
 };
 
 export const STORM_LABEL: Record<StormBand, string> = {
-  clear: 'Clear',
-  cloudy: 'Cloudy',
-  watch: 'Storm Watch',
-  warning: 'Storm Warning',
+  clear: 'Low',
+  cloudy: 'Moderate',
+  watch: 'High',
+  warning: 'Critical',
 };
 
 /** Sign-aware class for a signed USD flow on a diverging bar (net flow

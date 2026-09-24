@@ -73,7 +73,7 @@ export function WindRose({ w }: { w: WindWave }) {
         </div>
       ) : (
         <div className="relative mx-auto max-w-[440px]">
-          <svg viewBox={`0 0 ${W} ${H}`} className="h-auto w-full" role="img" aria-label="Wind rose: net flow by wallet segment and time window">
+          <svg viewBox={`0 0 ${W} ${H}`} className="h-auto w-full" role="img" aria-label="Cohort flows: net flow by wallet segment and time window">
             {ORDER.map((s, i) => WIND_TIMEFRAMES.map((tf, j) => {
               const cell = w.rings[tf][s];
               const r1 = R0 + j * RING + GAP / 2, r2 = R0 + (j + 1) * RING - GAP / 2;

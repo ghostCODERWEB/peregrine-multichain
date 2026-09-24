@@ -67,7 +67,7 @@ export function computeStorm(
     else {
       Wsc = windShearScore({ freshWalletNetUsd: fresh ?? 0, smartMoneyNetUsd: sm, marketCapUsd: mcap });
       prov.windShear = {
-        title: 'Wind shear (W) — informed selling into fresh buying, 1d',
+        title: 'Cohort shear (W) — informed selling into fresh buying, 1d',
         formula: 'W = 100·sigmoid(8·(fresh_in − sm_out) / mcap)\nfresh_in = max(0, fresh-wallet net)   sm_out = max(0, −(smart trader + top PnL net))',
         inputs: [
           { label: 'Fresh-wallet net, 1d', value: usd(fresh, { signed: true }) },
@@ -143,21 +143,21 @@ export function computeStorm(
 
   const subScores = { concentration: C, insider: I, windShear: Wsc, exitLiquidity: L, sellPressure: P, nansenRisk: R };
   if (Object.values(subScores).every((v) => v == null)) {
-    return { unavailable: 'Nansen returned none of the inputs the Storm Score needs for this token.' };
+    return { unavailable: 'Nansen returned none of the inputs the Dump Risk needs for this token.' };
   }
   const result = compositeStormScore(subScores);
   const fmt = (k: StormInput, label: string) => ({ label: `${label} (β ${W[k]})`, value: subScores[k] == null ? 'missing' : num(subScores[k]) });
   prov.composite = {
-    title: 'Storm Score — 7-day dump risk',
-    formula: 'Storm = 100·sigmoid(Σ β_j·(s_j − 50)/25)\nmissing inputs dropped, remaining β scaled back to the full total\nbands: <25 Clear · <50 Cloudy · <75 Storm Watch · Storm Warning',
+    title: 'Dump Risk — 7 days',
+    formula: 'Dump Risk = 100·sigmoid(Σ β_j·(s_j − 50)/25)\nmissing inputs dropped, remaining β scaled back to the full total\nbands: <25 Low · <50 Moderate · <75 High · Critical',
     inputs: [
-      fmt('concentration', 'C concentration'), fmt('insider', 'I insider clusters'), fmt('windShear', 'W wind shear'),
+      fmt('concentration', 'C concentration'), fmt('insider', 'I insider clusters'), fmt('windShear', 'W cohort shear'),
       fmt('exitLiquidity', 'L exit liquidity'), fmt('sellPressure', 'P sell pressure'), fmt('nansenRisk', 'Nansen risk'),
       { label: 'Confidence', value: pct(result.confidence, 0) },
-      { label: 'Storm', value: num(result.score) },
+      { label: 'Dump Risk', value: num(result.score) },
     ],
     calls: [],
-    notes: ['Weights are expert priors. The Forecast Lab replaces them with fitted weights only if the backtest AUC clears 0.70.'],
+    notes: ['Weights are expert priors. The Backtest Lab replaces them with fitted weights only if the backtest AUC clears 0.70.'],
   };
   return { result, final, why, provenance: prov };
 }

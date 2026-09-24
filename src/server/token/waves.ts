@@ -30,6 +30,8 @@ export interface Indicator { type: string; score: string | null; signal: number 
 export interface TokenHeader {
   name: string | null;
   symbol: string | null;
+  /** Nansen's logo URL for the token (https only); the viewer's browser loads it. */
+  logo: string | null;
   marketCapUsd: number | null;
   fdvUsd: number | null;
   liquidityUsd: number | null;
@@ -71,6 +73,7 @@ export async function headerWave(chain: string, token: string): Promise<Wave<Tok
     const header: Omit<TokenHeader, 'provenance'> = {
       name: d.name ?? null,
       symbol: d.symbol ?? null,
+      logo: d.logo && /^https:\/\//.test(d.logo) ? d.logo : null,
       marketCapUsd: t.market_cap_usd ?? indOk?.data.token_info.market_cap_usd ?? null,
       fdvUsd: t.fdv_usd ?? null,
       liquidityUsd: m.liquidity_usd ?? null,
@@ -227,7 +230,7 @@ export interface WindWave {
 }
 
 export async function windWave(chain: string, token: string): Promise<Wave<WindWave>> {
-  const gap = endpointUnavailable('tgmFlowIntelligence', chain, 'Wind rose (flow intelligence)');
+  const gap = endpointUnavailable('tgmFlowIntelligence', chain, 'Cohort flows');
   if (gap) return { unavailable: gap };
   try {
     const results = await Promise.all(WIND_TIMEFRAMES.map((tf) =>
@@ -255,7 +258,7 @@ export async function windWave(chain: string, token: string): Promise<Wave<WindW
     return {
       rings, warnings: [...warnings],
       provenance: {
-        title: 'Wind rose — who is moving this token',
+        title: 'Cohort flows — who is moving this token',
         formula: 'net flow per segment per window, as reported by tgm/flow-intelligence\n(one ring per window: 1h inner → 7d outer)',
         inputs: WIND_SEGMENTS.map((s) => ({ label: `${s.replace('_', ' ')} · 1d`, value: usd(d1[s].netUsd, { signed: true }) })),
         calls: results.map((r) => r.call),

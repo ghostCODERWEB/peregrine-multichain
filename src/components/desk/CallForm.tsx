@@ -5,7 +5,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { InfoPopover } from '@/components/InfoPopover';
-import { SETUPS, type Horizon, type Setup, type Stance } from '@/lib/models/calls';
+import { SETUPS, setupLabel, type Horizon, type Setup, type Stance } from '@/lib/models/calls';
 import { receiptProvenance, fmtPrice, GRADE_RULES, type ReceiptLike } from './receipt';
 
 interface Saved { id: number; stance: Stance; horizon: Horizon; entry: number; dueAt: number; entryReceipt: ReceiptLike; symbol: string | null }
@@ -55,7 +55,7 @@ export function CallForm({ chain, token, symbol, price, gauges }: { chain: strin
         <div className="flex gap-1" role="radiogroup" aria-label="Horizon">
           {HORIZONS.map((h) => <button key={h} type="button" role="radio" aria-checked={horizon === h} onClick={() => setHorizon(h)} className={seg(horizon === h)}>{h}</button>)}
         </div>
-        <label className="text-ink-2">Setup<select aria-label="Setup" value={setup} onChange={(e) => setSetup(e.target.value as Setup)} className="mt-1 block rounded-lg border border-border bg-raised px-2 py-1.5 text-ink">{SETUPS.map((s) => <option key={s} value={s}>{s}</option>)}</select></label>
+        <label className="text-ink-2">Setup<select aria-label="Setup" value={setup} onChange={(e) => setSetup(e.target.value as Setup)} className="mt-1 block rounded-lg border border-border bg-raised px-2 py-1.5 text-ink">{SETUPS.map((s) => <option key={s} value={s}>{setupLabel(s)}</option>)}</select></label>
         <label className="text-ink-2">Invalidation<input aria-label="Invalidation price" disabled={stance === 'pass'} value={invalidation} onChange={(e) => setInvalidation(e.target.value.replace(/[^\d.]/g, ''))} inputMode="decimal" placeholder={stance === 'bear' ? 'above entry' : 'below entry'} className="num mt-1 block w-28 rounded-lg border border-border bg-raised px-2 py-1.5 text-ink disabled:opacity-40" /></label>
       </div>
       <input aria-label="Thesis" value={thesis} onChange={(e) => setThesis(e.target.value.slice(0, 200))} placeholder="One line: why, and what would prove you wrong" className="block w-full rounded-lg border border-border bg-raised px-2.5 py-1.5 text-ink" />

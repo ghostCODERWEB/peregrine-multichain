@@ -48,7 +48,7 @@ export async function portfolio(addresses: string[]) {
       provenance: {
         title: 'Portfolio allocation', formula: 'Sum positive priced token balances across unique wallets, grouped by chain + token address. Effective positions = 1 / Σ(value / total)².',
         inputs: [{ label: 'Wallets requested', value: String(wallets.length) }, { label: 'Wallets available', value: String(sources.filter((s) => !s.error).length) }], calls,
-        notes: ['Up to 200 positions per wallet. Unpriced tokens, NFTs, DeFi positions and perp collateral are not included in the spot total. A missing wallet is not valued at zero. Identical symbols on different chains or contracts stay separate.', 'Storm exposure uses local Peregrine scores from the last 24 hours with at least 50% input confidence, value-weighted over covered positions only. It is a heuristic, not a forecast probability; unscored tokens remain unknown.'],
+        notes: ['Up to 200 positions per wallet. Unpriced tokens, NFTs, DeFi positions and perp collateral are not included in the spot total. A missing wallet is not valued at zero. Identical symbols on different chains or contracts stay separate.', 'Risk exposure uses local Peregrine scores from the last 24 hours with at least 50% input confidence, value-weighted over covered positions only. It is a heuristic, not a prediction probability; unscored tokens remain unknown.'],
       } satisfies Provenance,
     };
   });

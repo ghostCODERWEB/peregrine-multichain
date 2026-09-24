@@ -46,7 +46,7 @@ export function walletWeatherReading(
   // silently label that wallet a holder. With a real zero, pnl() returns a
   // summary, so the categorical rules remain evidence-backed.
   if (isUnavailable(pnl)) {
-    return { unavailable: `Wallet weather needs the balance and 30-day realized-activity readings together. ${pnl.unavailable}` };
+    return { unavailable: `Wallet profile needs the balance and 30-day realized-activity readings together. ${pnl.unavailable}` };
   }
 
   const profile = walletWeather(
@@ -57,14 +57,14 @@ export function walletWeatherReading(
   return {
     profile,
     provenance: {
-      title: 'Wallet weather profile',
+      title: 'Wallet risk profile',
       formula: [
         'position share = position value ÷ priced spot balance',
         'chain share = chain value ÷ priced spot balance',
         'effective positions = 1 ÷ Σ(position share²)',
         'stable buffer = stablecoin value ÷ priced spot balance',
-        'Storm exposure = Σ(score × value) ÷ scored non-stable value',
-        'Storm coverage = scored non-stable value ÷ all non-stable value',
+        'Risk exposure = Σ(score × value) ÷ scored non-stable value',
+        'Risk coverage = scored non-stable value ÷ all non-stable value',
         'trader: high at ≥20 exits or ≥10 traded tokens; moderate at ≥5 or ≥3',
         'holder: high at <5 exits and ≥3 positions; moderate at <20 and ≥2 positions, or <5 exits',
       ].join('\n'),
@@ -72,7 +72,7 @@ export function walletWeatherReading(
         { label: 'Priced spot balance', value: usd(profile.totalUsd) },
         { label: 'Positions', value: String(profile.positionCount) },
         { label: '30d realized exits', value: String(profile.style.activity.exits) },
-        { label: 'Storm coverage', value: profile.storm.coverage == null ? 'not applicable' : pct(profile.storm.coverage, 0) },
+        { label: 'Risk coverage', value: profile.storm.coverage == null ? 'not applicable' : pct(profile.storm.coverage, 0) },
       ],
       calls: [
         ...balances.provenance.calls,
@@ -80,9 +80,9 @@ export function walletWeatherReading(
         { endpoint: 'storm_scores', body: { freshness: '48h', confidence_gte: .5, positions: 'this wallet only' }, credits: 0, ref: 'Peregrine scanner history; no call at view time' },
       ],
       notes: [
-        'This is a current spot snapshot plus 30-day realized activity, not a personality label, forecast or investment recommendation.',
+        'This is a current spot snapshot plus 30-day realized activity, not a personality label, prediction or investment recommendation.',
         'Unpriced tokens, NFTs, DeFi positions and perp collateral are outside the spot total. Farmer and perp styles remain unassessed until those priced Wallet desk sections are requested.',
-        'Storm scores must be newer than 48 hours and at least 50% confident. Missing scores reduce coverage; they are never treated as zero risk. Stablecoins are excluded from combined Storm exposure.',
+        'Dump Risks must be newer than 48 hours and at least 50% confident. Missing scores reduce coverage; they are never treated as zero risk. Stablecoins are excluded from combined Risk exposure.',
       ],
     },
   };

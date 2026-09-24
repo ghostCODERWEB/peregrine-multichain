@@ -2,10 +2,11 @@
 // The Desk (L1): every call this desk made, open or graded, with the receipts
 // behind entry and grade, and "Trader DNA": hit rate by setup and horizon.
 import Link from 'next/link';
+import { ChainLogo, TokenLogo } from '@/components/Logo';
 import { useEffect, useState } from 'react';
 import { InfoPopover } from '@/components/InfoPopover';
 import { chainName } from '@/lib/viz/format';
-import type { DnaRow, Grade } from '@/lib/models/calls';
+import { setupLabel, type DnaRow, type Grade } from '@/lib/models/calls';
 import type { CallCardWithNotes } from '@/server/desk/calls';
 import { receiptProvenance, fmtPrice, GRADE_RULES } from './receipt';
 import { AskNansen } from '@/components/agent/AskNansen';
@@ -32,8 +33,8 @@ function CallRow({ c, now, onNoteAttached }: { c: CallCardWithNotes; now: number
     <li className="space-y-1 border-t border-border py-3 first:border-0 text-[13px]">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <span className="text-ink">
-          <b className="uppercase">{c.stance}</b> <Link href={`/token/${c.chain}/${encodeURIComponent(c.token)}`} className="underline-offset-2 hover:underline">{name}</Link>
-          <span className="text-ink-muted"> · {chainName(c.chain)} · {c.horizon} · {c.setup}{c.source === 'replay' ? ' · Time Machine' : ''}</span>
+          <b className="uppercase">{c.stance}</b> <Link href={`/token/${c.chain}/${encodeURIComponent(c.token)}`} className="inline-flex items-center gap-1.5 align-middle underline-offset-2 hover:underline"><TokenLogo symbol={c.symbol} size={16} />{name}</Link>
+          <span className="text-ink-muted"> · <ChainLogo chain={c.chain} size={12} /> {chainName(c.chain)} · {c.horizon} · {setupLabel(c.setup)}{c.source === 'replay' ? ' · Time Machine' : ''}</span>
         </span>
         <span className="flex items-center gap-2">
           {c.grade ? <span className="flex items-center gap-1.5 text-ink"><span aria-hidden className="inline-block h-2 w-2 rounded-full" style={{ background: GRADE[c.grade].dot }} />{GRADE[c.grade].label} <span className="num text-ink-2">{pctS(c.ret)}</span></span>
@@ -49,7 +50,7 @@ function CallRow({ c, now, onNoteAttached }: { c: CallCardWithNotes; now: number
         {c.gradeDetail && c.stance !== 'pass' && <span>best {pctS(c.gradeDetail.best)} · worst {pctS(c.gradeDetail.worst)} your way</span>}
         {c.context?.storm && <span>at the call: Storm {c.context.storm.score} {c.context.storm.band}</span>}
         {c.context?.replayAt != null && <span>replayed cutoff {utc(c.context.replayAt)}</span>}
-        {c.context?.chainCpi != null && <span>{chainName(c.chain)} pressure {c.context.chainCpi}</span>}
+        {c.context?.chainCpi != null && <span>{chainName(c.chain)} Flow Index {c.context.chainCpi}</span>}
         {c.context?.gauges && c.context.gauges.direction != null && <span>gauges then: direction {c.context.gauges.direction > 0 ? '+' : c.context.gauges.direction < 0 ? '−' : ''}{Math.abs(c.context.gauges.direction)} · confidence {c.context.gauges.confidence ?? '—'} · coordination {c.context.gauges.coordination ?? '—'}</span>}
       </div>
       {c.thesis && <p className="text-ink-2">“{c.thesis}”</p>}
@@ -71,7 +72,7 @@ function Dna({ title, rows }: { title: string; rows: DnaRow[] }) {
         <thead><tr className="border-b border-border text-[10.5px] uppercase tracking-wider text-ink-muted"><th className="py-1.5 font-normal">{title}</th><th className="font-normal">Graded</th><th className="font-normal">Won</th><th className="font-normal">Lost</th><th className="font-normal">Too early</th><th className="font-normal">Invalidated</th><th className="font-normal">Hit rate</th><th className="font-normal">Avg move your way</th></tr></thead>
         <tbody>{rows.map((r) => (
           <tr key={r.key} className="num border-b border-border/60 text-ink-2">
-            <th className="py-1.5 font-medium text-ink">{r.key}</th><td>{r.n}</td><td>{r.won}</td><td>{r.lost}</td><td>{r.tooEarly}</td><td>{r.invalidated}</td>
+            <th className="py-1.5 font-medium text-ink">{setupLabel(r.key)}</th><td>{r.n}</td><td>{r.won}</td><td>{r.lost}</td><td>{r.tooEarly}</td><td>{r.invalidated}</td>
             <td className="text-ink">{r.hitRate == null ? '—' : `${Math.round(r.hitRate * 100)}%`}</td><td>{pctS(r.avgMove)}</td>
           </tr>
         ))}</tbody>

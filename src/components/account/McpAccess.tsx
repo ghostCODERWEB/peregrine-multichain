@@ -25,7 +25,7 @@ export function McpAccess() {
 
   return (
     <div className="space-y-3 text-[13px] text-ink-2">
-      <p>Peregrine is also an MCP server. Point AI assistant, an IDE or your own agent at it and ask for chain pressure, storm scores, alpha, perp pressure, prediction weather, sectors and (with a token) your private smart-money views.</p>
+      <p>Peregrine is also an MCP server. Point AI assistant, an IDE or your own agent at it and ask for chain flow, dump-risk scores, alpha, perp flow, prediction weather, sectors and (with a token) your private smart-money views.</p>
       <div>
         <div className="text-[11px] uppercase tracking-wider text-ink-muted">Connect</div>
         <pre className="num mt-1 overflow-x-auto rounded-lg bg-page/60 p-2 text-[12px] text-ink">{cmd}</pre>

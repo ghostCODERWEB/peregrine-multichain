@@ -10,7 +10,7 @@ interface PlanSummary {
   insiderWallets: number; alerts: number; provenance: Provenance;
 }
 
-/** "Set storm alert": preview the thresholds TIDE derives from the Storm
+/** "Set risk alert": preview the thresholds TIDE derives from the Storm
  *  Score, then create them as Nansen Smart Alerts on the user's channel.
  *  Nothing is created until the second, explicit click. */
 export function StormAlertForm({ chain, address, clusterWallets }: { chain: string; address: string; clusterWallets: string[] }) {
@@ -39,7 +39,7 @@ export function StormAlertForm({ chain, address, clusterWallets }: { chain: stri
   if (!open) {
     return (
       <button onClick={() => { setOpen(true); void post(true); }} className="rounded-md border border-border px-3 py-1.5 text-[12.5px] text-ink hover:bg-accent">
-        Set storm alert
+        Set risk alert
       </button>
     );
   }

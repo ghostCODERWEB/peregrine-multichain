@@ -20,7 +20,7 @@ function loadStormV2(): V2Report | null {
 }
 
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'Forecast Lab — Peregrine' };
+export const metadata: Metadata = { title: 'Backtest Lab — Peregrine' };
 
 const FEATURE_LABEL: Record<string, string> = {
   sell_skew: 'Sell skew, 7d', log_turnover: 'Volume / mcap', price_change_7d: 'Price change, 7d', log_mcap: 'Market cap (log)',
@@ -105,20 +105,20 @@ export default async function LabPage() {
     <div className="space-y-8">
       <div>
         <h1 className="text-xl font-semibold text-ink sm:text-2xl">
-          {bt ? `Forecast Lab: every forecast in Peregrine, scored on data it never saw` : 'Forecast Lab'}
+          {bt ? `Backtest Lab: every model in Peregrine, scored on data it never saw` : 'Backtest Lab'}
         </h1>
-        <p className="mt-1 max-w-3xl text-sm text-ink-2">
+        <p className="mt-1 max-w-3xl text-[13px] text-ink-2">
           {bt
-            ? <>Backtest of {bt.samples} token-weeks ({bt.tokens} tokens on {bt.chains.map(chainName).join(', ')}) at {bt.anchors.length} anchors from {bt.anchors[0]} to {bt.anchors.at(-1)}, built only from Nansen point-in-time data. It costs {bt.creditsSpent} credits in {bt.calls} calls against an empty cache (cap {bt.cap}); every historical response is then cached forever. Probabilistic statements only — not financial advice.</>
-            : <>No backtest has been run yet. Run <code className="num">pnpm backtest</code> with a Nansen key; it prints its credit estimate first and stops at BACKTEST_CREDIT_CAP.</>}
+            ? <>{bt.samples} token-weeks · {bt.tokens} tokens · {bt.anchors.length} anchors ({bt.anchors[0]} → {bt.anchors.at(-1)}) · Nansen point-in-time data only.</>
+            : <>No backtest yet. Run <code className="num">pnpm backtest</code> with a Nansen key; it prints its credit estimate first and stops at BACKTEST_CREDIT_CAP.</>}
         </p>
       </div>
 
-      {bt && <ModelSection id="storm-model" r={bt.storm} title="Storm (≥50% drawdown in 7 days)" />}
+      {bt && <ModelSection id="storm-model" r={bt.storm} title="Dump (≥50% drawdown in 7 days)" />}
       {bt && <ModelSection id="breakout-model" r={bt.breakout} title="Breakout (≥30% run-up in 7 days)" />}
 
       <section aria-labelledby="v2" className="space-y-3">
-        <h2 id="v2" className="text-[13px] font-medium uppercase tracking-wider text-ink-muted">Storm v2: can its weights be fitted?</h2>
+        <h2 id="v2" className="text-[13px] font-medium uppercase tracking-wider text-ink-muted">Dump Risk v2: can its weights be fitted?</h2>
         <StormV2Section r={loadStormV2()} />
       </section>
 
@@ -148,8 +148,8 @@ export default async function LabPage() {
           ) : <Unavailable text="Runs with the backtest." />}
         </Card>
 
-        <Card id="cpi" title={scored.length ? `Pressure forecasts: median error ${num(scored[Math.floor(scored.length / 2)].mape, 1)}% one step ahead` : 'Pressure forecasts: waiting for history'}
-          sub="Holt forecasts of each chain's CPI, scored one step ahead on Peregrine's own snapshots (in-sample MAPE). Chains unlock at 12 snapshots.">
+        <Card id="cpi" title={scored.length ? `Flow projections: median error ${num(scored[Math.floor(scored.length / 2)].mape, 1)}% one step ahead` : 'Flow projections: waiting for history'}
+          sub="Holt projections of each chain's Flow Index, scored one step ahead on Peregrine's own snapshots (in-sample MAPE). Chains unlock at 12 snapshots.">
           {scored.length ? (
             <div className="max-h-[280px] overflow-y-auto">
               <table className="w-full text-[12.5px]">
@@ -174,7 +174,7 @@ export default async function LabPage() {
           <h2 className="text-[15px] font-semibold text-ink">Method and limits</h2>
           <ul className="mt-2 list-disc space-y-1 pl-5 text-[13px] text-ink-2">
             {bt.notes.map((n) => <li key={n}>{n}</li>)}
-            <li>The Storm Score on token pages keeps its expert-prior weights. Storm v2 below rebuilds five of its six inputs point in time; the insider input has no point-in-time source, and a fit that could clear the bar needs far more observations than the credit budget buys. The fitted screener model instead powers the separate 7-day odds, with this record next to them.</li>
+            <li>The Dump Risk on token pages keeps its expert-prior weights. Dump Risk v2 below rebuilds five of its six inputs point in time; the insider input has no point-in-time source, and a fit that could clear the bar needs far more observations than the credit budget buys. The fitted screener model instead powers the separate 7-day odds, with this record next to them.</li>
             <li>Generated {bt.generatedAt.slice(0, 16).replace('T', ' ')} UTC by <code className="num">pnpm backtest</code>; results ship in the repo (fixtures/backtest-results.json) so DEMO_MODE shows them without a key.</li>
           </ul>
         </section>

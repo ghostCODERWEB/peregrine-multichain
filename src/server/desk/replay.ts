@@ -33,8 +33,8 @@ export function replaySnapshot(chain: string, token: string, ctx: RequestContext
   const cpi = db.prepare('SELECT cpi, snapshot_at AS at FROM chain_cpi WHERE chain = ? AND source = ? AND snapshot_at <= ? ORDER BY snapshot_at DESC LIMIT 1').get(chain, source, T) as { cpi: number; at: number } | undefined;
   const pulse = db.prepare("SELECT netflow, volume, snapshot_at AS at FROM token_pulse WHERE chain = ? AND token_address = ? AND source = ? AND window = '1h' AND snapshot_at <= ? ORDER BY snapshot_at DESC LIMIT 1").get(chain, key, source, T) as { netflow: number | null; volume: number | null; at: number } | undefined;
   const readings: ReplayReading[] = [];
-  if (storm) readings.push({ name: 'Storm score', value: storm.score, at: storm.at - shift, source: 'stored Storm model' });
-  if (cpi) readings.push({ name: 'Chain pressure', value: cpi.cpi, at: cpi.at - shift, source });
+  if (storm) readings.push({ name: 'Dump Risk', value: storm.score, at: storm.at - shift, source: 'stored Dump Risk model' });
+  if (cpi) readings.push({ name: 'Chain flow', value: cpi.cpi, at: cpi.at - shift, source });
   if (pulse?.netflow != null) readings.push({ name: '1h net flow (USD)', value: pulse.netflow, at: pulse.at - shift, source });
   if (pulse?.volume != null) readings.push({ name: '1h volume (USD)', value: pulse.volume, at: pulse.at - shift, source });
   return { readings, context: { storm: storm ? { score: Math.round(storm.score), band: storm.band } : null, chainCpi: cpi ? Math.round(cpi.cpi) : null, chainSource: cpi ? source : null, replayAt: cut } satisfies CallContext };

@@ -14,7 +14,7 @@ function one(chain: string) {
     chain, cpi: w.cpi, band: w.band, measured_from: w.source, trend_6h: w.trend6h, updated_at: w.updatedAt,
     unavailable: w.unavailable,
     forecast_24h: f.insufficient ? null : f.points.map((p) => ({ t: p.t, cpi: p.forecast, low80: p.low80, high80: p.high80 })),
-    track_record: { mape_pct: f.mape, snapshots: f.sampleSize, note: f.insufficient ? 'forecast unlocks at 12 snapshots' : 'in-sample one-step MAPE' },
+    track_record: { mape_pct: f.mape, snapshots: f.sampleSize, note: f.insufficient ? 'projection unlocks at 12 snapshots' : 'in-sample one-step MAPE' },
   };
 }
 

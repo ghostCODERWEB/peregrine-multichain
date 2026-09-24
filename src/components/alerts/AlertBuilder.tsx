@@ -10,7 +10,7 @@ interface Draft { name: string; type: string; timeWindow: string; summary: strin
 
 const TEMPLATES: Array<{ id: Template; title: string; blurb: string; kind: string }> = [
   { id: 'follow', title: 'My follow list', blurb: 'Any wallet you follow on the smart-money desk trades.', kind: 'token transfer' },
-  { id: 'front', title: 'Rotation front', blurb: 'The wallets moving capital between two chains buy on the destination.', kind: 'token transfer' },
+  { id: 'front', title: 'Capital rotation', blurb: 'The wallets moving capital between two chains buy on the destination.', kind: 'token transfer' },
   { id: 'chain-inflow', title: 'Chain inflow surge', blurb: 'Smart money piles into a single token on a chain within an hour.', kind: 'smart-money flows' },
   { id: 'token-flows', title: 'Token buying', blurb: 'Smart money buys a token past a daily threshold.', kind: 'smart-money flows' },
   { id: 'deployer', title: 'Deployer moves', blurb: 'A token’s deployer calls any contract again.', kind: 'contract call' },
@@ -75,7 +75,7 @@ export function AlertBuilder() {
             <div className="flex items-baseline justify-between gap-2"><span className="text-[13px] font-semibold text-ink">{x.title}</span><span className="text-[10.5px] text-ink-muted">{x.kind}</span></div>
             <div className="mt-0.5 text-[12px] text-ink-2">{x.blurb}</div>
             {x.id === 'follow' && <div className="mt-1 text-[11px] text-ink-muted">{builder?.follows ? `${builder.follows} wallets followed` : 'Follow wallets on the smart-money desk first'}</div>}
-            {x.id === 'front' && <div className="mt-1 text-[11px] text-ink-muted">{builder?.fronts.length ? `${builder.fronts.length} fronts in 24h` : 'Key owner only; none in 24h'}</div>}
+            {x.id === 'front' && <div className="mt-1 text-[11px] text-ink-muted">{builder?.fronts.length ? `${builder.fronts.length} rotations in 24h` : 'Key owner only; none in 24h'}</div>}
           </button>
         ))}
       </div>
@@ -89,7 +89,7 @@ export function AlertBuilder() {
           </label>
         )}
         {template === 'front' && builder?.fronts.length ? (
-          <label className="text-[12.5px] text-ink-2">Front
+          <label className="text-[12.5px] text-ink-2">Rotation
             <select value={front} onChange={(e) => setFront(Number(e.target.value))} className="mt-1 block w-full rounded-lg border border-border bg-raised px-2.5 py-1.5 text-[13px] text-ink">
               {builder.fronts.map((f, i) => <option key={i} value={i}>{chainName(f.from)} → {chainName(f.to)} · {usd(f.netUsd)} · {f.wallets} wallets</option>)}
             </select>

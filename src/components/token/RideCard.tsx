@@ -46,7 +46,7 @@ export function RideCard({ chain, address, symbol }: { chain: string; address: s
       {best && (
         <p className="text-ink">
           <span className="num">{usd(best.inUsd)}</span> USDC buys about <span className="num">{usd(best.outUsd)}</span> of {symbol} via {best.aggregator}:
-          following this tide costs <span className="num">{usd(best.inUsd - best.outUsd)}</span> ({num(best.priceImpactPct, 2)}% price impact, fees {usd(best.tradingFeeUsd)} + network {usd(best.networkFeeUsd)}).
+          following this flow costs <span className="num">{usd(best.inUsd - best.outUsd)}</span> ({num(best.priceImpactPct, 2)}% price impact, fees {usd(best.tradingFeeUsd)} + network {usd(best.networkFeeUsd)}).
         </p>
       )}
       {quotes && !quotes.length && <p className="text-ink-2">Nansen found no route for this pair right now.</p>}

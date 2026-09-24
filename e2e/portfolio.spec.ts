@@ -51,7 +51,7 @@ test('wallet weather: evidence, unknown styles and exact table stay legible @mob
   await expect(page.getByTestId('wallet-style-farmer')).toContainText(/protocol/);
   await expect(page.getByTestId('wallet-style-perp')).toContainText('not assessed');
   await weather.getByText('Exact exposure table').click();
-  await expect(weather.getByRole('cell', { name: 'Storm coverage' })).toBeVisible();
+  await expect(weather.getByRole('cell', { name: 'Risk coverage' })).toBeVisible();
   await page.getByRole('button', { name: 'Switch to paper chart theme' }).click();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1)).toBe(true);
   expect(errors).toEqual([]);

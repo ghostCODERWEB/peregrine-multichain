@@ -36,7 +36,7 @@ const needChain = (v: unknown) => { const c = str(v, 30); if (!ALL_CHAIN_IDS.inc
 export const TOOLS: ToolDef[] = [
   {
     name: 'tide_weather',
-    description: 'The cross-chain weather: Chain Pressure Index (0-100) for every chain Nansen covers, the strongest inflow and outflow, rotation fronts (owner only), storm warnings and the headline. Free: reads Peregrine\'s own scanner history.',
+    description: 'Cross-chain flows: Flow Index (0-100) for every chain Nansen covers, the strongest inflow and outflow, capital rotations (owner only), risk alerts and the headline. Free: reads Peregrine\'s own scanner history.',
     inputSchema: { type: 'object', properties: {}, additionalProperties: false },
     run: (ctx) => {
       const b = buildBulletin(viewOf(ctx.mode));
@@ -51,7 +51,7 @@ export const TOOLS: ToolDef[] = [
   },
   {
     name: 'tide_chain',
-    description: 'One chain\'s pressure reading, its three windows (1h/24h/7d), the 7-day series and a 24h forecast with an 80% band. Free.',
+    description: 'One chain\'s flow reading, its three windows (1h/24h/7d), the 7-day series and a 24h projection with an 80% band. Free.',
     inputSchema: { type: 'object', properties: { chain: chainArg }, required: ['chain'], additionalProperties: false },
     run: (ctx, a) => {
       const chain = needChain(a.chain), view = viewOf(ctx.mode);
@@ -62,13 +62,13 @@ export const TOOLS: ToolDef[] = [
   },
   {
     name: 'tide_storm',
-    description: 'The latest Storm Score (0-100 dump risk) Peregrine stored for a token, with its six sub-scores and band. Free; returns nothing if no one has opened the token recently (open /token/{chain}/{address} to compute a fresh one).',
+    description: 'The latest Dump Risk score (0-100) Peregrine stored for a token, with its six sub-scores and band. Free; returns nothing if no one has opened the token recently (open /token/{chain}/{address} to compute a fresh one).',
     inputSchema: { type: 'object', properties: { chain: chainArg, token: { type: 'string', description: 'Token contract address or mint.' } }, required: ['chain', 'token'], additionalProperties: false },
     run: (_ctx, a) => {
       const chain = needChain(a.chain), token = str(a.token, 120);
       const r = getDb().prepare('SELECT symbol, score, band, confidence, sub_scores, missing, market_cap_usd, computed_at FROM storm_scores WHERE chain = ? AND lower(token_address) = lower(?) ORDER BY id DESC LIMIT 1').get(chain, token) as
         { symbol: string | null; score: number; band: string; confidence: number; sub_scores: string; missing: string; market_cap_usd: number | null; computed_at: number } | undefined;
-      if (!r) return { found: false, note: 'Peregrine has no Storm Score for this token yet.' };
+      if (!r) return { found: false, note: 'Peregrine has no Dump Risk for this token yet.' };
       return { found: true, symbol: r.symbol, score: Math.round(r.score), band: r.band, confidence: r.confidence, subScores: JSON.parse(r.sub_scores), missing: JSON.parse(r.missing), marketCapUsd: r.market_cap_usd, computedAt: new Date(r.computed_at).toISOString() };
     },
   },
@@ -84,7 +84,7 @@ export const TOOLS: ToolDef[] = [
   },
   {
     name: 'tide_perps',
-    description: 'Hyperliquid perp pressure: the venue\'s Perp Pressure Index (0-100) and each coin\'s, from taker flow, funding and (owner/members) smart money\'s long/short book. Free: reads Peregrine\'s hourly snapshots.',
+    description: 'Hyperliquid perp flow: the venue\'s Perp Flow Index (0-100) and each coin\'s, from taker flow, funding and (owner/members) smart money\'s long/short book. Free: reads Peregrine\'s hourly snapshots.',
     inputSchema: { type: 'object', properties: { symbol: { type: 'string', description: 'Optional coin, e.g. "BTC" or "xyz:SP500".' }, limit: { type: 'number', description: '1-50, default 15.' } }, additionalProperties: false },
     run: (ctx, a) => {
       const b = perpBoard(viewOf(ctx.mode));
@@ -96,7 +96,7 @@ export const TOOLS: ToolDef[] = [
   },
   {
     name: 'tide_predictions',
-    description: 'Prediction-market weather (Polymarket via Nansen): each category\'s volume against its own weekly pace, and the day\'s biggest repricings of open questions. Costs up to 3 Nansen credits (cached 10-15 minutes).',
+    description: 'Prediction-market activity (Polymarket via Nansen): each category\'s volume against its own weekly pace, and the day\'s biggest repricings of open questions. Costs up to 3 Nansen credits (cached 10-15 minutes).',
     inputSchema: { type: 'object', properties: {}, additionalProperties: false },
     run: async () => {
       const b = await predictBoard();
@@ -105,17 +105,17 @@ export const TOOLS: ToolDef[] = [
   },
   {
     name: 'tide_sectors',
-    description: 'Sector weather: pressure per Nansen token sector, built like the Chain Pressure Index. Free.',
+    description: 'Sector flows: net flow per Nansen token sector, built like the Flow Index. Free.',
     inputSchema: { type: 'object', properties: {}, additionalProperties: false },
     run: (ctx) => sectorWeather(viewOf(ctx.mode)),
   },
   {
     name: 'tide_fronts',
-    description: 'Rotation fronts: capital moving from one chain to another, matched from the same wallets\' sells and later buys within 12 hours. Key owner only (built from smart-money trades).',
+    description: 'Capital rotations: capital moving from one chain to another, matched from the same wallets\' sells and later buys within 12 hours. Key owner only (built from smart-money trades).',
     inputSchema: { type: 'object', properties: { hours: { type: 'number', description: '6-168, default 24.' } }, additionalProperties: false },
     private: true,
     run: (ctx, a) => {
-      if (ctx.mode !== 'owner') throw new Error('Rotation fronts are the instance owner\'s view only.');
+      if (ctx.mode !== 'owner') throw new Error('Capital rotations are the instance owner\'s view only.');
       return rotationFronts(num(a.hours, 24, 6, 168)).slice(0, 10).map((f) => ({ from: f.from, to: f.to, netUsd: f.netUsd, wallets: f.walletCount, confidence: f.confidence }));
     },
   },
@@ -152,7 +152,7 @@ export async function callTool(ctx: RequestContext, name: string, args: Record<s
   if (!t) return { isError: true, content: [{ type: 'text', text: `Unknown tool "${name}".` }] };
   try {
     const out = forMode(ctx.mode, await t.run(ctx, args));
-    const body = { source: 'Nansen API, via Peregrine', view: ctx.mode, note: 'Readings, not forecasts or advice.', result: out };
+    const body = { source: 'Nansen API, via Peregrine', view: ctx.mode, note: 'Readings, not predictions or advice.', result: out };
     return { content: [{ type: 'text', text: JSON.stringify(body) }], structuredContent: body };
   } catch (e) {
     return { isError: true, content: [{ type: 'text', text: (e as Error).message.slice(0, 300) }] };

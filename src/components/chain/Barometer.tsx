@@ -8,14 +8,14 @@ import { TimeAgo } from '@/components/TimeAgo';
 import type { ChainWeather } from '@/server/weather/queries';
 import type { Provenance } from '@/lib/provenance';
 
-const BAND_TEXT = { high: 'high pressure — smart money net-buying', low: 'low pressure — smart money net-selling', neutral: 'no pressure system' } as const;
+const BAND_TEXT = { high: 'accumulation: smart money net buying', low: 'distribution: smart money net selling', neutral: 'neutral' } as const;
 
 export function barometerTitle(w: ChainWeather): string {
-  if (w.cpi == null) return `${chainName(w.chain)} has no pressure reading yet`;
+  if (w.cpi == null) return `${chainName(w.chain)} has no flow reading yet`;
   const who = w.source === 'market-flow' ? 'all traders' : 'smart money';
   const band = pressureBand(w.cpi);
-  const text = band === 'neutral' ? 'no pressure system' : BAND_TEXT[band].replace('smart money', who);
-  return `${chainName(w.chain)} pressure ${num(w.cpi, 0)} — ${text}`;
+  const text = band === 'neutral' ? 'neutral' : BAND_TEXT[band].replace('smart money', who);
+  return `${chainName(w.chain)} Flow Index ${num(w.cpi, 0)} — ${text}`;
 }
 
 export function Barometer({ w, provenance }: { w: ChainWeather; provenance: Provenance | null }) {
@@ -56,13 +56,13 @@ export function Barometer({ w, provenance }: { w: ChainWeather; provenance: Prov
   return (
     <div>
       <div className="flex items-start justify-end">{provenance && <InfoPopover p={provenance} />}</div>
-      {option ? <EChart option={option} height={210} ariaLabel={`Barometer: CPI ${num(w.cpi)}`} /> : <div style={{ height: 210 }} />}
+      {option ? <EChart option={option} height={210} ariaLabel={`Flow gauge: Flow Index ${num(w.cpi)}`} /> : <div style={{ height: 210 }} />}
       <div className="mt-1">
         <div className="mb-1 flex justify-between text-[11px] text-ink-muted">
-          <span>CPI, last 7 days</span>
+          <span>Flow Index, last 7 days</span>
           <span>{series.length} snapshots · updated <TimeAgo ts={w.updatedAt} /></span>
         </div>
-        <svg viewBox={`0 0 ${W} ${H}`} className="h-11 w-full" preserveAspectRatio="none" role="img" aria-label="CPI trend">
+        <svg viewBox={`0 0 ${W} ${H}`} className="h-11 w-full" preserveAspectRatio="none" role="img" aria-label="Flow Index trend">
           {[35, 50, 65].map((v) => <line key={v} x1="0" x2={W} y1={y(v)} y2={y(v)} stroke="var(--grid)" strokeWidth="1" vectorEffect="non-scaling-stroke" />)}
           {series.length > 1 && (
             <polyline points={series.map((p) => `${x(p.t)},${y(p.cpi)}`).join(' ')} fill="none" stroke="var(--ink-1)" strokeWidth="2" vectorEffect="non-scaling-stroke" strokeLinejoin="round" />

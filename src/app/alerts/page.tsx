@@ -14,9 +14,8 @@ export default async function AlertsPage() {
       <section aria-labelledby="alerts-title" className="glass rise rounded-2xl p-4 sm:p-6">
         <div className="text-[12px] text-ink-muted">Nansen Smart Alerts</div>
         <h1 id="alerts-title" className="mt-1 text-lg font-semibold text-ink sm:text-xl">Alerts that keep watching after you close the tab</h1>
-        <p className="mt-1 max-w-3xl text-[13.5px] text-ink-2">
-          Peregrine turns its signals into Nansen Smart Alerts on your own Nansen account: storm warnings, your follow list, rotation fronts, chain inflow surges,
-          token buying and deployer moves. Nansen delivers them to your Telegram, Discord, Slack or webhook. Only alerts Peregrine created are listed; your other Nansen alerts are untouched.
+        <p className="mt-1 max-w-3xl text-[13px] text-ink-2">
+          Peregrine signals as Nansen Smart Alerts on your own account, delivered to Telegram, Discord, Slack or a webhook. Your other alerts stay untouched.
         </p>
       </section>
       <section aria-labelledby="alerts-list" className="glass rise rounded-2xl p-4 sm:p-5">

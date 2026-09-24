@@ -37,10 +37,8 @@ export default async function CoveragePage() {
         <h1 className="text-xl font-semibold text-ink sm:text-2xl">
           {rows.length} chains, {columns.length} Nansen endpoints: {u.liveCalls.toLocaleString('en-US')} live API calls so far
         </h1>
-        <p className="mt-1 max-w-3xl text-sm text-ink-2">
-          Every chain the Nansen API lists, against every endpoint Peregrine reads. {full} chains get the full experience (Tier A); the rest show what
-          Nansen serves for them and say plainly what it doesn&apos;t. Support comes from each endpoint&apos;s documented chain list, corrected by live probes
-          where the docs were silent.
+        <p className="mt-1 max-w-3xl text-[13px] text-ink-2">
+          {full} of {rows.length} chains fully supported (Tier A); the rest show what Nansen serves and state what&apos;s missing.
         </p>
       </div>
 

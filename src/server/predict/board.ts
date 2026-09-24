@@ -66,8 +66,8 @@ export async function predictBoard(): Promise<PredictBoard> {
       return {
         categories, markets, events, totals, tally, unavailable: null, asOf: Date.now(),
         provenance: {
-          title: 'Prediction weather (Polymarket, via Nansen)',
-          formula: 'per category: heat = 24h volume ÷ (1-week volume ÷ 7); weather = 50 + 50·tanh(ln heat)\nper market: implied probability = last YES price; repricing = 1-day change in that price, in points',
+          title: 'Prediction flows (Polymarket, via Nansen)',
+          formula: 'per category: heat = 24h volume ÷ (1-week volume ÷ 7); activity = 50 + 50·tanh(ln heat)\nper market: implied probability = last YES price; repricing = 1-day change in that price, in points',
           inputs: [
             { label: 'Categories', value: String(categories.length) },
             { label: 'Open interest', value: usd(totals.openInterest) },
@@ -79,7 +79,7 @@ export async function predictBoard(): Promise<PredictBoard> {
         },
       };
     } catch (err) {
-      return { categories: [], markets: [], events: [], totals: { openInterest: 0, volume24h: 0, activeMarkets: 0, traders24h: 0 }, asOf: Date.now(), tally, unavailable: errText(err), provenance: { title: 'Prediction weather', formula: '', inputs: [], calls: [], notes: [] } };
+      return { categories: [], markets: [], events: [], totals: { openInterest: 0, volume24h: 0, activeMarkets: 0, traders24h: 0 }, asOf: Date.now(), tally, unavailable: errText(err), provenance: { title: 'Prediction flows', formula: '', inputs: [], calls: [], notes: [] } };
     }
   });
 }
@@ -203,7 +203,7 @@ export async function holderRecords(id: string, price: number | null): Promise<P
           { label: 'Market says', value: impliedPct(price) },
         ],
         calls: [h.call, { endpoint: 'prediction-market/address-summary', body: { address: '<each of the largest holders>' }, credits: 1, ref: `${summaryCalls.length} calls, cached a day` }, ...(p ? [p.call] : [])],
-        notes: ['A reading of positioning, not a forecast. Its calibration against resolved markets comes with the M9 backtest; until then it has no track record.', 'Needs at least two skilled holders among the largest, or it reports nothing.'],
+        notes: ['A reading of positioning, not a prediction. Its calibration against resolved markets comes with the M9 backtest; until then it has no track record.', 'Needs at least two skilled holders among the largest, or it reports nothing.'],
       },
     };
   });

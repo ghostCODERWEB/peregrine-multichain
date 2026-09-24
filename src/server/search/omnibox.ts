@@ -19,6 +19,9 @@ export interface SearchResult {
   subtitle: string;
   /** null for a note that explains why an input opens nothing. */
   href: string | null;
+  /** For the row's logo: the chain, and the token's symbol. */
+  chain?: string;
+  symbol?: string;
 }
 
 export interface SearchResponse {
@@ -48,7 +51,7 @@ export function matchChains(q: string): SearchResult[] {
     .filter(({ id, name }) => norm(id) === n || norm(name) === n || (n.length >= 3 && (norm(name).startsWith(n) || norm(id).startsWith(n))))
     .sort((a, b) => Number(norm(b.name) === n || b.id === n) - Number(norm(a.name) === n || a.id === n))
     .slice(0, 3)
-    .map(({ id, name }) => ({ kind: 'chain', title: name, subtitle: `Chain · Tier ${chainCapability(id)?.tier ?? 'C'} · pressure, flows, peers`, href: `/chain/${id}` }));
+    .map(({ id, name }) => ({ kind: 'chain', chain: id, title: name, subtitle: `Chain · Tier ${chainCapability(id)?.tier ?? 'C'} · Flow Index, top flows, peers`, href: `/chain/${id}` }));
 }
 
 export function matchSectors(q: string, sectors: string[]): SearchResult[] {
@@ -67,6 +70,8 @@ export function tokenResults(r: GeneralSearchResponse | null): SearchResult[] {
     .sort((a, b) => (a.rank ?? 1e9) - (b.rank ?? 1e9))
     .map((t) => ({
       kind: 'token' as const,
+      chain: t.chain,
+      symbol: t.symbol,
       title: `${t.symbol} · ${t.name}`,
       subtitle: `Token on ${chainName(t.chain)}${t.market_cap ? ` · mcap ${usd(t.market_cap)}` : ''}`,
       href: `/token/${t.chain}/${t.address}`,

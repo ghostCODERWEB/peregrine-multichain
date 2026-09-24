@@ -110,15 +110,15 @@ export function alphaBoard(view: PressureView, now = Date.now(), limit = 60): Al
       title: 'Alpha score',
       formula: 'score = 50 + Σ components, clamped 0–100\nnet buying: 25·tanh(net flow ÷ volume ÷ 0.25), 24h (1h until the scanner has 24h)\npersistence: share of the last 12 scans with 1h net buying (±15)\nacceleration: latest 1h share − median of the run before × 80 (±10)\n' +
         (view === 'private' ? 'smart money: 20·tanh(24h smart-money net flow ÷ volume ÷ 0.1)\n' : '') +
-        'Stablecoins, majors and their wrapped copies are left out.\n' + 'thin liquidity −8/−20 · already up 60%+ −10 · down 35%+ −6 · Storm ≥ 60 −15, ≤ 30 +4 · under 2 days old −6',
+        'Stablecoins, majors and their wrapped copies are left out.\n' + 'thin liquidity −8/−20 · already up 60%+ −10 · down 35%+ −6 · Dump Risk ≥ 60 −15, ≤ 30 +4 · under 2 days old −6',
       inputs: [
         { label: 'Tokens scored', value: `${rows.length.toLocaleString('en-US')} (24h volume ≥ $50K)` },
         { label: 'Chains', value: String(new Set(rows.map((r) => r.chain)).size) },
         { label: 'Scans used', value: `${recentScans.length} hourly readings per token (last ${Math.round((latest - recentScans[0]) / 3_600_000) || 0}h)` },
       ],
-      calls: [{ endpoint: 'token-screener', body: { note: 'the scanner’s own CPI rows: the busiest 25 tokens per chain, kept each scan' }, ref: 'every scan, no extra credits' }],
+      calls: [{ endpoint: 'token-screener', body: { note: 'the scanner’s own flow rows: the busiest 25 tokens per chain, kept each scan' }, ref: 'every scan, no extra credits' }],
       notes: [
-        'A shortlist of what to look at, not a forecast or advice. Its hit rate is measured in the Forecast Lab as history accumulates.',
+        'A shortlist of what to look at, not a prediction or advice. Its hit rate is measured in the Backtest Lab as history accumulates.',
         ...(view === 'public' ? ['Public view: scored on all-trader flow; the smart-money component is shown to the API key owner only.'] : []),
       ],
     },

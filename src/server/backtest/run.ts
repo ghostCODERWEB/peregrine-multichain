@@ -278,7 +278,7 @@ export async function runBacktest(opts: { cap: number; now?: number; log?: (s: s
     storm, breakout,
     cone: [...coneHits.entries()].map(([days, a]) => ({ days, coverage: a.n ? a.hit / a.n : 0, n: a.n })),
     notes: [
-      'Features are the ones Nansen serves point in time (historical screener + prior candles). The live Storm Score also uses holders and insider clusters, which have no point-in-time endpoint; so this tests the Storm logic on its flow, liquidity and volatility signals, not every input.',
+      'Features are the ones Nansen serves point in time (historical screener + prior candles). The live Dump Risk also uses holders and insider clusters, which have no point-in-time endpoint; so this tests the Storm logic on its flow, liquidity and volatility signals, not every input.',
       'Time split: trained on the three older anchors, tested on the newest. Samples within an anchor share market conditions, so the test set is one market regime.',
       'Stablecoins and native/wrapped gas tokens are excluded.',
       ...(empty.length ? [`Nansen's historical screener returned no rows for ${empty.join(', ')}, so those chains (and Tier B) are untested here.`] : []),

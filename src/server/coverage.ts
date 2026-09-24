@@ -12,15 +12,15 @@ import type { Tier } from '@/config/capability-types';
 export const ENDPOINT_GROUPS: Array<{ group: string; endpoints: Array<{ key: ChainEnumKey; path: string; label: string; usedFor: string }> }> = [
   { group: 'Smart Money', endpoints: [
     { key: 'smartMoneyNetflows', path: 'smart-money/netflow', label: 'netflow', usedFor: 'chain page token flows, sectors' },
-    { key: 'smartMoneyDexTrades', path: 'smart-money/dex-trades', label: 'dex-trades', usedFor: 'rotation fronts, trade tape, migration trails' },
+    { key: 'smartMoneyDexTrades', path: 'smart-money/dex-trades', label: 'dex-trades', usedFor: 'capital rotations, trade tape, migration trails' },
     { key: 'smartMoneyHoldings', path: 'smart-money/holdings', label: 'holdings', usedFor: '—' },
   ] },
   { group: 'Token God Mode', endpoints: [
-    { key: 'tokenScreener', path: 'token-screener', label: 'screener', usedFor: 'Chain Pressure Index, storm sweep, 7-day odds' },
+    { key: 'tokenScreener', path: 'token-screener', label: 'screener', usedFor: 'Flow Index, risk sweep, 7-day odds' },
     { key: 'tgmTokenInformation', path: 'tgm/token-information', label: 'token info', usedFor: 'token header, exit liquidity' },
     { key: 'tgmIndicators', path: 'tgm/indicators', label: 'indicators', usedFor: 'Nansen risk input, radar' },
     { key: 'tgmTokenOhlcv', path: 'tgm/token-ohlcv', label: 'ohlcv', usedFor: 'candles, volatility cone, backtest labels' },
-    { key: 'tgmFlowIntelligence', path: 'tgm/flow-intelligence', label: 'flow intel', usedFor: 'wind rose, wind shear' },
+    { key: 'tgmFlowIntelligence', path: 'tgm/flow-intelligence', label: 'flow intel', usedFor: 'cohort flows, cohort shear' },
     { key: 'tgmFlows', path: 'tgm/flows', label: 'flows', usedFor: 'segment flow bars' },
     { key: 'tgmHolders', path: 'tgm/holders', label: 'holders', usedFor: 'concentration, Lorenz, insider graph' },
     { key: 'tgmWhoBoughtSold', path: 'tgm/who-bought-sold', label: 'who bought/sold', usedFor: 'sell pressure, buyers vs sellers' },
@@ -34,10 +34,10 @@ export const ENDPOINT_GROUPS: Array<{ group: string; endpoints: Array<{ key: Cha
     { key: 'profilerRelatedWallets', path: 'profiler/address/related-wallets', label: 'related', usedFor: 'insider clusters, deployer' },
   ] },
   { group: 'Trade', endpoints: [
-    { key: 'tradeQuote', path: 'trade/quote', label: 'quote', usedFor: 'ride the tide (quote only)' },
+    { key: 'tradeQuote', path: 'trade/quote', label: 'quote', usedFor: 'follow the flow (quote only)' },
   ] },
   { group: 'Backtesting (beta)', endpoints: [
-    { key: 'histTokenScreener', path: 'v1beta1/token-screener/historical', label: 'hist screener', usedFor: 'Forecast Lab features' },
+    { key: 'histTokenScreener', path: 'v1beta1/token-screener/historical', label: 'hist screener', usedFor: 'Backtest Lab features' },
     { key: 'histTgmTokenOhlcv', path: 'v1beta1/tgm/historical-token-ohlcv', label: 'hist ohlcv', usedFor: '—' },
     { key: 'histTgmTokenFlowSummary', path: 'v1beta1/tgm/historical-token-flow-summary', label: 'hist flows', usedFor: '—' },
   ] },

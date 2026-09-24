@@ -29,7 +29,7 @@ export function ForecastMultiple({ f }: { f: ForecastWithProvenance }) {
     : null;
 
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="h-auto w-full" role="img" aria-label={`${chainName(f.chain)} pressure history${f.points.length ? ' and 24h forecast' : ''}`}>
+    <svg viewBox={`0 0 ${W} ${H}`} className="h-auto w-full" role="img" aria-label={`${chainName(f.chain)} flow history${f.points.length ? ' and 24h projection' : ''}`}>
       {[35, 50, 65].map((v) => (
         <line key={v} x1={PAD.l} x2={W - PAD.r} y1={y(v)} y2={y(v)} stroke="var(--grid)" strokeWidth="1" />
       ))}
@@ -51,7 +51,7 @@ export function ForecastMultiple({ f }: { f: ForecastWithProvenance }) {
 }
 
 export function ForecastStrip({ forecasts }: { forecasts: ForecastWithProvenance[] }) {
-  if (!forecasts.length) return <p className="text-sm text-ink-2">No chain has a pressure reading yet.</p>;
+  if (!forecasts.length) return <p className="text-sm text-ink-2">No chain has a flow reading yet.</p>;
   return (
     <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
       {forecasts.map((f) => {
@@ -71,7 +71,7 @@ export function ForecastStrip({ forecasts }: { forecasts: ForecastWithProvenance
             </div>
             <ForecastMultiple f={f} />
             <div className="num mt-1 text-[10.5px] text-ink-muted">
-              {f.insufficient ? 'forecast unlocks at 12 snapshots' : `MAPE ${f.mape == null ? '—' : `${num(f.mape)}%`} · n=${f.sampleSize}`}
+              {f.insufficient ? 'projection unlocks at 12 snapshots' : `MAPE ${f.mape == null ? '—' : `${num(f.mape)}%`} · n=${f.sampleSize}`}
             </div>
           </div>
         );

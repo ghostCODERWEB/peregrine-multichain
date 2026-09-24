@@ -137,7 +137,7 @@ async function smartMoneyFlows(chain: string): Promise<FlowSection> {
         { label: 'Largest outflow', value: outflows[0] ? `${outflows[0].symbol} ${usd(outflows[0].netFlowUsd, { signed: true })}` : '—' },
       ],
       calls,
-      notes: ['Stablecoins and native tokens are excluded (the endpoint\'s defaults), matching the pressure index.'],
+      notes: ['Stablecoins and native tokens are excluded (the endpoint\'s defaults), matching the flow index.'],
     },
   };
 }
@@ -189,7 +189,7 @@ async function marketGrid(chain: string, screener: Screener): Promise<GridSectio
           { label: 'Median change', value: pct([...tiles].sort((a, b) => a.priceChange - b.priceChange)[Math.floor(tiles.length / 2)].priceChange) },
         ],
         calls: [{ endpoint: 'token-screener', body, credits: 1, ref: r.meta.cacheHit ? 'served from cache (5 min TTL)' : 'live' }],
-        notes: ['Stablecoins and native tokens are excluded, as in the pressure index.'],
+        notes: ['Stablecoins and native tokens are excluded, as in the flow index.'],
       },
     };
   } catch (e) {
@@ -216,7 +216,7 @@ async function marketFlows(chain: string, screener: Screener): Promise<FlowSecti
       calls: [{ endpoint: 'token-screener', body, credits: 1, ref: r.meta.cacheHit ? 'served from cache (5 min TTL)' : 'live' }],
       notes: [
         `Nansen has no smart-money labels on ${chain} (checked live), so these are all-trader flows. Sector breakdown needs smart-money/netflow, which doesn't cover ${chain}.`,
-        'Stablecoins that pass Nansen\'s include_stablecoins:false filter (e.g. SBUSDT, USDSUI) are dropped by symbol, the same list the pressure index uses.',
+        'Stablecoins that pass Nansen\'s include_stablecoins:false filter (e.g. SBUSDT, USDSUI) are dropped by symbol, the same list the flow index uses.',
       ],
     },
   };
@@ -266,7 +266,7 @@ async function peers(chain: string): Promise<ChainPageData['peers']> {
           { label: 'Growth percentile', value: growthPercentile == null ? '—' : `${num(growthPercentile * 100, 0)}th` },
         ] : [],
         calls: [{ endpoint: 'chains/chain-rank', body, credits: 1, ref: r.meta.cacheHit ? 'served from cache (30 min TTL)' : 'live' }],
-        notes: ['Context only — chain-rank growth is shown beside the pressure index, never blended into it.'],
+        notes: ['Context only — chain-rank growth is shown beside the flow index, never blended into it.'],
       },
     };
   } catch (e) {
@@ -308,14 +308,14 @@ function tide(chain: string, now: number, mode: PressureView): ChainPageData['ti
   return {
     points, forecast,
     provenance: {
-      title: `Tide — cumulative ${who} flow on ${chain}`,
+      title: `Cumulative ${who} flow on ${chain}`,
       formula: 'flow_i = net_flow_1h_i × min(1h, t_i − t_{i−1})\ntide = Σ flow_i    (Holt fan once 12+ snapshots)',
       inputs: [
         { label: 'Snapshots', value: String(points.length) },
-        { label: 'Tide now', value: usd(points.at(-1)?.cumulativeUsd, { signed: true }) },
+        { label: 'Net flow now', value: usd(points.at(-1)?.cumulativeUsd, { signed: true }) },
       ],
-      calls: [{ endpoint: 'token-screener', body: `1h window, ${source === 'smart-money' ? 'trader_type sm' : 'all traders'} (see the pressure ⓘ for the exact body)`, ref: 'scanner snapshots, one per scan' }],
-      notes: points.length < 12 ? ['The forecast fan appears once 12 snapshots exist.'] : [],
+      calls: [{ endpoint: 'token-screener', body: `1h window, ${source === 'smart-money' ? 'trader_type sm' : 'all traders'} (see the flow ⓘ for the exact body)`, ref: 'scanner snapshots, one per scan' }],
+      notes: points.length < 12 ? ['The projection fan appears once 12 snapshots exist.'] : [],
     },
   };
 }

@@ -135,7 +135,7 @@ export function sectorWeather(view: PressureView, now = Date.now()): SectorWeath
   return {
     source, at, sectors, membership, unavailable: null,
     provenance: {
-      title: `Sector pressure (${source === 'smart-money' ? 'smart money' : 'all traders'})`,
+      title: `Sector flow (${source === 'smart-money' ? 'smart money' : 'all traders'})`,
       formula: 'per sector, per window: r = Σ net flow ÷ Σ volume over the sector’s tokens\nz = robust z of r against the sector’s last 7 days (≥ 12 snapshots), else against every sector now\npressure = 50 + 50·tanh(z/2), blended 0.2·1h + 0.5·24h + 0.3·7d',
       inputs: [
         { label: 'Sectors scored', value: String(sectors.length) },
@@ -147,7 +147,7 @@ export function sectorWeather(view: PressureView, now = Date.now()): SectorWeath
       calls: [
         { endpoint: 'search/token-sectors', body: {}, ref: 'GET, daily' },
         { endpoint: 'token-screener', body: { filters: { sectors: ['<sector>'] }, chains: membership.chains, timeframe: '24h' }, ref: 'membership, one call per sector, daily' },
-        { endpoint: 'token-screener', body: { note: 'the scanner’s own CPI rows, sorted into sectors' }, ref: 'every scan, no extra credits' },
+        { endpoint: 'token-screener', body: { note: 'the scanner’s own flow rows, sorted into sectors' }, ref: 'every scan, no extra credits' },
       ],
       notes: [
         'A token tagged with several sectors counts fully toward each.',

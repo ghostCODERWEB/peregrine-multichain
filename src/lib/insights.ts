@@ -12,28 +12,31 @@ export function mapHeadline(chains: ChainLike[], fronts: FrontLike[]): string {
   // view has only all-trader readings, and then says so in its wording.
   const sm = chains.filter((c) => c.cpi != null && c.source === 'smart-money');
   const scored = sm.length ? sm : chains.filter((c) => c.cpi != null && c.source === 'market-flow');
-  if (!scored.length) return 'Waiting for the first scan of chain pressure';
-  const who = sm.length ? 'Smart money is' : 'Traders are';
-
+  if (!scored.length) return 'Waiting for the first scan of chain flow';
   const top = [...scored].sort((a, b) => b.cpi! - a.cpi!)[0];
   const bottom = [...scored].sort((a, b) => a.cpi! - b.cpi!)[0];
-  const parts: string[] = [];
-  if (top.cpi! > 65) parts.push(`${who} piling into ${chainName(top.chain)}`);
-  if (bottom.cpi! < 35) parts.push(`${chainName(bottom.chain)} is draining`);
-  // Calm pressure can still hide capital moving between chains: say so.
-  const front = fronts[0];
-  if (!parts.length) {
-    return front
-      ? `Calm pressure, but capital is rotating from ${chainName(front.from)} into ${chainName(front.to)}`
-      : `Calm across chains — no ${sm.length ? 'smart-money' : 'all-trader'} pressure system above 65 or below 35`;
+  const up = top.cpi! > 65, down = bottom.cpi! < 35;
+  // Desk language: smart money accumulates and distributes; all-trader
+  // readings only show where flows lead, so they claim no more than that.
+  if (up || down) {
+    if (sm.length) {
+      const parts = [up && `accumulating ${chainName(top.chain)}`, down && `distributing ${chainName(bottom.chain)}`].filter(Boolean);
+      return `Smart money ${parts.join('; ')}`;
+    }
+    const parts = [up && `Inflows lead on ${chainName(top.chain)}`, down && `${up ? 'outflows' : 'Outflows'} on ${chainName(bottom.chain)}`].filter(Boolean);
+    return parts.join('; ');
   }
-  return parts.join('; ');
+  // Neutral flows can still hide capital moving between chains: say so.
+  const front = fronts[0];
+  return front
+    ? `Neutral flows; capital rotating ${chainName(front.from)} → ${chainName(front.to)}`
+    : `Neutral flows across chains — no ${sm.length ? 'smart-money' : 'all-trader'} reading above 65 or below 35`;
 }
 
 export function frontsHeadline(fronts: FrontLike[]): string {
-  if (!fronts.length) return 'No rotation fronts yet — no two wallets have moved between the same pair of chains in the last 24h';
+  if (!fronts.length) return 'No capital rotations in the last 24h';
   const f = fronts[0];
-  return `Capital is rotating from ${chainName(f.from)} into ${chainName(f.to)} — ${usd(f.netUsd)} net across ${f.walletCount} wallets`;
+  return `Capital rotating ${chainName(f.from)} → ${chainName(f.to)}: ${usd(f.netUsd)} net, ${f.walletCount} wallets`;
 }
 
 /** Wallet page: where this wallet's smart-money trades went, in order. */

@@ -205,12 +205,12 @@ export function PerpTrade({ marks, initialCoin }: { marks: PerpMark[]; initialCo
         <h2 className="text-[13px] font-semibold text-ink">What Peregrine sees on {coin || '…'}</h2>
         {m ? (
           <>
-            <div className="flex justify-between"><span className="text-ink-2">Perp Pressure</span><span className="num text-ink">{m.ppi != null ? num(m.ppi, 0) : '—'}</span></div>
+            <div className="flex justify-between"><span className="text-ink-2">Perp Flow</span><span className="num text-ink">{m.ppi != null ? num(m.ppi, 0) : '—'}</span></div>
             <div className="flex justify-between"><span className="text-ink-2">Funding, yearly</span><span className="num text-ink">{m.fundingApr != null ? pct(m.fundingApr, 1) : '—'}</span></div>
             <Link href="/perps" className="text-ink-2 underline-offset-2 hover:text-ink hover:underline">Open the liquidation ladder on /perps →</Link>
           </>
         ) : <p className="text-ink-2">Not in Peregrine&apos;s latest perp snapshot.</p>}
-        <p className="border-t border-border pt-2 text-[11.5px] text-ink-muted">Peregrine never signs. Every action is prepared by Nansen, signed in your wallet and submitted only after your click. Perp pressure&apos;s forward check against later prices is in the <Link href="/lab" className="underline-offset-2 hover:underline">Forecast Lab</Link>.</p>
+        <p className="border-t border-border pt-2 text-[11.5px] text-ink-muted">Peregrine never signs. Every action is prepared by Nansen, signed in your wallet and submitted only after your click. Perp flow&apos;s forward check against later prices is in the <Link href="/lab" className="underline-offset-2 hover:underline">Backtest Lab</Link>.</p>
       </aside>
     </div>
   );

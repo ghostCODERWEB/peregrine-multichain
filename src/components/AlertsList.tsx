@@ -40,7 +40,7 @@ export function AlertsList() {
   if (error && !alerts) return <p className="text-sm text-ink-2">{error}</p>;
   if (!alerts) return <p className="animate-pulse text-sm text-ink-muted">Loading your Peregrine alerts from Nansen…</p>;
   if (note) return <p className="text-sm text-ink-2">{note}</p>;
-  if (!alerts.length) return <p className="text-sm text-ink-2">No Peregrine alerts yet. Create one below, or use “Set storm alert” on a token page.</p>;
+  if (!alerts.length) return <p className="text-sm text-ink-2">No Peregrine alerts yet. Create one below, or use “Set risk alert” on a token page.</p>;
   return (
     <div className="overflow-x-auto">
       {error && <p className="mb-2 text-sm text-ink-2">{error}</p>}

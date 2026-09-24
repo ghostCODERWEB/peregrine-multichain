@@ -41,7 +41,7 @@ export function callsThisHour(now = Date.now()): number {
 
 const RULES = [
   'Use only the numbers in the JSON. Cite at least three of them.',
-  'Write exactly four sentences, like a weather broadcast: calm, specific, no hype.',
+  'Write exactly four sentences, like a trading-desk brief: calm, specific, no hype.',
   'Probabilistic language only ("suggests", "odds", "tends to"). Never tell anyone to buy, sell or hold.',
   'If a field is missing, do not guess it. Plain text, no markdown, no lists, no links or URLs.',
 ].join(' ');
@@ -53,15 +53,15 @@ function bulletinPrompt(mode: DisplayMode): { prompt: string; facts: unknown } {
   const b = buildBulletin(viewOf(mode));
   const chains = b.chains.filter((c) => c.cpi != null)
     .sort((a, c) => Math.abs(c.cpi! - 50) - Math.abs(a.cpi! - 50)).slice(0, 6)
-    .map((c) => ({ chain: chainName(c.chain), index_type: c.chain === 'hyperliquid' ? 'PPI' : 'CPI', pressure_index: Math.round(c.cpi!), measured_from: c.source, change_6h: c.trend6h == null ? null : Math.round(c.trend6h) }));
+    .map((c) => ({ chain: chainName(c.chain), index_type: c.chain === 'hyperliquid' ? 'Perp Flow Index' : 'Flow Index', pressure_index: Math.round(c.cpi!), measured_from: c.source, change_6h: c.trend6h == null ? null : Math.round(c.trend6h) }));
   const fronts = b.fronts.slice(0, 3).map((f) => ({ from: chainName(f.from), to: chainName(f.to), net_usd: Math.round(f.netUsd), wallets: f.walletCount }));
   const storms = b.storms.slice(0, 3).map((s) => ({ token: s.symbol, chain: chainName(s.chain), storm_score: Math.round(s.score), band: s.band, confidence: Number(s.confidence.toFixed(2)) }));
   const forecasts = b.forecasts.filter((f) => f.points.length).slice(0, 3)
     .map((f) => ({ chain: chainName(f.chain), now: Math.round(f.history.at(-1)!.cpi), in_24h: Math.round(f.points.at(-1)!.forecast), mape_pct: f.mape == null ? null : Number(f.mape.toFixed(1)) }));
   const facts = {
     scale: mode === 'owner'
-      ? 'CPI 0-100: smart-money flow normalized against history or peers. Above 65 = high relative pressure, below 35 = low, 50 = neutral. A high score does not necessarily mean positive net flow. Hyperliquid is PPI (perp positioning), not spot CPI.'
-      : 'CPI 0-100: all-trader DEX flow normalized against history or peers. Above 65 = high relative pressure, below 35 = low, 50 = neutral. A high score does not necessarily mean positive net flow. Hyperliquid is PPI (perp positioning), not spot CPI.',
+      ? 'Flow Index 0-100: smart-money flow normalized against history or peers. Above 65 = accumulation, below 35 = distribution, 50 = neutral. A high score does not necessarily mean positive net flow. Hyperliquid is the Perp Flow Index (perp positioning), not spot Flow Index.'
+      : 'Flow Index 0-100: all-trader DEX flow normalized against history or peers. Above 65 = accumulation, below 35 = distribution, 50 = neutral. A high score does not necessarily mean positive net flow. Hyperliquid is the Perp Flow Index (perp positioning), not spot Flow Index.',
     pressure_extremes: chains, rotation_fronts_24h: fronts, storm_warnings: storms, forecasts_24h: forecasts,
     inferred_rotation_candidates: b.inference?.fronts.slice(0, 3).map((f) => ({ from: f.from, to: f.to, candidate_notional_usd: f.netUsd, independent_groups: f.walletCount, status: 'INFERRED: direct funding plus trade timing; NOT established ownership or a measured bridge transfer' })) ?? [],
     cross_module_layers: b.layers?.map((l) => ({ layer: l.title, definition: l.description, observed_at: l.at, recorded_demo: l.recorded, value_unit: l.metric, unavailable: l.unavailable, readings: l.readings.slice(0, 5) })),
@@ -69,7 +69,7 @@ function bulletinPrompt(mode: DisplayMode): { prompt: string; facts: unknown } {
   };
   return {
     facts,
-    prompt: `You are the anchor of Peregrine, a smart-money weather report built on Nansen data. ${RULES}\nTIDE's current readings:\n${JSON.stringify(facts)}`,
+    prompt: `You are the AI Analyst of Peregrine, a smart-money market brief built on Nansen data. ${RULES}\nTIDE's current readings:\n${JSON.stringify(facts)}`,
   };
 }
 
@@ -86,11 +86,11 @@ function tokenPrompt(chain: string, token: string): { prompt: string; facts: unk
     sub_scores_0_to_100: Object.fromEntries(Object.entries(sub).map(([k, v]) => [k, v == null ? null : Math.round(v)])),
     missing_inputs: JSON.parse(r.missing) as string[],
     market_cap_usd: r.market_cap_usd == null ? null : Math.round(r.market_cap_usd),
-    scale: 'Storm Score = 7-day dump risk 0-100: <25 Clear, <50 Cloudy, <75 Storm Watch, else Storm Warning. Sub-scores: concentration of holders, insider clusters, wind shear (informed selling into fresh buying), exit liquidity, sell pressure, Nansen risk indicators.',
+    scale: 'Dump Risk = 7-day dump risk 0-100: <25 Low, <50 Moderate, <75 High, else Critical. Sub-scores: concentration of holders, insider clusters, cohort shear (informed selling into fresh buying), exit liquidity, sell pressure, Nansen risk indicators.',
   };
   return {
     facts,
-    prompt: `You are the anchor of Peregrine, a smart-money weather report built on Nansen data. Explain what Peregrine's scores say about this token. ${RULES}\nTIDE's scores:\n${JSON.stringify(facts)}`,
+    prompt: `You are the AI Analyst of Peregrine, a smart-money market brief built on Nansen data. Explain what Peregrine's scores say about this token. ${RULES}\nTIDE's scores:\n${JSON.stringify(facts)}`,
   };
 }
 
@@ -116,13 +116,13 @@ export async function* anchorStream(kind: 'bulletin' | 'token', mode: DisplayMod
   }
   const max = anchorMaxPerHour();
   if (callsThisHour() >= max) {
-    yield { type: 'error', message: `The anchor has used its ${max} Nansen agent calls for this hour (ANCHOR_MAX_PER_HOUR). ${cached ? 'The last report is shown instead.' : 'Try again later.'}` };
+    yield { type: 'error', message: `The AI Analyst has used its ${max} Nansen agent calls for this hour (ANCHOR_MAX_PER_HOUR). ${cached ? 'The last report is shown instead.' : 'Try again later.'}` };
     if (cached) yield { type: 'done', report: cached, cached: true };
     return;
   }
   const built = kind === 'bulletin' ? bulletinPrompt(mode) : tokenPrompt(chain!, token!);
   if (!built) {
-    yield { type: 'error', message: 'Open the token page first: the anchor reads the Storm Score Peregrine computes there.' };
+    yield { type: 'error', message: 'Open the token page first: the AI Analyst reads the Dump Risk Peregrine computes there.' };
     return;
   }
 

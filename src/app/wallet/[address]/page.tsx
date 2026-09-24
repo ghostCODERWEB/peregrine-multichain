@@ -53,7 +53,7 @@ export default async function WalletRoute({ params }: Params) {
     <div className="space-y-5">
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div>
-          <Link href="/" className="text-[12.5px] text-ink-2 hover:text-ink">← Weather map</Link>
+          <Link href="/" className="text-[12.5px] text-ink-2 hover:text-ink">← Radar</Link>
           <h1 className="mt-1 break-all text-xl font-semibold text-ink sm:text-2xl">{mode === 'owner' && trail.label ? walletName(trail.label, address) : shortAddress(address)}</h1>
           <p className="num mt-1 break-all text-[12.5px] text-ink-2">{address}</p>
         </div>
@@ -65,7 +65,7 @@ export default async function WalletRoute({ params }: Params) {
           <BalancesCard p={redacted(mode, balP)} />
         </Suspense>
         <Card id="trail" className="lg:col-span-2" title={mode !== 'owner' ? 'Migration trail' : trailTitle(trail.steps, trail.chains)}
-          sub="This wallet's smart-money DEX trades from Peregrine's scanner record, as a path over the weather map (numbered in time order)."
+          sub="This wallet's smart-money DEX trades from Peregrine's scanner record, as a path over the radar (numbered in time order)."
           action={<InfoPopover p={trail.provenance} />}
         >
           {mode !== 'owner'
@@ -74,7 +74,7 @@ export default async function WalletRoute({ params }: Params) {
         </Card>
       </div>
 
-      <Suspense fallback={<Card id="wallet-weather" title="Wallet weather"><WaveLoading what="wallet weather" height={280} /></Card>}>
+      <Suspense fallback={<Card id="wallet-weather" title="Wallet profile"><WaveLoading what="wallet profile" height={280} /></Card>}>
         <WalletWeather p={redacted(mode, weatherP)} />
       </Suspense>
 

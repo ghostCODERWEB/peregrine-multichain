@@ -125,6 +125,6 @@ export function tradeSignals(ctx: RequestContext, chain: string, token: string) 
     symbol: storm?.symbol ?? null,
     storm: storm ? { score: Math.round(storm.score), band: storm.band, confidence: storm.confidence, at: storm.computed_at } : null,
     chainPressure: w.cpi != null ? { cpi: Math.round(w.cpi), band: w.band } : null,
-    trackRecord: 'Storm and breakout odds carry their out-of-sample record on the token page; the Storm Score’s weights are expert priors until the M9 backtest fits them.',
+    trackRecord: 'Dump and breakout odds carry their out-of-sample record on the token page; the Dump Risk’s weights are expert priors until the M9 backtest fits them.',
   };
 }

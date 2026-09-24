@@ -1,4 +1,4 @@
-// "Ride the tide" (spec 6.3, optional): on a Base or Solana token whose
+// "Follow the flow" (spec 6.3, optional): on a Base or Solana token whose
 // chain is under high smart-money pressure and whose own Storm Score is
 // low, show what a small USDC swap into it would cost right now, from
 // Nansen's trade/quote. Quote only: TIDE never signs, prepares or executes
@@ -34,10 +34,10 @@ export function rideEligibility(chain: string, token: string, view: PressureView
   const cpi = chainWeather(chain, Date.now(), view).cpi;
   const s = getDb().prepare('SELECT score FROM storm_scores WHERE chain = ? AND token_address = ? ORDER BY id DESC LIMIT 1').get(chain, token.toLowerCase()) as { score: number } | undefined;
   const storm = s?.score ?? null;
-  if (cpi == null || cpi <= RIDE_MIN_CPI) return { eligible: false, reason: `No tide to ride: chain pressure is ${num(cpi, 0)} (needs above ${RIDE_MIN_CPI}).`, cpi, storm };
-  if (storm == null) return { eligible: false, reason: 'Needs this token’s Storm Score first.', cpi, storm };
-  if (storm >= RIDE_MAX_STORM) return { eligible: false, reason: `Storm Score ${num(storm, 0)} is too high to show a ride (needs below ${RIDE_MAX_STORM}).`, cpi, storm };
-  return { eligible: true, reason: `Chain pressure ${num(cpi, 0)} and Storm ${num(storm, 0)}: a rising tide on a calm token.`, cpi, storm };
+  if (cpi == null || cpi <= RIDE_MIN_CPI) return { eligible: false, reason: `No flow to follow: chain flow is ${num(cpi, 0)} (needs above ${RIDE_MIN_CPI}).`, cpi, storm };
+  if (storm == null) return { eligible: false, reason: 'Needs this token’s Dump Risk first.', cpi, storm };
+  if (storm >= RIDE_MAX_STORM) return { eligible: false, reason: `Dump Risk ${num(storm, 0)} is too high to show a ride (needs below ${RIDE_MAX_STORM}).`, cpi, storm };
+  return { eligible: true, reason: `Chain flow ${num(cpi, 0)} and Dump Risk ${num(storm, 0)}: rising flow on a low-risk token.`, cpi, storm };
 }
 
 export interface RideQuote {
@@ -66,11 +66,11 @@ export async function rideQuote(chain: string, token: string, amountUsd: number,
   return {
     eligibility, quotes,
     provenance: {
-      title: 'Ride the tide — quote only',
-      formula: `shown when chain CPI > ${RIDE_MIN_CPI} and Storm < ${RIDE_MAX_STORM}\ncost of following = USDC in − value out (fees + price impact)`,
+      title: 'Follow the flow — quote only',
+      formula: `shown when chain Flow Index > ${RIDE_MIN_CPI} and Dump Risk < ${RIDE_MAX_STORM}\ncost of following = USDC in − value out (fees + price impact)`,
       inputs: [
-        { label: 'Chain pressure', value: num(eligibility.cpi, 0) },
-        { label: 'Storm Score', value: num(eligibility.storm, 0) },
+        { label: 'Chain flow', value: num(eligibility.cpi, 0) },
+        { label: 'Dump Risk', value: num(eligibility.storm, 0) },
         { label: 'Best route out', value: quotes[0] ? `${usd(quotes[0].outUsd)} via ${quotes[0].aggregator}` : '—' },
       ],
       calls: [{ endpoint: 'trade/quote', body: { ...query, wallet_address: '<public burn address: quote only>' }, ref: 'GET, live' }],

@@ -158,13 +158,13 @@ export function walletWeather(
   let headline = 'Mixed spot risk';
   let riskState: WalletWeatherProfile['riskState'] = 'mixed';
   if (stormScore != null && (stormCoverage ?? 0) >= .5 && stormScore >= 65) {
-    headline = 'High Storm exposure across scored risk assets'; riskState = 'storm';
+    headline = 'High dump-risk exposure across scored assets'; riskState = 'storm';
   } else if ((stableShare ?? 0) >= .6) {
     headline = 'Stable-heavy spot balance'; riskState = 'stable';
   } else if ((largestPosition?.share ?? 0) >= .65) {
     headline = `Concentrated in ${largestPosition!.symbol}`; riskState = 'concentrated';
   } else if (riskUsd > 0 && (stormCoverage ?? 0) < .5) {
-    headline = 'Mixed balance with limited Storm coverage'; riskState = 'partial';
+    headline = 'Mixed balance, limited dump-risk coverage'; riskState = 'partial';
   } else if ((largestPosition?.share ?? 1) < .4 && effectivePositions >= 4) {
     headline = 'Broadly distributed spot balance'; riskState = 'distributed';
   }

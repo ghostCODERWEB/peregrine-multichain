@@ -189,11 +189,11 @@ export function TokenView({ chain, address, tier, mode }: { chain: string; addre
       </Card>
     ),
     storm: (cls) => (
-      <Card id="storm" className={cls} title={ok(s.storm) ? `Storm Score: ${Math.round(s.storm.result.score)} of 100` : 'Storm Score'} sub="Probability-style dump-risk score from six Nansen-derived inputs. Not financial advice.">
-        {ok(s.storm) ? <StormDial s={s.storm} indicators={[...(h?.risk ?? []), ...(h?.reward ?? [])]} /> : gone(s.storm) ? <Unavailable text={s.storm.unavailable} /> : pending(s.storm) ? <WaveLoading what="the Storm Score inputs" height={420} /> : null}
+      <Card id="storm" className={cls} title={ok(s.storm) ? `Dump Risk: ${Math.round(s.storm.result.score)} of 100` : 'Dump Risk'} sub="Probability-style dump-risk score from six Nansen-derived inputs. Not financial advice.">
+        {ok(s.storm) ? <StormDial s={s.storm} indicators={[...(h?.risk ?? []), ...(h?.reward ?? [])]} /> : gone(s.storm) ? <Unavailable text={s.storm.unavailable} /> : pending(s.storm) ? <WaveLoading what="the Dump Risk inputs" height={420} /> : null}
         {s.candidates && (
           <div className="mt-3 border-t border-border pt-2">
-            <div className="text-[11px] text-ink-muted">Storm v2 candidates: computed, not yet in the score (they enter once the backtest fits their weights)</div>
+            <div className="text-[11px] text-ink-muted">Dump Risk v2 candidates: computed, not yet in the score (they enter once the backtest fits their weights)</div>
             <ul className="mt-1 flex flex-wrap gap-2">
               {s.candidates.map((c) => (
                 <li key={c.key} className="flex items-center gap-1 rounded border border-dashed border-border px-2 py-0.5 text-[12px]" title={c.why ?? undefined}>
@@ -229,11 +229,11 @@ export function TokenView({ chain, address, tier, mode }: { chain: string; addre
     ),
     odds: (cls) => (
       <Card id="odds" className={cls} title={ok(s.forecast) ? oddsTitle(s.forecast) : '7-day odds'} sub="Calibrated probabilities of a 50% drop or a 30% rise within a week, each with its out-of-sample track record.">
-        {ok(s.forecast) ? <OddsCard f={s.forecast} /> : gone(s.forecast) ? <Unavailable text={s.forecast.unavailable} /> : pending(s.forecast) ? <WaveLoading what="the forecast inputs" height={260} /> : null}
+        {ok(s.forecast) ? <OddsCard f={s.forecast} /> : gone(s.forecast) ? <Unavailable text={s.forecast.unavailable} /> : pending(s.forecast) ? <WaveLoading what="the projection inputs" height={260} /> : null}
       </Card>
     ),
     wind: (cls) => (
-      <Card id="wind" className={cls} title={ok(s.wind) ? windTitle(s.wind) : 'Wind rose'} sub="Who is moving this token: net flow by wallet segment, one ring per window.">
+      <Card id="wind" className={cls} title={ok(s.wind) ? windTitle(s.wind) : 'Cohort flows'} sub="Who is moving this token: net flow by wallet segment, one ring per window.">
         {ok(s.wind) ? <WindRose w={s.wind} /> : gone(s.wind) ? <Unavailable text={s.wind.unavailable} /> : pending(s.wind) ? <WaveLoading what="flow intelligence" height={360} /> : null}
       </Card>
     ),
@@ -285,7 +285,7 @@ export function TokenView({ chain, address, tier, mode }: { chain: string; addre
       </Card>
     ),
     positions: (cls) => (
-      <Card id="positions" className={cls} title={ok(s.positions) ? positionsTitle(s.positions) : 'Perp tide gauge'} sub="Hyperliquid positions in this symbol by cohort: the waterline is the share that is long."
+      <Card id="positions" className={cls} title={ok(s.positions) ? positionsTitle(s.positions) : 'Perp flow gauge'} sub="Hyperliquid positions in this symbol by cohort: the waterline is the share that is long."
         action={ok(s.positions) ? <InfoPopover p={s.positions.provenance} /> : undefined}>
         {mode === 'public' ? <Unavailable text={WITHHELD} />
           : ok(s.positions) ? <TideGauge p={s.positions} /> : gone(s.positions) ? <Unavailable text={s.positions.unavailable} /> : pending(s.positions) ? <WaveLoading what="perp positions" height={220} /> : null}
@@ -304,7 +304,7 @@ export function TokenView({ chain, address, tier, mode }: { chain: string; addre
       </Card>
     ),
     ask: (cls) => ok(s.storm) && s.storm.final ? (
-      <Card id="ask" className={cls} title={`Ask the anchor about ${symbol ?? 'this token'}, or set a storm alert`} sub="Nansen's agent explains this token's scores in four sentences; a storm alert turns them into Nansen Smart Alerts that keep watching after you leave.">
+      <Card id="ask" className={cls} title={`Ask the AI Analyst about ${symbol ?? 'this token'}, or set a risk alert`} sub="Nansen's agent explains this token's scores in four sentences; a risk alert turns them into Nansen Smart Alerts that keep watching after you leave.">
         <AnchorCard query={`kind=token&chain=${chain}&address=${encodeURIComponent(address)}`} label="It reads the scores above; nothing is sent until you ask." />
         <div className="mt-4 border-t border-border pt-3">
           <StormAlertForm chain={chain} address={address} clusterWallets={[...clustered]} />

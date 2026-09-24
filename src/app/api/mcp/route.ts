@@ -37,8 +37,8 @@ export async function POST(req: Request) {
         out.push(ok(m.id, {
           protocolVersion: typeof m.params?.protocolVersion === 'string' ? m.params.protocolVersion : PROTOCOL,
           capabilities: { tools: { listChanged: false } },
-          serverInfo: { name: 'tide', title: 'Peregrine — smart-money weather on the Nansen API', version: '1.0.0' },
-          instructions: `Peregrine derives weather-style signals from Nansen data: chain pressure, storm (dump-risk) scores, alpha, perp pressure, prediction weather, sectors, rotation fronts and smart-money conviction. You are in the ${ctx.mode} view. Readings, not forecasts or advice. For raw Nansen data use Nansen's own MCP; use Peregrine for the derived readings.`,
+          serverInfo: { name: 'tide', title: 'Peregrine — smart-money intelligence on the Nansen API', version: '1.0.0' },
+          instructions: `Peregrine derives flow and risk signals from Nansen data: chain flow, dump-risk scores, alpha, perp flow, prediction flows, sectors, capital rotations and smart-money conviction. You are in the ${ctx.mode} view. Readings, not predictions or advice. For raw Nansen data use Nansen's own MCP; use Peregrine for the derived readings.`,
         }));
         break;
       case 'notifications/initialized':

@@ -26,7 +26,7 @@ export interface ChainWeather {
   source: PressureSource | null;
   cpi: number | null;
   band: 'high' | 'neutral' | 'low' | null;
-  /** CPI change over the trailing ~6h — the "rising pressure" isobar cue. */
+  /** CPI change over the trailing ~6h — the "rising flow" isobar cue. */
   trend6h: number | null;
   anyCrossSection: boolean;
   windows: WindowReading[];
@@ -40,7 +40,7 @@ const DAY = 24 * 60 * 60_000;
 
 /**
  * Which pressure series a viewer may see. Private (the key owner) reads a
- * Tier A chain's smart-money pressure; public reads every chain's
+ * Tier A chain's smart-money flow; public reads every chain's
  * all-trader market-flow pressure — smart-money inflows are "restricted"
  * under Nansen's redistribution rules, all-trader screener flow is not.
  */

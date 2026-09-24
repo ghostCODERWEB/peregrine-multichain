@@ -7,7 +7,7 @@ import type { ForecastWave, Odds } from '@/server/token/forecast';
 export function oddsTitle(f: ForecastWave): string {
   const s = f.storm.p, b = f.breakout.p;
   const vs = (p: number, base: number) => (p > base * 1.5 ? 'above' : p < base / 1.5 ? 'below' : 'near');
-  return `7-day odds: ${pct(s, s < 0.1 ? 1 : 0)} storm, ${pct(b, b < 0.1 ? 1 : 0)} breakout — storm risk ${vs(s, f.storm.baseRate)} the base rate`;
+  return `7-day odds: ${pct(s, s < 0.1 ? 1 : 0)} dump risk, ${pct(b, b < 0.1 ? 1 : 0)} breakout — dump risk ${vs(s, f.storm.baseRate)} the base rate`;
 }
 
 /** "About 2 in 100": probabilities read as frequencies, never as calls. */
@@ -41,7 +41,7 @@ export function OddsCard({ f }: { f: ForecastWave }) {
   return (
     <div className="space-y-4">
       <div className="flex justify-end"><InfoPopover p={f.provenance} /></div>
-      <Row label="Storm: falls 50%+ from here" o={f.storm} tone="var(--storm-3)" />
+      <Row label="Dump: falls 50%+ from here" o={f.storm} tone="var(--storm-3)" />
       <Row label="Breakout: rises 30%+ from here" o={f.breakout} tone="var(--in-3)" />
       <p className="text-[11.5px] text-ink-muted">
         {f.extrapolated ? `Trained on ${f.trainedOn.map(chainName).join(', ')} — on this chain the model is extrapolating. ` : ''}

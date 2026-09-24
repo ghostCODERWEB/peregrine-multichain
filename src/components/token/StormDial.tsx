@@ -11,7 +11,7 @@ import type { Indicator } from '@/server/token/waves';
 const INPUT_LABEL: Record<StormInput, [string, string]> = {
   concentration: ['C', 'Concentration'],
   insider: ['I', 'Insider clusters'],
-  windShear: ['W', 'Wind shear'],
+  windShear: ['W', 'Cohort shear'],
   exitLiquidity: ['L', 'Exit liquidity'],
   sellPressure: ['P', 'Sell pressure'],
   nansenRisk: ['R', 'Nansen risk'],
@@ -25,7 +25,7 @@ export function stormTitle(symbol: string | null, s: StormWave): string {
   const name = lead && (lead[0] === 'nansenRisk' ? 'Nansen risk' : INPUT_LABEL[lead[0]][1].toLowerCase());
   const storm = r.band === 'watch' || r.band === 'warning';
   const tail = !lead ? '' : storm ? `, driven by ${name} (${num(lead[1], 0)})` : `; highest input: ${name} (${num(lead[1], 0)})`;
-  return `${symbol ?? 'This token'}: ${STORM_LABEL[r.band]} — Storm ${num(r.score, 0)}${tail}`;
+  return `${symbol ?? 'This token'}: ${STORM_LABEL[r.band]} — Dump Risk ${num(r.score, 0)}${tail}`;
 }
 
 function Gauge({ score }: { score: number }) {
@@ -46,7 +46,7 @@ function Gauge({ score }: { score: number }) {
       data: [{ value: score }],
     }],
   };
-  return option ? <EChart option={option} height={200} ariaLabel={`Storm Score ${num(score, 0)} of 100`} /> : <div style={{ height: 200 }} />;
+  return option ? <EChart option={option} height={200} ariaLabel={`Dump Risk ${num(score, 0)} of 100`} /> : <div style={{ height: 200 }} />;
 }
 
 function Radar({ indicators }: { indicators: Indicator[] }) {
@@ -91,7 +91,7 @@ export function StormDial({ s, indicators }: { s: StormWave; indicators: Indicat
         </span>
       </div>
       <Gauge score={r.score} />
-      <ul className="grid grid-cols-2 gap-1.5 sm:grid-cols-3" aria-label="Storm sub-scores">
+      <ul className="grid grid-cols-2 gap-1.5 sm:grid-cols-3" aria-label="Dump Risk inputs">
         {(Object.keys(INPUT_LABEL) as StormInput[]).map((k) => {
           const v = r.subScores[k];
           const cls = v == null ? null : STORM_CLASS[stormBand(v)];

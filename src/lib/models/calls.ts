@@ -5,6 +5,9 @@ export type Stance = 'bull' | 'bear' | 'pass';
 export type Horizon = '1h' | '24h' | '7d';
 export type Grade = 'won' | 'lost' | 'too-early' | 'invalidated';
 export const SETUPS = ['smart-money flow', 'storm / risk', 'rotation', 'divergence', 'momentum', 'other'] as const;
+/** Display names for setups. The stored values above are data (saved calls,
+ *  API validation) and never change; only what people read does. */
+export const setupLabel = (s: string) => (s === 'storm / risk' ? 'dump risk' : s);
 export type Setup = (typeof SETUPS)[number];
 
 /** Candle size for grading and the move that counts as decisive, per horizon.

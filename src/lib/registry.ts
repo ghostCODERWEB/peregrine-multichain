@@ -18,7 +18,7 @@ export function chainsInTier(...tiers: ChainCapability['tier'][]): string[] {
 }
 
 /**
- * What a chain's Chain Pressure Index measures, or null if it can't have
+ * What a chain's Flow Index measures, or null if it can't have
  * one.
  *
  * 'smart-money': Tier A. Net flow from token-screener filtered to

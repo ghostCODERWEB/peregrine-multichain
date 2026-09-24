@@ -23,7 +23,7 @@ function EvidenceBar({ label, value, detail, tone = 'var(--brand)' }: { label: s
 
 export async function WalletWeather({ p }: { p: Promise<Wave<WalletWeatherReading>> }) {
   const r = await p;
-  if (isUnavailable(r)) return <Card id="wallet-weather" title="Wallet weather"><Unavailable text={r.unavailable} /></Card>;
+  if (isUnavailable(r)) return <Card id="wallet-weather" title="Wallet profile"><Unavailable text={r.unavailable} /></Card>;
   const w = r.profile;
   const primary = cap(w.style.primary);
   const stormDetail = w.storm.score == null ? 'No fresh score' : `${w.storm.score.toFixed(0)} / 100`;
@@ -43,7 +43,7 @@ export async function WalletWeather({ p }: { p: Promise<Wave<WalletWeatherReadin
             <span>{w.positionCount} priced position{w.positionCount === 1 ? '' : 's'}</span>
             <span>·</span>
             <span>{w.effectivePositions.toFixed(1)} effective</span>
-            {w.storm.freshestAt && <><span>·</span><span>Storm refreshed <TimeAgo ts={w.storm.freshestAt} /></span></>}
+            {w.storm.freshestAt && <><span>·</span><span>Risk refreshed <TimeAgo ts={w.storm.freshestAt} /></span></>}
           </div>
           <div className="space-y-3 rounded-xl border border-border bg-accent/25 p-3.5 sm:p-4">
             <EvidenceBar
@@ -59,8 +59,8 @@ export async function WalletWeather({ p }: { p: Promise<Wave<WalletWeatherReadin
               tone="var(--brand-2)"
             />
             <EvidenceBar label="Stable buffer" value={w.stableShare} detail={`${pct(w.stableShare, 0)} · ${usd(w.stableUsd)}`} tone="var(--brand)" />
-            <EvidenceBar label="Storm severity" value={w.storm.score == null ? null : w.storm.score / 100} detail={stormDetail} tone="var(--storm-3)" />
-            <EvidenceBar label="Storm coverage" value={w.storm.coverage} detail={coverageDetail} tone="var(--out-3)" />
+            <EvidenceBar label="Dump Risk" value={w.storm.score == null ? null : w.storm.score / 100} detail={stormDetail} tone="var(--storm-3)" />
+            <EvidenceBar label="Risk coverage" value={w.storm.coverage} detail={coverageDetail} tone="var(--out-3)" />
           </div>
         </div>
 
@@ -88,8 +88,8 @@ export async function WalletWeather({ p }: { p: Promise<Wave<WalletWeatherReadin
               <tr className="border-t border-border/60"><td className="py-1">Largest position</td><td className="num py-1">{pct(w.largestPosition?.share, 1)}</td><td className="py-1">{w.largestPosition ? `${usd(w.largestPosition.valueUsd)} ${w.largestPosition.symbol} / ${usd(w.totalUsd)} priced spot` : 'Unavailable'}</td></tr>
               <tr className="border-t border-border/60"><td className="py-1">Largest chain</td><td className="num py-1">{pct(w.largestChain?.share, 1)}</td><td className="py-1">{w.largestChain ? `${usd(w.largestChain.valueUsd)} on ${chainName(w.largestChain.chain)} / ${usd(w.totalUsd)} priced spot` : 'Unavailable'}</td></tr>
               <tr className="border-t border-border/60"><td className="py-1">Stable buffer</td><td className="num py-1">{pct(w.stableShare, 1)}</td><td className="py-1">{usd(w.stableUsd)} stables / {usd(w.totalUsd)} priced spot</td></tr>
-              <tr className="border-t border-border/60"><td className="py-1">Storm exposure</td><td className="num py-1">{w.storm.score == null ? '—' : w.storm.score.toFixed(1)}</td><td className="py-1">Value-weighted over {usd(w.storm.coveredUsd)} fresh scored risk assets</td></tr>
-              <tr className="border-t border-border/60"><td className="py-1">Storm coverage</td><td className="num py-1">{pct(w.storm.coverage, 1)}</td><td className="py-1">{usd(w.storm.coveredUsd)} scored / {usd(w.riskUsd)} non-stable</td></tr>
+              <tr className="border-t border-border/60"><td className="py-1">Risk exposure</td><td className="num py-1">{w.storm.score == null ? '—' : w.storm.score.toFixed(1)}</td><td className="py-1">Value-weighted over {usd(w.storm.coveredUsd)} fresh scored risk assets</td></tr>
+              <tr className="border-t border-border/60"><td className="py-1">Risk coverage</td><td className="num py-1">{pct(w.storm.coverage, 1)}</td><td className="py-1">{usd(w.storm.coveredUsd)} scored / {usd(w.riskUsd)} non-stable</td></tr>
             </tbody>
           </table>
         </div>

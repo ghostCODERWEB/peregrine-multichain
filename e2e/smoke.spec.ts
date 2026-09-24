@@ -19,13 +19,13 @@ async function watch(page: Page) {
   };
 }
 
-test('home: all 38 chains on the map, fronts, storm ticker, anchor @mobile', async ({ page }) => {
+test('home: all 38 chains on the map, rotations, risk ticker, market brief @mobile', async ({ page }) => {
   const w = await watch(page);
   await page.goto('/');
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
   await expect(page.locator('svg[aria-label^="Hex map"] a')).toHaveCount(38); // one link per chain
-  await expect(page.getByRole('heading', { name: /Storm warnings/ })).toBeVisible();
-  await expect(page.getByRole('heading', { name: /weather report/i })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /Risk alerts/ })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /market brief/i })).toBeVisible();
   await w.noOverflow();
   expect(w.errors).toEqual([]);
 });
@@ -37,7 +37,7 @@ test('chain page: Tier A with every module, and an unsupported chain says so', a
   await expect(page.locator('#flows')).toBeVisible();
   await expect(page.locator('#tape')).toBeVisible();
   // V4: the hero's pressure ring, the market grid and the chain ranking.
-  await expect(page.getByRole('img', { name: /^Chain Pressure Index \d+ of 100$/ })).toBeVisible();
+  await expect(page.getByRole('img', { name: /^Flow Index \d+ of 100$/ })).toBeVisible();
   await expect(page.locator('#grid')).toBeVisible();
   await expect(page.locator('section[aria-labelledby="grid"]')).toContainText(/most-traded tokens up|Nansen/);
   await expect(page.getByRole('list', { name: /Chains by DEX volume|Chains by/ })).toBeVisible();
@@ -47,23 +47,23 @@ test('chain page: Tier A with every module, and an unsupported chain says so', a
   expect(w.errors).toEqual([]);
 });
 
-test('token page: waves stream in and the Storm Score lands @mobile', async ({ page }) => {
+test('token page: waves stream in and the Dump Risk lands @mobile', async ({ page }) => {
   const w = await watch(page);
   await page.goto(`${TOKEN}?view=all`);
-  await expect(page.getByRole('heading', { name: /Storm Score: \d+ of 100/ })).toBeVisible({ timeout: 60_000 });
-  await expect(page.locator('svg[aria-label^="Wind rose"]')).toBeVisible();
-  await expect(page.locator('svg[aria-label^="Wind rose"] path')).toHaveCount(24); // 6 segments × 4 windows
+  await expect(page.getByRole('heading', { name: /Dump Risk: \d+ of 100/ })).toBeVisible({ timeout: 60_000 });
+  await expect(page.locator('svg[aria-label^="Cohort flows"]')).toBeVisible();
+  await expect(page.locator('svg[aria-label^="Cohort flows"] path')).toHaveCount(24); // 6 segments × 4 windows
   await expect(page.locator('#odds')).toBeVisible();
   await expect(page.getByText(/This page: \d+ Nansen calls/)).toBeVisible({ timeout: 60_000 });
   // The hero carries the Storm ring once the score lands.
-  await expect(page.getByRole('region', { name: /Storm/ }).first().getByRole('img', { name: /^Storm Score \d+ of 100$/ })).toBeVisible();
+  await expect(page.getByRole('region', { name: /Dump Risk/ }).first().getByRole('img', { name: /^Dump Risk \d+ of 100$/ })).toBeVisible();
   // The terminal (M2): tape, transfer river, social pulse; owner-only
   // sections say why they are withheld in the public demo.
   await expect(page.getByRole('heading', { name: /buyers vs \d+ sellers in the latest \d+ trades/ })).toBeVisible();
   await expect(page.locator('section[aria-labelledby="river"]')).toBeVisible();
   await expect(page.getByRole('heading', { name: /Social heat \d+|Social pulse/ })).toBeVisible();
   await expect(page.locator('section[aria-labelledby="pnlboard"]')).toContainText('Nansen does not allow its PnL leaderboard in public views');
-  await expect(page.getByText(/Storm v2 candidates/)).toBeVisible();
+  await expect(page.getByText(/Dump Risk v2 candidates/)).toBeVisible();
   // V3 visuals: the holder sphere, cohort bars and the liquidation ladder
   // (or Nansen's plain reason there is none).
   await expect(page.locator('svg[aria-label^="Holder constellation"]')).toBeVisible();
@@ -141,7 +141,7 @@ test('perps: pressure grid, crowding map, and a coin opens its ladder @mobile', 
   const w = await watch(page);
   await page.goto('/perps');
   await expect(page.getByRole('heading', { level: 1 })).toContainText(/Hyperliquid perps/);
-  const tiles = page.getByRole('list', { name: /coins by Perp Pressure Index/ }).getByRole('button');
+  const tiles = page.getByRole('list', { name: /coins by Perp Flow Index/ }).getByRole('button');
   await expect(tiles.first()).toBeVisible();
   await expect(page.locator('svg[aria-label^="Crowding map"]')).toBeVisible();
   await tiles.first().click();
@@ -192,7 +192,7 @@ test('trade: off unless the operator turns it on, and says so', async ({ page })
 test('lab, coverage and alerts render', async ({ page }) => {
   const w = await watch(page);
   await page.goto('/lab');
-  await expect(page.getByRole('heading', { name: /Storm \(≥50% drawdown/ })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /Dump \(≥50% drawdown/ })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Why the weights stay expert priors' })).toBeVisible();
   await page.getByRole('button', { name: 'Test the rule' }).click();
   await expect(page.locator('section[aria-labelledby="strategy"]')).toContainText(/hours later/);

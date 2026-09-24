@@ -27,13 +27,12 @@ export default async function AgentPage() {
       <section aria-labelledby="agent-title" className="glass rise rounded-2xl p-4 sm:p-6">
         <div className="text-[12px] text-ink-muted">Nansen agent · expert mode</div>
         <h1 id="agent-title" className="mt-1 text-lg font-semibold text-ink sm:text-xl">Research agent</h1>
-        <p className="mt-1 max-w-3xl text-[13.5px] text-ink-2">
-          A deep answer from Nansen&apos;s own research agent, which calls Nansen&apos;s data tools and shows which ones. Follow-ups continue the same conversation.
-          Each question costs 750 credits on the asking account&apos;s Nansen key, so every question asks you to confirm the price, and each account has a daily cap.
+        <p className="mt-1 max-w-3xl text-[13px] text-ink-2">
+          Nansen&apos;s research agent, with the tools it used. 750 credits per question on the asking key; every question is confirmed.
         </p>
       </section>
       {mode === 'public'
-        ? <p className="glass rounded-2xl p-4 text-sm text-ink-2">The research agent runs on a Nansen key: this instance&apos;s owner&apos;s, or yours once you <Link href="/account" className="text-ink underline-offset-2 hover:underline">sign in with it</Link>. The weather report on the home page uses Nansen&apos;s fast agent and is free to read.</p>
+        ? <p className="glass rounded-2xl p-4 text-sm text-ink-2">The research agent runs on a Nansen key: this instance&apos;s owner&apos;s, or yours once you <Link href="/account" className="text-ink underline-offset-2 hover:underline">sign in with it</Link>. The market brief on the home page uses Nansen&apos;s fast agent and is free to read.</p>
         : <ResearchAgent suggestions={suggestions(viewOf(mode))} />}
     </div>
   );

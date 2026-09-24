@@ -8,12 +8,12 @@ import type { ForwardCheck, RuleResult } from '@/server/backtest/forward';
 const signed = (v: number | null, d = 2) => (v == null ? '—' : `${v >= 0 ? '+' : '−'}${Math.abs(v * 100).toFixed(d)}%`);
 
 export function StormV2Section({ r }: { r: V2Report | null }) {
-  if (!r) return <Unavailable text="No Storm v2 run yet. `pnpm storm-v2` runs a small pilot within its credit cap." />;
-  const inputs: Array<[keyof V2Report['coverage'], string]> = [['concentration', 'C concentration'], ['windShear', 'W wind shear'], ['sellPressure', 'P sell pressure'], ['nansenRisk', 'R Nansen risk'], ['exitLiquidity', 'L exit liquidity'], ['label', 'forward drawdown']];
+  if (!r) return <Unavailable text="No Dump Risk v2 run yet. `pnpm storm-v2` runs a small pilot within its credit cap." />;
+  const inputs: Array<[keyof V2Report['coverage'], string]> = [['concentration', 'C concentration'], ['windShear', 'W cohort shear'], ['sellPressure', 'P sell pressure'], ['nansenRisk', 'R Nansen risk'], ['exitLiquidity', 'L exit liquidity'], ['label', 'forward drawdown']];
   const n = r.observations.length;
   return (
     <div className="grid gap-4 lg:grid-cols-5">
-      <Card id="v2-pilot" className="lg:col-span-3" title={`Storm rebuilt point in time: ${n} pilot observations, ${r.creditsNominal} credits against an empty cache`}
+      <Card id="v2-pilot" className="lg:col-span-3" title={`Dump Risk rebuilt point in time: ${n} pilot observations, ${r.creditsNominal} credits against an empty cache`}
         sub="The live formulas applied to Nansen's historical endpoints as of each date, then the next 7 days of price. Insider clusters can't be rebuilt at a past date, so that input is dropped.">
         <div className="flex flex-wrap gap-1.5">
           {inputs.map(([k, label]) => <span key={k} className="num rounded border border-border px-2 py-0.5 text-[11.5px] text-ink-2">{label} {r.coverage[k]}/{n}</span>)}
@@ -21,7 +21,7 @@ export function StormV2Section({ r }: { r: V2Report | null }) {
         </div>
         <div className="mt-3 overflow-x-auto">
           <table className="w-full min-w-[560px] text-left text-[12.5px]">
-            <thead className="text-[11px] uppercase tracking-wider text-ink-muted"><tr><th className="py-1.5 font-normal">Token</th><th className="font-normal">As of</th><th className="font-normal">C</th><th className="font-normal">W</th><th className="font-normal">L</th><th className="font-normal">P</th><th className="font-normal">R</th><th className="font-normal">Storm</th><th className="text-right font-normal">Worst 7 days</th></tr></thead>
+            <thead className="text-[11px] uppercase tracking-wider text-ink-muted"><tr><th className="py-1.5 font-normal">Token</th><th className="font-normal">As of</th><th className="font-normal">C</th><th className="font-normal">W</th><th className="font-normal">L</th><th className="font-normal">P</th><th className="font-normal">R</th><th className="font-normal">Dump Risk</th><th className="text-right font-normal">Worst 7 days</th></tr></thead>
             <tbody>{r.observations.map((o) => (
               <tr key={o.token + o.asOf} className="border-t border-border">
                 <td className="py-1.5 text-ink">{o.symbol} <span className="text-ink-muted">{chainName(o.chain)}</span></td>
@@ -81,7 +81,7 @@ export function ForwardSection({ alpha, ppi }: { alpha: ForwardCheck; ppi: Forwa
       <Card id="fwd-alpha" title={`Alpha, ${alpha.horizonHours} hours later`} sub="Each past board rebuilt from the snapshots it could have seen, then the price move that followed. Out of sample by construction.">
         <ForwardTable f={alpha} />
       </Card>
-      <Card id="fwd-ppi" title={`Perp pressure, ${ppi.horizonHours} hours later`} sub="Each coin's Perp Pressure Index at a past hourly snapshot, then its mark price the horizon later.">
+      <Card id="fwd-ppi" title={`Perp flow, ${ppi.horizonHours} hours later`} sub="Each coin's Perp Flow Index at a past hourly snapshot, then its mark price the horizon later.">
         <ForwardTable f={ppi} />
       </Card>
     </div>
