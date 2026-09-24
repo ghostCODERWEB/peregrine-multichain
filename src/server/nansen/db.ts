@@ -257,6 +257,21 @@ const MIGRATIONS: string[] = [
     PRIMARY KEY (scope, address)
   );
   `,
+  // 13: token pulse — the scanner already pulls the screener's top tokens per
+  // chain every scan; the busiest 25 per chain are kept (1h every scan, 24h
+  // when due; all-trader and, for Tier A, smart money), so the Alpha board
+  // scores tokens with real history at no extra credit cost. Pruned to 7 days.
+  `
+  CREATE TABLE token_pulse (
+    snapshot_at INTEGER NOT NULL, window TEXT NOT NULL, source TEXT NOT NULL,
+    chain TEXT NOT NULL, token_address TEXT NOT NULL, symbol TEXT,
+    netflow REAL, volume REAL, buy_volume REAL, sell_volume REAL,
+    price_usd REAL, price_change REAL, liquidity REAL, market_cap REAL, age_days REAL,
+    PRIMARY KEY (snapshot_at, window, source, chain, token_address)
+  );
+  CREATE INDEX idx_token_pulse_token ON token_pulse(chain, token_address, window, source, snapshot_at);
+  CREATE INDEX idx_token_pulse_time ON token_pulse(snapshot_at);
+  `,
 ];
 
 export function audit(userId: number | null, action: string, detail?: string): void {

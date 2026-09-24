@@ -7,6 +7,7 @@ import { PressureLegend } from './PressureLegend';
 import { ForecastStrip } from './ForecastStrip';
 import { ChainTable } from './ChainTable';
 import { StormTicker } from './StormTicker';
+import { PulseBand } from './PulseBand';
 import { AnchorCard } from '@/components/AnchorCard';
 import type { AnchorReport } from '@/server/agents/anchor';
 import { mapHeadline, frontsHeadline } from '@/lib/insights';
@@ -19,7 +20,7 @@ async function fetchBulletin(): Promise<WeatherBulletin> {
   return r.json();
 }
 
-export function WeatherView({ initial, anchor }: { initial: WeatherBulletin; anchor: AnchorReport | null }) {
+export function WeatherView({ initial, anchor, alpha }: { initial: WeatherBulletin; anchor: AnchorReport | null; alpha?: React.ReactNode }) {
   const { data, isFetching } = useQuery({
     queryKey: ['weather'],
     queryFn: fetchBulletin,
@@ -60,6 +61,7 @@ export function WeatherView({ initial, anchor }: { initial: WeatherBulletin; anc
             ))}
           </div>
         </div>
+        <div className="mb-4"><PulseBand data={data} /></div>
         <div className="glass rounded-2xl p-4">
           {view === 'map' ? (
             <HexMap chains={data.chains} fronts={data.fronts} selectedFront={selected} onSelectFront={setSelected} />
@@ -71,6 +73,8 @@ export function WeatherView({ initial, anchor }: { initial: WeatherBulletin; anc
           </div>
         </div>
       </section>
+
+      {alpha}
 
       <section aria-labelledby="anchor-title" className="glass rounded-2xl p-4">
         <h2 id="anchor-title" className="mb-2 text-base font-semibold text-ink">The weather report, read by Nansen&apos;s own agent</h2>

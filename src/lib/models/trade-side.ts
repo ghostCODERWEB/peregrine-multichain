@@ -33,13 +33,24 @@ const NATIVE_AND_WRAPPED = new Set([
   'MON', 'WMON', 'S', 'WS', 'SEI', 'WSEI', 'HYPE', 'WHYPE', 'MNT', 'WMNT', 'IOTA', 'WIOTA', 'XPL', 'WXPL',
 ]);
 
+/** Tether's ₮ (e.g. "USD₮0") reads as T. */
+const norm = (symbol: string) => symbol.trim().toUpperCase().replace(/₮/g, 'T');
+
 export function isStablecoin(symbol: string | null | undefined): boolean {
-  return !!symbol && STABLECOINS.has(symbol.trim().toUpperCase());
+  return !!symbol && STABLECOINS.has(norm(symbol));
+}
+
+/** Majors and their wrapped or bridged copies (WBTC, cbBTC, UBTC, UETH,
+ *  WSOL…): base assets rather than tokens anyone would call alpha. */
+export function isMajorOrWrapped(symbol: string | null | undefined): boolean {
+  if (!symbol) return false;
+  const s = norm(symbol);
+  return isBaseAsset(s) || /^(W|CB|U|K|T|S|M|R|ST|WST|R|B|SOL)?(BTC|ETH|SOL|BNB|AVAX|POL|HYPE)(\.E|B|0)?$/.test(s);
 }
 
 export function isBaseAsset(symbol: string | null | undefined): boolean {
   if (!symbol) return false;
-  const s = symbol.trim().toUpperCase();
+  const s = norm(symbol);
   return STABLECOINS.has(s) || NATIVE_AND_WRAPPED.has(s);
 }
 

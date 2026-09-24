@@ -83,6 +83,21 @@ test('wallet page: balances and the migration trail', async ({ page }) => {
   expect(w.errors).toEqual([]);
 });
 
+test('alpha: leaders with score rings and a filterable board, or a plain reason @mobile', async ({ page }) => {
+  const w = await watch(page);
+  await page.goto('/alpha');
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+  const board = page.locator('section[aria-labelledby="alpha-board"]');
+  const reason = page.getByText(/The Alpha board builds from the scanner/);
+  await expect(board.or(reason)).toBeVisible();
+  if (await board.count()) {
+    await expect(page.getByRole('img', { name: /alpha score \d+ of 100/ }).first()).toBeVisible();
+    await expect(page.getByRole('tab', { name: /All chains/ })).toHaveAttribute('aria-selected', 'true');
+  }
+  await w.noOverflow();
+  expect(w.errors).toEqual([]);
+});
+
 test('lab, coverage and alerts render', async ({ page }) => {
   const w = await watch(page);
   await page.goto('/lab');

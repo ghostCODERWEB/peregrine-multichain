@@ -25,6 +25,8 @@ export const DEMO_TABLES: Array<{ name: string; where?: string }> = [
   // (token → sector, from the screener's own sector filter).
   { name: 'sector_snapshots', where: "source = 'market-flow'" },
   { name: 'sector_members' },
+  // Alpha board: the last 12 hours of all-trader token snapshots.
+  { name: 'token_pulse', where: "source = 'market-flow' AND snapshot_at >= (SELECT MAX(snapshot_at) FROM token_pulse) - 43200000" },
 ];
 
 /** Row filters mirroring DEMO_TABLES, for sanitizing an existing export. */
@@ -37,6 +39,7 @@ export const PUBLIC_DEMO_FILTERS: Record<string, (row: Record<string, unknown>) 
   credit_ledger: () => true,
   sector_snapshots: (r) => r.source === 'market-flow',
   sector_members: () => true,
+  token_pulse: (r) => r.source === 'market-flow',
 };
 
 const TIME_COLUMNS = new Set(['snapshot_at', 'traded_at', 'captured_at', 'computed_at', 'created_at', 'started_at', 'finished_at', 'called_at', 'refreshed_at']);

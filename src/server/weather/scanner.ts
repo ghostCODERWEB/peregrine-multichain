@@ -52,7 +52,10 @@ interface ChainWindowInput {
   source: PressureSource;
 }
 
-interface ScreenerRow { chain: string; token_address?: string | null; token_symbol?: string | null; volume?: number | null; netflow?: number | null; market_cap_usd?: number | null }
+interface ScreenerRow {
+  chain: string; token_address?: string | null; token_symbol?: string | null; volume?: number | null; netflow?: number | null; market_cap_usd?: number | null;
+  buy_volume?: number | null; sell_volume?: number | null; price_usd?: number | null; price_change?: number | null; liquidity?: number | null; token_age_days?: number | null;
+}
 
 function chunk<T>(items: T[], size: number): T[][] {
   const out: T[][] = [];
@@ -394,6 +397,41 @@ async function captureTrades(now: number, errors: string[]): Promise<number> {
   return added;
 }
 
+const PULSE_PER_CHAIN = 25;
+const PULSE_KEEP_MS = 7 * 24 * 3_600_000;
+
+/** Keeps the busiest tokens per chain from rows this scan already fetched
+ *  (see migration 13). Stablecoins are skipped, as everywhere else. */
+function storeTokenPulse(at: number, window: '1h' | '24h', market: ScreenerRow[], sm: ScreenerRow[] | null): number {
+  const db = getDb();
+  const ins = db.prepare(`INSERT OR IGNORE INTO token_pulse
+    (snapshot_at, window, source, chain, token_address, symbol, netflow, volume, buy_volume, sell_volume, price_usd, price_change, liquidity, market_cap, age_days)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`);
+  const fin = (v: number | null | undefined) => (v != null && Number.isFinite(v) ? v : null);
+  let n = 0;
+  const put = (source: string, rows: ScreenerRow[], perChain: number) => {
+    const byChain = new Map<string, ScreenerRow[]>();
+    for (const r of rows) {
+      if (!r.token_address || isStablecoin(r.token_symbol)) continue;
+      const list = byChain.get(r.chain);
+      if (list) list.push(r); else byChain.set(r.chain, [r]);
+    }
+    for (const list of byChain.values()) {
+      for (const r of [...list].sort((a, b) => (b.volume ?? 0) - (a.volume ?? 0)).slice(0, perChain)) {
+        ins.run(at, window, source, r.chain, r.token_address!.startsWith('0x') ? r.token_address!.toLowerCase() : r.token_address!, r.token_symbol ?? null,
+          fin(r.netflow), fin(r.volume), fin(r.buy_volume), fin(r.sell_volume), fin(r.price_usd), fin(r.price_change), fin(r.liquidity), fin(r.market_cap_usd), fin(r.token_age_days));
+        n++;
+      }
+    }
+  };
+  db.transaction(() => {
+    put('market-flow', market, PULSE_PER_CHAIN);
+    if (sm) put('smart-money', sm, PULSE_PER_CHAIN);
+    db.prepare('DELETE FROM token_pulse WHERE snapshot_at < ?').run(at - PULSE_KEEP_MS);
+  })();
+  return n;
+}
+
 export interface ScanSummary {
   windows: Window[];
   chainsScored: number;
@@ -424,6 +462,9 @@ export async function runScan(opts: { sweep?: 'inline' | 'defer' } = {}): Promis
   let sectorRows = 0;
   for (const [w, r] of rows) {
     try { sectorRows += storeSectorSnapshots(started, w, r.market, r.sm); } catch (e) { errors.push(`sector snapshots ${w}: ${(e as Error).message.slice(0, 120)}`); }
+    if (w === '1h' || w === '24h') {
+      try { storeTokenPulse(started, w, r.market, r.sm); } catch (e) { errors.push(`token pulse ${w}: ${(e as Error).message.slice(0, 120)}`); }
+    }
   }
   const chainsScored = storeBlended(started);
   const tradesAdded = await captureTrades(started, errors);

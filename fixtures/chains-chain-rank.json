@@ -9,22 +9,22 @@
       "data": [
         {
           "chain": "solana",
-          "transaction_count": 1188753565,
-          "transaction_count_percent_change": 0.11,
-          "successful_transaction_count": 786217390,
-          "successful_transaction_count_percent_change": 0.056,
-          "total_gas_used_usd": 5938291.763816763,
-          "total_gas_used_usd_percent_change": 0.69,
-          "total_dex_volume_usd": 44117202584.08958,
-          "total_dex_volume_usd_percent_change": -0.2,
+          "transaction_count": 1180076465,
+          "transaction_count_percent_change": 0.096,
+          "successful_transaction_count": 787303154,
+          "successful_transaction_count_percent_change": 0.058,
+          "total_gas_used_usd": 6337100.096702926,
+          "total_gas_used_usd_percent_change": 0.58,
+          "total_dex_volume_usd": 43987249562.50773,
+          "total_dex_volume_usd_percent_change": -0.21,
           "active_address_count_traces": 0,
           "active_address_count_traces_percent_change": null,
-          "active_address_count_txs": 32682373,
-          "active_address_count_txs_percent_change": 0.22,
-          "revenue_usd": 731922.2992997584,
+          "active_address_count_txs": 33199121,
+          "active_address_count_txs_percent_change": 0.23,
+          "revenue_usd": 764018.3440602941,
           "revenue_usd_percent_change": 0.36,
-          "tvl_usd": 28842916980.062046,
-          "tvl_usd_percent_change": 0.046
+          "tvl_usd": 28851858168.905212,
+          "tvl_usd_percent_change": 0.08
         },
         {
           "chain": "tron",
@@ -712,6 +712,6 @@
         }
       ]
     },
-    "recordedAt": 1790212790161
+    "recordedAt": 1790214727013
   }
 ]
