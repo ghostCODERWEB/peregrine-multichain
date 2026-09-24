@@ -18,9 +18,11 @@ test('Ask Nansen: opens from the wallet page (a Server Component) with no agent 
   page.on('request', (r) => { if (r.url().endsWith('/api/agent') && r.method() === 'POST') agentCalls.push(r.url()); });
 
   await page.goto(WALLET);
+  const before = new Set(await page.evaluate(() => performance.getEntriesByType('resource').map((r) => r.name).filter((name) => name.endsWith('.js'))));
   await page.getByRole('button', { name: 'Ask Nansen' }).click();
   await expect(page.getByRole('dialog', { name: 'Ask Nansen' })).toBeVisible();
   await expect(page.getByText(/runs on a Nansen key/)).toBeVisible();
+  await expect.poll(async () => (await page.evaluate(() => performance.getEntriesByType('resource').map((r) => r.name).filter((name) => name.endsWith('.js')))).filter((name) => !before.has(name)).length).toBeGreaterThan(0);
   expect(agentCalls).toEqual([]);
   expect(errors).toEqual([]);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
