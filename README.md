@@ -1,5 +1,6 @@
 # TIDE — smart-money weather across every chain
 
+
 **TIDE turns the Nansen API into a live weather map of capital across all 38 chains it lists:** pressure systems where smart money piles in, *fronts* where the same wallets rotate between chains, *storm warnings* on tokens likely to dump, and forecasts that publish their own accuracy. An AI anchor built on Nansen's own agent reads the forecast, and storm warnings become Nansen Smart Alerts that keep watching after the tab closes.
 
 ![The weather map: 38 chains colored by smart-money pressure, with rotation fronts between them](docs/img/map.png)

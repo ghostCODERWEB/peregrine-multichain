@@ -8,6 +8,7 @@ import { ForecastStrip } from './ForecastStrip';
 import { ChainTable } from './ChainTable';
 import { StormTicker } from './StormTicker';
 import { PulseBand } from './PulseBand';
+import { LayerPanel } from './LayerPanel';
 import { AnchorCard } from '@/components/AnchorCard';
 import type { AnchorReport } from '@/server/agents/anchor';
 import { mapHeadline, frontsHeadline } from '@/lib/insights';
@@ -28,6 +29,8 @@ export function WeatherView({ initial, anchor, alpha }: { initial: WeatherBullet
     refetchInterval: 60_000,
   });
   const [view, setView] = useState<'map' | 'table'>('map');
+  const [layer, setLayer] = useState('spot');
+  const activeLayer = data.layers?.find((l) => l.id === layer);
   const [selected, setSelected] = useState<string | null>(null);
   const selectedFront = data.fronts.find((f) => frontKey(f) === selected) ?? null;
 
@@ -42,7 +45,7 @@ export function WeatherView({ initial, anchor, alpha }: { initial: WeatherBullet
               {mapHeadline(data.chains, data.fronts)}
             </h1>
             <p className="mt-1 text-sm text-ink-2">
-              Chain Pressure Index for all {data.chains.length} chains the Nansen API lists — {scored} with a live reading.
+              Pressure across {data.chains.length} chains the Nansen API lists — {scored} with an available reading. Spot uses CPI; Hyperliquid uses PPI.
               Last scan <TimeAgo ts={data.scan.last?.finished_at} />, {data.scan.runs} scans and{' '}
               {data.scan.trades.toLocaleString('en-US')} smart-money trades recorded so far.
             </p>
@@ -62,15 +65,18 @@ export function WeatherView({ initial, anchor, alpha }: { initial: WeatherBullet
           </div>
         </div>
         <div className="mb-4"><PulseBand data={data} /></div>
+        <div className="mb-3 flex flex-wrap gap-2" role="group" aria-label="Weather layers">
+          {[{ id: 'spot', title: 'Spot pressure' }, ...(data.layers ?? [])].map((l) => <button key={l.id} aria-pressed={layer === l.id} onClick={() => setLayer(l.id)} className={`rounded-full border border-border px-4 py-2 text-sm ${layer === l.id ? 'bg-accent text-ink' : 'text-ink-2 hover:text-ink'}`}>{l.title}</button>)}
+        </div>
         <div className="glass rounded-2xl p-4">
-          {view === 'map' ? (
+          {activeLayer ? <LayerPanel layer={activeLayer} table={view === 'table'} /> : view === 'map' ? (
             <HexMap chains={data.chains} fronts={data.fronts} selectedFront={selected} onSelectFront={setSelected} />
           ) : (
             <ChainTable chains={data.chains} />
           )}
-          <div className="mt-4 border-t border-border pt-3">
+          {!activeLayer && <div className="mt-4 border-t border-border pt-3">
             <PressureLegend />
-          </div>
+          </div>}
         </div>
       </section>
 
@@ -78,7 +84,7 @@ export function WeatherView({ initial, anchor, alpha }: { initial: WeatherBullet
 
       <section aria-labelledby="anchor-title" className="glass rounded-2xl p-4">
         <h2 id="anchor-title" className="mb-2 text-base font-semibold text-ink">The weather report, read by Nansen&apos;s own agent</h2>
-        <AnchorCard query="kind=bulletin" initial={anchor} label="Nansen's agent reads the pressure extremes, rotation fronts, storm warnings and forecasts above and writes four sentences." />
+        <AnchorCard query="kind=bulletin" initial={anchor} label="Nansen's agent reads available spot, perp, sector and prediction observations, rotation fronts, storms and forecasts, then writes four sentences." />
       </section>
 
       <section aria-labelledby="storms-title">

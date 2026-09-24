@@ -45,23 +45,25 @@ const RULES = [
   'If a field is missing, do not guess it. Plain text, no markdown, no lists.',
 ].join(' ');
 
-/** CPI 0-100: above 65 net buying (high pressure), below 35 net selling. */
+/** Indices describe relative pressure; never equate a score to a signed flow. */
 function bulletinPrompt(mode: DisplayMode): { prompt: string; facts: unknown } {
   // Public reports are built from public-view numbers only (all-trader
   // pressure, no fronts), so the text itself is redistributable.
   const b = buildBulletin(viewOf(mode));
   const chains = b.chains.filter((c) => c.cpi != null)
     .sort((a, c) => Math.abs(c.cpi! - 50) - Math.abs(a.cpi! - 50)).slice(0, 6)
-    .map((c) => ({ chain: chainName(c.chain), pressure_index: Math.round(c.cpi!), measured_from: c.source, change_6h: c.trend6h == null ? null : Math.round(c.trend6h) }));
+    .map((c) => ({ chain: chainName(c.chain), index_type: c.chain === 'hyperliquid' ? 'PPI' : 'CPI', pressure_index: Math.round(c.cpi!), measured_from: c.source, change_6h: c.trend6h == null ? null : Math.round(c.trend6h) }));
   const fronts = b.fronts.slice(0, 3).map((f) => ({ from: chainName(f.from), to: chainName(f.to), net_usd: Math.round(f.netUsd), wallets: f.walletCount }));
   const storms = b.storms.slice(0, 3).map((s) => ({ token: s.symbol, chain: chainName(s.chain), storm_score: Math.round(s.score), band: s.band, confidence: Number(s.confidence.toFixed(2)) }));
   const forecasts = b.forecasts.filter((f) => f.points.length).slice(0, 3)
     .map((f) => ({ chain: chainName(f.chain), now: Math.round(f.history.at(-1)!.cpi), in_24h: Math.round(f.points.at(-1)!.forecast), mape_pct: f.mape == null ? null : Number(f.mape.toFixed(1)) }));
   const facts = {
     scale: mode === 'owner'
-      ? 'Chain Pressure Index 0-100 from smart-money net flow: above 65 = smart money net buying (high pressure), below 35 = net selling, 50 = calm.'
-      : 'Chain Pressure Index 0-100 from all-trader net flow on DEXs: above 65 = net buying (high pressure), below 35 = net selling, 50 = calm.',
+      ? 'CPI 0-100: smart-money flow normalized against history or peers. Above 65 = high relative pressure, below 35 = low, 50 = neutral. A high score does not necessarily mean positive net flow. Hyperliquid is PPI (perp positioning), not spot CPI.'
+      : 'CPI 0-100: all-trader DEX flow normalized against history or peers. Above 65 = high relative pressure, below 35 = low, 50 = neutral. A high score does not necessarily mean positive net flow. Hyperliquid is PPI (perp positioning), not spot CPI.',
     pressure_extremes: chains, rotation_fronts_24h: fronts, storm_warnings: storms, forecasts_24h: forecasts,
+    cross_module_layers: b.layers?.map((l) => ({ layer: l.title, definition: l.description, observed_at: l.at, recorded_demo: l.recorded, value_unit: l.metric, unavailable: l.unavailable, readings: l.readings.slice(0, 5) })),
+    cross_layer_caveat: 'Layer populations and units differ. Prediction activity is volume heat, never directional net flow or a YES probability. Missing observations are unknown, not zero. Cite observation age; never describe recorded or stale observations as live.',
   };
   return {
     facts,
