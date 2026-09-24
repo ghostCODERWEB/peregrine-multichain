@@ -11,13 +11,15 @@ type Row = Record<string, unknown>;
 const PREPARED_TTL = 45_000;
 const prepared = new Map<string, { kind: string; wallet: string; action: unknown; nonce: unknown; vault: unknown; at: number }>();
 
-export type PerpKind = 'approve-builder-fee' | 'order' | 'close';
+export type PerpKind = 'approve-builder-fee' | 'order' | 'close' | 'cancel' | 'leverage' | 'transfer';
+/** Account actions carry no order: Nansen echoes size and price as null. */
+export interface PerpAccountInput { coin?: string; orderId?: number; leverage?: number; isCross?: boolean; amount?: number; toPerp?: boolean }
 
 export async function perpReads(wallet: string) {
   const q = { wallet_address: wallet };
   const get = (ep: string) => callNansen<Row>(ep, q, { method: 'GET', skipCache: true, record: false }).then((r) => r.data).catch((e) => ({ error: (e as Error).message.slice(0, 200) }));
-  const [fee, account, positions] = await Promise.all([get('perp/builder-fee'), get('perp/account'), get('perp/positions')]);
-  return { fee, account, positions };
+  const [fee, account, positions, orders] = await Promise.all([get('perp/builder-fee'), get('perp/account'), get('perp/positions'), get('perp/orders')]);
+  return { fee, account, positions, orders };
 }
 
 export async function perpMeta() {
@@ -28,10 +30,14 @@ export async function perpMeta() {
 export interface PerpOrderInput { coin: string; isBuy: boolean; size: number; price: number; slippage?: number }
 
 /** Prepares an action (no state change) and returns what the wallet must sign. */
-export async function perpPrepare(kind: PerpKind, wallet: string, o?: PerpOrderInput) {
+export async function perpPrepare(kind: PerpKind, wallet: string, o?: PerpOrderInput, a: PerpAccountInput = {}) {
   const body: Row = { wallet_address: wallet };
   if (kind === 'order') Object.assign(body, { coin: o!.coin, is_buy: o!.isBuy, size: o!.size, price: o!.price, order_type: 'market', slippage: o!.slippage ?? 0.02 });
   if (kind === 'close') Object.assign(body, { coin: o!.coin, is_buy: o!.isBuy, size: o!.size, price: o!.price });
+  // Shapes probed live 2026-09-24 (free 422s name the required fields).
+  if (kind === 'cancel') Object.assign(body, { coin: a.coin, order_id: a.orderId });
+  if (kind === 'leverage') Object.assign(body, { coin: a.coin, leverage: a.leverage, is_cross: a.isCross ?? true });
+  if (kind === 'transfer') Object.assign(body, { amount: a.amount, to_perp: a.toPerp });
   const r = await callNansen<Row>(`perp/${kind}`, body, { method: 'POST', skipCache: true, record: false });
   const d = r.data;
   if (!d.action || d.nonce == null || !d.eip712) throw new Error('Nansen did not return a signable action.');

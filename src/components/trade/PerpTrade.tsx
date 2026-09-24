@@ -37,7 +37,10 @@ interface Prepared { id: string; typedData: Row; size: unknown; price: unknown; 
 
 export function PerpTrade({ marks, initialCoin }: { marks: PerpMark[]; initialCoin: string }) {
   const [wallet, setWallet] = useState<string | null>(null);
-  const [state, setState] = useState<{ fee: Row; account: Row; positions: Row } | null>(null);
+  const [state, setState] = useState<{ fee: Row; account: Row; positions: Row; orders?: Row } | null>(null);
+  const [lev, setLev] = useState('3');
+  const [isCross, setIsCross] = useState(true);
+  const [moveAmt, setMoveAmt] = useState('');
   const [coin, setCoin] = useState(initialCoin || 'BTC');
   const [isBuy, setIsBuy] = useState(true);
   const [size, setSize] = useState('');
@@ -56,17 +59,19 @@ export function PerpTrade({ marks, initialCoin }: { marks: PerpMark[]; initialCo
   }
   async function refresh(a = wallet) {
     if (!a) return;
-    setStatus('Reading your Hyperliquid account (3 credits)…');
+    setStatus('Reading your Hyperliquid account (up to 4 credits)…');
     try { setState(await post({ action: 'perp-state', wallet: a })); } catch (e) { setErr((e as Error).message); } finally { setStatus(null); }
   }
 
-  async function prepare(kind: 'approve-builder-fee' | 'order' | 'close', order?: { coin: string; isBuy: boolean; size: number; price: number }) {
+  type Kind = 'approve-builder-fee' | 'order' | 'close' | 'cancel' | 'leverage' | 'transfer';
+  type Params = { cancel?: { coin: string; orderId: number }; leverage?: { coin: string; leverage: number; isCross: boolean }; transfer?: { amount: number; toPerp: boolean } };
+  async function prepare(kind: Kind, order?: { coin: string; isBuy: boolean; size: number; price: number }, params: Params = {}, what?: string) {
     if (!wallet) return;
     setErr(null); setResult(null); setConfirming(false); setStatus('Preparing (nothing changes yet)…');
     try {
-      const p = await post<Prepared>({ action: 'perp-prepare', kind, wallet, order });
+      const p = await post<Prepared>({ action: 'perp-prepare', kind, wallet, order, ...params });
       const summary = kind === 'approve-builder-fee' ? 'Approve Nansen’s builder fee for this wallet (once).'
-        : `${kind === 'close' ? 'Close' : isBuy ? 'Long' : 'Short'} ${String(p.size ?? order?.size)} ${order?.coin} at up to ${String(p.price ?? order?.price)} (market, immediate-or-cancel).`;
+        : what ?? `${kind === 'close' ? 'Close' : isBuy ? 'Long' : 'Short'} ${String(p.size ?? order?.size)} ${order?.coin} at up to ${String(p.price ?? order?.price)} (market, immediate-or-cancel).`;
       setPrep({ ...p, kind, summary });
       setConfirming(true);
     } catch (e) { setErr((e as Error).message); } finally { setStatus(null); }
@@ -80,7 +85,8 @@ export function PerpTrade({ marks, initialCoin }: { marks: PerpMark[]; initialCo
       const signature = await signTyped(wallet, prep.typedData);
       setStatus('Submitting to Hyperliquid through Nansen…');
       const r = await post<{ kind: string; result: Row }>({ action: 'perp-execute', id: prep.id, wallet, signature, confirm: true });
-      setResult(`${r.kind === 'approve-builder-fee' ? 'Builder fee approved' : 'Accepted by the exchange'}: ${JSON.stringify(r.result).slice(0, 160)}`);
+      const done: Record<string, string> = { 'approve-builder-fee': 'Builder fee approved', cancel: 'Order cancelled', leverage: 'Leverage set', transfer: 'Transfer accepted' };
+      setResult(`${done[r.kind] ?? 'Accepted by the exchange'}: ${JSON.stringify(r.result).slice(0, 160)}`);
       setPrep(null);
       await refresh();
     } catch (e) { setErr(walletMsg(e)); } finally { setStatus(null); }
@@ -89,6 +95,8 @@ export function PerpTrade({ marks, initialCoin }: { marks: PerpMark[]; initialCo
   const fee = state?.fee as { approved?: boolean; required_fee?: number; error?: string } | undefined;
   const acct = state?.account as { error?: string; spotUsdc?: unknown; withdrawable?: unknown; account_value?: unknown; accountValue?: unknown } | undefined;
   const positions = (Array.isArray(state?.positions) ? state!.positions : ((state?.positions as Row | undefined)?.positions ?? [])) as Row[];
+  const orders = (Array.isArray(state?.orders) ? state!.orders : ((state?.orders as Row | undefined)?.orders ?? [])) as Row[];
+  const ordersError = (state?.orders as { error?: string } | undefined)?.error;
   const card = 'glass rounded-2xl p-4';
   return (
     <div className="grid gap-4 lg:grid-cols-[1fr_300px]">
@@ -107,6 +115,12 @@ export function PerpTrade({ marks, initialCoin }: { marks: PerpMark[]; initialCo
           )}
           {state && Number(acct?.spotUsdc ?? 0) > 0 && <p className="mt-2 text-[11.5px] text-ink-muted">Only the perps balance is margin: USDC in spot can&apos;t back an order until it is moved to perps.</p>}
           {state && !fee?.approved && !fee?.error && <button onClick={() => prepare('approve-builder-fee')} className="mt-3 rounded-full border border-border px-3 py-1 text-[13px] text-ink hover:bg-raised">Approve the builder fee (sign once)</button>}
+          {state && !acct?.error && (
+            <div className="mt-3 flex flex-wrap items-end gap-2 border-t border-border pt-3">
+              <label className="text-[12.5px] text-ink-2">Move USDC<input aria-label="USDC to move" value={moveAmt} onChange={(e) => setMoveAmt(e.target.value.replace(/[^\d.]/g, ''))} inputMode="decimal" placeholder="amount" className="num mt-1 block w-28 rounded-lg border border-border bg-raised px-2.5 py-1.5 text-[13px] text-ink" /></label>
+              {[true, false].map((toPerp) => <button key={String(toPerp)} disabled={!(Number(moveAmt) > 0)} onClick={() => prepare('transfer', undefined, { transfer: { amount: Number(moveAmt), toPerp } }, `Move ${moveAmt} USDC from ${toPerp ? 'spot to perps (usable as margin)' : 'perps to spot'}. Signed by your wallet’s own key.`)} className="rounded-full border border-border px-3 py-1 text-[13px] text-ink hover:bg-raised disabled:opacity-45">{toPerp ? 'Spot → perps' : 'Perps → spot'}</button>)}
+            </div>
+          )}
         </section>
 
         <section className={card}>
@@ -121,6 +135,13 @@ export function PerpTrade({ marks, initialCoin }: { marks: PerpMark[]; initialCo
           <p className="num mt-2 text-[12px] text-ink-2">{m?.mark ? `Mark ${usd(m.mark)} · about ${usd(m.mark * (Number(size) || 0))} notional · 2% slippage limit` : 'No mark price for this coin in TIDE’s latest snapshot.'}</p>
           <button disabled={!wallet || !m?.mark || !(Number(size) > 0) || !fee?.approved} onClick={() => prepare('order', { coin, isBuy, size: Number(size), price: m!.mark! })} className="mt-3 rounded-full border border-border px-3 py-1 text-[13px] text-ink hover:bg-raised disabled:opacity-45">Prepare the order</button>
           {wallet && state && !fee?.approved && <span className="ml-2 text-[11.5px] text-ink-muted">Approve the builder fee first.</span>}
+          <div className="mt-3 flex flex-wrap items-end gap-2 border-t border-border pt-3">
+            <label className="text-[12.5px] text-ink-2">Leverage on {coin || '…'}<input aria-label="Leverage" value={lev} onChange={(e) => setLev(e.target.value.replace(/[^\d]/g, '').slice(0, 3))} inputMode="numeric" className="num mt-1 block w-20 rounded-lg border border-border bg-raised px-2.5 py-1.5 text-[13px] text-ink" /></label>
+            <div className="flex gap-1" role="radiogroup" aria-label="Margin mode">
+              {[true, false].map((c) => <button key={String(c)} role="radio" aria-checked={isCross === c} onClick={() => setIsCross(c)} className={`rounded-lg px-3 py-1.5 text-[13px] ${isCross === c ? 'bg-brand/15 text-ink ring-1 ring-brand/40' : 'border border-border text-ink-2'}`}>{c ? 'Cross' : 'Isolated'}</button>)}
+            </div>
+            <button disabled={!wallet || !coin || !(Number(lev) >= 1 && Number(lev) <= 200)} onClick={() => prepare('leverage', undefined, { leverage: { coin, leverage: Number(lev), isCross } }, `Set ${coin} leverage to ${lev}× (${isCross ? 'cross' : 'isolated'} margin). It applies to positions opened afterwards, not ones you hold.`)} className="rounded-full border border-border px-3 py-1 text-[13px] text-ink hover:bg-raised disabled:opacity-45">Prepare leverage</button>
+          </div>
         </section>
 
         {confirming && prep && (
@@ -133,6 +154,29 @@ export function PerpTrade({ marks, initialCoin }: { marks: PerpMark[]; initialCo
         {status && <p className="text-[12.5px] text-ink-2">{status}</p>}
         {err && <p className="text-[12.5px] text-ink">{err}</p>}
         {result && <p className="text-[12.5px] text-ink">{result}</p>}
+
+        {state && (orders.length > 0 || ordersError) && (
+          <section className={card}>
+            <h2 className="text-[15px] font-semibold text-ink">Resting orders</h2>
+            {ordersError ? <p className="mt-2 text-[12.5px] text-ink-2">Orders unavailable: {ordersError}</p> : (
+              <div className="overflow-x-auto"><table className="mt-2 w-full text-left text-[12.5px]">
+                <thead><tr className="text-[10.5px] uppercase tracking-wider text-ink-muted"><th className="py-1 font-normal">Coin</th><th className="font-normal">Side</th><th className="font-normal">Size</th><th className="font-normal">Price</th><th className="font-normal">Type</th><th /></tr></thead>
+                <tbody>{orders.map((o) => {
+                  const c = String(o.coin ?? '?'); const oid = Number(o.oid); const spot = c.startsWith('@');
+                  const side = o.side === 'B' ? 'buy' : o.side === 'A' ? 'sell' : String(o.side ?? '?');
+                  const type = [o.orderType, o.tif, o.reduceOnly ? 'reduce-only' : null, o.isTrigger ? `trigger ${String(o.triggerPx)}` : null].filter(Boolean).join(' · ');
+                  return (
+                    <tr key={String(o.oid)} className="border-t border-border">
+                      <td className="py-1.5 text-ink">{c}</td><td className="text-ink-2">{side}</td><td className="num text-ink-2">{String(o.sz ?? '—')}</td><td className="num text-ink-2">{String(o.limitPx ?? '—')}</td><td className="text-ink-muted">{type}</td>
+                      <td className="text-right">{spot ? <span className="text-[11.5px] text-ink-muted" title="Spot orders share this list; manage them on Hyperliquid">spot</span>
+                        : <button disabled={!Number.isSafeInteger(oid)} onClick={() => prepare('cancel', undefined, { cancel: { coin: c, orderId: oid } }, `Cancel your resting ${c} ${side} order #${oid} (${String(o.sz)} at ${String(o.limitPx)}).`)} className="rounded-full border border-border px-2.5 py-0.5 text-[12px] text-ink hover:bg-raised">Cancel</button>}</td>
+                    </tr>
+                  );
+                })}</tbody>
+              </table></div>
+            )}
+          </section>
+        )}
 
         {positions.length > 0 && (
           <section className={card}>
@@ -160,7 +204,7 @@ export function PerpTrade({ marks, initialCoin }: { marks: PerpMark[]; initialCo
             <Link href="/perps" className="text-ink-2 underline-offset-2 hover:text-ink hover:underline">Open the liquidation ladder on /perps →</Link>
           </>
         ) : <p className="text-ink-2">Not in TIDE&apos;s latest perp snapshot.</p>}
-        <p className="border-t border-border pt-2 text-[11.5px] text-ink-muted">TIDE never signs. Every action is prepared by Nansen, signed in your wallet and submitted only after your click. Perp pressure has no track record until the M9 backtest.</p>
+        <p className="border-t border-border pt-2 text-[11.5px] text-ink-muted">TIDE never signs. Every action is prepared by Nansen, signed in your wallet and submitted only after your click. Perp pressure&apos;s forward check against later prices is in the <Link href="/lab" className="underline-offset-2 hover:underline">Forecast Lab</Link>.</p>
       </aside>
     </div>
   );

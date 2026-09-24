@@ -16,8 +16,12 @@ const Body = z.discriminatedUnion('action', [
   z.object({ action: z.literal('execute'), chain: z.literal('base'), signedTx: z.string().max(200_000), confirm: z.literal(true) }),
   z.object({ action: z.literal('bridge'), txHash: z.string().max(120), from: z.string().max(20), to: z.string().max(20), aggregator: z.string().max(20).optional() }),
   z.object({ action: z.literal('perp-state'), wallet: z.string().regex(EVM) }),
-  z.object({ action: z.literal('perp-prepare'), kind: z.enum(['approve-builder-fee', 'order', 'close']), wallet: z.string().regex(EVM),
-    order: z.object({ coin: z.string().regex(/^[A-Za-z0-9:]{1,20}$/), isBuy: z.boolean(), size: z.number().positive().max(1e9), price: z.number().positive(), slippage: z.number().min(0.001).max(0.1).optional() }).optional() }),
+  z.object({ action: z.literal('perp-prepare'), kind: z.enum(['approve-builder-fee', 'order', 'close', 'cancel', 'leverage', 'transfer']), wallet: z.string().regex(EVM),
+    order: z.object({ coin: z.string().regex(/^[A-Za-z0-9:]{1,20}$/), isBuy: z.boolean(), size: z.number().positive().max(1e9), price: z.number().positive(), slippage: z.number().min(0.001).max(0.1).optional() }).optional(),
+    // Perp coins only: spot orders ("@156") share the orders list but not this venue's cancel.
+    cancel: z.object({ coin: z.string().regex(/^[A-Za-z0-9][A-Za-z0-9:]{0,19}$/), orderId: z.number().int().positive().max(Number.MAX_SAFE_INTEGER) }).optional(),
+    leverage: z.object({ coin: z.string().regex(/^[A-Za-z0-9][A-Za-z0-9:]{0,19}$/), leverage: z.number().int().min(1).max(200), isCross: z.boolean() }).optional(),
+    transfer: z.object({ amount: z.number().positive().max(10_000_000), toPerp: z.boolean() }).optional() }),
   z.object({ action: z.literal('perp-execute'), id: z.string().min(8).max(40), wallet: z.string().regex(EVM), signature: z.string().max(200), confirm: z.literal(true) }),
 ]);
 
@@ -45,8 +49,12 @@ export async function POST(req: Request) {
         case 'bridge': return bridgeStatus(b.txHash, b.from, b.to, b.aggregator);
         case 'perp-state': return perpReads(b.wallet);
         case 'perp-prepare': {
-          if (b.kind !== 'approve-builder-fee' && !b.order) throw new Error('An order needs a coin, side, size and price.');
-          const p = await perpPrepare(b.kind, b.wallet, b.order);
+          if ((b.kind === 'order' || b.kind === 'close') && !b.order) throw new Error('An order needs a coin, side, size and price.');
+          if (b.kind === 'cancel' && !b.cancel) throw new Error('A cancel needs the order’s coin and id.');
+          if (b.kind === 'leverage' && !b.leverage) throw new Error('Leverage needs a coin, a whole number from 1 to 200, and a margin mode.');
+          if (b.kind === 'transfer' && !b.transfer) throw new Error('A transfer needs an amount and a direction.');
+          const account = b.kind === 'cancel' ? b.cancel : b.kind === 'leverage' ? b.leverage : b.kind === 'transfer' ? b.transfer : undefined;
+          const p = await perpPrepare(b.kind, b.wallet, b.order, account);
           return { ...p, typedData: typedDataForWallet(p.eip712) };
         }
         case 'perp-execute': {
