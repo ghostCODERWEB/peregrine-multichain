@@ -38,6 +38,8 @@ Or run both with Docker: `docker compose up` (web on :3000, worker as a second c
 
 Requirements: Node ≥ 22.13 and pnpm (via `corepack enable`).
 
+Measured on 2026-09-24, from a fresh clone of the `superapp` branch with `DEMO_MODE=1` and no key: 2 s to clone, 9 s to install from a warm pnpm store, and the first page rendered **42 s** after the clone started. The full demo browser suite then passed against that clone's dev server (53 tests in 2.1 min). A machine without a pnpm store spends another minute or two downloading packages.
+
 ## What's in it
 
 | Screen | What it shows |
