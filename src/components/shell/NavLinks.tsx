@@ -1,8 +1,8 @@
 'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
-import { Activity, Target, Bot, ArrowLeftRight, Bell, BrainCircuit, Briefcase, ChevronDown, FlaskConical, Gauge, KeyRound, Layers, Map, Menu, Sparkles, X, NotebookPen } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Activity, Target, Bot, ArrowLeftRight, Bell, BrainCircuit, Briefcase, FlaskConical, Gauge, KeyRound, Layers, Map, Menu, Sparkles, X, NotebookPen } from 'lucide-react';
 import { NAV, type NavIcon } from './nav';
 
 const ICONS: Record<NavIcon, typeof Map> = {
@@ -38,63 +38,6 @@ export function NavList({ onNavigate }: { onNavigate?: () => void }) {
           </ul>
         </div>
       ))}
-    </nav>
-  );
-}
-
-/** Desktop: the exchange-style bar. Primary items sit in the bar with an
- *  underline for the current page; the rest open from "More", grouped. A
- *  disclosure (not an ARIA menu): plain links, Tab order, Escape closes. */
-export function TopNav() {
-  const path = usePathname() ?? '/';
-  const [open, setOpen] = useState(false);
-  const box = useRef<HTMLDivElement>(null);
-  useEffect(() => setOpen(false), [path]);
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false); };
-    const onDown = (e: MouseEvent) => { if (box.current && !box.current.contains(e.target as Node)) setOpen(false); };
-    window.addEventListener('keydown', onKey);
-    window.addEventListener('mousedown', onDown);
-    return () => { window.removeEventListener('keydown', onKey); window.removeEventListener('mousedown', onDown); };
-  }, [open]);
-  const rest = NAV.filter((n) => !n.top);
-  const groups = [...new Set(rest.map((n) => n.group))];
-  const moreOn = rest.some((n) => active(path, n.href));
-  const tab = (on: boolean) => `relative flex h-12 items-center px-2.5 text-[13px] ${on ? 'text-ink after:absolute after:inset-x-2.5 after:bottom-0 after:h-0.5 after:bg-brand' : 'text-ink-2 hover:text-ink'}`;
-  return (
-    <nav aria-label="Primary" className="hidden items-center lg:flex">
-      {NAV.filter((n) => n.top).map((n) => {
-        const on = active(path, n.href);
-        return <Link key={n.href} href={n.href} aria-current={on ? 'page' : undefined} className={tab(on)}>{n.label}</Link>;
-      })}
-      <div ref={box} className="relative">
-        <button type="button" aria-expanded={open} aria-controls="more-nav" onClick={() => setOpen((o) => !o)} className={`${tab(moreOn)} gap-1`}>
-          More <ChevronDown className={`h-3.5 w-3.5 transition-transform ${open ? 'rotate-180' : ''}`} aria-hidden />
-        </button>
-        {open && (
-          <div id="more-nav" className="absolute left-0 top-full z-50 mt-px grid w-[420px] grid-cols-2 gap-x-2 gap-y-3 rounded-md border border-border bg-surface p-3 shadow-lg">
-            {groups.map((g) => (
-              <div key={g}>
-                <div className="label px-2 pb-1">{g}</div>
-                <ul>
-                  {rest.filter((n) => n.group === g).map((n) => {
-                    const Icon = ICONS[n.icon];
-                    const on = active(path, n.href);
-                    return (
-                      <li key={n.href}>
-                        <Link href={n.href} aria-current={on ? 'page' : undefined} className={`flex items-center gap-2 rounded px-2 py-1.5 text-[13px] hover:bg-raised ${on ? 'text-ink' : 'text-ink-2 hover:text-ink'}`}>
-                          <Icon className={`h-3.5 w-3.5 ${on ? 'text-brand' : 'text-ink-muted'}`} aria-hidden />{n.label}
-                        </Link>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
     </nav>
   );
 }

@@ -23,9 +23,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className="min-h-screen antialiased">
         <Providers>
           <SiteHeader />
-          <div className="pt-12">
-            <main className="mx-auto max-w-[1600px] px-3 pb-16 pt-4 lg:px-5">{children}</main>
-            <footer className="mx-auto max-w-[1600px] border-t border-border px-3 py-4 text-[11.5px] text-ink-muted lg:px-5">
+          <div className="pt-14 lg:pl-[248px] lg:pt-0">
+            <main className="mx-auto max-w-[1400px] px-4 pb-16 pt-6 lg:px-6">{children}</main>
+            <footer className="mx-auto max-w-[1400px] px-4 pb-8 text-xs text-ink-muted lg:px-6">
               <a href="https://www.nansen.ai" target="_blank" rel="noopener noreferrer" className="font-medium text-ink-2 underline-offset-2 hover:text-ink hover:underline">Powered by Nansen API</a>.{' '}
               Every number on this site is computed from Nansen API responses — tap any ⓘ for the formula, its inputs and
               the exact call. Probabilistic readings, not financial advice.

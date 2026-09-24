@@ -110,10 +110,10 @@ export function Omnibox() {
   return (
     <>
       <button ref={trigger} type="button" onClick={() => setOpen(true)} aria-label="Search tokens, wallets, entities, chains and sectors"
-        className="flex h-8 items-center gap-2 rounded-md border border-border bg-raised px-2 text-[12px] text-ink-muted hover:border-axis hover:text-ink md:w-[240px] xl:w-[300px] md:px-2.5">
+        className="flex h-8 items-center gap-2 rounded-md border border-border bg-raised px-2 text-[12px] text-ink-muted hover:border-axis hover:text-ink lg:h-9 lg:w-full lg:px-2.5">
         <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" strokeWidth="1.6" /><path d="M11 11l3.5 3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" /></svg>
-        <span className="hidden md:inline">Search token, wallet or /command</span>
-        <kbd className="hidden rounded border border-border px-1 text-[10px] md:ml-auto md:inline">⌘K</kbd>
+        <span className="hidden lg:inline">Search token, wallet…</span>
+        <kbd className="hidden rounded border border-border px-1 text-[10px] lg:ml-auto lg:inline">⌘K</kbd>
       </button>
 
       {open && (
