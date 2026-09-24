@@ -5,6 +5,8 @@ const nextConfig: NextConfig = {
   serverExternalPackages: ['better-sqlite3'],
   // `pnpm dev:demo` runs beside a live `pnpm dev`; each needs its own build dir.
   distDir: process.env.NEXT_DIST_DIR ?? '.next',
+  // The dev badge sits over the sidebar's footer; build errors still show.
+  devIndicators: false,
 };
 
 export default nextConfig;

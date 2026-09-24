@@ -17,8 +17,14 @@ describe('mapHeadline', () => {
     expect(mapHeadline([c('near', 2, 'market-flow'), c('base', 83)], [])).toBe('Smart money is piling into Base');
   });
 
-  it('says it is waiting when no chain has a smart-money reading yet', () => {
+  it('says it is waiting when no chain has a reading yet', () => {
     expect(mapHeadline([c('base', null)], [])).toMatch(/^Waiting/);
+  });
+
+  it('reads all-trader pressure when there is no smart-money reading (the public view)', () => {
+    expect(mapHeadline([c('linea', 78, 'market-flow'), c('monad', 9, 'market-flow'), c('base', null)], []))
+      .toBe('Traders are piling into Linea; Monad is draining');
+    expect(mapHeadline([c('linea', 50, 'market-flow')], [])).toBe('Calm across chains — no all-trader pressure system above 65 or below 35');
   });
 });
 

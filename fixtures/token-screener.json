@@ -10468,18 +10468,18 @@
           "token_age_days": 924,
           "token_age_hours": 22165,
           "token_deployment_date": "2024-03-14T13:36:05",
-          "market_cap_usd": 461716864.033294,
-          "liquidity": 24901709.829590693,
-          "price_usd": 0.700762111192494,
-          "price_change": 0.1513904542790265,
-          "fdv": 348548384.612365,
-          "fdv_mc_ratio": 0.7548963699693487,
-          "buy_volume": 29176703.080117974,
-          "inflow_fdv_ratio": 0.08370919036840921,
-          "outflow_fdv_ratio": 0.08525437864403432,
-          "sell_volume": 29715275.95750907,
-          "volume": 58891979.03762704,
-          "netflow": -538572.8773910962
+          "market_cap_usd": 460116010.503451,
+          "liquidity": 24906114.3478717,
+          "price_usd": 0.70747501957661,
+          "price_change": 0.1624201297002161,
+          "fdv": 347339906.093835,
+          "fdv_mc_ratio": 0.7548963699693512,
+          "buy_volume": 29371901.63775598,
+          "inflow_fdv_ratio": 0.08456241601510961,
+          "outflow_fdv_ratio": 0.08575292078227494,
+          "sell_volume": 29785411.45178745,
+          "volume": 59157313.08954343,
+          "netflow": -413509.81403147057
         }
       ],
       "pagination": {
@@ -10488,7 +10488,7 @@
         "is_last_page": true
       }
     },
-    "recordedAt": 1790215537715
+    "recordedAt": 1790216800466
   },
   {
     "requestHash": "a41cd58e4049aee372a91cc5b099c8c842d121c3",

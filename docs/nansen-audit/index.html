@@ -1,0 +1,407 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nansen Through TIDE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --page: #f4f6f7;
+  --surface: #ffffff;
+  --raised: #eef2f4;
+  --line: #dbe2e7;
+  --ink: #0e1419;
+  --ink-2: #44525e;
+  --ink-3: #6b7885;
+  --mint: #0b7d5b;
+  --violet: #6d5bd0;
+  --amber: #b86800;
+  --blue: #2f78d4;
+  --shot-ground: #06090d;
+  --glow: rgba(11, 125, 91, 0.07);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --page: #06090d; --surface: #0d141b; --raised: #121b24; --line: #1e2a35;
+    --ink: #eaf0f4; --ink-2: #aab6c1; --ink-3: #7d8a96;
+    --mint: #3ee6b0; --violet: #8b7cf6; --amber: #e98916; --blue: #5d9ceb;
+    --glow: rgba(62, 230, 176, 0.06);
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page: #06090d; --surface: #0d141b; --raised: #121b24; --line: #1e2a35;
+  --ink: #eaf0f4; --ink-2: #aab6c1; --ink-3: #7d8a96;
+  --mint: #3ee6b0; --violet: #8b7cf6; --amber: #e98916; --blue: #5d9ceb;
+  --glow: rgba(62, 230, 176, 0.06);
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--page);
+  background-image: radial-gradient(900px 480px at 85% -10%, var(--glow), transparent 70%);
+  color: var(--ink);
+  font: 400 16px/1.6 "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1120px; margin: 0 auto; padding-inline: 20px; padding-block: 48px 72px; }
+.mono, code, .num { font-family: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace; }
+.num { font-variant-numeric: tabular-nums; }
+a { color: var(--mint); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--mint); outline-offset: 2px; border-radius: 4px; }
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+p { margin: 0; }
+
+/* Masthead */
+.eyebrow { font: 500 12px/1 "Geist Mono", monospace; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mint); }
+.mast { display: grid; gap: 18px; padding-bottom: 36px; border-bottom: 1px solid var(--line); }
+.mast h1 { font-size: clamp(34px, 5.4vw, 60px); line-height: 1.04; letter-spacing: -0.025em; font-weight: 650; max-width: 16ch; }
+.mast h1 em { font-style: normal; background: linear-gradient(95deg, var(--mint), var(--violet)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.dek { font-size: 19px; line-height: 1.55; color: var(--ink-2); max-width: 64ch; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 5px 11px; font-size: 13px; color: var(--ink-2); }
+.chip b { color: var(--ink); font-weight: 600; }
+
+/* Summary strip */
+.summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 36px; }
+.summary div { padding: 18px 20px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); }
+.summary h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+.summary p { font-size: 14.5px; color: var(--ink-2); }
+
+/* Figures */
+figure { margin: 0; }
+.shot { border-radius: 14px; overflow: hidden; border: 1px solid var(--line); background: var(--shot-ground); box-shadow: 0 1px 0 rgba(255,255,255,0.03) inset, 0 18px 50px -24px rgba(0,0,0,0.45); }
+.shot img { display: block; width: 100%; height: auto; }
+figcaption { margin-top: 10px; font-size: 13px; color: var(--ink-3); }
+.hero-shot { margin-top: 40px; }
+
+/* Sections */
+section { margin-top: 72px; }
+.sec-head { display: grid; gap: 10px; margin-bottom: 28px; max-width: 70ch; }
+.sec-head h2 { font-size: clamp(26px, 3.2vw, 34px); line-height: 1.15; letter-spacing: -0.015em; font-weight: 650; }
+.sec-head p { color: var(--ink-2); font-size: 16.5px; }
+
+/* Observed */
+.observed { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.panel { padding: 22px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); }
+.panel h3 { font-size: 16px; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; flex: none; }
+.panel ul { margin: 0; padding-left: 18px; display: grid; gap: 9px; color: var(--ink-2); font-size: 15px; }
+.panel li::marker { color: var(--ink-3); }
+.panel li b { color: var(--ink); font-weight: 600; }
+
+/* Ideas */
+.idea { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 32px; align-items: start; padding-block: 36px; border-top: 1px solid var(--line); }
+.idea:first-of-type { border-top: 0; padding-top: 0; }
+.idea.flip { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+.idea.flip .copy { order: 2; }
+.idea .copy { display: grid; gap: 14px; position: sticky; top: 24px; }
+.kicker { font: 500 11.5px/1 "Geist Mono", monospace; letter-spacing: 0.12em; text-transform: uppercase; color: var(--violet); }
+.idea h3 { font-size: 24px; line-height: 1.2; letter-spacing: -0.01em; font-weight: 650; }
+.idea p { color: var(--ink-2); font-size: 15.5px; }
+.idea .why { border-left: 2px solid var(--mint); padding-left: 12px; color: var(--ink); font-size: 15px; }
+.built { display: flex; flex-wrap: wrap; gap: 6px; }
+.built span { font: 400 12px/1 "Geist Mono", monospace; padding: 6px 8px; border-radius: 6px; background: var(--raised); color: var(--ink-2); border: 1px solid var(--line); }
+.built span b { color: var(--mint); font-weight: 500; }
+.pair { display: grid; gap: 14px; }
+.pair.side { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+.pair.side figcaption { grid-column: 1 / -1; }
+
+/* Text-only ideas */
+.more { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.more .panel p { color: var(--ink-2); font-size: 15px; margin-top: 4px; }
+.more .panel .built { margin-top: 14px; }
+
+/* API table */
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; min-width: 760px; font-size: 14.5px; }
+th, td { text-align: left; vertical-align: top; padding: 14px 16px; border-bottom: 1px solid var(--line); }
+th { font: 500 11.5px/1.2 "Geist Mono", monospace; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); background: var(--raised); }
+tr:last-child td { border-bottom: 0; }
+td code { font-size: 13px; color: var(--ink); background: var(--raised); padding: 2px 6px; border-radius: 5px; white-space: nowrap; }
+td:nth-child(2), td:nth-child(3) { color: var(--ink-2); }
+.sev { display: inline-block; font: 500 11px/1 "Geist Mono", monospace; padding: 4px 7px; border-radius: 999px; margin-top: 8px; }
+.sev.cost { color: var(--amber); border: 1px solid color-mix(in oklab, var(--amber) 45%, transparent); }
+.sev.shape { color: var(--blue); border: 1px solid color-mix(in oklab, var(--blue) 45%, transparent); }
+.sev.docs { color: var(--violet); border: 1px solid color-mix(in oklab, var(--violet) 45%, transparent); }
+
+/* Numbers */
+.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.stat { padding: 20px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); }
+.stat .v { font: 600 34px/1 "Geist Mono", monospace; letter-spacing: -0.02em; }
+.stat .v small { font-size: 16px; color: var(--ink-3); font-weight: 500; }
+.stat .k { margin-top: 10px; font-size: 14px; color: var(--ink-2); }
+.bar { height: 6px; border-radius: 999px; background: var(--raised); margin-top: 14px; overflow: hidden; }
+.bar i { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--mint), var(--violet)); }
+
+footer { margin-top: 80px; padding-top: 24px; border-top: 1px solid var(--line); display: grid; gap: 8px; color: var(--ink-3); font-size: 13.5px; }
+
+@media (max-width: 900px) {
+  .idea, .idea.flip { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .idea.flip .copy { order: 0; }
+  .idea .copy { position: static; }
+  .summary, .more { grid-template-columns: minmax(0, 1fr); }
+  .observed { grid-template-columns: minmax(0, 1fr); }
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 480px) {
+  .wrap { padding-inline: 16px; padding-block: 32px 56px; }
+  .stats { grid-template-columns: minmax(0, 1fr); }
+  .pair.side { grid-template-columns: minmax(0, 1fr); }
+  .pair.side figure { max-width: 380px; margin-inline: auto; }
+  .dek { font-size: 17px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .shot { transition: transform .35s ease; }
+  .shot:hover { transform: translateY(-2px); }
+}
+</style>
+
+<div class="wrap">
+  <header class="mast">
+    <span class="eyebrow">A product audit for the Nansen team · September 2026</span>
+    <h1>Nansen's data, read <em>like a forecast</em></h1>
+    <p class="dek">TIDE is a smart-money weather service built only on the Nansen API: 51 of its 94 operations, across all 38 chains the API lists. Building it meant reading Nansen's product and API closely. This page shows what we'd bring into app.nansen.ai, each idea with a screenshot and the exact endpoints behind it, then the API issues we hit and how to fix them.</p>
+    <div class="meta">
+      <span class="chip">Data <b>Nansen API only</b></span>
+      <span class="chip">Operations used <b class="num">51 of 94</b></span>
+      <span class="chip">Chains <b class="num">38</b></span>
+      <span class="chip">Screenshots <b>public view, labels removed</b></span>
+    </div>
+  </header>
+
+  <div class="summary">
+    <div>
+      <h3>The data is the moat</h3>
+      <p>Labels, flow segments, holders, perps and funding trails are all in the API. Nothing on this page needed a second data source.</p>
+    </div>
+    <div>
+      <h3>The gap is the reading layer</h3>
+      <p>Nansen's pages are table-first. TIDE puts the finding in each chart's title and lets any number open to its formula and the call that produced it.</p>
+    </div>
+    <div>
+      <h3>Everything here ships today</h3>
+      <p>Every screenshot is a working page, running on the same endpoints Nansen already serves, with credit costs measured per page view.</p>
+    </div>
+  </div>
+
+  <figure class="hero-shot">
+    <div class="shot"><img src="img/token-hero.png" alt="TIDE token page hero for VIRTUAL on Base: price with 24-hour and 7-day change, a 14-day price line, six market facts, the day's buy and sell split, and a Storm Score ring reading Storm Watch." width="1144" height="343"></div>
+    <figcaption>The token page opens on one sentence: VIRTUAL is at Storm Watch, and exit liquidity is the main reason. Price, market facts, the day's buy/sell split and the score follow.</figcaption>
+  </figure>
+
+  <section aria-labelledby="observed">
+    <div class="sec-head">
+      <span class="eyebrow">What we saw</span>
+      <h2 id="observed">Nansen today, from a logged-out visit</h2>
+      <p>We read app.nansen.ai's home and the Token God Mode page for VIRTUAL on Base, signed out, on 24 September 2026. What we'd keep and what we'd change:</p>
+    </div>
+    <div class="observed">
+      <div class="panel">
+        <h3><span class="dot" style="background: var(--mint)"></span>What's strong</h3>
+        <ul>
+          <li><b>Label depth.</b> Even logged out, the buyers table names wallets as "Token Millionaire", "High Activity" or "HL Perps Perma-Bear". No other source has this.</li>
+          <li><b>One place for signal and trade.</b> The home page pairs an AI prompt ("What's trending with Smart Money today?") with a screener that goes straight to Trade.</li>
+          <li><b>Breadth per token.</b> Buyers & Sellers, Trades, Transfers, Balances, Positions, History and Performance, plus Holders and a PnL leaderboard.</li>
+          <li><b>Segments that mean something.</b> Flow Intelligence splits a token's flow into smart money, exchanges, top PnL traders, public figures, whales and fresh wallets.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3><span class="dot" style="background: var(--violet)"></span>Where TIDE would push</h3>
+        <ul>
+          <li><b>The story is left to the reader.</b> Most panels are tables and a candle chart. Nothing says what they add up to: is this token being accumulated or distributed?</li>
+          <li><b>Scores a reader can't take apart.</b> The header shows Safety 88/100 and Snipers 15/100. We'd let every composite open to its inputs and formula in one click, the way every TIDE number does.</li>
+          <li><b>Placeholder values in the page text.</b> When Flow Intelligence is locked, its text says "$1.00M" and "1000000 wallets" for every segment. Screen readers and copy-paste pick these up as real figures.</li>
+          <li><b>No view across chains.</b> The API ranks chains (<code>chains/chain-rank</code>) and screens every chain. Signed out, we didn't find one place in the app that answers "which chains are gaining money right now".</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="ideas">
+    <div class="sec-head">
+      <span class="eyebrow">Ideas to take</span>
+      <h2 id="ideas">Seven ideas, working today</h2>
+      <p>Each works across chains, runs on the endpoints listed, and never shows a number Nansen didn't return: when Nansen has nothing, the panel says so.</p>
+    </div>
+
+    <article class="idea">
+      <div class="copy">
+        <span class="kicker">Reading layer</span>
+        <h3>Say the finding, not the chart type</h3>
+        <p>Every card title is a sentence built from the same numbers the chart draws: "Base today is mostly down: 10 of 96 most-traded tokens up". A title can't claim something the data doesn't show, and a reader who only scans titles still leaves with the day's story.</p>
+        <p class="why">For Nansen: the same tables, with a one-line verdict on top. It's the cheapest change here, and the one that most changes how the product feels.</p>
+        <div class="built"><span>token-screener <b>1 cr</b></span><span>all traders · 24h</span></div>
+      </div>
+      <figure>
+        <div class="shot"><img src="img/chain-grid.png" alt="TIDE market grid for Base: 96 equal tiles, one per most-traded token, coloured amber for up and blue for down by 24-hour change, with a volume bar under each; the title reads Base today is mostly down." width="1144" height="702" loading="lazy"></div>
+        <figcaption>Market grid, Base: 96 tokens as equal tiles, coloured by the day's move and scaled to the largest move on screen. A treemap would let one large cap hide the rest.</figcaption>
+      </figure>
+    </article>
+
+    <article class="idea flip">
+      <div class="copy">
+        <span class="kicker">Trust</span>
+        <h3>Show the math behind every number</h3>
+        <p>Every figure in TIDE has an ⓘ that opens its formula, the inputs as they were read, and the exact Nansen request: endpoint, body, credit cost, and whether it was served live or from cache. Every token page carries a receipt, such as "This page: 69 Nansen calls, 23 credits (54 from cache)".</p>
+        <p class="why">For Nansen: analysts share screenshots. A number that shows its source is a number people repeat, with Nansen's name on it.</p>
+        <div class="built"><span>every endpoint</span><span>x-nansen-credits-cost</span></div>
+      </div>
+      <figure>
+        <div class="shot" style="max-width: 470px; margin-inline: auto"><img src="img/provenance.png" alt="An open provenance popover on the liquidation ladder: the formula, the mark price, open longs and shorts, the densest band, average leverage, and the exact tgm/perp-positions request body with its 5-credit cost." width="470" height="560" loading="lazy"></div>
+        <figcaption>The liquidation ladder's ⓘ: formula, inputs, and the exact <span class="mono">tgm/perp-positions</span> call (5 credits, live).</figcaption>
+      </figure>
+    </article>
+
+    <article class="idea">
+      <div class="copy">
+        <span class="kicker">Cross-chain</span>
+        <h3>A weather map for 38 chains</h3>
+        <p>The Chain Pressure Index scores each chain 0–100 on net flow against its own history, blended over 1h, 24h and 7d. A hex map groups chains by family; isobars mark chains where pressure is rising, and rotation fronts show capital moving from one chain to another. Chains Nansen doesn't cover say "no reading" rather than showing a neutral 50.</p>
+        <p class="why">For Nansen: a landing view that answers "where is money going today" before anyone picks a token.</p>
+        <div class="built"><span>token-screener <b>1 cr × chain</b></span><span>smart-money/netflow</span><span>smart-money/dex-trades</span><span>scanner every 30 min</span></div>
+      </div>
+      <figure>
+        <div class="shot"><img src="img/home.png" alt="TIDE home: a pulse band of six tiles (live chains, top inflow Linea, top outflow Monad, rotation fronts, storm warnings, evidence) above a hex map of 38 chains coloured amber for inflow and blue for outflow." width="1440" height="900" loading="lazy"></div>
+        <figcaption>Home, public view: all-trader pressure. The API key owner sees the smart-money version of the same map.</figcaption>
+      </figure>
+    </article>
+
+    <article class="idea flip">
+      <div class="copy">
+        <span class="kicker">Perps</span>
+        <h3>Where forced selling would happen</h3>
+        <p>For any token with a Hyperliquid perp, TIDE sums the 100 largest open positions into bands by distance from the mark. Longs liquidate below the mark (forced sells), shorts above it (forced buys). The densest band is outlined, and the largest positions are listed with their leverage.</p>
+        <p class="why">For Nansen: Token God Mode already lists positions. This adds what those positions mean for price, in one glance.</p>
+        <div class="built"><span>tgm/perp-positions <b>5 cr</b></span><span>all traders</span><span>cached 10 min</span></div>
+      </div>
+      <figure>
+        <div class="shot"><img src="img/token-leverage.png" alt="Liquidation ladder for the VIRTUAL perp: short liquidations stacked above a mark line at about $0.71 and long liquidations below it, each band's notional as a bar, beside a densest-band card and the six largest positions." width="758" height="613" loading="lazy"></div>
+        <figcaption>VIRTUAL perp: open longs and shorts by distance from the mark, with the densest band called out.</figcaption>
+      </figure>
+    </article>
+
+    <article class="idea">
+      <div class="copy">
+        <span class="kicker">Holders</span>
+        <h3>Holders as a constellation</h3>
+        <p>The top 90 holders sit on a 3D sphere, sized by share of supply. They're linked only where Nansen shows a connection: a shared first funder, related wallets, or a transfer between two holders today. Linked wallets pull into clusters you can rotate toward; hover a wallet to isolate its links. Exchanges and contracts are greyed out and not counted as holders.</p>
+        <p class="why">For Nansen: a holder table can't show that nine of the top 25 wallets were funded from the same place. This picture does.</p>
+        <div class="built"><span>tgm/holders <b>5 cr</b></span><span>profiler/address/first-funder</span><span>profiler/address/related-wallets</span><span>tgm/transfers</span></div>
+      </div>
+      <figure>
+        <div class="shot"><img src="img/token-sphere.png" alt="Holder constellation for VIRTUAL: about 90 holders as circles on a rotating sphere, pink circles marking insider clusters linked by lines, green circles for linked holders, grey for holders with no measured link." width="758" height="734" loading="lazy"></div>
+        <figcaption>Nine of the top 25 VIRTUAL holders fall into insider clusters, drawn from shared funders and related wallets.</figcaption>
+      </figure>
+    </article>
+
+    <article class="idea flip">
+      <div class="copy">
+        <span class="kicker">Risk</span>
+        <h3>A dump-risk score you can audit, with odds that keep score</h3>
+        <p>The Storm Score combines six inputs Nansen already serves: holder concentration, insider clusters, wind shear between wallet segments, exit liquidity, sell pressure, and Nansen's own risk indicators. Each input is shown, and missing inputs are counted in a confidence figure instead of being filled in. Beside it, calibrated 7-day odds of a 50% fall or a 30% rise, each with its out-of-sample track record: AUC, the number of tokens, and the test date.</p>
+        <p class="why">For Nansen: "Safety 88/100" becomes a score people can argue with, and a forecast that reports its own hit rate.</p>
+        <div class="built"><span>tgm/holders</span><span>tgm/flow-intelligence</span><span>tgm/indicators</span><span>tgm/who-bought-sold</span><span>tgm/token-ohlcv</span></div>
+      </div>
+      <div class="pair side">
+        <figure>
+          <div class="shot"><img src="img/token-storm.png" alt="Storm Score card: a gauge at 54 of 100 in Storm Watch, six sub-scores with bars (concentration 35, insider clusters 34, wind shear 51, exit liquidity 88, sell pressure 26, Nansen risk 78), and a radar of Nansen's own indicator percentiles." width="371" height="845" loading="lazy"></div>
+        </figure>
+        <figure>
+          <div class="shot"><img src="img/token-odds.png" alt="Seven-day odds card: 0.9 percent chance of a 50 percent fall and 5.1 percent chance of a 30 percent rise, each with its track record (AUC 0.84 over 178 tokens)." width="371" height="613" loading="lazy"></div>
+        </figure>
+        <figcaption>Storm Score inputs, and 7-day odds with their track records. Probabilities, not advice.</figcaption>
+      </div>
+    </article>
+
+    <article class="idea">
+      <div class="copy">
+        <span class="kicker">Chain pages</span>
+        <h3>Rank a chain against every chain</h3>
+        <p>Each chain page opens with its pressure ring and where it ranks by DEX volume, active addresses and transactions. The ranking panel orders its tabs by the chain's best placing, so each chain opens on its strongest number, not its weakest: Base opens on "#4 of 24 by DEX volume".</p>
+        <p class="why">For Nansen: <code>chains/chain-rank</code> already answers "is this chain growing", one credit per call. Nobody sees that answer today.</p>
+        <div class="built"><span>chains/chain-rank <b>1 cr</b></span><span>7-day window</span><span>cached 30 min</span></div>
+      </div>
+      <div class="pair">
+        <figure>
+          <div class="shot"><img src="img/chain-hero.png" alt="Base chain hero: rank chips reading 4 of 24 by DEX volume, a Chain Pressure Index ring, and tiles for 7-day DEX volume, active addresses, transactions, tokens up and down, and the median move." width="1144" height="318" loading="lazy"></div>
+        </figure>
+        <figure>
+          <div class="shot"><img src="img/chain-rank.png" alt="Chain ranking panel: chains ranked by DEX volume with Base highlighted at number 4, bars scaled to Solana at the top, and each chain's weekly change." width="564" height="530" loading="lazy"></div>
+          <figcaption>Base against every chain Nansen ranks, one metric at a time.</figcaption>
+        </figure>
+      </div>
+    </article>
+  </section>
+
+  <section aria-labelledby="also">
+    <div class="sec-head">
+      <span class="eyebrow">Also built</span>
+      <h2 id="also">Three more worth a look</h2>
+    </div>
+    <div class="more">
+      <div class="panel">
+        <h3>An alpha board with its reasons</h3>
+        <p>Across every chain the scanner reads, tokens are scored from named components: net buying, persistence, acceleration, smart-money share, liquidity, whether the move is already extended, and Storm. Every score lists its reasons. It's built from the scanner's own history, so viewing it costs no credits.</p>
+        <div class="built"><span>token-screener</span><span>scanner history</span></div>
+      </div>
+      <div class="panel">
+        <h3>A public view that follows the rules</h3>
+        <p>Nansen's redistribution classes are enforced in code. Public pages strip every label, withhold smart-money-filtered data, and explain what's withheld and why. A browser test crawls the public site and fails if any real label appears, including in React's serialized page data.</p>
+        <div class="built"><span>redaction e2e 9/9</span><span>fixture policy</span></div>
+      </div>
+      <div class="panel">
+        <h3>Pay per call, signed by the visitor</h3>
+        <p>A visitor without an API key can buy the smart-money trade tape per call over x402: price first, the wallet signs on a second click, and the server checks the payment before forwarding it to Nansen. TIDE never holds funds or signs anything.</p>
+        <div class="built"><span>x402 V2</span><span>USDC on Base · Monad</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="api">
+    <div class="sec-head">
+      <span class="eyebrow">For the API team</span>
+      <h2 id="api">Nine things we hit in the API</h2>
+      <p>Each was found in live calls, and TIDE works around each one in code. Most are small doc or schema fixes.</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th style="width: 28%">Where</th><th style="width: 38%">What happens</th><th>Suggested fix</th></tr></thead>
+        <tbody>
+          <tr><td><code>x-nansen-credits-cost</code> on 4xx<br><span class="sev cost">cost clarity</span></td><td>A validation error carries the endpoint's price in the cost header, but the balance doesn't change.</td><td>Send 0 on uncharged errors, or document that 4xx is never billed. We had to confirm it by checking the balance.</td></tr>
+          <tr><td><code>ra-agent/posts-by-token</code><br><span class="sev cost">cost clarity</span></td><td>Without <code>token_symbol</code> it returns 200 with no posts and still costs 5 credits.</td><td>Make <code>token_symbol</code> required (422), like the other token endpoints.</td></tr>
+          <tr><td><code>tgm/position-intelligence</code><br><span class="sev shape">request shape</span></td><td>Rejects <code>chain</code> (422 unknown_field). The <code>token_address</code> field takes the Hyperliquid perp symbol, e.g. <code>AERO</code>.</td><td>Rename it <code>token_symbol</code>, as <code>tgm/perp-positions</code> already does.</td></tr>
+          <tr><td><code>profiler/address/pnl</code><br><span class="sev docs">schema vs live</span></td><td>Live calls require a <code>date</code> range. The schema marks it optional.</td><td>Mark it required, or apply a default window.</td></tr>
+          <tr><td><code>v1beta1/profiler/historical-transaction-lookup</code><br><span class="sev shape">request shape</span></td><td>Looking up a transaction by hash times out unless <code>block_timestamp</code> is also sent.</td><td>Document <code>block_timestamp</code> as effectively required, or index lookups by hash.</td></tr>
+          <tr><td><code>transaction-with-token-transfer-lookup</code><br><span class="sev docs">schema vs live</span></td><td>Returns <code>nft_transfer_array: null</code> where the schema promises an array.</td><td>Return <code>[]</code>, or mark the field nullable.</td></tr>
+          <tr><td><code>tgm/jup-dca</code><br><span class="sev shape">response shape</span></td><td>Input and output mint addresses end in a NUL character (<code>\u0000</code>), so comparing mints fails.</td><td>Trim the mints on the server.</td></tr>
+          <tr><td><code>profiler/dex-trades</code><br><span class="sev docs">schema vs live</span></td><td>Rejects <code>chain: "all"</code>, so a wallet's DEX trades take one call per chain.</td><td>Accept <code>all</code>, or list the allowed chains in this endpoint's enum.</td></tr>
+          <tr><td>13 operations without a schema<br><span class="sev docs">no schema</span></td><td><code>account</code>, <code>ra-agent/*</code>, <code>search/web-search</code>, <code>search/web-fetch</code> and the perp trading endpoints appear in the docs without a published schema. We found their request shapes through 422 messages.</td><td>Publish them in the OpenAPI file. The 422 messages are already clear enough to generate schemas from.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="numbers">
+    <div class="sec-head">
+      <span class="eyebrow">By the numbers</span>
+      <h2 id="numbers">How much of Nansen TIDE uses</h2>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="v num">51<small>/94</small></div><div class="k">API operations in use, each classified by Nansen's redistribution rules in a ledger kept with the code.</div><div class="bar"><i style="width: 54%"></i></div></div>
+      <div class="stat"><div class="v num">38</div><div class="k">chains on the map, each scored or marked "no reading" by what Nansen covers there.</div><div class="bar"><i style="width: 100%"></i></div></div>
+      <div class="stat"><div class="v num">2<small> cr</small></div><div class="k">for a public chain page on a cold cache: one screener read shared by two panels, and one chain-rank read. Repeat views are free until the cache expires.</div><div class="bar"><i style="width: 8%"></i></div></div>
+      <div class="stat"><div class="v num">0</div><div class="k">other data sources. A build check fails if the code calls any host other than Nansen.</div><div class="bar"><i style="width: 0%"></i></div></div>
+    </div>
+  </section>
+
+  <footer>
+    <p>TIDE is an independent project built for the Nansen buildathon on the public Nansen API. It isn't affiliated with or endorsed by Nansen.</p>
+    <p>Screenshots were taken from TIDE's public view on 24 September 2026, with Nansen labels removed under its redistribution rules. Nansen observations come from app.nansen.ai, visited logged out on the same day.</p>
+    <p>Scores and odds are probabilities, not predictions. Not financial advice.</p>
+  </footer>
+</div>

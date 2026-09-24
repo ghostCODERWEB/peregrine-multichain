@@ -18,7 +18,7 @@ describe('alpha score', () => {
   it('pulls a thin, extended, storm-flagged token down even on buying', () => {
     const r = alphaScore({ ...base, flowShare: 0.2, liquidityUsd: 30_000, priceChange24h: 1.5, stormScore: 72, ageDays: 0.5 });
     expect(r.score).toBeLessThan(40);
-    expect(r.parts[0].id).toBe('liquidity'); // largest magnitude first: −20 beats +17
+    expect(r.parts[0].id).toBe('liquidity'); // largest magnitude first: −20 beats +10
     expect(r.parts.map((p) => p.id)).toEqual(expect.arrayContaining(['liquidity', 'extended', 'storm', 'new']));
   });
 
@@ -30,6 +30,12 @@ describe('alpha score', () => {
     expect(alphaScore({ ...base, flowShare: 0.1, flowWindow: '1h' }).parts[0].detail).toContain('1h');
     expect(r.score).toBeLessThanOrEqual(100);
     expect(alphaScore({ ...base, flowShare: -5, smartShare: -5, liquidityUsd: 1, stormScore: 99 }).score).toBeGreaterThanOrEqual(0);
+  });
+
+  it('keeps strong hourly shares apart instead of tying them at the cap', () => {
+    const pts = (share: number) => alphaScore({ ...base, flowShare: share, flowWindow: '1h' }).parts[0].points;
+    expect(pts(0.9)).toBeGreaterThan(pts(0.7));
+    expect(pts(0.7)).toBeGreaterThan(pts(0.5));
   });
 
   it('needs four scans before judging persistence', () => {

@@ -8,20 +8,24 @@ interface ChainLike { chain: string; cpi: number | null; source: string | null }
 interface FrontLike { from: string; to: string; netUsd: number; walletCount: number }
 
 export function mapHeadline(chains: ChainLike[], fronts: FrontLike[]): string {
-  const scored = chains.filter((c) => c.cpi != null && c.source === 'smart-money');
-  if (!scored.length) return 'Waiting for the first scan of smart-money pressure';
+  // A smart-money claim when any chain has a smart-money reading; the public
+  // view has only all-trader readings, and then says so in its wording.
+  const sm = chains.filter((c) => c.cpi != null && c.source === 'smart-money');
+  const scored = sm.length ? sm : chains.filter((c) => c.cpi != null && c.source === 'market-flow');
+  if (!scored.length) return 'Waiting for the first scan of chain pressure';
+  const who = sm.length ? 'Smart money is' : 'Traders are';
 
   const top = [...scored].sort((a, b) => b.cpi! - a.cpi!)[0];
   const bottom = [...scored].sort((a, b) => a.cpi! - b.cpi!)[0];
   const parts: string[] = [];
-  if (top.cpi! > 65) parts.push(`Smart money is piling into ${chainName(top.chain)}`);
+  if (top.cpi! > 65) parts.push(`${who} piling into ${chainName(top.chain)}`);
   if (bottom.cpi! < 35) parts.push(`${chainName(bottom.chain)} is draining`);
   // Calm pressure can still hide capital moving between chains: say so.
   const front = fronts[0];
   if (!parts.length) {
     return front
       ? `Calm pressure, but capital is rotating from ${chainName(front.from)} into ${chainName(front.to)}`
-      : 'Calm across chains — no smart-money pressure system above 65 or below 35';
+      : `Calm across chains — no ${sm.length ? 'smart-money' : 'all-trader'} pressure system above 65 or below 35`;
   }
   return parts.join('; ');
 }

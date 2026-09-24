@@ -35,10 +35,11 @@ function median(xs: number[]): number {
 export function alphaScore(x: AlphaInput): { score: number; parts: AlphaPart[] } {
   const parts: AlphaPart[] = [];
 
-  // 1. Where the money is going, against how much trades. A smooth curve,
-  //    so a 40% share still outranks a 20% one instead of both hitting a cap.
+  // 1. Where the money is going, against how much trades. A smooth curve
+  //    that saturates late, so a 90% share still outranks a 70% one (an
+  //    hourly window often shows shares that high) instead of tying at a cap.
   if (x.flowShare != null) {
-    parts.push({ id: 'flow', label: 'Net buying', points: clamp(25 * Math.tanh(x.flowShare / 0.25), -25, 25), detail: `${pct(x.flowShare)} of volume, ${x.flowWindow ?? '24h'}` });
+    parts.push({ id: 'flow', label: 'Net buying', points: clamp(25 * Math.tanh(x.flowShare / 0.5), -25, 25), detail: `${pct(x.flowShare)} of volume, ${x.flowWindow ?? '24h'}` });
   }
 
   // 2. Whether it keeps going that way, hour after hour.
