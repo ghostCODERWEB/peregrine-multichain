@@ -91,7 +91,7 @@ export function buildAuthorization(req: PaymentRequirement, from: string, nowSec
  *  signTypedData / verifyTypedData, which take the same fields). */
 export function typedDataFor(req: PaymentRequirement, auth: Authorization) {
   const s = signable(req);
-  if (!s) throw new Error(`TIDE cannot sign a ${req.network} payment`);
+  if (!s) throw new Error(`Peregrine cannot sign a ${req.network} payment`);
   return {
     types: {
       EIP712Domain: [

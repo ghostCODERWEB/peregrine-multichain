@@ -79,7 +79,7 @@ export function ResearchAgent({ suggestions }: { suggestions: string[] }) {
             <div className="text-[14px] font-medium text-ink">{t.question}</div>
             {t.tools.length > 0 && (
               <div className="mt-2 flex flex-wrap gap-1.5" aria-label="Nansen tools the agent called">
-                {t.tools.map((name) => <span key={name} className="num rounded-full border border-border px-2 py-0.5 text-[11px] text-ink-2">{name}</span>)}
+                {t.tools.map((name) => <span key={name} className="num rounded border border-border px-2 py-0.5 text-[11px] text-ink-2">{name}</span>)}
               </div>
             )}
             <div className="mt-3">{t.answer ? <Answer text={t.answer} /> : !t.error && <p className="animate-pulse text-[12.5px] text-ink-muted">Nansen&apos;s agent is researching…</p>}</div>
@@ -93,18 +93,18 @@ export function ResearchAgent({ suggestions }: { suggestions: string[] }) {
             className="mt-1 block w-full rounded-lg border border-border bg-raised px-3 py-2 text-[13.5px] text-ink" placeholder="e.g. Which tokens are smart money accumulating on Base this week, and who is selling them?" />
           {!turns.length && suggestions.length > 0 && (
             <div className="mt-2 flex flex-wrap gap-1.5">
-              {suggestions.map((s) => <button key={s} onClick={() => { setQuestion(s); setConfirming(false); }} className="rounded-full border border-border px-2.5 py-1 text-left text-[12px] text-ink-2 hover:text-ink">{s}</button>)}
+              {suggestions.map((s) => <button key={s} onClick={() => { setQuestion(s); setConfirming(false); }} className="rounded border border-border px-2.5 py-1 text-left text-[12px] text-ink-2 hover:text-ink">{s}</button>)}
             </div>
           )}
           <div className="mt-3 flex flex-wrap items-center gap-2">
             {!confirming ? (
-              <button disabled={busy || !question.trim() || !info || left === 0} onClick={() => setConfirming(true)} className="rounded-full bg-brand/15 px-3.5 py-1.5 text-[13px] text-ink ring-1 ring-brand/40 hover:bg-brand/25 disabled:opacity-45">
+              <button disabled={busy || !question.trim() || !info || left === 0} onClick={() => setConfirming(true)} className="rounded bg-brand/15 px-3.5 py-1.5 text-[13px] text-ink ring-1 ring-brand/40 hover:bg-brand/25 disabled:opacity-45">
                 Ask ({info?.price ?? 750} credits)
               </button>
             ) : (
               <div role="alertdialog" aria-label="Confirm the price" className="flex flex-wrap items-center gap-2 rounded-xl border border-border bg-raised/60 px-3 py-2 text-[12.5px]">
                 <span className="text-ink">This question costs {info?.price} credits on your Nansen key.</span>
-                <button onClick={ask} className="rounded-full bg-brand/20 px-3 py-1 text-ink ring-1 ring-brand/50">Confirm and ask</button>
+                <button onClick={ask} className="rounded bg-brand/20 px-3 py-1 text-ink ring-1 ring-brand/50">Confirm and ask</button>
                 <button onClick={() => setConfirming(false)} className="text-ink-muted hover:text-ink">Cancel</button>
               </div>
             )}

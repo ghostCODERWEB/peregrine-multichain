@@ -27,7 +27,7 @@ type Params = { params: Promise<{ address: string }> };
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { address } = await params;
-  return { title: `${shortAddress(decodeURIComponent(address))} — TIDE wallet` };
+  return { title: `${shortAddress(decodeURIComponent(address))} — Peregrine wallet` };
 }
 
 // Every address family Nansen profiles is some run of letters, digits and
@@ -65,7 +65,7 @@ export default async function WalletRoute({ params }: Params) {
           <BalancesCard p={redacted(mode, balP)} />
         </Suspense>
         <Card id="trail" className="lg:col-span-2" title={mode !== 'owner' ? 'Migration trail' : trailTitle(trail.steps, trail.chains)}
-          sub="This wallet's smart-money DEX trades from TIDE's scanner record, as a path over the weather map (numbered in time order)."
+          sub="This wallet's smart-money DEX trades from Peregrine's scanner record, as a path over the weather map (numbered in time order)."
           action={<InfoPopover p={trail.provenance} />}
         >
           {mode !== 'owner'

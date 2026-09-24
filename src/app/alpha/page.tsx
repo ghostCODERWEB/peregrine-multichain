@@ -5,7 +5,7 @@ import { displayMode, viewOf } from '@/server/mode';
 import { chainName } from '@/lib/viz/format';
 
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'Alpha — TIDE' };
+export const metadata: Metadata = { title: 'Alpha — Peregrine' };
 
 export default async function AlphaPage() {
   const mode = await displayMode();
@@ -20,7 +20,7 @@ export default async function AlphaPage() {
         </h1>
         <p className="mt-1 max-w-3xl text-sm text-ink-2">
           Every token the scanner saw trading in the last scans, scored from what the flows say: net buying, whether it persists and accelerates,
-          depth to exit through, how far the price already ran, and TIDE&apos;s Storm reading.{' '}
+          depth to exit through, how far the price already ran, and Peregrine&apos;s Storm reading.{' '}
           {mode === 'public' ? 'Public view: all-trader flows; smart-money flow is added in the key owner’s view.' : 'Your view adds Nansen smart-money flow.'}{' '}
           A shortlist, not advice.
         </p>

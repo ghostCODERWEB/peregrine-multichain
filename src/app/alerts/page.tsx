@@ -4,7 +4,7 @@ import { AlertsList } from '@/components/AlertsList';
 import { AlertBuilder } from '@/components/alerts/AlertBuilder';
 import { displayMode } from '@/server/mode';
 
-export const metadata: Metadata = { title: 'Alerts — TIDE' };
+export const metadata: Metadata = { title: 'Alerts — Peregrine' };
 export const dynamic = 'force-dynamic';
 
 export default async function AlertsPage() {
@@ -15,20 +15,20 @@ export default async function AlertsPage() {
         <div className="text-[12px] text-ink-muted">Nansen Smart Alerts</div>
         <h1 id="alerts-title" className="mt-1 text-lg font-semibold text-ink sm:text-xl">Alerts that keep watching after you close the tab</h1>
         <p className="mt-1 max-w-3xl text-[13.5px] text-ink-2">
-          TIDE turns its signals into Nansen Smart Alerts on your own Nansen account: storm warnings, your follow list, rotation fronts, chain inflow surges,
-          token buying and deployer moves. Nansen delivers them to your Telegram, Discord, Slack or webhook. Only alerts TIDE created are listed; your other Nansen alerts are untouched.
+          Peregrine turns its signals into Nansen Smart Alerts on your own Nansen account: storm warnings, your follow list, rotation fronts, chain inflow surges,
+          token buying and deployer moves. Nansen delivers them to your Telegram, Discord, Slack or webhook. Only alerts Peregrine created are listed; your other Nansen alerts are untouched.
         </p>
       </section>
       <section aria-labelledby="alerts-list" className="glass rise rounded-2xl p-4 sm:p-5">
-        <h2 id="alerts-list" className="mb-3 text-[15px] font-semibold text-ink">Your TIDE alerts</h2>
+        <h2 id="alerts-list" className="mb-3 text-[15px] font-semibold text-ink">Your Peregrine alerts</h2>
         {mode === 'public'
           ? <p className="text-sm text-ink-2">Smart Alerts live on a Nansen account: they are managed by this instance&apos;s owner, or by you once you <Link href="/account" className="text-ink underline-offset-2 hover:underline">sign in with your own Nansen key</Link>.</p>
           : <AlertsList />}
       </section>
       {mode !== 'public' && (
         <section aria-labelledby="alerts-new" className="glass rise rounded-2xl p-4 sm:p-5">
-          <h2 id="alerts-new" className="text-[15px] font-semibold text-ink">New alert from a TIDE signal</h2>
-          <p className="mb-3 mt-1 text-[12.5px] text-ink-2">Pick a template, preview the exact request, then create it. Nothing is created until you click Create. Up to 20 TIDE alerts per account.</p>
+          <h2 id="alerts-new" className="text-[15px] font-semibold text-ink">New alert from a Peregrine signal</h2>
+          <p className="mb-3 mt-1 text-[12.5px] text-ink-2">Pick a template, preview the exact request, then create it. Nothing is created until you click Create. Up to 20 Peregrine alerts per account.</p>
           <AlertBuilder />
         </section>
       )}

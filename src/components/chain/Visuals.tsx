@@ -53,18 +53,17 @@ export function ChainHero({ d, tier, title, note }: { d: ChainPageData; tier: st
   const initials = chainName(d.chain).replace(/[^A-Za-z0-9]/g, '').slice(0, 2).toUpperCase();
   return (
     <section aria-labelledby="chain-title" className="glass rise relative overflow-hidden rounded-2xl p-4 sm:p-6">
-      <div aria-hidden className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full opacity-35 blur-3xl" style={{ background: w.band ? BAND_RING[w.band] : 'var(--brand-2)' }} />
       <div className="relative flex flex-col gap-5 lg:flex-row lg:items-start">
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-3">
             <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-[14px] font-bold text-on-brand" style={{ background: 'linear-gradient(135deg, var(--brand), var(--brand-2))' }}>{initials}</div>
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-2 text-[12px] text-ink-2">
-                <span className="rounded-full border border-border px-2 py-0.5">Tier {tier}</span>
-                {w.source && <span className="rounded-full border border-border px-2 py-0.5">{w.source === 'smart-money' ? 'Smart-money pressure' : 'All-trader pressure'}</span>}
+                <span className="rounded border border-border px-2 py-0.5">Tier {tier}</span>
+                {w.source && <span className="rounded border border-border px-2 py-0.5">{w.source === 'smart-money' ? 'Smart-money pressure' : 'All-trader pressure'}</span>}
                 {METRICS.map(([m]) => {
                   const r = rankOf(rows, m, d.chain);
-                  return r ? <span key={m} className="rounded-full bg-brand/12 px-2 py-0.5 text-ink">#{r} of {rows.filter((x) => x[m] > 0).length} by {IN_TEXT[m]}</span> : null;
+                  return r ? <span key={m} className="rounded bg-brand/12 px-2 py-0.5 text-ink">#{r} of {rows.filter((x) => x[m] > 0).length} by {IN_TEXT[m]}</span> : null;
                 })}
               </div>
               <h1 id="chain-title" className="mt-1 text-lg font-semibold leading-snug text-ink sm:text-xl">{title}</h1>
@@ -147,7 +146,7 @@ export function MarketGrid({ chain, tiles }: { chain: string; tiles: GridTile[] 
         <div className="flex gap-1" role="tablist" aria-label="Colour tiles by">
           {([['change', '24h price change'], ['flow', 'Net flow ÷ volume']] as const).map(([k, label]) => (
             <button key={k} role="tab" aria-selected={by === k} onClick={() => setBy(k)}
-              className={`rounded-full px-2.5 py-0.5 text-[12px] ${by === k ? 'bg-brand/15 text-ink ring-1 ring-brand/40' : 'text-ink-2 hover:text-ink'}`}>{label}</button>
+              className={`rounded px-2.5 py-0.5 text-[12px] ${by === k ? 'bg-brand/15 text-ink ring-1 ring-brand/40' : 'text-ink-2 hover:text-ink'}`}>{label}</button>
           ))}
         </div>
         <div className="ml-auto flex items-center gap-2 text-[11px] text-ink-muted">
@@ -224,7 +223,7 @@ export function ChainRank({ chain, rows }: { chain: string; rows: PeerRow[] }) {
       <div className="flex flex-wrap gap-1" role="tablist" aria-label="Rank by">
         {ordered.map(({ m, label, r }) => (
           <button key={m} role="tab" aria-selected={metric === m} onClick={() => setMetric(m)}
-            className={`rounded-full px-2.5 py-0.5 text-[12px] ${metric === m ? 'bg-brand/15 text-ink ring-1 ring-brand/40' : 'text-ink-2 hover:text-ink'}`}>
+            className={`rounded px-2.5 py-0.5 text-[12px] ${metric === m ? 'bg-brand/15 text-ink ring-1 ring-brand/40' : 'text-ink-2 hover:text-ink'}`}>
             {label}{r > 0 && <span className="num ml-1 text-ink-muted">#{r}</span>}
           </button>
         ))}

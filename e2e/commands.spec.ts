@@ -37,7 +37,8 @@ test('commands: /ask opens Ask Nansen on the token page with the page context vi
   await expect(opt).toContainText('Ask Nansen about AERO · Aerodrome (750 credits, confirmed there)', { timeout: 30_000 });
   await box.press('Enter');
   await expect(page).toHaveURL(/\/token\/base\/0x940181a94a35a4569e4529a3cdfb74e38fd98631\?ask=1/);
-  await expect(page.getByRole('dialog', { name: 'Ask Nansen' })).toBeVisible();
+  // The panel's code loads on first open (V7), after the token page itself: allow for it.
+  await expect(page.getByRole('dialog', { name: 'Ask Nansen' })).toBeVisible({ timeout: 15_000 });
   // Keyless demo runs in public mode: context is gated behind a Nansen key,
   // same as the full /agent page. Owner-only content is tested in ask-nansen.spec.ts.
   await expect(page.getByText(/runs on a Nansen key/)).toBeVisible();

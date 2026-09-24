@@ -6,12 +6,12 @@ import { requestContext } from '@/server/context';
 import { AccountButton } from '@/components/auth/AccountButton';
 import { Omnibox } from '@/components/search/Omnibox';
 import { BrandMark } from '@/components/shell/BrandMark';
-import { NavList, MobileMenu } from '@/components/shell/NavLinks';
+import { TopNav, MobileMenu } from '@/components/shell/NavLinks';
 
 /**
- * The app shell: one header element that is a glass sidebar on large
- * screens and a compact top bar on phones (where the nav moves into a
- * drawer). Every control exists once — search, theme, account — so the
+ * The app shell: one exchange-style top bar on every screen size. On large
+ * screens the primary nav sits in the bar; on phones it moves into a
+ * drawer. Every control exists once — search, theme, account — so the
  * keyboard shortcut and assistive tech never meet two copies.
  */
 export async function SiteHeader() {
@@ -30,45 +30,38 @@ export async function SiteHeader() {
     : 'Public view: smart-money trades, holdings and labels are withheld per Nansen’s redistribution rules.';
 
   return (
-    <header className="glass glass-strong fixed inset-x-0 top-0 z-40 flex h-14 items-center gap-2 rounded-none border-x-0 border-t-0 px-3
-      lg:inset-y-3 lg:left-3 lg:right-auto lg:h-auto lg:w-[232px] lg:flex-col lg:items-stretch lg:gap-0 lg:rounded-2xl lg:border lg:p-3">
-      <Link href="/" className="flex items-center gap-2.5 lg:px-1 lg:pb-3 lg:pt-1" aria-label="TIDE home">
+    <header className="fixed inset-x-0 top-0 z-40 flex h-12 items-center gap-3 border-b border-border bg-surface px-3 lg:px-5">
+      <Link href="/" className="flex shrink-0 items-center gap-2" aria-label="Peregrine home">
         <BrandMark />
-        <span className="leading-tight">
-          <span className="block text-[15px] font-semibold tracking-[0.22em] text-ink">TIDE</span>
-          <span className="hidden text-[10.5px] text-ink-muted lg:block">smart-money weather · Nansen</span>
-        </span>
+        <span className="text-[15px] font-semibold tracking-tight text-ink">Peregrine</span>
       </Link>
+      <span className="hidden h-5 w-px bg-border lg:block" aria-hidden />
 
-      <div className="ml-auto lg:ml-0 lg:mb-4"><Omnibox /></div>
+      <TopNav />
 
-      <div className="hidden min-h-0 flex-1 overflow-y-auto lg:block"><NavList /></div>
-
-      <div className="flex items-center gap-1.5 lg:mt-3 lg:flex-col lg:items-stretch lg:gap-2 lg:border-t lg:border-border lg:pt-3">
+      <div className="ml-auto flex items-center gap-2">
+        <Omnibox />
         {demo && (
-          <span className="hidden rounded-md border border-border px-2 py-1 text-center text-[10.5px] uppercase tracking-wider text-ink-2 lg:block"
+          <span className="hidden whitespace-nowrap rounded border border-border px-1.5 py-0.5 text-[10.5px] uppercase tracking-wider text-ink-2 xl:inline"
             title={`Replaying recorded Nansen responses — no API key, no credits.${recorded ? ` Scanner history recorded live on ${recorded} UTC, replayed with its clock moved to now.` : ''}`}>
-            Demo{recorded ? ` · recorded ${recorded.slice(0, 10)}` : ' mode'}
+            Demo{recorded ? ` · ${recorded.slice(0, 10)}` : ''}
           </span>
         )}
-        <div className="hidden items-center justify-between gap-2 lg:flex">
-          <span className={`inline-flex items-center gap-1.5 text-[11.5px] ${mode !== 'public' ? 'text-ink-2' : 'text-ink-muted'}`} title={modeTitle}>
-            <span className="live-dot" aria-hidden />{modeText}
-          </span>
+        <span className={`hidden items-center gap-1.5 whitespace-nowrap text-[11.5px] xl:inline-flex ${mode !== 'public' ? 'text-ink-2' : 'text-ink-muted'}`} title={modeTitle}>
+          <span className="live-dot" aria-hidden />{modeText}
           {acct?.creditsRemaining != null && (
-            <span className="num text-[11px] text-ink-2" title={`Nansen credits remaining${acct.plan ? ` · ${acct.plan} plan` : ''} (${acct.source === 'account' ? 'live from /api/v1/account' : 'last response header'})`}>
-              {acct.creditsRemaining.toLocaleString('en-US')} cr
+            <span className="num text-ink-2" title={`Nansen credits remaining${acct.plan ? ` · ${acct.plan} plan` : ''} (${acct.source === 'account' ? 'live from /api/v1/account' : 'last response header'})`}>
+              · {acct.creditsRemaining.toLocaleString('en-US')} cr
             </span>
           )}
-        </div>
-        <div className="flex items-center gap-1.5 lg:justify-between">
-          {!demo && <span className="hidden lg:inline"><AccountButton signedIn={!!ctx.user} address={ctx.user?.address ?? null} /></span>}
-          <ThemeToggle />
-        </div>
-        <a href="https://www.nansen.ai" target="_blank" rel="noopener noreferrer" className="hidden px-1 text-[11px] text-ink-muted hover:text-ink lg:block">Powered by Nansen API</a>
+        </span>
+        {!demo && <span className="hidden lg:inline"><AccountButton signedIn={!!ctx.user} address={ctx.user?.address ?? null} /></span>}
+        <ThemeToggle />
         <MobileMenu>
           <p className="text-[12px] text-ink-2" title={modeTitle}>{modeText}{acct?.creditsRemaining != null ? ` · ${acct.creditsRemaining.toLocaleString('en-US')} cr` : ''}</p>
+          {demo && <p className="text-[11.5px] text-ink-muted">Demo{recorded ? ` · recorded ${recorded.slice(0, 10)}` : ''}: recorded Nansen responses, no credits.</p>}
           {!demo && <AccountButton signedIn={!!ctx.user} address={ctx.user?.address ?? null} />}
+          <a href="https://www.nansen.ai" target="_blank" rel="noopener noreferrer" className="block text-[11px] text-ink-muted hover:text-ink">Powered by Nansen API</a>
         </MobileMenu>
       </div>
     </header>

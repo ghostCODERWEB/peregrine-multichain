@@ -54,7 +54,7 @@ function Delta({ v, label }: { v: number | null; label: string }) {
   if (v == null) return null;
   const up = v >= 0;
   return (
-    <span className={`num inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[12px] font-medium text-ink ${up ? 'bg-in-2/15' : 'bg-out-2/15'}`}>
+    <span className={`num inline-flex items-center gap-1 rounded px-2 py-0.5 text-[12px] font-medium text-ink ${up ? 'bg-in-2/15' : 'bg-out-2/15'}`}>
       <span style={{ color: up ? 'var(--in-2)' : 'var(--out-2)' }} aria-hidden>{up ? '▲' : '▼'}</span>
       <span className="sr-only">{up ? 'up' : 'down'}</span>{pct(Math.abs(v), 1)} <span className="font-normal text-ink-muted">{label}</span>
     </span>
@@ -78,16 +78,15 @@ export function TokenHero({ chain, address, tier, h, m, storm, done, title }: {
   const initials = (h?.symbol ?? '?').replace(/[^A-Za-z0-9]/g, '').slice(0, 3).toUpperCase() || '?';
   return (
     <section aria-labelledby="token-title" className="glass rise relative overflow-hidden rounded-2xl p-4 sm:p-6">
-      <div aria-hidden className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full opacity-40 blur-3xl" style={{ background: storm ? STORM_RING[storm.result.band] : 'var(--brand-2)' }} />
       <div className="relative flex flex-col gap-5 lg:flex-row lg:items-start">
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-3">
             <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-[13px] font-bold text-on-brand" style={{ background: 'linear-gradient(135deg, var(--brand), var(--brand-2))' }}>{initials}</div>
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-2 text-[12px] text-ink-2">
-                <span className="rounded-full border border-border px-2 py-0.5">{chainName(chain)}</span>
-                <span className="rounded-full border border-border px-2 py-0.5">Tier {tier}</span>
-                {h?.marketCapGroup && <span className="rounded-full border border-border px-2 py-0.5">{h.marketCapGroup.replace(/_/g, ' ')}</span>}
+                <span className="rounded border border-border px-2 py-0.5">{chainName(chain)}</span>
+                <span className="rounded border border-border px-2 py-0.5">Tier {tier}</span>
+                {h?.marketCapGroup && <span className="rounded border border-border px-2 py-0.5">{h.marketCapGroup.replace(/_/g, ' ')}</span>}
                 <span className="num text-ink-muted">{shortAddress(address)}</span>
               </div>
               <h1 id="token-title" className="mt-1 text-lg font-semibold leading-snug text-ink sm:text-xl">{title}</h1>
@@ -210,7 +209,7 @@ export function LiquidationLadder({ w }: { w: LeverageWave }) {
           <ul>{shorts.map(row)}</ul>
           <div className="my-1.5 flex items-center gap-2">
             <span className="h-px flex-1 bg-ink-2/60" />
-            <span className="num rounded-full border border-border bg-raised px-2.5 py-0.5 text-[11.5px] text-ink">Mark {fmtPrice(l.mark)}</span>
+            <span className="num rounded border border-border bg-raised px-2.5 py-0.5 text-[11.5px] text-ink">Mark {fmtPrice(l.mark)}</span>
             <span className="h-px flex-1 bg-ink-2/60" />
           </div>
           <ul>{longs.map(row)}</ul>
@@ -266,7 +265,7 @@ export function CohortBars({ w }: { w: WindWave }) {
       <div className="flex gap-1" role="tablist" aria-label="Window">
         {WIND_TIMEFRAMES.map((t) => (
           <button key={t} role="tab" aria-selected={tf === t} onClick={() => setTf(t)}
-            className={`num rounded-full px-2.5 py-0.5 text-[12px] ${tf === t ? 'bg-brand/15 text-ink ring-1 ring-brand/40' : 'text-ink-2 hover:text-ink'}`}>{t}</button>
+            className={`num rounded px-2.5 py-0.5 text-[12px] ${tf === t ? 'bg-brand/15 text-ink ring-1 ring-brand/40' : 'text-ink-2 hover:text-ink'}`}>{t}</button>
         ))}
       </div>
       <ul className="mt-3 space-y-1.5" aria-label={`Net flow by segment, ${tf}`}>
@@ -288,7 +287,7 @@ export function CohortBars({ w }: { w: WindWave }) {
           </li>
         ))}
       </ul>
-      <p className="mt-2 text-[11px] text-ink-muted">Amber: net buying · blue: net selling. For exchanges, an inflow is tokens deposited, which often comes before selling.</p>
+      <p className="mt-2 text-[11px] text-ink-muted">Green: net buying · red: net selling. For exchanges, an inflow is tokens deposited, which often comes before selling.</p>
     </div>
   );
 }

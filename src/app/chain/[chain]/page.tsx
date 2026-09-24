@@ -12,7 +12,7 @@ type Params = { params: Promise<{ chain: string }> };
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { chain } = await params;
-  return { title: `${chainName(chain)} — TIDE` };
+  return { title: `${chainName(chain)} — Peregrine` };
 }
 
 export default async function ChainRoute({ params }: Params) {

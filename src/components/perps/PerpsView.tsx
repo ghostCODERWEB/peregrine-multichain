@@ -40,12 +40,11 @@ function Hero({ b, title, mode }: { b: PerpBoard; title: string; mode: 'owner' |
   const v = b.venue;
   return (
     <section aria-labelledby="perps-title" className="glass rise relative overflow-hidden rounded-2xl p-4 sm:p-6">
-      <div aria-hidden className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full opacity-35 blur-3xl" style={{ background: v?.ppi != null ? pressureColor(v.ppi) : 'var(--brand-2)' }} />
       <div className="relative flex flex-col gap-5 lg:flex-row lg:items-start">
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2 text-[12px] text-ink-2">
-            <span className="rounded-full border border-border px-2 py-0.5">Hyperliquid</span>
-            <span className="rounded-full border border-border px-2 py-0.5">{mode === 'public' ? 'All traders' : 'With smart money'}</span>
+            <span className="rounded border border-border px-2 py-0.5">Hyperliquid</span>
+            <span className="rounded border border-border px-2 py-0.5">{mode === 'public' ? 'All traders' : 'With smart money'}</span>
             {b.at && <span className="text-ink-muted" suppressHydrationWarning>snapshot {ago(b.at)} · {b.scans} hourly in 7 days</span>}
           </div>
           <h1 id="perps-title" className="mt-1.5 text-lg font-semibold leading-snug text-ink sm:text-xl">{title}</h1>
@@ -80,7 +79,7 @@ function Hero({ b, title, mode }: { b: PerpBoard; title: string; mode: 'owner' |
       </div>
       <div className="relative mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-border/60 pt-3 text-[11.5px] text-ink-muted">
         {b.provenance && <InfoPopover p={b.provenance} />}
-        <span>Built from TIDE&apos;s hourly perp snapshots: this page makes no Nansen call until you open a coin.</span>
+        <span>Built from Peregrine&apos;s hourly perp snapshots: this page makes no Nansen call until you open a coin.</span>
         <span className="ml-auto">Readings, not forecasts · not financial advice</span>
       </div>
     </section>
@@ -110,7 +109,7 @@ function PressureGrid({ coins, onPick, picked }: { coins: PerpCoin[]; onPick: (c
       </ul>
       <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-ink-muted">
         <span className="inline-flex items-center gap-2"><span className="num">0</span><span aria-hidden className="h-2 w-28 rounded-full" style={{ background: 'linear-gradient(90deg, var(--out-2), var(--surface-1) 50%, var(--in-2))' }} /><span className="num">100</span></span>
-        <span>blue: short pressure · amber: long pressure · number: PPI · bar: open interest · select a coin</span>
+        <span>red: short pressure · green: long pressure · number: PPI · bar: open interest · select a coin</span>
       </div>
     </div>
   );
@@ -193,7 +192,7 @@ function CrowdingMap({ coins, useSm, onPick }: { coins: PerpCoin[]; useSm: boole
         </div>
       )}
       <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-ink-muted">
-        <span>colour: PPI (amber long, blue short) · size: open interest</span>
+        <span>colour: PPI (green long, red short) · size: open interest</span>
         {useSm && <span className="inline-flex items-center gap-1.5"><span className="inline-block h-3 w-3 rounded-full border-[1.5px] border-dashed" style={{ borderColor: 'var(--storm-2)' }} />crowd and smart money disagree</span>}
       </div>
     </div>
@@ -360,7 +359,7 @@ export function PerpsView({ board, title, mode }: { board: PerpBoard; title: str
                       <td className="num text-ink-2">{l.pnl7 != null ? usd(l.pnl7, { signed: true }) : '—'}</td>
                       <td className="num text-ink-2">{usd(l.accountValue)}</td>
                       <td className="text-ink-2">{l.positions.slice(0, 3).map((p) => `${p.side === 'long' ? '▲' : '▼'} ${p.coin.replace(/^[^:]+:/, '')}`).join('  ') || '—'}</td>
-                      <td><div className="flex flex-wrap gap-1">{l.parts.slice(0, 3).map((p) => <span key={p.id} title={p.detail} className="rounded-full border border-border px-1.5 text-[10.5px] text-ink-2">{p.points > 0 ? '+' : ''}{p.points} {p.label}</span>)}</div></td>
+                      <td><div className="flex flex-wrap gap-1">{l.parts.slice(0, 3).map((p) => <span key={p.id} title={p.detail} className="rounded border border-border px-1.5 text-[10.5px] text-ink-2">{p.points > 0 ? '+' : ''}{p.points} {p.label}</span>)}</div></td>
                     </tr>
                   ))}
                 </tbody>
@@ -368,7 +367,7 @@ export function PerpsView({ board, title, mode }: { board: PerpBoard; title: str
             </div>
           ) : leaders.state === 'error' ? <Unavailable text={leaders.message} /> : <WaveLoading what="the Hyperliquid leaderboard" height={320} />}
       </Card>
-      <p className="text-[11.5px] text-ink-muted">Perp pressure and copy-trade scores are readings of positioning, not forecasts, and have no track record until the M9 backtest. TIDE never places or signs a trade. Not financial advice.</p>
+      <p className="text-[11.5px] text-ink-muted">Perp pressure and copy-trade scores are readings of positioning, not forecasts, and have no track record until the M9 backtest. Peregrine never places or signs a trade. Not financial advice.</p>
     </div>
   );
 }

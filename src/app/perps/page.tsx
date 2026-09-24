@@ -3,7 +3,7 @@ import { displayMode, viewOf } from '@/server/mode';
 import { perpBoard, perpTitle } from '@/server/perps/board';
 import { PerpsView } from '@/components/perps/PerpsView';
 
-export const metadata: Metadata = { title: 'Perps — TIDE' };
+export const metadata: Metadata = { title: 'Perps — Peregrine' };
 export const dynamic = 'force-dynamic';
 
 export default async function PerpsPage() {

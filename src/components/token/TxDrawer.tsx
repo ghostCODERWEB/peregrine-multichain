@@ -28,7 +28,7 @@ export function TxDrawer({ tx, onClose }: { tx: TxRef; onClose: () => void }) {
   }, [tx, onClose]);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center bg-background/70 px-4 pt-[10vh] backdrop-blur-sm" onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+    <div className="fixed inset-0 z-50 flex items-start justify-center bg-background/70 px-4 pt-[10vh]" onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}>
       <div role="dialog" aria-modal="true" aria-label="Transaction" className="w-full max-w-2xl rounded-xl border border-border bg-surface p-4 shadow-2xl">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">

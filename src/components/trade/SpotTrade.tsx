@@ -188,7 +188,7 @@ export function SpotTrade({ initialToken }: { initialToken: string }) {
         <section className={card}>
           <div className="flex flex-wrap items-center justify-between gap-2">
             <h2 className="text-[15px] font-semibold text-ink">1 · Wallet and trade</h2>
-            {wallet ? <span className="num text-[12.5px] text-ink-2">{shortAddress(wallet)} · {chain === 'base' ? 'Base' : 'Solana'}</span> : <button onClick={connect} className="rounded-full bg-brand/15 px-3 py-1 text-[13px] text-ink ring-1 ring-brand/40">Connect {chain === 'base' ? 'EVM' : 'Solana'} wallet</button>}
+            {wallet ? <span className="num text-[12.5px] text-ink-2">{shortAddress(wallet)} · {chain === 'base' ? 'Base' : 'Solana'}</span> : <button onClick={connect} className="rounded bg-brand/15 px-3 py-1 text-[13px] text-ink ring-1 ring-brand/40">Connect {chain === 'base' ? 'EVM' : 'Solana'} wallet</button>}
           </div>
           <div className="mt-3 grid gap-3 sm:grid-cols-2">
             <div className="flex gap-1 sm:col-span-2" role="radiogroup" aria-label="Chain">
@@ -225,7 +225,7 @@ export function SpotTrade({ initialToken }: { initialToken: string }) {
                     <td className="py-1.5 text-ink">{q.aggregator}</td><td className="num text-ink">{usd(q.inUsd)}</td><td className="num text-ink">{usd(q.outUsd)}</td>
                     <td className="num" style={{ color: (q.priceImpactPct ?? 0) > 2 ? 'var(--storm-2)' : undefined }}>{q.priceImpactPct != null ? pct(q.priceImpactPct / 100, 2) : '—'}</td>
                     <td className="num text-ink-2">{usd((q.tradingFeeUsd ?? 0) + (q.networkFeeUsd ?? 0))}</td>
-                    <td className="text-right"><button onClick={() => prepare(q)} className="rounded-full border border-border px-2.5 py-0.5 text-[12px] text-ink hover:bg-raised">Prepare</button></td>
+                    <td className="text-right"><button onClick={() => prepare(q)} className="rounded border border-border px-2.5 py-0.5 text-[12px] text-ink hover:bg-raised">Prepare</button></td>
                   </tr>
                 ))}</tbody>
               </table>
@@ -239,18 +239,18 @@ export function SpotTrade({ initialToken }: { initialToken: string }) {
             <p className="mt-1 text-[12.5px] text-ink-2">Simulation: {prep.simulationPassed === true ? 'passed — the swap should go through as quoted.' : prep.simulationPassed === false ? `failed${prep.error ? `: ${prep.error}` : ''}. Don’t sign this one.` : 'not run.'}</p>
             {prep.needsApproval && (
               <div className="mt-3 flex items-center gap-2">
-                <button onClick={approve} disabled={approved} className="rounded-full border border-border px-3 py-1 text-[13px] text-ink hover:bg-raised disabled:opacity-45">{approved ? 'Approved' : `Approve ${side === 'buy' ? base : 'the token'} (wallet)`}</button>
+                <button onClick={approve} disabled={approved} className="rounded border border-border px-3 py-1 text-[13px] text-ink hover:bg-raised disabled:opacity-45">{approved ? 'Approved' : `Approve ${side === 'buy' ? base : 'the token'} (wallet)`}</button>
                 <span className="text-[11.5px] text-ink-muted">One-time permission for the route to spend this token.</span>
               </div>
             )}
             <div className="mt-3">
               {!confirmSwap ? (
-                <button onClick={() => setConfirmSwap(true)} disabled={!readyToSwap} className="rounded-full bg-brand/15 px-3.5 py-1.5 text-[13px] text-ink ring-1 ring-brand/40 hover:bg-brand/25 disabled:opacity-45">Review the swap</button>
+                <button onClick={() => setConfirmSwap(true)} disabled={!readyToSwap} className="rounded bg-brand/15 px-3.5 py-1.5 text-[13px] text-ink ring-1 ring-brand/40 hover:bg-brand/25 disabled:opacity-45">Review the swap</button>
               ) : (
                 <div role="alertdialog" aria-label="Confirm the swap" className="space-y-2 rounded-xl border border-border bg-raised/60 p-3 text-[12.5px]">
                   <div className="text-ink">You pay about {usd(picked.inUsd)} and get about {usd(picked.outUsd)} via {picked.aggregator}; price impact {picked.priceImpactPct != null ? pct(picked.priceImpactPct / 100, 2) : 'unknown'}, fees {usd((picked.tradingFeeUsd ?? 0) + (picked.networkFeeUsd ?? 0))}.</div>
                   <div className="text-ink-muted">This is a real trade with your funds. Your wallet shows the final details; nothing happens unless you approve there. Not financial advice.</div>
-                  <div className="flex gap-2"><button onClick={swap} className="rounded-full bg-brand/20 px-3 py-1 text-ink ring-1 ring-brand/50">Sign the swap in my wallet</button><button onClick={() => setConfirmSwap(false)} className="text-ink-muted hover:text-ink">Cancel</button></div>
+                  <div className="flex gap-2"><button onClick={swap} className="rounded bg-brand/20 px-3 py-1 text-ink ring-1 ring-brand/50">Sign the swap in my wallet</button><button onClick={() => setConfirmSwap(false)} className="text-ink-muted hover:text-ink">Cancel</button></div>
                 </div>
               )}
             </div>
@@ -267,8 +267,8 @@ export function SpotTrade({ initialToken }: { initialToken: string }) {
       </div>
 
       <aside className={`${card} h-fit space-y-2 text-[12.5px]`}>
-        <h2 className="text-[13px] font-semibold text-ink">What TIDE sees</h2>
-        {!validToken ? <p className="text-ink-2">Enter a valid {chain === 'base' ? 'Base token address' : 'Solana mint'}.</p> : !signals ? <p className="animate-pulse text-ink-muted">Reading TIDE&apos;s signals…</p> : (
+        <h2 className="text-[13px] font-semibold text-ink">What Peregrine sees</h2>
+        {!validToken ? <p className="text-ink-2">Enter a valid {chain === 'base' ? 'Base token address' : 'Solana mint'}.</p> : !signals ? <p className="animate-pulse text-ink-muted">Reading Peregrine&apos;s signals…</p> : (
           <>
             <div className="flex justify-between"><span className="text-ink-2">Storm Score</span><span className="num text-ink">{signals.storm ? `${signals.storm.score} · ${signals.storm.band}` : 'not computed'}</span></div>
             <div className="flex justify-between"><span className="text-ink-2">{chain === 'base' ? 'Base' : 'Solana'} pressure</span><span className="num text-ink">{signals.chainPressure ? `${signals.chainPressure.cpi} · ${signals.chainPressure.band ?? ''}` : '—'}</span></div>
@@ -276,7 +276,7 @@ export function SpotTrade({ initialToken }: { initialToken: string }) {
             <Link href={`/token/${chain}/${token.trim()}`} className="text-ink-2 underline-offset-2 hover:text-ink hover:underline">Open the token page →</Link>
           </>
         )}
-        <p className="border-t border-border pt-2 text-[11.5px] text-ink-muted">TIDE never signs or sends a transaction: your wallet does, after your confirmation. Readings, not advice.</p>
+        <p className="border-t border-border pt-2 text-[11.5px] text-ink-muted">Peregrine never signs or sends a transaction: your wallet does, after your confirmation. Readings, not advice.</p>
       </aside>
     </div>
   );

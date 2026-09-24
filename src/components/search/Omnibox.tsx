@@ -110,14 +110,14 @@ export function Omnibox() {
   return (
     <>
       <button ref={trigger} type="button" onClick={() => setOpen(true)} aria-label="Search tokens, wallets, entities, chains and sectors"
-        className="flex items-center gap-2 rounded-md border border-border px-2 py-1 text-[12px] text-ink-muted hover:bg-accent hover:text-ink lg:w-full lg:rounded-lg lg:bg-background/40 lg:px-2.5 lg:py-2">
+        className="flex h-8 items-center gap-2 rounded-md border border-border bg-raised px-2 text-[12px] text-ink-muted hover:border-axis hover:text-ink md:w-[240px] xl:w-[300px] md:px-2.5">
         <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" strokeWidth="1.6" /><path d="M11 11l3.5 3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" /></svg>
-        <span className="hidden lg:inline">Search tokens, wallets…</span>
-        <kbd className="hidden rounded border border-border px-1 text-[10px] lg:ml-auto lg:inline">⌘K</kbd>
+        <span className="hidden md:inline">Search token, wallet or /command</span>
+        <kbd className="hidden rounded border border-border px-1 text-[10px] md:ml-auto md:inline">⌘K</kbd>
       </button>
 
       {open && (
-        <div className="fixed inset-0 z-50 bg-page/80 px-4 pt-[12vh] backdrop-blur-sm" onMouseDown={(e) => { if (e.target === e.currentTarget) close(); }}>
+        <div className="fixed inset-0 z-50 bg-page/80 px-4 pt-[12vh]" onMouseDown={(e) => { if (e.target === e.currentTarget) close(); }}>
           <div role="dialog" aria-modal="true" aria-label="Search" className="mx-auto w-full max-w-xl overflow-hidden rounded-2xl border border-border bg-surface shadow-2xl">
             <div className="flex items-center gap-2 border-b border-border px-3">
               <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden className="shrink-0 text-ink-muted"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" strokeWidth="1.6" /><path d="M11 11l3.5 3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" /></svg>
@@ -142,7 +142,7 @@ export function Omnibox() {
                     <span className="block truncate text-[13.5px] text-ink">{r.title}</span>
                     <span className="block truncate text-[11.5px] text-ink-muted">{r.subtitle}</span>
                   </span>
-                  {r.badge && <span className="num shrink-0 rounded-full border border-border px-2 py-0.5 text-[10.5px] text-ink-2">{r.badge}</span>}
+                  {r.badge && <span className="num shrink-0 rounded border border-border px-2 py-0.5 text-[10.5px] text-ink-2">{r.badge}</span>}
                 </li>
               ))}
               {!commandMode && query && !loading && res && !items.length && (

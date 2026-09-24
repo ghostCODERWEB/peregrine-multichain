@@ -184,7 +184,7 @@ export function TokenView({ chain, address, tier, mode }: { chain: string; addre
     call: (cls) => (
       <Card id="call" className={cls} title={`Make a call on ${symbol ?? 'this token'}`} sub="Bull, bear or pass, a horizon, and what would prove you wrong. Saved to your Desk with Nansen’s price now, graded when the horizon passes."
         action={<AskNansen subject={{ kind: 'token', chain, address }} label={`${symbol ?? 'this token'} on ${chainName(chain)}`} autoOpen={autoAsk}
-          buttonClassName="rounded-full border border-border px-2.5 py-1 text-[11.5px] text-ink-2 hover:text-ink hover:border-ink-muted" />}>
+          buttonClassName="rounded border border-border px-2.5 py-1 text-[11.5px] text-ink-2 hover:text-ink hover:border-ink-muted" />}>
         <CallForm chain={chain} token={address} symbol={symbol} price={ok(s.market) ? s.market.candles.at(-1)?.c ?? null : null} gauges={gaugeReadings(gaugeInputs)} />
       </Card>
     ),
@@ -337,7 +337,7 @@ export function TokenView({ chain, address, tier, mode }: { chain: string; addre
         <div role="tablist" aria-label="Token views" className="glass inline-flex gap-1 rounded-full p-1">
           {VIEWS.map(([k, label]) => (
             <button key={k} role="tab" aria-selected={view === k} onClick={() => setView(k)}
-              className={`whitespace-nowrap rounded-full px-3.5 py-1.5 text-[13px] transition-colors ${view === k ? 'bg-brand/15 font-medium text-ink ring-1 ring-brand/40' : 'text-ink-2 hover:text-ink'}`}>
+              className={`whitespace-nowrap rounded px-3.5 py-1.5 text-[13px] transition-colors ${view === k ? 'bg-brand/15 font-medium text-ink ring-1 ring-brand/40' : 'text-ink-2 hover:text-ink'}`}>
               {label}
             </button>
           ))}

@@ -66,7 +66,7 @@ export function AlphaView({ board }: { board: AlphaBoard }) {
         <div className="-mx-1 mb-3 flex flex-wrap gap-1.5" role="tablist" aria-label="Filter by chain">
           {[['all', board.rows.length] as const, ...counts].map(([c, n]) => (
             <button key={c} role="tab" aria-selected={chain === c} onClick={() => setChain(c)}
-              className={`rounded-full border px-2.5 py-1 text-[12px] ${chain === c ? 'border-brand/40 bg-brand/12 text-ink' : 'border-border text-ink-2 hover:bg-accent hover:text-ink'}`}>
+              className={`rounded border px-2.5 py-1 text-[12px] ${chain === c ? 'border-brand/40 bg-brand/12 text-ink' : 'border-border text-ink-2 hover:bg-accent hover:text-ink'}`}>
               {c === 'all' ? 'All chains' : chainName(c)} <span className="num text-ink-muted">{n}</span>
             </button>
           ))}

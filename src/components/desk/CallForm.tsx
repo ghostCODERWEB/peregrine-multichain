@@ -60,7 +60,7 @@ export function CallForm({ chain, token, symbol, price, gauges }: { chain: strin
       </div>
       <input aria-label="Thesis" value={thesis} onChange={(e) => setThesis(e.target.value.slice(0, 200))} placeholder="One line: why, and what would prove you wrong" className="block w-full rounded-lg border border-border bg-raised px-2.5 py-1.5 text-ink" />
       <div className="flex flex-wrap items-center gap-3">
-        <button type="button" disabled={!stance || busy} onClick={save} className="rounded-full bg-brand/15 px-3 py-1 text-ink ring-1 ring-brand/40 disabled:opacity-45">{busy ? 'Saving…' : 'Save the call'}</button>
+        <button type="button" disabled={!stance || busy} onClick={save} className="rounded bg-brand/15 px-3 py-1 text-ink ring-1 ring-brand/40 disabled:opacity-45">{busy ? 'Saving…' : 'Save the call'}</button>
         <span className="text-[11.5px] text-ink-muted">{price != null ? `Entry is Nansen’s latest close (about ${fmtPrice(price)}) at the moment you save.` : 'Entry is Nansen’s latest close at the moment you save.'}</span>
       </div>
       {err && <p className="text-ink">{err}</p>}

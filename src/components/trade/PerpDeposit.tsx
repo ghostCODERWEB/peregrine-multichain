@@ -76,16 +76,16 @@ export function PerpDeposit({ wallet, onFunded }: { wallet: string; onFunded: ()
       <div className="flex flex-wrap items-end gap-2">
         <label className="text-[12.5px] text-ink-2">Fund from<select aria-label="Deposit from chain" value={chain} onChange={(e) => { setChain(e.target.value); setQuote(null); }} className="mt-1 block rounded-lg border border-border bg-raised px-2.5 py-1.5 text-[13px] text-ink">{CHAINS.map(([id, name]) => <option key={id} value={id}>{name}</option>)}</select></label>
         <label className="text-[12.5px] text-ink-2">USDC<input aria-label="USDC to deposit" value={amount} onChange={(e) => { setAmount(e.target.value.replace(/[^\d.]/g, '')); setQuote(null); }} inputMode="decimal" placeholder="amount" className="num mt-1 block w-28 rounded-lg border border-border bg-raised px-2.5 py-1.5 text-[13px] text-ink" /></label>
-        <button disabled={!(Number(amount) > 0)} onClick={getQuote} className="rounded-full border border-border px-3 py-1 text-[13px] text-ink hover:bg-raised disabled:opacity-45">Quote deposit</button>
+        <button disabled={!(Number(amount) > 0)} onClick={getQuote} className="rounded border border-border px-3 py-1 text-[13px] text-ink hover:bg-raised disabled:opacity-45">Quote deposit</button>
       </div>
       {quote && (
         <div className="space-y-1 rounded-xl border border-border bg-raised/50 p-3 text-[12.5px]">
           <p className="text-ink">You send <span className="num">{quote.send}</span> USDC on {chainName}; you receive about <span className="num">{quote.receive}</span> {quote.receiveName} on Hyperliquid.</p>
           <p className="text-ink-2">{quote.feeUsdc ? `Relayer fee ${quote.feeUsdc} USDC` : 'Fee not stated'}{quote.impactPct != null ? ` · total impact ${quote.impactPct}%` : ''}{quote.seconds != null ? ` · about ${quote.seconds}s once sent` : ''} · {quote.steps.length} wallet transaction{quote.steps.length === 1 ? '' : 's'}: {quote.steps.map((s) => s.id).join(', ')}. Checked: exact amount and approval, your wallet, {chainName}, lands in perps.</p>
-          {!confirming ? <button onClick={() => setConfirming(true)} className="rounded-full bg-brand/15 px-3 py-1 text-ink ring-1 ring-brand/40">Send from my wallet</button> : (
+          {!confirming ? <button onClick={() => setConfirming(true)} className="rounded bg-brand/15 px-3 py-1 text-ink ring-1 ring-brand/40">Send from my wallet</button> : (
             <div role="alertdialog" aria-label="Confirm deposit" className="space-y-2 pt-1">
-              <p className="text-ink-muted">Real funds. Your wallet sends each transaction on {chainName}; TIDE never signs or sends. The quote expires two minutes after it was made. Not financial advice.</p>
-              <div className="flex gap-2"><button onClick={send} className="rounded-full bg-brand/20 px-3 py-1 text-ink ring-1 ring-brand/50">Confirm and open my wallet</button><button onClick={() => setConfirming(false)} className="text-ink-muted hover:text-ink">Cancel</button></div>
+              <p className="text-ink-muted">Real funds. Your wallet sends each transaction on {chainName}; Peregrine never signs or sends. The quote expires two minutes after it was made. Not financial advice.</p>
+              <div className="flex gap-2"><button onClick={send} className="rounded bg-brand/20 px-3 py-1 text-ink ring-1 ring-brand/50">Confirm and open my wallet</button><button onClick={() => setConfirming(false)} className="text-ink-muted hover:text-ink">Cancel</button></div>
             </div>
           )}
         </div>

@@ -45,7 +45,7 @@ export function contextFromMcp(req: Request): RequestContext | { error: string }
   const auth = req.headers.get('authorization');
   const m = auth ? /^Bearer\s+(tide_mcp_[A-Za-z0-9_-]{20,})$/.exec(auth.trim()) : null;
   if (!auth) return contextFromRequest(req);
-  if (!m) return { error: 'Unrecognised authorization: use "Bearer tide_mcp_…" from your TIDE account page.' };
+  if (!m) return { error: 'Unrecognised authorization: use "Bearer tide_mcp_…" from your Peregrine account page.' };
   const row = getDb().prepare('SELECT scope, user_id FROM mcp_tokens WHERE token_hash = ?').get(hash(m[1])) as { scope: string; user_id: number | null } | undefined;
   if (!row) return { error: 'This MCP token was revoked or replaced.' };
   getDb().prepare('UPDATE mcp_tokens SET last_used_at = ? WHERE token_hash = ?').run(Date.now(), hash(m[1]));

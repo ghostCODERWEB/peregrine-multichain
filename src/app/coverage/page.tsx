@@ -8,7 +8,7 @@ import { AdminPanels, LedgerCard } from '@/components/coverage/AdminPanels';
 import { chainName, num } from '@/lib/viz/format';
 
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'Coverage — TIDE' };
+export const metadata: Metadata = { title: 'Coverage — Peregrine' };
 
 const CELL: Record<CellStatus, { cls: string; label: string }> = {
   documented: { cls: 'bg-ink-2', label: 'supported (Nansen docs)' },
@@ -38,7 +38,7 @@ export default async function CoveragePage() {
           {rows.length} chains, {columns.length} Nansen endpoints: {u.liveCalls.toLocaleString('en-US')} live API calls so far
         </h1>
         <p className="mt-1 max-w-3xl text-sm text-ink-2">
-          Every chain the Nansen API lists, against every endpoint TIDE reads. {full} chains get the full experience (Tier A); the rest show what
+          Every chain the Nansen API lists, against every endpoint Peregrine reads. {full} chains get the full experience (Tier A); the rest show what
           Nansen serves for them and say plainly what it doesn&apos;t. Support comes from each endpoint&apos;s documented chain list, corrected by live probes
           where the docs were silent.
         </p>
@@ -47,7 +47,7 @@ export default async function CoveragePage() {
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-5">
         {[
           ['Live API calls', u.liveCalls.toLocaleString('en-US'), `+ ${u.cacheHits.toLocaleString('en-US')} served from cache`],
-          ['Credits spent', u.credits.toLocaleString('en-US'), 'by this TIDE instance'],
+          ['Credits spent', u.credits.toLocaleString('en-US'), 'by this Peregrine instance'],
           ['Credits remaining', u.creditsRemaining == null ? '—' : u.creditsRemaining.toLocaleString('en-US'), u.creditsRemainingAt ? 'from the latest Nansen response header' : 'appears after the next Nansen call'],
           ['Scanner runs', u.scans.runs.toLocaleString('en-US'), `${num(u.scans.runs ? u.scans.credits / u.scans.runs : null, 0)} credits per run`],
           ['Counting since', u.since ? new Date(u.since).toISOString().slice(0, 10) : '—', 'first call in the ledger'],
@@ -63,7 +63,7 @@ export default async function CoveragePage() {
       <LedgerCard ledger={admin?.ledger ?? ledgerCoverage()} />
 
       <Card id="matrix" title={`What Nansen serves, chain by chain — ${rows.filter((r) => r.supported >= columns.length - 3).length} chains cover almost every endpoint, ${rows.filter((r) => r.supported <= 2).length} only the basics`}
-        sub="Rows: chains by tier. Columns: the endpoints TIDE uses, grouped by API family. Hover a column for what TIDE uses it for.">
+        sub="Rows: chains by tier. Columns: the endpoints Peregrine uses, grouped by API family. Hover a column for what Peregrine uses it for.">
         <div className="overflow-x-auto pt-6">
           <table className="table-fixed border-separate border-spacing-[3px] text-[11px]">
             <thead>
@@ -105,7 +105,7 @@ export default async function CoveragePage() {
       </Card>
 
       <div className="grid gap-4 lg:grid-cols-2">
-        <Card id="daily" title={`${u.daily.at(-1)?.live ?? 0} live calls today, ${u.daily.length} day${u.daily.length === 1 ? '' : 's'} of history`} sub="Nansen API calls per day: live (dark) and served from TIDE's cache (light).">
+        <Card id="daily" title={`${u.daily.at(-1)?.live ?? 0} live calls today, ${u.daily.length} day${u.daily.length === 1 ? '' : 's'} of history`} sub="Nansen API calls per day: live (dark) and served from Peregrine's cache (light).">
           <ul className="space-y-1.5">
             {u.daily.map((d) => (
               <li key={d.day} className="grid grid-cols-[5.5rem_1fr_7rem] items-center gap-2 text-[12px]">

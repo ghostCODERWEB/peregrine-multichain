@@ -56,7 +56,7 @@ export function TimeMachine({ chain, token }: { chain: string; token: string }) 
       <p className="mt-2 max-w-3xl text-sm text-ink-2">Read the evidence at a past cutoff. Lock BUY, PASS or SHORT before revealing what followed. This is a historical exercise, not a trade; current token waves are not loaded here.</p>
       <p className="mt-2 break-all text-xs text-ink-muted">{chain} · {token}</p>
       <div className="mt-4 flex flex-wrap items-center gap-3"><label className="text-sm">Replay window <select aria-label="Replay window" value={horizon} onChange={(e) => setHorizon(e.target.value as ReplayAt)} disabled={busy} className="rounded-lg border border-border bg-raised p-2">{(['1h', '24h', '7d'] as const).map((h) => <option key={h} value={h}>T−{h}</option>)}</select></label>
-        <button disabled={busy} onClick={prepare} className="rounded-full bg-brand/15 px-4 py-2 text-sm ring-1 ring-brand/40 disabled:opacity-40">{busy ? 'Working…' : 'Load historical evidence · up to 1 credit'}</button></div>
+        <button disabled={busy} onClick={prepare} className="rounded bg-brand/15 px-4 py-2 text-sm ring-1 ring-brand/40 disabled:opacity-40">{busy ? 'Working…' : 'Load historical evidence · up to 1 credit'}</button></div>
       <p className="mt-2 text-xs text-ink-muted">Recorded demo: zero credits. Live cutoffs align to complete candles ending at least 10 minutes ago. Missing history stays missing; expired or incomplete windows are not graded.</p>
     </div>
     {error && <p role="alert" className="rounded-xl border border-border p-4 text-sm">{error}</p>}
@@ -70,7 +70,7 @@ export function TimeMachine({ chain, token }: { chain: string; token: string }) 
         <div role="radiogroup" aria-label="Replay decision" className="flex flex-wrap gap-2">{([['bull', 'BUY'], ['pass', 'PASS'], ['bear', 'SHORT']] as const).map(([k, label]) => <button key={k} role="radio" aria-checked={stance === k} onClick={() => setStance(k)} className={`rounded-lg border border-border px-5 py-2 ${stance === k ? 'bg-brand/15 ring-1 ring-brand/40' : ''}`}>{label}</button>)}</div>
         <label className="block text-sm">Setup <select aria-label="Replay setup" value={setup} onChange={(e) => setSetup(e.target.value as Setup)} className="rounded-lg border border-border bg-raised p-2">{SETUPS.map((s) => <option key={s}>{s}</option>)}</select></label>
         <input aria-label="Replay thesis" placeholder="Why this decision?" maxLength={200} value={thesis} onChange={(e) => setThesis(e.target.value)} className="w-full rounded-lg border border-border bg-raised p-2 text-sm" />
-        <button disabled={!stance || busy} onClick={lock} className="rounded-full bg-brand/15 px-4 py-2 ring-1 ring-brand/40 disabled:opacity-40">Lock decision & reveal</button>
+        <button disabled={!stance || busy} onClick={lock} className="rounded bg-brand/15 px-4 py-2 ring-1 ring-brand/40 disabled:opacity-40">Lock decision & reveal</button>
         <p className="text-xs text-ink-muted">No edits after locking. Reveal uses the server-held outcome, costs no extra credits, and saves a replay call to your Desk. Prior knowledge of this token can still bias a replay.</p>
       </div> : <div className="space-y-3 border-t border-border pt-4" role="status">
         <h3 className="text-xl font-semibold">Revealed: {result.call.grade?.replace('-', ' ')}</h3>

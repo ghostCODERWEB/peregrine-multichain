@@ -122,7 +122,7 @@ export async function checkPayment(header: string, nowSec = Math.floor(Date.now(
   if (!p) throw new X402Error('Unreadable payment: expected a base64 x402 V2 payload.');
   const req = p.accepted, auth = p.payload.authorization;
   const s = signable(req);
-  if (!s) throw new X402Error(`TIDE does not offer ${req.network} payments.`);
+  if (!s) throw new X402Error(`Peregrine does not offer ${req.network} payments.`);
   const usd = priceUsd(req)!;
   if (usd > X402_MAX_PRICE_USD) throw new X402Error(`Price ${usd} USD is above this instance's per-call ceiling of ${X402_MAX_PRICE_USD} USD.`);
   if (auth.to.toLowerCase() !== req.payTo.toLowerCase()) throw new X402Error('Payment recipient does not match the quote.');

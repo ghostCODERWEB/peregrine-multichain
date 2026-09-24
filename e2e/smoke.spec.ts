@@ -178,13 +178,13 @@ test('agents: research agent explains it runs on a key; MCP answers tools/list @
   const names = ((await list.json()).result.tools as Array<{ name: string }>).map((t) => t.name);
   expect(names).toEqual(expect.arrayContaining(['tide_weather', 'tide_storm', 'tide_perps']));
   const call = await request.post('/api/mcp', { data: { jsonrpc: '2.0', id: 3, method: 'tools/call', params: { name: 'tide_weather', arguments: {} } } });
-  expect((await call.json()).result.content[0].text).toContain('Nansen API, via TIDE');
+  expect((await call.json()).result.content[0].text).toContain('Nansen API, via Peregrine');
 });
 
 test('trade: off unless the operator turns it on, and says so', async ({ page }) => {
   const w = await watch(page);
   await page.goto('/trade');
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('Swap with TIDE');
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('Swap with Peregrine');
   await expect(page.getByText(/Trading is off on this instance|Trading runs on a Nansen key/)).toBeVisible();
   expect(w.errors).toEqual([]);
 });

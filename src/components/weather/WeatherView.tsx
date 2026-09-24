@@ -69,7 +69,7 @@ export function WeatherView({ initial, anchor, alpha }: { initial: WeatherBullet
         </div>
         <div className="mb-4"><PulseBand data={data} /></div>
         <div className="mb-3 flex flex-wrap gap-2" role="group" aria-label="Weather layers">
-          {[{ id: 'spot', title: 'Spot pressure' }, ...(data.layers ?? [])].map((l) => <button key={l.id} aria-pressed={layer === l.id} onClick={() => setLayer(l.id)} className={`rounded-full border border-border px-4 py-2 text-sm ${layer === l.id ? 'bg-accent text-ink' : 'text-ink-2 hover:text-ink'}`}>{l.title}</button>)}
+          {[{ id: 'spot', title: 'Spot pressure' }, ...(data.layers ?? [])].map((l) => <button key={l.id} aria-pressed={layer === l.id} onClick={() => setLayer(l.id)} className={`rounded border border-border px-4 py-2 text-sm ${layer === l.id ? 'bg-accent text-ink' : 'text-ink-2 hover:text-ink'}`}>{l.title}</button>)}
         </div>
         <div className="glass rounded-2xl p-4">
           {activeLayer ? <LayerPanel layer={activeLayer} table={view === 'table'} onRefresh={refetch} /> : view === 'map' ? (
@@ -109,7 +109,7 @@ export function WeatherView({ initial, anchor, alpha }: { initial: WeatherBullet
           smart-money DEX trades, not inferred from volume. Select a front to see the wallets behind it.
         </p>
         {data.withheld.includes('fronts')
-          ? <p className="rounded-lg border border-dashed border-border px-3 py-4 text-sm text-ink-2">Fronts are built from Nansen smart-money DEX trades, which Nansen&apos;s redistribution rules keep out of public views. Run TIDE with your own Nansen key to see them; this public view shows all-trader pressure instead.</p>
+          ? <p className="rounded-lg border border-dashed border-border px-3 py-4 text-sm text-ink-2">Fronts are built from Nansen smart-money DEX trades, which Nansen&apos;s redistribution rules keep out of public views. Run Peregrine with your own Nansen key to see them; this public view shows all-trader pressure instead.</p>
           : <FrontsList fronts={data.fronts} onSelect={setSelected} />}
       </section>
 
@@ -129,7 +129,7 @@ export function WeatherView({ initial, anchor, alpha }: { initial: WeatherBullet
       <section aria-labelledby="forecast-title">
         <h2 id="forecast-title" className="mb-1 text-base font-semibold text-ink">24h pressure forecast — the ten chains furthest from calm</h2>
         <p className="mb-3 text-sm text-ink-2">
-          Holt linear smoothing on TIDE&apos;s own CPI history, with an 80% fan. Every forecast shows its track record next to it.
+          Holt linear smoothing on Peregrine&apos;s own CPI history, with an 80% fan. Every forecast shows its track record next to it.
         </p>
         <ForecastStrip forecasts={data.forecasts} />
       </section>

@@ -10,7 +10,7 @@ import { pressureClass, fillVar, onFillVar, PRESSURE_LEGEND } from '@/lib/viz/sc
 import { chainName, num, pct, usd } from '@/lib/viz/format';
 
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'Sectors — TIDE' };
+export const metadata: Metadata = { title: 'Sectors — Peregrine' };
 
 const BAND_WORD = { high: 'High pressure', neutral: 'Neutral', low: 'Low pressure' } as const;
 

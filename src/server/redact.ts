@@ -41,4 +41,4 @@ export const forMode = <T,>(mode: DisplayMode, value: T): T => (mode === 'public
 export const redacted = <T,>(mode: DisplayMode, p: Promise<T>): Promise<T> => p.then((v) => forMode(mode, v));
 
 /** The sentence shown where a view is withheld from public viewers. */
-export const WITHHELD = 'Shown only to the API key owner: Nansen’s redistribution rules keep smart-money trades, holdings and labels out of public views. Run TIDE with your own Nansen key to see it.';
+export const WITHHELD = 'Shown only to the API key owner: Nansen’s redistribution rules keep smart-money trades, holdings and labels out of public views. Run Peregrine with your own Nansen key to see it.';

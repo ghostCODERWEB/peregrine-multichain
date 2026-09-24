@@ -16,7 +16,7 @@ export const bytesToBase64 = (bytes: Uint8Array) => {
  *  never handed to the wallet. */
 export function decodeSwapForWallet(base64: string, wallet: string): { tx: VersionedTransaction } | { error: string } {
   let tx: VersionedTransaction;
-  try { tx = VersionedTransaction.deserialize(base64ToBytes(base64)); } catch { return { error: 'Nansen returned a Solana transaction TIDE could not read; not sending it to your wallet.' }; }
+  try { tx = VersionedTransaction.deserialize(base64ToBytes(base64)); } catch { return { error: 'Nansen returned a Solana transaction Peregrine could not read; not sending it to your wallet.' }; }
   const { header, staticAccountKeys } = tx.message;
   if (header.numRequiredSignatures < 1 || !staticAccountKeys.length) return { error: 'The prepared transaction asks for no signer; not sending it to your wallet.' };
   const payer = staticAccountKeys[0].toBase58();

@@ -38,9 +38,9 @@ export function AlertsList() {
   }
 
   if (error && !alerts) return <p className="text-sm text-ink-2">{error}</p>;
-  if (!alerts) return <p className="animate-pulse text-sm text-ink-muted">Loading your TIDE alerts from Nansen…</p>;
+  if (!alerts) return <p className="animate-pulse text-sm text-ink-muted">Loading your Peregrine alerts from Nansen…</p>;
   if (note) return <p className="text-sm text-ink-2">{note}</p>;
-  if (!alerts.length) return <p className="text-sm text-ink-2">No TIDE alerts yet. Create one below, or use “Set storm alert” on a token page.</p>;
+  if (!alerts.length) return <p className="text-sm text-ink-2">No Peregrine alerts yet. Create one below, or use “Set storm alert” on a token page.</p>;
   return (
     <div className="overflow-x-auto">
       {error && <p className="mb-2 text-sm text-ink-2">{error}</p>}
@@ -78,7 +78,7 @@ export function AlertsList() {
                     <label className="text-[12px] text-ink-2">Window<select value={editing.timeWindow} onChange={(e) => setEditing({ ...editing, timeWindow: e.target.value })} className="mt-1 block rounded-lg border border-border bg-raised px-2 py-1 text-[12.5px] text-ink">
                       {['realtime', '5m', '10m', '30m', '1h', '4h', '12h', '1d', '1w'].map((w) => <option key={w} value={w}>{w}</option>)}
                     </select></label>
-                    <button onClick={save} disabled={busy === a.id} className="rounded-full bg-brand/15 px-3 py-1 text-[12.5px] text-ink ring-1 ring-brand/40">Save on Nansen</button>
+                    <button onClick={save} disabled={busy === a.id} className="rounded bg-brand/15 px-3 py-1 text-[12.5px] text-ink ring-1 ring-brand/40">Save on Nansen</button>
                     <button onClick={() => setEditing(null)} className="text-[12px] text-ink-muted hover:text-ink">Cancel</button>
                   </div>
                 </td>

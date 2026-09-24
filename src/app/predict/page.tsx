@@ -3,7 +3,7 @@ import { requestContext, contextScope } from '@/server/context';
 import { predictBoard, predictTitle } from '@/server/predict/board';
 import { PredictView } from '@/components/predict/PredictView';
 
-export const metadata: Metadata = { title: 'Prediction markets — TIDE' };
+export const metadata: Metadata = { title: 'Prediction markets — Peregrine' };
 export const dynamic = 'force-dynamic';
 
 export default async function PredictPage() {

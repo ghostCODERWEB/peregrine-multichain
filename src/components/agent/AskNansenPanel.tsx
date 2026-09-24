@@ -107,11 +107,11 @@ export function AskNansenPanel({ subject, label, attachTo, open, onOpenChange }:
           </SheetHeader>
           <div className="min-w-0 flex-1 space-y-3 px-4 pb-6">
             {error && <p className="text-[12.5px] text-ink-2">{error}</p>}
-            {!error && !info && <p className="animate-pulse text-[12.5px] text-ink-muted">Reading what TIDE knows about this page…</p>}
+            {!error && !info && <p className="animate-pulse text-[12.5px] text-ink-muted">Reading what Peregrine knows about this page…</p>}
             {info?.demo && <p className="rounded-lg border border-dashed border-border p-2 text-[12px] text-ink-muted">Keyless demo: the research agent costs 750 credits a question and does not run here. This shows the panel with no live answer.</p>}
             {info?.context && (
               <details className="rounded-lg border border-border p-2.5 text-[12px] text-ink-2" open={!turns.length}>
-                <summary className="cursor-pointer select-none text-ink">What TIDE will send with your first question ({info.context.view})</summary>
+                <summary className="cursor-pointer select-none text-ink">What Peregrine will send with your first question ({info.context.view})</summary>
                 {info.context.lines.length ? (
                   <ul className="mt-2 space-y-1">{info.context.lines.map((l, i) => (
                     <li key={i}><span className="text-ink">{l.label}:</span> <span className="num">{l.value}</span> <span className="text-ink-muted">— {l.at ? new Date(l.at).toISOString().slice(0, 16).replace('T', ' ') + ' UTC' : 'no timestamp'}, {l.source}</span></li>
@@ -124,7 +124,7 @@ export function AskNansenPanel({ subject, label, attachTo, open, onOpenChange }:
               <article key={i} className="rounded-xl border border-border p-3">
                 <div className="text-[11.5px] text-ink-muted">You asked</div>
                 <div className="text-[13.5px] font-medium text-ink">{t.question}</div>
-                {t.tools.length > 0 && <div className="mt-2 flex flex-wrap gap-1.5" aria-label="Nansen tools the agent called">{t.tools.map((name) => <span key={name} className="num rounded-full border border-border px-2 py-0.5 text-[10.5px] text-ink-2">{name}</span>)}</div>}
+                {t.tools.length > 0 && <div className="mt-2 flex flex-wrap gap-1.5" aria-label="Nansen tools the agent called">{t.tools.map((name) => <span key={name} className="num rounded border border-border px-2 py-0.5 text-[10.5px] text-ink-2">{name}</span>)}</div>}
                 <div className="mt-2">{t.answer ? <Answer text={t.answer} /> : !t.error && <p className="animate-pulse text-[12px] text-ink-muted">Nansen&apos;s agent is researching…</p>}</div>
                 {t.error && <p className="mt-2 text-[12px] text-ink-2">{t.error}</p>}
                 {t.done && t.reportId != null && attachTo && (
@@ -140,17 +140,17 @@ export function AskNansenPanel({ subject, label, attachTo, open, onOpenChange }:
               <textarea id="ask-nansen-q" value={question} onChange={(e) => { setQuestion(e.target.value); setConfirming(false); }} rows={3} maxLength={2000}
                 className="mt-1 block w-full rounded-lg border border-border bg-raised px-2.5 py-2 text-[13px] text-ink" placeholder="Edit the question, or ask your own…" />
               {!turns.length && info && info.starters.length > 0 && (
-                <div className="mt-2 flex flex-wrap gap-1.5">{info.starters.map((s) => <button key={s} type="button" onClick={() => { setQuestion(s); setConfirming(false); }} className="rounded-full border border-border px-2 py-1 text-left text-[11.5px] text-ink-2 hover:text-ink">{s}</button>)}</div>
+                <div className="mt-2 flex flex-wrap gap-1.5">{info.starters.map((s) => <button key={s} type="button" onClick={() => { setQuestion(s); setConfirming(false); }} className="rounded border border-border px-2 py-1 text-left text-[11.5px] text-ink-2 hover:text-ink">{s}</button>)}</div>
               )}
               <div className="mt-3 flex flex-wrap items-center gap-2">
                 {!confirming ? (
-                  <button type="button" disabled={busy || !question.trim() || !info || left === 0 || info.demo} onClick={() => setConfirming(true)} className="rounded-full bg-brand/15 px-3 py-1.5 text-[12.5px] text-ink ring-1 ring-brand/40 hover:bg-brand/25 disabled:opacity-45">
+                  <button type="button" disabled={busy || !question.trim() || !info || left === 0 || info.demo} onClick={() => setConfirming(true)} className="rounded bg-brand/15 px-3 py-1.5 text-[12.5px] text-ink ring-1 ring-brand/40 hover:bg-brand/25 disabled:opacity-45">
                     Ask ({info?.price ?? 750} credits)
                   </button>
                 ) : (
                   <div role="alertdialog" aria-label="Confirm the price" className="flex flex-wrap items-center gap-2 rounded-xl border border-border bg-raised/60 px-2.5 py-2 text-[12px]">
                     <span className="text-ink">{info?.price} credits on your Nansen key.</span>
-                    <button type="button" onClick={ask} className="rounded-full bg-brand/20 px-2.5 py-1 text-ink ring-1 ring-brand/50">Confirm and ask</button>
+                    <button type="button" onClick={ask} className="rounded bg-brand/20 px-2.5 py-1 text-ink ring-1 ring-brand/50">Confirm and ask</button>
                     <button type="button" onClick={() => setConfirming(false)} className="text-ink-muted hover:text-ink">Cancel</button>
                   </div>
                 )}

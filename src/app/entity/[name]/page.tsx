@@ -17,7 +17,7 @@ const decode = (raw: string) => decodeURIComponent(raw).trim().slice(0, 120);
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { name } = await params;
-  return { title: `${decode(name)} — TIDE entity` };
+  return { title: `${decode(name)} — Peregrine entity` };
 }
 
 export default async function EntityRoute({ params }: Params) {

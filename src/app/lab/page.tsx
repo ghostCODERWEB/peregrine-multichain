@@ -20,7 +20,7 @@ function loadStormV2(): V2Report | null {
 }
 
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'Forecast Lab — TIDE' };
+export const metadata: Metadata = { title: 'Forecast Lab — Peregrine' };
 
 const FEATURE_LABEL: Record<string, string> = {
   sell_skew: 'Sell skew, 7d', log_turnover: 'Volume / mcap', price_change_7d: 'Price change, 7d', log_mcap: 'Market cap (log)',
@@ -105,7 +105,7 @@ export default async function LabPage() {
     <div className="space-y-8">
       <div>
         <h1 className="text-xl font-semibold text-ink sm:text-2xl">
-          {bt ? `Forecast Lab: every forecast in TIDE, scored on data it never saw` : 'Forecast Lab'}
+          {bt ? `Forecast Lab: every forecast in Peregrine, scored on data it never saw` : 'Forecast Lab'}
         </h1>
         <p className="mt-1 max-w-3xl text-sm text-ink-2">
           {bt
@@ -123,7 +123,7 @@ export default async function LabPage() {
       </section>
 
       <section aria-labelledby="fwd" className="space-y-3">
-        <h2 id="fwd" className="text-[13px] font-medium uppercase tracking-wider text-ink-muted">Forward checks: TIDE&apos;s live readings, scored as time passes</h2>
+        <h2 id="fwd" className="text-[13px] font-medium uppercase tracking-wider text-ink-muted">Forward checks: Peregrine&apos;s live readings, scored as time passes</h2>
         <ForwardSection alpha={alphaForward(mode, 6)} ppi={ppiForward(mode, 3)} />
         <StrategyLab chains={weatherMap(now, mode).filter((c) => c.cpi != null).map((c) => c.chain).sort()} />
       </section>
@@ -149,7 +149,7 @@ export default async function LabPage() {
         </Card>
 
         <Card id="cpi" title={scored.length ? `Pressure forecasts: median error ${num(scored[Math.floor(scored.length / 2)].mape, 1)}% one step ahead` : 'Pressure forecasts: waiting for history'}
-          sub="Holt forecasts of each chain's CPI, scored one step ahead on TIDE's own snapshots (in-sample MAPE). Chains unlock at 12 snapshots.">
+          sub="Holt forecasts of each chain's CPI, scored one step ahead on Peregrine's own snapshots (in-sample MAPE). Chains unlock at 12 snapshots.">
           {scored.length ? (
             <div className="max-h-[280px] overflow-y-auto">
               <table className="w-full text-[12.5px]">

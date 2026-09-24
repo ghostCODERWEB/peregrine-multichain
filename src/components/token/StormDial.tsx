@@ -82,7 +82,7 @@ export function StormDial({ s, indicators }: { s: StormWave; indicators: Indicat
   return (
     <div>
       <div className="flex items-center justify-between gap-2">
-        <span className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[12px] font-medium" style={{ background: `var(--${STORM_CLASS[r.band]})`, color: `var(--on-${STORM_CLASS[r.band]})` }}>
+        <span className="inline-flex items-center gap-1.5 rounded px-2.5 py-0.5 text-[12px] font-medium" style={{ background: `var(--${STORM_CLASS[r.band]})`, color: `var(--on-${STORM_CLASS[r.band]})` }}>
           {STORM_LABEL[r.band]}
         </span>
         <span className="flex items-center gap-1 text-[11.5px] text-ink-muted">

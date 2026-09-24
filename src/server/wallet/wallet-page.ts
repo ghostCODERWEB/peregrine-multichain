@@ -260,7 +260,7 @@ export function migrationTrail(address: string, days = 7): { steps: TrailStep[];
       title: 'Migration trail — smart-money trades across chains',
       formula: 'every smart-money DEX trade by this wallet the scanner recorded, oldest first\nbuy = stable/native in, risk token out; sell = the reverse',
       inputs: [{ label: 'Trades', value: String(rows.length) }, { label: 'Chains', value: chains.map(chainName).join(' → ') || '—' }],
-      calls: [{ endpoint: 'smart-money/dex-trades', body: '{"chains":["all"], …} (scanner, every scan)', credits: 5, ref: 'TIDE scanner history, not a call at view time' }],
+      calls: [{ endpoint: 'smart-money/dex-trades', body: '{"chains":["all"], …} (scanner, every scan)', credits: 5, ref: 'Peregrine scanner history, not a call at view time' }],
       notes: ['Only trades by Nansen smart-money wallets are recorded, and only since the scanner started.'],
     },
   };

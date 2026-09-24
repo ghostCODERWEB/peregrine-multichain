@@ -69,7 +69,7 @@ function bulletinPrompt(mode: DisplayMode): { prompt: string; facts: unknown } {
   };
   return {
     facts,
-    prompt: `You are the anchor of TIDE, a smart-money weather report built on Nansen data. ${RULES}\nTIDE's current readings:\n${JSON.stringify(facts)}`,
+    prompt: `You are the anchor of Peregrine, a smart-money weather report built on Nansen data. ${RULES}\nTIDE's current readings:\n${JSON.stringify(facts)}`,
   };
 }
 
@@ -90,7 +90,7 @@ function tokenPrompt(chain: string, token: string): { prompt: string; facts: unk
   };
   return {
     facts,
-    prompt: `You are the anchor of TIDE, a smart-money weather report built on Nansen data. Explain what TIDE's scores say about this token. ${RULES}\nTIDE's scores:\n${JSON.stringify(facts)}`,
+    prompt: `You are the anchor of Peregrine, a smart-money weather report built on Nansen data. Explain what Peregrine's scores say about this token. ${RULES}\nTIDE's scores:\n${JSON.stringify(facts)}`,
   };
 }
 
@@ -122,7 +122,7 @@ export async function* anchorStream(kind: 'bulletin' | 'token', mode: DisplayMod
   }
   const built = kind === 'bulletin' ? bulletinPrompt(mode) : tokenPrompt(chain!, token!);
   if (!built) {
-    yield { type: 'error', message: 'Open the token page first: the anchor reads the Storm Score TIDE computes there.' };
+    yield { type: 'error', message: 'Open the token page first: the anchor reads the Storm Score Peregrine computes there.' };
     return;
   }
 

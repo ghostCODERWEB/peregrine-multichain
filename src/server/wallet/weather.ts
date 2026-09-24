@@ -77,7 +77,7 @@ export function walletWeatherReading(
       calls: [
         ...balances.provenance.calls,
         ...pnl.provenance.calls,
-        { endpoint: 'storm_scores', body: { freshness: '48h', confidence_gte: .5, positions: 'this wallet only' }, credits: 0, ref: 'TIDE scanner history; no call at view time' },
+        { endpoint: 'storm_scores', body: { freshness: '48h', confidence_gte: .5, positions: 'this wallet only' }, credits: 0, ref: 'Peregrine scanner history; no call at view time' },
       ],
       notes: [
         'This is a current spot snapshot plus 30-day realized activity, not a personality label, forecast or investment recommendation.',

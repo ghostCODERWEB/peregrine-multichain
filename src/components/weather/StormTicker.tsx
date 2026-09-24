@@ -28,7 +28,7 @@ export function StormTicker({ storms }: { storms: StormTick[] }) {
                 <span className="num text-[15px] font-semibold text-ink">{num(s.score, 0)}</span>
               </div>
               <div className="mt-1 flex items-center justify-between gap-2">
-                <span className="rounded-full px-2 py-px text-[10.5px] font-medium" style={{ background: `var(--${cls})`, color: `var(--on-${cls})` }}>{STORM_LABEL[s.band]}</span>
+                <span className="rounded px-2 py-px text-[10.5px] font-medium" style={{ background: `var(--${cls})`, color: `var(--on-${cls})` }}>{STORM_LABEL[s.band]}</span>
                 <span className="truncate text-[11px] text-ink-muted">{chainName(s.chain)}</span>
               </div>
               <div className="num mt-1 text-[10.5px] text-ink-muted">

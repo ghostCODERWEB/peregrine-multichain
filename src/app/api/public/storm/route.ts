@@ -17,7 +17,7 @@ export async function GET(req: Request) {
     SELECT symbol, score, band, confidence, sub_scores, missing, market_cap_usd, source, computed_at
     FROM storm_scores WHERE chain = ? AND token_address = ? ORDER BY id DESC LIMIT 1
   `).get(chain, token.toLowerCase()) as { symbol: string | null; score: number; band: string; confidence: number; sub_scores: string; missing: string; market_cap_usd: number | null; source: string; computed_at: number } | undefined;
-  if (!r) return Response.json({ error: 'TIDE has not scored this token yet. Open /token/{chain}/{token} once to compute it.' }, { status: 404, headers: cors });
+  if (!r) return Response.json({ error: 'Peregrine has not scored this token yet. Open /token/{chain}/{token} once to compute it.' }, { status: 404, headers: cors });
   return Response.json({
     chain, token, symbol: r.symbol, storm_score: r.score, band: r.band, confidence: r.confidence,
     sub_scores: JSON.parse(r.sub_scores), missing_inputs: JSON.parse(r.missing), market_cap_usd: r.market_cap_usd,

@@ -9,7 +9,7 @@ import { rotationFronts } from '@/server/weather/queries';
 import { followScope, readFollows } from '@/server/smart-money/desk';
 import { detectAddress, addressKey } from '@/lib/address-family';
 import { CreateAlertRequest, CommonTokenTransferAlertData, SmTokenFlowsAlertData, SmartContractCallAlertData, AlertChannel, UpdateAlertRequest, SmartAlertTimeWindow } from '@/types/nansen/smart-alerts';
-import { TIDE_PREFIX, listTideAlerts } from './alerts';
+import { TIDE_PREFIX, alertPrefixOf, listTideAlerts } from './alerts';
 import { S_SmartMoneyChain } from '@/types/nansen/api.gen';
 import type { Provenance } from '@/lib/provenance';
 import { chainName, usd } from '@/lib/viz/format';
@@ -85,7 +85,7 @@ export function planTemplate(ctx: RequestContext, template: TemplateId, input: T
       const min = minUsd(10_000);
       const data = CommonTokenTransferAlertData.parse({ chains: ALERT_CHAINS, subjects: wallets.map((value) => ({ type: 'address', value })), events: ['buy', 'sell', 'swap'], usdValue: { min } });
       return draft(`followed wallets trade (${wallets.length})`, 'common-token-transfer', 'realtime', data, channel,
-        `TIDE follow list: any of ${wallets.length} followed smart-money wallets buys, sells or swaps over ${usd(min)}.`,
+        `Peregrine follow list: any of ${wallets.length} followed smart-money wallets buys, sells or swaps over ${usd(min)}.`,
         { title: 'Follow-list alert', formula: 'common-token-transfer, realtime: subjects = your followed wallets (up to 20); events buy, sell, swap; value ≥ threshold', inputs: [{ label: 'Wallets', value: String(wallets.length) }, { label: 'Threshold', value: usd(min) }], notes: ['Watches every chain in Nansen\'s smart-money set.'] });
     }
     case 'front': {
@@ -97,7 +97,7 @@ export function planTemplate(ctx: RequestContext, template: TemplateId, input: T
       const min = minUsd(5_000);
       const data = CommonTokenTransferAlertData.parse({ chains: [f.to], subjects: wallets.map((value) => ({ type: 'address', value })), events: ['buy', 'swap'], usdValue: { min } });
       return draft(`front ${chainName(f.from)} → ${chainName(f.to)} wallets buying`, 'common-token-transfer', 'realtime', data, channel,
-        `TIDE rotation front: one of the ${wallets.length} wallets that moved ${usd(f.netUsd)} from ${chainName(f.from)} into ${chainName(f.to)} buys over ${usd(min)} on ${chainName(f.to)}.`,
+        `Peregrine rotation front: one of the ${wallets.length} wallets that moved ${usd(f.netUsd)} from ${chainName(f.from)} into ${chainName(f.to)} buys over ${usd(min)} on ${chainName(f.to)}.`,
         { title: 'Rotation-front alert', formula: 'common-token-transfer, realtime: subjects = the front\'s wallets; chain = its destination; events buy, swap; value ≥ threshold', inputs: [{ label: 'Front', value: `${chainName(f.from)} → ${chainName(f.to)} (${usd(f.netUsd)})` }, { label: 'Wallets', value: String(wallets.length) }, { label: 'Threshold', value: usd(min) }], notes: [] });
     }
     case 'chain-inflow': {
@@ -107,7 +107,7 @@ export function planTemplate(ctx: RequestContext, template: TemplateId, input: T
       const min = minUsd(suggested);
       const data = SmTokenFlowsAlertData.parse({ chains: [chain], events: ['sm-token-flows'], inflow_1h: { min } });
       return draft(`${chainName(chain)} smart-money inflow surge`, 'sm-token-flows', '1h', data, channel,
-        `TIDE pressure alert: smart money buys over ${usd(min)} of a single token on ${chainName(chain)} within an hour.`,
+        `Peregrine pressure alert: smart money buys over ${usd(min)} of a single token on ${chainName(chain)} within an hour.`,
         { title: 'Chain inflow alert', formula: 'sm-token-flows, 1h window: any token on the chain with smart-money inflow ≥ threshold\ndefault = 90th percentile of the positive hourly smart-money token net flows the scanner saw on this chain over 3 days, at least $25K', inputs: [{ label: 'Chain', value: chainName(chain) }, { label: 'Suggested', value: usd(suggested) }, { label: 'Threshold', value: usd(min) }], notes: [] });
     }
     case 'deployer': {
@@ -116,7 +116,7 @@ export function planTemplate(ctx: RequestContext, template: TemplateId, input: T
       if (!deployer || !/^0x[0-9a-f]{40}$/.test(deployer)) throw new Error('A deployer alert needs the deployer\'s EVM address.');
       const data = SmartContractCallAlertData.parse({ chains: [chain], events: ['smart-contract-call'], inclusion: { caller: [{ type: 'address', value: deployer }] } });
       return draft(`deployer ${deployer.slice(0, 8)}… moves on ${chainName(chain)}`, 'smart-contract-call', 'realtime', data, channel,
-        `TIDE insider alert: the token deployer ${deployer.slice(0, 10)}… calls any contract on ${chainName(chain)}.`,
+        `Peregrine insider alert: the token deployer ${deployer.slice(0, 10)}… calls any contract on ${chainName(chain)}.`,
         { title: 'Deployer alert', formula: 'smart-contract-call, realtime: caller = the deployer address, any contract, any method', inputs: [{ label: 'Deployer', value: deployer }, { label: 'Chain', value: chainName(chain) }], notes: ['A deployer calling contracts again (adding liquidity, minting, moving funds) is often the first sign of what comes next.'] });
     }
     case 'token-flows': {
@@ -125,7 +125,7 @@ export function planTemplate(ctx: RequestContext, template: TemplateId, input: T
       const min = minUsd(25_000);
       const data = SmTokenFlowsAlertData.parse({ chains: [chain], events: ['sm-token-flows'], inflow_1d: { min }, inclusion: { tokens: [{ chain, address: token }] } });
       return draft(`token ${token.slice(0, 8)}… smart-money buying`, 'sm-token-flows', '1h', data, channel,
-        `TIDE token alert: smart money buys over ${usd(min)} of this token in a day on ${chainName(chain)}.`,
+        `Peregrine token alert: smart money buys over ${usd(min)} of this token in a day on ${chainName(chain)}.`,
         { title: 'Token inflow alert', formula: 'sm-token-flows: this token, smart-money inflow over 1 day ≥ threshold', inputs: [{ label: 'Token', value: token }, { label: 'Threshold', value: usd(min) }], notes: [] });
     }
     case 'wallets': {
@@ -135,7 +135,7 @@ export function planTemplate(ctx: RequestContext, template: TemplateId, input: T
       const chains = input.chain && ALERT_CHAINS.includes(input.chain as (typeof ALERT_CHAINS)[number]) ? [input.chain] : ALERT_CHAINS;
       const data = CommonTokenTransferAlertData.parse({ chains, subjects: wallets.map((value) => ({ type: 'address', value })), events: ['buy', 'sell', 'swap', 'send', 'receive'], usdValue: { min } });
       return draft(`${wallets.length} wallet${wallets.length === 1 ? '' : 's'} move over ${usd(min)}`, 'common-token-transfer', 'realtime', data, channel,
-        `TIDE wallet alert: ${wallets.length === 1 ? 'this wallet' : `any of ${wallets.length} wallets`} moves over ${usd(min)}${chains.length === 1 ? ` on ${chainName(chains[0])}` : ''}.`,
+        `Peregrine wallet alert: ${wallets.length === 1 ? 'this wallet' : `any of ${wallets.length} wallets`} moves over ${usd(min)}${chains.length === 1 ? ` on ${chainName(chains[0])}` : ''}.`,
         { title: 'Wallet alert', formula: 'common-token-transfer, realtime: subjects = your wallets; every direction; value ≥ threshold', inputs: [{ label: 'Wallets', value: String(wallets.length) }, { label: 'Threshold', value: usd(min) }], notes: [] });
     }
   }
@@ -153,16 +153,16 @@ export function builderContext(ctx: RequestContext): { fronts: Array<{ from: str
 
 export async function createDraft(d: AlertDraft): Promise<void> {
   const existing = await listTideAlerts();
-  if (existing.length >= MAX_TIDE_ALERTS) throw new Error(`TIDE keeps at most ${MAX_TIDE_ALERTS} alerts per account; delete one first.`);
+  if (existing.length >= MAX_TIDE_ALERTS) throw new Error(`Peregrine keeps at most ${MAX_TIDE_ALERTS} alerts per account; delete one first.`);
   await callNansen<unknown>('smart-alert', d.request, { method: 'POST', skipCache: true, record: false });
 }
 
 /** Rename, change the window or the destination of one of TIDE's own alerts. */
 export async function updateAlert(id: string, patch: { name?: string; timeWindow?: string; channel?: AlertChannel; description?: string }): Promise<void> {
-  if (!(await listTideAlerts()).some((a) => a.id === id)) throw new Error('Not a TIDE alert.');
+  if (!(await listTideAlerts()).some((a) => a.id === id)) throw new Error('Not a Peregrine alert.');
   const body = UpdateAlertRequest.parse({
     id,
-    ...(patch.name ? { name: `${TIDE_PREFIX}${patch.name.replace(/^TIDE · /, '').slice(0, 80)}` } : {}),
+    ...(patch.name ? { name: `${TIDE_PREFIX}${patch.name.slice(alertPrefixOf(patch.name)?.length ?? 0).slice(0, 80)}` } : {}),
     ...(patch.timeWindow ? { timeWindow: SmartAlertTimeWindow.parse(patch.timeWindow) } : {}),
     ...(patch.channel ? { channels: [patch.channel] } : {}),
     ...(patch.description ? { description: patch.description.slice(0, 300) } : {}),

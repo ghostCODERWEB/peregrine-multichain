@@ -49,7 +49,7 @@ export function FollowThrough({ chain, token, mode, onReport }: { chain: string;
       {!r && <p className="text-ink-2">{state.candidates.events ? `${state.candidates.buys} smart-money buys of this token (≥ $250) in the last 7 days, grouped into ${state.candidates.events} event${state.candidates.events === 1 ? '' : 's'} (the largest five).` : 'No smart-money buys of this token (≥ $250) in the stored tape for the last 7 days.'}</p>}
       {state.candidates.events > 0 && (
         <div className="flex flex-wrap items-center gap-3">
-          <button type="button" disabled={busy} onClick={run} className="rounded-full border border-border px-3 py-1 text-ink hover:bg-raised disabled:opacity-45">{busy ? 'Reading the tape around each buy…' : `${r ? 'Run again' : 'Check follow-through'} · up to ${state.maxCredits} credits`}</button>
+          <button type="button" disabled={busy} onClick={run} className="rounded border border-border px-3 py-1 text-ink hover:bg-raised disabled:opacity-45">{busy ? 'Reading the tape around each buy…' : `${r ? 'Run again' : 'Check follow-through'} · up to ${state.maxCredits} credits`}</button>
           <span className="text-[11.5px] text-ink-muted">Two 10-minute windows of the DEX tape per event (at most two pages each) and hourly candles. Cached an hour.</span>
         </div>
       )}

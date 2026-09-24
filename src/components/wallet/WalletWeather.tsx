@@ -39,7 +39,7 @@ export async function WalletWeather({ p }: { p: Promise<Wave<WalletWeatherReadin
       <div className="grid gap-5 xl:grid-cols-[minmax(0,1.25fr)_minmax(22rem,.75fr)]">
         <div>
           <div className="mb-3 flex flex-wrap items-center gap-2 text-[10.5px] uppercase tracking-[0.14em] text-ink-muted">
-            <span className="rounded-full border border-brand/25 bg-brand/10 px-2.5 py-1 text-brand">0 extra credits</span>
+            <span className="rounded border border-brand/25 bg-brand/10 px-2.5 py-1 text-brand">0 extra credits</span>
             <span>{w.positionCount} priced position{w.positionCount === 1 ? '' : 's'}</span>
             <span>·</span>
             <span>{w.effectivePositions.toFixed(1)} effective</span>

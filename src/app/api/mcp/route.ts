@@ -37,8 +37,8 @@ export async function POST(req: Request) {
         out.push(ok(m.id, {
           protocolVersion: typeof m.params?.protocolVersion === 'string' ? m.params.protocolVersion : PROTOCOL,
           capabilities: { tools: { listChanged: false } },
-          serverInfo: { name: 'tide', title: 'TIDE — smart-money weather on the Nansen API', version: '1.0.0' },
-          instructions: `TIDE derives weather-style signals from Nansen data: chain pressure, storm (dump-risk) scores, alpha, perp pressure, prediction weather, sectors, rotation fronts and smart-money conviction. You are in the ${ctx.mode} view. Readings, not forecasts or advice. For raw Nansen data use Nansen's own MCP; use TIDE for the derived readings.`,
+          serverInfo: { name: 'tide', title: 'Peregrine — smart-money weather on the Nansen API', version: '1.0.0' },
+          instructions: `Peregrine derives weather-style signals from Nansen data: chain pressure, storm (dump-risk) scores, alpha, perp pressure, prediction weather, sectors, rotation fronts and smart-money conviction. You are in the ${ctx.mode} view. Readings, not forecasts or advice. For raw Nansen data use Nansen's own MCP; use Peregrine for the derived readings.`,
         }));
         break;
       case 'notifications/initialized':
@@ -66,5 +66,5 @@ export async function POST(req: Request) {
 
 export function GET() {
   // No server-initiated stream: every answer comes back on the POST.
-  return new Response('TIDE MCP: POST JSON-RPC here (Streamable HTTP, JSON responses).', { status: 405, headers: { Allow: 'POST' } });
+  return new Response('Peregrine MCP: POST JSON-RPC here (Streamable HTTP, JSON responses).', { status: 405, headers: { Allow: 'POST' } });
 }

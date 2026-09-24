@@ -13,7 +13,14 @@ import { CreateAlertRequest, SmTokenFlowsAlertData, CommonTokenTransferAlertData
 import type { Provenance } from '@/lib/provenance';
 import { usd, num } from '@/lib/viz/format';
 
-export const TIDE_PREFIX = 'TIDE · ';
+/** New alerts are named with this prefix on the user's Nansen account. */
+export const TIDE_PREFIX = 'Peregrine · ';
+/** Alerts created before the rebrand ("TIDE · …") stay recognized, listed
+ *  and manageable; renaming one re-prefixes it with the current prefix. */
+export const ALERT_PREFIXES = [TIDE_PREFIX, 'TIDE · '] as const;
+/** The prefix an alert name carries, or null when it is not ours. */
+export const alertPrefixOf = (name: unknown): string | null =>
+  typeof name === 'string' ? ALERT_PREFIXES.find((p) => name.startsWith(p)) ?? null : null;
 
 export interface AlertPlan {
   symbol: string;
@@ -54,7 +61,7 @@ export function planStormAlerts(chain: string, token: string, clusterWallets: st
   const r = getDb().prepare(`
     SELECT symbol, score, band, market_cap_usd FROM storm_scores WHERE chain = ? AND token_address = ? ORDER BY id DESC LIMIT 1
   `).get(chain, token.toLowerCase()) as { symbol: string | null; score: number; band: string; market_cap_usd: number | null } | undefined;
-  if (!r) throw new Error('No Storm Score for this token yet: open its page first so TIDE can compute one.');
+  if (!r) throw new Error('No Storm Score for this token yet: open its page first so Peregrine can compute one.');
   const symbol = r.symbol ?? token.slice(0, 8);
   const threshold = outflowThreshold(r.score, r.market_cap_usd);
   const tokenRef = [{ chain, address: token }];
@@ -67,7 +74,7 @@ export function planStormAlerts(chain: string, token: string, clusterWallets: st
   const requests: CreateAlertRequest[] = [CreateAlertRequest.parse({
     name: `${TIDE_PREFIX}${symbol} smart-money outflow`,
     type: 'sm-token-flows', timeWindow: '1h', channels: [channel], data: flows,
-    description: `TIDE storm alert: smart money sold over ${usd(threshold)} of ${symbol} (${chain}) in a day. Threshold from Storm Score ${num(r.score, 0)} (${r.band}).`,
+    description: `Peregrine storm alert: smart money sold over ${usd(threshold)} of ${symbol} (${chain}) in a day. Threshold from Storm Score ${num(r.score, 0)} (${r.band}).`,
   })];
 
   const wallets = [...new Set(clusterWallets.filter((w) => /^[A-Za-z0-9]{20,70}$/.test(w)))].slice(0, 20);
@@ -81,7 +88,7 @@ export function planStormAlerts(chain: string, token: string, clusterWallets: st
     requests.push(CreateAlertRequest.parse({
       name: `${TIDE_PREFIX}${symbol} insider cluster moves`,
       type: 'common-token-transfer', timeWindow: 'realtime', channels: [channel], data: transfer,
-      description: `TIDE storm alert: one of ${wallets.length} clustered insider wallets sold or sent over ${usd(insiderThreshold)} of ${symbol} (${chain}).`,
+      description: `Peregrine storm alert: one of ${wallets.length} clustered insider wallets sold or sent over ${usd(insiderThreshold)} of ${symbol} (${chain}).`,
     }));
   }
   return {
@@ -125,16 +132,16 @@ export async function listTideAlerts(): Promise<TideAlert[]> {
   const r = await callNansen<unknown>('smart-alert/list', {}, { method: 'GET', skipCache: true, record: false });
   const rows: RawAlert[] = Array.isArray(r.data) ? (r.data as RawAlert[]) : [];
   return rows
-    .filter((a) => typeof a?.name === 'string' && a.name.startsWith(TIDE_PREFIX))
+    .filter((a) => alertPrefixOf(a?.name) != null)
     .map((a) => ({
-      id: a.id, name: a.name.slice(TIDE_PREFIX.length), description: a.description ?? null, isEnabled: !!a.isEnabled, type: a.type, timeWindow: a.timeWindow,
+      id: a.id, name: a.name.slice(alertPrefixOf(a.name)!.length), description: a.description ?? null, isEnabled: !!a.isEnabled, type: a.type, timeWindow: a.timeWindow,
       triggers: a.triggerTimes ?? 0, lastTriggered: a.lastTriggerTimestamp ?? null, createdAt: a.createdAt ?? null,
       channels: (a.channels ?? []).map((c) => c.type), error: a.errorMessage ?? null,
     }));
 }
 
 async function ownAlert(id: string): Promise<void> {
-  if (!(await listTideAlerts()).some((a) => a.id === id)) throw new Error('Not a TIDE alert.');
+  if (!(await listTideAlerts()).some((a) => a.id === id)) throw new Error('Not a Peregrine alert.');
 }
 
 export async function toggleAlert(id: string, isEnabled: boolean): Promise<void> {

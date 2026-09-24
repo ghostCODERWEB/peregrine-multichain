@@ -57,62 +57,69 @@
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) * 1.4);
+  /* Pro-exchange corners: the large radii the glass design used everywhere
+     (rounded-2xl/3xl, 97 call sites) collapse to small ones here. */
+  --radius-2xl: calc(var(--radius) * 1.6);
+  --radius-3xl: calc(var(--radius) * 2);
 }
 
 /*
- * Two themes, each stepped for its own surface — the dark theme is its own
- * set of ramp steps validated against the navy surface, not an automatic
- * inversion of the light one. Every ramp below passed the dataviz ordinal
- * validator (monotone lightness, adjacent delta L >= 0.06, light end >= 2:1
- * on its surface) in its mode.
+ * Peregrine: a "pro exchange" surface (flat dark gray, dense, green/red for
+ * direction). Two themes, each stepped for its own surface — the dark theme
+ * is its own set of ramp steps validated against #12161c, not an inversion
+ * of the light one. Every ramp below passed the dataviz ordinal validator
+ * (monotone lightness, adjacent delta L >= 0.06, light end >= 2:1 on its
+ * surface) in its mode, 2026-09-25.
  *
- * Pressure is DIVERGING: blue arm = outflow, amber arm = inflow, a neutral
- * gray midpoint that reads as "nothing". The amber arm was derived by
- * matching the blue reference ramp's OKLCH lightness step for step, so an
- * inflow and an outflow of equal magnitude carry equal visual weight.
+ * Altitude (was "pressure") is DIVERGING: red arm = outflow / net selling,
+ * green arm = inflow / net buying, a neutral gray midpoint that reads as
+ * "level". The green is a teal-green, chosen so strong green vs strong red
+ * stays separable under deuteranopia (OKLab dE 9.5 dark, 10.3 light; the
+ * target is 8). Direction is still never color alone: values carry +/−
+ * signs and bands carry words.
  * Arms are ordered from the midpoint outward (1 = mild, 4 = extreme) — in
  * light mode extremes darken, in dark mode they lighten.
  *
- * Storm severity is ORDINAL magenta (cloudy -> watch -> warning -> severe),
- * always shown with a text band label, never color alone.
+ * Dive Risk (was "storm") is ORDINAL amber, a warning hue kept apart from
+ * the red that means selling; always shown with its band word.
  */
 
-/* Light — "paper chart" */
+/* Light */
 :root {
-  --surface-page: #f4f2ec;
-  --surface-1: #fcfcfb;
-  --surface-2: #ffffff;
-  --ink-1: #0b0b0b;
-  --ink-2: #52514e;
-  --ink-muted: #6b6a66;
-  --grid: #e1e0d9;
-  --axis: #c3c2b7;
-  --mid: #e6e4df;
+  --surface-page: #f5f6f8;
+  --surface-1: #ffffff;
+  --surface-2: #f7f8fa;
+  --ink-1: #11151a;
+  --ink-2: #4a525e;
+  --ink-muted: #6b7482;
+  --grid: #eceef2;
+  --axis: #d3d8df;
+  --mid: #e3e6eb;
 
-  --out-1: #86b6ef;
-  --out-2: #3987e5;
-  --out-3: #1c5cab;
-  --out-4: #104281;
-  --in-1: #f9982f;
-  --in-2: #c26f00;
-  --in-3: #884d01;
-  --in-4: #643701;
-  --storm-1: #f46eb4;
-  --storm-2: #ca488f;
-  --storm-3: #a82571;
-  --storm-4: #820054;
+  --out-1: #f0968c;
+  --out-2: #dd5a4c;
+  --out-3: #c8352e;
+  --out-4: #822015;
+  --in-1: #5cc0b0;
+  --in-2: #27a08d;
+  --in-3: #008570;
+  --in-4: #0a5249;
+  --storm-1: #d8a532;
+  --storm-2: #b8830c;
+  --storm-3: #8c6200;
+  --storm-4: #5c4000;
 
   /* Ink for text set INSIDE a data fill (tile labels) — picked per fill by
-     measured contrast, the one place text sits on a data color. */
+     measured WCAG contrast (all >= 4.5:1). */
   --on-out-4: #ffffff;
   --on-out-3: #ffffff;
-  --on-out-1: #0b0b0b;
-  --on-mid: #0b0b0b;
-  --on-in-1: #0b0b0b;
+  --on-out-1: #11151a;
+  --on-mid: #11151a;
+  --on-in-1: #11151a;
   --on-in-3: #ffffff;
   --on-in-4: #ffffff;
-  --on-storm-1: #0b0b0b;
-  --on-storm-2: #0b0b0b;
+  --on-storm-1: #11151a;
+  --on-storm-2: #11151a;
   --on-storm-3: #ffffff;
   --on-storm-4: #ffffff;
 
@@ -120,76 +127,67 @@
   --foreground: var(--ink-1);
   --card: var(--surface-1);
   --card-foreground: var(--ink-1);
-  --popover: var(--surface-2);
+  --popover: var(--surface-1);
   --popover-foreground: var(--ink-1);
   --primary: var(--ink-1);
   --primary-foreground: var(--surface-1);
-  --secondary: #ecebe6;
+  --secondary: #eef0f3;
   --secondary-foreground: var(--ink-1);
-  --muted: #ecebe6;
+  --muted: #eef0f3;
   --muted-foreground: var(--ink-muted);
-  --accent: #ecebe6;
+  --accent: #eef0f3;
   --accent-foreground: var(--ink-1);
-  --destructive: #d03b3b;
-  --border: rgba(11, 11, 11, 0.1);
-  --input: rgba(11, 11, 11, 0.14);
-  --ring: var(--out-2);
-  --radius: 0.5rem;
+  --destructive: #c8352e;
+  --border: #e3e6eb;
+  --input: #d3d8df;
+  --ring: var(--brand);
+  --radius: 0.25rem;
 
-  /* Brand accents (never data colors): mint for actions and live state,
-     violet for depth in the page glow. */
-  --brand: #0b7d5b;
-  --brand-2: #6d5bd0;
+  /* Brand accent (never a data color): violet, carried over from the first
+     Peregrine, for actions, focus and the active nav item. */
+  --brand: #5b45e0;
+  --brand-2: #5b45e0;
   --on-brand: #ffffff;
-  --glass: color-mix(in oklab, var(--surface-1) 86%, transparent);
-  --glass-edge: rgba(11, 11, 11, 0.07);
-  --glow-1: rgba(11, 125, 91, 0.07);
-  --glow-2: rgba(109, 91, 208, 0.06);
-  --glass-highlight: rgba(255, 255, 255, 0.82);
-  --glass-sheen: rgba(255, 255, 255, 0.28);
-  --glass-shadow: rgba(31, 36, 43, 0.16);
-  --liquid-cyan: rgba(41, 171, 211, 0.10);
+  --glass: var(--surface-1);
+  --glass-edge: var(--border);
 }
 
-/* Dark — the default (see layout.tsx): near-black with a green-blue cast,
-   glass panels over soft mint and violet light. The data ramps below were
-   re-validated on this surface (#0d141b): every arm passes monotone
-   lightness, adjacent delta L >= 0.06 and light end >= 2.7:1. */
+/* Dark — the default (see layout.tsx). */
 .dark {
-  --surface-page: #06090d;
-  --surface-1: #0d141b;
-  --surface-2: #121b24;
-  --ink-1: #eaf0f4;
-  --ink-2: #aab6c1;
-  --ink-muted: #7d8a96;
-  --grid: #16212b;
-  --axis: #26333f;
-  --mid: #26313c;
+  --surface-page: #0b0e11;
+  --surface-1: #12161c;
+  --surface-2: #181d24;
+  --ink-1: #eaecef;
+  --ink-2: #a3aab5;
+  --ink-muted: #7a8391;
+  --grid: #1a1f27;
+  --axis: #2a313b;
+  --mid: #2b323c;
 
-  --out-1: #1c5cab;
-  --out-2: #3987e5;
-  --out-3: #6da7ec;
-  --out-4: #b7d3f6;
-  --in-1: #884d01;
-  --in-2: #c26f00;
-  --in-3: #e98916;
-  --in-4: #fec28f;
-  --storm-1: #a82571;
-  --storm-2: #ca488f;
-  --storm-3: #ed68ae;
-  --storm-4: #ff98ca;
+  --out-1: #9a2a3c;
+  --out-2: #c8374d;
+  --out-3: #f04a5f;
+  --out-4: #ff9aa6;
+  --in-1: #0e6a5f;
+  --in-2: #12867a;
+  --in-3: #16a394;
+  --in-4: #6fd6c4;
+  --storm-1: #6b4e0a;
+  --storm-2: #a87a0a;
+  --storm-3: #e0a312;
+  --storm-4: #ffd36b;
 
-  --on-out-4: #06090d;
-  --on-out-3: #06090d;
-  --on-out-1: #eaf0f4;
-  --on-mid: #eaf0f4;
-  --on-in-1: #eaf0f4;
-  --on-in-3: #06090d;
-  --on-in-4: #06090d;
-  --on-storm-1: #eaf0f4;
-  --on-storm-2: #06090d;
-  --on-storm-3: #06090d;
-  --on-storm-4: #06090d;
+  --on-out-4: #0b0e11;
+  --on-out-3: #0b0e11;
+  --on-out-1: #eaecef;
+  --on-mid: #eaecef;
+  --on-in-1: #eaecef;
+  --on-in-3: #0b0e11;
+  --on-in-4: #0b0e11;
+  --on-storm-1: #eaecef;
+  --on-storm-2: #0b0e11;
+  --on-storm-3: #0b0e11;
+  --on-storm-4: #0b0e11;
 
   --background: var(--surface-page);
   --foreground: var(--ink-1);
@@ -199,28 +197,22 @@
   --popover-foreground: var(--ink-1);
   --primary: var(--ink-1);
   --primary-foreground: var(--surface-page);
-  --secondary: #16212b;
+  --secondary: #1a1f27;
   --secondary-foreground: var(--ink-1);
-  --muted: #16212b;
+  --muted: #1a1f27;
   --muted-foreground: var(--ink-muted);
-  --accent: #16212b;
+  --accent: #1a1f27;
   --accent-foreground: var(--ink-1);
-  --destructive: #e66767;
-  --border: rgba(234, 240, 244, 0.08);
-  --input: rgba(234, 240, 244, 0.14);
-  --ring: #3ee6b0;
+  --destructive: #f04a5f;
+  --border: #222831;
+  --input: #2a313b;
+  --ring: var(--brand);
 
-  --brand: #3ee6b0;
-  --brand-2: #8b7cf6;
-  --on-brand: #03140e;
-  --glass: color-mix(in oklab, var(--surface-1) 74%, transparent);
-  --glass-edge: rgba(255, 255, 255, 0.07);
-  --glow-1: rgba(62, 230, 176, 0.10);
-  --glow-2: rgba(139, 124, 246, 0.11);
-  --glass-highlight: rgba(255, 255, 255, 0.15);
-  --glass-sheen: rgba(255, 255, 255, 0.055);
-  --glass-shadow: rgba(0, 0, 0, 0.72);
-  --liquid-cyan: rgba(39, 177, 223, 0.13);
+  --brand: #8a7dff;
+  --brand-2: #8a7dff;
+  --on-brand: #0b0e11;
+  --glass: var(--surface-1);
+  --glass-edge: var(--border);
 }
 
 @layer base {
@@ -235,142 +227,56 @@
     min-width: 320px;
     overflow-x: clip;
   }
-  /* Soft light behind the glass: two fixed glows, drawn once. */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-    background:
-      radial-gradient(60rem 36rem at 8% -8%, var(--glow-1), transparent 60%),
-      radial-gradient(52rem 40rem at 96% 4%, var(--glow-2), transparent 62%),
-      radial-gradient(48rem 30rem at 50% 110%, var(--glow-1), transparent 65%);
-  }
 }
 
-/* A single optical environment sits behind the whole product. This is the
-   Web3 layer: a restrained mint/violet field and ledger mesh, not a looping
-   decoration inside every chart. Pointer parallax is composited only. */
-:root {
-  --liquid-x: 0px;
-  --liquid-y: 0px;
-  --liquid-x-reverse: 0px;
-  --liquid-y-reverse: 0px;
-}
-.liquid-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: -2;
-  overflow: hidden;
-  pointer-events: none;
-  contain: strict;
-}
-.liquid-orb {
-  position: absolute;
-  width: min(52rem, 72vw);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  filter: blur(82px);
-  opacity: 0.72;
-  will-change: transform;
-  transition: transform 900ms cubic-bezier(0.2, 0.75, 0.2, 1);
-}
-.liquid-orb-a {
-  left: -20rem;
-  top: -25rem;
-  background: radial-gradient(circle, var(--glow-1), transparent 67%);
-  transform: translate3d(var(--liquid-x), var(--liquid-y), 0);
-}
-.liquid-orb-b {
-  right: -19rem;
-  top: -18rem;
-  background: radial-gradient(circle, var(--glow-2), var(--liquid-cyan) 38%, transparent 70%);
-  transform: translate3d(var(--liquid-x-reverse), var(--liquid-y-reverse), 0);
-}
-.liquid-mesh {
-  position: absolute;
-  inset: 0;
-  opacity: 0.13;
-  background-image:
-    linear-gradient(var(--glass-edge) 1px, transparent 1px),
-    linear-gradient(90deg, var(--glass-edge) 1px, transparent 1px);
-  background-size: 72px 72px;
-  mask-image: radial-gradient(ellipse 85% 60% at 50% 0%, black, transparent 76%);
-}
-
-/* Glass: translucent slab, a top-edge highlight and a soft drop shadow.
-   Depth comes from layering over the page glow rather than from borders. */
+/* Panels: flat, one hairline border, no blur or shadow. The class names
+   `glass` / `glass-strong` / `liquid-*` are kept (50+ call sites) but now
+   mean "panel", "header panel" and "control" in the exchange style. */
 .glass {
-  background:
-    linear-gradient(145deg, var(--glass-sheen), transparent 34%),
-    linear-gradient(180deg, color-mix(in oklab, var(--glass) 93%, var(--glass-highlight)), var(--glass));
-  border: 1px solid var(--glass-edge);
-  -webkit-backdrop-filter: blur(20px) saturate(155%);
-  backdrop-filter: blur(20px) saturate(155%);
-  box-shadow:
-    inset 0 1px 0 var(--glass-highlight),
-    inset 1px 0 0 color-mix(in oklab, var(--glass-highlight) 42%, transparent),
-    0 22px 55px -34px var(--glass-shadow);
+  background: var(--surface-1);
+  border: 1px solid var(--border);
 }
-:root:not(.dark) .glass {
-  box-shadow: inset 0 1px 0 var(--glass-highlight), 0 18px 44px -32px var(--glass-shadow);
+.glass-strong { background: var(--surface-1); }
+
+/* Controls: an instant background change on hover, no movement. */
+.liquid-control {
+  transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease;
 }
-.glass-strong {
-  background:
-    linear-gradient(145deg, color-mix(in oklab, var(--glass-highlight) 46%, transparent), transparent 30%),
-    color-mix(in oklab, var(--glass) 92%, var(--surface-2));
-  -webkit-backdrop-filter: blur(28px) saturate(175%);
-  backdrop-filter: blur(28px) saturate(175%);
+.liquid-control:hover { background-color: var(--surface-2); }
+.liquid-control.is-active { background-color: var(--surface-2); }
+.liquid-panel { transition: border-color 120ms ease; }
+@media (hover: hover) and (pointer: fine) {
+  .liquid-panel:hover { border-color: var(--axis); }
 }
 
-/* Tactility belongs on things a person can act on. Data panels stay stable. */
-.liquid-control {
-  transition: transform 180ms cubic-bezier(0.2, 0.75, 0.2, 1), background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease, color 180ms ease;
-}
-.liquid-control:hover {
-  background-color: color-mix(in oklab, var(--accent) 72%, transparent);
-  box-shadow: inset 0 1px 0 color-mix(in oklab, var(--glass-highlight) 55%, transparent), 0 8px 24px -18px var(--glass-shadow);
-}
-.liquid-control.is-active {
-  box-shadow: inset 0 1px 0 color-mix(in oklab, var(--brand) 30%, var(--glass-highlight)), 0 0 20px -14px var(--brand);
-}
-.liquid-panel {
-  transition: transform 220ms cubic-bezier(0.2, 0.75, 0.2, 1), border-color 220ms ease, box-shadow 220ms ease;
-}
-@media (hover: hover) and (pointer: fine) {
-  .liquid-control:hover { transform: translateY(-1px); }
-  .liquid-panel:hover {
-    transform: translateY(-2px);
-    border-color: color-mix(in oklab, var(--glass-edge) 50%, var(--brand));
-    box-shadow: inset 0 1px 0 var(--glass-highlight), 0 28px 64px -38px var(--glass-shadow);
-  }
+/* Exchange-style section label: small, uppercase, muted. */
+.label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
 }
 
 /* An anchor jump lands below the sticky top bar and the token view tabs. */
 section[aria-labelledby] { scroll-margin-top: 7rem; }
 
-/* Panels rise in once, short and eased; nothing loops. */
+/* Panels fade in once, short; nothing loops. */
 @keyframes rise {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: none; }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
-.rise { animation: rise 0.42s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.rise { animation: rise 0.2s ease-out both; }
 
-/* A live-state pulse for "streaming now" dots. */
+/* A live-state indicator for "streaming now". */
 @keyframes pulse-dot {
-  0%, 100% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--brand) 55%, transparent); }
-  50% { box-shadow: 0 0 0 5px color-mix(in oklab, var(--brand) 0%, transparent); }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
 }
-.live-dot { width: 7px; height: 7px; border-radius: 999px; background: var(--brand); animation: pulse-dot 2.2s ease-in-out infinite; }
+.live-dot { width: 6px; height: 6px; border-radius: 999px; background: var(--brand); animation: pulse-dot 2s ease-in-out infinite; }
 
-/* Brand text gradient for hero figures. */
-.brand-text {
-  background: linear-gradient(90deg, var(--brand), color-mix(in oklab, var(--brand) 40%, var(--brand-2)));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
+/* Hero figures: plain ink, no gradient. */
+.brand-text { color: var(--ink-1); }
 
 /* Numbers are the instrument readouts: monospace, per the product spec.
    Tabular so columns and tickers don't jitter as values update. */
@@ -385,22 +291,8 @@ section[aria-labelledby] { scroll-margin-top: 7rem; }
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  .liquid-orb { transform: none !important; }
 }
 
-/* Browser equivalents of the accessibility choices Apple exposes for its
-   native material. The interface remains layered without relying on blur. */
 @media (prefers-contrast: more) {
-  .glass { border-color: color-mix(in oklab, var(--ink-1) 34%, transparent); }
-}
-@media (prefers-reduced-transparency: reduce) {
-  .glass, .glass-strong {
-    background: var(--surface-1);
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-  }
-  .liquid-backdrop { display: none; }
-}
-@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .glass, .glass-strong { background: var(--surface-1); }
+  :root, .dark { --border: var(--axis); }
 }

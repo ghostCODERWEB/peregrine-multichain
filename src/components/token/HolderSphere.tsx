@@ -86,14 +86,6 @@ export function HolderSphere({ holders, forensics, river }: { holders: HolderRow
       <svg ref={svg} viewBox={`0 0 ${W} ${H}`} className="h-auto w-full cursor-grab touch-none select-none active:cursor-grabbing" role="img"
         aria-label={`Holder constellation: ${nodes.length} top holders, ${edges.length} measured links, ${nodes.filter((n) => n.cluster).length} in insider clusters. Drag to rotate.`}
         onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerLeave={onUp}>
-        <defs>
-          <radialGradient id="sphere-glow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="var(--brand-2)" stopOpacity="0.14" />
-            <stop offset="70%" stopColor="var(--brand)" stopOpacity="0.04" />
-            <stop offset="100%" stopColor="transparent" stopOpacity="0" />
-          </radialGradient>
-        </defs>
-        <circle cx={W / 2} cy={H / 2} r={215} fill="url(#sphere-glow)" />
         <circle cx={W / 2} cy={H / 2} r={168} fill="none" stroke="var(--axis)" strokeOpacity={0.35} strokeDasharray="2 5" />
         {edges.map((e, i) => {
           const a = proj.get(e.a)!, b = proj.get(e.b)!;

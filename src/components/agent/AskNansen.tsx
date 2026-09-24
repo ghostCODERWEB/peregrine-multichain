@@ -32,7 +32,7 @@ export function AskNansen({ subject, label, attachTo, autoOpen, buttonClassName,
 
   return (
     <>
-      <button type="button" onClick={show} className={buttonClassName ?? 'rounded-full border border-border px-3 py-1.5 text-[12.5px] text-ink-2 hover:text-ink hover:border-ink-muted'}>{buttonLabel}</button>
+      <button type="button" onClick={show} className={buttonClassName ?? 'rounded border border-border px-3 py-1.5 text-[12.5px] text-ink-2 hover:text-ink hover:border-ink-muted'}>{buttonLabel}</button>
       {mounted && <Panel subject={subject} label={label} attachTo={attachTo} open={open} onOpenChange={setOpen} />}
     </>
   );

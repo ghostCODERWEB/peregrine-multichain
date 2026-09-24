@@ -106,14 +106,14 @@ export function AlertBuilder() {
           </label>
         )}
         {template !== 'deployer' && (
-          <label className="text-[12.5px] text-ink-2">Threshold, USD <span className="text-ink-muted">(blank: TIDE&apos;s default)</span>
+          <label className="text-[12.5px] text-ink-2">Threshold, USD <span className="text-ink-muted">(blank: Peregrine&apos;s default)</span>
             <input value={minUsd} onChange={(e) => setMinUsd(e.target.value.replace(/[^\d.]/g, ''))} inputMode="decimal" placeholder="default" className="num mt-1 block w-full rounded-lg border border-border bg-raised px-2.5 py-1.5 text-[13px] text-ink" />
           </label>
         )}
       </div>
 
       <fieldset className="grid gap-3 rounded-xl border border-border p-3 sm:grid-cols-[160px_1fr]">
-        <legend className="px-1 text-[12px] text-ink-muted">Deliver to (Nansen sends it; TIDE never contacts this address)</legend>
+        <legend className="px-1 text-[12px] text-ink-muted">Deliver to (Nansen sends it; Peregrine never contacts this address)</legend>
         <select aria-label="Channel type" value={channelType} onChange={(e) => { setChannelType(e.target.value as ChannelType); setChannelValue(''); }} className="rounded-lg border border-border bg-raised px-2.5 py-1.5 text-[13px] text-ink">
           <option value="telegram">Telegram</option><option value="discord">Discord</option><option value="slack">Slack</option><option value="webhook">Webhook</option>
         </select>
@@ -124,8 +124,8 @@ export function AlertBuilder() {
       </fieldset>
 
       <div className="flex flex-wrap items-center gap-2">
-        <button onClick={() => send(true)} disabled={state.busy} className="rounded-full border border-border px-3.5 py-1.5 text-[13px] text-ink hover:bg-raised">Preview the alert</button>
-        <button onClick={() => send(false)} disabled={state.busy || !draft || !channel} className="rounded-full bg-brand/15 px-3.5 py-1.5 text-[13px] text-ink ring-1 ring-brand/40 hover:bg-brand/25 disabled:opacity-45">
+        <button onClick={() => send(true)} disabled={state.busy} className="rounded border border-border px-3.5 py-1.5 text-[13px] text-ink hover:bg-raised">Preview the alert</button>
+        <button onClick={() => send(false)} disabled={state.busy || !draft || !channel} className="rounded bg-brand/15 px-3.5 py-1.5 text-[13px] text-ink ring-1 ring-brand/40 hover:bg-brand/25 disabled:opacity-45">
           Create on my Nansen account
         </button>
         <span className="text-[11.5px] text-ink-muted">{!draft ? 'Preview first.' : !channel ? 'Add where to deliver it.' : `${t.title}: ready.`}</span>

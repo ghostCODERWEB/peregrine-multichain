@@ -56,7 +56,7 @@ test.describe('owner', () => {
       title: 'AERO on Base', view: 'private',
       lines: [
         { label: 'Token', value: 'AERO (0x9401…8631) on Base', at: null, source: 'the page address' },
-        { label: 'Storm Score (7-day dump risk, 0–100)', value: '40, Cloudy, confidence 0.70', at: Date.now() - 3_600_000, source: 'TIDE Storm Score from Nansen holders, flows and indicators' },
+        { label: 'Storm Score (7-day dump risk, 0–100)', value: '40, Cloudy, confidence 0.70', at: Date.now() - 3_600_000, source: 'Peregrine Dive Risk from Nansen holders, flows and indicators' },
       ],
     };
     await page.route('**/api/agent?*', (r) => r.fulfill({ json: { reports: [], usedToday: 0, cap: 2, price: 750, context, starters: ['Who has been buying AERO this week, and do those buyers have a profitable record?'], demo: false } }));
@@ -65,7 +65,7 @@ test.describe('owner', () => {
     const card = page.locator('section', { has: page.getByRole('heading', { name: /^Make a call on/ }) });
     await card.getByRole('button', { name: 'Ask Nansen' }).click();
     await expect(page.getByRole('dialog', { name: 'Ask Nansen' })).toBeVisible();
-    await expect(page.getByText('What TIDE will send with your first question')).toBeVisible();
+    await expect(page.getByText('What Peregrine will send with your first question')).toBeVisible();
     await expect(page.getByText(/Storm Score \(7-day dump risk, 0–100\): 40, Cloudy, confidence 0\.70/)).toBeVisible();
     await expect(page.getByRole('button', { name: /Who has been buying AERO this week/ })).toBeVisible();
     await expect(page.getByRole('button', { name: /^Ask \(750 credits\)$/ })).toBeDisabled(); // no question typed yet

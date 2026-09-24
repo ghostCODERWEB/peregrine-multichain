@@ -12,7 +12,7 @@ export function buildMessage(p: { family: Family; domain: string; uri: string; a
     `${p.domain} wants you to sign in with your ${account} account:`,
     p.address,
     '',
-    'Sign in to TIDE. This proves you control this address; it costs nothing and moves no funds.',
+    'Sign in to Peregrine. This proves you control this address; it costs nothing and moves no funds.',
     '',
     `URI: ${p.uri}`,
     'Version: 1',

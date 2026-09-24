@@ -82,7 +82,7 @@ export function AccountPanel({ user, keyInfo, vault, mode }: {
             <button disabled={busy || !apiKey} className="rounded-md bg-ink px-3 py-1.5 text-sm font-medium text-page disabled:opacity-50">Check and save</button>
           </form>
         ) : (
-          <p className="text-sm text-ink-2">This TIDE instance has no TIDE_KMS_KEY set, so it cannot store API keys safely.</p>
+          <p className="text-sm text-ink-2">This Peregrine instance has no TIDE_KMS_KEY set, so it cannot store API keys safely.</p>
         )}
         <p className="text-[12px] text-ink-muted">
           The key is checked with Nansen (free), stored encrypted on this server, and never sent back to your browser. With it, every Nansen call you trigger

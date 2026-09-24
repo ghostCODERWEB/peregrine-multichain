@@ -16,8 +16,8 @@ function StyleTile({ name, level, testId, children }: { name: string; level?: St
       <div className="flex items-center justify-between gap-2">
         <h3 className="text-[12px] font-medium text-ink">{name}</h3>
         {level
-          ? <span className={`rounded-full border px-2 py-0.5 text-[10px] uppercase tracking-wider ${levelTone[level]}`}>{level}</span>
-          : <span className="rounded-full border border-dashed border-border px-2 py-0.5 text-[10px] uppercase tracking-wider text-ink-muted">not assessed</span>}
+          ? <span className={`rounded border px-2 py-0.5 text-[10px] uppercase tracking-wider ${levelTone[level]}`}>{level}</span>
+          : <span className="rounded border border-dashed border-border px-2 py-0.5 text-[10px] uppercase tracking-wider text-ink-muted">not assessed</span>}
       </div>
       <p className="mt-2 text-[11.5px] leading-relaxed text-ink-2">{children}</p>
     </div>

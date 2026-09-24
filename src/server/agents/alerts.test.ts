@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { outflowThreshold, toChannel } from './alerts';
+import { outflowThreshold, toChannel, alertPrefixOf, TIDE_PREFIX } from './alerts';
 
 describe('outflowThreshold', () => {
   it('is more sensitive (lower) the stormier the token', () => {
@@ -20,5 +20,15 @@ describe('toChannel', () => {
     expect(() => toChannel({ type: 'telegram', chatId: '@someone' })).toThrow();
     expect(() => toChannel({ type: 'discord', webhookUrl: 'not-a-webhook-url' })).toThrow();
     expect(() => toChannel({ type: 'discord', webhookUrl: 'http://discord.com/api/webhooks/1/x' })).toThrow();
+  });
+});
+
+describe('alert name prefix (Peregrine rebrand)', () => {
+  it('names new alerts "Peregrine · " and still recognizes alerts created as "TIDE · "', () => {
+    expect(TIDE_PREFIX).toBe('Peregrine · ');
+    expect(alertPrefixOf('Peregrine · AERO smart-money outflow')).toBe('Peregrine · ');
+    expect(alertPrefixOf('TIDE · AERO smart-money outflow')).toBe('TIDE · ');
+    expect(alertPrefixOf('My own alert')).toBeNull();
+    expect(alertPrefixOf(undefined)).toBeNull();
   });
 });

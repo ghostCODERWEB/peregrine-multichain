@@ -6,7 +6,7 @@ import { weatherMap } from '@/server/weather/queries';
 import { alphaBoard } from '@/server/alpha/board';
 import { chainName } from '@/lib/viz/format';
 
-export const metadata: Metadata = { title: 'Research agent — TIDE' };
+export const metadata: Metadata = { title: 'Research agent — Peregrine' };
 export const dynamic = 'force-dynamic';
 
 /** Starting questions from what TIDE sees right now (no Nansen call). */

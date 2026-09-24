@@ -72,7 +72,7 @@ export function AnchorCard({ query, initial, label }: { query: string; initial?:
     <div>
       {tools.length > 0 && (
         <ul className="mb-2 flex flex-wrap gap-1.5" aria-label="Nansen tools the agent used">
-          {tools.map((t) => <li key={t} className="rounded-full border border-border px-2 py-0.5 text-[11px] text-ink-2">Nansen agent checked {t.replace(/[_-]/g, ' ')}</li>)}
+          {tools.map((t) => <li key={t} className="rounded border border-border px-2 py-0.5 text-[11px] text-ink-2">Nansen agent checked {t.replace(/[_-]/g, ' ')}</li>)}
         </ul>
       )}
       {text ? (
@@ -81,7 +81,7 @@ export function AnchorCard({ query, initial, label }: { query: string; initial?:
           {status === 'streaming' || shown < text.length ? <span className="ml-0.5 inline-block h-4 w-1.5 animate-pulse bg-ink-2 align-middle" aria-hidden /> : null}
         </p>
       ) : status === 'loading' ? (
-        <p className="animate-pulse text-sm text-ink-muted">Asking Nansen&apos;s agent to read TIDE&apos;s numbers…</p>
+        <p className="animate-pulse text-sm text-ink-muted">Asking Nansen&apos;s agent to read Peregrine&apos;s numbers…</p>
       ) : (
         <p className="text-sm text-ink-2">No report yet. {label}</p>
       )}

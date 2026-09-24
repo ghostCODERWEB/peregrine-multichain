@@ -1,12 +1,13 @@
-// The navy theme's tokens as literal hex for share images: satori (next/og)
+// The dark theme's tokens as literal hex for share images: satori (next/og)
 // renders outside the page, so CSS variables don't resolve there. Mirrors
-// the dark block of globals.css — keep the two in step.
+// the .dark block of globals.css — keep the two in step.
 export const OG = {
-  page: '#0a1220', surface: '#111c2e', surface2: '#17243a', ink: '#e8edf5', ink2: '#b4bfd0', muted: '#8a96ab', grid: '#1c2940', axis: '#2a3a55', mid: '#2a3447',
-  'out-1': '#1c5cab', 'out-3': '#6da7ec', 'out-4': '#b7d3f6', 'in-1': '#884d01', 'in-3': '#e98916', 'in-4': '#fec28f',
-  'storm-1': '#a82571', 'storm-2': '#ca488f', 'storm-3': '#ed68ae', 'storm-4': '#ff98ca',
-  onDark: '#e8edf5', onLight: '#0a1220',
+  page: '#0b0e11', surface: '#12161c', surface2: '#181d24', ink: '#eaecef', ink2: '#a3aab5', muted: '#7a8391', grid: '#1a1f27', axis: '#2a313b', mid: '#2b323c',
+  'out-1': '#9a2a3c', 'out-3': '#f04a5f', 'out-4': '#ff9aa6', 'in-1': '#0e6a5f', 'in-3': '#16a394', 'in-4': '#6fd6c4',
+  'storm-1': '#6b4e0a', 'storm-2': '#a87a0a', 'storm-3': '#e0a312', 'storm-4': '#ffd36b',
+  brand: '#8a7dff', onDark: '#eaecef', onLight: '#0b0e11',
 } as const;
 
-/** Ink on a filled class: light fills (step 3-4 in navy) take dark ink. */
-export const ogInk = (cls: string) => (/-(3|4)$/.test(cls) ? OG.onLight : OG.onDark);
+/** Ink on a filled class, by measured contrast (globals.css --on-*): the
+ *  bright steps (3–4) and storm-2 take dark ink; the deep steps light ink. */
+export const ogInk = (cls: string) => (/-(3|4)$/.test(cls) || cls === 'storm-2' ? OG.onLight : OG.onDark);

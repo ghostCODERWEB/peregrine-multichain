@@ -36,7 +36,7 @@ const needChain = (v: unknown) => { const c = str(v, 30); if (!ALL_CHAIN_IDS.inc
 export const TOOLS: ToolDef[] = [
   {
     name: 'tide_weather',
-    description: 'The cross-chain weather: Chain Pressure Index (0-100) for every chain Nansen covers, the strongest inflow and outflow, rotation fronts (owner only), storm warnings and the headline. Free: reads TIDE\'s own scanner history.',
+    description: 'The cross-chain weather: Chain Pressure Index (0-100) for every chain Nansen covers, the strongest inflow and outflow, rotation fronts (owner only), storm warnings and the headline. Free: reads Peregrine\'s own scanner history.',
     inputSchema: { type: 'object', properties: {}, additionalProperties: false },
     run: (ctx) => {
       const b = buildBulletin(viewOf(ctx.mode));
@@ -62,13 +62,13 @@ export const TOOLS: ToolDef[] = [
   },
   {
     name: 'tide_storm',
-    description: 'The latest Storm Score (0-100 dump risk) TIDE stored for a token, with its six sub-scores and band. Free; returns nothing if no one has opened the token recently (open /token/{chain}/{address} to compute a fresh one).',
+    description: 'The latest Storm Score (0-100 dump risk) Peregrine stored for a token, with its six sub-scores and band. Free; returns nothing if no one has opened the token recently (open /token/{chain}/{address} to compute a fresh one).',
     inputSchema: { type: 'object', properties: { chain: chainArg, token: { type: 'string', description: 'Token contract address or mint.' } }, required: ['chain', 'token'], additionalProperties: false },
     run: (_ctx, a) => {
       const chain = needChain(a.chain), token = str(a.token, 120);
       const r = getDb().prepare('SELECT symbol, score, band, confidence, sub_scores, missing, market_cap_usd, computed_at FROM storm_scores WHERE chain = ? AND lower(token_address) = lower(?) ORDER BY id DESC LIMIT 1').get(chain, token) as
         { symbol: string | null; score: number; band: string; confidence: number; sub_scores: string; missing: string; market_cap_usd: number | null; computed_at: number } | undefined;
-      if (!r) return { found: false, note: 'TIDE has no Storm Score for this token yet.' };
+      if (!r) return { found: false, note: 'Peregrine has no Storm Score for this token yet.' };
       return { found: true, symbol: r.symbol, score: Math.round(r.score), band: r.band, confidence: r.confidence, subScores: JSON.parse(r.sub_scores), missing: JSON.parse(r.missing), marketCapUsd: r.market_cap_usd, computedAt: new Date(r.computed_at).toISOString() };
     },
   },
@@ -84,7 +84,7 @@ export const TOOLS: ToolDef[] = [
   },
   {
     name: 'tide_perps',
-    description: 'Hyperliquid perp pressure: the venue\'s Perp Pressure Index (0-100) and each coin\'s, from taker flow, funding and (owner/members) smart money\'s long/short book. Free: reads TIDE\'s hourly snapshots.',
+    description: 'Hyperliquid perp pressure: the venue\'s Perp Pressure Index (0-100) and each coin\'s, from taker flow, funding and (owner/members) smart money\'s long/short book. Free: reads Peregrine\'s hourly snapshots.',
     inputSchema: { type: 'object', properties: { symbol: { type: 'string', description: 'Optional coin, e.g. "BTC" or "xyz:SP500".' }, limit: { type: 'number', description: '1-50, default 15.' } }, additionalProperties: false },
     run: (ctx, a) => {
       const b = perpBoard(viewOf(ctx.mode));
@@ -152,7 +152,7 @@ export async function callTool(ctx: RequestContext, name: string, args: Record<s
   if (!t) return { isError: true, content: [{ type: 'text', text: `Unknown tool "${name}".` }] };
   try {
     const out = forMode(ctx.mode, await t.run(ctx, args));
-    const body = { source: 'Nansen API, via TIDE', view: ctx.mode, note: 'Readings, not forecasts or advice.', result: out };
+    const body = { source: 'Nansen API, via Peregrine', view: ctx.mode, note: 'Readings, not forecasts or advice.', result: out };
     return { content: [{ type: 'text', text: JSON.stringify(body) }], structuredContent: body };
   } catch (e) {
     return { isError: true, content: [{ type: 'text', text: (e as Error).message.slice(0, 300) }] };

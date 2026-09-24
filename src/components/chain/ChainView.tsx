@@ -49,7 +49,7 @@ export function ChainView({ d, gaps }: { d: ChainPageData; gaps: ModuleGaps }) {
       )}
 
       <Card id="grid" title={d.grid.tiles.length ? gridTitle(d.chain, d.grid.tiles) : `${name} market`}
-        sub="The chain's most-traded tokens today, one tile each: colour is the 24h move (amber up, blue down), the bar is volume. All traders."
+        sub="The chain's most-traded tokens today, one tile each: colour is the 24h move (green up, red down), the bar is volume. All traders."
         action={d.grid.provenance ? <InfoPopover p={d.grid.provenance} /> : undefined}>
         {d.grid.tiles.length ? <MarketGrid chain={d.chain} tiles={d.grid.tiles} /> : <Unavailable text={d.grid.unavailable ?? `Nansen returned no tokens for ${name}.`} />}
       </Card>
@@ -77,7 +77,7 @@ export function ChainView({ d, gaps }: { d: ChainPageData; gaps: ModuleGaps }) {
           id="tide"
           className="lg:col-span-2"
           title={d.weather.source ? tideTitle(d.chain, d.tide, `${who} flow`) : 'Tide'}
-          sub={`Running total of ${who} net flow into ${name} from TIDE's own snapshots. The shaded fan is a 24h Holt forecast with an 80% band.`}
+          sub={`Running total of ${who} net flow into ${name} from Peregrine's own snapshots. The shaded fan is a 24h Holt forecast with an 80% band.`}
         >
           {d.weather.source ? <TideChart tide={d.tide} /> : <p className="text-sm text-ink-2">{gaps.pressure}</p>}
         </Card>
@@ -94,7 +94,7 @@ export function ChainView({ d, gaps }: { d: ChainPageData; gaps: ModuleGaps }) {
         <Card
           id="sectors"
           title={d.flows.kind === 'smart-money' ? sectorsTitle(d.chain, d.flows) : 'Sectors'}
-          sub="Tile area = gross smart-money flow through the sector in 24h; color = net direction (amber in, blue out)."
+          sub="Tile area = gross smart-money flow through the sector in 24h; color = net direction (green in, red out)."
         >
           {d.flows.kind === 'unavailable' ? <p className="text-sm text-ink-2">{d.flows.unavailable}</p>
             : d.mode === 'public' && gaps.tier === 'A' ? <Unavailable text="Sector flows come from Nansen smart-money inflows, which are shown to the API key owner only." />

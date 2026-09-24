@@ -74,7 +74,7 @@ export async function rideQuote(chain: string, token: string, amountUsd: number,
         { label: 'Best route out', value: quotes[0] ? `${usd(quotes[0].outUsd)} via ${quotes[0].aggregator}` : '—' },
       ],
       calls: [{ endpoint: 'trade/quote', body: { ...query, wallet_address: '<public burn address: quote only>' }, ref: 'GET, live' }],
-      notes: ['TIDE never signs, prepares or executes a trade. The quote is a price, not a recommendation.'],
+      notes: ['Peregrine never signs, prepares or executes a trade. The quote is a price, not a recommendation.'],
     },
   };
 }

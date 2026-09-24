@@ -68,7 +68,7 @@ function Depth({ book }: { book: NonNullable<PmDetail['book']> }) {
       <line x1={P.l} x2={W - P.r} y1={y(0)} y2={y(0)} stroke="var(--axis)" />
       {bids.length > 0 && <path d={step(bids)} fill="none" stroke="var(--in-2)" strokeWidth={2} />}
       {asks.length > 0 && <path d={step(asks)} fill="none" stroke="var(--out-2)" strokeWidth={2} />}
-      <text x={P.l} y={P.t + 10} className="fill-ink-muted text-[10.5px]">cumulative USD · amber bids · blue asks</text>
+      <text x={P.l} y={P.t + 10} className="fill-ink-muted text-[10.5px]">cumulative USD · green bids · red asks</text>
     </svg>
   );
 }
@@ -100,11 +100,10 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
   return (
     <div className="space-y-4">
       <section aria-labelledby="pm-title" className="glass rise relative overflow-hidden rounded-2xl p-4 sm:p-6">
-        <div aria-hidden className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full opacity-30 blur-3xl" style={{ background: 'var(--brand-2)' }} />
         <div className="relative flex flex-col gap-5 lg:flex-row lg:items-start">
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-center gap-2 text-[12px] text-ink-2">
-              <span className="rounded-full border border-border px-2 py-0.5">Polymarket via Nansen</span>
+              <span className="rounded border border-border px-2 py-0.5">Polymarket via Nansen</span>
               <span className="num text-ink-muted">This view: {board.tally.calls} Nansen calls, {board.tally.credits} credits ({board.tally.cached} from cache)</span>
             </div>
             <h1 id="pm-title" className="mt-1.5 text-lg font-semibold leading-snug text-ink sm:text-xl">{title}</h1>
@@ -132,12 +131,12 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
         </div>
         <div className="relative mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-border/60 pt-3 text-[11.5px] text-ink-muted">
           <InfoPopover p={board.provenance} />
-          <span>Prices are implied probabilities, not forecasts from TIDE · not financial advice</span>
+          <span>Prices are implied probabilities, not forecasts from Peregrine · not financial advice</span>
         </div>
       </section>
 
       <Card id="weather" title={cats[0] ? `${cats.filter((c) => (c.weather ?? 0) >= 70).length} categories running hot, ${cats.filter((c) => c.weather != null && c.weather <= 30).length} quiet` : 'Category weather'}
-        sub="Each category's 24h volume against its daily pace over the last week: amber is busier than usual, blue quieter. Hover for its busiest market.">
+        sub="Each category's 24h volume against its daily pace over the last week: green is busier than usual, red quieter. Hover for its busiest market.">
         <ul className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-2" aria-label="Prediction categories by heat">
           {cats.map((c) => (
             <li key={c.category} title={c.topQuestion ?? undefined} className="rounded-xl border border-border/40 p-2.5" style={{ background: heatMix(c.weather) }}>
@@ -171,7 +170,7 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
               ))}
             </ul>
           ) : <p className="text-[12.5px] text-ink-2">No market with $50K+ volume moved today.</p>}
-          <p className="mt-2 text-[11px] text-ink-muted">Bar: 1-day change in YES price (amber up, blue down) · right: implied probability now</p>
+          <p className="mt-2 text-[11px] text-ink-muted">Bar: 1-day change in YES price (green up, red down) · right: implied probability now</p>
         </Card>
         <Card id="events" className="lg:col-span-2" title={board.events[0] ? `Busiest event: ${board.events[0].title}` : 'Events'} sub="Events (groups of related markets) by 24h volume.">
           <ul className="space-y-1.5 text-[12.5px]">
@@ -259,7 +258,7 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
                     <thead className="text-[11px] uppercase tracking-wider text-ink-muted"><tr><th className="py-1.5 font-normal">Holder</th><th className="font-normal">Side</th><th className="font-normal">Value</th><th className="font-normal">Markets</th><th className="font-normal">Won</th><th className="text-right font-normal">PnL</th></tr></thead>
                     <tbody>{records.data.records.map((r) => (
                       <tr key={r.address} className="border-t border-border">
-                        <td className="py-1.5"><Link href={`/wallet/${r.address}`} className="text-ink hover:underline">{shortAddress(r.address)}</Link>{r.skilled && <span className="ml-1.5 rounded-full bg-brand/15 px-1.5 text-[10.5px] text-ink">skilled</span>}</td>
+                        <td className="py-1.5"><Link href={`/wallet/${r.address}`} className="text-ink hover:underline">{shortAddress(r.address)}</Link>{r.skilled && <span className="ml-1.5 rounded bg-brand/15 px-1.5 text-[10.5px] text-ink">skilled</span>}</td>
                         <td style={{ color: /yes/i.test(r.side) ? 'var(--in-2)' : 'var(--out-2)' }}>{r.side}</td>
                         <td className="num text-ink">{usd(r.valueUsd)}</td>
                         <td className="num text-ink-2">{r.marketsTraded ?? '—'}</td>
@@ -295,7 +294,7 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
           </table>
         </div>
       </Card>
-      <p className="text-[11.5px] text-ink-muted">Market prices are the crowd&apos;s implied probabilities. TIDE&apos;s readings on top of them (heat, skilled money vs price) have no track record until the M9 backtest. Not financial advice.</p>
+      <p className="text-[11.5px] text-ink-muted">Market prices are the crowd&apos;s implied probabilities. Peregrine&apos;s readings on top of them (heat, skilled money vs price) have no track record until the M9 backtest. Not financial advice.</p>
     </div>
   );
 }

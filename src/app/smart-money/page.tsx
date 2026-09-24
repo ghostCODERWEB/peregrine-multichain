@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { displayMode } from '@/server/mode';
 import { SmartMoneyDesk } from '@/components/smart-money/SmartMoneyDesk';
 
-export const metadata: Metadata = { title: 'Smart-money desk — TIDE' };
+export const metadata: Metadata = { title: 'Smart-money desk — Peregrine' };
 export const dynamic = 'force-dynamic';
 
 const PANELS = [
@@ -26,7 +26,7 @@ export default async function SmartMoneyPage() {
             It is built from Nansen&apos;s smart-money holdings, PnL leaderboard, perp trades and DCAs. Nansen&apos;s redistribution rules don&apos;t allow those in public views,
             so the desk is shown only to this instance&apos;s owner, or to you once you sign in with your own Nansen API key.
           </p>
-          <Link href="/account" className="mt-4 inline-flex rounded-full bg-brand/15 px-3.5 py-1.5 text-[13px] text-ink ring-1 ring-brand/40 hover:bg-brand/25">Sign in with your Nansen key</Link>
+          <Link href="/account" className="mt-4 inline-flex rounded bg-brand/15 px-3.5 py-1.5 text-[13px] text-ink ring-1 ring-brand/40 hover:bg-brand/25">Sign in with your Nansen key</Link>
         </section>
         <section aria-labelledby="sm-what" className="glass rise rounded-2xl p-4 sm:p-6">
           <h2 id="sm-what" className="text-[15px] font-semibold text-ink">What the desk shows</h2>

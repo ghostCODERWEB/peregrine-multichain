@@ -13,7 +13,7 @@ export function ScoreRing({ score, size = 64, stroke = 6, color, label, sublabel
       <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="-rotate-90" aria-hidden>
         <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="var(--grid)" strokeWidth={stroke} />
         <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke={color} strokeWidth={stroke} strokeLinecap="round"
-          strokeDasharray={`${((v / 100) * c).toFixed(2)} ${c.toFixed(2)}`} style={{ filter: `drop-shadow(0 0 ${stroke}px color-mix(in oklab, ${color} 45%, transparent))` }} />
+          strokeDasharray={`${((v / 100) * c).toFixed(2)} ${c.toFixed(2)}`} />
       </svg>
       <span className="absolute inset-0 flex flex-col items-center justify-center leading-none">
         <span className="num font-semibold text-ink" style={{ fontSize: size * 0.3 }}>{Math.round(v)}</span>

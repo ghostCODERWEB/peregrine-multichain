@@ -16,8 +16,8 @@ export function StormV2Section({ r }: { r: V2Report | null }) {
       <Card id="v2-pilot" className="lg:col-span-3" title={`Storm rebuilt point in time: ${n} pilot observations, ${r.creditsNominal} credits against an empty cache`}
         sub="The live formulas applied to Nansen's historical endpoints as of each date, then the next 7 days of price. Insider clusters can't be rebuilt at a past date, so that input is dropped.">
         <div className="flex flex-wrap gap-1.5">
-          {inputs.map(([k, label]) => <span key={k} className="num rounded-full border border-border px-2 py-0.5 text-[11.5px] text-ink-2">{label} {r.coverage[k]}/{n}</span>)}
-          <span className="num rounded-full border border-dashed border-border px-2 py-0.5 text-[11.5px] text-ink-muted">I insider 0/{n}</span>
+          {inputs.map(([k, label]) => <span key={k} className="num rounded border border-border px-2 py-0.5 text-[11.5px] text-ink-2">{label} {r.coverage[k]}/{n}</span>)}
+          <span className="num rounded border border-dashed border-border px-2 py-0.5 text-[11.5px] text-ink-muted">I insider 0/{n}</span>
         </div>
         <div className="mt-3 overflow-x-auto">
           <table className="w-full min-w-[560px] text-left text-[12.5px]">
@@ -103,13 +103,13 @@ export function StrategyLab({ chains }: { chains: string[] }) {
   }
   const m = res?.matched;
   return (
-    <Card id="strategy" title="Strategy lab: test a rule on TIDE's own history" sub="Pick alpha scores to act on and a horizon; see how those picks did afterwards, against every token the board showed at the same moments. Free: no Nansen call.">
+    <Card id="strategy" title="Strategy lab: test a rule on Peregrine's own history" sub="Pick alpha scores to act on and a horizon; see how those picks did afterwards, against every token the board showed at the same moments. Free: no Nansen call.">
       <div className="flex flex-wrap items-end gap-3 text-[12.5px]">
         <label className="text-ink-2">Alpha from<input id="rule-min" value={min} onChange={(e) => setMin(e.target.value.replace(/\D/g, ''))} className="num mt-1 block w-20 rounded-lg border border-border bg-raised px-2 py-1 text-ink" /></label>
         <label className="text-ink-2">to<input id="rule-max" value={max} onChange={(e) => setMax(e.target.value.replace(/\D/g, ''))} className="num mt-1 block w-20 rounded-lg border border-border bg-raised px-2 py-1 text-ink" /></label>
         <label className="text-ink-2">Chain<select id="rule-chain" value={chain} onChange={(e) => setChain(e.target.value)} className="mt-1 block rounded-lg border border-border bg-raised px-2 py-1 text-ink"><option value="">Any</option>{chains.map((c) => <option key={c} value={c}>{chainName(c)}</option>)}</select></label>
         <label className="text-ink-2">Horizon<select id="rule-h" value={horizon} onChange={(e) => setHorizon(Number(e.target.value))} className="mt-1 block rounded-lg border border-border bg-raised px-2 py-1 text-ink">{[3, 6, 12, 24].map((h) => <option key={h} value={h}>{h} hours</option>)}</select></label>
-        <button onClick={run} className="rounded-full bg-brand/15 px-3.5 py-1.5 text-ink ring-1 ring-brand/40 hover:bg-brand/25">Test the rule</button>
+        <button onClick={run} className="rounded bg-brand/15 px-3.5 py-1.5 text-ink ring-1 ring-brand/40 hover:bg-brand/25">Test the rule</button>
       </div>
       {err && <p className="mt-2 text-[12.5px] text-ink">{err}</p>}
       {res && (

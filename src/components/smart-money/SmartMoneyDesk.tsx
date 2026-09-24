@@ -100,10 +100,9 @@ export function SmartMoneyDesk({ mode }: { mode: 'owner' | 'member' }) {
   return (
     <div className="space-y-4">
       <section aria-labelledby="sm-title" className="glass rise relative overflow-hidden rounded-2xl p-4 sm:p-6">
-        <div aria-hidden className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full opacity-30 blur-3xl" style={{ background: 'var(--brand-2)' }} />
         <div className="relative">
           <div className="flex flex-wrap items-center gap-2 text-[12px]">
-            <span className="rounded-full bg-brand/12 px-2 py-0.5 text-ink">Private · {mode === 'owner' ? 'key owner' : 'your Nansen key'}</span>
+            <span className="rounded bg-brand/12 px-2 py-0.5 text-ink">Private · {mode === 'owner' ? 'key owner' : 'your Nansen key'}</span>
             <span className="text-ink-muted">Smart-money desk</span>
           </div>
           <h1 id="sm-title" className="mt-2 text-lg font-semibold leading-snug text-ink sm:text-xl">
@@ -191,7 +190,7 @@ export function SmartMoneyDesk({ mode }: { mode: 'owner' | 'member' }) {
               <tbody>
                 {d.holdings.slice(0, 120).map((h) => (
                   <tr key={h.chain + h.tokenAddress} onClick={() => pick(h)} className={`cursor-pointer border-t border-border hover:bg-raised/60 ${picked === h ? 'bg-raised' : ''}`}>
-                    <td className="py-1.5"><span className="text-ink">{h.symbol}</span> <span className="text-ink-muted">{chainName(h.chain)}</span>{h.crowdedExit && <span className="ml-1.5 rounded-full border border-dashed px-1.5 text-[10.5px] text-ink-2" style={{ borderColor: 'var(--storm-2)' }}>crowded exit</span>}</td>
+                    <td className="py-1.5"><span className="text-ink">{h.symbol}</span> <span className="text-ink-muted">{chainName(h.chain)}</span>{h.crowdedExit && <span className="ml-1.5 rounded border border-dashed px-1.5 text-[10.5px] text-ink-2" style={{ borderColor: 'var(--storm-2)' }}>crowded exit</span>}</td>
                     <td className="num text-ink">{usd(h.valueUsd)}</td>
                     <td className="num text-ink">{h.change24h == null ? '—' : `${h.change24h >= 0 ? '+' : '−'}${pct(Math.abs(h.change24h), 1)}`}</td>
                     <td className="num text-ink">{h.holders}</td>
@@ -229,7 +228,7 @@ export function SmartMoneyDesk({ mode }: { mode: 'owner' | 'member' }) {
                       <td className="text-right">
                         {canFollow && (
                           <button onClick={() => toggleFollow(l.address, !isFollowed(l.address))} aria-pressed={isFollowed(l.address)}
-                            className={`rounded-full px-2 py-0.5 text-[11.5px] ${isFollowed(l.address) ? 'bg-brand/15 text-ink ring-1 ring-brand/40' : 'border border-border text-ink-2 hover:text-ink'}`}>
+                            className={`rounded px-2 py-0.5 text-[11.5px] ${isFollowed(l.address) ? 'bg-brand/15 text-ink ring-1 ring-brand/40' : 'border border-border text-ink-2 hover:text-ink'}`}>
                             {isFollowed(l.address) ? 'Following' : 'Follow'}
                           </button>
                         )}
@@ -266,7 +265,7 @@ export function SmartMoneyDesk({ mode }: { mode: 'owner' | 'member' }) {
 
       <div className="grid gap-4 lg:grid-cols-2">
         <Card id="sm-perps" title={perps.state === 'ok' && perps.data.tilt[0] ? `Smart money's biggest new perp bet: ${perps.data.tilt[0].netUsd >= 0 ? 'long' : 'short'} ${perps.data.tilt[0].symbol}, ${usd(Math.abs(perps.data.tilt[0].netUsd))} net in 24h` : 'Smart-money perp positions'}
-          sub="New Hyperliquid positions smart money opened in 24 hours: net exposure per coin (amber long, blue short), then the largest trades."
+          sub="New Hyperliquid positions smart money opened in 24 hours: net exposure per coin (green long, red short), then the largest trades."
           action={perps.state === 'ok' ? <InfoPopover p={perps.data.provenance} /> : undefined}>
           {perps.state === 'ok' ? <PerpPanel p={perps.data} /> : perps.state === 'error' ? <Unavailable text={perps.message} /> : <WaveLoading what="smart-money perp trades" height={320} />}
         </Card>
