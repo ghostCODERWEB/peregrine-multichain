@@ -82,3 +82,18 @@ export function aucInterval(a: number | null, positives: number, negatives: numb
   const se = Math.sqrt((a * (1 - a) + (positives - 1) * (q1 - a * a) + (negatives - 1) * (q2 - a * a)) / (positives * negatives));
   return [Math.max(0, a - 1.96 * se), Math.min(1, a + 1.96 * se)];
 }
+
+/**
+ * How many observations a fit needs before an AUC of `auc` would have its
+ * 95% lower bound at or above `floor` (Hanley & McNeil), at an event base
+ * rate of `baseRate`. The honest price of "fit the weights": rare events
+ * need many observations to say anything.
+ */
+export function requiredObservations(auc: number, floor: number, baseRate: number, max = 1_000_000): { n: number; events: number } | null {
+  if (!(baseRate > 0 && baseRate < 1) || auc <= floor) return null;
+  const ok = (n: number) => { const pos = Math.round(n * baseRate), neg = n - pos; const ci = aucInterval(auc, pos, neg); return pos >= 2 && ci != null && ci[0] >= floor; };
+  let lo = 2, hi = 4;
+  while (!ok(hi)) { hi *= 2; if (hi > max) return null; }
+  while (lo < hi) { const mid = Math.floor((lo + hi) / 2); if (ok(mid)) hi = mid; else lo = mid + 1; }
+  return { n: lo, events: Math.round(lo * baseRate) };
+}

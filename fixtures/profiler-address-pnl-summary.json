@@ -180,7 +180,7 @@
       "realized_pnl_percent": 0,
       "win_rate": 0
     },
-    "recordedAt": 1790237188488
+    "recordedAt": 1790238000528
   },
   {
     "requestHash": "aaec1d1b9edb21629ee922a8cef8b44f5321c046",
@@ -241,6 +241,6 @@
       "realized_pnl_percent": 5.026959169957594,
       "win_rate": 0.3916083916083916
     },
-    "recordedAt": 1790237195562
+    "recordedAt": 1790238004790
   }
 ]

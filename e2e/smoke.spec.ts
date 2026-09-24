@@ -193,6 +193,9 @@ test('lab, coverage and alerts render', async ({ page }) => {
   const w = await watch(page);
   await page.goto('/lab');
   await expect(page.getByRole('heading', { name: /Storm \(≥50% drawdown/ })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Why the weights stay expert priors' })).toBeVisible();
+  await page.getByRole('button', { name: 'Test the rule' }).click();
+  await expect(page.locator('section[aria-labelledby="strategy"]')).toContainText(/hours later/);
   await page.goto('/coverage');
   await expect(page.getByRole('heading', { level: 1 })).toContainText('38 chains');
   await page.goto('/alerts');

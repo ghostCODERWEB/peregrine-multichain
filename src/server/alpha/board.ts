@@ -49,7 +49,8 @@ const share = (net: number | null, vol: number | null) => (net == null || !vol |
 export function alphaBoard(view: PressureView, now = Date.now(), limit = 60): AlphaBoard {
   const db = getDb();
   const since = now - 36 * 3_600_000;
-  const pulse = db.prepare('SELECT * FROM token_pulse WHERE snapshot_at >= ? ORDER BY snapshot_at').all(since) as PulseRow[];
+  // Bounded by `now` on both sides, so a board rebuilt for a past moment never sees later data.
+  const pulse = db.prepare('SELECT * FROM token_pulse WHERE snapshot_at >= ? AND snapshot_at <= ? ORDER BY snapshot_at').all(since, now) as PulseRow[];
   const hourlyAt = [...new Set(pulse.filter((r) => r.window === '1h' && r.source === 'market-flow').map((r) => r.snapshot_at))].sort((a, b) => a - b);
   if (!hourlyAt.length) {
     return { rows: [], at: null, scans: 0, chains: [], view, provenance: null, unavailable: 'The Alpha board builds from the scanner’s token snapshots; they begin with its next run.' };
@@ -74,8 +75,8 @@ export function alphaBoard(view: PressureView, now = Date.now(), limit = 60): Al
   }
 
   const storms = new Map((db.prepare(`
-    SELECT chain, token_address, score FROM storm_scores WHERE id IN (SELECT MAX(id) FROM storm_scores WHERE computed_at >= ? GROUP BY chain, token_address)
-  `).all(now - 7 * 86_400_000) as Array<{ chain: string; token_address: string; score: number }>).map((s) => [`${s.chain}:${s.token_address.toLowerCase()}`, s.score]));
+    SELECT chain, token_address, score FROM storm_scores WHERE id IN (SELECT MAX(id) FROM storm_scores WHERE computed_at >= ? AND computed_at <= ? GROUP BY chain, token_address)
+  `).all(now - 7 * 86_400_000, now) as Array<{ chain: string; token_address: string; score: number }>).map((s) => [`${s.chain}:${s.token_address.toLowerCase()}`, s.score]));
 
   const rows: AlphaRow[] = [];
   const candidates = new Set([...latest1h.keys(), ...last24.keys()]);

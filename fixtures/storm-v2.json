@@ -1,0 +1,126 @@
+{
+  "generatedAt": "2026-09-24T08:12:16.403Z",
+  "kind": "pilot",
+  "cap": 300,
+  "creditsSpent": 130,
+  "creditsNominal": 270,
+  "calls": 22,
+  "perObservationCredits": 65,
+  "observations": [
+    {
+      "chain": "base",
+      "token": "0x3c5cd672b204ba0fc48e93b98c0922920a87912d",
+      "symbol": "BSW",
+      "asOf": "2026-08-26",
+      "subScores": {
+        "concentration": 76.7675171261161,
+        "insider": null,
+        "windShear": 93.83364269103166,
+        "exitLiquidity": 0,
+        "sellPressure": 24.96944705337771,
+        "nansenRisk": null
+      },
+      "storm": 28.597621652727934,
+      "missing": [
+        "insider",
+        "nansenRisk"
+      ],
+      "maxDrawdown7d": 0.06252353959624757,
+      "event50": 0,
+      "event30": 0
+    },
+    {
+      "chain": "base",
+      "token": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+      "symbol": "AERO",
+      "asOf": "2026-08-26",
+      "subScores": {
+        "concentration": 59.262061253042106,
+        "insider": null,
+        "windShear": 98.20663142074068,
+        "exitLiquidity": 57.97665128331434,
+        "sellPressure": 22.681441892564756,
+        "nansenRisk": 43.67168131620464
+      },
+      "storm": 77.63759960602232,
+      "missing": [
+        "insider"
+      ],
+      "maxDrawdown7d": 0.12173258953300847,
+      "event50": 0,
+      "event30": 0
+    },
+    {
+      "chain": "base",
+      "token": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+      "symbol": "AERO",
+      "asOf": "2026-09-09",
+      "subScores": {
+        "concentration": 59.18185667400074,
+        "insider": null,
+        "windShear": 50.38894412281846,
+        "exitLiquidity": 57.60356930052731,
+        "sellPressure": 23.376737308610448,
+        "nansenRisk": 44.11782045168842
+      },
+      "storm": 39.100034684077315,
+      "missing": [
+        "insider"
+      ],
+      "maxDrawdown7d": 0.06262177516826928,
+      "event50": 0,
+      "event30": 0
+    },
+    {
+      "chain": "base",
+      "token": "0xacfe6019ed1a7dc6f7b508c02d1b04ec88cc21bf",
+      "symbol": "VVV",
+      "asOf": "2026-09-09",
+      "subScores": {
+        "concentration": 68.15955480965728,
+        "insider": null,
+        "windShear": 51.69842632185853,
+        "exitLiquidity": 53.04544662539349,
+        "sellPressure": 21.001460448862332,
+        "nansenRisk": 52.012496367335075
+      },
+      "storm": 48.198708345151765,
+      "missing": [
+        "insider"
+      ],
+      "maxDrawdown7d": 0.06325675369502104,
+      "event50": 0,
+      "event30": 0
+    }
+  ],
+  "coverage": {
+    "concentration": 4,
+    "windShear": 4,
+    "sellPressure": 4,
+    "nansenRisk": 3,
+    "exitLiquidity": 4,
+    "label": 4
+  },
+  "power": [
+    {
+      "event": "50% drawdown within 7 days (the Storm event)",
+      "baseRate": 0.042,
+      "needed": {
+        "n": 822,
+        "events": 35
+      },
+      "credits": 53430
+    },
+    {
+      "event": "30% drawdown within 7 days",
+      "baseRate": 0.15,
+      "needed": {
+        "n": 244,
+        "events": 37
+      },
+      "credits": 15860
+    }
+  ],
+  "decision": "Expert priors kept. Replacing them needs an out-of-sample AUC above 0.70 with a 95% lower bound above 0.60; at the Storm event's 4.2% base rate that takes about 822 point-in-time observations (≈53,430 credits at 65 credits each), and 244 (≈15,860 credits) for a 30% drawdown. Both exceed the 5,000-credit budget for this module.",
+  "failed": []
+}

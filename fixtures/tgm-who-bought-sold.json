@@ -4669,15 +4669,15 @@
           "sold_token_volume": 10650757.74364847,
           "token_trade_volume": 3983859.344094226,
           "bought_volume_usd": 250722.34207648676,
-          "sold_volume_usd": 411054.71387141454,
-          "trade_volume_usd": 160332.37179492778
+          "sold_volume_usd": 411877.9508823367,
+          "trade_volume_usd": 161155.60880584994
         },
         {
           "address": "0xb200fc2ae3bd585f42fb6c11bd67e0e44134e3fd",
           "address_label": null,
           "bought_token_volume": 0,
-          "sold_token_volume": 6296967.093101184,
-          "token_trade_volume": 6296967.093101184,
+          "sold_token_volume": 6300635.093101184,
+          "token_trade_volume": 6300635.093101184,
           "bought_volume_usd": 0,
           "sold_volume_usd": 259905.7145279277,
           "trade_volume_usd": 259905.7145279277
@@ -4695,12 +4695,12 @@
         {
           "address": "0xeb7c90d3d8eb5cce9c3da4725ba9d5177cf8cc50",
           "address_label": null,
-          "bought_token_volume": 3589759.9275174565,
+          "bought_token_volume": 3605768.6621579365,
           "sold_token_volume": 4067000,
-          "token_trade_volume": 477240.07248254353,
-          "bought_volume_usd": 133112.38207147893,
+          "token_trade_volume": 461231.3378420635,
+          "bought_volume_usd": 133539.55220544114,
           "sold_volume_usd": 157022.0631428849,
-          "trade_volume_usd": 23909.68107140597
+          "trade_volume_usd": 23482.51093744376
         },
         {
           "address": "0xb80d90fcf2ed0e4febe02d2a209109bf1f62df95",
@@ -4709,8 +4709,8 @@
           "sold_token_volume": 3724270.16825039,
           "token_trade_volume": 2041644.4895836094,
           "bought_volume_usd": 57353.951425466956,
-          "sold_volume_usd": 134001.8356364575,
-          "trade_volume_usd": 76647.88421099054
+          "sold_volume_usd": 134969.5731720599,
+          "trade_volume_usd": 77615.62174659295
         },
         {
           "address": "0xdcdda7b494380552c58dcae45f9193fbf456f795",
@@ -4869,7 +4869,7 @@
         "is_last_page": false
       }
     },
-    "recordedAt": 1790237184888
+    "recordedAt": 1790237993396
   },
   {
     "requestHash": "2e4c21f393145251c452f5bd1e58ac58e6dfc531",
@@ -4998,11 +4998,11 @@
           "address": "0xa75990bbe6a02c264e10708d4efc967586e3abbd",
           "address_label": null,
           "bought_token_volume": 1805323.6467307701,
-          "sold_token_volume": 1292092.9881528302,
-          "token_trade_volume": 513230.65857793996,
+          "sold_token_volume": 1326881.9012597802,
+          "token_trade_volume": 478441.74547098996,
           "bought_volume_usd": 65531.00457179273,
-          "sold_volume_usd": 50185.01912110281,
-          "trade_volume_usd": 15345.985450689921
+          "sold_volume_usd": 50558.97833913183,
+          "trade_volume_usd": 14972.0262326609
         },
         {
           "address": "0x4ede629216256eace56b32c620261da2360313d9",
@@ -5101,7 +5101,7 @@
         "is_last_page": false
       }
     },
-    "recordedAt": 1790237184879
+    "recordedAt": 1790237993659
   },
   {
     "requestHash": "34741c0f36aa54811850ad974bfe90ef965d14e0",

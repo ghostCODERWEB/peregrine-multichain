@@ -26,7 +26,8 @@
     "fetch-docs": "tsx scripts/fetch-docs.ts",
     "gen-api": "tsx scripts/gen-api.ts",
     "validate-api": "tsx scripts/validate-endpoints.ts",
-    "sanitize-fixtures": "tsx scripts/sanitize-fixtures.ts"
+    "sanitize-fixtures": "tsx scripts/sanitize-fixtures.ts",
+    "storm-v2": "tsx scripts/storm-v2.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",

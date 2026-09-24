@@ -9,6 +9,15 @@ import { displayMode, viewOf } from '@/server/mode';
 import { chainName, num, pct } from '@/lib/viz/format';
 import type { ModelReport } from '@/server/backtest/run';
 import type { Provenance } from '@/lib/provenance';
+import fs from 'node:fs';
+import path from 'node:path';
+import { StormV2Section, ForwardSection, StrategyLab } from '@/components/lab/LabV2';
+import { alphaForward, ppiForward } from '@/server/backtest/forward';
+import type { V2Report } from '@/server/backtest/storm-v2';
+
+function loadStormV2(): V2Report | null {
+  try { return JSON.parse(fs.readFileSync(path.resolve('fixtures/storm-v2.json'), 'utf8')) as V2Report; } catch { return null; }
+}
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = { title: 'Forecast Lab — TIDE' };
@@ -108,6 +117,17 @@ export default async function LabPage() {
       {bt && <ModelSection id="storm-model" r={bt.storm} title="Storm (≥50% drawdown in 7 days)" />}
       {bt && <ModelSection id="breakout-model" r={bt.breakout} title="Breakout (≥30% run-up in 7 days)" />}
 
+      <section aria-labelledby="v2" className="space-y-3">
+        <h2 id="v2" className="text-[13px] font-medium uppercase tracking-wider text-ink-muted">Storm v2: can its weights be fitted?</h2>
+        <StormV2Section r={loadStormV2()} />
+      </section>
+
+      <section aria-labelledby="fwd" className="space-y-3">
+        <h2 id="fwd" className="text-[13px] font-medium uppercase tracking-wider text-ink-muted">Forward checks: TIDE&apos;s live readings, scored as time passes</h2>
+        <ForwardSection alpha={alphaForward(mode, 6)} ppi={ppiForward(mode, 3)} />
+        <StrategyLab chains={weatherMap(now, mode).filter((c) => c.cpi != null).map((c) => c.chain).sort()} />
+      </section>
+
       <div className="grid gap-4 lg:grid-cols-2">
         <Card id="cone" title={bt ? `Volatility cone: ${pct(bt.cone[0]?.coverage, 0)} of 1-day moves landed inside the 80% band` : 'Volatility cone'}
           sub="Every token-week in the backtest: was the price 1, 3 and 7 days later inside the cone drawn at the time? 80% is calibrated; higher means the cone is a little wide.">
@@ -154,7 +174,7 @@ export default async function LabPage() {
           <h2 className="text-[15px] font-semibold text-ink">Method and limits</h2>
           <ul className="mt-2 list-disc space-y-1 pl-5 text-[13px] text-ink-2">
             {bt.notes.map((n) => <li key={n}>{n}</li>)}
-            <li>The Storm Score on token pages keeps its expert-prior weights: its holder-concentration and insider inputs have no point-in-time endpoint, so they cannot be fitted here. The fitted model instead powers the separate 7-day odds, with this record next to them.</li>
+            <li>The Storm Score on token pages keeps its expert-prior weights. Storm v2 below rebuilds five of its six inputs point in time; the insider input has no point-in-time source, and a fit that could clear the bar needs far more observations than the credit budget buys. The fitted screener model instead powers the separate 7-day odds, with this record next to them.</li>
             <li>Generated {bt.generatedAt.slice(0, 16).replace('T', ' ')} UTC by <code className="num">pnpm backtest</code>; results ship in the repo (fixtures/backtest-results.json) so DEMO_MODE shows them without a key.</li>
           </ul>
         </section>

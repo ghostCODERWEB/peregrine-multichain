@@ -21,7 +21,7 @@
 
 const STABLECOINS = new Set([
   'USDC', 'USDT', 'DAI', 'USDE', 'SUSDE', 'FDUSD', 'PYUSD', 'TUSD', 'USDS', 'SUSDS', 'GHO', 'FRAX', 'FRXUSD',
-  'LUSD', 'CRVUSD', 'USD0', 'USDB', 'USDBC', 'USDC.E', 'USDT.E', 'USDT0', 'USDM', 'RLUSD', 'AUSD', 'USD1', 'USDG',
+  'LUSD', 'CRVUSD', 'USD0', 'USDB', 'USDBC', 'USDC.E', 'USDT.E', 'USDT0', 'USDM', 'RLUSD', 'AUSD', 'USD1', 'USDG', 'USAD',
   'EURC', 'EURS', 'EURE',
   // Stables Nansen's include_stablecoins:false lets through on non-EVM
   // chains (seen live on Sui and Tron screener results).
