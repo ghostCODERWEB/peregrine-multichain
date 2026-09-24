@@ -14,6 +14,13 @@ test('desk: a call made on a token page lands on the Desk with its entry receipt
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto(AERO);
+  // L2: three separate gauges with their own receipts, and data-written falsifiers.
+  const gauges = page.locator('section', { has: page.getByRole('heading', { name: 'What would break this?' }) }).first();
+  for (const name of ['Direction', 'Confidence', 'Coordination risk']) await expect(gauges.getByRole('group', { name: new RegExp(`^${name}: `) })).toBeVisible({ timeout: 60_000 });
+  await expect(gauges.getByRole('button', { name: 'How this is computed: Direction' })).toBeVisible();
+  await expect(gauges.getByText('Three readings on purpose')).toBeVisible();
+  await gauges.evaluate((el) => el.scrollIntoView({ block: 'start' }));
+  await gauges.screenshot({ path: test.info().outputPath('gauges.png') });
   const card = page.locator('section', { has: page.getByRole('heading', { name: /^Make a call on/ }) });
   await expect(card.getByRole('radio', { name: 'Pass' })).toBeVisible({ timeout: 60_000 });
   await card.evaluate((el) => el.scrollIntoView({ block: 'center' }));
@@ -33,6 +40,7 @@ test('desk: a call made on a token page lands on the Desk with its entry receipt
   await expect(row).toContainText('pass');
   await expect(row).toContainText('7d · divergence');
   await expect(row).toContainText(/due in 6d \d+h/);
+  await expect(row).toContainText(/gauges then: direction [+−-]?\d+ · confidence \d+/);
   await expect(page.getByRole('heading', { name: 'Trader DNA: nothing graded yet' })).toBeVisible();
   await row.getByRole('button', { name: /How this is computed: Entry price/ }).click();
   await expect(page.getByText('tgm/token-ohlcv').first()).toBeVisible();

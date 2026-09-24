@@ -31,6 +31,8 @@ describe('call cards (L1)', () => {
     expect(c.entryReceipt).toMatchObject({ endpoint: 'tgm/token-ohlcv', served: 'live', credits: 1, excerpt: expect.stringContaining('close 0.72') });
     expect(vi.mocked(callNansen).mock.calls[0][1]).toMatchObject({ chain: 'base', token_address: T, timeframe: '4h' });
     expect(c.context).toHaveProperty('storm');
+    const g = await createCall('owner', owner, { ...call, gauges: { direction: 42, confidence: 55, coordination: 12 } }, now);
+    expect(g.context?.gauges).toEqual({ direction: 42, confidence: 55, coordination: 12 });
   });
   it('refuses an invalidation on the wrong side, and caps open calls', async () => {
     vi.mocked(callNansen).mockResolvedValue(candles([Date.now() - 1000, 0.72]) as never);
@@ -65,6 +67,7 @@ describe('call cards (L1)', () => {
     expect((await POST(req('POST', { action: 'create', ...call }, undefined, 'https://elsewhere.invalid'))).status).toBe(403);
     expect((await POST(req('POST', { action: 'create', ...call, stance: 'moon' }))).status).toBe(400);
     expect((await POST(req('POST', { action: 'create', ...call, thesis: 'x'.repeat(201) }))).status).toBe(400);
+    expect((await POST(req('POST', { action: 'create', ...call, gauges: { direction: 140, confidence: 1, coordination: 1 } }))).status).toBe(400);
     const r = await POST(req('POST', { action: 'create', ...call }));
     expect(r.status).toBe(200);
     const cookie = r.headers.get('set-cookie')!;

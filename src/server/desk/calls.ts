@@ -19,7 +19,8 @@ export const ANON_DAILY_CAP = 300;
 const GRADE_DELAY = 10 * 60_000; // let the last candles land
 
 export interface Receipt { endpoint: string; body: unknown; at: number; served: 'live' | 'cache' | 'recorded'; credits: number; excerpt: string }
-export interface CallContext { storm: { score: number; band: string } | null; chainCpi: number | null; chainSource: string | null }
+export interface GaugeSnapshot { direction: number | null; confidence: number | null; coordination: number | null }
+export interface CallContext { storm: { score: number; band: string } | null; chainCpi: number | null; chainSource: string | null; gauges?: GaugeSnapshot | null }
 export interface CallCard {
   id: number; source: 'live' | 'replay'; chain: string; token: string; symbol: string | null;
   stance: Stance; horizon: Horizon; setup: Setup; thesis: string | null;
@@ -70,7 +71,7 @@ function snapshot(chain: string, token: string, ctx: RequestContext, now: number
   return { storm: storm ? { score: Math.round(storm.score), band: storm.band } : null, chainCpi, chainSource };
 }
 
-export interface NewCall { chain: string; token: string; symbol: string | null; stance: Stance; horizon: Horizon; setup: Setup; thesis: string | null; invalidation: number | null }
+export interface NewCall { chain: string; token: string; symbol: string | null; stance: Stance; horizon: Horizon; setup: Setup; thesis: string | null; invalidation: number | null; gauges?: GaugeSnapshot | null }
 
 export async function createCall(scope: string, ctx: RequestContext, c: NewCall, now = Date.now()): Promise<CallCard> {
   const db = getDb();
@@ -83,7 +84,7 @@ export async function createCall(scope: string, ctx: RequestContext, c: NewCall,
   const e = await entryPrice(c.chain, c.token, now);
   const problem = invalidationProblem(c.stance, e.price, c.invalidation);
   if (problem) throw new Error(`${problem} Entry is ${e.price}.`);
-  const context = snapshot(c.chain, c.token, ctx, now);
+  const context: CallContext = { ...snapshot(c.chain, c.token, ctx, now), gauges: c.gauges ?? null };
   const symbol = c.symbol ?? (db.prepare('SELECT symbol FROM storm_scores WHERE chain = ? AND token_address = ? ORDER BY id DESC LIMIT 1').get(c.chain, addressKey(c.token)) as { symbol: string | null } | undefined)?.symbol ?? null;
   const id = db.prepare(`INSERT INTO calls (scope, source, chain, token, symbol, stance, horizon, setup, thesis, entry_price, entry_at, invalidation, created_at, due_at, context, entry_receipt)
     VALUES (?, 'live', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`).run(scope, c.chain, c.token, symbol, c.stance, c.horizon, c.setup, c.thesis, e.price, e.candleAt, c.invalidation, now, now + HORIZONS[c.horizon].ms, JSON.stringify(context), JSON.stringify(e.receipt)).lastInsertRowid;

@@ -24,6 +24,8 @@ import { TokenHero, LiquidationLadder, leverageTitle, CohortBars } from './Visua
 import { HolderSphere } from './HolderSphere';
 import type { ReactNode } from 'react';
 import { CallForm } from '@/components/desk/CallForm';
+import { Gauges, gaugesTitle, gaugeReadings } from './Gauges';
+import type { GaugeInputs } from '@/lib/models/gauges';
 
 interface State {
   header?: Wave<TokenHeader>;
@@ -83,7 +85,7 @@ type Row = { cols: 2 | 3; items: Array<[string, number?]> };
 const LAYOUT: Record<View, Row[]> = {
   overview: [
     { cols: 3, items: [['storm'], ['market', 2]] },
-    { cols: 2, items: [['call', 2]] },
+    { cols: 3, items: [['gauges', 2], ['call']] },
     { cols: 3, items: [['sphere', 2], ['cohorts']] },
     { cols: 3, items: [['odds'], ['leverage', 2]] },
     { cols: 2, items: [['ask', 2]] },
@@ -109,7 +111,7 @@ const LAYOUT: Record<View, Row[]> = {
   ],
   all: [
     { cols: 3, items: [['storm'], ['market', 2]] },
-    { cols: 2, items: [['call', 2]] },
+    { cols: 3, items: [['gauges', 2], ['call']] },
     { cols: 3, items: [['sphere', 2], ['cohorts']] },
     { cols: 3, items: [['odds'], ['wind'], ['traders']] },
     { cols: 2, items: [['holders'], ['insiders']] },
@@ -149,10 +151,25 @@ export function TokenView({ chain, address, tier, mode }: { chain: string; addre
   const pending = (w: unknown) => w === undefined && !s.fatal;
   const title = ok(s.storm) ? stormTitle(symbol, s.storm) : h ? `${h.name ?? h.symbol} on ${chainName(chain)}` : gone(s.header) ? `Token on ${chainName(chain)}` : 'Reading the token from Nansen…';
 
+  const gaugeInputs: GaugeInputs = {
+    rings: ok(s.wind) ? s.wind.rings : null,
+    liquidityUsd: h?.liquidityUsd ?? null, volume24hUsd: h?.volume24hUsd ?? null, buyVolumeUsd: h?.buyVolumeUsd ?? null, sellVolumeUsd: h?.sellVolumeUsd ?? null,
+    clusters: ok(s.forensics) ? s.forensics.clusters.map((c) => ({ share: c.share, wallets: c.wallets.length, includesDeployer: c.includesDeployer })) : gone(s.forensics) ? [] : null,
+    clusteredHolderCount: ok(s.forensics) ? s.forensics.clusteredHolderCount : gone(s.forensics) ? 0 : null,
+    comparedHolders: ok(s.forensics) ? s.forensics.nodes.length : gone(s.forensics) ? 0 : null,
+  };
   const cards: Record<string, (cls: string) => ReactNode> = {
+    gauges: (cls) => (
+      <Card id="gauges" className={cls} title={gaugesTitle(gaugeInputs)} sub="Who is on which side, how much evidence there is, and whether the holders move as one. Three readings, never one score.">
+        {gone(s.wind) && gone(s.header) ? <Unavailable text={s.wind.unavailable} /> : pending(s.wind) && pending(s.header) ? <WaveLoading what="flows for the three gauges" height={220} /> : (
+          <Gauges inputs={gaugeInputs} ladder={ok(s.leverage) ? s.leverage.ladder : null}
+            sources={{ wind: ok(s.wind) ? s.wind.provenance : null, header: h?.provenance ?? null, forensics: ok(s.forensics) ? s.forensics.provenance : null, leverage: ok(s.leverage) ? s.leverage.provenance : null }} />
+        )}
+      </Card>
+    ),
     call: (cls) => (
       <Card id="call" className={cls} title={`Make a call on ${symbol ?? 'this token'}`} sub="Bull, bear or pass, a horizon, and what would prove you wrong. Saved to your Desk with Nansen’s price now, graded when the horizon passes.">
-        <CallForm chain={chain} token={address} symbol={symbol} price={ok(s.market) ? s.market.candles.at(-1)?.c ?? null : null} />
+        <CallForm chain={chain} token={address} symbol={symbol} price={ok(s.market) ? s.market.candles.at(-1)?.c ?? null : null} gauges={gaugeReadings(gaugeInputs)} />
       </Card>
     ),
     storm: (cls) => (

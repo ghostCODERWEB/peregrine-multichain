@@ -44,6 +44,7 @@ function CallRow({ c, now }: { c: CallCard; now: number | null }) {
         {c.gradeDetail && c.stance !== 'pass' && <span>best {pctS(c.gradeDetail.best)} · worst {pctS(c.gradeDetail.worst)} your way</span>}
         {c.context?.storm && <span>at the call: Storm {c.context.storm.score} {c.context.storm.band}</span>}
         {c.context?.chainCpi != null && <span>{chainName(c.chain)} pressure {c.context.chainCpi}</span>}
+        {c.context?.gauges && c.context.gauges.direction != null && <span>gauges then: direction {c.context.gauges.direction > 0 ? '+' : c.context.gauges.direction < 0 ? '−' : ''}{Math.abs(c.context.gauges.direction)} · confidence {c.context.gauges.confidence ?? '—'} · coordination {c.context.gauges.coordination ?? '—'}</span>}
       </div>
       {c.thesis && <p className="text-ink-2">“{c.thesis}”</p>}
       {!c.grade && c.gradeNote && <p className="text-[11.5px] text-ink-muted">{c.gradeNote}</p>}

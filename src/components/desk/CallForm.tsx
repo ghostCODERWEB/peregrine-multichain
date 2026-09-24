@@ -12,7 +12,7 @@ interface Saved { id: number; stance: Stance; horizon: Horizon; entry: number; d
 const STANCES: Array<[Stance, string]> = [['bull', 'Bull'], ['bear', 'Bear'], ['pass', 'Pass']];
 const HORIZONS: Horizon[] = ['1h', '24h', '7d'];
 
-export function CallForm({ chain, token, symbol, price }: { chain: string; token: string; symbol: string | null; price: number | null }) {
+export function CallForm({ chain, token, symbol, price, gauges }: { chain: string; token: string; symbol: string | null; price: number | null; gauges?: { direction: number | null; confidence: number | null; coordination: number | null } }) {
   const [stance, setStance] = useState<Stance | null>(null);
   const [horizon, setHorizon] = useState<Horizon>('24h');
   const [setup, setSetup] = useState<Setup>('other');
@@ -28,7 +28,7 @@ export function CallForm({ chain, token, symbol, price }: { chain: string; token
     try {
       const r = await fetch('/api/desk', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({
         action: 'create', chain, token, symbol, stance, horizon, setup, thesis: thesis.trim() || null,
-        invalidation: stance !== 'pass' && Number(invalidation) > 0 ? Number(invalidation) : null,
+        invalidation: stance !== 'pass' && Number(invalidation) > 0 ? Number(invalidation) : null, gauges: gauges ?? null,
       }) });
       const j = await r.json();
       if (!r.ok) throw new Error(j.error ?? 'The call was not saved.');

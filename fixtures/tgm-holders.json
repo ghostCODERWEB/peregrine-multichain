@@ -9883,14 +9883,14 @@
         {
           "address": "0xebf418fe2512e7e6bd9b87a8f0f294acdc67e6b4",
           "address_label": null,
-          "token_amount": 991398916.7614746,
+          "token_amount": 991398941.4705502,
           "total_outflow": 212479813.3056975,
-          "total_inflow": 1203878730.067172,
-          "balance_change_24h": 770577.2714169542,
-          "balance_change_7d": 1580771.271448171,
-          "balance_change_30d": 5757800.52179364,
-          "ownership_percentage": 0.49703285839950795,
-          "value_usd": 678064358.3714619
+          "total_inflow": 1203878754.7762475,
+          "balance_change_24h": 770601.9804924572,
+          "balance_change_7d": 1580795.980523674,
+          "balance_change_30d": 5757824.050782578,
+          "ownership_percentage": 0.4973861510240518,
+          "value_usd": 687490354.0679092
         },
         {
           "address": "0x62ebec56766e3be84eb6b3437c501e6716a90c0a",
@@ -9901,8 +9901,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 1083181.6933435418,
           "balance_change_30d": 1083181.6933435418,
-          "ownership_percentage": 0.019427464698384234,
-          "value_usd": 26503421.58044168
+          "ownership_percentage": 0.01944127332097629,
+          "value_usd": 26871853.69244965
         },
         {
           "address": "0x6325aa7b6fd01475e0f098b24c410fab89b0ad75",
@@ -9913,8 +9913,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 166206.66271334217,
           "balance_change_30d": 166206.66271334217,
-          "ownership_percentage": 0.01899827971865177,
-          "value_usd": 25917916.95436513
+          "ownership_percentage": 0.01901178328582361,
+          "value_usd": 26278209.788758658
         },
         {
           "address": "0x001aa0fe6f267f8c279b2f89cd61ada3eeca212d",
@@ -9925,8 +9925,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 0,
           "balance_change_30d": 0,
-          "ownership_percentage": 0.018914952844618752,
-          "value_usd": 25804240.398738127
+          "ownership_percentage": 0.018928397184847026,
+          "value_usd": 26162952.980810337
         },
         {
           "address": "0x6fb49677cb40b2ecae76696a78ae8254cf0ec447",
@@ -9937,8 +9937,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 0,
           "balance_change_30d": 0,
-          "ownership_percentage": 0.018884417006777676,
-          "value_usd": 25762582.663352754
+          "ownership_percentage": 0.01889783964279149,
+          "value_usd": 26120716.14859466
         },
         {
           "address": "0xcd9d176df726db71f9384480f2d7f12505cca197",
@@ -9949,8 +9949,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 0,
           "balance_change_30d": 0,
-          "ownership_percentage": 0.018884417006777676,
-          "value_usd": 25762582.663352754
+          "ownership_percentage": 0.01889783964279149,
+          "value_usd": 26120716.14859466
         },
         {
           "address": "0x8185f9d028e22b1bf6165a695f8c121e3d10656d",
@@ -9961,8 +9961,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 0,
           "balance_change_30d": 0,
-          "ownership_percentage": 0.018884417006777676,
-          "value_usd": 25762582.663352754
+          "ownership_percentage": 0.01889783964279149,
+          "value_usd": 26120716.14859466
         },
         {
           "address": "0xeb22d634a714df99cf3ee41cf1f32289669bfbc6",
@@ -9973,8 +9973,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 0,
           "balance_change_30d": 0,
-          "ownership_percentage": 0.018884417006777676,
-          "value_usd": 25762582.663352754
+          "ownership_percentage": 0.01889783964279149,
+          "value_usd": 26120716.14859466
         },
         {
           "address": "0x7269de76188e6597444d0859c4e5c336d3c39ddb",
@@ -9985,44 +9985,44 @@
           "balance_change_24h": 0,
           "balance_change_7d": 0,
           "balance_change_30d": -120600,
-          "ownership_percentage": 0.014679036244968177,
-          "value_usd": 20025499.57161068
+          "ownership_percentage": 0.014689469787103952,
+          "value_usd": 20303880.122544073
         },
         {
           "address": "0xbaed383ede0e5d9d72430661f3285daa77e9439f",
           "address_label": null,
-          "token_amount": 28812475.635288075,
-          "total_outflow": 886946264.0842011,
+          "token_amount": 28508305.235288076,
+          "total_outflow": 887250434.4842011,
           "total_inflow": 915758739.7194892,
-          "balance_change_24h": 1506412.3386644588,
-          "balance_change_7d": 1963120.6268736916,
-          "balance_change_30d": 7011134.593367699,
-          "ownership_percentage": 0.014444989681201061,
-          "value_usd": 19706207.53606837
+          "balance_change_24h": 1202241.938664459,
+          "balance_change_7d": 1658950.2268736914,
+          "balance_change_30d": 6702487.353367698,
+          "ownership_percentage": 0.014302654178918116,
+          "value_usd": 19769221.087741528
         },
         {
           "address": "0x6cdcb1c4a4d1c3c6d054b27ac5b77e89eafb971d",
           "address_label": null,
-          "token_amount": 26278485.443465013,
-          "total_outflow": 25671377507.135166,
-          "total_inflow": 25697655992.578632,
-          "balance_change_24h": 356696.8984313857,
-          "balance_change_7d": -4603162.439377811,
-          "balance_change_30d": -2272864.8750776695,
-          "ownership_percentage": 0.013174586449056763,
-          "value_usd": 17973092.435286514
+          "token_amount": 26312576.610107165,
+          "total_outflow": 25671480257.122208,
+          "total_inflow": 25697792833.732315,
+          "balance_change_24h": 390788.06507353386,
+          "balance_change_7d": -4569071.272735663,
+          "balance_change_30d": -2126485.5112083107,
+          "ownership_percentage": 0.013201054243828305,
+          "value_usd": 18246582.534462914
         },
         {
           "address": "0x3304e22ddaa22bcdc5fca2269b418046ae7b566a",
           "address_label": null,
-          "token_amount": 23195614.181043528,
-          "total_outflow": 248150252.8653925,
-          "total_inflow": 271345867.046436,
-          "balance_change_24h": 5162626.067225936,
-          "balance_change_7d": 5695108.976280053,
-          "balance_change_30d": 9937507.779616171,
-          "ownership_percentage": 0.011629004454026492,
-          "value_usd": 15864571.748856738
+          "token_amount": 23276952.642812487,
+          "total_outflow": 248329534.6339125,
+          "total_inflow": 271606487.276725,
+          "balance_change_24h": 5243964.528994896,
+          "balance_change_7d": 5776447.438049014,
+          "balance_change_30d": 10018846.241385132,
+          "ownership_percentage": 0.01167807771249426,
+          "value_usd": 16141514.525214445
         },
         {
           "address": "0x27cc00d1b9980c0bf5bedb4e5515d2aff751769c",
@@ -10033,8 +10033,8 @@
           "balance_change_24h": 93104.33150878258,
           "balance_change_7d": 185781.85867428774,
           "balance_change_30d": 460582.5445612132,
-          "ownership_percentage": 0.011032864322786527,
-          "value_usd": 15051302.829593863
+          "ownership_percentage": 0.011040706244617705,
+          "value_usd": 15260535.561041303
         },
         {
           "address": "0x0d6f2c98fac151a1d293f0a60a164d24e64b7352",
@@ -10045,8 +10045,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": -2380680.830399193,
           "balance_change_30d": -2596373.2317184336,
-          "ownership_percentage": 0.010514955351379985,
-          "value_usd": 14344758.768256713
+          "ownership_percentage": 0.010522429154692653,
+          "value_usd": 14544169.616142627
         },
         {
           "address": "0x3c7708e6c92974e12fec289b434ec44313405978",
@@ -10057,8 +10057,8 @@
           "balance_change_24h": 103081.93567978615,
           "balance_change_7d": 205691.3281690611,
           "balance_change_30d": 509941.2612098786,
-          "ownership_percentage": 0.009703591984608094,
-          "value_usd": 13237877.05732145
+          "ownership_percentage": 0.00971048908835184,
+          "value_usd": 13421900.806403343
         },
         {
           "address": "0x841ed663f2636863d40be4ee76243377dff13a34",
@@ -10069,8 +10069,8 @@
           "balance_change_24h": -108747.833,
           "balance_change_7d": -50229.46921861676,
           "balance_change_30d": 518962.49934904865,
-          "ownership_percentage": 0.006487513330829762,
-          "value_usd": 8850424.050957961
+          "ownership_percentage": 0.006492124515281113,
+          "value_usd": 8973456.483406868
         },
         {
           "address": "0xc333e80ef2dec2805f239e3f1e810612d294f771",
@@ -10081,8 +10081,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 2475630.49400562,
           "balance_change_30d": 5822505.652314019,
-          "ownership_percentage": 0.006454776766406936,
-          "value_usd": 8805764.030648384
+          "ownership_percentage": 0.006459364682414869,
+          "value_usd": 8928175.630592512
         },
         {
           "address": "0x2cce736b583f429d4f5c4fc3649133329688fa35",
@@ -10093,20 +10093,20 @@
           "balance_change_24h": 308353.0028493605,
           "balance_change_7d": -25109689.694627255,
           "balance_change_30d": -25109689.694627255,
-          "ownership_percentage": 0.006408333043823269,
-          "value_usd": 8742404.37057383
+          "ownership_percentage": 0.006412887948635615,
+          "value_usd": 8863935.18864206
         },
         {
           "address": "0xbeca3916ea9cab70265d936729c446669dc12bb1",
           "address_label": null,
-          "token_amount": 11151889.711730983,
-          "total_outflow": 947442096.2432766,
+          "token_amount": 11145062.571330205,
+          "total_outflow": 947448923.3836774,
           "total_inflow": 958593985.9550077,
-          "balance_change_24h": -48363.44308848965,
-          "balance_change_7d": -815708.0083176132,
-          "balance_change_30d": 4552567.904588101,
-          "ownership_percentage": 0.005590943792922559,
-          "value_usd": 7627302.001413707
+          "balance_change_24h": -55190.5834892673,
+          "balance_change_7d": -822535.1487183908,
+          "balance_change_30d": 4545740.764187324,
+          "ownership_percentage": 0.0055914925297918736,
+          "value_usd": 7728597.129534469
         },
         {
           "address": "0xea3e6886f77317427a9aa524e4a7fde1afb81d38",
@@ -10117,8 +10117,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 15469.90513703933,
           "balance_change_30d": 665435.2609205483,
-          "ownership_percentage": 0.005564537249629034,
-          "value_usd": 7591277.550449259
+          "ownership_percentage": 0.005568492402603058,
+          "value_usd": 7696806.205014173
         },
         {
           "address": "0x7dafba1d69f6c01ae7567ffd7b046ca03b706f83",
@@ -10129,8 +10129,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": -365671.74521,
           "balance_change_30d": -604617.20409,
-          "ownership_percentage": 0.005240370293668776,
-          "value_usd": 7149041.075971056
+          "ownership_percentage": 0.0052440950357672085,
+          "value_usd": 7248422.067004888
         },
         {
           "address": "0x96282bc1a92e4cdf0b0894d43a316c2f0ae483e2",
@@ -10141,8 +10141,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 0,
           "balance_change_30d": 500000,
-          "ownership_percentage": 0.004652481649055298,
-          "value_usd": 6347029.036188978
+          "ownership_percentage": 0.004655788532593921,
+          "value_usd": 6435261.014300993
         },
         {
           "address": "0x0f7ef06d0c6860dd926c3ccf2fe4eb4983784ea3",
@@ -10153,8 +10153,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 0,
           "balance_change_30d": 0,
-          "ownership_percentage": 0.004105513944608072,
-          "value_usd": 5600842.341892376
+          "ownership_percentage": 0.004108432055307932,
+          "value_usd": 5678701.352163332
         },
         {
           "address": "0xc6631c68f00a5c89927fada25c70934d922329ef",
@@ -10165,8 +10165,8 @@
           "balance_change_24h": 158113.61949995792,
           "balance_change_7d": 250264.70599179206,
           "balance_change_30d": 498825.19826982735,
-          "ownership_percentage": 0.0037312032337660835,
-          "value_usd": 5090198.532958053
+          "ownership_percentage": 0.003733855292491668,
+          "value_usd": 5160958.928567561
         },
         {
           "address": "0x4207837d4cd914467eb76bf88c4d6e7ba11ccdf9",
@@ -10177,8 +10177,8 @@
           "balance_change_24h": -941.72395353,
           "balance_change_7d": -4798.818670289008,
           "balance_change_30d": -24652.020169361218,
-          "ownership_percentage": 0.0034583481551862492,
-          "value_usd": 4717962.974163429
+          "ownership_percentage": 0.003460806274411187,
+          "value_usd": 4783548.810228807
         },
         {
           "address": "0xc882b111a75c0c657fc507c04fbfcd2cc984f071",
@@ -10189,8 +10189,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 146300.94136900408,
           "balance_change_30d": 4996879.427426318,
-          "ownership_percentage": 0.0033572353096906382,
-          "value_usd": 4580022.36209833
+          "ownership_percentage": 0.003359621560087382,
+          "value_usd": 4643690.643825277
         },
         {
           "address": "0x763e7bf4a37a23d0d0d3465c282b0c32ab136c24",
@@ -10201,8 +10201,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": -558298.5551898115,
           "balance_change_30d": -290957.479861216,
-          "ownership_percentage": 0.0033403667524493676,
-          "value_usd": 4557009.864535722
+          "ownership_percentage": 0.003342741013039709,
+          "value_usd": 4620358.242545565
         },
         {
           "address": "0x61274c4f3baeaba811e04caf2ac68f077494fa4e",
@@ -10213,8 +10213,8 @@
           "balance_change_24h": 239571.074999178,
           "balance_change_7d": 140016.6604167022,
           "balance_change_30d": 1929529.2679945088,
-          "ownership_percentage": 0.0033020844187019458,
-          "value_usd": 4504784.170337164
+          "ownership_percentage": 0.0033044314690357317,
+          "value_usd": 4567406.543111938
         },
         {
           "address": "0x15da7556d5ed888306839bed06f868aeaedcb0d7",
@@ -10225,8 +10225,8 @@
           "balance_change_24h": -54076,
           "balance_change_7d": -244227,
           "balance_change_30d": -376903.4286972,
-          "ownership_percentage": 0.003262738801582764,
-          "value_usd": 4451107.919007311
+          "ownership_percentage": 0.0032650578859011233,
+          "value_usd": 4512984.121911825
         },
         {
           "address": "0xb7333d779c6ecdfc4507a53706b0e173bd086a18",
@@ -10237,8 +10237,8 @@
           "balance_change_24h": 1050.65790559,
           "balance_change_7d": -36103.115157472,
           "balance_change_30d": 88907.52814472612,
-          "ownership_percentage": 0.0028938939600063464,
-          "value_usd": 3947920.782351026
+          "ownership_percentage": 0.0028959508773723306,
+          "value_usd": 4002802.0280598872
         },
         {
           "address": "0xd3e0341b361134014e0c89378b3e36bc5020cd97",
@@ -10249,8 +10249,8 @@
           "balance_change_24h": 1548.3100000000002,
           "balance_change_7d": 8984.393784894235,
           "balance_change_30d": -126711.14887495515,
-          "ownership_percentage": 0.0028737246749398556,
-          "value_usd": 3920405.351316025
+          "ownership_percentage": 0.0028757672564133415,
+          "value_usd": 3974904.096662121
         },
         {
           "address": "0x21710e9929cef5553ea39d344df1d918bb49427b",
@@ -10261,8 +10261,8 @@
           "balance_change_24h": 515839.6588878622,
           "balance_change_7d": 860.0460602341191,
           "balance_change_30d": 1968043.7254491486,
-          "ownership_percentage": 0.002711831997550554,
-          "value_usd": 3699547.4089005147
+          "ownership_percentage": 0.002713759509203186,
+          "value_usd": 3750975.94091846
         },
         {
           "address": "0xf8191d98ae98d2f7abdfb63a9b0b812b93c873aa",
@@ -10273,8 +10273,8 @@
           "balance_change_24h": -221357.84593158,
           "balance_change_7d": 3332477.3980914196,
           "balance_change_30d": 4306044.642140551,
-          "ownership_percentage": 0.0026753777039292778,
-          "value_usd": 3649815.5716658686
+          "ownership_percentage": 0.002677279304656821,
+          "value_usd": 3700552.766311739
         },
         {
           "address": "0xffa8db7b38579e6a2d14f9b347a9ace4d044cd54",
@@ -10285,8 +10285,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 734283.34883129,
           "balance_change_30d": -74388.51289575,
-          "ownership_percentage": 0.0026462054553246074,
-          "value_usd": 3610018.0780030265
+          "ownership_percentage": 0.002648086321047486,
+          "value_usd": 3660202.0356036983
         },
         {
           "address": "0xa8b087fc770a634dd2d7fe71eb1fa898af3c7a49",
@@ -10297,8 +10297,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 0,
           "balance_change_30d": 0,
-          "ownership_percentage": 0.0026187848974279027,
-          "value_usd": 3572610.283564068
+          "ownership_percentage": 0.0026206462732100634,
+          "value_usd": 3622274.2240541615
         },
         {
           "address": "0x36ee25bec63a3749a111523ff71e091d64dfa384",
@@ -10309,8 +10309,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": -148038.6068569851,
           "balance_change_30d": -197200.01920431718,
-          "ownership_percentage": 0.002588310251526179,
-          "value_usd": 3531036.027716097
+          "ownership_percentage": 0.002590149966587787,
+          "value_usd": 3580122.031850285
         },
         {
           "address": "0x843de2c7e5da59d9f1aadec752571a010c13cde4",
@@ -10321,8 +10321,8 @@
           "balance_change_24h": 31119.09189141256,
           "balance_change_7d": 80773.22707739026,
           "balance_change_30d": 176037.40355407426,
-          "ownership_percentage": 0.002448259461855482,
-          "value_usd": 3339975.32170308
+          "ownership_percentage": 0.002449999631838599,
+          "value_usd": 3386405.332941239
         },
         {
           "address": "0x416ec2ca21a38cbcfeacd6a14532b3f348356d23",
@@ -10333,8 +10333,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 0,
           "balance_change_30d": 1000000,
-          "ownership_percentage": 0.0022600979464577533,
-          "value_usd": 3083280.789234542
+          "ownership_percentage": 0.0022617043752969374,
+          "value_usd": 3126142.4118232867
         },
         {
           "address": "0x377b8ce04761754e8ac153b47805a9cf6b190873",
@@ -10345,20 +10345,8 @@
           "balance_change_24h": 1390,
           "balance_change_7d": -3014,
           "balance_change_30d": 409,
-          "ownership_percentage": 0.0020013144940849445,
-          "value_usd": 2730242.086410435
-        },
-        {
-          "address": "0x1e5673fd17f61255b35220b61b4338df69f89455",
-          "address_label": null,
-          "token_amount": 3881567.1852290286,
-          "total_outflow": 0,
-          "total_inflow": 3881567.1852290286,
-          "balance_change_24h": 0,
-          "balance_change_7d": 3881567.1852290286,
-          "balance_change_30d": 3881567.1852290286,
-          "ownership_percentage": 0.0019460041770534714,
-          "value_usd": 2654786.4017499997
+          "ownership_percentage": 0.002002736985231673,
+          "value_usd": 2768196.01077964
         },
         {
           "address": "0x16c19f447d0e032dd17d983416fae36cf713fc3d",
@@ -10369,8 +10357,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 3881567.1852290286,
           "balance_change_30d": 3881567.1852290286,
-          "ownership_percentage": 0.0019460041770534714,
-          "value_usd": 2654786.4017499997
+          "ownership_percentage": 0.0019473873548206523,
+          "value_usd": 2691691.3937321897
         },
         {
           "address": "0x59c98868a27afe3bd19b2b98b74fb1a562ff3b4a",
@@ -10381,8 +10369,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 1301541.9741491983,
           "balance_change_30d": 1301541.9741491983,
-          "ownership_percentage": 0.0019460041770534714,
-          "value_usd": 2654786.4017499997
+          "ownership_percentage": 0.0019473873548206523,
+          "value_usd": 2691691.3937321897
         },
         {
           "address": "0xaeb0d62a6a3c85b80900390764b340066af34f1e",
@@ -10393,20 +10381,20 @@
           "balance_change_24h": 0,
           "balance_change_7d": 3881567.1852290286,
           "balance_change_30d": 3881567.1852290286,
-          "ownership_percentage": 0.0019460041770534714,
-          "value_usd": 2654786.4017499997
+          "ownership_percentage": 0.0019473873548206523,
+          "value_usd": 2691691.3937321897
         },
         {
-          "address": "0x93927c96168cb5d976a137d643937b43b1afd644",
+          "address": "0x1e5673fd17f61255b35220b61b4338df69f89455",
           "address_label": null,
           "token_amount": 3881567.1852290286,
-          "total_outflow": 4192790.0350532136,
-          "total_inflow": 8074357.220282243,
+          "total_outflow": 0,
+          "total_inflow": 3881567.1852290286,
           "balance_change_24h": 0,
-          "balance_change_7d": 3622410.1386251915,
-          "balance_change_30d": -311222.84982418525,
-          "ownership_percentage": 0.0019460041770534714,
-          "value_usd": 2654786.4017499997
+          "balance_change_7d": 3881567.1852290286,
+          "balance_change_30d": 3881567.1852290286,
+          "ownership_percentage": 0.0019473873548206523,
+          "value_usd": 2691691.3937321897
         },
         {
           "address": "0xcdd24e42daae19a0057a763dbf32e2a5d2e61e74",
@@ -10417,8 +10405,20 @@
           "balance_change_24h": 0,
           "balance_change_7d": 3881567.1852290286,
           "balance_change_30d": 3204495.8594747717,
-          "ownership_percentage": 0.0019460041770534714,
-          "value_usd": 2654786.4017499997
+          "ownership_percentage": 0.0019473873548206523,
+          "value_usd": 2691691.3937321897
+        },
+        {
+          "address": "0x93927c96168cb5d976a137d643937b43b1afd644",
+          "address_label": null,
+          "token_amount": 3881567.1852290286,
+          "total_outflow": 4192790.0350532136,
+          "total_inflow": 8074357.220282243,
+          "balance_change_24h": 0,
+          "balance_change_7d": 3622410.1386251915,
+          "balance_change_30d": -311222.84982418525,
+          "ownership_percentage": 0.0019473873548206523,
+          "value_usd": 2691691.3937321897
         },
         {
           "address": "0x807a2e2e469df84b299da5f90f15dda4380daca1",
@@ -10429,8 +10429,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 0,
           "balance_change_30d": 0,
-          "ownership_percentage": 0.0019324138498164366,
-          "value_usd": 2636246.145583211
+          "ownership_percentage": 0.0019337873678723463,
+          "value_usd": 2672893.40383408
         },
         {
           "address": "0x0ce74dc0fc7f3d2c04b009659de1089e97f71f12",
@@ -10441,8 +10441,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": -163588.75809953,
           "balance_change_30d": 290761.68360054225,
-          "ownership_percentage": 0.0019051205228766209,
-          "value_usd": 2599011.9227214428
+          "ownership_percentage": 0.001906474641424831,
+          "value_usd": 2635141.5767329386
         },
         {
           "address": "0x2677c4c8757da1857cc7cc4071e0e0dd32ccb975",
@@ -10453,8 +10453,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": -703200,
           "balance_change_30d": -703200,
-          "ownership_percentage": 0.0018647350070063655,
-          "value_usd": 2543917.0161306714
+          "ownership_percentage": 0.001866060420401562,
+          "value_usd": 2579280.779114304
         },
         {
           "address": "0xf4b090a9a818e21daa127969ee5ce231f4b66249",
@@ -10465,8 +10465,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 0,
           "balance_change_30d": -340000,
-          "ownership_percentage": 0.0018456815239350284,
-          "value_usd": 2517923.7894150177
+          "ownership_percentage": 0.0018469933945257015,
+          "value_usd": 2552926.2126603955
         },
         {
           "address": "0x56824d08879ae52a4eb391f3b47f5297c5e49a2b",
@@ -10477,8 +10477,8 @@
           "balance_change_24h": 14293.956577396513,
           "balance_change_7d": 28522.387495019873,
           "balance_change_30d": 70711.49951432439,
-          "ownership_percentage": 0.0018254691399769405,
-          "value_usd": 2490349.5618200237
+          "ownership_percentage": 0.0018267666440413533,
+          "value_usd": 2524968.6673538005
         },
         {
           "address": "0x301f742573c76ee107cb8e263f2d5c009ecbfb28",
@@ -10489,20 +10489,20 @@
           "balance_change_24h": 0,
           "balance_change_7d": 0,
           "balance_change_30d": 0,
-          "ownership_percentage": 0.0018218006460751178,
-          "value_usd": 2485344.9128884845
+          "ownership_percentage": 0.0018230955426532444,
+          "value_usd": 2519894.4472776405
         },
         {
           "address": "0x73902f619ceb9b31fd8efecf435cbdf89e369ba6",
           "address_label": null,
-          "token_amount": 3534003.935050629,
-          "total_outflow": 39273350047.456566,
+          "token_amount": 3534003.743344945,
+          "total_outflow": 39273350047.64827,
           "total_inflow": 39276884051.39161,
-          "balance_change_24h": 11464.329666788386,
-          "balance_change_7d": -198900.36302330618,
-          "balance_change_30d": -9596436.176427642,
-          "ownership_percentage": 0.0017717550904445176,
-          "value_usd": 2417071.544247873
+          "balance_change_24h": 11464.13796110501,
+          "balance_change_7d": -198900.55472898958,
+          "balance_change_30d": -10498001.432092965,
+          "ownership_percentage": 0.0017730143195428742,
+          "value_usd": 2450671.8568669204
         },
         {
           "address": "0xd2dd7b597fd2435b6db61ddf48544fd931e6869f",
@@ -10513,8 +10513,8 @@
           "balance_change_24h": -23346.132700000002,
           "balance_change_7d": 159350.65887,
           "balance_change_30d": 170709.20481,
-          "ownership_percentage": 0.0017228588357208893,
-          "value_usd": 2350366.0799598456
+          "ownership_percentage": 0.0017240834065957412,
+          "value_usd": 2383039.2326017874
         },
         {
           "address": "0x9b0c45d46d386cedd98873168c36efd0dcba8d46",
@@ -10525,8 +10525,8 @@
           "balance_change_24h": 54076,
           "balance_change_7d": 233036,
           "balance_change_30d": 267164,
-          "ownership_percentage": 0.0017121166997449816,
-          "value_usd": 2335711.39583796
+          "ownership_percentage": 0.0017133336353414364,
+          "value_usd": 2368180.8292655563
         },
         {
           "address": "0x04a7a0b72626420e98241f917698b7c1afa81361",
@@ -10537,8 +10537,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 3068780.6,
           "balance_change_30d": 3068780.6,
-          "ownership_percentage": 0.001538517712326624,
-          "value_usd": 2098883.4195210515
+          "ownership_percentage": 0.0015396112575097214,
+          "value_usd": 2128060.6353294174
         },
         {
           "address": "0xbde0c70bdc242577c52dfad53389f82fd149ea5a",
@@ -10549,8 +10549,8 @@
           "balance_change_24h": 220555.68590327437,
           "balance_change_7d": 474860.6737232218,
           "balance_change_30d": 1163490.5872745696,
-          "ownership_percentage": 0.0015378271820781129,
-          "value_usd": 2097941.3812996736
+          "ownership_percentage": 0.0015389202364472136,
+          "value_usd": 2127105.501548644
         },
         {
           "address": "0x55fa73992590118e32f03c422a3ed1f020db1bb4",
@@ -10561,20 +10561,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 0,
           "balance_change_30d": 0,
-          "ownership_percentage": 0.0015043534752073788,
-          "value_usd": 2052275.7332684628
-        },
-        {
-          "address": "0x2192bc3b4028acc1113f2cd9ac2cba70c36520db",
-          "address_label": null,
-          "token_amount": 2878269.4338377276,
-          "total_outflow": 246177784488.93225,
-          "total_inflow": 246180662758.3661,
-          "balance_change_24h": -141317.80658416124,
-          "balance_change_7d": 1342231.145946752,
-          "balance_change_30d": 2392085.1805251427,
-          "ownership_percentage": 0.0014430058977848296,
-          "value_usd": 1968583.8706084918
+          "ownership_percentage": 0.0015054227371881206,
+          "value_usd": 2080805.0414763056
         },
         {
           "address": "0x0529ea5885702715e83923c59746ae8734c553b7",
@@ -10585,8 +10573,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 73322.95395991,
           "balance_change_30d": 199552.15211336,
-          "ownership_percentage": 0.001411250868821364,
-          "value_usd": 1925262.8849325862
+          "ownership_percentage": 0.0014122539554789805,
+          "value_usd": 1952026.5489641665
         },
         {
           "address": "0xa3e29ac88e9cac2fa4d6e29166358a7dfa666db2",
@@ -10597,20 +10585,20 @@
           "balance_change_24h": 0,
           "balance_change_7d": 2800000,
           "balance_change_30d": 2800000,
-          "ownership_percentage": 0.0014037659109662475,
-          "value_usd": 1915051.7227132313
+          "ownership_percentage": 0.001404763677477373,
+          "value_usd": 1941673.4382778518
         },
         {
           "address": "0xbbf71aad6e1f8d180d3b1d898528654c1d18b2ff",
           "address_label": null,
-          "token_amount": 2726190.370232549,
-          "total_outflow": 48771309.243541874,
+          "token_amount": 2721919.5425040754,
+          "total_outflow": 48775580.071270354,
           "total_inflow": 51497499.61377443,
-          "balance_change_24h": 81090.51932156083,
-          "balance_change_7d": 71353.91170429035,
-          "balance_change_30d": 111703.35921502867,
-          "ownership_percentage": 0.0013667618244774663,
-          "value_usd": 1864569.8446278803
+          "balance_change_24h": 76819.69159308728,
+          "balance_change_7d": 67083.08397581681,
+          "balance_change_30d": 107432.53148655513,
+          "ownership_percentage": 0.0013655906094019836,
+          "value_usd": 1887528.1702891304
         },
         {
           "address": "0x4e3ae00e8323558fa5cac04b152238924aa31b60",
@@ -10621,8 +10609,8 @@
           "balance_change_24h": -62450.21994185017,
           "balance_change_7d": -93950.98063288518,
           "balance_change_30d": -155245.94097137032,
-          "ownership_percentage": 0.0013336977659065643,
-          "value_usd": 1819463.0488071206
+          "ownership_percentage": 0.0013346457294925078,
+          "value_usd": 1844755.9571871904
         },
         {
           "address": "0xfb5cf1164e6efcffdaed4d953677af9c5d049458",
@@ -10633,20 +10621,32 @@
           "balance_change_24h": 0,
           "balance_change_7d": 0,
           "balance_change_30d": 0,
-          "ownership_percentage": 0.0013190223952470775,
-          "value_usd": 1799442.5499167035
+          "ownership_percentage": 0.0013199599278963042,
+          "value_usd": 1824457.1472618275
         },
         {
           "address": "0x7886f614c0948c1a3f8ba7fae3daf506c8f1213c",
           "address_label": null,
-          "token_amount": 2617051.4044321077,
-          "total_outflow": 50147450475.58986,
-          "total_inflow": 50150067526.99429,
-          "balance_change_24h": -116261.50672732845,
-          "balance_change_7d": 45921.77599538541,
-          "balance_change_30d": -255035.3545231559,
-          "ownership_percentage": 0.0013120455531386195,
-          "value_usd": 1789924.5716024246
+          "token_amount": 2617051.7793134362,
+          "total_outflow": 50148052889.04443,
+          "total_inflow": 50150669940.823746,
+          "balance_change_24h": -116261.13184599961,
+          "balance_change_7d": 45922.15087671425,
+          "balance_change_30d": -358820.5789567221,
+          "ownership_percentage": 0.0013129783148775162,
+          "value_usd": 1814807.1166038176
+        },
+        {
+          "address": "0x2192bc3b4028acc1113f2cd9ac2cba70c36520db",
+          "address_label": null,
+          "token_amount": 2509936.1778381933,
+          "total_outflow": 246177795005.01758,
+          "total_inflow": 246180304941.19547,
+          "balance_change_24h": -509651.06258369575,
+          "balance_change_7d": 973897.8899472175,
+          "balance_change_30d": 1409605.1166424404,
+          "ownership_percentage": 0.0012592382769333866,
+          "value_usd": 1740527.288671805
         },
         {
           "address": "0x73218b228ad680cac16463ce6c0aee48a97d9552",
@@ -10657,20 +10657,20 @@
           "balance_change_24h": 0,
           "balance_change_7d": 0,
           "balance_change_30d": 0,
-          "ownership_percentage": 0.001230056376151058,
-          "value_usd": 1678072.93493902
+          "ownership_percentage": 0.0012309306736741224,
+          "value_usd": 1701400.3364085436
         },
         {
           "address": "0x7f670f78b17dec44d5ef68a48740b6f8849cc2e6",
           "address_label": null,
-          "token_amount": 2371456.680064808,
-          "total_outflow": 289058923.2826893,
-          "total_inflow": 291430379.9627541,
-          "balance_change_24h": -182468.0701897305,
-          "balance_change_7d": -166948.1291130051,
-          "balance_change_30d": -270614.1072239876,
-          "ownership_percentage": 0.00118891787386006,
-          "value_usd": 1621950.785892111
+          "token_amount": 2364784.860319916,
+          "total_outflow": 289065595.83744174,
+          "total_inflow": 291430380.69776165,
+          "balance_change_24h": -189139.88993462228,
+          "balance_change_7d": -173619.94885789687,
+          "balance_change_30d": -277287.58745072526,
+          "ownership_percentage": 0.0011864156702949362,
+          "value_usd": 1639871.4109017074
         },
         {
           "address": "0xaf0fdd39e5d92499b0ed9f68693da99c0ec1e92e",
@@ -10681,8 +10681,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 2271031.3712469167,
           "balance_change_30d": 2258144.6690524216,
-          "ownership_percentage": 0.0011386861368918142,
-          "value_usd": 1553423.4241258583
+          "ownership_percentage": 0.0011394954904209163,
+          "value_usd": 1575018.0348917264
         },
         {
           "address": "0xf2c7b91d8ebd69f40fd067dbfd195b3e3df59166",
@@ -10693,8 +10693,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 0,
           "balance_change_30d": 0,
-          "ownership_percentage": 0.001025129914050096,
-          "value_usd": 1398507.2529330757
+          "ownership_percentage": 0.00102585855426696,
+          "value_usd": 1417948.326957904
         },
         {
           "address": "0x51e171d2fde9b37bbbb624a53ef54959422388e4",
@@ -10705,8 +10705,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 0,
           "balance_change_30d": 0,
-          "ownership_percentage": 0.0010182534257400526,
-          "value_usd": 1389126.179720305
+          "ownership_percentage": 0.0010189771782974453,
+          "value_usd": 1408436.8445975373
         },
         {
           "address": "0xa9a55408ccd14af3f74da756a7ae4a653f5a2b4b",
@@ -10717,8 +10717,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 0,
           "balance_change_30d": 0,
-          "ownership_percentage": 0.0010077722734545894,
-          "value_usd": 1374827.5359197299
+          "ownership_percentage": 0.0010084885762351589,
+          "value_usd": 1393939.4310072463
         },
         {
           "address": "0xeabd2b0fada7146988bfa1738e029109d4529561",
@@ -10729,8 +10729,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 0,
           "balance_change_30d": 0,
-          "ownership_percentage": 0.0010029717090689675,
-          "value_usd": 1368278.4887995068
+          "ownership_percentage": 0.0010036845997119855,
+          "value_usd": 1387299.3435941758
         },
         {
           "address": "0x5c9fe7722b1acbb0c40c9583687efba799568a15",
@@ -10741,8 +10741,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 0,
           "balance_change_30d": -700000,
-          "ownership_percentage": 0.0009919693620474457,
-          "value_usd": 1353268.8184172485
+          "ownership_percentage": 0.0009926744324596716,
+          "value_usd": 1372081.0192257634
         },
         {
           "address": "0x14a903ad3f1072b029eec727d72ad56b2d2066c4",
@@ -10753,8 +10753,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": -152000.00000000003,
           "balance_change_30d": -152000.00000000003,
-          "ownership_percentage": 0.0009854749331942836,
-          "value_usd": 1344408.9600419118
+          "ownership_percentage": 0.0009861753875066543,
+          "value_usd": 1363097.9972685697
         },
         {
           "address": "0x17a30350771d02409046a683b18fe1c13ccfc4a8",
@@ -10765,8 +10765,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 0,
           "balance_change_30d": 0,
-          "ownership_percentage": 0.0009604041655187343,
-          "value_usd": 1310206.8067827858
+          "ownership_percentage": 0.0009610868000705598,
+          "value_usd": 1328420.3894904023
         },
         {
           "address": "0x549d835356d92983abb76e4cae639f7857963425",
@@ -10777,8 +10777,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": -0.5,
           "balance_change_30d": -1,
-          "ownership_percentage": 0.0009530491027148843,
-          "value_usd": 1300172.8505632037
+          "ownership_percentage": 0.0009537265094468179,
+          "value_usd": 1318246.9481982777
         },
         {
           "address": "0x634e357c1e4bcb96d7b64c7f27d80d5abbd16ff8",
@@ -10789,8 +10789,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 0,
           "balance_change_30d": 0,
-          "ownership_percentage": 0.0009417301370844415,
-          "value_usd": 1284731.2413457588
+          "ownership_percentage": 0.0009423994985399095,
+          "value_usd": 1302590.6804817587
         },
         {
           "address": "0x15abb66ba754f05cbc0165a64a11cded1543de48",
@@ -10801,32 +10801,44 @@
           "balance_change_24h": 0,
           "balance_change_7d": 0,
           "balance_change_30d": -20635.66666677,
-          "ownership_percentage": 0.0009288155271208492,
-          "value_usd": 1267112.815178163
+          "ownership_percentage": 0.0009294757091502995,
+          "value_usd": 1284727.335221604
         },
         {
           "address": "0x227f65131a261548b057215bb1d5ab2997964c7d",
           "address_label": null,
-          "token_amount": 1805838.4087914077,
-          "total_outflow": 115273982.95505789,
+          "token_amount": 1805813.9250825539,
+          "total_outflow": 115274007.43876675,
           "total_inflow": 117079821.3638493,
-          "balance_change_24h": 84816.82152279808,
-          "balance_change_7d": 120190.89867079764,
-          "balance_change_30d": 35247.02700414325,
-          "ownership_percentage": 0.0009053479996338961,
-          "value_usd": 1235097.8413206092
+          "balance_change_24h": 84792.33781394445,
+          "balance_change_7d": 120166.41496194403,
+          "balance_change_30d": 35223.7233818556,
+          "ownership_percentage": 0.000905979217942435,
+          "value_usd": 1252250.3331446662
         },
         {
           "address": "0x4f09bab2f0e15e2a078a227fe1537665f55b8360",
           "address_label": null,
-          "token_amount": 1763809.4661607386,
-          "total_outflow": 139641631.6874288,
+          "token_amount": 1763793.9953844014,
+          "total_outflow": 139641647.15820515,
           "total_inflow": 141405441.15358955,
-          "balance_change_24h": 184364.37743531782,
-          "balance_change_7d": 146044.8180674256,
-          "balance_change_30d": 135504.37599159117,
-          "ownership_percentage": 0.0008842770007271499,
-          "value_usd": 1206352.270253224
+          "balance_change_24h": 184348.90665898073,
+          "balance_change_7d": 146029.3472910885,
+          "balance_change_30d": 135489.42865303118,
+          "ownership_percentage": 0.000884897764024536,
+          "value_usd": 1223111.4112256642
+        },
+        {
+          "address": "0x26b610a059de2488ebe3e0eda02ae17907917419",
+          "address_label": null,
+          "token_amount": 1655347.918115147,
+          "total_outflow": 44319723.65030455,
+          "total_inflow": 45975071.5684197,
+          "balance_change_24h": 291491.3555225557,
+          "balance_change_7d": -30199.745992373828,
+          "balance_change_30d": 1216752.8233681158,
+          "ownership_percentage": 0.000830490224627124,
+          "value_usd": 1147908.958468829
         },
         {
           "address": "0x56aea0e4510e6f79b3e13581a5863a15a9f40d75",
@@ -10837,8 +10849,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 1417.6405045210315,
           "balance_change_30d": -26998.070959458968,
-          "ownership_percentage": 0.0008211339316915318,
-          "value_usd": 1120210.9541054147
+          "ownership_percentage": 0.0008217175759671126,
+          "value_usd": 1135783.3467665983
         },
         {
           "address": "0x4c6f6489c13dc83c480184ff243d1171f3f2e17c",
@@ -10849,8 +10861,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 0.000020560895062818,
           "balance_change_30d": 4944.693745725472,
-          "ownership_percentage": 0.0008192760086534311,
-          "value_usd": 1117676.3301435504
+          "ownership_percentage": 0.0008198583323574171,
+          "value_usd": 1133213.48822732
         },
         {
           "address": "0xd367e507282cd1b461891bd86051f4cb6d10069b",
@@ -10861,20 +10873,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 0,
           "balance_change_30d": 0,
-          "ownership_percentage": 0.0008091370216897573,
-          "value_usd": 1103844.4766274714
-        },
-        {
-          "address": "0x26b610a059de2488ebe3e0eda02ae17907917419",
-          "address_label": null,
-          "token_amount": 1607945.0074394704,
-          "total_outflow": 44319723.65030455,
-          "total_inflow": 45927668.65774402,
-          "balance_change_24h": 244088.44484687885,
-          "balance_change_7d": -77602.65666805065,
-          "balance_change_30d": 1169349.9126924393,
-          "ownership_percentage": 0.0008061351386256777,
-          "value_usd": 1099749.234473249
+          "ownership_percentage": 0.0008097121388206458,
+          "value_usd": 1119189.3539150255
         },
         {
           "address": "0xd1956c54e4468a75e87ceea644729da5e633fa44",
@@ -10885,20 +10885,20 @@
           "balance_change_24h": -2328287.3328889348,
           "balance_change_7d": 1553279.8523400938,
           "balance_change_30d": -3714511.219816246,
-          "ownership_percentage": 0.0007787290381806107,
-          "value_usd": 1062361.1632427322
+          "ownership_percentage": 0.0007792825419731361,
+          "value_usd": 1077129.36839318
         },
         {
           "address": "0x0d0707963952f2fba59dd06f2b425ace40b492fe",
           "address_label": null,
-          "token_amount": 1548642.4752135023,
-          "total_outflow": 673684761.7290212,
+          "token_amount": 1528645.548513502,
+          "total_outflow": 673704758.6557212,
           "total_inflow": 675233404.2042348,
-          "balance_change_24h": 12043.538797636464,
-          "balance_change_7d": 302310.9532621143,
-          "balance_change_30d": -3170219.066796852,
-          "ownership_percentage": 0.0007764041124925379,
-          "value_usd": 1059189.4428658928
+          "balance_change_24h": -7953.387902363537,
+          "balance_change_7d": 282314.0265621143,
+          "balance_change_30d": -3190215.9934968515,
+          "ownership_percentage": 0.0007669234793890155,
+          "value_usd": 1060046.5921751228
         },
         {
           "address": "0xb0a3a2b60e969afd26561429aa4c1444c57e4411",
@@ -10909,20 +10909,20 @@
           "balance_change_24h": 0,
           "balance_change_7d": 0,
           "balance_change_30d": 0,
-          "ownership_percentage": 0.0007409868034604419,
-          "value_usd": 1010872.2853213731
+          "ownership_percentage": 0.0007415134808871433,
+          "value_usd": 1024924.7279435786
         },
         {
           "address": "0xbbbbbbbbbb9cc5e90e3b3af64bdaf62c37eeffcb",
           "address_label": null,
-          "token_amount": 1439215.6041698528,
-          "total_outflow": 8019589.199330635,
+          "token_amount": 1439073.316670843,
+          "total_outflow": 8019731.486829646,
           "total_inflow": 9458804.803500488,
-          "balance_change_24h": -12639.893680159921,
-          "balance_change_7d": 44731.12457791295,
-          "balance_change_30d": 611455.3799286314,
-          "ownership_percentage": 0.0007215435013086898,
-          "value_usd": 984347.257900443
+          "balance_change_24h": -12782.181179169607,
+          "balance_change_7d": 44588.83707890327,
+          "balance_change_30d": 611313.0924296215,
+          "ownership_percentage": 0.0007219849730307477,
+          "value_usd": 997932.2981122098
         },
         {
           "address": "0xe1b2fd7fc19f80e6651a7ebc131642b19ac25aeb",
@@ -10933,8 +10933,8 @@
           "balance_change_24h": -14738.030227759999,
           "balance_change_7d": 40013.529304985466,
           "balance_change_30d": 254299.87866433215,
-          "ownership_percentage": 0.0007170827835779262,
-          "value_usd": 978261.8378826879
+          "ownership_percentage": 0.0007175924705432312,
+          "value_usd": 991860.9527718348
         },
         {
           "address": "0xba9abb5be21cb831ed7eef8e5a253864cc285a6a",
@@ -10945,8 +10945,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 0,
           "balance_change_30d": 0,
-          "ownership_percentage": 0.0007027041239193504,
-          "value_usd": 958646.1193826502
+          "ownership_percentage": 0.000703203590843714,
+          "value_usd": 971972.5502119828
         },
         {
           "address": "0x972711380c2c7a81ff3864997d5d2a47fa9cd41f",
@@ -10957,8 +10957,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 0,
           "balance_change_30d": 1338625.1979540514,
-          "ownership_percentage": 0.0006711130073029794,
-          "value_usd": 915548.7469318737
+          "ownership_percentage": 0.0006715900199435036,
+          "value_usd": 928276.0680988617
         },
         {
           "address": "0x77fb357f55bef5a70d30663955f8c9f35794df0e",
@@ -10969,8 +10969,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 0,
           "balance_change_30d": -800115.88,
-          "ownership_percentage": 0.0006709869607901479,
-          "value_usd": 915376.7912021796
+          "ownership_percentage": 0.0006714638838395313,
+          "value_usd": 928101.7219603492
         },
         {
           "address": "0xd2d88ee6fcfb754d8bd8178ff1be43cf5c1a30b9",
@@ -10981,8 +10981,8 @@
           "balance_change_24h": 2261.370467369895,
           "balance_change_7d": 4850.904772099425,
           "balance_change_30d": 6767.250258403969,
-          "ownership_percentage": 0.0006689742863353104,
-          "value_usd": 912631.0515800054
+          "ownership_percentage": 0.0006694497788191321,
+          "value_usd": 925317.812977855
         },
         {
           "address": "0xdaf0a4ce1fce8b85c0982ae2accb2344f5a1358c",
@@ -10993,8 +10993,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 0,
           "balance_change_30d": 0,
-          "ownership_percentage": 0.0006680605601948556,
-          "value_usd": 911384.5240744603
+          "ownership_percentage": 0.0006685354032218583,
+          "value_usd": 924053.957114907
         },
         {
           "address": "0x834c0da026d5f933c2c18fa9f8ba7f1f792fda52",
@@ -11005,8 +11005,8 @@
           "balance_change_24h": 34091.07456245497,
           "balance_change_7d": 312973.6124497969,
           "balance_change_30d": 1326746.2486749054,
-          "ownership_percentage": 0.0006651576154614829,
-          "value_usd": 907424.2560061468
+          "ownership_percentage": 0.0006656303951380252,
+          "value_usd": 920038.6361575127
         },
         {
           "address": "0xec2ca51afc5529bff84909fb04dec81be3b2490f",
@@ -11016,9 +11016,9 @@
           "total_inflow": 15686990446.77643,
           "balance_change_24h": 62619.95412853043,
           "balance_change_7d": 63209.27377676703,
-          "balance_change_30d": 1025326.5213686951,
-          "ownership_percentage": 0.0006639776799952097,
-          "value_usd": 905814.5592399519
+          "balance_change_30d": -289625.444163383,
+          "ownership_percentage": 0.0006644496209990899,
+          "value_usd": 918406.5625077348
         },
         {
           "address": "0x525869ad2488101b5cf47e0d898a59f029b32b03",
@@ -11029,8 +11029,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 0,
           "balance_change_30d": 0,
-          "ownership_percentage": 0.0006587918796425189,
-          "value_usd": 898739.963809556
+          "ownership_percentage": 0.0006592601346914369,
+          "value_usd": 911233.6209778319
         },
         {
           "address": "0xf2043109af60d2e1e9a0321fd8d6ec1f28baa727",
@@ -11041,8 +11041,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 946677.4949041548,
           "balance_change_30d": 296677.4949041548,
-          "ownership_percentage": 0.0006500827374512724,
-          "value_usd": 886858.7394355997
+          "ownership_percentage": 0.0006505448022298959,
+          "value_usd": 899187.2320957364
         },
         {
           "address": "0x6ca18c73b046e3596e8ffa7ddaede2dd71008af9",
@@ -11053,8 +11053,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 0,
           "balance_change_30d": 0,
-          "ownership_percentage": 0.0006331852425722211,
-          "value_usd": 863806.7644411424
+          "ownership_percentage": 0.0006336352969761941,
+          "value_usd": 875814.8045964061
         },
         {
           "address": "0x1489475e2aae99bac84bcbb34d95031b45beed98",
@@ -11065,8 +11065,8 @@
           "balance_change_24h": 5406.9840945028445,
           "balance_change_7d": 11243.551479810905,
           "balance_change_30d": 91168.909600869,
-          "ownership_percentage": 0.000632375234822682,
-          "value_usd": 862701.7320963279
+          "ownership_percentage": 0.0006328247134906297,
+          "value_usd": 874694.4108613876
         },
         {
           "address": "0xddb58980257b593735d9aa186fcc463ad02f3fd7",
@@ -11077,8 +11077,8 @@
           "balance_change_24h": 0,
           "balance_change_7d": 0,
           "balance_change_30d": 0,
-          "ownership_percentage": 0.000626727505424599,
-          "value_usd": 854996.9617861754
+          "ownership_percentage": 0.000627172969808389,
+          "value_usd": 866882.5341993518
         }
       ],
       "pagination": {
@@ -11088,7 +11088,7 @@
       },
       "warnings": null
     },
-    "recordedAt": 1790256732756
+    "recordedAt": 1790257290490
   },
   {
     "requestHash": "75ac9665920e78bcc1209081c982ca138fb64d92",

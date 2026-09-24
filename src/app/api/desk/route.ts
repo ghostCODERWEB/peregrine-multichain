@@ -25,6 +25,8 @@ const Create = z.object({
   setup: z.enum(SETUPS),
   thesis: z.string().max(200).transform(clean).nullish(),
   invalidation: z.number().positive().finite().nullish(),
+  // What the three gauges read on the viewer's page when the call was saved (L2).
+  gauges: z.object({ direction: z.number().int().min(-100).max(100).nullable(), confidence: z.number().int().min(0).max(100).nullable(), coordination: z.number().int().min(0).max(100).nullable() }).nullish(),
 });
 const Body = z.discriminatedUnion('action', [Create, z.object({ action: z.literal('grade') })]);
 const headers = { 'Cache-Control': 'private, no-store' };
@@ -52,7 +54,7 @@ export async function POST(req: Request) {
   if (!scope) return fail('No desk yet: make a call first.', 404);
   try {
     const data = await contextScope.run(ctx, async () => b.action === 'create'
-      ? { call: await createCall(scope, ctx, { chain: b.chain, token: b.token, symbol: b.symbol ?? null, stance: b.stance, horizon: b.horizon, setup: b.setup, thesis: b.thesis || null, invalidation: b.invalidation ?? null }) }
+      ? { call: await createCall(scope, ctx, { chain: b.chain, token: b.token, symbol: b.symbol ?? null, stance: b.stance, horizon: b.horizon, setup: b.setup, thesis: b.thesis || null, invalidation: b.invalidation ?? null, gauges: b.gauges ?? null }) }
       : await gradeDue(scope));
     return Response.json(data, { headers: { ...headers, ...(setCookie ? { 'Set-Cookie': setCookie } : {}) } });
   } catch (e) { return fail((e as Error).message.slice(0, 240)); }
