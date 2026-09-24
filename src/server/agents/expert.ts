@@ -9,6 +9,7 @@ import { streamNansen } from '@/server/nansen/client';
 import { getDb, audit } from '@/server/nansen/db';
 import { fixtureMode } from '@/server/nansen/demo';
 import type { RequestContext } from '@/server/context';
+import { buildContext, composePrompt, subjectKey, type AskContext, type Subject } from './ask';
 
 export const EXPERT_CREDITS = 750;
 export const MAX_QUESTION = 2000;
@@ -28,11 +29,22 @@ export function questionsToday(scope: string, now = Date.now()): number {
   return (getDb().prepare('SELECT COUNT(*) AS n FROM expert_reports WHERE scope = ? AND created_at >= ? AND credits > 0').get(scope, dayStart(now)) as { n: number }).n;
 }
 
-export interface ExpertReport { id: number; question: string; answer: string; toolCalls: string[]; conversationId: string | null; credits: number; createdAt: number }
+export interface ExpertReport { id: number; question: string; answer: string; toolCalls: string[]; conversationId: string | null; credits: number; createdAt: number; subject: string | null; context: AskContext | null }
 
-export function listReports(scope: string, limit = 30): ExpertReport[] {
-  return (getDb().prepare('SELECT * FROM expert_reports WHERE scope = ? ORDER BY created_at DESC LIMIT ?').all(scope, limit) as Array<{ id: number; question: string; answer: string; tool_calls: string; conversation_id: string | null; credits: number; created_at: number }>)
-    .map((r) => ({ id: r.id, question: r.question, answer: r.answer, toolCalls: JSON.parse(r.tool_calls) as string[], conversationId: r.conversation_id, credits: r.credits, createdAt: r.created_at }));
+type ReportRow = { id: number; question: string; answer: string; tool_calls: string; conversation_id: string | null; credits: number; created_at: number; subject: string | null; context: string | null };
+const toReport = (r: ReportRow): ExpertReport => ({ id: r.id, question: r.question, answer: r.answer, toolCalls: JSON.parse(r.tool_calls) as string[], conversationId: r.conversation_id, credits: r.credits, createdAt: r.created_at, subject: r.subject, context: r.context ? JSON.parse(r.context) as AskContext : null });
+
+/** This account's answers, optionally only those asked from one page (L5a). */
+export function listReports(scope: string, limit = 30, subject?: Subject): ExpertReport[] {
+  const rows = subject
+    ? getDb().prepare('SELECT * FROM expert_reports WHERE scope = ? AND subject = ? ORDER BY created_at DESC LIMIT ?').all(scope, subjectKey(subject), limit)
+    : getDb().prepare('SELECT * FROM expert_reports WHERE scope = ? ORDER BY created_at DESC LIMIT ?').all(scope, limit);
+  return (rows as ReportRow[]).map(toReport);
+}
+
+export function getReport(scope: string, id: number): ExpertReport | null {
+  const r = getDb().prepare('SELECT * FROM expert_reports WHERE scope = ? AND id = ?').get(scope, id) as ReportRow | undefined;
+  return r ? toReport(r) : null;
 }
 
 /** Only a conversation this account started may be continued. */
@@ -61,7 +73,9 @@ export function expertPreflight(ctx: RequestContext, question: string, acknowled
   return null;
 }
 
-export async function* expertStream(ctx: RequestContext, question: string, acknowledged: number | undefined, conversationId: string | null): AsyncGenerator<ExpertEvent> {
+/** `subject` (L5a) attaches the page's TIDE context to the first question of a
+ *  conversation; follow-ups carry only the question. */
+export async function* expertStream(ctx: RequestContext, question: string, acknowledged: number | undefined, conversationId: string | null, subject: Subject | null = null): AsyncGenerator<ExpertEvent> {
   const refusal = expertPreflight(ctx, question, acknowledged, conversationId);
   if (refusal) { yield { type: 'error', message: refusal }; return; }
   const scope = expertScope(ctx)!;
@@ -70,8 +84,9 @@ export async function* expertStream(ctx: RequestContext, question: string, ackno
   const tools: string[] = [];
   let conversation: string | null = conversationId;
   let failed = false;
+  const context = subject && !conversationId ? buildContext(subject, ctx.mode) : null;
   try {
-    const body = conversationId ? { text: q, conversation_id: conversationId } : { text: q };
+    const body = conversationId ? { text: q, conversation_id: conversationId } : { text: context ? composePrompt(q, context) : q };
     for await (const e of streamNansen('agent/expert', body, { record: false })) {
       if (e.type === 'delta') { text += e.text; yield { type: 'delta', text: e.text }; }
       else if (e.type === 'tool_call') { if (!tools.includes(e.name)) { tools.push(e.name); yield { type: 'tool', name: e.name }; } }
@@ -85,8 +100,8 @@ export async function* expertStream(ctx: RequestContext, question: string, ackno
   if (!text.trim()) return;
   const now = Date.now();
   // A partial answer after an error still cost the question: count it.
-  const id = Number(getDb().prepare('INSERT INTO expert_reports (scope, question, answer, tool_calls, conversation_id, credits, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)')
-    .run(scope, q, text.trim(), JSON.stringify(tools), conversation, EXPERT_CREDITS, now).lastInsertRowid);
+  const id = Number(getDb().prepare('INSERT INTO expert_reports (scope, question, answer, tool_calls, conversation_id, credits, created_at, subject, context) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)')
+    .run(scope, q, text.trim(), JSON.stringify(tools), conversation, EXPERT_CREDITS, now, subject ? subjectKey(subject) : null, context ? JSON.stringify(context) : null).lastInsertRowid);
   audit(ctx.user?.id ?? null, 'expert.ask', `${failed ? 'partial ' : ''}${q.slice(0, 80)}`);
-  yield { type: 'done', report: { id, question: q, answer: text.trim(), toolCalls: tools, conversationId: conversation, credits: EXPERT_CREDITS, createdAt: now } };
+  yield { type: 'done', report: { id, question: q, answer: text.trim(), toolCalls: tools, conversationId: conversation, credits: EXPERT_CREDITS, createdAt: now, subject: subject ? subjectKey(subject) : null, context } };
 }

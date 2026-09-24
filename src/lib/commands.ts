@@ -9,6 +9,7 @@ export type Command =
   | { kind: 'call'; token: string }
   | { kind: 'follow'; token: string }
   | { kind: 'alert'; token: string }
+  | { kind: 'ask'; token: string }
   | { kind: 'desk' }
   | { kind: 'help' };
 
@@ -20,6 +21,7 @@ export const COMMANDS: Array<{ usage: string; does: string; cost: string }> = [
   { usage: '/call TOKEN', does: 'Make a call on a token', cost: 'opens a page' },
   { usage: '/follow TOKEN', does: 'Did anyone follow smart money? (owner)', cost: 'opens a page' },
   { usage: '/alert TOKEN', does: 'Alert on whale or smart-money moves', cost: 'opens a page' },
+  { usage: '/ask TOKEN', does: 'Ask Nansen a research question (750 cr, confirmed)', cost: 'opens a page' },
   { usage: '/desk', does: 'Your calls and Trader DNA', cost: 'opens a page' },
 ];
 
@@ -47,6 +49,7 @@ export function parseCommand(raw: string): Command | null {
   if ((m = s.match(/^(?:\/call|make a call on|call) (\S+)$/i))) return { kind: 'call', token: tok(m[1]) };
   if ((m = s.match(/^(?:\/follow|did anyone follow smart money on|who followed smart money on) (\S+)\??$/i))) return { kind: 'follow', token: tok(m[1]) };
   if ((m = s.match(/^(?:\/alert(?: (\S+))?|(?:fade|short|alert me on|watch) (?:(this)|\$?(\S+?)) (?:if|when) (?:whales?|smart money) (?:dump|dumps|sell|sells)\.?)$/i))) return { kind: 'alert', token: tok(m[1] ?? (m[2] ? undefined : m[3])) };
+  if ((m = s.match(/^(?:\/ask|ask nansen(?: about)?) (\S+)\??$/i))) return { kind: 'ask', token: tok(m[1]) };
   if (/^(?:\/desk|my desk|my calls|trader dna)$/i.test(s)) return { kind: 'desk' };
   return null;
 }

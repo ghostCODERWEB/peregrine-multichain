@@ -17,6 +17,7 @@ import { isUnavailable } from '@/server/nansen/traced';
 import { displayMode, type DisplayMode } from '@/server/mode';
 import { forMode, redacted } from '@/server/redact';
 import { chainName, shortAddress, usd, walletName } from '@/lib/viz/format';
+import { AskNansen } from '@/components/agent/AskNansen';
 
 export const dynamic = 'force-dynamic';
 
@@ -46,10 +47,13 @@ export default async function WalletRoute({ params }: Params) {
 
   return (
     <div className="space-y-5">
-      <div>
-        <Link href="/" className="text-[12.5px] text-ink-2 hover:text-ink">← Weather map</Link>
-        <h1 className="mt-1 break-all text-xl font-semibold text-ink sm:text-2xl">{mode === 'owner' && trail.label ? walletName(trail.label, address) : shortAddress(address)}</h1>
-        <p className="num mt-1 break-all text-[12.5px] text-ink-2">{address}</p>
+      <div className="flex flex-wrap items-start justify-between gap-2">
+        <div>
+          <Link href="/" className="text-[12.5px] text-ink-2 hover:text-ink">← Weather map</Link>
+          <h1 className="mt-1 break-all text-xl font-semibold text-ink sm:text-2xl">{mode === 'owner' && trail.label ? walletName(trail.label, address) : shortAddress(address)}</h1>
+          <p className="num mt-1 break-all text-[12.5px] text-ink-2">{address}</p>
+        </div>
+        <AskNansen subject={{ kind: 'wallet', address, chain: null }} label={`the wallet ${shortAddress(address)}`} />
       </div>
 
       <div className="grid gap-4 lg:grid-cols-3">

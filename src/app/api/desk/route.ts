@@ -11,7 +11,7 @@ import { cookieFrom } from '@/server/auth/session';
 import { allow, clientId } from '@/server/rate';
 import { ALL_CHAIN_IDS } from '@/lib/registry';
 import { SETUPS } from '@/lib/models/calls';
-import { DESK_COOKIE, deskScope, createCall, deskSummary, gradeDue } from '@/server/desk/calls';
+import { DESK_COOKIE, deskScope, createCall, deskSummary, gradeDue, attachNote } from '@/server/desk/calls';
 
 export const dynamic = 'force-dynamic';
 const clean = (s: string) => s.replace(/[\u0000-\u001f\u007f]/g, ' ').replace(/\s+/g, ' ').trim();
@@ -28,7 +28,8 @@ const Create = z.object({
   // What the three gauges read on the viewer's page when the call was saved (L2).
   gauges: z.object({ direction: z.number().int().min(-100).max(100).nullable(), confidence: z.number().int().min(0).max(100).nullable(), coordination: z.number().int().min(0).max(100).nullable() }).nullish(),
 });
-const Body = z.discriminatedUnion('action', [Create, z.object({ action: z.literal('grade') })]);
+const AttachNote = z.object({ action: z.literal('attach-note'), callId: z.number().int().positive(), reportId: z.number().int().positive() });
+const Body = z.discriminatedUnion('action', [Create, z.object({ action: z.literal('grade') }), AttachNote]);
 const headers = { 'Cache-Control': 'private, no-store' };
 
 export async function GET(req: Request) {
@@ -42,7 +43,7 @@ export async function POST(req: Request) {
   const parsed = Body.safeParse(await req.json().catch(() => null));
   if (!parsed.success) return fail('Check the call: chain, token, stance, horizon and setup are required; the thesis is at most 200 characters.');
   const b = parsed.data;
-  if (!allow(`desk-${b.action}`, ctx.user ? `u${ctx.user.id}` : clientId(req), b.action === 'create' ? 10 : 6)) return fail('Please wait a minute.', 429);
+  if (!allow(`desk-${b.action}`, ctx.user ? `u${ctx.user.id}` : clientId(req), b.action === 'create' ? 10 : b.action === 'attach-note' ? 20 : 6)) return fail('Please wait a minute.', 429);
   let deskId = cookieFrom(req.headers.get('cookie'), DESK_COOKIE);
   let setCookie: string | null = null;
   if (!deskScope(ctx, deskId) && b.action === 'create') {
@@ -55,6 +56,8 @@ export async function POST(req: Request) {
   try {
     const data = await contextScope.run(ctx, async () => b.action === 'create'
       ? { call: await createCall(scope, ctx, { chain: b.chain, token: b.token, symbol: b.symbol ?? null, stance: b.stance, horizon: b.horizon, setup: b.setup, thesis: b.thesis || null, invalidation: b.invalidation ?? null, gauges: b.gauges ?? null }) }
+      : b.action === 'attach-note'
+      ? (attachNote(scope, b.callId, b.reportId), { ok: true })
       : await gradeDue(scope));
     return Response.json(data, { headers: { ...headers, ...(setCookie ? { 'Set-Cookie': setCookie } : {}) } });
   } catch (e) { return fail((e as Error).message.slice(0, 240)); }

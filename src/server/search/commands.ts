@@ -67,6 +67,7 @@ export async function previewCommand(raw: string, path: string | null): Promise<
     case 'call': return { ...t, title: `Make a call on ${target.name}`, href: `${page}#call` };
     case 'follow': return { ...t, title: `Did anyone follow smart money on ${target.name}?`, href: `${page}?view=flow#follow` };
     case 'alert': return { ...t, title: `Alert on large moves in ${target.name} (Smart Alert builder)`, href: `/alerts?template=token-flows&chain=${target.chain}&token=${q(target.address)}` };
+    case 'ask': return { ...t, title: `Ask Nansen about ${target.name} (750 credits, confirmed there)`, href: `${page}?ask=1#call` };
   }
 }
 

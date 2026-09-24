@@ -18,7 +18,7 @@ test('commands: "/" lists what each command does and costs', async ({ page }) =>
   const who = page.getByRole('option').filter({ hasText: '/who-bought TOKEN 6h' });
   await expect(who).toContainText('1 credit');
   await expect(page.getByRole('option').filter({ hasText: '/replay TOKEN 24h' })).toContainText('opens a page');
-  await expect(page.getByRole('option')).toHaveCount(8);
+  await expect(page.getByRole('option')).toHaveCount(9);
 });
 
 test('commands: /replay opens the Time Machine at the asked window', async ({ page }) => {
@@ -29,6 +29,19 @@ test('commands: /replay opens the Time Machine at the asked window', async ({ pa
   await box.press('Enter');
   await expect(page).toHaveURL(/\/replay\/base\/0x940181a94a35a4569e4529a3cdfb74e38fd98631\?at=7d/);
   await expect(page.getByLabel('Replay window')).toHaveValue('7d');
+});
+
+test('commands: /ask opens Ask Nansen on the token page with the page context visible', async ({ page }) => {
+  const box = await palette(page, '/ask aerodrome');
+  const opt = page.getByRole('option').first();
+  await expect(opt).toContainText('Ask Nansen about AERO · Aerodrome (750 credits, confirmed there)', { timeout: 30_000 });
+  await box.press('Enter');
+  await expect(page).toHaveURL(/\/token\/base\/0x940181a94a35a4569e4529a3cdfb74e38fd98631\?ask=1/);
+  await expect(page.getByRole('dialog', { name: 'Ask Nansen' })).toBeVisible();
+  // Keyless demo runs in public mode: context is gated behind a Nansen key,
+  // same as the full /agent page. Owner-only content is tested in ask-nansen.spec.ts.
+  await expect(page.getByText(/runs on a Nansen key/)).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
 });
 
 test('commands: "who bought $aerodrome last 6h" shows its price, spends nothing until Enter, then answers inline @mobile', async ({ page }) => {

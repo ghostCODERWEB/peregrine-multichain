@@ -6,10 +6,11 @@ import { useEffect, useState } from 'react';
 import { InfoPopover } from '@/components/InfoPopover';
 import { chainName } from '@/lib/viz/format';
 import type { DnaRow, Grade } from '@/lib/models/calls';
-import type { CallCard } from '@/server/desk/calls';
+import type { CallCardWithNotes } from '@/server/desk/calls';
 import { receiptProvenance, fmtPrice, GRADE_RULES } from './receipt';
+import { AskNansen } from '@/components/agent/AskNansen';
 
-export interface DeskData { scope: string | null; calls: CallCard[]; dna: { bySetup: DnaRow[]; byHorizon: DnaRow[]; bySource: DnaRow[] } }
+export interface DeskData { scope: string | null; calls: CallCardWithNotes[]; dna: { bySetup: DnaRow[]; byHorizon: DnaRow[]; bySource: DnaRow[] } }
 
 const pctS = (x: number | null) => (x == null ? '—' : `${x >= 0 ? '+' : '−'}${Math.abs(x * 100).toFixed(2)}%`);
 const utc = (ms: number) => `${new Date(ms).toISOString().slice(0, 16).replace('T', ' ')} UTC`;
@@ -17,7 +18,7 @@ const GRADE: Record<Grade, { label: string; dot: string }> = {
   won: { label: 'won', dot: 'var(--in-2)' }, lost: { label: 'lost', dot: 'var(--out-2)' },
   'too-early': { label: 'too early', dot: 'var(--axis)' }, invalidated: { label: 'invalidated', dot: 'var(--storm-3, var(--out-3))' },
 };
-const due = (c: CallCard, now: number) => c.grade == null && c.source === 'live' && c.dueAt + 10 * 60_000 <= now;
+const due = (c: CallCardWithNotes, now: number) => c.grade == null && c.source === 'live' && c.dueAt + 10 * 60_000 <= now;
 
 function left(ms: number) {
   if (ms <= 0) return 'due now';
@@ -25,7 +26,7 @@ function left(ms: number) {
   return h >= 24 ? `due in ${Math.floor(h / 24)}d ${h % 24}h` : h ? `due in ${h}h ${m}m` : `due in ${m}m`;
 }
 
-function CallRow({ c, now }: { c: CallCard; now: number | null }) {
+function CallRow({ c, now, onNoteAttached }: { c: CallCardWithNotes; now: number | null; onNoteAttached: () => void }) {
   const name = c.symbol ?? `${c.token.slice(0, 6)}…`;
   return (
     <li className="space-y-1 border-t border-border py-3 first:border-0 text-[13px]">
@@ -34,8 +35,12 @@ function CallRow({ c, now }: { c: CallCard; now: number | null }) {
           <b className="uppercase">{c.stance}</b> <Link href={`/token/${c.chain}/${encodeURIComponent(c.token)}`} className="underline-offset-2 hover:underline">{name}</Link>
           <span className="text-ink-muted"> · {chainName(c.chain)} · {c.horizon} · {c.setup}{c.source === 'replay' ? ' · Time Machine' : ''}</span>
         </span>
-        {c.grade ? <span className="flex items-center gap-1.5 text-ink"><span aria-hidden className="inline-block h-2 w-2 rounded-full" style={{ background: GRADE[c.grade].dot }} />{GRADE[c.grade].label} <span className="num text-ink-2">{pctS(c.ret)}</span></span>
-          : <span className="text-ink-2">{now == null ? `due ${utc(c.dueAt)}` : left(c.dueAt - now)}</span>}
+        <span className="flex items-center gap-2">
+          {c.grade ? <span className="flex items-center gap-1.5 text-ink"><span aria-hidden className="inline-block h-2 w-2 rounded-full" style={{ background: GRADE[c.grade].dot }} />{GRADE[c.grade].label} <span className="num text-ink-2">{pctS(c.ret)}</span></span>
+            : <span className="text-ink-2">{now == null ? `due ${utc(c.dueAt)}` : left(c.dueAt - now)}</span>}
+          <AskNansen subject={{ kind: 'token', chain: c.chain, address: c.token }} label={`${name} on ${chainName(c.chain)}`} attachTo={{ callId: c.id, onAttached: onNoteAttached }}
+            buttonClassName="text-[11px] text-ink-muted hover:text-ink" />
+        </span>
       </div>
       <div className="num flex flex-wrap items-center gap-x-3 text-[12px] text-ink-2">
         <span>entry {fmtPrice(c.entry)} <InfoPopover p={receiptProvenance('Entry price', c.entryReceipt, [`Called ${utc(c.createdAt)}.`])} /></span>
@@ -49,6 +54,11 @@ function CallRow({ c, now }: { c: CallCard; now: number | null }) {
       </div>
       {c.thesis && <p className="text-ink-2">“{c.thesis}”</p>}
       {!c.grade && c.gradeNote && <p className="text-[11.5px] text-ink-muted">{c.gradeNote}</p>}
+      {c.notes.length > 0 && (
+        <ul className="mt-1 space-y-0.5 border-l-2 border-border pl-2">
+          {c.notes.map((n) => <li key={n.id} className="text-[11.5px] text-ink-muted">Ask Nansen note ({utc(n.createdAt)}): “{n.question}”</li>)}
+        </ul>
+      )}
     </li>
   );
 }
@@ -74,6 +84,7 @@ export function DeskView({ initial }: { initial: DeskData }) {
   const [data, setData] = useState(initial);
   const [now, setNow] = useState<number | null>(null);
   const [status, setStatus] = useState<string | null>(null);
+  const refresh = () => { fetch('/api/desk', { cache: 'no-store' }).then((r) => r.json()).then(setData).catch(() => {}); };
 
   useEffect(() => {
     const t = Date.now();
@@ -112,11 +123,11 @@ export function DeskView({ initial }: { initial: DeskData }) {
       </section>
       <section className={card} aria-labelledby="open-calls">
         <h2 id="open-calls" className="text-[15px] font-semibold text-ink">Open calls ({open.length})</h2>
-        {open.length ? <ul className="mt-2">{open.map((c) => <CallRow key={c.id} c={c} now={now} />)}</ul> : <p className="mt-2 text-[13px] text-ink-2">None open.</p>}
+        {open.length ? <ul className="mt-2">{open.map((c) => <CallRow key={c.id} c={c} now={now} onNoteAttached={refresh} />)}</ul> : <p className="mt-2 text-[13px] text-ink-2">None open.</p>}
       </section>
       <section className={card} aria-labelledby="graded-calls">
         <h2 id="graded-calls" className="text-[15px] font-semibold text-ink">Graded ({graded.length})</h2>
-        {graded.length ? <ul className="mt-2">{graded.map((c) => <CallRow key={c.id} c={c} now={now} />)}</ul> : <p className="mt-2 text-[13px] text-ink-2">Calls are graded once their horizon passes.</p>}
+        {graded.length ? <ul className="mt-2">{graded.map((c) => <CallRow key={c.id} c={c} now={now} onNoteAttached={refresh} />)}</ul> : <p className="mt-2 text-[13px] text-ink-2">Calls are graded once their horizon passes.</p>}
         <p className="mt-3 border-t border-border pt-2 text-[11.5px] text-ink-muted">{GRADE_RULES} Calls can’t be edited or deleted. Not financial advice.</p>
       </section>
     </div>

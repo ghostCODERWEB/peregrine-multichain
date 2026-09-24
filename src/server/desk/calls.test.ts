@@ -1,6 +1,6 @@
 import { beforeEach, afterEach, describe, expect, it, vi } from 'vitest';
 vi.mock('@/server/nansen/client', () => ({ callNansen: vi.fn() }));
-import { createCall, deskScope, gradeDue, listCalls, deskSummary, MAX_OPEN } from './calls';
+import { createCall, deskScope, gradeDue, listCalls, deskSummary, attachNote, callNotes, MAX_OPEN } from './calls';
 import { callNansen } from '@/server/nansen/client';
 import { getDb } from '@/server/nansen/db';
 import { GET, POST } from '@/app/api/desk/route';
@@ -12,7 +12,7 @@ const meta = { cacheHit: false, creditsCost: 1, creditsUsed: null, creditsRemain
 const candles = (...cs: Array<[number, number]>) => ({ data: { chain: 'base', token_address: T, timeframe: '1h', data: cs.map(([t, c]) => ({ interval_start: new Date(t).toISOString(), close: c, open: c, high: c, low: c })) }, meta });
 const call = { chain: 'base', token: T, symbol: 'AERO', stance: 'bull' as const, horizon: '24h' as const, setup: 'smart-money flow' as const, thesis: 'SM buying into a flat price', invalidation: 0.6 };
 const req = (method: string, body?: unknown, cookie?: string, origin?: string) => new Request('http://localhost/api/desk', { method, headers: { 'content-type': 'application/json', ...(cookie ? { cookie } : {}), ...(origin ? { origin } : {}) }, body: body ? JSON.stringify(body) : undefined });
-beforeEach(() => { getDb().exec('DELETE FROM calls'); vi.clearAllMocks(); vi.stubEnv('DEMO_MODE', '0'); vi.stubEnv('TIDE_DISPLAY_MODE', 'public'); });
+beforeEach(() => { getDb().exec('DELETE FROM call_notes; DELETE FROM calls; DELETE FROM expert_reports;'); vi.clearAllMocks(); vi.stubEnv('DEMO_MODE', '0'); vi.stubEnv('TIDE_DISPLAY_MODE', 'public'); });
 afterEach(() => vi.unstubAllEnvs());
 
 describe('call cards (L1)', () => {
@@ -83,5 +83,27 @@ describe('call cards (L1)', () => {
     const mine = await (await GET(req('GET', undefined, cookie.split(';')[0]))).json();
     expect(mine.calls).toHaveLength(1);
     expect((await (await GET(req('GET'))).json()).calls).toHaveLength(0); // another browser sees nothing
+  });
+  it('attaches a research answer to a call as a note, only within the same desk, and never twice (L5a)', async () => {
+    vi.mocked(callNansen).mockResolvedValue(candles([Date.now() - 1000, 0.72]) as never);
+    const c = await createCall('owner', owner, call);
+    const db = getDb();
+    const reportId = Number(db.prepare("INSERT INTO expert_reports (scope, question, answer, tool_calls, conversation_id, credits, created_at) VALUES ('owner', 'q', 'a', '[]', NULL, 750, ?)").run(Date.now()).lastInsertRowid);
+    const otherReportId = Number(db.prepare("INSERT INTO expert_reports (scope, question, answer, tool_calls, conversation_id, credits, created_at) VALUES ('desk:xxxxxxxxxxxxxxxxxxxxxxxx', 'q2', 'a2', '[]', NULL, 750, ?)").run(Date.now()).lastInsertRowid);
+    expect(() => attachNote('owner', c.id, otherReportId)).toThrow('isn’t on this desk');
+    expect(() => attachNote('desk:xxxxxxxxxxxxxxxxxxxxxxxx', c.id, reportId)).toThrow('isn’t on this desk');
+    attachNote('owner', c.id, reportId);
+    attachNote('owner', c.id, reportId); // idempotent, not duplicated
+    expect(callNotes('owner', c.id)).toEqual([{ id: expect.any(Number), reportId, question: 'q', createdAt: expect.any(Number) }]);
+    expect(deskSummary('owner').calls[0].notes).toHaveLength(1);
+  });
+  it('the route requires same-origin and refuses attaching another desk’s report', async () => {
+    vi.mocked(callNansen).mockResolvedValue(candles([Date.now() - 1000, 0.72]) as never);
+    const created = await POST(req('POST', { action: 'create', ...call }));
+    const cookie = created.headers.get('set-cookie')!.split(';')[0];
+    const { call: c } = await created.json();
+    const reportId = Number(getDb().prepare("INSERT INTO expert_reports (scope, question, answer, tool_calls, conversation_id, credits, created_at) VALUES (?, 'q', 'a', '[]', NULL, 750, ?)").run(cookie.split('=')[1] ? `desk:${cookie.split('=')[1]}` : '', Date.now()).lastInsertRowid);
+    expect((await POST(req('POST', { action: 'attach-note', callId: c.id, reportId }, cookie, 'https://elsewhere.invalid'))).status).toBe(403);
+    expect((await POST(req('POST', { action: 'attach-note', callId: c.id, reportId }, cookie))).status).toBe(200);
   });
 });

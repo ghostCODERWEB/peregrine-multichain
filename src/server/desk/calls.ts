@@ -10,7 +10,7 @@ import { chainWeather } from '@/server/weather/queries';
 import { viewOf } from '@/server/mode';
 import type { RequestContext } from '@/server/context';
 import { addressKey } from '@/lib/address-family';
-import { HORIZONS, gradeCall, invalidationProblem, traderDna, type Grade, type Horizon, type Setup, type Stance } from '@/lib/models/calls';
+import { HORIZONS, gradeCall, invalidationProblem, traderDna, type DnaRow, type Grade, type Horizon, type Setup, type Stance } from '@/lib/models/calls';
 import type { TokenOHLCVResponse } from '@/types/nansen/api.gen';
 import { closedBy } from '@/lib/models/replay';
 
@@ -96,6 +96,23 @@ export function listCalls(scope: string, limit = 200): CallCard[] {
   return (getDb().prepare('SELECT * FROM calls WHERE scope = ? ORDER BY created_at DESC LIMIT ?').all(scope, limit) as Row[]).map(toCard);
 }
 
+/** Attaches an existing research answer to one of this desk's own calls as a
+ *  separate note (L5a). Never edits the call, its grade or its context. */
+export function attachNote(scope: string, callId: number, reportId: number, now = Date.now()): void {
+  const db = getDb();
+  const call = db.prepare('SELECT id FROM calls WHERE id = ? AND scope = ?').get(callId, scope);
+  if (!call) throw new Error('That call isn’t on this desk.');
+  const report = db.prepare('SELECT id FROM expert_reports WHERE id = ? AND scope = ?').get(reportId, scope);
+  if (!report) throw new Error('That answer isn’t on this desk.');
+  db.prepare('INSERT OR IGNORE INTO call_notes (scope, call_id, report_id, created_at) VALUES (?, ?, ?, ?)').run(scope, callId, reportId, now);
+}
+
+export interface CallNote { id: number; reportId: number; question: string; createdAt: number }
+export function callNotes(scope: string, callId: number): CallNote[] {
+  return (getDb().prepare(`SELECT n.id, n.report_id, n.created_at, r.question FROM call_notes n JOIN expert_reports r ON r.id = n.report_id WHERE n.scope = ? AND n.call_id = ? ORDER BY n.created_at`)
+    .all(scope, callId) as Array<{ id: number; report_id: number; created_at: number; question: string }>).map((r) => ({ id: r.id, reportId: r.report_id, question: r.question, createdAt: r.created_at }));
+}
+
 /** Grades due calls from Nansen candles for exactly each call's window
  *  (1 credit each, at most `max` per request). No candles yet → left open with a note. */
 export async function gradeDue(scope: string, now = Date.now(), max = 6): Promise<{ graded: number; pending: number }> {
@@ -123,10 +140,13 @@ export async function gradeDue(scope: string, now = Date.now(), max = 6): Promis
   return { graded, pending };
 }
 
-export function deskSummary(scope: string) {
+export type CallCardWithNotes = CallCard & { notes: CallNote[] };
+
+export function deskSummary(scope: string): { calls: CallCardWithNotes[]; dna: { bySetup: DnaRow[]; byHorizon: DnaRow[]; bySource: DnaRow[] } } {
   const calls = listCalls(scope);
+  const withNotes: CallCardWithNotes[] = calls.map((c) => ({ ...c, notes: callNotes(scope, c.id) }));
   return {
-    calls,
+    calls: withNotes,
     dna: {
       bySetup: traderDna(calls, (c) => c.setup),
       byHorizon: traderDna(calls, (c) => c.horizon),

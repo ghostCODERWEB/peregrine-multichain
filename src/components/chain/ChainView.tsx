@@ -13,6 +13,7 @@ import { ForecastMultiple } from '@/components/weather/ForecastStrip';
 import { InfoPopover } from '@/components/InfoPopover';
 import { chainName, num } from '@/lib/viz/format';
 import type { ChainPageData, PeerRow } from '@/server/weather/chain-page';
+import { AskNansen } from '@/components/agent/AskNansen';
 
 export interface ModuleGaps {
   /** null when available; otherwise the plain "not available" sentence. */
@@ -29,7 +30,10 @@ export function ChainView({ d, gaps }: { d: ChainPageData; gaps: ModuleGaps }) {
 
   return (
     <div className="space-y-4">
-      <Link href="/" className="text-[12.5px] text-ink-2 hover:text-ink">← Weather map</Link>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <Link href="/" className="text-[12.5px] text-ink-2 hover:text-ink">← Weather map</Link>
+        <AskNansen subject={{ kind: 'chain', chain: d.chain }} label={`the ${name} chain page`} />
+      </div>
       <ChainHero d={d} tier={gaps.tier} title={barometerTitle(d.weather)} note={<>
         {d.weather.source === 'smart-money' && 'Pressure is measured from Nansen smart-money labels.'}
         {d.mode !== 'owner' && d.weather.source === 'market-flow' && gaps.tier === 'A' && ' Pressure here is all-trader flow; the scanner\'s smart-money pressure is the instance owner\'s view only.'}

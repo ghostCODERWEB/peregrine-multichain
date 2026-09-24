@@ -340,6 +340,20 @@ const MIGRATIONS: string[] = [
   );
   CREATE INDEX idx_replay_scope ON replay_sessions(scope, prepared_at);
   `,
+  // 20: Ask Nansen (L5a). Research answers remember the page they were asked
+  // from and the TIDE context that was sent; a user can attach an answer to
+  // one of their own calls as a separate note, never editing the call.
+  `
+  ALTER TABLE expert_reports ADD COLUMN subject TEXT;
+  ALTER TABLE expert_reports ADD COLUMN context TEXT;
+  CREATE INDEX idx_expert_reports_subject ON expert_reports(scope, subject);
+  CREATE TABLE call_notes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT, scope TEXT NOT NULL, call_id INTEGER NOT NULL REFERENCES calls(id),
+    report_id INTEGER NOT NULL REFERENCES expert_reports(id), created_at INTEGER NOT NULL,
+    UNIQUE (call_id, report_id)
+  );
+  CREATE INDEX idx_call_notes_call ON call_notes(call_id);
+  `,
 ];
 
 export function audit(userId: number | null, action: string, detail?: string): void {
