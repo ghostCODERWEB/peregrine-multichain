@@ -7,9 +7,12 @@ import { test, expect, type Page } from '@playwright/test';
 
 async function openOmnibox(page: Page) {
   await page.goto('/');
-  await page.keyboard.press('Control+k');
   const box = page.getByRole('combobox');
-  await expect(box).toBeFocused();
+  // The shortcut listener exists only after hydration (slow on a cold server).
+  await expect(async () => {
+    if (!(await box.isVisible())) await page.keyboard.press('Control+k');
+    await expect(box).toBeFocused({ timeout: 1_000 });
+  }).toPass({ timeout: 20_000 });
   return box;
 }
 
