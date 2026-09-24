@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { usd, pct, shortAddress, num } from '@/lib/viz/format';
 import { PerpDeposit } from './PerpDeposit';
+import { perpAccountView, perpPositionView, type PerpPositionView } from '@/lib/models/perp-account';
 
 type Eth = { request: (a: { method: string; params?: unknown[] }) => Promise<unknown> };
 const eth = (): Eth | null => (typeof window !== 'undefined' ? ((window as unknown as { ethereum?: Eth }).ethereum ?? null) : null);
@@ -94,8 +95,9 @@ export function PerpTrade({ marks, initialCoin }: { marks: PerpMark[]; initialCo
   }
 
   const fee = state?.fee as { approved?: boolean; required_fee?: number; error?: string } | undefined;
-  const acct = state?.account as { error?: string; spotUsdc?: unknown; withdrawable?: unknown; account_value?: unknown; accountValue?: unknown } | undefined;
-  const positions = (Array.isArray(state?.positions) ? state!.positions : ((state?.positions as Row | undefined)?.positions ?? [])) as Row[];
+  const acct = state?.account as { error?: string } | undefined;
+  const av = perpAccountView(state?.account);
+  const positions = ((Array.isArray(state?.positions) ? state!.positions : ((state?.positions as Row | undefined)?.positions ?? [])) as Row[]).map(perpPositionView).filter((p): p is PerpPositionView => p != null);
   const orders = (Array.isArray(state?.orders) ? state!.orders : ((state?.orders as Row | undefined)?.orders ?? [])) as Row[];
   const ordersError = (state?.orders as { error?: string } | undefined)?.error;
   const card = 'glass rounded-2xl p-4';
@@ -110,11 +112,12 @@ export function PerpTrade({ marks, initialCoin }: { marks: PerpMark[]; initialCo
           {state && (
             <dl className="mt-3 grid grid-cols-2 gap-2 text-[12.5px] sm:grid-cols-3">
               <div className="rounded-xl border border-border/70 bg-raised/50 px-3 py-2"><dt className="text-[10.5px] uppercase tracking-wider text-ink-muted">Builder fee</dt><dd className="text-ink">{fee?.error ? '—' : fee?.approved ? 'approved' : `not approved (${num((fee?.required_fee ?? 0) / 10, 1)} bps)`}</dd></div>
-              <div className="rounded-xl border border-border/70 bg-raised/50 px-3 py-2"><dt className="text-[10.5px] uppercase tracking-wider text-ink-muted">Perps margin</dt><dd className="num text-ink">{acct?.error ? '—' : usd(Number(acct?.account_value ?? acct?.accountValue ?? acct?.withdrawable ?? 0))}</dd></div>
-              <div className="rounded-xl border border-border/70 bg-raised/50 px-3 py-2"><dt className="text-[10.5px] uppercase tracking-wider text-ink-muted">Spot USDC</dt><dd className="num text-ink">{acct?.error ? '—' : usd(Number(acct?.spotUsdc ?? 0))}</dd></div>
+              <div className="rounded-xl border border-border/70 bg-raised/50 px-3 py-2"><dt className="text-[10.5px] uppercase tracking-wider text-ink-muted">Perps account value</dt><dd className="num text-ink">{acct?.error || av.accountValue == null ? '—' : usd(av.accountValue)}</dd>{av.marginUsed != null && av.marginUsed > 0 && <dd className="num text-[11px] text-ink-muted">{usd(av.marginUsed)} margin in use</dd>}</div>
+              <div className="rounded-xl border border-border/70 bg-raised/50 px-3 py-2"><dt className="text-[10.5px] uppercase tracking-wider text-ink-muted">Withdrawable</dt><dd className="num text-ink">{acct?.error || av.withdrawable == null ? '—' : usd(av.withdrawable)}</dd></div>
+              <div className="rounded-xl border border-border/70 bg-raised/50 px-3 py-2"><dt className="text-[10.5px] uppercase tracking-wider text-ink-muted">Spot USDC</dt><dd className="num text-ink">{acct?.error || av.spotUsdc == null ? '—' : usd(av.spotUsdc)}</dd></div>
             </dl>
           )}
-          {state && Number(acct?.spotUsdc ?? 0) > 0 && <p className="mt-2 text-[11.5px] text-ink-muted">Only the perps balance is margin: USDC in spot can&apos;t back an order until it is moved to perps.</p>}
+          {state && (av.spotUsdc ?? 0) > 0 && <p className="mt-2 text-[11.5px] text-ink-muted">Only the perps balance is margin: USDC in spot can&apos;t back an order until it is moved to perps.</p>}
           {state && !fee?.approved && !fee?.error && <button onClick={() => prepare('approve-builder-fee')} className="mt-3 rounded-full border border-border px-3 py-1 text-[13px] text-ink hover:bg-raised">Approve the builder fee (sign once)</button>}
           {state && !acct?.error && (
             <div className="mt-3 flex flex-wrap items-end gap-2 border-t border-border pt-3">
@@ -184,12 +187,13 @@ export function PerpTrade({ marks, initialCoin }: { marks: PerpMark[]; initialCo
           <section className={card}>
             <h2 className="text-[15px] font-semibold text-ink">Open positions</h2>
             <table className="mt-2 w-full text-left text-[12.5px]">
-              <tbody>{positions.map((p, i) => {
-                const c = String(p.coin ?? p.token_symbol ?? '?'); const sz = Number(p.size ?? p.szi ?? 0); const mk = marks.find((x) => x.symbol === c)?.mark ?? Number(p.entry_price ?? p.entryPx ?? 0);
+              <tbody>{positions.map((p) => {
+                const mk = marks.find((x) => x.symbol === p.coin)?.mark ?? p.entry ?? 0;
                 return (
-                  <tr key={i} className="border-t border-border first:border-0">
-                    <td className="py-1.5 text-ink">{c}</td><td className="num text-ink-2">{sz > 0 ? 'long' : 'short'} {Math.abs(sz)}</td><td className="num text-ink-2">uPnL {usd(Number(p.unrealized_pnl ?? p.unrealizedPnl ?? 0), { signed: true })}</td>
-                    <td className="text-right"><button disabled={!mk} onClick={() => prepare('close', { coin: c, isBuy: sz < 0, size: Math.abs(sz), price: mk })} className="rounded-full border border-border px-2.5 py-0.5 text-[12px] text-ink hover:bg-raised">Close</button></td>
+                  <tr key={p.coin} className="border-t border-border first:border-0">
+                    <td className="py-1.5 text-ink">{p.coin}</td><td className="num text-ink-2">{p.size > 0 ? 'long' : 'short'} {Math.abs(p.size)}{p.leverage ? ` · ${p.leverage}` : ''}</td>
+                    <td className="num text-ink-2">uPnL {p.uPnl == null ? '—' : usd(p.uPnl, { signed: true })}{p.liquidation != null ? ` · liq ${usd(p.liquidation)}` : ''}</td>
+                    <td className="text-right"><button disabled={!mk} onClick={() => prepare('close', { coin: p.coin, isBuy: p.size < 0, size: Math.abs(p.size), price: mk })} className="rounded-full border border-border px-2.5 py-0.5 text-[12px] text-ink hover:bg-raised">Close</button></td>
                   </tr>
                 );
               })}</tbody>

@@ -26,7 +26,8 @@ test('perp account: resting orders cancel, USDC moves and leverage all go throug
   await page.route('**/api/trade', async (route) => {
     const b = route.request().postDataJSON() as Record<string, unknown>;
     calls.push(b);
-    if (b.action === 'perp-state') return route.fulfill({ json: { fee: { approved: true }, account: { account_value: 120, spotUsdc: 40 }, positions: [], orders: { orders: [
+    // Live shapes (2026-09-24): values nested under marginSummary, strings throughout.
+    if (b.action === 'perp-state') return route.fulfill({ json: { fee: { approved: true }, account: { marginSummary: { accountValue: '120', totalMarginUsed: '10', totalNtlPos: '50' }, withdrawable: '110', spotUsdc: '40' }, positions: { positions: [{ coin: 'ETH', szi: '-0.5', leverage: { type: 'cross', value: 10 }, entryPx: '3000', unrealizedPnl: '-12.5', liquidationPx: '3900' }] }, orders: { orders: [
       { coin: 'BTC', side: 'B', limitPx: '60000', sz: '0.001', oid: 555253264109, orderType: 'Limit', tif: 'Gtc', reduceOnly: false, isTrigger: false },
       { coin: '@156', side: 'B', limitPx: '113.35', sz: '152.369', oid: 555253264089, orderType: 'Limit', tif: 'Alo', reduceOnly: false, isTrigger: false },
     ] } } });
@@ -37,6 +38,13 @@ test('perp account: resting orders cancel, USDC moves and leverage all go throug
 
   await page.goto('/trade?coin=BTC');
   await page.getByRole('button', { name: 'Connect wallet' }).click();
+  const account = page.locator('section', { has: page.getByRole('heading', { name: 'Hyperliquid account' }) });
+  await expect(account.getByText('Perps account value')).toBeVisible();
+  await expect(account.locator('dd').filter({ hasText: /^\$120$/ })).toBeVisible(); // account value, not withdrawable
+  await expect(account.locator('dd').filter({ hasText: /^\$110$/ })).toBeVisible();
+  const open = page.locator('section', { has: page.getByRole('heading', { name: 'Open positions' }) });
+  await expect(open.getByText(/short 0\.5 · 10× cross/)).toBeVisible();
+  await expect(open.getByText(/liq \$3[.,]9/)).toBeVisible();
   const orders = page.locator('section', { has: page.getByRole('heading', { name: 'Resting orders' }) });
   await expect(orders.getByRole('row')).toHaveCount(3);
   await expect(orders.getByRole('button', { name: 'Cancel' })).toHaveCount(1); // the spot order (@156) has none
