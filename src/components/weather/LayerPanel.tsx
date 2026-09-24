@@ -4,17 +4,19 @@ import { TimeAgo } from '@/components/TimeAgo';
 import { InfoPopover } from '@/components/InfoPopover';
 import { num, usd } from '@/lib/viz/format';
 import type { WeatherLayer } from '@/server/weather/layers';
+import { LoadCategories } from './LoadCategories';
 
-export function LayerPanel({ layer, table }: { layer: WeatherLayer; table: boolean }) {
+export function LayerPanel({ layer, table, onRefresh }: { layer: WeatherLayer; table: boolean; onRefresh?: () => Promise<unknown> }) {
   return <div className="space-y-4" aria-label={layer.title}>
     <div className="flex flex-wrap items-start justify-between gap-3">
       <div className="max-w-3xl"><div className="flex items-center gap-2"><h2 className="text-lg font-semibold text-ink">{layer.title}</h2>{layer.provenance && <InfoPopover p={layer.provenance} />}</div>
         <p className="mt-1 text-sm text-ink-2">{layer.description}</p>
-        <p className="mt-2 text-xs text-ink-muted">{layer.recorded ? 'Recorded demo observations; not live' : <>Observed <TimeAgo ts={layer.at} /></>} · Home layer switching uses no API credits.</p>
+        <p className="mt-2 text-xs text-ink-muted">{layer.recorded ? 'Recorded demo observations; not live' : layer.at ? <>Observed <TimeAgo ts={layer.at} /></> : 'No observation yet'} · Home layer switching uses no API credits.</p>
       </div>
       <Link className="text-sm text-ink underline underline-offset-4" href={layer.href}>Explore data & methodology →</Link>
     </div>
-    {layer.unavailable && <p className="rounded-lg border border-dashed border-border p-4 text-sm text-ink-2">{layer.unavailable}</p>}
+    {layer.unavailable && <div className="space-y-3 rounded-lg border border-dashed border-border p-4"><p className="text-sm text-ink-2">{layer.unavailable}</p>
+      {layer.id === 'predictions' && !layer.recorded && onRefresh && <LoadCategories onLoaded={onRefresh} />}</div>}
     {!layer.unavailable && !layer.readings.length && <p className="text-sm text-ink-2">No usable observations in this snapshot.</p>}
     {table ? <div className="overflow-x-auto"><table className="w-full text-left text-sm"><thead><tr className="border-b border-border"><th className="p-2">Entity</th><th className="p-2">Index / 100</th><th className="p-2">{layer.metric}</th></tr></thead><tbody>
       {layer.readings.map((r) => <tr key={r.name} className="border-b border-border"><th className="p-2 font-medium">{r.name}</th><td className="num p-2">{num(r.score, 0)}</td><td className="num p-2">{usd(r.value, { signed: layer.id === 'sectors' })}</td></tr>)}

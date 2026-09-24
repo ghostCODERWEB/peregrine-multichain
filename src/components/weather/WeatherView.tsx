@@ -72,7 +72,7 @@ export function WeatherView({ initial, anchor, alpha }: { initial: WeatherBullet
           {[{ id: 'spot', title: 'Spot pressure' }, ...(data.layers ?? [])].map((l) => <button key={l.id} aria-pressed={layer === l.id} onClick={() => setLayer(l.id)} className={`rounded-full border border-border px-4 py-2 text-sm ${layer === l.id ? 'bg-accent text-ink' : 'text-ink-2 hover:text-ink'}`}>{l.title}</button>)}
         </div>
         <div className="glass rounded-2xl p-4">
-          {activeLayer ? <LayerPanel layer={activeLayer} table={view === 'table'} /> : view === 'map' ? (
+          {activeLayer ? <LayerPanel layer={activeLayer} table={view === 'table'} onRefresh={refetch} /> : view === 'map' ? (
             <HexMap chains={data.chains} fronts={[...data.fronts, ...(showInferred ? inferred : [])]} selectedFront={selected} onSelectFront={setSelected} />
           ) : (
             <ChainTable chains={data.chains} />

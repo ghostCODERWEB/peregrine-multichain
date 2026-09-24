@@ -50,6 +50,6 @@ export function weatherLayers(view: PressureView, now = Date.now()): WeatherLaye
     { id: 'predictions', title: 'Prediction activity', metric: '24h volume', href: '/predict', at: prediction?.fetchedAt || null, recorded,
       provenance: { title: 'Prediction category activity', formula: 'heat = 24h volume / (1-week volume / 7); index = 50 + 50*tanh(ln heat)', inputs: [{ label: 'Population', value: 'First 60 categories, usable volume observations only' }], calls: [{ endpoint: 'prediction-market/categories', body, credits: 1, ref: recorded ? 'fixtures/prediction-market-categories.json' : cacheKey('prediction-market/categories', body) }], notes: ['Reading this cached layer costs zero credits. Categories overlap; do not sum them.', 'Activity is not directional capital flow or implied probability.'] },
       description: 'Polymarket categories • activity = 50 + 50 × tanh(ln(24h volume ÷ weekly daily average)). Not net YES/NO flow, direction or probability. Categories overlap.',
-      readings: predictionReadings(prediction?.value), unavailable: prediction ? null : 'No fresh shared category observation. Open Predictions to load its board; return here while the 15-minute cache is fresh. Member-key responses stay isolated.' },
+      readings: predictionReadings(prediction?.value), unavailable: prediction ? null : 'No fresh shared category observation: the 15-minute cache is empty or expired. Load it here, or open Predictions. Member-key responses stay isolated.' },
   ];
 }
