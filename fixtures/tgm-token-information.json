@@ -93,25 +93,25 @@
           "website": "https://www.stonkfun.xyz/",
           "x": "LaunchOnSF",
           "telegram": "StonkFunXyz",
-          "market_cap_usd": 281368583.95440155,
-          "fdv_usd": 280751244.748473,
-          "circulating_supply": 819508832.6977199,
-          "total_supply": 819372861.0585359
+          "market_cap_usd": 253675053.17968708,
+          "fdv_usd": 254402074.746891,
+          "circulating_supply": 818832647.7320266,
+          "total_supply": 818832647.7320266
         },
         "spot_metrics": {
-          "volume_total_usd": 59156831.00690629,
-          "buy_volume_usd": 29355315.955060735,
-          "sell_volume_usd": 29801515.051845558,
-          "total_buys": 113190,
-          "total_sells": 120096,
-          "unique_buyers": 9971,
-          "unique_sellers": 11970,
-          "liquidity_usd": 10188221.968110709,
-          "total_holders": 53395
+          "volume_total_usd": 59490406.32655442,
+          "buy_volume_usd": 28240534.051442347,
+          "sell_volume_usd": 31249872.275112066,
+          "total_buys": 111978,
+          "total_sells": 120381,
+          "unique_buyers": 9147,
+          "unique_sellers": 11594,
+          "liquidity_usd": 11185348.152486466,
+          "total_holders": 52429
         }
       }
     },
-    "recordedAt": 1790307608171
+    "recordedAt": 1790350855054
   },
   {
     "requestHash": "8477970807419b95922db6949abc1a94f248558a",
@@ -169,25 +169,25 @@
           "website": "https://ponsfamily.com/",
           "x": "ponsdotfamily",
           "telegram": "",
-          "market_cap_usd": 422454147.65601987,
-          "fdv_usd": 419577137.837519,
-          "circulating_supply": 684003406.5477551,
-          "total_supply": 684003406.5477551
+          "market_cap_usd": 431709797.5294991,
+          "fdv_usd": 433341074.659039,
+          "circulating_supply": 683903535.8217858,
+          "total_supply": 683903535.8217858
         },
         "spot_metrics": {
-          "volume_total_usd": 27928382.353966355,
-          "buy_volume_usd": 13242120.415642086,
-          "sell_volume_usd": 14686261.938324269,
-          "total_buys": 23994,
-          "total_sells": 23967,
-          "unique_buyers": 3036,
-          "unique_sellers": 3437,
-          "liquidity_usd": 24291529.15549897,
-          "total_holders": 51423
+          "volume_total_usd": 28288220.944507297,
+          "buy_volume_usd": 14545636.366221309,
+          "sell_volume_usd": 13742584.578285988,
+          "total_buys": 24191,
+          "total_sells": 22349,
+          "unique_buyers": 1868,
+          "unique_sellers": 2210,
+          "liquidity_usd": 23720259.424229447,
+          "total_holders": 51775
         }
       }
     },
-    "recordedAt": 1790307605444
+    "recordedAt": 1790350856354
   },
   {
     "requestHash": "0c002d3872286086ba2f72fa41dd990ceb2c5e4e",
@@ -207,25 +207,25 @@
           "website": "https://artificialinu.com",
           "x": "artificiallyinu",
           "telegram": "artificially_inu",
-          "market_cap_usd": 226224858.15391627,
-          "fdv_usd": 225757758.50149,
-          "circulating_supply": 991273455.9741277,
-          "total_supply": 991273455.9741277
+          "market_cap_usd": 237488215.11611506,
+          "fdv_usd": 236601479.740117,
+          "circulating_supply": 991267865.895189,
+          "total_supply": 991267526.4727554
         },
         "spot_metrics": {
-          "volume_total_usd": 6538389.812199888,
-          "buy_volume_usd": 2870943.7705516173,
-          "sell_volume_usd": 3667446.0416482706,
-          "total_buys": 2315,
-          "total_sells": 2529,
-          "unique_buyers": 824,
-          "unique_sellers": 983,
-          "liquidity_usd": 21672193.417443503,
-          "total_holders": 28403
+          "volume_total_usd": 6935922.711391158,
+          "buy_volume_usd": 3512258.8933424023,
+          "sell_volume_usd": 3423663.818048756,
+          "total_buys": 2441,
+          "total_sells": 2255,
+          "unique_buyers": 896,
+          "unique_sellers": 889,
+          "liquidity_usd": 21474681.408802032,
+          "total_holders": 28788
         }
       }
     },
-    "recordedAt": 1790213928980
+    "recordedAt": 1790350858288
   },
   {
     "requestHash": "34f3533b2ba2d7199b00fd53c15d7777b6a68da8",
@@ -663,25 +663,25 @@
           "website": "https://www.stonkfun.xyz/token/4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
           "x": "",
           "telegram": "",
-          "market_cap_usd": 6340068.247669359,
-          "fdv_usd": 6431784.1114977,
-          "circulating_supply": 995105123.477049,
-          "total_supply": 995105123.477049
+          "market_cap_usd": 5825952.203033799,
+          "fdv_usd": 5888136.50734339,
+          "circulating_supply": 994982776.597954,
+          "total_supply": 994956544.728523
         },
         "spot_metrics": {
-          "volume_total_usd": 2811402.46919597,
-          "buy_volume_usd": 1344048.0763701776,
-          "sell_volume_usd": 1467354.3928257923,
-          "total_buys": 3925,
-          "total_sells": 3355,
-          "unique_buyers": 1626,
-          "unique_sellers": 1636,
-          "liquidity_usd": 315940.15981364454,
-          "total_holders": 5636
+          "volume_total_usd": 2525858.2234672024,
+          "buy_volume_usd": 1207611.1890446173,
+          "sell_volume_usd": 1318247.034422585,
+          "total_buys": 4299,
+          "total_sells": 3234,
+          "unique_buyers": 1535,
+          "unique_sellers": 1484,
+          "liquidity_usd": 340491.210059391,
+          "total_holders": 5564
         }
       }
     },
-    "recordedAt": 1790307614482
+    "recordedAt": 1790350863761
   },
   {
     "requestHash": "74b06f43db1fca07136d0f8588272f91affcfbf1",
@@ -701,24 +701,62 @@
           "website": "",
           "x": "",
           "telegram": "",
-          "market_cap_usd": 12287210.512835454,
-          "fdv_usd": 45858861.78537,
-          "circulating_supply": 31236.02764750589,
-          "total_supply": 331827.4065504614
+          "market_cap_usd": 12345470.774470462,
+          "fdv_usd": 45714631.7199495,
+          "circulating_supply": 31398.24764155589,
+          "total_supply": 331827.3413982714
         },
         "spot_metrics": {
-          "volume_total_usd": 4802178.6999031855,
-          "buy_volume_usd": 2310024.890794891,
-          "sell_volume_usd": 2492153.8091082945,
-          "total_buys": 10789,
-          "total_sells": 17941,
-          "unique_buyers": 772,
-          "unique_sellers": 4888,
-          "liquidity_usd": 2187782.9292021682,
-          "total_holders": 14563
+          "volume_total_usd": 4674895.953579333,
+          "buy_volume_usd": 2503717.5812788466,
+          "sell_volume_usd": 2171178.372300486,
+          "total_buys": 10127,
+          "total_sells": 16557,
+          "unique_buyers": 745,
+          "unique_sellers": 4819,
+          "liquidity_usd": 2104347.562487201,
+          "total_holders": 15039
         }
       }
     },
-    "recordedAt": 1790307615871
+    "recordedAt": 1790350861437
+  },
+  {
+    "requestHash": "b829850c8e7792675d56ecb198a40e3776e178ec",
+    "request": {
+      "chain": "bnb",
+      "token_address": "0xcafdbce93477261db8250e42bdae6e66733f9e20",
+      "timeframe": "1d"
+    },
+    "response": {
+      "data": {
+        "name": "",
+        "symbol": "",
+        "contract_address": "0xcafdbce93477261db8250e42bdae6e66733f9e20",
+        "logo": "",
+        "token_details": {
+          "token_deployment_date": "",
+          "website": "https://slinkcoinrbh.lol/",
+          "x": "",
+          "telegram": "",
+          "market_cap_usd": 0,
+          "fdv_usd": 0,
+          "circulating_supply": 0,
+          "total_supply": 0
+        },
+        "spot_metrics": {
+          "volume_total_usd": 7336732.01732593,
+          "buy_volume_usd": 3558465.1483195126,
+          "sell_volume_usd": 3778266.869006418,
+          "total_buys": 8905,
+          "total_sells": 6480,
+          "unique_buyers": 2604,
+          "unique_sellers": 1924,
+          "liquidity_usd": 0,
+          "total_holders": 10114
+        }
+      }
+    },
+    "recordedAt": 1790350859501
   }
 ]
