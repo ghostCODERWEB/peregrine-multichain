@@ -32,7 +32,7 @@ export function ChainView({ d, gaps }: { d: ChainPageData; gaps: ModuleGaps }) {
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <Link href="/" className="text-[12.5px] text-ink-2 hover:text-ink">← Radar</Link>
+        <Link href="/" className="text-[12.5px] text-ink-2 hover:text-ink">← Overview</Link>
         <AskNansen subject={{ kind: 'chain', chain: d.chain }} label={`the ${name} chain page`} />
       </div>
       <ChainHero d={d} tier={gaps.tier} title={barometerTitle(d.weather)} note={<>

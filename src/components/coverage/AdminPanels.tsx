@@ -5,7 +5,7 @@ import type { AdminView } from '@/server/admin';
 import type { ModuleId } from '@/config/endpoint-ledger';
 
 const MODULE_NAMES: Partial<Record<ModuleId, string>> = {
-  weather: 'Radar', chain: 'Chain pages', token: 'Token pages', wallet: 'Wallet pages', lab: 'Backtest Lab', anchor: 'Ask Nansen',
+  weather: 'Overview', chain: 'Chain pages', token: 'Token pages', wallet: 'Wallet pages', lab: 'Backtest Lab', anchor: 'Ask Nansen',
   alerts: 'Alerts', ride: 'Follow the flow', coverage: 'Coverage', M1: 'M1 Search', M2: 'M2 Token terminal', M3: 'M3 Wallet', M4: 'M4 Smart money',
   M5: 'M5 Perps', M6: 'M6 Predictions', M7: 'M7 Agents', M8: 'M8 Trading', M9: 'M9 Backtest v2', M10: 'M10 Map v2',
 };

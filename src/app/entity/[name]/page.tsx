@@ -28,7 +28,7 @@ export default async function EntityRoute({ params }: Params) {
   if (!lookup.found) {
     return (
       <div className="mx-auto max-w-2xl space-y-4">
-        <Link href="/" className="text-[12.5px] text-ink-2 hover:text-ink">← Radar</Link>
+        <Link href="/" className="text-[12.5px] text-ink-2 hover:text-ink">← Overview</Link>
         <h1 className="text-xl font-semibold text-ink sm:text-2xl">No Nansen entity named “{name}”</h1>
         {lookup.error ? <Unavailable text={lookup.error} /> : lookup.suggestions.length ? (
           <div>
@@ -54,7 +54,7 @@ export default async function EntityRoute({ params }: Params) {
   return (
     <div className="space-y-5">
       <div>
-        <Link href="/" className="text-[12.5px] text-ink-2 hover:text-ink">← Radar</Link>
+        <Link href="/" className="text-[12.5px] text-ink-2 hover:text-ink">← Overview</Link>
         <h1 className="mt-1 text-xl font-semibold text-ink sm:text-2xl">{entity.name}</h1>
         <p className="mt-1 text-[12.5px] text-ink-2">
           {entity.tags.length ? `${entity.tags.join(' · ')} · ` : ''}Nansen entity: every address Nansen attributes to it, aggregated by Nansen.

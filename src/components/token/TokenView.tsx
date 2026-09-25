@@ -199,7 +199,7 @@ export function TokenView({ chain, address, tier, mode }: { chain: string; addre
         {ok(s.storm) ? <StormDial s={s.storm} indicators={[...(h?.risk ?? []), ...(h?.reward ?? [])]} /> : gone(s.storm) ? <Unavailable text={s.storm.unavailable} /> : pending(s.storm) ? <WaveLoading what="the Dump Risk inputs" height={420} /> : null}
         {s.candidates && (
           <div className="mt-3 border-t border-border pt-2">
-            <div className="text-[11px] text-ink-muted">Dump Risk v2 candidates: computed, not yet in the score (they enter once the backtest fits their weights)</div>
+            <div className="text-[11px] text-ink-muted">Dump Risk v2 candidates · not yet in the score</div>
             <ul className="mt-1 flex flex-wrap gap-2">
               {s.candidates.map((c) => (
                 <li key={c.key} className="flex items-center gap-1 rounded border border-dashed border-border px-2 py-0.5 text-[12px]" title={c.why ?? undefined}>

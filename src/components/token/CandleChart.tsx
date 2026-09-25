@@ -114,15 +114,10 @@ export function CandleChart({ m, days: daysProp }: { m: MarketWave; days?: numbe
       </div>
       {option ? <EChart option={option} height={flowPanel ? 390 : 350} ariaLabel="4-hour price candles with volatility cone, and daily holder-segment net flow" /> : <div style={{ height: 340 }} />}
       <div className="mt-1 flex flex-wrap justify-between gap-x-4 gap-y-1 text-[11px] text-ink-muted">
-        <span>
-          {style === 'line' ? 'close price, axis fitted to the range' : 'price on a log scale'} ·{' '}
-          <span className="mr-1 inline-block h-2 w-2 rounded-sm align-middle" style={{ background: 'var(--in-3)' }} />up / inflow
-          <span className="ml-3 mr-1 inline-block h-2 w-2 rounded-sm align-middle" style={{ background: 'var(--out-3)' }} />down / outflow
-          {' · '}lower panel: {m.segment ? `${m.segment} daily net flow` : m.segmentUnavailable}
-        </span>
+        <span>{m.segment ? `Lower panel: ${m.segment} daily net flow` : m.segmentUnavailable}</span>
         {cone && (
           <span className="num">
-            7d 80% range {price(cone.bands[2].low)}–{price(cone.bands[2].high)} · track record: {cone.coverage ? `${pct(cone.coverage.hitRate, 0)} of ${cone.coverage.n} past 1d moves inside (target 80%)` : 'not enough history'}
+            7-day range {price(cone.bands[2].low)}–{price(cone.bands[2].high)} (80%){cone.coverage ? ` · held ${pct(cone.coverage.hitRate, 0)} of the time` : ''}
           </span>
         )}
       </div>

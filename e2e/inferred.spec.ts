@@ -2,7 +2,8 @@ import { test, expect } from '@playwright/test';
 
 test('inference: public requests cannot inspect or refresh private evidence', async ({ page, request }) => {
   await page.goto('/');
-  await expect(page.getByRole('heading', { name: 'Inferred rotations · evidence, not ownership' })).toBeVisible();
+  // Public views get no inferred-rotation section at all (it could never unlock).
+  await expect(page.getByRole('heading', { name: 'Inferred rotations' })).toHaveCount(0);
   await expect(page.getByRole('button', { name: /Check funding evidence/ })).toHaveCount(0);
   expect((await request.post('/api/weather/inferred', { data: { confirmCredits: 12 } })).status()).toBe(403);
   expect((await (await request.get('/api/weather')).json()).inference).toBeNull();
@@ -24,7 +25,7 @@ test('inference: synthetic candidate has dashed arcs and inspectable evidence @m
   }
   await page.clock.install();
   await page.goto('/');
-  const toggle = page.getByRole('checkbox', { name: 'Show inferred candidates as dashed arcs on the spot map' });
+  const toggle = page.getByRole('checkbox', { name: 'Show as dashed arcs on the map' });
   // The 60s poll timer only exists after hydration; advance until it has fired.
   await expect(async () => {
     await page.clock.fastForward(61_000);

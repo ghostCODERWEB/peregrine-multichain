@@ -7,7 +7,7 @@ export const OWNER_ONLY_PATHS = ['/smart-money', '/agent', '/alerts', '/trade'];
 export type NavIcon = 'shield' | 'map' | 'flows' | 'sparkles' | 'layers' | 'activity' | 'target' | 'bot' | 'swap' | 'brain' | 'briefcase' | 'flask' | 'gauge' | 'bell' | 'key' | 'notebook';
 
 export const NAV: NavItem[] = [
-  { href: '/', label: 'Radar', icon: 'map', group: 'Explore' },
+  { href: '/', label: 'Overview', icon: 'map', group: 'Explore' },
   { href: '/flows', label: 'Capital Flows', icon: 'flows', group: 'Explore' },
   { href: '/alpha', label: 'Alpha', icon: 'sparkles', group: 'Explore' },
   { href: '/sectors', label: 'Sectors', icon: 'layers', group: 'Explore' },

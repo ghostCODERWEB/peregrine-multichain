@@ -23,7 +23,9 @@ test('home: all 38 chains on the map, rotations, risk ticker, market brief @mobi
   const w = await watch(page);
   await page.goto('/');
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
-  await expect(page.locator('svg[aria-label^="Hex map"] a')).toHaveCount(38); // one link per chain
+  // Only chains with a reading get a tile (the table lists every chain).
+  const measured = ((await (await page.request.get('/api/weather')).json()).chains as Array<{ cpi: number | null }>).filter((c) => c.cpi != null).length;
+  await expect(page.locator('[aria-label="Chains by Flow Index"] a')).toHaveCount(measured);
   await expect(page.getByRole('heading', { name: 'Dump risk', exact: true })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Ask Nansen', exact: true })).toBeVisible();
   await w.noOverflow();

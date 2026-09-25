@@ -29,7 +29,7 @@ export function TokenActions({ chain, address, symbol, owner }: { chain: string;
   return (
     <div className="flex flex-wrap items-center justify-between gap-3">
       <nav aria-label="Breadcrumb" className="flex min-w-0 items-center gap-1.5 text-[13px] font-semibold text-ink-muted">
-        <Link href="/" className="hover:text-ink">Radar</Link>
+        <Link href="/" className="hover:text-ink">Overview</Link>
         <ChevronRight size={13} aria-hidden />
         <Link href={`/chain/${chain}`} className="flex items-center gap-1.5 hover:text-ink"><ChainLogo chain={chain} size={15} />{chainName(chain)}</Link>
         <ChevronRight size={13} aria-hidden />
