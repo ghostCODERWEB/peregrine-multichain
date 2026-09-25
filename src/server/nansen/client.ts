@@ -34,7 +34,7 @@ export async function callNansenPoints(address: string): Promise<{ tier: string;
   if (!parsed.success) throw new Error('Nansen rewards response could not be read.');
   const result = { tier: parsed.data.tier, points: parsed.data.points ?? null };
   writeCache(endpoint, body, result);
-  if (!(await currentCaller()).userId) recordFixture(endpoint, body, result);
+  if (!(await currentCaller()).userId && !publicSite()) recordFixture(endpoint, body, result);
   recordCall(endpoint, 0, false);
   return result;
 }
@@ -245,7 +245,9 @@ export async function callNansen<T>(
   const caller = await currentCaller();
   // A member's calls use their own key, their own cache partition and
   // ledger rows, and are never recorded into published fixtures.
-  const record = (options.record ?? true) && !caller.userId;
+  // A public site never writes demo fixtures: they live in the code
+  // checkout, and a server should not rewrite its own repository.
+  const record = (options.record ?? true) && !caller.userId && !publicSite();
   const scope = caller.userId ? `u${caller.userId}` : null;
 
   if (!skipCache) {
@@ -361,6 +363,6 @@ export async function* streamNansen(endpoint: string, body: unknown, opts: { rec
       }
     }
   } finally {
-    if (seen.length && opts.record && !caller.userId) recordFixture(endpoint, body, seen, true);
+    if (seen.length && opts.record && !caller.userId && !publicSite()) recordFixture(endpoint, body, seen, true);
   }
 }

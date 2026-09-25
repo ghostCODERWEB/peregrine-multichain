@@ -35,6 +35,23 @@ describe('public-site switches', () => {
   });
 });
 
+describe('fixtures', () => {
+  it('a public site never records demo fixtures', async () => {
+    const demo = await import('./nansen/demo');
+    const spy = vi.spyOn(demo, 'recordFixture');
+    Object.assign(process.env, { TIDE_PUBLIC_SITE: '1', NANSEN_API_KEY: 'test-key', DEMO_MODE: '' });
+    vi.stubGlobal('fetch', vi.fn(async () => new Response(JSON.stringify({ ok: 1 }), { status: 200 })));
+    await callNansen('tgm/indicators', { f: 1 });
+    expect(spy).not.toHaveBeenCalled();
+    // Control: the same call on an ordinary instance does record.
+    delete process.env.TIDE_PUBLIC_SITE;
+    spy.mockImplementation(() => {});
+    await callNansen('tgm/indicators', { f: 2 });
+    expect(spy).toHaveBeenCalledTimes(1);
+    spy.mockRestore();
+  });
+});
+
 describe('daily web credit budget', () => {
   it('counts only visitor calls on the instance key since 00:00 UTC', () => {
     process.env.NEXT_RUNTIME = 'nodejs';

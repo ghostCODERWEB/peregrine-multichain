@@ -35,13 +35,14 @@
     ".next-design/types/**/*.ts",
     ".next-owner/types/**/*.ts",
     ".next-p7/types/**/*.ts",
+    ".next-p8-build/types/**/*.ts",
     ".next-p8/types/**/*.ts",
     ".next-prod/types/**/*.ts",
     ".next-public/types/**/*.ts",
     ".next-verify/types/**/*.ts",
     ".next/types/**/*.ts",
     "next-env.d.ts",
-    ".next-p8-build/types/**/*.ts"
+    ".next-public-site/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"
