@@ -30,7 +30,7 @@ export function NetFlowRing({ chains }: { chains: NetFlowChain[] }) {
   const nets = useMemo(() => chainNets(chains), [chains]);
   // Phones: three chains each way keep the ring's nodes and labels apart.
   const map = useMemo(() => netFlowMap(nets, narrow ? { sellers: 3, buyers: 3, pairs: 6 } : {}), [nets, narrow]);
-  const layout = useMemo(() => flowLayout(map.edges, W, H, ring), [map.edges, W, H, ring]);
+  const layout = useMemo(() => flowLayout(map.edges, W, H, ring, narrow ? 3 : 4), [map.edges, W, H, ring, narrow]);
   const cpi = useMemo(() => new Map(chains.map((c) => [c.chain, c.cpi])), [chains]);
   const measured = useMemo(() => new Map(nets.map((n) => [n.chain, n.net])), [nets]);
   const [sel, setSel] = useState<string | null>(null);

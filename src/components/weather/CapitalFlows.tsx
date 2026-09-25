@@ -89,7 +89,7 @@ export function CapitalFlows({ initial, chains, withheld, chain }: { initial: Fr
   }, [withheld, initial]);
 
   const observed = useMemo(() => fronts.filter((f) => !f.inferred), [fronts]);
-  const layout = useMemo(() => flowLayout(observed.map((f) => ({ from: f.from, to: f.to, netUsd: f.netUsd, walletCount: f.walletCount, confidence: f.confidence })), W, H, ring), [observed, W, H, ring]);
+  const layout = useMemo(() => flowLayout(observed.map((f) => ({ from: f.from, to: f.to, netUsd: f.netUsd, walletCount: f.walletCount, confidence: f.confidence })), W, H, ring, narrow ? 3 : 5), [observed, W, H, ring, narrow]);
   const cpi = useMemo(() => new Map(chains.map((c) => [c.chain, c.cpi])), [chains]);
   const active = selected ?? layout.arcs[0]?.key ?? null;
   const focus = hovered ?? active;

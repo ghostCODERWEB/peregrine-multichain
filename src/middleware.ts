@@ -27,7 +27,7 @@ export const config = {
 
 const CLOSED = [/^\/api\/public(\/|$)/, /^\/api\/mcp(\/|$)/, /^\/api\/x402(\/|$)/, /^\/api\/auth(\/|$)/, /^\/api\/keys(\/|$)/,
   /^\/api\/trade(\/|$)/, /^\/api\/alerts(\/|$)/, /^\/api\/agent(\/|$)/, /^\/api\/wallet\/labels(\/|$)/];
-const HEAVY_PAGE = /^\/(token|wallet|entity|replay|chain)\//;
+const HEAVY_PAGE = /^\/(token|wallet|entity|replay|chain|rug)\//;
 
 // Generous enough for real browsing (a Radar load alone prefetches ~40
 // links, and one visitor may reload it several times a minute); the daily

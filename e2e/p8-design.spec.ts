@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
 
-test('P8 shell: 13 primary destinations, footer links, unclipped search @mobile', async ({ page }) => {
+test('P8 shell: 14 primary destinations, footer links, unclipped search @mobile', async ({ page }) => {
   await page.goto('/');
-  if (test.info().project.name === 'desktop') await expect(page.getByRole('navigation',{name:'Primary'}).getByRole('link')).toHaveCount(13);
+  if (test.info().project.name === 'desktop') await expect(page.getByRole('navigation',{name:'Primary'}).getByRole('link')).toHaveCount(14);
   else {
     await expect(page.getByRole('navigation',{name:'Quick navigation'})).toBeVisible();
     await page.getByRole('button',{name:'Open menu'}).click();

@@ -19,8 +19,10 @@ function spread(n: number, a: number, b: number): number[] {
   return Array.from({ length: n }, (_, i) => a + ((b - a) * i) / (n - 1));
 }
 
-/** `ring`: the orbit radius as a share of the smaller side (narrow screens use a tighter ring). */
-export function flowLayout(edges: FlowEdge[], w: number, h: number, ring = 0.4): { nodes: FlowNode[]; arcs: FlowArc[]; maxUsd: number } {
+/** `ring`: the orbit radius as a share of the smaller side (narrow screens use a tighter ring).
+ *  `maxPerSide`: at most this many chains on each side (the largest by net), so nodes and labels
+ *  never crowd; flows touching a chain left out are not drawn. */
+export function flowLayout(edges: FlowEdge[], w: number, h: number, ring = 0.4, maxPerSide = 5): { nodes: FlowNode[]; arcs: FlowArc[]; maxUsd: number } {
   const totals = new Map<string, { inUsd: number; outUsd: number }>();
   for (const e of edges) {
     const f = totals.get(e.from) ?? { inUsd: 0, outUsd: 0 };
@@ -31,8 +33,8 @@ export function flowLayout(edges: FlowEdge[], w: number, h: number, ring = 0.4):
   const cx = w / 2, cy = h / 2, R = Math.min(w, h) * ring;
   const all = [...totals.entries()].map(([chain, v]) => ({ chain, ...v, net: v.inUsd - v.outUsd }));
   // Biggest sellers top-left down; biggest buyers top-right down. Ties keep a stable order.
-  const left = all.filter((n) => n.net < 0).sort((a, b) => a.net - b.net || a.chain.localeCompare(b.chain));
-  const right = all.filter((n) => n.net >= 0).sort((a, b) => b.net - a.net || a.chain.localeCompare(b.chain));
+  const left = all.filter((n) => n.net < 0).sort((a, b) => a.net - b.net || a.chain.localeCompare(b.chain)).slice(0, maxPerSide);
+  const right = all.filter((n) => n.net >= 0).sort((a, b) => b.net - a.net || a.chain.localeCompare(b.chain)).slice(0, maxPerSide);
   const place = (list: typeof all, angles: number[], side: 'left' | 'right'): FlowNode[] =>
     list.map((n, i) => ({ ...n, side, angle: angles[i], x: r1(cx + R * Math.cos(deg(angles[i]))), y: r1(cy + R * Math.sin(deg(angles[i]))) }));
   const nodes = [
@@ -40,9 +42,10 @@ export function flowLayout(edges: FlowEdge[], w: number, h: number, ring = 0.4):
     ...place(right, spread(right.length, -55, 55), 'right'),
   ];
   const pos = new Map(nodes.map((n) => [n.chain, n]));
-  const maxUsd = Math.max(1, ...edges.map((e) => e.netUsd));
+  const drawn = edges.filter((e) => pos.has(e.from) && pos.has(e.to));
+  const maxUsd = Math.max(1, ...drawn.map((e) => e.netUsd));
   const nodeR = 24;
-  const arcs = edges.flatMap((e): FlowArc[] => {
+  const arcs = drawn.flatMap((e): FlowArc[] => {
     const a = pos.get(e.from), b = pos.get(e.to);
     if (!a || !b) return [];
     const dx = b.x - a.x, dy = b.y - a.y, dist = Math.hypot(dx, dy) || 1;

@@ -34,4 +34,11 @@ describe('capital flow layout (P3)', () => {
     expect(particleCount(16)).toBe(8);
     expect(particleCount(100)).toBe(8);
   });
+  it('caps each side, keeping the largest chains and only flows between shown chains', () => {
+    const many = Array.from({ length: 6 }, (_, i) => ({ from: `s${i}`, to: `b${i}`, netUsd: 100 - i * 10, walletCount: 2, confidence: 1 }));
+    const { nodes, arcs } = flowLayout(many, 900, 560, 0.4, 3);
+    expect(nodes.filter((n) => n.side === 'left').map((n) => n.chain)).toEqual(['s0', 's1', 's2']);
+    expect(nodes.filter((n) => n.side === 'right')).toHaveLength(3);
+    expect(arcs.map((a) => a.key)).toEqual(['s0>b0', 's1>b1', 's2>b2']);
+  });
 });
