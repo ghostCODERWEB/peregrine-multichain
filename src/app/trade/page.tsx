@@ -7,6 +7,7 @@ import { PerpTrade } from '@/components/trade/PerpTrade';
 import { perpBoard } from '@/server/perps/board';
 import { viewOf } from '@/server/mode';
 import { accountsEnabled } from '@/server/site';
+import { PageTitle } from '@/components/PageTitle';
 
 export const metadata: Metadata = { title: 'Trade — Peregrine' };
 export const dynamic = 'force-dynamic';
@@ -21,13 +22,7 @@ export default async function TradePage({ searchParams }: { searchParams: Promis
     : mode === 'public' ? (accounts ? 'Trading runs on a Nansen key: this instance owner’s, or yours once you sign in with it.' : 'Trading runs on this instance owner’s Nansen key only.') : null;
   return (
     <div className="space-y-4">
-      <section aria-labelledby="trade-title" className="glass rise rounded-2xl p-4 sm:p-6">
-        <div className="text-[12.5px] font-bold text-brand">Nansen trading · Base + Solana</div>
-        <h1 id="trade-title" className="mt-1 text-lg font-semibold text-ink sm:text-xl">Swap with Peregrine&apos;s signals in view</h1>
-        <p className="mt-1 max-w-3xl text-[13px] text-ink-2">
-          Nansen routes and simulates; you sign every step in your own wallet. Peregrine never holds keys or signs.
-        </p>
-      </section>
+      <PageTitle id="trade-title" title="Trade" pill="You sign every step · Peregrine never signs" />
       {off ? <p className="glass rounded-2xl p-4 text-sm text-ink-2">{off} {mode === 'public' && accounts && <Link href="/account" className="text-ink underline-offset-2 hover:underline">Sign in</Link>}</p> : (
         <>
           <nav aria-label="Venue" className="glass inline-flex gap-1 rounded-full p-1">

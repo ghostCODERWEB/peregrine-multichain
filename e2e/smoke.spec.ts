@@ -184,7 +184,7 @@ test('agents: research agent explains it runs on a key; MCP answers tools/list @
 test('trade: off unless the operator turns it on, and says so', async ({ page }) => {
   const w = await watch(page);
   await page.goto('/trade');
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('Swap with Peregrine');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Trade');
   await expect(page.getByText(/Trading is off on this instance|Trading runs on a Nansen key/)).toBeVisible();
   expect(w.errors).toEqual([]);
 });
@@ -199,6 +199,6 @@ test('lab, coverage and alerts render', async ({ page }) => {
   await page.goto('/coverage');
   await expect(page.getByRole('heading', { level: 1 })).toContainText('38 chains');
   await page.goto('/alerts');
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('Alerts that keep watching');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Alerts');
   expect(w.errors.filter((e) => !/alerts/.test(e))).toEqual([]);
 });

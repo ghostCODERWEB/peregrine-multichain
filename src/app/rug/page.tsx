@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { RugSearch } from '@/components/rug/RugSearch';
 import { RUG_CHAINS } from '@/lib/rug';
+import { PageTitle } from '@/components/PageTitle';
 
 export const metadata: Metadata = { title: 'Rug Checker — Peregrine' };
 
@@ -16,11 +17,7 @@ const CHECKS = [
 export default function RugPage() {
   return (
     <div className="space-y-5">
-      <div className="pt-2">
-        <p className="mb-2 text-[12.5px] font-bold text-brand">Token safety · {RUG_CHAINS.length} networks</p>
-        <h1 className="text-[40px] font-extrabold tracking-[-0.04em] text-ink">Rug Checker</h1>
-        <p className="mt-1 max-w-3xl text-[15px] text-ink-2">Six checks on a token&apos;s liquidity, holders and insiders from Nansen data, and a verdict from Peregrine&apos;s Dump Risk model.</p>
-      </div>
+      <PageTitle title="Rug Checker" pill={`${RUG_CHAINS.length} networks · Nansen data`} />
       <section aria-label="Check a token" className="material p-5 sm:p-7"><RugSearch chains={RUG_CHAINS} /></section>
       <section aria-labelledby="rug-how" className="material p-5 sm:p-6">
         <h2 id="rug-how" className="text-[19px] font-bold tracking-[-0.02em]">What it checks</h2>

@@ -7,6 +7,7 @@ import { capitalFlows, flowHistory } from '@/server/weather/bulletin';
 import { weatherMap } from '@/server/weather/queries';
 import { displayMode, viewOf } from '@/server/mode';
 import { chainName, usd } from '@/lib/viz/format';
+import { PageTitle } from '@/components/PageTitle';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = { title: 'Capital Flows — Peregrine' };
@@ -29,11 +30,7 @@ export default async function FlowsPage() {
 
   return (
     <div className="space-y-5">
-      <div className="pt-2">
-        <p className="mb-2 text-[12.5px] font-bold text-brand">{flows ? 'Cross-chain rotations · owner view' : 'Market-wide net flow · all traders'}</p>
-        <h1 className="text-[40px] font-extrabold tracking-[-.04em] text-ink">Capital Flows</h1>
-        <p className="mt-1 max-w-3xl text-[15px] text-ink-2">{flows ? 'Where smart money moves between chains: the same wallets selling on one chain and buying on another within 12h.' : 'Where net flow left and where it arrived across chains in the last 24 hours, measured on every chain for all traders.'}</p>
-      </div>
+      <PageTitle title="Capital Flows" pill={flows ? 'Owner view · wallet rotations' : 'All traders · last 24 hours'} />
 
       <FlowsView initial={{fronts:flows?.fronts ?? [],chains,withheld:flows == null ? ['fronts'] : []}} netChains={netChains} />
 
