@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { HexMap } from './HexMap';
 import { FrontsList, FrontSheet, frontKey } from './FrontsPanel';
+import { CapitalFlows } from './CapitalFlows';
 import { PressureLegend } from './PressureLegend';
 import { ForecastStrip } from './ForecastStrip';
 import { ChainTable } from './ChainTable';
@@ -12,7 +13,7 @@ import { LayerPanel } from './LayerPanel';
 import { InferenceControls } from './InferenceControls';
 import { AnchorCard } from '@/components/AnchorCard';
 import type { AnchorReport } from '@/server/agents/anchor';
-import { mapHeadline, frontsHeadline } from '@/lib/insights';
+import { mapHeadline } from '@/lib/insights';
 import { TimeAgo } from '@/components/TimeAgo';
 import type { WeatherBulletin } from '@/server/weather/bulletin';
 
@@ -87,6 +88,8 @@ export function WeatherView({ initial, anchor, alpha }: { initial: WeatherBullet
         </div>
       </section>
 
+      <CapitalFlows initial={data.fronts} chains={data.chains} withheld={data.withheld.includes('fronts')} />
+
       {alpha}
 
       <section aria-labelledby="anchor-title" className="glass rounded-2xl p-4">
@@ -104,13 +107,6 @@ export function WeatherView({ initial, anchor, alpha }: { initial: WeatherBullet
         <StormTicker storms={data.storms} />
       </section>
 
-      <section aria-labelledby="fronts-title" className="glass rounded-2xl p-4">
-        <h2 id="fronts-title" className="text-base font-semibold text-ink">{data.withheld.includes('fronts') ? 'Capital rotations: key-owner view only' : frontsHeadline(data.fronts)}</h2>
-        <p className="mb-2 mt-1 text-[12.5px] text-ink-muted">Same wallets selling on one chain and buying on another within 12h, from smart-money DEX trades. Select one for its wallets.</p>
-        {data.withheld.includes('fronts')
-          ? <p className="rounded-lg border border-dashed border-border px-3 py-4 text-sm text-ink-2">Built from Nansen smart-money DEX trades, which stay out of public views. Use your own Nansen key to see them.</p>
-          : <FrontsList fronts={data.fronts} onSelect={setSelected} />}
-      </section>
 
       <section aria-labelledby="inferred-title" className="glass rounded-2xl border border-dashed border-border p-4">
         <h2 id="inferred-title" className="text-base font-semibold text-ink">Inferred rotations · evidence, not ownership</h2>

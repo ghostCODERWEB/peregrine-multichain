@@ -3,6 +3,7 @@
 // are live Nansen calls, cached (netflow 10 min, screener 5 min, chain-rank
 // 30 min) so repeat views don't re-spend.
 import { callNansen } from '@/server/nansen/client';
+import { capitalFlows, type FrontWithProvenance } from './bulletin';
 import { getDb } from '@/server/nansen/db';
 import { chainWeather, pressureForecast, sourceFor, type ChainWeather, type PressureForecast, type PressureView } from './queries';
 import { viewOf, type DisplayMode } from '@/server/mode';
@@ -79,6 +80,8 @@ export interface ChainPageData {
    *  own key, but not the scanner's (operator-key) history or tape.
    *  public: all-trader flows, no smart-money data. */
   mode: DisplayMode;
+  /** Capital rotations into and out of this chain (24h); null = withheld (non-owner views). */
+  rotations: FrontWithProvenance[] | null;
 }
 
 const TOP_N = 10;
@@ -360,5 +363,6 @@ export async function chainPage(chain: string, mode: DisplayMode = 'owner', now 
     tapeSource: mode === 'owner' ? 'scanner' : mode === 'member' ? (liveTape ? 'live' : 'error') : 'withheld',
     x402: mode === 'public' && hasSmartMoney && x402Enabled(),
     mode,
+    rotations: capitalFlows(view, 24, now)?.fronts.filter((f) => f.from === chain || f.to === chain) ?? null,
   };
 }

@@ -42,7 +42,7 @@ export function cpiProvenance(w: ChainWeather): Provenance | null {
   };
 }
 
-export function frontProvenance(f: Front): Provenance {
+export function frontProvenance(f: Front, hours = 24): Provenance {
   return {
     title: `Capital rotation ${f.from} → ${f.to}`,
     formula:
@@ -58,7 +58,7 @@ export function frontProvenance(f: Front): Provenance {
       { label: 'Wallets', value: String(f.walletCount) },
       { label: 'Confidence', value: num(f.confidence, 2) },
     ],
-    calls: [{ endpoint: 'smart-money/dex-trades', body: DEX_TRADES_REQUEST, credits: 5, ref: 'captured every scan into smart_money_trades; trailing 24h + 12h matching window' }],
+    calls: [{ endpoint: 'smart-money/dex-trades', body: DEX_TRADES_REQUEST, credits: 5, ref: `captured every scan into smart_money_trades; trailing ${hours}h + 12h matching window` }],
     notes: [
       'These are observed same-address matches. Distinct-wallet funding hypotheses live in the separate Inferred rotations section and use dashed arcs only when explicitly enabled. Neither is proof of a bridge transfer.',
     ],

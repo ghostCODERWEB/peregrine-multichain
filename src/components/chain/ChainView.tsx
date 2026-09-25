@@ -14,6 +14,7 @@ import { InfoPopover } from '@/components/InfoPopover';
 import { chainName, num } from '@/lib/viz/format';
 import type { ChainPageData, PeerRow } from '@/server/weather/chain-page';
 import { AskNansen } from '@/components/agent/AskNansen';
+import { CapitalFlows } from '@/components/weather/CapitalFlows';
 
 export interface ModuleGaps {
   /** null when available; otherwise the plain "not available" sentence. */
@@ -52,6 +53,10 @@ export function ChainView({ d, gaps }: { d: ChainPageData; gaps: ModuleGaps }) {
         action={d.grid.provenance ? <InfoPopover p={d.grid.provenance} /> : undefined}>
         {d.grid.tiles.length ? <MarketGrid chain={d.chain} tiles={d.grid.tiles} /> : <Unavailable text={d.grid.unavailable ?? `Nansen returned no tokens for ${name}.`} />}
       </Card>
+
+      {d.chain !== 'hyperliquid' && (
+        <CapitalFlows initial={d.rotations ?? []} chains={[{ chain: d.chain, cpi: d.weather.cpi }]} withheld={d.rotations == null} chain={d.chain} />
+      )}
 
       <div className="grid gap-4 lg:grid-cols-3">
         <Card id="baro" title="Flow gauge" sub="0–100 · 50 neutral · above 65 accumulation · below 35 distribution">

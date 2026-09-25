@@ -45,3 +45,19 @@ export function buildBulletin(mode: PressureView = 'private', now = Date.now()):
     });
   return { generatedAt: now, inference: inferredWeather(mode, now), layers: weatherLayers(mode, now), chains, fronts, forecasts, storms: stormTicker(12, now), mode, withheld: mode === 'public' ? ['fronts'] : [], scan: scanStatus() };
 }
+
+/** Capital-flow windows the Radar offers. */
+export const FLOW_WINDOWS = [24, 48, 168] as const;
+export type FlowWindow = (typeof FLOW_WINDOWS)[number];
+
+/**
+ * Chain-to-chain capital rotations over a window, for the animated flow
+ * map. Built from the scanner's smart-money DEX trades, so only the key
+ * owner's (private) view gets them — every other view gets null, never a
+ * partial or aggregated version (Nansen's redistribution rules).
+ */
+export function capitalFlows(mode: PressureView, hours: number, now = Date.now()): { hours: FlowWindow; fronts: FrontWithProvenance[] } | null {
+  if (mode !== 'private') return null;
+  const h = (FLOW_WINDOWS as readonly number[]).includes(hours) ? (hours as FlowWindow) : 24;
+  return { hours: h, fronts: rotationFronts(h, now).map((f) => ({ ...f, provenance: frontProvenance(f, h) })) };
+}

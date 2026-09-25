@@ -33,13 +33,13 @@ export function ChainLogo({ chain, size = 16, labelled = false }: { chain: strin
 }
 
 /** A token's logo: Nansen's logo URL, else a bundled major-token icon, else a letter badge. */
-export function TokenLogo({ symbol, logo, size = 20 }: { symbol: string | null | undefined; logo?: string | null; size?: number }) {
+export function TokenLogo({ symbol, logo, size = 20, badge = true }: { symbol: string | null | undefined; logo?: string | null; size?: number; /** false: render nothing when there is no real logo (dense chips) */ badge?: boolean }) {
   const sym = (symbol ?? '').replace(/^\$/, '').toUpperCase();
   const local = TOKENS.has(sym) ? `/logos/tokens/${sym}.svg` : null;
   const remote = logo && /^https:\/\//.test(logo) ? logo : null;
   const [failed, setFailed] = useState<string[]>([]);
   const src = [remote, local].find((u) => u && !failed.includes(u));
-  if (!src) return <Badge text={sym || '?'} size={size} round />;
+  if (!src) return badge ? <Badge text={sym || '?'} size={size} round /> : null;
   return (
     // eslint-disable-next-line @next/next/no-img-element -- remote logos are Nansen-supplied URLs on arbitrary hosts; no image optimizer proxies them
     <img src={src} width={size} height={size} alt="" referrerPolicy="no-referrer" loading="lazy" decoding="async"
