@@ -168,3 +168,10 @@ main .animate-pulse { animation:none; }
    paid runs on the operator's key. The server refuses these routes too
    (src/middleware.ts); hiding the controls just keeps the page honest. */
 .public-site .needs-account, .public-site .owner-action { display: none !important; }
+/* A visitor can never unlock owner-only data on a public site, so the card
+   that holds a locked panel (up to two wrappers deep)
+   is left out instead of shown as a lock. Outer page sections are untouched. */
+.public-site section:has(> .locked-panel), .public-site section:has(> div > .locked-panel), .public-site section:has(> div > div > .locked-panel) { display: none !important; }
+/* …and in a two- or three-column row that loses one card that way, the other card
+   takes the full row instead of leaving half of it empty. */
+.public-site :is(.lg\:grid-cols-2, .lg\:grid-cols-3):is(:has(> section > .locked-panel), :has(> section > div > .locked-panel), :has(> section > div > div > .locked-panel)) > section { grid-column: 1 / -1; }

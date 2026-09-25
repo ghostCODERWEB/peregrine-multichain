@@ -10,6 +10,8 @@ import { InfoPopover } from '@/components/InfoPopover';
 import { AreaSpark } from '@/components/viz/AreaSpark';
 import { ActivityRings } from '@/components/viz/ActivityRings';
 import { FlowOrbital } from '@/components/viz/FlowOrbital';
+import { FlowMovers } from '@/components/viz/FlowMovers';
+import { useSite } from '@/components/SiteContext';
 import { LockedPanel } from '@/components/ui/SurfaceKit';
 import { Segmented } from '@/components/ui/Segmented';
 import { chainName, usd } from '@/lib/viz/format';
@@ -52,6 +54,8 @@ export function WeatherView({ initial, anchor, alpha }: { initial: WeatherBullet
   const ranked = data.chains.filter(c => c.cpi != null).sort((a,b) => b.cpi! - a.cpi!);
   const top = ranked[0], bottom = ranked.at(-1);
   const withheld = data.withheld.includes('fronts');
+  // On a public site the Capital Flows card is left out (it can never unlock).
+  const { publicSite } = useSite();
   const flows = data.fronts.filter(f => !f.inferred).slice(0,5);
   return (
     <div className={`space-y-8 transition-opacity ${isFetching ? 'opacity-90' : ''}`}>
@@ -64,10 +68,10 @@ export function WeatherView({ initial, anchor, alpha }: { initial: WeatherBullet
           <div className="relative z-10">
             <p className="mb-5 text-[12.5px] font-bold text-brand">{withheld ? 'All traders' : 'Smart money'} · last 24 hours</p>
             <h2 className="radar-headline">{top && bottom ? <>Accumulating <span className="text-accumulation">{chainName(top.chain)}.</span><br />Distributing <span className="text-distribution">{chainName(bottom.chain)}.</span></> : mapHeadline(data.chains,data.fronts)}</h2>
-            <p className="mt-5 text-[15px] leading-relaxed text-ink-2">{withheld ? 'Market-wide flow, normalized against each chain’s own history. Same-wallet rotations are private.' : frontsHeadline(data.fronts)}</p>
-            <div className="mt-5 flex flex-wrap gap-2"><Link href="/flows" className="pill-button pill-primary">Open Capital Flows →</Link><Link href="/agent" className="owner-action pill-button pill-secondary">Ask Nansen why</Link></div>
+            <p className="mt-5 text-[15px] leading-relaxed text-ink-2">{withheld ? 'Market-wide net flow on every chain, measured against its own history.' : frontsHeadline(data.fronts)}</p>
+            <div className="mt-5 flex flex-wrap gap-2">{withheld ? <a href="#map-instrument-title" className="pill-button pill-primary">Explore all 38 chains ↓</a> : <Link href="/flows" className="pill-button pill-primary">Open Capital Flows →</Link>}<Link href="/agent" className="owner-action pill-button pill-secondary">Ask Nansen why</Link></div>
           </div>
-          {withheld ? <LockedPanel /> : <FlowOrbital fronts={data.fronts} />}
+          {withheld ? <FlowMovers chains={data.chains} /> : <FlowOrbital fronts={data.fronts} />}
         </section>
         <div className="grid gap-4 sm:grid-cols-2 xl:col-span-4 xl:grid-cols-1">
           {[top,bottom].map((c,i)=>c && <section key={i} className="material p-6" aria-label={i ? 'Top outflow' : 'Top inflow'}>
@@ -89,7 +93,7 @@ export function WeatherView({ initial, anchor, alpha }: { initial: WeatherBullet
           {withheld ? <LockedPanel compact/> : flows.length ? <ul className="divide-y divide-border">{flows.map(f=><li key={frontKey(f)}><Link href="/flows" className="flex items-center gap-3 py-4"><span className="flex -space-x-1"><ChainLogo chain={f.from} size={26}/><ChainLogo chain={f.to} size={26}/></span><span className="min-w-0 flex-1 text-[13px] font-bold">{chainName(f.from)} → {chainName(f.to)}<span className="block text-xs font-normal text-ink-muted">{f.walletCount} wallets</span></span><span className="hidden h-1.5 w-24 rounded-full bg-raised sm:block"><span className="block h-full rounded-full" style={{width:`${f.netUsd/Math.max(...flows.map(f=>f.netUsd),1)*100}%`,background:'linear-gradient(90deg,var(--flare),var(--mint))'}}/></span><span className="num text-sm font-bold">{usd(f.netUsd)}</span></Link></li>)}</ul> : <p className="text-sm text-ink-muted">No qualifying rotations in 24 hours. Explore longer windows in Capital Flows.</p>}
           <p className="mt-3 text-xs leading-relaxed text-ink-muted">Flow Index measures market-wide net flow against a chain’s history. Rotated USD tracks the same wallets between chains; the two can disagree.</p>
         </Card>
-        <Card id="anchor-title" title="Ask Nansen" sub="Market brief · expert questions cost 750 credits" className="xl:col-span-5">
+        <Card id="anchor-title" title="Ask Nansen" sub={withheld ? 'The latest market brief from Nansen’s agent' : 'Market brief · expert questions cost 750 credits'} className={withheld && publicSite ? 'xl:col-span-12' : 'xl:col-span-5'}>
           <AnchorCard query="kind=bulletin" initial={anchor} label="Nansen’s market brief from available observations."/>
           <div className="owner-action mt-4 flex flex-wrap gap-2">{['What is accumulating?','Where are wallets rotating?','What is driving risk?'].map(q=><Link key={q} href={`/agent?q=${encodeURIComponent(q)}`} className="rounded-full border border-border px-3 py-2 text-xs">{q}</Link>)}</div>
           <Link href="/agent" className="owner-action inset-well mt-4 flex justify-between gap-3 p-4 text-sm text-ink-muted">Ask about a chain, token or wallet <span className="text-ink">↑</span></Link>

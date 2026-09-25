@@ -17,6 +17,7 @@
 // caller is (3) plus the daily credit budget enforced in callNansen, and
 // the key itself never leaves the server.
 import { NextResponse, type NextRequest } from 'next/server';
+import { OWNER_ONLY_PATHS } from '@/components/shell/nav';
 
 export const config = {
   runtime: 'nodejs',
@@ -28,7 +29,10 @@ const CLOSED = [/^\/api\/public(\/|$)/, /^\/api\/mcp(\/|$)/, /^\/api\/x402(\/|$)
   /^\/api\/trade(\/|$)/, /^\/api\/alerts(\/|$)/, /^\/api\/agent(\/|$)/, /^\/api\/wallet\/labels(\/|$)/];
 const HEAVY_PAGE = /^\/(token|wallet|entity|replay|chain)\//;
 
-const LIMITS = { api: { max: 90, windowMs: 60_000 }, page: { max: 30, windowMs: 60_000 }, nav: { max: 120, windowMs: 60_000 } } as const;
+// Generous enough for real browsing (a Radar load alone prefetches ~40
+// links, and one visitor may reload it several times a minute); the daily
+// credit budget, not these, is what bounds spend.
+const LIMITS = { api: { max: 300, windowMs: 60_000 }, page: { max: 60, windowMs: 60_000 }, nav: { max: 600, windowMs: 60_000 } } as const;
 const hits = new Map<string, { n: number; reset: number }>();
 
 /** Fixed-window counter per visitor and bucket; true while under the limit. */
@@ -83,6 +87,10 @@ function secure(res: NextResponse): NextResponse {
   return res;
 }
 
+/** Shown instead of a page when one visitor opens pages very fast: styled
+ *  like the app, and it retries by itself. */
+const SLOW_DOWN = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="refresh" content="20"><title>One moment — Peregrine</title></head><body style="margin:0;min-height:100vh;display:grid;place-items:center;background:#040507;color:#fff;font:15px/1.5 system-ui,-apple-system,sans-serif"><main style="max-width:420px;padding:32px;text-align:center"><div style="font-size:12.5px;font-weight:700;color:#00FFA7">Peregrine</div><h1 style="margin:8px 0 6px;font-size:26px;letter-spacing:-.02em">One moment</h1><p style="margin:0;color:rgba(235,240,245,.72)">Lots of pages opened in a short time. This page reloads by itself in a few seconds.</p></main></body></html>`;
+
 const deny = (status: number, error: string, extra: Record<string, string> = {}) =>
   secure(NextResponse.json({ error }, { status, headers: { 'Cache-Control': 'no-store', ...extra } }));
 
@@ -99,7 +107,9 @@ export function middleware(req: NextRequest) {
     return secure(NextResponse.next());
   }
 
-  if (/^\/(account|login)(\/|$)/.test(path)) return secure(NextResponse.redirect(new URL('/', req.url)));
+  // Accounts, and pages whose content is owner-only or needs a wallet or a
+  // paid key action: nothing there for a visitor, so go home.
+  if (/^\/(account|login)(\/|$)/.test(path) || OWNER_ONLY_PATHS.some((p) => path === p || path.startsWith(`${p}/`))) return secure(NextResponse.redirect(new URL('/', req.url)));
   // Next strips its router headers before middleware runs, so prefetches
   // are told apart by fetch metadata: in-app navigations and the Radar's
   // many link prefetches are fetch()es ('empty') and get a larger bucket;
@@ -108,7 +118,7 @@ export function middleware(req: NextRequest) {
     const inApp = req.headers.get('sec-fetch-dest') === 'empty';
     const [bucket, lim] = inApp ? ['nav', LIMITS.nav] as const : ['page', LIMITS.page] as const;
     if (!allow(`${bucket}:${visitor(req)}`, lim.max, lim.windowMs)) {
-      return secure(new NextResponse('Too many pages opened in a minute. Please wait a moment and reload.', { status: 429, headers: { 'Retry-After': '60', 'Content-Type': 'text/plain; charset=utf-8' } }));
+      return secure(new NextResponse(SLOW_DOWN, { status: 429, headers: { 'Retry-After': '60', 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' } }));
     }
   }
   return secure(NextResponse.next());

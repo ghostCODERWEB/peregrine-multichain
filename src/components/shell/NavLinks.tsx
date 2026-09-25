@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Activity, Shuffle, Target, Bot, ArrowLeftRight, Bell, BrainCircuit, Briefcase, FlaskConical, Gauge, KeyRound, Layers, Map, Menu, Sparkles, X, NotebookPen } from 'lucide-react';
 import { NAV, type NavIcon } from './nav';
+import { useSite } from '@/components/SiteContext';
 
 const ICONS: Record<NavIcon, typeof Map> = {
   map: Map, flows: Shuffle, sparkles: Sparkles, layers: Layers, activity: Activity, target: Target, bot: Bot, swap: ArrowLeftRight, brain: BrainCircuit, briefcase: Briefcase, flask: FlaskConical, gauge: Gauge, bell: Bell, key: KeyRound, notebook: NotebookPen,
@@ -15,14 +16,16 @@ const active = (path: string, href: string) => (href === '/' ? path === '/' : pa
 /** The grouped nav list: the sidebar on large screens, the drawer on phones. */
 export function NavList({ onNavigate }: { onNavigate?: () => void }) {
   const path = usePathname() ?? '/';
-  const groups = [...new Set(NAV.map((n) => n.group))];
+  const { publicSite } = useSite();
+  const items = publicSite ? NAV.filter((n) => !n.ownerOnly) : NAV;
+  const groups = [...new Set(items.map((n) => n.group))];
   return (
     <nav aria-label="Primary" className="space-y-4">
       {groups.map((g) => (
         <div key={g}>
           {g !== 'Explore' && <div className="label px-2 pb-2">{g}</div>}
           <ul className="space-y-0.5">
-            {NAV.filter((n) => n.group === g).map((n) => {
+            {items.filter((n) => n.group === g).map((n) => {
               const Icon = ICONS[n.icon];
               const on = active(path, n.href);
               return (

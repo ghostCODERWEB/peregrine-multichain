@@ -55,22 +55,25 @@ describe('public-site middleware', () => {
   it('rate-limits API calls and heavy pages per visitor; in-app fetches get their own larger bucket', () => {
     process.env.TIDE_PUBLIC_SITE = '1';
     const api = { 'sec-fetch-site': 'same-origin', 'x-forwarded-for': '198.51.100.1' };
-    const codes = Array.from({ length: 91 }, () => middleware(req('/api/search?q=eth', api)).status);
-    expect(codes.slice(0, 90).every((c) => c === 200)).toBe(true);
-    expect(codes[90]).toBe(429);
+    const codes = Array.from({ length: 301 }, () => middleware(req('/api/search?q=eth', api)).status);
+    expect(codes.slice(0, 300).every((c) => c === 200)).toBe(true);
+    expect(codes[300]).toBe(429);
     const page = { 'x-forwarded-for': '198.51.100.2' };
-    const pages = Array.from({ length: 31 }, () => middleware(req('/token/base/0xabc', page)).status);
-    expect(pages[29]).toBe(200);
-    expect(pages[30]).toBe(429);
+    const pages = Array.from({ length: 61 }, () => middleware(req('/token/base/0xabc', page)).status);
+    expect(pages[59]).toBe(200);
+    expect(pages[60]).toBe(429);
     const nav = { ...page, 'sec-fetch-dest': 'empty' };
-    const navs = Array.from({ length: 121 }, () => middleware(req('/chain/base', nav)).status);
-    expect(navs[119]).toBe(200);
-    expect(navs[120]).toBe(429);
+    const navs = Array.from({ length: 601 }, () => middleware(req('/chain/base', nav)).status);
+    expect(navs[599]).toBe(200);
+    expect(navs[600]).toBe(429);
     expect(middleware(req('/', page)).status).toBe(200); // light pages are not limited
   });
 
-  it('redirects account pages home and sets security headers', () => {
+  it('redirects account and owner-only pages home and sets security headers', () => {
     process.env.TIDE_PUBLIC_SITE = '1';
+    for (const p of ['/flows', '/smart-money', '/agent', '/alerts', '/trade'])
+      expect(middleware(req(p)).headers.get('location'), p).toBe('https://peregrine.invalid/');
+    expect(middleware(req('/flowsheet')).status).toBe(200); // prefix only on a path boundary
     const r = middleware(req('/account'));
     expect(r.status).toBe(307);
     expect(r.headers.get('location')).toBe('https://peregrine.invalid/');
