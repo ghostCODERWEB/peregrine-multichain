@@ -30,13 +30,13 @@ export async function SiteHeader() {
     : 'Public view: smart-money trades, holdings and labels are withheld per Nansen’s redistribution rules.';
 
   return (
-    <header className="glass glass-strong fixed inset-x-0 top-0 z-40 flex h-14 items-center gap-2 rounded-none border-x-0 border-t-0 px-3
-      lg:inset-y-3 lg:left-3 lg:right-auto lg:h-auto lg:w-[232px] lg:flex-col lg:items-stretch lg:gap-0 lg:rounded-2xl lg:border lg:p-3">
-      <Link href="/" className="flex items-center gap-2.5 lg:px-1 lg:pb-3 lg:pt-1" aria-label="Peregrine home">
-        <BrandMark />
+    <header className="shell-rail glass glass-strong fixed inset-x-0 top-0 z-40 flex h-14 items-center gap-2 rounded-none border-x-0 border-t-0 px-3
+      lg:inset-y-3 lg:left-3 lg:right-auto lg:h-auto lg:w-[236px] lg:flex-col lg:items-stretch lg:gap-0 lg:rounded-2xl lg:border lg:p-3">
+      <Link href="/" className="brand-lockup flex items-center gap-2.5 lg:px-1 lg:pb-4 lg:pt-1" aria-label="Peregrine home">
+        <span className="brand-mark-shell"><BrandMark size={21} /></span>
         <span className="leading-tight">
-          <span className="block text-[15px] font-semibold tracking-tight text-ink">Peregrine</span>
-          <span className="hidden text-[10.5px] text-ink-muted lg:block">smart-money intelligence · Nansen</span>
+          <span className="block text-[15px] font-semibold tracking-[-0.02em] text-ink">Peregrine</span>
+          <span className="hidden text-[10px] uppercase tracking-[0.08em] text-ink-muted lg:block">onchain intelligence</span>
         </span>
       </Link>
 
@@ -52,7 +52,7 @@ export async function SiteHeader() {
           </span>
         )}
         <div className="hidden items-center justify-between gap-2 lg:flex">
-          <span className={`inline-flex items-center gap-1.5 text-[11.5px] ${mode !== 'public' ? 'text-ink-2' : 'text-ink-muted'}`} title={modeTitle}>
+          <span className={`inline-flex items-center gap-1.5 rounded-md border border-border/70 bg-raised/40 px-2 py-1 text-[11px] ${mode !== 'public' ? 'text-ink-2' : 'text-ink-muted'}`} title={modeTitle}>
             <span className="live-dot" aria-hidden />{modeText}
           </span>
           {acct?.creditsRemaining != null && (

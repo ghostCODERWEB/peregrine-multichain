@@ -23,9 +23,9 @@ function Spark({ series, color }: { series: Chain['series']; color: string }) {
   );
 }
 
-function Tile({ icon, label, children, href, foot }: { icon: React.ReactNode; label: string; children: React.ReactNode; href?: string; foot?: React.ReactNode }) {
+function Tile({ icon, label, children, href, foot, tone = 'brand' }: { icon: React.ReactNode; label: string; children: React.ReactNode; href?: string; foot?: React.ReactNode; tone?: 'brand' | 'in' | 'out' | 'risk' | 'cyan' }) {
   const body = (
-    <div className="glass rise flex h-full flex-col rounded-2xl p-3.5 transition-colors hover:border-brand/30">
+    <div className={`metric-card metric-${tone} glass liquid-panel rise flex h-full flex-col rounded-2xl p-3.5`}>
       <div className="flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-[0.12em] text-ink-muted">{icon}{label}</div>
       <div className="mt-2 flex-1">{children}</div>
       {foot && <div className="mt-2 text-[11.5px] text-ink-muted">{foot}</div>}
@@ -61,29 +61,29 @@ export function PulseBand({ data }: { data: WeatherBulletin }) {
 
   return (
     <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
-      <Tile icon={<Radio className="h-3.5 w-3.5" />} label="Live chains" foot={`of ${data.chains.length} chains Nansen lists`}>
+      <Tile icon={<Radio className="h-3.5 w-3.5" />} label="Live chains" tone="brand" foot={`of ${data.chains.length} chains Nansen lists`}>
         <div className="num text-[26px] font-semibold leading-none text-ink">{scored.length}</div>
         <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-accent" aria-hidden>
           <div className="h-full rounded-full bg-brand" style={{ width: `${(scored.length / Math.max(1, data.chains.length)) * 100}%` }} />
         </div>
       </Tile>
-      <Tile icon={<ArrowUpRight className="h-3.5 w-3.5" />} label="Top inflow" href={top ? `/chain/${top.chain}` : undefined} foot="Flow Index · 50 = neutral">
+      <Tile icon={<ArrowUpRight className="h-3.5 w-3.5" />} label="Top inflow" tone="in" href={top ? `/chain/${top.chain}` : undefined} foot="Flow Index · 50 = neutral">
         {reading(top, 'in')}
       </Tile>
-      <Tile icon={<ArrowDownRight className="h-3.5 w-3.5" />} label="Top outflow" href={bottom ? `/chain/${bottom.chain}` : undefined} foot="lowest flow right now">
+      <Tile icon={<ArrowDownRight className="h-3.5 w-3.5" />} label="Top outflow" tone="out" href={bottom ? `/chain/${bottom.chain}` : undefined} foot="lowest flow right now">
         {reading(bottom, 'out')}
       </Tile>
-      <Tile icon={<Shuffle className="h-3.5 w-3.5" />} label="Capital rotations" foot={data.mode === 'public' ? 'shown to the key owner' : 'smart money moving between chains, 24h'}>
+      <Tile icon={<Shuffle className="h-3.5 w-3.5" />} label="Capital rotations" tone="cyan" foot={data.mode === 'public' ? 'shown to the key owner' : 'smart money moving between chains, 24h'}>
         <div className="num text-[26px] font-semibold leading-none text-ink">{data.mode === 'public' ? '—' : data.fronts.length}</div>
         {data.mode !== 'public' && data.fronts[0] && (
           <div className="mt-1.5 flex items-center gap-1 truncate text-[12px] text-ink-2"><ChainLogo chain={data.fronts[0].from} size={12} />{chainName(data.fronts[0].from)} → <ChainLogo chain={data.fronts[0].to} size={12} />{chainName(data.fronts[0].to)}</div>
         )}
       </Tile>
-      <Tile icon={<TriangleAlert className="h-3.5 w-3.5" />} label="Risk alerts" href="/#storms-title" foot="tokens at High or Critical">
+      <Tile icon={<TriangleAlert className="h-3.5 w-3.5" />} label="Risk alerts" tone="risk" href="/#storms-title" foot="tokens at High or Critical">
         <div className="num text-[26px] font-semibold leading-none" style={{ color: storms.length ? 'var(--storm-3)' : 'var(--ink-1)' }}>{storms.length}</div>
         {storms[0] && <div className="mt-1.5 flex items-center gap-1.5 truncate text-[12px] text-ink-2"><TokenLogo symbol={storms[0].symbol} logo={storms[0].logo} size={14} />{storms[0].symbol ?? 'token'} · <ChainLogo chain={storms[0].chain} size={12} />{chainName(storms[0].chain)} · {num(storms[0].score, 0)}</div>}
       </Tile>
-      <Tile icon={<Activity className="h-3.5 w-3.5" />} label="Evidence" foot={data.mode === 'public' ? 'scanner runs, all-trader flow' : 'scanner runs · smart-money trades'}>
+      <Tile icon={<Activity className="h-3.5 w-3.5" />} label="Evidence" tone="brand" foot={data.mode === 'public' ? 'scanner runs, all-trader flow' : 'scanner runs · smart-money trades'}>
         <div className="num text-[26px] font-semibold leading-none text-ink">{data.scan.runs.toLocaleString('en-US')}</div>
         <div className="mt-1.5 text-[12px] text-ink-2">{data.scan.trades.toLocaleString('en-US')} trades recorded</div>
       </Tile>

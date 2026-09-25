@@ -27,7 +27,7 @@ export function NavList({ onNavigate }: { onNavigate?: () => void }) {
               return (
                 <li key={n.href}>
                   <Link href={n.href} onClick={onNavigate} aria-current={on ? 'page' : undefined}
-                    className={`liquid-control group flex items-center gap-2.5 rounded-md px-2 py-1.5 text-[13.5px] ${on ? 'is-active text-ink' : 'text-ink-2 hover:text-ink'}`}>
+                    className={`nav-item liquid-control group flex items-center gap-2.5 rounded-md px-2.5 py-2 text-[13px] ${on ? 'is-active text-ink' : 'text-ink-2 hover:text-ink'}`}>
                     <Icon className={`h-4 w-4 shrink-0 ${on ? 'text-brand' : 'text-ink-muted group-hover:text-ink-2'}`} aria-hidden />
                     <span>{n.label}</span>
                     {on && <span className="ml-auto h-3.5 w-0.5 rounded-full bg-brand" aria-hidden />}
@@ -62,7 +62,7 @@ export function MobileMenu({ children }: { children?: React.ReactNode }) {
       </button>
       {open && (
         <div className="fixed inset-0 z-50 bg-background/70 lg:hidden" onMouseDown={(e) => { if (e.target === e.currentTarget) setOpen(false); }}>
-          <div role="dialog" aria-modal="true" aria-label="Menu" className="absolute inset-y-0 right-0 flex w-[min(300px,88vw)] flex-col overflow-y-auto border-l border-border bg-surface p-4">
+          <div role="dialog" aria-modal="true" aria-label="Menu" className="glass glass-strong absolute inset-y-0 right-0 flex w-[min(300px,88vw)] flex-col overflow-y-auto rounded-none border-y-0 border-r-0 p-4">
             <div className="mb-3 flex items-center justify-between">
               <span className="text-[13px] font-medium text-ink-2">Menu</span>
               <button type="button" onClick={() => setOpen(false)} aria-label="Close menu" className="liquid-control rounded-md p-1.5 text-ink-2 hover:text-ink"><X className="h-4 w-4" /></button>

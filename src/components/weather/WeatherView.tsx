@@ -43,9 +43,10 @@ export function WeatherView({ initial, anchor, alpha }: { initial: WeatherBullet
   return (
     <div className={`space-y-8 transition-opacity ${isFetching ? 'opacity-90' : ''}`}>
       <section aria-labelledby="map-title">
-        <div className="mb-3 flex flex-wrap items-end justify-between gap-3">
+        <div className="radar-hero mb-4 flex flex-wrap items-end justify-between gap-3">
           <div>
-            <h1 id="map-title" className="text-xl font-semibold text-ink sm:text-2xl">
+            <div className="mb-2 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-brand"><span className="live-dot" aria-hidden />Live multichain radar</div>
+            <h1 id="map-title" className="brand-text max-w-4xl text-xl font-semibold tracking-[-0.025em] text-ink sm:text-[28px] sm:leading-tight">
               {mapHeadline(data.chains, data.fronts)}
             </h1>
             <p className="num mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-[12px] text-ink-muted">
@@ -58,7 +59,7 @@ export function WeatherView({ initial, anchor, alpha }: { initial: WeatherBullet
               <span>{data.scan.trades.toLocaleString('en-US')} smart-money trades</span>
             </p>
           </div>
-          <div className="flex rounded-md border border-border p-0.5 text-sm" role="tablist" aria-label="Map or table view">
+          <div className="relative z-10 flex rounded-md border border-border bg-raised/45 p-0.5 text-sm" role="tablist" aria-label="Map or table view">
             {(['map', 'table'] as const).map((v) => (
               <button
                 key={v}
@@ -76,7 +77,7 @@ export function WeatherView({ initial, anchor, alpha }: { initial: WeatherBullet
         <div className="mb-3 flex flex-wrap gap-2" role="group" aria-label="Radar layers">
           {[{ id: 'spot', title: 'Spot flow' }, ...(data.layers ?? [])].map((l) => <button key={l.id} aria-pressed={layer === l.id} onClick={() => setLayer(l.id)} className={`rounded border border-border px-4 py-2 text-sm ${layer === l.id ? 'bg-accent text-ink' : 'text-ink-2 hover:text-ink'}`}>{l.title}</button>)}
         </div>
-        <div className="glass rounded-2xl p-4">
+        <div className="signature-panel glass rounded-2xl p-4 sm:p-5">
           {activeLayer ? <LayerPanel layer={activeLayer} table={view === 'table'} onRefresh={refetch} /> : view === 'map' ? (
             <HexMap chains={data.chains} fronts={[...data.fronts, ...(showInferred ? inferred : [])]} selectedFront={selected} onSelectFront={setSelected} />
           ) : (
