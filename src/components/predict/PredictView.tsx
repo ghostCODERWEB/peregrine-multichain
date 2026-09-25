@@ -153,7 +153,7 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
     <div className="space-y-4">
       <section aria-labelledby="pm-title" className="material rise relative overflow-hidden p-5 sm:p-7">
         <div className="relative flex flex-col gap-5 lg:flex-row lg:items-start">
-          <div className="min-w-0 flex-1">
+          <div className="hero-seq min-w-0 flex-1">
             <div className="flex flex-wrap items-center gap-2 text-[12px] text-ink-2">
               <span className="rounded border border-border px-2 py-0.5">Polymarket via Nansen</span>
               <span className="num text-ink-muted">
@@ -163,7 +163,7 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
             <h1 id="pm-title" className="t-headline mt-1.5 text-ink">
               {title}
             </h1>
-            <dl className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
+            <dl className="stagger mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
               {[
                 ['Open interest', usd(t.openInterest)],
                 ['24h volume', usd(t.volume24h)],
@@ -214,7 +214,7 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
         }
         sub="Each category's 24h volume against its daily pace over the last week: green is busier than usual, red quieter. Hover for its busiest market."
       >
-        <ul className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-2" aria-label="Prediction categories by heat">
+        <ul className="stagger grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-2" aria-label="Prediction categories by heat">
           {cats.map((c) => (
             <li
               key={c.category}

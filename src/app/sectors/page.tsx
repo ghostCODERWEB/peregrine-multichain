@@ -123,7 +123,7 @@ export default async function SectorsPage() {
                 return list.length > 0 && (
                   <details key={band} open data-filter-group className="group">
                     <summary className="mb-3 cursor-pointer text-[14px] font-bold text-ink">{BAND_WORD[band]} <span className="font-normal text-ink-muted">· {list.length}</span></summary>
-                    <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 3xl:grid-cols-5 4xl:grid-cols-6">
+                    <ul className="stagger grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 3xl:grid-cols-5 4xl:grid-cols-6">
                       {list.map((s) => <Tile key={s.sector} s={s} />)}
                     </ul>
                   </details>

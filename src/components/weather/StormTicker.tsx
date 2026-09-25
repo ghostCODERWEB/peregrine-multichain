@@ -18,7 +18,7 @@ export function StormTicker({ storms }: { storms: StormTick[] }) {
     );
   }
   return (
-    <ul className="grid grid-cols-[repeat(auto-fill,minmax(210px,1fr))] gap-2" aria-label="Highest Dump Risk, last 48 hours">
+    <ul className="stagger grid grid-cols-[repeat(auto-fill,minmax(210px,1fr))] gap-2" aria-label="Highest Dump Risk, last 48 hours">
       {storms.slice(0, 8).map((s) => {
         const cls = STORM_CLASS[s.band];
         return (

@@ -54,7 +54,7 @@ export function ForecastMultiple({ f, color = 'var(--ink-1)' }: { f: ForecastWit
 export function ForecastStrip({ forecasts }: { forecasts: ForecastWithProvenance[] }) {
   if (!forecasts.length) return <p className="text-sm text-ink-2">No chain has a flow reading yet.</p>;
   return (
-    <ul className="grid grid-cols-1 gap-3 min-[420px]:grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
+    <ul className="stagger grid grid-cols-1 gap-3 min-[420px]:grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
       {forecasts.map((f) => {
         const now = f.history.at(-1)?.cpi ?? null;
         const end = f.points.at(-1)?.forecast ?? null;

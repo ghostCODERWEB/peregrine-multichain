@@ -63,7 +63,7 @@ export function TokenHero({ chain, address, tier, h, m, storm, done, title, chil
   return (
     <section aria-labelledby="token-title" className="rise relative">
       <div className="relative grid gap-4 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
-        <div className="material min-w-0 p-5 sm:p-7">
+        <div className="hero-seq material min-w-0 p-5 sm:p-7">
           <div className="flex flex-wrap items-center gap-3">
             <div className="relative shrink-0">
               <TokenLogo symbol={h?.symbol ?? initials} logo={h?.logo} size={64} />
@@ -128,7 +128,7 @@ export function TokenHero({ chain, address, tier, h, m, storm, done, title, chil
           </div>
         </div>
       </div>
-          <dl className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-6">
+          <dl className="stagger mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-6">
             {[
               ['Market cap', usd(h?.marketCapUsd)], ['FDV', usd(h?.fdvUsd)], ['Liquidity', usd(h?.liquidityUsd)],
               ['24h volume', usd(h?.volume24hUsd)], ['Holders', h?.holders?.toLocaleString('en-US') ?? '—'], ['Age', age != null ? `${age.toLocaleString('en-US')} days` : '—'],

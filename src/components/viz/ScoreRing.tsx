@@ -10,9 +10,9 @@ export function ScoreRing({ score, size = 64, stroke = 6, color, label, sublabel
   const v = Math.round(Math.max(0, Math.min(100, score)) * 100) / 100;
   return (
     <div className="relative inline-flex shrink-0 items-center justify-center" style={{ width: size, height: size }} role="img" aria-label={`${label ?? 'Score'} ${Math.round(v)} of 100`}>
-      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="-rotate-90" aria-hidden>
+      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="draw -rotate-90" aria-hidden>
         <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="var(--grid)" strokeWidth={stroke} />
-        <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke={color} strokeWidth={stroke} strokeLinecap="round"
+        <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke={color} strokeWidth={stroke} strokeLinecap="round" className="ring-draw" style={{ '--c': c } as React.CSSProperties}
           strokeDasharray={`${((v / 100) * c).toFixed(2)} ${c.toFixed(2)}`} />
       </svg>
       <span className="absolute inset-0 flex flex-col items-center justify-center leading-none">

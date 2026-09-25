@@ -49,7 +49,7 @@ export function RugReportView({ chain, address }: { chain: string; address: stri
     <div className="space-y-5">
       <section aria-labelledby="rug-verdict" className="material p-6 sm:p-8">
         <div className="grid items-center gap-6 lg:grid-cols-[minmax(0,1fr)_auto]">
-          <div className="min-w-0">
+          <div className="hero-seq min-w-0">
             <div className="flex items-center gap-3">
               <span className="relative"><TokenLogo symbol={info?.symbol ?? '?'} logo={info?.logo} size={52} /><span className="absolute -bottom-1 -right-1"><ChainLogo chain={chain} size={20} /></span></span>
               <div className="min-w-0">

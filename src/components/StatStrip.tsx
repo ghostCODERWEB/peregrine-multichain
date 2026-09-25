@@ -7,7 +7,7 @@ export interface Stat { label: string; value: ReactNode; note?: ReactNode; href?
  *  per row on phones, one row from tablets up. A stat with `href` opens its detail. */
 export function StatStrip({ stats, className = '' }: { stats: Stat[]; className?: string }) {
   return (
-    <ul className={`grid grid-cols-2 gap-px overflow-hidden rounded-[var(--r-inner)] border border-[var(--hair)] bg-[var(--hair)] sm:grid-flow-col sm:auto-cols-fr sm:grid-cols-none [&>*:last-child:nth-child(odd)]:col-span-2 sm:[&>*:last-child:nth-child(odd)]:col-span-1 ${className}`}>
+    <ul className={`stagger grid grid-cols-2 gap-px overflow-hidden rounded-[var(--r-inner)] border border-[var(--hair)] bg-[var(--hair)] sm:grid-flow-col sm:auto-cols-fr sm:grid-cols-none [&>*:last-child:nth-child(odd)]:col-span-2 sm:[&>*:last-child:nth-child(odd)]:col-span-1 ${className}`}>
       {stats.map((s) => {
         const body = (
           <>

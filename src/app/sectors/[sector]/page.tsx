@@ -79,8 +79,8 @@ export default async function SectorPage({ params }: { params: Promise<{ sector:
       <nav aria-label="Breadcrumb" className="text-[12.5px] text-ink-muted">
         <Link href="/sectors" className="hover:text-ink">Sectors</Link> <span aria-hidden>›</span> <span className="text-ink-2">{name}</span>
       </nav>
-      <div className="rise flex flex-wrap items-end justify-between gap-3">
-        <div>
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div className="hero-seq">
           <h1 className="t-title text-ink">{name}</h1>
           <p className="mt-1.5 text-[13px] text-ink-2">
             {BAND[r.band]} · #{d.rank} of {d.of} sectors by Flow Index · {d.source === 'smart-money' ? 'smart-money flows' : 'all-trader flows'}
@@ -104,7 +104,7 @@ export default async function SectorPage({ params }: { params: Promise<{ sector:
           <NetFlowBars points={d.history} label={`${name} 24h net flow`} />
         </Card>
         <Card id="members" title="Where its tokens trade" sub="Tokens in this sector per chain">
-          <ul className="grid grid-cols-2 gap-1.5">
+          <ul className="stagger grid grid-cols-2 gap-1.5">
             {d.membersByChain.map((c) => (
               <li key={c.chain}>
                 <Link href={`/chain/${c.chain}`} className="inset-well flex min-h-[40px] items-center gap-2 px-3 py-2 text-[13px]">
@@ -119,7 +119,7 @@ export default async function SectorPage({ params }: { params: Promise<{ sector:
       </div>
 
       <Card id="movers" title="What moved it" sub="Tokens with the largest net flow in each window · select one for its page">
-        <div className="grid gap-4 xl:grid-cols-3">
+        <div className="stagger grid gap-4 xl:grid-cols-3">
           {d.windows.map((w) => <WindowCard key={w.window} w={w} />)}
         </div>
       </Card>

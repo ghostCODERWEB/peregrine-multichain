@@ -5,6 +5,7 @@ import { Providers } from '@/components/Providers';
 import { SiteHeader } from '@/components/SiteHeader';
 import { themeBootScript } from '@/components/ThemeToggle';
 import { TabBar } from '@/components/shell/TabBar';
+import { MotionObserver } from '@/components/MotionObserver';
 import { publicSite } from '@/server/site';
 
 const geistSans = Manrope({ variable: '--font-geist-sans', subsets: ['latin'] });
@@ -29,6 +30,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       </head>
       <body className="min-h-screen antialiased">
         <Providers publicSite={publicSite()}>
+          <MotionObserver />
           <SiteHeader />
           <TabBar />
           <div className="pb-24 pt-16 lg:pb-0 lg:pl-[256px] lg:pt-0">

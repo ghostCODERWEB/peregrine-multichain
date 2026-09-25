@@ -233,3 +233,37 @@ main details[open] > summary::before { transform:rotate(45deg); }
 /* 4K: widen the canvas, then scale the whole interface so type and hit
    targets stay proportional at 2560+ CSS px. */
 @media(min-width:2560px) { html { zoom:1.2; } }
+
+/* Shared entrance system (driven by MotionObserver: .motion-ready on <html>,
+   .in-view on each .draw / .stagger once it scrolls in). Pre-states apply only
+   when motion is allowed and JS is running, so nothing can stay hidden. */
+@keyframes dash-in { from { stroke-dashoffset:1; } to { stroke-dashoffset:0; } }
+@keyframes ring-in { from { stroke-dasharray:0 var(--c); } }
+@keyframes grow { from { transform:scaleY(0); } }
+@keyframes pop { from { opacity:0; transform:scale(.4); } }
+@keyframes rise-sm { from { opacity:0; transform:translateY(10px); } }
+.bar-up { transform-box:fill-box; transform-origin:50% 100%; }
+.bar-down { transform-box:fill-box; transform-origin:50% 0%; }
+.dot-pop { transform-box:fill-box; transform-origin:center; }
+@media (prefers-reduced-motion:no-preference) {
+ .motion-ready .draw:not(.in-view) .line-draw { stroke-dasharray:1; stroke-dashoffset:1; }
+ .motion-ready .draw:not(.in-view) .ring-draw { stroke-dasharray:0 var(--c); }
+ .motion-ready .draw:not(.in-view) :is(.bar-up,.bar-down) { transform:scaleY(0); }
+ .motion-ready .draw:not(.in-view) :is(.area-fade,.dot-pop) { opacity:0; }
+ .motion-ready .stagger:not(.in-view) > * { opacity:0; }
+ .draw.in-view .line-draw { stroke-dasharray:1; animation:dash-in var(--dur-hero) var(--ease-in-out) both; }
+ .draw.in-view .ring-draw { animation:ring-in var(--dur-hero) var(--ease-out) both; animation-delay:calc(var(--i,0) * 120ms); }
+ .draw.in-view :is(.bar-up,.bar-down) { animation:grow var(--dur-reveal) var(--ease-out) both; animation-delay:calc(min(var(--i,0), 60) * 10ms); }
+ .draw.in-view .area-fade { animation:fade var(--dur-hero) var(--ease-out) both; animation-delay:250ms; }
+ .draw.in-view .dot-pop { animation:pop var(--dur-normal) var(--ease-out) both; animation-delay:calc(var(--dur-hero) - 150ms); }
+ .stagger.in-view > * { animation:rise-sm var(--dur-reveal) var(--ease-out) both; }
+ .stagger.in-view > :nth-child(2) { animation-delay:40ms; } .stagger.in-view > :nth-child(3) { animation-delay:80ms; }
+ .stagger.in-view > :nth-child(4) { animation-delay:120ms; } .stagger.in-view > :nth-child(5) { animation-delay:160ms; }
+ .stagger.in-view > :nth-child(6) { animation-delay:200ms; } .stagger.in-view > :nth-child(7) { animation-delay:240ms; }
+ .stagger.in-view > :nth-child(8) { animation-delay:280ms; } .stagger.in-view > :nth-child(9) { animation-delay:320ms; }
+ .stagger.in-view > :nth-child(10) { animation-delay:360ms; } .stagger.in-view > :nth-child(n+11) { animation-delay:400ms; }
+ /* Page headers enter in sequence, like the Overview hero. */
+ .hero-seq > * { animation:rise var(--dur-reveal) var(--ease-out) both; }
+ .hero-seq > :nth-child(2) { animation-delay:var(--stagger); } .hero-seq > :nth-child(3) { animation-delay:calc(var(--stagger) * 2); }
+ .hero-seq > :nth-child(4) { animation-delay:calc(var(--stagger) * 3); } .hero-seq > :nth-child(n+5) { animation-delay:calc(var(--stagger) * 4); }
+}

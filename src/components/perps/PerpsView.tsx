@@ -55,7 +55,7 @@ function Hero({ b, title, mode }: { b: PerpBoard; title: string; mode: 'owner' |
   return (
     <section aria-labelledby="perps-title" className="material rise relative overflow-hidden p-5 sm:p-7">
       <div className="relative flex flex-col gap-5 lg:flex-row lg:items-start">
-        <div className="min-w-0 flex-1">
+        <div className="hero-seq min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2 text-[12px] text-ink-2">
             <span className="rounded border border-border px-2 py-0.5">Hyperliquid</span>
             <span className="rounded border border-border px-2 py-0.5">{mode === 'public' ? 'All traders' : 'With smart money'}</span>
@@ -69,7 +69,7 @@ function Hero({ b, title, mode }: { b: PerpBoard; title: string; mode: 'owner' |
             {title}
           </h1>
           {v && (
-            <dl className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
+            <dl className="stagger mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
               {[
                 ['Open interest', usd(v.openInterest)],
                 ['Median funding, yearly', v.fundingMedianApr != null ? pct(v.fundingMedianApr, 1) : '—'],
@@ -118,7 +118,7 @@ function PressureGrid({ coins, onPick, picked }: { coins: PerpCoin[]; onPick: (c
   return (
     <div>
       <ul
-        className="grid grid-cols-[repeat(auto-fill,minmax(76px,1fr))] gap-1.5 sm:grid-cols-[repeat(auto-fill,minmax(88px,1fr))]"
+        className="stagger grid grid-cols-[repeat(auto-fill,minmax(76px,1fr))] gap-1.5 sm:grid-cols-[repeat(auto-fill,minmax(88px,1fr))]"
         aria-label={`${tiles.length} coins by Perp Flow Index, largest open interest first`}
       >
         {tiles.map((c) => (
@@ -365,7 +365,6 @@ export function PerpsView({ board, title, mode }: { board: PerpBoard; title: str
 
   const pickedCoin = useMemo(() => board.coins.find((c) => c.symbol === picked) ?? null, [board.coins, picked]);
   const divergent = board.coins.filter((c) => c.divergence);
-  const hot = [...board.coins].filter((c) => c.ppi != null && (c.openInterest ?? 0) >= 10_000_000).sort((a, b) => b.ppi! - a.ppi!);
 
   if (board.unavailable)
     return (
@@ -381,19 +380,8 @@ export function PerpsView({ board, title, mode }: { board: PerpBoard; title: str
 
       <Card
         id="pressure"
-        title={
-          hot.length
-            ? `Most long bias: ${hot
-                .slice(0, 2)
-                .map((c) => `${c.symbol.replace(/^[^:]+:/, '')} ${num(c.ppi, 0)}`)
-                .join(', ')}; most short: ${hot
-                .slice(-2)
-                .reverse()
-                .map((c) => `${c.symbol.replace(/^[^:]+:/, '')} ${num(c.ppi, 0)}`)
-                .join(', ')}`
-            : 'Perp flow by coin'
-        }
-        sub="Every Hyperliquid coin with $1M+ open interest, largest first, coloured by its Perp Flow Index."
+        title="Every coin by Perp Flow Index"
+        sub="Hyperliquid coins with $1M+ open interest, largest first · green leans long, orange leans short · select one for detail"
         action={board.provenance ? <InfoPopover p={board.provenance} /> : undefined}
       >
         <PressureGrid coins={board.coins} onPick={pick} picked={picked} />

@@ -13,9 +13,9 @@ export function SectorSpark({ points, label }: { points: Array<{ t: number; rati
   const d = points.map((p, i) => `${i ? 'L' : 'M'}${x(p.t).toFixed(1)},${y(p.ratio).toFixed(1)}`).join(' ');
   const last = points.at(-1)!;
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="mt-2 h-8 w-full" role="img" aria-label={`${label}; latest ${(last.ratio * 100).toFixed(1)}%`} preserveAspectRatio="none">
+    <svg viewBox={`0 0 ${W} ${H}`} className="draw mt-2 h-8 w-full" role="img" aria-label={`${label}; latest ${(last.ratio * 100).toFixed(1)}%`} preserveAspectRatio="none">
       <line x1={0} x2={W} y1={H / 2} y2={H / 2} stroke="var(--axis)" strokeWidth={1} vectorEffect="non-scaling-stroke" />
-      <path d={d} fill="none" stroke="var(--ink-2)" strokeWidth={1.5} vectorEffect="non-scaling-stroke" strokeLinejoin="round" />
+      <path d={d} fill="none" pathLength={1} className="line-draw" stroke="var(--ink-2)" strokeWidth={1.5} vectorEffect="non-scaling-stroke" strokeLinejoin="round" />
       <circle cx={x(last.t)} cy={y(last.ratio)} r={2.5} fill={last.ratio >= 0 ? 'var(--in-3)' : 'var(--out-3)'} />
     </svg>
   );

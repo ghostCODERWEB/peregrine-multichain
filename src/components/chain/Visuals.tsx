@@ -55,7 +55,7 @@ export function ChainHero({ d, tier, title, note }: { d: ChainPageData; tier: st
   return (
     <section aria-labelledby="chain-title" className="material rise relative overflow-hidden p-5 sm:p-7">
       <div className="relative flex flex-col gap-5 lg:flex-row lg:items-start">
-        <div className="min-w-0 flex-1">
+        <div className="hero-seq min-w-0 flex-1">
           <div className="flex items-center gap-3">
             <ChainLogo chain={d.chain} size={64} labelled />
             <div className="min-w-0">
@@ -71,7 +71,7 @@ export function ChainHero({ d, tier, title, note }: { d: ChainPageData; tier: st
             </div>
           </div>
           <p className="mt-2 text-[13px] text-ink-2">{note}</p>
-          <dl className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-5">
+          <dl className="stagger mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-5">
             {[
               ['DEX volume, 7d', self ? usd(self.dexVolumeUsd) : '—', self?.dexVolumeChange ?? null],
               ['Active addresses, 7d', self ? compact(self.activeAddresses) : '—', self?.activeAddressesChange ?? null],

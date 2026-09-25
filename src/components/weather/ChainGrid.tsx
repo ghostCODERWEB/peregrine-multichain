@@ -25,7 +25,7 @@ export function ChainGrid({ chains, brief = 0 }: { chains: ChainTile[]; /** show
   const shown = cut ? [...tiles.slice(0, brief), ...tiles.slice(-brief)] : tiles;
   return (
     <>
-      <ul className="grid grid-cols-2 gap-2 min-[520px]:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 3xl:grid-cols-9 4xl:grid-cols-10" aria-label="Chains by Flow Index">
+      <ul className="stagger grid grid-cols-2 gap-2 min-[520px]:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 3xl:grid-cols-9 4xl:grid-cols-10" aria-label="Chains by Flow Index">
         {shown.map((c) => <li key={c.chain}><Tile c={c} /></li>)}
       </ul>
       {brief > 0 && tiles.length > brief * 2 && (

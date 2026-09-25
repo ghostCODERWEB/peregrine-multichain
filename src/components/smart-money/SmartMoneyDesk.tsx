@@ -117,7 +117,7 @@ export function SmartMoneyDesk({ mode }: { mode: 'owner' | 'member' }) {
             {d && <span className="num text-[11.5px] text-ink-muted">This view: {d.tally.calls} Nansen calls, {d.tally.credits} credits ({d.tally.cached} from cache)</span>}
           </div>
           {d && (
-            <dl className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-5">
+            <dl className="stagger mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-5">
               {[
                 ['Value tracked', usd(d.totals.valueUsd)], ['Tokens', String(d.totals.tokens)],
                 ['Adding · trimming', `${d.totals.adding} · ${d.totals.trimming}`], ['Crowded exits', String(exits.length)],
