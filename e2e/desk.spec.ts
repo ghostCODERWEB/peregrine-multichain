@@ -29,7 +29,7 @@ test('desk: a call made on a token page lands on the Desk with its entry receipt
   await card.getByRole('radio', { name: '7d' }).click();
   await card.getByLabel('Setup').selectOption('divergence');
   await card.getByLabel('Thesis').fill('Flow and price disagree; wait for the flow to confirm');
-  await card.getByRole('button', { name: 'Save the call' }).click();
+  await card.getByRole('button', { name: 'Lock call' }).click();
   await expect(card.getByRole('status')).toContainText(/Saved: pass .* for 7d, from \d/);
   await expect(card.getByRole('button', { name: /How this is computed: Entry price for this call/ })).toBeVisible();
 

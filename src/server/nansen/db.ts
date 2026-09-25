@@ -372,6 +372,23 @@ const MIGRATIONS: string[] = [
   `
   ALTER TABLE credit_ledger ADD COLUMN source TEXT;
   `,
+  // 23 — Ask Nansen quick answers on token pages (agent/fast, 200 credits):
+  // cached per subject and normalised question for an hour; public answers
+  // count toward the site-wide daily question cap.
+  `
+  CREATE TABLE quick_answers (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    subject TEXT NOT NULL,
+    question_norm TEXT NOT NULL,
+    question TEXT NOT NULL,
+    text TEXT NOT NULL,
+    tool_calls TEXT NOT NULL,
+    credits INTEGER NOT NULL,
+    public INTEGER NOT NULL,
+    created_at INTEGER NOT NULL
+  );
+  CREATE INDEX idx_quick_answers_subject ON quick_answers(subject, created_at);
+  `,
 ];
 
 export function audit(userId: number | null, action: string, detail?: string): void {

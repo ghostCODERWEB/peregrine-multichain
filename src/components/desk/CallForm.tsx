@@ -5,6 +5,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { InfoPopover } from '@/components/InfoPopover';
+import { ArrowUp, ArrowDown, Minus } from 'lucide-react';
 import { SETUPS, setupLabel, type Horizon, type Setup, type Stance } from '@/lib/models/calls';
 import { receiptProvenance, fmtPrice, GRADE_RULES, type ReceiptLike } from './receipt';
 
@@ -45,27 +46,41 @@ export function CallForm({ chain, token, symbol, price, gauges }: { chain: strin
       </div>
     );
   }
-  const seg = (on: boolean) => `rounded-lg px-3 py-1.5 text-[13px] ${on ? 'bg-brand/15 text-ink ring-1 ring-brand/40' : 'border border-border text-ink-2 hover:text-ink'}`;
+  const TONE: Record<Stance, string> = { bull: 'var(--mint)', pass: 'var(--ink-2)', bear: 'var(--flare)' };
+  const field = 'mt-1 block w-full rounded-[12px] border border-[var(--hair)] bg-ink/[0.04] px-3 py-2 text-[13px] text-ink outline-none focus:border-[var(--mint)]';
   return (
-    <div className="space-y-3 text-[13px]">
-      <div className="flex flex-wrap gap-1" role="radiogroup" aria-label="Stance">
-        {STANCES.map(([k, label]) => <button key={k} type="button" role="radio" aria-checked={stance === k} onClick={() => setStance(k)} className={`${seg(stance === k)} min-h-14 flex-1 font-bold`}>{label}</button>)}
+    <div className="space-y-4 text-[13px]">
+      <div className="grid grid-cols-3 gap-2" role="radiogroup" aria-label="Stance">
+        {STANCES.map(([k, label]) => {
+          const on = stance === k, Icon = k === 'bull' ? ArrowUp : k === 'bear' ? ArrowDown : Minus;
+          return (
+            <button key={k} type="button" role="radio" aria-checked={on} aria-label={label} onClick={() => setStance(k)}
+              className="flex min-h-[58px] flex-col items-center justify-center gap-0.5 rounded-[14px] border text-[14px] font-extrabold text-ink transition-colors"
+              style={{ borderColor: on ? TONE[k] : 'var(--hair)', background: on ? `color-mix(in srgb, ${TONE[k]} 14%, transparent)` : 'color-mix(in srgb, var(--ink-1) 4%, transparent)' }}>
+              <Icon size={16} style={{ color: TONE[k] }} aria-hidden />{label}
+            </button>
+          );
+        })}
       </div>
-      <div className="flex flex-wrap items-end gap-3">
-        <div className="flex gap-1" role="radiogroup" aria-label="Horizon">
-          {HORIZONS.map((h) => <button key={h} type="button" role="radio" aria-checked={horizon === h} onClick={() => setHorizon(h)} className={seg(horizon === h)}>{h}</button>)}
+      <div className="flex items-center justify-between gap-3">
+        <span className="font-semibold text-ink-2">Horizon</span>
+        <div className="inline-flex gap-0.5 rounded-[12px] border border-[var(--hair)] bg-ink/5 p-[3px]" role="radiogroup" aria-label="Horizon">
+          {HORIZONS.map((h) => (
+            <button key={h} type="button" role="radio" aria-checked={horizon === h} onClick={() => setHorizon(h)}
+              className={`num min-h-[30px] rounded-[9px] px-3.5 text-[12.5px] font-bold ${horizon === h ? 'bg-ink/15 text-ink shadow-[inset_0_1px_0_var(--hair-2)]' : 'text-ink-muted hover:text-ink'}`}>{h}</button>
+          ))}
         </div>
-        <label className="text-ink-2">Setup<select aria-label="Setup" value={setup} onChange={(e) => setSetup(e.target.value as Setup)} className="mt-1 block rounded-lg border border-border bg-raised px-2 py-1.5 text-ink">{SETUPS.map((s) => <option key={s} value={s}>{setupLabel(s)}</option>)}</select></label>
-        <label className="text-ink-2">Invalidation<input aria-label="Invalidation price" disabled={stance === 'pass'} value={invalidation} onChange={(e) => setInvalidation(e.target.value.replace(/[^\d.]/g, ''))} inputMode="decimal" placeholder={stance === 'bear' ? 'above entry' : 'below entry'} className="num mt-1 block w-28 rounded-lg border border-border bg-raised px-2 py-1.5 text-ink disabled:opacity-40" /></label>
       </div>
-      <input aria-label="Thesis" value={thesis} onChange={(e) => setThesis(e.target.value.slice(0, 200))} placeholder="One line: why, and what would prove you wrong" className="block w-full rounded-lg border border-border bg-raised px-2.5 py-1.5 text-ink" />
-      <div className="flex flex-wrap items-center gap-3">
-        <button type="button" disabled={!stance || busy} onClick={save} className="pill-button pill-primary w-full disabled:opacity-45">{busy ? 'Saving…' : 'Save the call'}</button>
-        <span className="text-[11.5px] text-ink-muted">{price != null ? `Entry is Nansen’s latest close (about ${fmtPrice(price)}) at the moment you save.` : 'Entry is Nansen’s latest close at the moment you save.'}</span>
+      <div className="grid grid-cols-2 gap-2">
+        <label className="text-[12px] font-semibold text-ink-muted">Setup<select aria-label="Setup" value={setup} onChange={(e) => setSetup(e.target.value as Setup)} className={field}>{SETUPS.map((s) => <option key={s} value={s}>{setupLabel(s)}</option>)}</select></label>
+        <label className="text-[12px] font-semibold text-ink-muted">Invalidation<input aria-label="Invalidation price" disabled={stance === 'pass'} value={invalidation} onChange={(e) => setInvalidation(e.target.value.replace(/[^\d.]/g, ''))} inputMode="decimal" placeholder={stance === 'pass' ? 'n/a for a pass' : 'price, optional'} className={`${field} num disabled:opacity-50`} /></label>
       </div>
+      <textarea aria-label="Thesis" rows={2} value={thesis} onChange={(e) => setThesis(e.target.value.slice(0, 200))} placeholder="Thesis (optional): why, and what would prove you wrong" className={`${field} resize-none`} />
+      <button type="button" disabled={!stance || busy} onClick={save} className="h-12 w-full rounded-[14px] bg-ink text-[15px] font-extrabold text-page disabled:opacity-45">{busy ? 'Locking…' : 'Lock call'}</button>
       {err && <p className="text-ink">{err}</p>}
-      <p className="text-[11.5px] text-ink-muted">{GRADE_RULES} Not financial advice.</p>
-      <Link href={`/replay/${chain}/${encodeURIComponent(token)}`} className="inline-block text-sm text-ink underline underline-offset-4">Practice in the Time Machine →</Link>
+      <p className="text-center text-[11.5px] text-ink-muted">{price != null ? `Entry: Nansen’s latest close (about ${fmtPrice(price)}) when you lock. ` : ''}Can’t be edited. Not financial advice.</p>
+      <details className="text-[11.5px] text-ink-muted"><summary className="cursor-pointer select-none font-semibold text-ink-2">How calls are graded</summary><p className="mt-1">{GRADE_RULES}</p></details>
+      <Link href={`/replay/${chain}/${encodeURIComponent(token)}`} className="inline-block text-[13px] font-semibold text-ink underline underline-offset-4">Practice in the Time Machine →</Link>
     </div>
   );
 }

@@ -11,15 +11,22 @@ import { HolderPanel, holdersTitle } from './HolderPanel';
 import { InsiderGraph, forensicsTitle } from './InsiderGraph';
 import { OddsCard, oddsTitle } from './OddsCard';
 import type { ForecastWave } from '@/server/token/forecast';
-import { AnchorCard } from '@/components/AnchorCard';
-import { StormAlertForm } from './StormAlertForm';
-import { RideCard } from './RideCard';
 import { chainName } from '@/lib/viz/format';
 import type { Wave, TokenHeader, MarketWave, WindWave, HoldersWave, ForensicsWave } from '@/server/token/waves';
 import type { StormWave, StormCandidate } from '@/server/token/storm';
 import type { TapeWave, RiverWave, SocialWave, DcaWave, PositionsWave, PnlBoardWave, LeverageWave } from '@/server/token/terminal';
 import { LiveTape, tapeTitle, TransferRiver, riverTitle, SocialPulse, socialTitle, DcaLadder, dcaTitle, TideGauge, positionsTitle, PnlBoard, NewsCards } from './Terminal';
 import { num } from '@/lib/viz/format';
+import dynamic from 'next/dynamic';
+// Below the fold: loaded on demand to keep the token route's first-load JS in budget.
+const TokenAskChat = dynamic(() => import('@/components/agent/TokenAskChat').then((m) => m.TokenAskChat), {
+  ssr: false, loading: () => <div className="material min-h-[320px] animate-pulse" aria-hidden />,
+});
+// Owner-only tools: never shipped in the first load a public visitor downloads.
+const StormAlertForm = dynamic(() => import('./StormAlertForm').then((m) => m.StormAlertForm), { ssr: false });
+const RideCard = dynamic(() => import('./RideCard').then((m) => m.RideCard), { ssr: false });
+import { TokenActions } from './TokenActions';
+import { STORM_LABEL } from '@/lib/viz/scales';
 import { TokenHero, LiquidationLadder, leverageTitle, CohortBars } from './Visuals';
 import { HolderSphere } from './HolderSphere';
 import type { ReactNode } from 'react';
@@ -302,31 +309,30 @@ export function TokenView({ chain, address, tier, mode }: { chain: string; addre
         {h ? <NewsCards name={h.name} symbol={h.symbol} canSummarize={mode !== 'public'} /> : <WaveLoading what="the token name" height={80} />}
       </Card>
     ),
-    ask: (cls) => ok(s.storm) && s.storm.final ? (
-      <Card id="ask" className={cls} title={`Ask Nansen about ${symbol ?? 'this token'}, or set a risk alert`} sub="Nansen's agent explains this token's scores in four sentences; a risk alert turns them into Nansen Smart Alerts that keep watching after you leave.">
-        <AnchorCard query={`kind=token&chain=${chain}&address=${encodeURIComponent(address)}`} label="It reads the scores above; nothing is sent until you ask." />
-        <div className="mt-4 border-t border-border pt-3">
-          <StormAlertForm chain={chain} address={address} clusterWallets={[...clustered]} />
-        </div>
-        {mode !== 'public' && (
-          <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1 border-t border-border pt-3 text-[12.5px]">
-            <span className="text-ink-muted">More alerts:</span>
-            <Link href={`/alerts?template=token-flows&chain=${chain}&token=${encodeURIComponent(address)}`} className="text-ink-2 underline-offset-2 hover:text-ink hover:underline">smart money buying {symbol ?? 'this token'} →</Link>
-            {ok(s.forensics) && s.forensics.deployer && /^0x[0-9a-fA-F]{40}$/.test(s.forensics.deployer) && (
-              <Link href={`/alerts?template=deployer&chain=${chain}&address=${s.forensics.deployer}`} className="text-ink-2 underline-offset-2 hover:text-ink hover:underline">the deployer moves again →</Link>
-            )}
-          </div>
+    // The design's chat card for everyone; the owner's alert tools sit below it.
+    ask: (cls) => (
+      <div className={`flex min-w-0 flex-col gap-4 ${cls}`}>
+        <TokenAskChat chain={chain} address={address} symbol={symbol} band={ok(s.storm) ? STORM_LABEL[s.storm.result.band] : null} />
+        {mode !== 'public' && ok(s.storm) && s.storm.final && (
+          <Card id="alerts-tools" title={`Watch ${symbol ?? 'this token'} after you leave`} sub="A risk alert turns these scores into Nansen Smart Alerts on your account.">
+            <StormAlertForm chain={chain} address={address} clusterWallets={[...clustered]} />
+            <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1 border-t border-border pt-3 text-[12.5px]">
+              <span className="text-ink-muted">More alerts:</span>
+              <Link href={`/alerts?template=token-flows&chain=${chain}&token=${encodeURIComponent(address)}`} className="text-ink-2 underline-offset-2 hover:text-ink hover:underline">smart money buying {symbol ?? 'this token'} →</Link>
+              {ok(s.forensics) && s.forensics.deployer && /^0x[0-9a-fA-F]{40}$/.test(s.forensics.deployer) && (
+                <Link href={`/alerts?template=deployer&chain=${chain}&address=${s.forensics.deployer}`} className="text-ink-2 underline-offset-2 hover:text-ink hover:underline">the deployer moves again →</Link>
+              )}
+            </div>
+            <div className="mt-4 border-t border-border pt-3"><RideCard chain={chain} address={address} symbol={symbol} /></div>
+          </Card>
         )}
-        <div className="mt-4 border-t border-border pt-3">
-          <RideCard chain={chain} address={address} symbol={symbol} />
-        </div>
-      </Card>
-    ) : null,
+      </div>
+    ),
   };
 
   return (
     <div className="space-y-4">
-      <Link href={`/chain/${chain}`} className="text-[12.5px] text-ink-2 hover:text-ink">← {chainName(chain)}</Link>
+      <TokenActions chain={chain} address={address} symbol={symbol} owner={mode === 'owner'} />
       <TokenHero chain={chain} address={address} tier={tier} title={title} h={h} m={ok(s.market) ? s.market : null} storm={ok(s.storm) ? s.storm : null} done={s.done}>{cards.storm('')}</TokenHero>
       {s.fatal && <p className="rounded-md border border-border px-3 py-2 text-sm text-ink-2">{s.fatal}</p>}
       {gone(s.header) && <Unavailable text={s.header.unavailable} />}

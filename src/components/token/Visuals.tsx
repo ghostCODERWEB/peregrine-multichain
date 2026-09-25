@@ -1,5 +1,6 @@
 'use client';
 import { CandleChart } from './CandleChart';
+import { Segmented } from '@/components/ui/Segmented';
 import { useState } from 'react';
 import { ScoreRing } from '@/components/viz/ScoreRing';
 import { InfoPopover } from '@/components/InfoPopover';
@@ -55,34 +56,46 @@ export function TokenHero({ chain, address, tier, h, m, storm, done, title, chil
   const buyShare = buy != null && sell != null && buy + sell > 0 ? buy / (buy + sell) : null;
   const age = h?.deployedAt ? Math.max(0, Math.floor((Date.now() - Date.parse(h.deployedAt)) / 86_400_000)) : null;
   const initials = (h?.symbol ?? '?').replace(/[^A-Za-z0-9]/g, '').slice(0, 3).toUpperCase() || '?';
+  // The range picker lives in the hero (as in the design) and drives both
+  // the chart and the headline change pill.
+  const [days, setDays] = useState(14);
+  const rangeChange = change(m, Math.min(days, 14) * 24);
   return (
     <section aria-labelledby="token-title" className="rise relative">
       <div className="relative grid gap-4 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
         <div className="material min-w-0 p-5 sm:p-7">
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             <div className="relative shrink-0">
               <TokenLogo symbol={h?.symbol ?? initials} logo={h?.logo} size={64} />
               <span className="absolute -bottom-1 -right-1 rounded-md bg-surface p-0.5 ring-1 ring-border"><ChainLogo chain={chain} size={16} /></span>
             </div>
-            <div className="min-w-0">
-              <div className="flex flex-wrap items-center gap-2 text-[12px] text-ink-2">
-                <span className="rounded border border-border px-2 py-0.5">{chainName(chain)}</span>
-                <span className="rounded border border-border px-2 py-0.5">Tier {tier}</span>
-                {h?.marketCapGroup && <span className="rounded border border-border px-2 py-0.5">{h.marketCapGroup.replace(/_/g, ' ')}</span>}
-                <span className="num text-ink-muted">{shortAddress(address)}</span>
+            <div className="min-w-0 flex-1">
+              <h1 id="token-title" className="text-[30px] font-extrabold leading-tight tracking-[-0.03em] text-ink" title={title}>{h?.name ?? h?.symbol ?? title}</h1>
+              <div className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-[13px] text-ink-muted">
+                <span className="font-semibold text-ink-2">{h?.symbol ?? 'Token'}</span><span aria-hidden>·</span>
+                <span className="inline-flex items-center gap-1"><ChainLogo chain={chain} size={13} />{chainName(chain)}</span>
+                {age != null && <><span aria-hidden>·</span><span>{age.toLocaleString('en-US')} days old</span></>}
+                <span aria-hidden>·</span><span className="num" title={`Tier ${tier}${h?.marketCapGroup ? ` · ${h.marketCapGroup.replace(/_/g, ' ')}` : ''}`}>{shortAddress(address)}</span>
               </div>
-              <h1 id="token-title" className="mt-1 text-[30px] font-extrabold leading-snug text-ink" title={title}>{h?.name ?? h?.symbol ?? title}</h1>
             </div>
+            {m && <div className="ml-auto"><Segmented label="Price range" value={days} options={[{ value: 1, label: '1D' }, { value: 7, label: '7D' }, { value: 14, label: '14D' }, { value: 30, label: '30D' }]} onChange={setDays} /></div>}
           </div>
           <div className="mt-4 flex flex-wrap items-end gap-x-5 gap-y-3">
             <div>
-              <div className="text-[11px] uppercase tracking-wider text-ink-muted">{h?.symbol ?? 'Token'} price</div>
+              <div className="sr-only">{h?.symbol ?? 'Token'} price</div>
               <div className="num text-[48px] leading-tight tracking-[-.05em] font-extrabold text-ink sm:text-[72px]">{price != null ? (price < 1 ? `$${num(price, price < 0.01 ? 6 : 4)}` : usd(price)) : '—'}</div>
             </div>
-            <div className="flex flex-wrap gap-1.5 pb-1.5"><Delta v={change(m, 24)} label="24h" /><Delta v={change(m, 24 * 7)} label="7d" /></div>
+            <div className="flex flex-col gap-1.5 pb-2">
+              {rangeChange != null && (
+                <span className="num inline-flex w-fit items-center gap-1.5 rounded-full px-3 py-1 text-[14px] font-extrabold" style={{ color: rangeChange >= 0 ? 'var(--mint)' : 'var(--flare)', background: `color-mix(in srgb, ${rangeChange >= 0 ? 'var(--mint)' : 'var(--flare)'} 14%, transparent)` }}>
+                  <span aria-hidden>{rangeChange >= 0 ? '↑' : '↓'}</span><span className="sr-only">{rangeChange >= 0 ? 'up' : 'down'}</span>{pct(Math.abs(rangeChange), 1)} · {Math.min(days, 14)}D
+                </span>
+              )}
+              <div className="flex flex-wrap gap-1.5"><Delta v={change(m, 24)} label="24h" /><Delta v={change(m, 24 * 7)} label="7d" /></div>
+            </div>
             
           </div>
-          {m && <div className="mt-6"><CandleChart m={m}/></div>}
+          {m && <div className="mt-6"><CandleChart m={m} days={days} /></div>}
 
         </div>
         <div className="min-w-0 space-y-4">

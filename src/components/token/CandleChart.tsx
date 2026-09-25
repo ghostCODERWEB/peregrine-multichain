@@ -21,9 +21,12 @@ export function marketTitle(symbol: string | null, m: MarketWave): string {
 /** Two stacked panels on one time axis — price candles with the cone
  *  ahead, and the holder segment's daily net flow below. Separate panels,
  *  each with its own single y-axis: never two scales on one plot. */
-export function CandleChart({ m }: { m: MarketWave }) {
+/** `days` set: the range is chosen outside (the token hero's picker) and this
+ *  chart shows no range control of its own. */
+export function CandleChart({ m, days: daysProp }: { m: MarketWave; days?: number }) {
   const c = useThemeColors();
-  const [days, setDays] = useState(14);
+  const [daysState, setDays] = useState(14);
+  const days = daysProp ?? daysState;
   const [style, setStyle] = useState('line');
   const cone = m.cone;
   const coneLow = cone ? [[cone.lastT, cone.lastClose], ...cone.bands.map((b) => [b.t, b.low])] : [];
@@ -103,7 +106,7 @@ export function CandleChart({ m }: { m: MarketWave }) {
   };
   return (
     <div>
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-2"><Segmented label="Price range" value={days} options={[{value:1,label:'1D'},{value:7,label:'7D'},{value:14,label:'14D'},{value:30,label:'30D'}]} onChange={setDays}/><Segmented label="Price style" value={style} options={[{value:'line',label:'Line'},{value:'candles',label:'Candles'}]} onChange={setStyle}/></div>
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-2 [&>*:only-child]:ml-auto">{daysProp == null && <Segmented label="Price range" value={days} options={[{value:1,label:'1D'},{value:7,label:'7D'},{value:14,label:'14D'},{value:30,label:'30D'}]} onChange={setDays}/>}<Segmented label="Price style" value={style} options={[{value:'line',label:'Line'},{value:'candles',label:'Candles'}]} onChange={setStyle}/></div>
       {days > 14 && <p className="mb-2 text-xs text-ink-muted">Only the available 14-day candle history is shown; no older observations have been fetched.</p>}
       <div className="flex items-center justify-end gap-1">
         <span className="text-[11px] text-ink-muted">candles</span><InfoPopover p={m.provenance.candles} />

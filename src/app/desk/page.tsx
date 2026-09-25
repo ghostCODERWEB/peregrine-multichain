@@ -4,6 +4,7 @@ import { requestContext } from '@/server/context';
 import { DESK_COOKIE, deskScope, deskSummary } from '@/server/desk/calls';
 import { DeskView, type DeskData } from '@/components/desk/DeskView';
 import { PageTitle } from '@/components/PageTitle';
+import { WatchlistCard } from '@/components/desk/WatchlistCard';
 
 export const metadata: Metadata = { title: 'Desk — Peregrine' };
 export const dynamic = 'force-dynamic';
@@ -15,6 +16,7 @@ export default async function DeskPage() {
   return (
     <div className="space-y-4">
       <PageTitle id="desk-title" title="Desk" pill="Calls graded on Nansen candles" />
+      <WatchlistCard />
       <DeskView initial={initial} />
     </div>
   );

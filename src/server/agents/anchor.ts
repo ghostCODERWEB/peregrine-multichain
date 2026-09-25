@@ -39,7 +39,7 @@ export function callsThisHour(now = Date.now()): number {
   return (getDb().prepare('SELECT COUNT(*) AS n FROM anchor_reports WHERE created_at >= ? AND credits > 0').get(now - 3_600_000) as { n: number }).n;
 }
 
-const RULES = [
+export const RULES = [
   'Use only the numbers in the JSON. Cite at least three of them.',
   'Write exactly four sentences, like a trading-desk brief: calm, specific, no hype.',
   'Probabilistic language only ("suggests", "odds", "tends to"). Never tell anyone to buy, sell or hold.',
@@ -73,7 +73,7 @@ function bulletinPrompt(mode: DisplayMode): { prompt: string; facts: unknown } {
   };
 }
 
-function tokenPrompt(chain: string, token: string): { prompt: string; facts: unknown } | null {
+export function tokenPrompt(chain: string, token: string): { prompt: string; facts: unknown } | null {
   const r = getDb().prepare(`
     SELECT symbol, score, band, confidence, sub_scores, missing, market_cap_usd, computed_at FROM storm_scores
     WHERE chain = ? AND token_address = ? ORDER BY id DESC LIMIT 1
