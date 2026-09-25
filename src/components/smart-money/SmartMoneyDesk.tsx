@@ -123,9 +123,9 @@ export function SmartMoneyDesk({ mode }: { mode: 'owner' | 'member' }) {
                 ['Adding · trimming', `${d.totals.adding} · ${d.totals.trimming}`], ['Crowded exits', String(exits.length)],
                 ['Top-PnL wallets read', String(d.leaders.length)],
               ].map(([k, v]) => (
-                <div key={k} className="rounded-xl border border-border/70 bg-raised/50 px-3 py-2">
-                  <dt className="text-[10.5px] uppercase tracking-wider text-ink-muted">{k}</dt>
-                  <dd className="num mt-0.5 text-[14px] text-ink">{v}</dd>
+                <div key={k} className="inset-well min-w-0 rounded-[18px] px-4 py-3">
+                  <dt className="text-[12.5px] font-medium text-ink-muted">{k}</dt>
+                  <dd className="num mt-1 truncate text-[19px] font-extrabold tracking-[-0.02em] text-ink">{v}</dd>
                 </div>
               ))}
             </dl>

@@ -2,8 +2,9 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState } from 'react';
 import { TooltipProvider } from '@/components/ui/tooltip';
+import { SiteProvider } from '@/components/SiteContext';
 
-export function Providers({ children }: { children: React.ReactNode }) {
+export function Providers({ children, publicSite = false }: { children: React.ReactNode; publicSite?: boolean }) {
   const [client] = useState(() => new QueryClient({
     defaultOptions: {
       queries: {
@@ -16,7 +17,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   }));
   return (
     <QueryClientProvider client={client}>
-      <TooltipProvider>{children}</TooltipProvider>
+      <SiteProvider publicSite={publicSite}><TooltipProvider>{children}</TooltipProvider></SiteProvider>
     </QueryClientProvider>
   );
 }

@@ -13,6 +13,8 @@ import { recordCall, webCreditsToday } from './nansen/ledger';
 import { writeCache } from './nansen/cache';
 import { callNansen } from './nansen/client';
 import { accountsEnabled, publicSite, utcDayStart, DailyBudgetExhausted } from './site';
+import { tradingEnabled } from './trade/spot';
+import { x402Enabled } from './nansen/x402';
 
 const ENV = { ...process.env };
 afterAll(() => fs.rmSync(dir, { recursive: true, force: true }));
@@ -27,8 +29,12 @@ describe('public-site switches', () => {
     expect(accountsEnabled()).toBe(false);
     delete process.env.TIDE_ACCOUNTS;
     process.env.TIDE_PUBLIC_SITE = '1';
+    process.env.FEATURE_TRADING = '1';
     expect(publicSite()).toBe(true);
     expect(accountsEnabled()).toBe(false);
+    // No wallet-driven features either.
+    expect(tradingEnabled()).toBe(false);
+    expect(x402Enabled()).toBe(false);
   });
   it('resets the budget at 00:00 UTC', () => {
     expect(utcDayStart(Date.UTC(2026, 8, 25, 23, 59))).toBe(Date.UTC(2026, 8, 25));

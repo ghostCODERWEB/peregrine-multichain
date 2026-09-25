@@ -183,9 +183,9 @@ export function LiquidationLadder({ w }: { w: LeverageWave }) {
           ['Open longs', usd(l.longUsd), 'var(--out-2)'], ['Open shorts', usd(l.shortUsd), 'var(--in-2)'],
           ['Within 10%', `${usd(l.near.longUsd)} · ${usd(l.near.shortUsd)}`, null], ['Avg leverage', l.avgLeverage != null ? `${num(l.avgLeverage, 1)}×` : '—', null],
         ].map(([k, v, c]) => (
-          <div key={k} className="rounded-xl border border-border/70 bg-raised/50 px-3 py-2">
-            <dt className="flex items-center gap-1.5 text-[10.5px] uppercase tracking-wider text-ink-muted">{c && <span className="inline-block h-2 w-2 rounded-full" style={{ background: c }} />}{k}</dt>
-            <dd className="num mt-0.5 text-[13.5px] text-ink">{v}</dd>
+          <div key={k} className="inset-well min-w-0 rounded-[18px] px-4 py-3">
+            <dt className="flex items-center gap-1.5 text-[12.5px] font-medium text-ink-muted">{c && <span className="inline-block h-2 w-2 rounded-full" style={{ background: c }} />}{k}</dt>
+            <dd className="num mt-1 truncate text-[19px] font-extrabold tracking-[-0.02em] text-ink">{v}</dd>
           </div>
         ))}
       </dl>

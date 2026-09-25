@@ -28,7 +28,8 @@ export class X402Error extends Error {
   constructor(message: string, public readonly status = 400) { super(message); this.name = 'X402Error'; }
 }
 
-export const x402Enabled = () => process.env.DEMO_MODE !== '1' && process.env.X402_ENABLED !== '0';
+// Off on a public site: paying per call means connecting a wallet.
+export const x402Enabled = () => process.env.DEMO_MODE !== '1' && process.env.X402_ENABLED !== '0' && process.env.TIDE_PUBLIC_SITE !== '1';
 
 // ---- discovery ------------------------------------------------------------
 

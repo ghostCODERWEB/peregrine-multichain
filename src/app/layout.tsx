@@ -23,7 +23,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
       </head>
       <body className="min-h-screen antialiased">
-        <Providers>
+        <Providers publicSite={publicSite()}>
           <SiteHeader />
           <TabBar />
           <div className="pb-24 pt-16 lg:pb-0 lg:pl-[256px] lg:pt-0">

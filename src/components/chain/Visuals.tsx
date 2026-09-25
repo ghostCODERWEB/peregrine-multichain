@@ -79,9 +79,9 @@ export function ChainHero({ d, tier, title, note }: { d: ChainPageData; tier: st
               ['Tokens up · down, 24h', tiles.length ? `${up} · ${tiles.length - up}` : '—', null],
               ['Median token, 24h', median != null ? `${median >= 0 ? '+' : ''}${pct(median, 1)}` : '—', null],
             ].map(([k, v, c]) => (
-              <div key={k as string} className="rounded-xl border border-border/70 bg-raised/50 px-3 py-2">
-                <dt className="text-[10.5px] uppercase tracking-wider text-ink-muted">{k}</dt>
-                <dd className="mt-0.5 flex items-baseline justify-between gap-2 text-[14px]"><span className="num text-ink">{v}</span>{c != null && <span className="text-[11.5px]"><Change v={c as number} /></span>}</dd>
+              <div key={k as string} className="inset-well min-w-0 rounded-[18px] px-4 py-3">
+                <dt className="text-[12.5px] font-medium text-ink-muted">{k}</dt>
+                <dd className="mt-1 flex items-baseline justify-between gap-2 text-[19px] font-extrabold tracking-[-0.02em]"><span className="num text-ink">{v}</span>{c != null && <span className="text-[11.5px]"><Change v={c as number} /></span>}</dd>
               </div>
             ))}
           </dl>

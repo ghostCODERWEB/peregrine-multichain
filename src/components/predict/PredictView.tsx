@@ -109,9 +109,9 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
             <h1 id="pm-title" className="mt-1.5 text-lg font-semibold leading-snug text-ink sm:text-xl">{title}</h1>
             <dl className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
               {[['Open interest', usd(t.openInterest)], ['24h volume', usd(t.volume24h)], ['Active markets', t.activeMarkets.toLocaleString('en-US')], ['Traders, 24h', t.traders24h.toLocaleString('en-US')]].map(([k, v]) => (
-                <div key={k} className="rounded-xl border border-border/70 bg-raised/50 px-3 py-2">
-                  <dt className="text-[10.5px] uppercase tracking-wider text-ink-muted">{k}</dt>
-                  <dd className="num mt-0.5 text-[14px] text-ink">{v}</dd>
+                <div key={k} className="inset-well min-w-0 rounded-[18px] px-4 py-3">
+                  <dt className="text-[12.5px] font-medium text-ink-muted">{k}</dt>
+                  <dd className="num mt-1 truncate text-[19px] font-extrabold tracking-[-0.02em] text-ink">{v}</dd>
                 </div>
               ))}
             </dl>
