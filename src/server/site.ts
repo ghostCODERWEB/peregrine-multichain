@@ -36,3 +36,7 @@ export class DailyBudgetExhausted extends Error {
     this.name = 'DailyBudgetExhausted';
   }
 }
+
+/** Whether an unavailable-reason string came from the spent budget (it
+ *  travels as the message of a failed call, often behind a prefix). */
+export const isBudgetMessage = (s: string | null | undefined): boolean => !!s && s.includes('live-data budget for today');

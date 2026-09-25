@@ -11,6 +11,7 @@ import type { Provenance } from '@/lib/provenance';
 import { isUnavailable, type Wave, type TokenHeader, type WindWave, type HoldersWave, type ForensicsWave } from './waves';
 import type { SocialWave, DcaWave } from './terminal';
 import { usd, num, pct } from '@/lib/viz/format';
+import { isBudgetMessage } from '@/server/site';
 
 export interface StormWave {
   result: StormScoreResult;
@@ -143,7 +144,9 @@ export function computeStorm(
 
   const subScores = { concentration: C, insider: I, windShear: Wsc, exitLiquidity: L, sellPressure: P, nansenRisk: R };
   if (Object.values(subScores).every((v) => v == null)) {
-    return { unavailable: 'Nansen returned none of the inputs the Dump Risk needs for this token.' };
+    // A spent public-site budget is not Nansen having no data: say which.
+    const budget = Object.values(why).find((r) => isBudgetMessage(r));
+    return { unavailable: budget ?? 'Nansen returned none of the inputs the Dump Risk needs for this token.' };
   }
   const result = compositeStormScore(subScores);
   const fmt = (k: StormInput, label: string) => ({ label: `${label} (β ${W[k]})`, value: subScores[k] == null ? 'missing' : num(subScores[k]) });
