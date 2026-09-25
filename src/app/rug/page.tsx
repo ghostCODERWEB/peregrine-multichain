@@ -18,13 +18,25 @@ export default function RugPage() {
   return (
     <div className="space-y-5">
       <PageTitle title="Rug Checker" pill={`${RUG_CHAINS.length} networks · Nansen data`} />
-      <section aria-label="Check a token" className="material p-5 sm:p-7"><RugSearch chains={RUG_CHAINS} /></section>
+      <section aria-label="Check a token" className="material p-5 sm:p-7">
+        <RugSearch chains={RUG_CHAINS} />
+      </section>
       <section aria-labelledby="rug-how" className="material p-5 sm:p-6">
-        <h2 id="rug-how" className="text-[19px] font-bold tracking-[-0.02em]">What it checks</h2>
+        <h2 id="rug-how" className="text-[19px] font-bold tracking-[-0.02em]">
+          What it checks
+        </h2>
         <ul className="mt-3 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-          {CHECKS.map(([t, d]) => <li key={t} className="inset-well px-4 py-3"><div className="text-[14px] font-bold text-ink">{t}</div><div className="mt-0.5 text-[12.5px] text-ink-muted">{d}</div></li>)}
+          {CHECKS.map(([t, d]) => (
+            <li key={t} className="inset-well px-4 py-3">
+              <div className="text-[14px] font-bold text-ink">{t}</div>
+              <div className="mt-0.5 text-[12.5px] text-ink-muted">{d}</div>
+            </li>
+          ))}
         </ul>
-        <p className="mt-4 text-[12.5px] text-ink-muted">Verdict: the token&apos;s Dump Risk band, raised to at least Moderate when a check fails and at least High when two or more do. Readings, not a guarantee. Not financial advice.</p>
+        <p className="mt-4 text-[12.5px] text-ink-muted">
+          Verdict: the token&apos;s Dump Risk band, raised to at least Moderate when a check fails and at least High when two or more do.
+          Readings, not a guarantee. Not financial advice.
+        </p>
       </section>
     </div>
   );

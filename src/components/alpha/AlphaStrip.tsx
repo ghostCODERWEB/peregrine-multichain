@@ -9,9 +9,9 @@ import { chainName, pct } from '@/lib/viz/format';
 export function AlphaStrip({ rows }: { rows: AlphaRow[] }) {
   if (!rows.length) return null;
   return (
-    <section aria-labelledby="alpha-strip" className="glass rise rounded-2xl p-4">
+    <section aria-labelledby="alpha-strip" className="material rise p-5 sm:p-6">
       <div className="mb-3 flex items-center justify-between gap-2">
-        <h2 id="alpha-strip" className="flex items-center gap-2 text-base font-semibold text-ink">
+        <h2 id="alpha-strip" className="flex items-center gap-2 text-[19px] font-bold tracking-[-0.02em] text-ink">
           <Sparkles className="h-4 w-4 text-brand" aria-hidden />What to look at: where money is leaning, token by token
         </h2>
         <Link href="/alpha" className="inline-flex items-center gap-1 text-[12.5px] text-ink-2 hover:text-ink">Full board <ArrowRight className="h-3.5 w-3.5" /></Link>

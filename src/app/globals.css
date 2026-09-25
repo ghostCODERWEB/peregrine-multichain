@@ -65,10 +65,10 @@
 /* P8: Nansen identity, Apple-inspired material. Blur belongs to chrome only. */
 :root {
  --surface-page:#F5F6F8; --surface-1:#fff; --surface-2:#eef0f3;
- --ink-1:#0B0D10; --ink-2:#4A5260; --ink-muted:#646C79;
+ --ink-1:#0B0D10; --ink-2:#4A5260; --ink-muted:#59616D;
  --hair:rgba(16,24,40,.08); --hair-2:rgba(16,24,40,.14);
  --grid:#e4e7ec; --axis:#9099a6; --mid:#e3e6eb;
- --mint:#007A50; --mint-2:#00C987; --flare:#C2410C; --signal:#0066CC; --amber:#9A6200; --violet:#5B3FE0;
+ --mint:#006B46; --mint-2:#00C987; --flare:#C2410C; --signal:#0066CC; --amber:#9A6200; --violet:#5B3FE0;
  --in-1:#b2e7d5; --in-2:#55c69f; --in-3:#007A50; --in-4:#064a35;
  --out-1:#ffd0bd; --out-2:#ff936a; --out-3:#C2410C; --out-4:#762509;
  --storm-1:#d8a532; --storm-2:#b8830c; --storm-3:#8c6200; --storm-4:#5c4000;

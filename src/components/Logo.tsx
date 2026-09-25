@@ -15,9 +15,15 @@ const TOKENS = new Set<string>(manifest.tokens);
 
 function Badge({ text, size, round }: { text: string; size: number; round: boolean }) {
   return (
-    <span aria-hidden className={`inline-flex shrink-0 items-center justify-center bg-raised font-semibold text-ink-2 ring-1 ring-border ${round ? 'rounded-full' : 'rounded'}`}
-      style={{ width: size, height: size, fontSize: Math.max(8, Math.round(size * 0.42)) }}>
-      {text.replace(/[^A-Za-z0-9]/g, '').slice(0, size >= 28 ? 3 : 2).toUpperCase() || '?'}
+    <span
+      aria-hidden
+      className={`inline-flex shrink-0 items-center justify-center bg-raised font-semibold text-ink-2 ring-1 ring-border ${round ? 'rounded-full' : 'rounded'}`}
+      style={{ width: size, height: size, fontSize: Math.max(8, Math.round(size * 0.42)) }}
+    >
+      {text
+        .replace(/[^A-Za-z0-9]/g, '')
+        .slice(0, size >= 28 ? 3 : 2)
+        .toUpperCase() || '?'}
     </span>
   );
 }
@@ -28,12 +34,32 @@ export const chainLogoSrc = (chain: string) => (CHAINS.has(chain) ? `/logos/chai
 /** A chain's logo. Decorative when the chain's name is printed beside it. */
 export function ChainLogo({ chain, size = 16, labelled = false }: { chain: string; size?: number; labelled?: boolean }) {
   if (!CHAINS.has(chain)) return <Badge text={chainName(chain)} size={size} round={false} />;
-  // eslint-disable-next-line @next/next/no-img-element -- a local, fixed-size SVG; next/image adds nothing here
-  return <img src={`/logos/chains/${chain}.svg`} width={size} height={size} alt={labelled ? chainName(chain) : ''} className="shrink-0 rounded" loading="lazy" decoding="async" />;
+  return (
+    // eslint-disable-next-line @next/next/no-img-element -- a local, fixed-size SVG; next/image adds nothing here
+    <img
+      src={`/logos/chains/${chain}.svg`}
+      width={size}
+      height={size}
+      alt={labelled ? chainName(chain) : ''}
+      className="shrink-0 rounded"
+      loading="lazy"
+      decoding="async"
+    />
+  );
 }
 
 /** A token's logo: Nansen's logo URL, else a bundled major-token icon, else a letter badge. */
-export function TokenLogo({ symbol, logo, size = 20, badge = true }: { symbol: string | null | undefined; logo?: string | null; size?: number; /** false: render nothing when there is no real logo (dense chips) */ badge?: boolean }) {
+export function TokenLogo({
+  symbol,
+  logo,
+  size = 20,
+  badge = true,
+}: {
+  symbol: string | null | undefined;
+  logo?: string | null;
+  size?: number;
+  /** false: render nothing when there is no real logo (dense chips) */ badge?: boolean;
+}) {
   const sym = (symbol ?? '').replace(/^\$/, '').toUpperCase();
   const local = TOKENS.has(sym) ? `/logos/tokens/${sym}.svg` : null;
   const remote = logo && /^https:\/\//.test(logo) ? logo : null;
@@ -42,7 +68,16 @@ export function TokenLogo({ symbol, logo, size = 20, badge = true }: { symbol: s
   if (!src) return badge ? <Badge text={sym || '?'} size={size} round /> : null;
   return (
     // eslint-disable-next-line @next/next/no-img-element -- remote logos are Nansen-supplied URLs on arbitrary hosts; no image optimizer proxies them
-    <img src={src} width={size} height={size} alt="" referrerPolicy="no-referrer" loading="lazy" decoding="async"
-      className="shrink-0 rounded-full bg-raised object-cover" onError={() => setFailed((f) => [...f, src])} />
+    <img
+      src={src}
+      width={size}
+      height={size}
+      alt=""
+      referrerPolicy="no-referrer"
+      loading="lazy"
+      decoding="async"
+      className="shrink-0 rounded-full bg-raised object-cover"
+      onError={() => setFailed((f) => [...f, src])}
+    />
   );
 }

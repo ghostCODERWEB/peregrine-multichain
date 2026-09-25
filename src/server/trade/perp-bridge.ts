@@ -22,11 +22,26 @@ const USDC_DECIMALS = 6;
 const QUOTE_TTL = 120_000;
 const quotes = new Map<string, { wallet: string; chain: DepositChain; txs: DepositTx[]; at: number }>();
 
-export async function perpDepositQuote(wallet: string, chain: DepositChain, amount: string): Promise<DepositView & { id: string; chain: DepositChain; expiresInMs: number }> {
+export async function perpDepositQuote(
+  wallet: string,
+  chain: DepositChain,
+  amount: string,
+): Promise<DepositView & { id: string; chain: DepositChain; expiresInMs: number }> {
   const c = DEPOSIT_CHAINS[chain];
   const amountBase = toBaseUnits(amount, USDC_DECIMALS);
   if (!amountBase) throw new Error('Enter a USDC amount above zero.');
-  const r = await callNansen<unknown>('perp/bridge/quote', { wallet_address: wallet, origin_chain: chain, destination_chain: 'hyperliquid', origin_token: c.usdc, destination_token: 'perps', amount: amountBase }, { method: 'POST', skipCache: true, record: false });
+  const r = await callNansen<unknown>(
+    'perp/bridge/quote',
+    {
+      wallet_address: wallet,
+      origin_chain: chain,
+      destination_chain: 'hyperliquid',
+      origin_token: c.usdc,
+      destination_token: 'perps',
+      amount: amountBase,
+    },
+    { method: 'POST', skipCache: true, record: false },
+  );
   const checked = checkDepositQuote(r.data, { wallet, chainId: c.chainId, usdc: c.usdc, amountBase, decimals: USDC_DECIMALS });
   if ('error' in checked) throw new Error(checked.error);
   const now = Date.now();
@@ -47,9 +62,19 @@ export function perpDepositSteps(id: string, wallet: string): { chainId: number;
 
 const HASH = /^0x[0-9a-fA-F]{64}$/;
 export async function perpBridgeStatus(ref: { requestId?: string; txHash?: string }) {
-  const q = ref.requestId && HASH.test(ref.requestId) ? { request_id: ref.requestId } : ref.txHash && HASH.test(ref.txHash) ? { tx_hash: ref.txHash } : null;
+  const q =
+    ref.requestId && HASH.test(ref.requestId)
+      ? { request_id: ref.requestId }
+      : ref.txHash && HASH.test(ref.txHash)
+        ? { tx_hash: ref.txHash }
+        : null;
   if (!q) throw new Error('A bridge status needs the quote’s request id or the deposit’s transaction hash.');
   const r = await callNansen<Row>('perp/bridge/status', q, { method: 'GET', skipCache: true, record: false });
   const list = (v: unknown) => (Array.isArray(v) ? v.filter((x): x is string => typeof x === 'string' && HASH.test(x)) : []);
-  return { status: typeof r.data.status === 'string' ? r.data.status : 'unknown', raw: typeof r.data.raw_status === 'string' ? r.data.raw_status : null, source: list(r.data.source_tx_hashes), destination: list(r.data.destination_tx_hashes) };
+  return {
+    status: typeof r.data.status === 'string' ? r.data.status : 'unknown',
+    raw: typeof r.data.raw_status === 'string' ? r.data.raw_status : null,
+    source: list(r.data.source_tx_hashes),
+    destination: list(r.data.destination_tx_hashes),
+  };
 }

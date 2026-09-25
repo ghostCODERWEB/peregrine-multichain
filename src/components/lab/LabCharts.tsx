@@ -45,7 +45,7 @@ export function CalibrationPlot({ bins }: { bins: CalibrationBin[] }) {
         ))}
       </svg>
       {h && (
-        <div className="pointer-events-none absolute right-2 top-2 rounded-md border border-border bg-raised px-2.5 py-1.5 text-[11.5px] shadow">
+        <div className="pointer-events-none absolute right-2 top-2 material-strong rounded-[12px] px-2.5 py-1.5 text-[11.5px] shadow">
           <div className="num text-ink">predicted {pct(h.meanPredicted, 1)} · observed {pct(h.observedRate, 1)}</div>
           <div className="text-ink-muted">{h.n} tokens in this decile</div>
         </div>

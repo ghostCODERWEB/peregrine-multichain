@@ -20,17 +20,35 @@ const HOST = 'https://api.nansen.ai/api';
  * with a bounded URL, cache, demo replay and ledger; never attach API keys. */
 export async function callNansenPoints(address: string): Promise<{ tier: string; points: number | null }> {
   if (!/^[A-Za-z0-9]{20,100}$/.test(address)) throw new Error('Points require an EVM or Solana wallet address.');
-  const endpoint = 'points/tier', body = { address };
+  const endpoint = 'points/tier',
+    body = { address };
   const cached = readCache<{ tier: string; points?: number | null }>(endpoint, body);
   const tally = callScope.getStore();
   if (tally) tally.calls++;
-  if (cached) { if (tally) tally.cached++; return { points: null, ...cached.value }; }
-  if (fixtureMode() === 'replay') { if (tally) tally.cached++; return { points: null, ...replayFixture<{ tier: string; points?: number | null }>(endpoint, body) }; }
+  if (cached) {
+    if (tally) tally.cached++;
+    return { points: null, ...cached.value };
+  }
+  if (fixtureMode() === 'replay') {
+    if (tally) tally.cached++;
+    return { points: null, ...replayFixture<{ tier: string; points?: number | null }>(endpoint, body) };
+  }
   await getLimiter(plan()).acquire();
-  const response = await fetch(`https://app.nansen.ai/api/points-leaderboard/${encodeURIComponent(address)}`, { signal: AbortSignal.timeout(15_000), cache: 'no-store' });
+  const response = await fetch(`https://app.nansen.ai/api/points-leaderboard/${encodeURIComponent(address)}`, {
+    signal: AbortSignal.timeout(15_000),
+    cache: 'no-store',
+  });
   if (!response.ok) throw new Error(`Nansen rewards lookup returned ${response.status}.`);
   const data: unknown = await response.json();
-  const parsed = z.object({ tier: z.string().transform((s) => s.toLowerCase()).pipe(z.enum(['none', 'green', 'ice', 'north', 'star'])), points: z.number().finite().nonnegative().nullish() }).safeParse(data);
+  const parsed = z
+    .object({
+      tier: z
+        .string()
+        .transform((s) => s.toLowerCase())
+        .pipe(z.enum(['none', 'green', 'ice', 'north', 'star'])),
+      points: z.number().finite().nonnegative().nullish(),
+    })
+    .safeParse(data);
   if (!parsed.success) throw new Error('Nansen rewards response could not be read.');
   const result = { tier: parsed.data.tier, points: parsed.data.points ?? null };
   writeCache(endpoint, body, result);
@@ -39,27 +57,48 @@ export async function callNansenPoints(address: string): Promise<{ tier: string;
   return result;
 }
 
-export interface PointsPage { total: number; rows: Array<{ points: number; rank: number; tier: string; eligible: boolean }> }
+export interface PointsPage {
+  total: number;
+  rows: Array<{ points: number; rank: number; tier: string; eligible: boolean }>;
+}
 export const POINTS_PAGE_SIZE = 1000;
-const S_PointsPage = z.object({ total: z.number().int().nonnegative(), results: z.array(z.object({ points: z.number().finite(), rank: z.number().int().positive(), tier: z.string().max(40), is_eligible: z.boolean() })) });
+const S_PointsPage = z.object({
+  total: z.number().int().nonnegative(),
+  results: z.array(
+    z.object({ points: z.number().finite(), rank: z.number().int().positive(), tier: z.string().max(40), is_eligible: z.boolean() }),
+  ),
+});
 
 /** One page of Nansen's public, keyless points leaderboard. Its offset is
  * page × recordsPerPage, so page 1 starts at rank 1,001 and the top 1,000 can't
  * be read (page 0 is refused). Wallet addresses are dropped before caching. */
 export async function callNansenPointsPage(page: number): Promise<PointsPage> {
   if (!Number.isInteger(page) || page < 1 || page > 10_000) throw new Error('Leaderboard page out of range.');
-  const endpoint = 'points/leaderboard', body = { page, per: POINTS_PAGE_SIZE };
+  const endpoint = 'points/leaderboard',
+    body = { page, per: POINTS_PAGE_SIZE };
   const cached = readCache<PointsPage>(endpoint, body);
   const tally = callScope.getStore();
   if (tally) tally.calls++;
-  if (cached) { if (tally) tally.cached++; return cached.value; }
-  if (fixtureMode() === 'replay') { if (tally) tally.cached++; return replayFixture<PointsPage>(endpoint, body); }
+  if (cached) {
+    if (tally) tally.cached++;
+    return cached.value;
+  }
+  if (fixtureMode() === 'replay') {
+    if (tally) tally.cached++;
+    return replayFixture<PointsPage>(endpoint, body);
+  }
   await getLimiter(plan()).acquire();
-  const response = await fetch(`https://app.nansen.ai/api/points-leaderboard/api?isEligible=all&page=${page}&recordsPerPage=${POINTS_PAGE_SIZE}`, { signal: AbortSignal.timeout(15_000), cache: 'no-store' });
+  const response = await fetch(
+    `https://app.nansen.ai/api/points-leaderboard/api?isEligible=all&page=${page}&recordsPerPage=${POINTS_PAGE_SIZE}`,
+    { signal: AbortSignal.timeout(15_000), cache: 'no-store' },
+  );
   if (!response.ok) throw new Error(`Nansen points leaderboard returned ${response.status}.`);
   const parsed = S_PointsPage.safeParse(await response.json());
   if (!parsed.success) throw new Error('Nansen points leaderboard could not be read.');
-  const result: PointsPage = { total: parsed.data.total, rows: parsed.data.results.map((r) => ({ points: r.points, rank: r.rank, tier: r.tier, eligible: r.is_eligible })) };
+  const result: PointsPage = {
+    total: parsed.data.total,
+    rows: parsed.data.results.map((r) => ({ points: r.points, rank: r.rank, tier: r.tier, eligible: r.is_eligible })),
+  };
   // Not recorded as a fixture: ~130 KB a page, and the demo doesn't need it.
   writeCache(endpoint, body, result);
   recordCall(endpoint, 0, false);
@@ -116,16 +155,14 @@ export const lastKnownCreditsRemaining = () => lastCreditsRemaining;
 
 async function raw<T>(endpoint: string, body: unknown, method: HttpMethod, apiKey: string | undefined): Promise<CallResult<T>> {
   if (!apiKey) {
-    throw new Error(
-      `NANSEN_API_KEY is not set. Set it in .env, or run with DEMO_MODE=1 to replay recorded fixtures instead.`,
-    );
+    throw new Error(`NANSEN_API_KEY is not set. Set it in .env, or run with DEMO_MODE=1 to replay recorded fixtures instead.`);
   }
 
   const hasQuery = method === 'GET' && body && Object.keys(body as object).length > 0;
   const url = hasQuery
     ? `${urlFor(endpoint)}?${new URLSearchParams(
-      Object.entries(body as Record<string, unknown>).map(([k, v]) => [k, String(v)]),
-    ).toString()}`
+        Object.entries(body as Record<string, unknown>).map(([k, v]) => [k, String(v)]),
+      ).toString()}`
     : urlFor(endpoint);
   const sendsBody = method === 'POST' || method === 'PATCH' || (method === 'DELETE' && body && Object.keys(body as object).length > 0);
 
@@ -165,12 +202,23 @@ async function raw<T>(endpoint: string, body: unknown, method: HttpMethod, apiKe
     const creditsCost = Number(res.headers.get('x-nansen-credits-cost') ?? 0);
     const creditsUsedHeader = res.headers.get('x-nansen-credits-used');
     const creditsRemainingHeader = res.headers.get('x-nansen-credits-remaining');
-    if (creditsRemainingHeader) { lastCreditsRemaining = Number(creditsRemainingHeader); try { setKv('credits_remaining', creditsRemainingHeader); } catch { /* db busy: next call will record it */ } }
+    if (creditsRemainingHeader) {
+      lastCreditsRemaining = Number(creditsRemainingHeader);
+      try {
+        setKv('credits_remaining', creditsRemainingHeader);
+      } catch {
+        /* db busy: next call will record it */
+      }
+    }
 
     if (!res.ok) {
       const text = await res.text().catch(() => '');
       let parsed: unknown = text;
-      try { parsed = JSON.parse(text); } catch { /* not json */ }
+      try {
+        parsed = JSON.parse(text);
+      } catch {
+        /* not json */
+      }
       throw new NansenApiError(endpoint, res.status, parsed);
     }
 
@@ -210,7 +258,11 @@ export interface CallOptions {
 /** Per-request tally: run a page's work inside `callScope.run(tally, fn)`
  *  and every Nansen call it makes (cached or not) is counted — how the
  *  token page reports exactly what it cost. */
-export interface CallTally { calls: number; credits: number; cached: number }
+export interface CallTally {
+  calls: number;
+  credits: number;
+  cached: number;
+}
 export const callScope = new AsyncLocalStorage<CallTally>();
 
 /**
@@ -223,7 +275,9 @@ async function currentCaller(): Promise<{ apiKey: string | undefined; userId: nu
     const { contextScope, requestContext } = await import('@/server/context');
     const ctx = contextScope.getStore() ?? (await requestContext());
     if (ctx.mode === 'member' && ctx.apiKey && ctx.user) return { apiKey: ctx.apiKey, userId: ctx.user.id };
-  } catch { /* no request in scope */ }
+  } catch {
+    /* no request in scope */
+  }
   return { apiKey: process.env.NANSEN_API_KEY, userId: null };
 }
 
@@ -238,11 +292,7 @@ function overWebBudget(reserve = 0): boolean {
   return webCreditsToday() + reserve >= webDailyCreditCap();
 }
 
-export async function callNansen<T>(
-  endpoint: string,
-  body: unknown = {},
-  options: CallOptions = {},
-): Promise<CallResult<T>> {
+export async function callNansen<T>(endpoint: string, body: unknown = {}, options: CallOptions = {}): Promise<CallResult<T>> {
   const { method = 'POST', schema, skipCache = false } = options;
   const caller = await currentCaller();
   // A member's calls use their own key, their own cache partition and
@@ -257,7 +307,10 @@ export async function callNansen<T>(
     if (cached) {
       recordCall(endpoint, 0, true, caller.userId);
       const t = callScope.getStore();
-      if (t) { t.calls++; t.cached++; }
+      if (t) {
+        t.calls++;
+        t.cached++;
+      }
       return { data: cached.value, meta: { creditsCost: 0, creditsUsed: null, creditsRemaining: null, cacheHit: true } };
     }
   }
@@ -265,7 +318,10 @@ export async function callNansen<T>(
   if (fixtureMode() === 'replay') {
     const data = replayFixture<T>(endpoint, body);
     const t = callScope.getStore();
-    if (t) { t.calls++; t.cached++; }
+    if (t) {
+      t.calls++;
+      t.cached++;
+    }
     if (schema) schema.parse(data);
     return { data, meta: { creditsCost: 0, creditsUsed: null, creditsRemaining: null, cacheHit: true } };
   }
@@ -277,7 +333,10 @@ export async function callNansen<T>(
     if (stale) {
       recordCall(endpoint, 0, true, null);
       const t = callScope.getStore();
-      if (t) { t.calls++; t.cached++; }
+      if (t) {
+        t.calls++;
+        t.cached++;
+      }
       return { data: stale.value, meta: { creditsCost: 0, creditsUsed: null, creditsRemaining: null, cacheHit: true } };
     }
     throw new DailyBudgetExhausted(webDailyCreditCap());
@@ -297,7 +356,10 @@ export async function callNansen<T>(
   if (record) recordFixture(endpoint, body, result.data, options.publicSafe ?? false);
   recordCall(endpoint, result.meta.creditsCost, false, caller.userId);
   const tally = callScope.getStore();
-  if (tally) { tally.calls++; tally.credits += result.meta.creditsCost; }
+  if (tally) {
+    tally.calls++;
+    tally.credits += result.meta.creditsCost;
+  }
 
   return result;
 }
@@ -331,7 +393,14 @@ export async function* streamNansen(endpoint: string, body: unknown, opts: { rec
   });
   const cost = Number(res.headers.get('x-nansen-credits-cost') ?? 0);
   const remaining = res.headers.get('x-nansen-credits-remaining');
-  if (remaining) { lastCreditsRemaining = Number(remaining); try { setKv('credits_remaining', remaining); } catch { /* next call */ } }
+  if (remaining) {
+    lastCreditsRemaining = Number(remaining);
+    try {
+      setKv('credits_remaining', remaining);
+    } catch {
+      /* next call */
+    }
+  }
   if (!res.ok || !res.body) {
     const text = await res.text().catch(() => '');
     recordError(endpoint, res.status, text, caller.userId);
@@ -339,7 +408,10 @@ export async function* streamNansen(endpoint: string, body: unknown, opts: { rec
   }
   recordCall(endpoint, cost, false, caller.userId);
   const tally = callScope.getStore();
-  if (tally) { tally.calls++; tally.credits += cost; }
+  if (tally) {
+    tally.calls++;
+    tally.credits += cost;
+  }
 
   const seen: AgentStreamEvent[] = [];
   const reader = res.body.getReader();
@@ -358,7 +430,11 @@ export async function* streamNansen(endpoint: string, body: unknown, opts: { rec
         const payload = line.slice(5).trim();
         if (payload === AGENT_STREAM_DONE_SENTINEL) return;
         let json: unknown;
-        try { json = JSON.parse(payload); } catch { continue; }
+        try {
+          json = JSON.parse(payload);
+        } catch {
+          continue;
+        }
         const parsed = AgentStreamEvent.safeParse(json);
         if (!parsed.success) continue; // an event shape the docs don't list: skip, never guess
         seen.push(parsed.data);

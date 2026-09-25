@@ -12,7 +12,7 @@ export function ChainTable({ chains }: { chains: ChainTile[] }) {
   const rows = [...chains].sort((a, b) => (b.cpi ?? -1) - (a.cpi ?? -1));
   const win = (c: ChainTile, w: string) => c.windows.find((x) => x.window === w);
   return (
-    <div className="overflow-x-auto">
+    <div tabIndex={0} role="region" aria-label="Chains table" className="overflow-x-auto">
       <table className="w-full min-w-[720px] text-sm">
         <thead>
           <tr className="border-b border-border text-left text-[11px] uppercase tracking-wider text-ink-muted">

@@ -53,7 +53,7 @@ export function ChainHero({ d, tier, title, note }: { d: ChainPageData; tier: st
   const up = tiles.filter((t) => t.priceChange > 0).length;
   const median = tiles.length ? [...tiles].sort((a, b) => a.priceChange - b.priceChange)[Math.floor(tiles.length / 2)].priceChange : null;
   return (
-    <section aria-labelledby="chain-title" className="glass rise relative overflow-hidden rounded-2xl p-4 sm:p-6">
+    <section aria-labelledby="chain-title" className="material rise relative overflow-hidden p-5 sm:p-7">
       <div className="relative flex flex-col gap-5 lg:flex-row lg:items-start">
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-3">

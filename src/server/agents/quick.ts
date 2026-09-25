@@ -24,30 +24,69 @@ export const quickDailyCap = (): number => {
   return Number.isFinite(n) && n >= 0 ? n : 3;
 };
 
-export interface QuickAnswer { question: string; text: string; toolCalls: string[]; createdAt: number; cached?: boolean }
-export type QuickEvent = { type: 'tool'; name: string } | { type: 'delta'; text: string } | { type: 'done'; answer: QuickAnswer } | { type: 'error'; message: string };
+export interface QuickAnswer {
+  question: string;
+  text: string;
+  toolCalls: string[];
+  createdAt: number;
+  cached?: boolean;
+}
+export type QuickEvent =
+  | { type: 'tool'; name: string }
+  | { type: 'delta'; text: string }
+  | { type: 'done'; answer: QuickAnswer }
+  | { type: 'error'; message: string };
 
-export const quickSubject = (chain: string, token: string, mode: DisplayMode) => `token:${chain}:${token.toLowerCase()}${mode === 'owner' ? '' : ':public'}`;
+export const quickSubject = (chain: string, token: string, mode: DisplayMode) =>
+  `token:${chain}:${token.toLowerCase()}${mode === 'owner' ? '' : ':public'}`;
 /** Case, spacing and trailing punctuation don't make a new question. */
-export const normQuestion = (q: string) => q.toLowerCase().replace(/\s+/g, ' ').replace(/[?!.\s]+$/, '').trim();
+export const normQuestion = (q: string) =>
+  q
+    .toLowerCase()
+    .replace(/\s+/g, ' ')
+    .replace(/[?!.\s]+$/, '')
+    .trim();
 
 /** Public questions actually sent to Nansen since 00:00 UTC (cache hits are free). */
 export function publicQuestionsToday(now = Date.now()): number {
-  return (getDb().prepare('SELECT COUNT(*) AS n FROM quick_answers WHERE public = 1 AND credits > 0 AND created_at >= ?').get(utcDayStart(now)) as { n: number }).n;
+  return (
+    getDb()
+      .prepare('SELECT COUNT(*) AS n FROM quick_answers WHERE public = 1 AND credits > 0 AND created_at >= ?')
+      .get(utcDayStart(now)) as { n: number }
+  ).n;
 }
 
 export function recentAnswers(subject: string, limit = 6): QuickAnswer[] {
-  const rows = getDb().prepare('SELECT question, text, tool_calls, created_at FROM quick_answers WHERE subject = ? ORDER BY id DESC LIMIT ?').all(subject, limit) as Array<{ question: string; text: string; tool_calls: string; created_at: number }>;
-  return rows.reverse().map((r) => ({ question: r.question, text: r.text, toolCalls: JSON.parse(r.tool_calls) as string[], createdAt: r.created_at }));
+  const rows = getDb()
+    .prepare('SELECT question, text, tool_calls, created_at FROM quick_answers WHERE subject = ? ORDER BY id DESC LIMIT ?')
+    .all(subject, limit) as Array<{ question: string; text: string; tool_calls: string; created_at: number }>;
+  return rows
+    .reverse()
+    .map((r) => ({ question: r.question, text: r.text, toolCalls: JSON.parse(r.tool_calls) as string[], createdAt: r.created_at }));
 }
 
-export async function* quickAsk(chain: string, token: string, question: string, mode: DisplayMode, now = Date.now()): AsyncGenerator<QuickEvent> {
+export async function* quickAsk(
+  chain: string,
+  token: string,
+  question: string,
+  mode: DisplayMode,
+  now = Date.now(),
+): AsyncGenerator<QuickEvent> {
   const subject = quickSubject(chain, token, mode);
   const norm = normQuestion(question);
-  const hit = getDb().prepare('SELECT question, text, tool_calls, created_at FROM quick_answers WHERE subject = ? AND question_norm = ? AND created_at >= ? ORDER BY id DESC LIMIT 1')
+  const hit = getDb()
+    .prepare(
+      'SELECT question, text, tool_calls, created_at FROM quick_answers WHERE subject = ? AND question_norm = ? AND created_at >= ? ORDER BY id DESC LIMIT 1',
+    )
     .get(subject, norm, now - QUICK_TTL_MS) as { question: string; text: string; tool_calls: string; created_at: number } | undefined;
   if (hit) {
-    const answer: QuickAnswer = { question: hit.question, text: hit.text, toolCalls: JSON.parse(hit.tool_calls), createdAt: hit.created_at, cached: true };
+    const answer: QuickAnswer = {
+      question: hit.question,
+      text: hit.text,
+      toolCalls: JSON.parse(hit.tool_calls),
+      createdAt: hit.created_at,
+      cached: true,
+    };
     yield { type: 'delta', text: hit.text };
     yield { type: 'done', answer };
     return;
@@ -55,7 +94,10 @@ export async function* quickAsk(chain: string, token: string, question: string, 
   const isPublic = mode !== 'owner';
   const cap = quickDailyCap();
   if (isPublic && publicQuestionsToday(now) >= cap) {
-    yield { type: 'error', message: `Today’s ${cap} public Ask Nansen question${cap === 1 ? '' : 's'} have been used. Answers already given stay here; new questions open again at 00:00 UTC.` };
+    yield {
+      type: 'error',
+      message: `Today’s ${cap} public Ask Nansen question${cap === 1 ? '' : 's'} have been used. Answers already given stay here; new questions open again at 00:00 UTC.`,
+    };
     return;
   }
   const built = tokenPrompt(chain, token);
@@ -73,18 +115,33 @@ export async function* quickAsk(chain: string, token: string, question: string, 
   try {
     for await (const e of streamNansen('agent/fast', { text: prompt }, { record: false })) {
       // Public answers are held until checked; the owner's stream live.
-      if (e.type === 'delta') { text += e.text; if (!isPublic) yield { type: 'delta', text: e.text }; }
-      else if (e.type === 'tool_call') { if (!tools.includes(e.name)) { tools.push(e.name); if (!isPublic) yield { type: 'tool', name: e.name }; } }
-      else if (e.type === 'error') { yield { type: 'error', message: `Nansen agent: ${e.error}` }; return; }
+      if (e.type === 'delta') {
+        text += e.text;
+        if (!isPublic) yield { type: 'delta', text: e.text };
+      } else if (e.type === 'tool_call') {
+        if (!tools.includes(e.name)) {
+          tools.push(e.name);
+          if (!isPublic) yield { type: 'tool', name: e.name };
+        }
+      } else if (e.type === 'error') {
+        yield { type: 'error', message: `Nansen agent: ${e.error}` };
+        return;
+      }
     }
   } catch (err) {
     yield { type: 'error', message: (err as Error).message.slice(0, 300) };
     return;
   }
-  if (!text.trim()) { yield { type: 'error', message: 'Nansen’s agent returned no answer. Try rephrasing.' }; return; }
+  if (!text.trim()) {
+    yield { type: 'error', message: 'Nansen’s agent returned no answer. Try rephrasing.' };
+    return;
+  }
   if (isPublic && tools.length) text = scoresOnly(built.facts);
   if (isPublic) yield { type: 'delta', text };
-  getDb().prepare('INSERT INTO quick_answers (subject, question_norm, question, text, tool_calls, credits, public, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')
+  getDb()
+    .prepare(
+      'INSERT INTO quick_answers (subject, question_norm, question, text, tool_calls, credits, public, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+    )
     .run(subject, norm, question.slice(0, 300), text, JSON.stringify(tools), QUICK_CREDITS, isPublic ? 1 : 0, now);
   yield { type: 'done', answer: { question, text, toolCalls: tools, createdAt: now } };
 }
@@ -94,8 +151,13 @@ export async function* quickAsk(chain: string, token: string, question: string, 
 export function scoresOnly(facts: unknown): string {
   const f = facts as { token?: string | null; storm_score?: number; band?: string; sub_scores_0_to_100?: Record<string, number | null> };
   const name = f.token ?? 'This token';
-  const subs = Object.entries(f.sub_scores_0_to_100 ?? {}).filter(([, v]) => v != null).sort((a, b) => (b[1] as number) - (a[1] as number)).slice(0, 3)
+  const subs = Object.entries(f.sub_scores_0_to_100 ?? {})
+    .filter(([, v]) => v != null)
+    .sort((a, b) => (b[1] as number) - (a[1] as number))
+    .slice(0, 3)
     .map(([k, v]) => `${k.replace(/([A-Z])/g, ' $1').toLowerCase()} ${v}`);
-  const band = f.band ? ({ clear: 'Low', cloudy: 'Moderate', watch: 'High', warning: 'Critical' } as Record<string, string>)[f.band] ?? f.band : null;
+  const band = f.band
+    ? (({ clear: 'Low', cloudy: 'Moderate', watch: 'High', warning: 'Critical' } as Record<string, string>)[f.band] ?? f.band)
+    : null;
   return `Nansen's full answer drew on wallet-level data that its rules keep out of public pages, so here is what Peregrine's own scores say. ${name}'s 7-day Dump Risk is ${f.storm_score ?? 'unscored'}${band ? ` (${band})` : ''}${subs.length ? `, led by ${subs.join(', ')} out of 100` : ''}. Readings, not financial advice.`;
 }

@@ -67,7 +67,7 @@ export default async function CoveragePage() {
 
       <Card id="matrix" title={`What Nansen serves, chain by chain — ${rows.filter((r) => r.supported >= columns.length - 3).length} chains cover almost every endpoint, ${rows.filter((r) => r.supported <= 2).length} only the basics`}
         sub="Rows: chains by tier. Columns: the endpoints Peregrine uses, grouped by API family. Hover a column for what Peregrine uses it for.">
-        <div className="overflow-x-auto pt-6">
+        <div tabIndex={0} role="region" aria-label="Coverage matrix" className="overflow-x-auto pt-6">
           <table className="table-fixed border-separate border-spacing-[3px] text-[11px]">
             <thead>
               <tr>

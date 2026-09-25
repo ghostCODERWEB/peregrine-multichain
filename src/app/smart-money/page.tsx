@@ -20,15 +20,27 @@ export default async function SmartMoneyPage() {
   if (mode === 'public') {
     return (
       <div className="space-y-4">
-        <section aria-labelledby="sm-title" className="glass rise rounded-2xl p-4 sm:p-6">
-          <h1 id="sm-title" className="text-lg font-semibold text-ink sm:text-xl">The smart-money desk is private</h1>
+        <section aria-labelledby="sm-title" className="material rise p-5 sm:p-6">
+          <h1 id="sm-title" className="text-lg font-semibold text-ink sm:text-xl">
+            The smart-money desk is private
+          </h1>
           <p className="mt-2 max-w-[68ch] text-[13px] text-ink-2">
-          Nansen smart-money holdings, PnL leaderboard, perp trades and DCAs. Nansen&apos;s redistribution rules keep these out of public views: shown only to this instance&apos;s owner{accountsEnabled() ? <>, or to you with your own Nansen key</> : null}.
-        </p>
-          {accountsEnabled() && <Link href="/account" className="mt-4 inline-flex rounded bg-brand/15 px-3.5 py-1.5 text-[13px] text-ink ring-1 ring-brand/40 hover:bg-brand/25">Sign in with your Nansen key</Link>}
+            Nansen smart-money holdings, PnL leaderboard, perp trades and DCAs. Nansen&apos;s redistribution rules keep these out of public
+            views: shown only to this instance&apos;s owner{accountsEnabled() ? <>, or to you with your own Nansen key</> : null}.
+          </p>
+          {accountsEnabled() && (
+            <Link
+              href="/account"
+              className="mt-4 inline-flex rounded bg-brand/15 px-3.5 py-1.5 text-[13px] text-ink ring-1 ring-brand/40 hover:bg-brand/25"
+            >
+              Sign in with your Nansen key
+            </Link>
+          )}
         </section>
-        <section aria-labelledby="sm-what" className="glass rise rounded-2xl p-4 sm:p-6">
-          <h2 id="sm-what" className="text-[15px] font-semibold text-ink">What the desk shows</h2>
+        <section aria-labelledby="sm-what" className="material rise p-5 sm:p-6">
+          <h2 id="sm-what" className="text-[15px] font-semibold text-ink">
+            What the desk shows
+          </h2>
           <dl className="mt-3 grid gap-3 sm:grid-cols-2">
             {PANELS.map(([k, v]) => (
               <div key={k} className="rounded-xl border border-border/70 bg-raised/50 p-3">

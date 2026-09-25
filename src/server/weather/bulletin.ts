@@ -2,16 +2,33 @@
 // forecast strip, each with its ⓘ provenance. The home page renders it
 // server-side; /api/weather serves the same object as JSON for polling and
 // for other agents.
-import { weatherMap, rotationFronts, pressureForecast, scanStatus, stormTicker, type PressureView, type ChainWeather, type Front, type PressureForecast, type StormTick } from './queries';
+import {
+  weatherMap,
+  rotationFronts,
+  pressureForecast,
+  scanStatus,
+  stormTicker,
+  type PressureView,
+  type ChainWeather,
+  type Front,
+  type PressureForecast,
+  type StormTick,
+} from './queries';
 import { getDb } from '@/server/nansen/db';
 import { cpiProvenance, frontProvenance, forecastProvenance } from './provenance';
 import type { Provenance } from '@/lib/provenance';
 import { weatherLayers, type WeatherLayer } from './layers';
 import { inferredWeather } from './inferred';
 
-export interface ChainTile extends ChainWeather { provenance: Provenance | null }
-export interface FrontWithProvenance extends Front { provenance: Provenance }
-export interface ForecastWithProvenance extends PressureForecast { provenance: Provenance }
+export interface ChainTile extends ChainWeather {
+  provenance: Provenance | null;
+}
+export interface FrontWithProvenance extends Front {
+  provenance: Provenance;
+}
+export interface ForecastWithProvenance extends PressureForecast {
+  provenance: Provenance;
+}
 
 export interface WeatherBulletin {
   generatedAt: number;
@@ -44,7 +61,18 @@ export function buildBulletin(mode: PressureView = 'private', now = Date.now()):
       const f = pressureForecast(c.chain, 24, now, mode);
       return { ...f, provenance: forecastProvenance(f) };
     });
-  return { generatedAt: now, inference: inferredWeather(mode, now), layers: weatherLayers(mode, now), chains, fronts, forecasts, storms: stormTicker(12, now), mode, withheld: mode === 'public' ? ['fronts'] : [], scan: scanStatus() };
+  return {
+    generatedAt: now,
+    inference: inferredWeather(mode, now),
+    layers: weatherLayers(mode, now),
+    chains,
+    fronts,
+    forecasts,
+    storms: stormTicker(12, now),
+    mode,
+    withheld: mode === 'public' ? ['fronts'] : [],
+    scan: scanStatus(),
+  };
 }
 
 /** Capital-flow windows the Radar offers. */
@@ -57,15 +85,32 @@ export type FlowWindow = (typeof FLOW_WINDOWS)[number];
  * owner's (private) view gets them — every other view gets null, never a
  * partial or aggregated version (Nansen's redistribution rules).
  */
-export function capitalFlows(mode: PressureView, hours: number, now = Date.now()): { hours: FlowWindow; fronts: FrontWithProvenance[] } | null {
+export function capitalFlows(
+  mode: PressureView,
+  hours: number,
+  now = Date.now(),
+): { hours: FlowWindow; fronts: FrontWithProvenance[] } | null {
   if (mode !== 'private') return null;
   const h = (FLOW_WINDOWS as readonly number[]).includes(hours) ? (hours as FlowWindow) : 24;
   return { hours: h, fronts: rotationFronts(h, now).map((f) => ({ ...f, provenance: frontProvenance(f, h) })) };
 }
 
 /** `recorded`: false for days before the scanner's first stored trade — unknown, not quiet. */
-export interface FlowDay { day: string; start: number; netUsd: number; flows: number; recorded: boolean; top: { from: string; to: string; netUsd: number } | null }
-export interface FlowChainRow { chain: string; inUsd: number; outUsd: number; net: number; flows: number }
+export interface FlowDay {
+  day: string;
+  start: number;
+  netUsd: number;
+  flows: number;
+  recorded: boolean;
+  top: { from: string; to: string; netUsd: number } | null;
+}
+export interface FlowChainRow {
+  chain: string;
+  inUsd: number;
+  outUsd: number;
+  net: number;
+  flows: number;
+}
 
 /**
  * P4: the Flows page. Rotation history day by day (each UTC day's own
@@ -79,16 +124,30 @@ export function flowHistory(mode: PressureView, days = 7, now = Date.now()): { d
   const first = (getDb().prepare('SELECT MIN(traded_at) AS t FROM smart_money_trades').get() as { t: number | null }).t;
   const out: FlowDay[] = [];
   for (let k = days - 1; k >= 0; k--) {
-    const start = todayStart - k * DAY, end = Math.min(now, start + DAY);
+    const start = todayStart - k * DAY,
+      end = Math.min(now, start + DAY);
     const f = rotationFronts((end - start) / 3_600_000, end);
-    out.push({ day: new Date(start).toISOString().slice(0, 10), start, netUsd: f.reduce((s, x) => s + x.netUsd, 0), flows: f.length, recorded: first != null && first < end, top: f[0] ? { from: f[0].from, to: f[0].to, netUsd: f[0].netUsd } : null });
+    out.push({
+      day: new Date(start).toISOString().slice(0, 10),
+      start,
+      netUsd: f.reduce((s, x) => s + x.netUsd, 0),
+      flows: f.length,
+      recorded: first != null && first < end,
+      top: f[0] ? { from: f[0].from, to: f[0].to, netUsd: f[0].netUsd } : null,
+    });
   }
   const week = rotationFronts(days * 24, now);
   const chains = new Map<string, FlowChainRow>();
   const row = (c: string) => chains.get(c) ?? { chain: c, inUsd: 0, outUsd: 0, net: 0, flows: 0 };
   for (const f of week) {
-    const a = row(f.from); a.outUsd += f.netUsd; a.flows++; chains.set(f.from, a);
-    const b = row(f.to); b.inUsd += f.netUsd; b.flows++; chains.set(f.to, b);
+    const a = row(f.from);
+    a.outUsd += f.netUsd;
+    a.flows++;
+    chains.set(f.from, a);
+    const b = row(f.to);
+    b.inUsd += f.netUsd;
+    b.flows++;
+    chains.set(f.to, b);
   }
   const list = [...chains.values()].map((r) => ({ ...r, net: r.inUsd - r.outUsd })).sort((x, y) => y.net - x.net);
   return { days: out, chains: list };

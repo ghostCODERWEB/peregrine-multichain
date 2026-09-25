@@ -105,7 +105,7 @@ export function HolderSphere({ holders, forensics, river }: { holders: HolderRow
         })}
       </svg>
       {hovered && (
-        <div className="glass pointer-events-none absolute left-3 top-3 max-w-[260px] rounded-xl p-2.5 text-[12px]">
+        <div className="material-strong pointer-events-none absolute left-3 top-3 max-w-[260px] rounded-xl p-2.5 text-[12px]">
           <div className="font-medium text-ink">{walletName(hovered.holder.label, hovered.holder.address)}</div>
           <div className="num text-ink-2">{pct(hovered.holder.share, 2)} of supply{hovered.holder.valueUsd != null ? ` · ${usd(hovered.holder.valueUsd)}` : ''}</div>
           <div className="text-ink-muted">

@@ -30,13 +30,20 @@ export type AnchorEvent =
   | { type: 'error'; message: string };
 
 export function latestReport(subject: string): AnchorReport | null {
-  const r = getDb().prepare('SELECT subject, text, tool_calls, credits, created_at FROM anchor_reports WHERE subject = ? ORDER BY id DESC LIMIT 1')
+  const r = getDb()
+    .prepare('SELECT subject, text, tool_calls, credits, created_at FROM anchor_reports WHERE subject = ? ORDER BY id DESC LIMIT 1')
     .get(subject) as { subject: string; text: string; tool_calls: string; credits: number; created_at: number } | undefined;
-  return r ? { subject: r.subject, text: r.text, toolCalls: JSON.parse(r.tool_calls) as string[], credits: r.credits, createdAt: r.created_at } : null;
+  return r
+    ? { subject: r.subject, text: r.text, toolCalls: JSON.parse(r.tool_calls) as string[], credits: r.credits, createdAt: r.created_at }
+    : null;
 }
 
 export function callsThisHour(now = Date.now()): number {
-  return (getDb().prepare('SELECT COUNT(*) AS n FROM anchor_reports WHERE created_at >= ? AND credits > 0').get(now - 3_600_000) as { n: number }).n;
+  return (
+    getDb()
+      .prepare('SELECT COUNT(*) AS n FROM anchor_reports WHERE created_at >= ? AND credits > 0')
+      .get(now - 3_600_000) as { n: number }
+  ).n;
 }
 
 export const RULES = [
@@ -51,21 +58,68 @@ function bulletinPrompt(mode: DisplayMode): { prompt: string; facts: unknown } {
   // Public reports are built from public-view numbers only (all-trader
   // pressure, no fronts), so the text itself is redistributable.
   const b = buildBulletin(viewOf(mode));
-  const chains = b.chains.filter((c) => c.cpi != null)
-    .sort((a, c) => Math.abs(c.cpi! - 50) - Math.abs(a.cpi! - 50)).slice(0, 6)
-    .map((c) => ({ chain: chainName(c.chain), index_type: c.chain === 'hyperliquid' ? 'Perp Flow Index' : 'Flow Index', pressure_index: Math.round(c.cpi!), measured_from: c.source, change_6h: c.trend6h == null ? null : Math.round(c.trend6h) }));
-  const fronts = b.fronts.slice(0, 3).map((f) => ({ from: chainName(f.from), to: chainName(f.to), net_usd: Math.round(f.netUsd), wallets: f.walletCount }));
-  const storms = b.storms.slice(0, 3).map((s) => ({ token: s.symbol, chain: chainName(s.chain), storm_score: Math.round(s.score), band: s.band, confidence: Number(s.confidence.toFixed(2)) }));
-  const forecasts = b.forecasts.filter((f) => f.points.length).slice(0, 3)
-    .map((f) => ({ chain: chainName(f.chain), now: Math.round(f.history.at(-1)!.cpi), in_24h: Math.round(f.points.at(-1)!.forecast), mape_pct: f.mape == null ? null : Number(f.mape.toFixed(1)) }));
+  const chains = b.chains
+    .filter((c) => c.cpi != null)
+    .sort((a, c) => Math.abs(c.cpi! - 50) - Math.abs(a.cpi! - 50))
+    .slice(0, 6)
+    .map((c) => ({
+      chain: chainName(c.chain),
+      index_type: c.chain === 'hyperliquid' ? 'Perp Flow Index' : 'Flow Index',
+      pressure_index: Math.round(c.cpi!),
+      measured_from: c.source,
+      change_6h: c.trend6h == null ? null : Math.round(c.trend6h),
+    }));
+  const fronts = b.fronts
+    .slice(0, 3)
+    .map((f) => ({ from: chainName(f.from), to: chainName(f.to), net_usd: Math.round(f.netUsd), wallets: f.walletCount }));
+  const storms = b.storms
+    .slice(0, 3)
+    .map((s) => ({
+      token: s.symbol,
+      chain: chainName(s.chain),
+      storm_score: Math.round(s.score),
+      band: s.band,
+      confidence: Number(s.confidence.toFixed(2)),
+    }));
+  const forecasts = b.forecasts
+    .filter((f) => f.points.length)
+    .slice(0, 3)
+    .map((f) => ({
+      chain: chainName(f.chain),
+      now: Math.round(f.history.at(-1)!.cpi),
+      in_24h: Math.round(f.points.at(-1)!.forecast),
+      mape_pct: f.mape == null ? null : Number(f.mape.toFixed(1)),
+    }));
   const facts = {
-    scale: mode === 'owner'
-      ? 'Flow Index 0-100: smart-money flow normalized against history or peers. Above 65 = accumulation, below 35 = distribution, 50 = neutral. A high score does not necessarily mean positive net flow. Hyperliquid is the Perp Flow Index (perp positioning), not spot Flow Index.'
-      : 'Flow Index 0-100: all-trader DEX flow normalized against history or peers. Above 65 = accumulation, below 35 = distribution, 50 = neutral. A high score does not necessarily mean positive net flow. Hyperliquid is the Perp Flow Index (perp positioning), not spot Flow Index.',
-    pressure_extremes: chains, rotation_fronts_24h: fronts, storm_warnings: storms, forecasts_24h: forecasts,
-    inferred_rotation_candidates: b.inference?.fronts.slice(0, 3).map((f) => ({ from: f.from, to: f.to, candidate_notional_usd: f.netUsd, independent_groups: f.walletCount, status: 'INFERRED: direct funding plus trade timing; NOT established ownership or a measured bridge transfer' })) ?? [],
-    cross_module_layers: b.layers?.map((l) => ({ layer: l.title, definition: l.description, observed_at: l.at, recorded_demo: l.recorded, value_unit: l.metric, unavailable: l.unavailable, readings: l.readings.slice(0, 5) })),
-    cross_layer_caveat: 'Layer populations and units differ. Prediction activity is volume heat, never directional net flow or a YES probability. Missing observations are unknown, not zero. Cite observation age; never describe recorded or stale observations as live.',
+    scale:
+      mode === 'owner'
+        ? 'Flow Index 0-100: smart-money flow normalized against history or peers. Above 65 = accumulation, below 35 = distribution, 50 = neutral. A high score does not necessarily mean positive net flow. Hyperliquid is the Perp Flow Index (perp positioning), not spot Flow Index.'
+        : 'Flow Index 0-100: all-trader DEX flow normalized against history or peers. Above 65 = accumulation, below 35 = distribution, 50 = neutral. A high score does not necessarily mean positive net flow. Hyperliquid is the Perp Flow Index (perp positioning), not spot Flow Index.',
+    pressure_extremes: chains,
+    rotation_fronts_24h: fronts,
+    storm_warnings: storms,
+    forecasts_24h: forecasts,
+    inferred_rotation_candidates:
+      b.inference?.fronts
+        .slice(0, 3)
+        .map((f) => ({
+          from: f.from,
+          to: f.to,
+          candidate_notional_usd: f.netUsd,
+          independent_groups: f.walletCount,
+          status: 'INFERRED: direct funding plus trade timing; NOT established ownership or a measured bridge transfer',
+        })) ?? [],
+    cross_module_layers: b.layers?.map((l) => ({
+      layer: l.title,
+      definition: l.description,
+      observed_at: l.at,
+      recorded_demo: l.recorded,
+      value_unit: l.metric,
+      unavailable: l.unavailable,
+      readings: l.readings.slice(0, 5),
+    })),
+    cross_layer_caveat:
+      'Layer populations and units differ. Prediction activity is volume heat, never directional net flow or a YES probability. Missing observations are unknown, not zero. Cite observation age; never describe recorded or stale observations as live.',
   };
   return {
     facts,
@@ -74,19 +128,39 @@ function bulletinPrompt(mode: DisplayMode): { prompt: string; facts: unknown } {
 }
 
 export function tokenPrompt(chain: string, token: string): { prompt: string; facts: unknown } | null {
-  const r = getDb().prepare(`
+  const r = getDb()
+    .prepare(
+      `
     SELECT symbol, score, band, confidence, sub_scores, missing, market_cap_usd, computed_at FROM storm_scores
     WHERE chain = ? AND token_address = ? ORDER BY id DESC LIMIT 1
-  `).get(chain, token.toLowerCase()) as { symbol: string | null; score: number; band: string; confidence: number; sub_scores: string; missing: string; market_cap_usd: number | null; computed_at: number } | undefined;
+  `,
+    )
+    .get(chain, token.toLowerCase()) as
+    | {
+        symbol: string | null;
+        score: number;
+        band: string;
+        confidence: number;
+        sub_scores: string;
+        missing: string;
+        market_cap_usd: number | null;
+        computed_at: number;
+      }
+    | undefined;
   if (!r) return null;
   const sub = JSON.parse(r.sub_scores) as Record<string, number | null>;
   const facts = {
-    token: r.symbol, chain: chainName(chain), token_address: token,
-    storm_score: Math.round(r.score), band: r.band, confidence: Number(r.confidence.toFixed(2)),
+    token: r.symbol,
+    chain: chainName(chain),
+    token_address: token,
+    storm_score: Math.round(r.score),
+    band: r.band,
+    confidence: Number(r.confidence.toFixed(2)),
     sub_scores_0_to_100: Object.fromEntries(Object.entries(sub).map(([k, v]) => [k, v == null ? null : Math.round(v)])),
     missing_inputs: JSON.parse(r.missing) as string[],
     market_cap_usd: r.market_cap_usd == null ? null : Math.round(r.market_cap_usd),
-    scale: 'Dump Risk = 7-day dump risk 0-100: <25 Low, <50 Moderate, <75 High, else Critical. Sub-scores: concentration of holders, insider clusters, cohort shear (informed selling into fresh buying), exit liquidity, sell pressure, Nansen risk indicators.',
+    scale:
+      'Dump Risk = 7-day dump risk 0-100: <25 Low, <50 Moderate, <75 High, else Critical. Sub-scores: concentration of holders, insider clusters, cohort shear (informed selling into fresh buying), exit liquidity, sell pressure, Nansen risk indicators.',
   };
   return {
     facts,
@@ -105,7 +179,12 @@ export function subjectKey(kind: 'bulletin' | 'token', mode: DisplayMode, chain?
  * Streams a report: the cached one if it's under an hour old (no credits),
  * otherwise a fresh agent/fast run — unless this hour's cap is spent.
  */
-export async function* anchorStream(kind: 'bulletin' | 'token', mode: DisplayMode, chain?: string, token?: string): AsyncGenerator<AnchorEvent> {
+export async function* anchorStream(
+  kind: 'bulletin' | 'token',
+  mode: DisplayMode,
+  chain?: string,
+  token?: string,
+): AsyncGenerator<AnchorEvent> {
   const subject = subjectKey(kind, mode, chain, token);
   const cached = latestReport(subject);
   if (cached && Date.now() - cached.createdAt < ANCHOR_TTL_MS) {
@@ -116,7 +195,10 @@ export async function* anchorStream(kind: 'bulletin' | 'token', mode: DisplayMod
   }
   const max = anchorMaxPerHour();
   if (callsThisHour() >= max) {
-    yield { type: 'error', message: `The AI Analyst has used its ${max} Nansen agent calls for this hour (ANCHOR_MAX_PER_HOUR). ${cached ? 'The last report is shown instead.' : 'Try again later.'}` };
+    yield {
+      type: 'error',
+      message: `The AI Analyst has used its ${max} Nansen agent calls for this hour (ANCHOR_MAX_PER_HOUR). ${cached ? 'The last report is shown instead.' : 'Try again later.'}`,
+    };
     if (cached) yield { type: 'done', report: cached, cached: true };
     return;
   }
@@ -132,18 +214,36 @@ export async function* anchorStream(kind: 'bulletin' | 'token', mode: DisplayMod
   try {
     // Only public-view reports may become (published) demo fixtures.
     for await (const e of streamNansen('agent/fast', { text: built.prompt }, { record: mode === 'public' })) {
-      if (e.type === 'delta') { text += e.text; yield { type: 'delta', text: e.text }; }
-      else if (e.type === 'tool_call') { if (!tools.includes(e.name)) { tools.push(e.name); yield { type: 'tool', name: e.name }; } }
-      else if (e.type === 'finish') conversation = e.conversation_id;
-      else if (e.type === 'error') { yield { type: 'error', message: `Nansen agent: ${e.error}` }; break; }
+      if (e.type === 'delta') {
+        text += e.text;
+        yield { type: 'delta', text: e.text };
+      } else if (e.type === 'tool_call') {
+        if (!tools.includes(e.name)) {
+          tools.push(e.name);
+          yield { type: 'tool', name: e.name };
+        }
+      } else if (e.type === 'finish') conversation = e.conversation_id;
+      else if (e.type === 'error') {
+        yield { type: 'error', message: `Nansen agent: ${e.error}` };
+        break;
+      }
     }
   } catch (err) {
     yield { type: 'error', message: `Nansen agent call failed: ${(err as Error).message.slice(0, 160)}` };
   }
   if (!text.trim()) return;
   // A DEMO_MODE replay spends nothing, so it doesn't count toward the cap.
-  const report: AnchorReport = { subject, text: plainAnchorText(text).trim(), toolCalls: tools, credits: fixtureMode() === 'replay' ? 0 : 200, createdAt: Date.now() };
-  getDb().prepare('INSERT INTO anchor_reports (subject, prompt, text, tool_calls, conversation_id, credits, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)')
+  const report: AnchorReport = {
+    subject,
+    text: plainAnchorText(text).trim(),
+    toolCalls: tools,
+    credits: fixtureMode() === 'replay' ? 0 : 200,
+    createdAt: Date.now(),
+  };
+  getDb()
+    .prepare(
+      'INSERT INTO anchor_reports (subject, prompt, text, tool_calls, conversation_id, credits, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)',
+    )
     .run(subject, built.prompt, report.text, JSON.stringify(tools), conversation, report.credits, report.createdAt);
   yield { type: 'done', report, cached: false };
 }

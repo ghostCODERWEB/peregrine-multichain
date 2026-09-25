@@ -9,7 +9,15 @@ import { contextFromRequest, contextScope, type RequestContext } from '@/server/
 import { TEMPLATES, planTemplate, createDraft, updateAlert, channelOf, builderContext, type ChannelInput } from '@/server/agents/builder';
 import { allow, clientId } from '@/server/rate';
 import { audit } from '@/server/nansen/db';
-import { planStormAlerts, createAlerts, listTideAlerts, toggleAlert, deleteAlert, toChannel, type ChannelInput as StormChannelInput } from '@/server/agents/alerts';
+import {
+  planStormAlerts,
+  createAlerts,
+  listTideAlerts,
+  toggleAlert,
+  deleteAlert,
+  toChannel,
+  type ChannelInput as StormChannelInput,
+} from '@/server/agents/alerts';
 
 export const dynamic = 'force-dynamic';
 
@@ -22,8 +30,10 @@ function sameOrigin(req: Request): boolean {
 
 const fail = (message: string, status = 400) => Response.json({ error: message }, { status });
 
-const DEMO_NOTE = 'Smart Alerts live on a Nansen account, so DEMO_MODE can\u2019t list or create them. Run with a NANSEN_API_KEY to use risk alerts.';
-const PUBLIC_NOTE = 'Smart Alerts live on a Nansen account: they are managed by this instance\u2019s owner, or by you once you sign in with your own Nansen key.';
+const DEMO_NOTE =
+  'Smart Alerts live on a Nansen account, so DEMO_MODE can\u2019t list or create them. Run with a NANSEN_API_KEY to use risk alerts.';
+const PUBLIC_NOTE =
+  'Smart Alerts live on a Nansen account: they are managed by this instance\u2019s owner, or by you once you sign in with your own Nansen key.';
 
 /** Alerts act on a Nansen account: the key owner's, or a signed-in member's
  *  own. Public visitors can't list, create, toggle or delete anything. */
@@ -37,7 +47,10 @@ export async function GET(req: Request) {
   const ctx = account(req);
   if (!ctx) return Response.json({ alerts: [], note: PUBLIC_NOTE }, { status: 403 });
   try {
-    return Response.json({ alerts: await contextScope.run(ctx, () => listTideAlerts()), builder: builderContext(ctx) }, { headers: { 'Cache-Control': 'private, no-store' } });
+    return Response.json(
+      { alerts: await contextScope.run(ctx, () => listTideAlerts()), builder: builderContext(ctx) },
+      { headers: { 'Cache-Control': 'private, no-store' } },
+    );
   } catch (e) {
     return fail((e as Error).message.slice(0, 200), 502);
   }
@@ -50,13 +63,27 @@ export async function POST(req: Request) {
   if (new URL(req.url).searchParams.get('update') === '1') return updateFromRequest(req);
   const ctx = account(req);
   let body: { chain?: string; address?: string; clusterWallets?: string[]; channel?: StormChannelInput; dryRun?: boolean };
-  try { body = await req.json(); } catch { return fail('Expected JSON.'); }
+  try {
+    body = await req.json();
+  } catch {
+    return fail('Expected JSON.');
+  }
   const { chain, address } = body;
-  if (!chain || !ALL_CHAIN_IDS.includes(chain) || !address || !/^[A-Za-z0-9:._-]{20,160}$/.test(address)) return fail('Unknown chain or token.');
+  if (!chain || !ALL_CHAIN_IDS.includes(chain) || !address || !/^[A-Za-z0-9:._-]{20,160}$/.test(address))
+    return fail('Unknown chain or token.');
   try {
     const channel = body.channel ? toChannel(body.channel) : toChannel({ type: 'telegram', chatId: '0000' });
     const plan = planStormAlerts(chain, address, Array.isArray(body.clusterWallets) ? body.clusterWallets.map(String) : [], channel);
-    const summary = { symbol: plan.symbol, storm: plan.storm, band: plan.band, outflowThresholdUsd: plan.outflowThresholdUsd, insiderThresholdUsd: plan.insiderThresholdUsd, insiderWallets: plan.insiderWallets, alerts: plan.requests.length, provenance: plan.provenance };
+    const summary = {
+      symbol: plan.symbol,
+      storm: plan.storm,
+      band: plan.band,
+      outflowThresholdUsd: plan.outflowThresholdUsd,
+      insiderThresholdUsd: plan.insiderThresholdUsd,
+      insiderWallets: plan.insiderWallets,
+      alerts: plan.requests.length,
+      provenance: plan.provenance,
+    };
     if (body.dryRun || !body.channel) return Response.json({ plan: summary, created: 0 });
     if (fixtureMode() === 'replay') return fail(DEMO_NOTE);
     if (!ctx) return fail(PUBLIC_NOTE, 403);
@@ -73,7 +100,12 @@ export async function PATCH(req: Request) {
   if (!ctx) return fail(PUBLIC_NOTE, 403);
   const b = (await req.json().catch(() => ({}))) as { id?: string; isEnabled?: boolean };
   if (!b.id || typeof b.isEnabled !== 'boolean') return fail('Need id and isEnabled.');
-  try { await contextScope.run(ctx, () => toggleAlert(b.id!, b.isEnabled!)); return Response.json({ ok: true }); } catch (e) { return fail((e as Error).message.slice(0, 200)); }
+  try {
+    await contextScope.run(ctx, () => toggleAlert(b.id!, b.isEnabled!));
+    return Response.json({ ok: true });
+  } catch (e) {
+    return fail((e as Error).message.slice(0, 200));
+  }
 }
 
 export async function DELETE(req: Request) {
@@ -82,7 +114,12 @@ export async function DELETE(req: Request) {
   if (!ctx) return fail(PUBLIC_NOTE, 403);
   const id = new URL(req.url).searchParams.get('id');
   if (!id) return fail('Need id.');
-  try { await contextScope.run(ctx, () => deleteAlert(id)); return Response.json({ ok: true }); } catch (e) { return fail((e as Error).message.slice(0, 200)); }
+  try {
+    await contextScope.run(ctx, () => deleteAlert(id));
+    return Response.json({ ok: true });
+  } catch (e) {
+    return fail((e as Error).message.slice(0, 200));
+  }
 }
 
 // ------------------------------------------------------------- builder (M7)
@@ -90,14 +127,32 @@ export async function DELETE(req: Request) {
 const TemplateBody = z.object({
   template: z.enum(TEMPLATES),
   input: z.object({
-    chain: z.string().max(20).optional(), token: z.string().max(160).optional(), front: z.number().int().min(0).max(20).optional(),
-    minUsd: z.number().positive().max(1e9).optional(), addresses: z.array(z.string().max(120)).max(20).optional(), window: z.string().max(10).optional(),
+    chain: z.string().max(20).optional(),
+    token: z.string().max(160).optional(),
+    front: z.number().int().min(0).max(20).optional(),
+    minUsd: z.number().positive().max(1e9).optional(),
+    addresses: z.array(z.string().max(120)).max(20).optional(),
+    window: z.string().max(10).optional(),
   }),
-  channel: z.object({ type: z.enum(['telegram', 'discord', 'slack', 'webhook']), chatId: z.string().max(40).optional(), webhookUrl: z.string().max(400).optional(), secret: z.string().max(512).optional() }).optional(),
+  channel: z
+    .object({
+      type: z.enum(['telegram', 'discord', 'slack', 'webhook']),
+      chatId: z.string().max(40).optional(),
+      webhookUrl: z.string().max(400).optional(),
+      secret: z.string().max(512).optional(),
+    })
+    .optional(),
   dryRun: z.boolean().optional(),
 });
 
-const channelFrom = (c: z.infer<typeof TemplateBody>['channel']) => (c ? channelOf(c.type === 'telegram' ? { type: 'telegram', chatId: c.chatId ?? '' } : { type: c.type, webhookUrl: c.webhookUrl ?? '', secret: c.secret } as ChannelInput) : channelOf({ type: 'telegram', chatId: '0000' }));
+const channelFrom = (c: z.infer<typeof TemplateBody>['channel']) =>
+  c
+    ? channelOf(
+        c.type === 'telegram'
+          ? { type: 'telegram', chatId: c.chatId ?? '' }
+          : ({ type: c.type, webhookUrl: c.webhookUrl ?? '', secret: c.secret } as ChannelInput),
+      )
+    : channelOf({ type: 'telegram', chatId: '0000' });
 
 /** PUT: plan a template alert (dryRun) or create it. Account features only. */
 export async function PUT(req: Request) {
@@ -109,19 +164,30 @@ export async function PUT(req: Request) {
   const b = parsed.data;
   try {
     const d = planTemplate(ctx, b.template, b.input, channelFrom(b.channel));
-    const preview = { name: d.request.name, type: d.request.type, timeWindow: d.request.timeWindow, summary: d.summary, provenance: d.provenance };
+    const preview = {
+      name: d.request.name,
+      type: d.request.type,
+      timeWindow: d.request.timeWindow,
+      summary: d.summary,
+      provenance: d.provenance,
+    };
     if (b.dryRun || !b.channel) return Response.json({ draft: preview, created: false });
     if (fixtureMode() === 'replay') return fail(DEMO_NOTE);
-    if (!allow('alert-create', ctx.user ? `u${ctx.user.id}` : clientId(req), 5)) return fail('Please wait a minute before creating another alert.', 429);
+    if (!allow('alert-create', ctx.user ? `u${ctx.user.id}` : clientId(req), 5))
+      return fail('Please wait a minute before creating another alert.', 429);
     await contextScope.run(ctx, () => createDraft(d));
     audit(ctx.user?.id ?? null, 'alert.create', `${b.template}: ${d.request.name}`);
     return Response.json({ draft: preview, created: true });
-  } catch (e) { return fail((e as Error).message.slice(0, 240)); }
+  } catch (e) {
+    return fail((e as Error).message.slice(0, 240));
+  }
 }
 
 const UpdateBody = z.object({
   id: z.string().min(1).max(80),
-  name: z.string().max(80).optional(), timeWindow: z.string().max(10).optional(), description: z.string().max(300).optional(),
+  name: z.string().max(80).optional(),
+  timeWindow: z.string().max(10).optional(),
+  description: z.string().max(300).optional(),
   channel: TemplateBody.shape.channel,
 });
 
@@ -133,8 +199,17 @@ async function updateFromRequest(req: Request): Promise<Response> {
   if (!parsed.success) return fail('Nothing to update.');
   const b = parsed.data;
   try {
-    await contextScope.run(ctx, () => updateAlert(b.id, { name: b.name, timeWindow: b.timeWindow, description: b.description, channel: b.channel ? channelFrom(b.channel) : undefined }));
+    await contextScope.run(ctx, () =>
+      updateAlert(b.id, {
+        name: b.name,
+        timeWindow: b.timeWindow,
+        description: b.description,
+        channel: b.channel ? channelFrom(b.channel) : undefined,
+      }),
+    );
     audit(ctx.user?.id ?? null, 'alert.update', b.id);
     return Response.json({ ok: true });
-  } catch (e) { return fail((e as Error).message.slice(0, 200)); }
+  } catch (e) {
+    return fail((e as Error).message.slice(0, 200));
+  }
 }

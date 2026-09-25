@@ -42,7 +42,7 @@ export function ChainView({ d, gaps }: { d: ChainPageData; gaps: ModuleGaps }) {
       </>} />
 
       {d.chain === 'hyperliquid' && (
-        <p className="glass rounded-2xl px-4 py-3 text-[13px] text-ink-2">
+        <p className="material px-5 py-4 text-[13px] text-ink-2">
           Hyperliquid is a perp venue: its reading here is the Perp Flow Index, weighted by open interest across its coins.{' '}
           <Link href="/perps" className="text-ink underline-offset-2 hover:underline">Open the perps terminal →</Link>
         </p>

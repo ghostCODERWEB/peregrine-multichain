@@ -1,0 +1,96 @@
+{
+  "at": "2026-09-25 19:39",
+  "scores": {
+    "Code quality": 60,
+    "Nansen data": 100,
+    "UI/UX": 60
+  },
+  "checks": [
+    {
+      "metric": "Code quality",
+      "name": "TypeScript: 0 errors",
+      "pass": true
+    },
+    {
+      "metric": "Code quality",
+      "name": "ESLint: 0 problems",
+      "pass": true
+    },
+    {
+      "metric": "Code quality",
+      "name": "Unit tests all pass",
+      "pass": true,
+      "detail": "Tests  535 passed | 1 skipped"
+    },
+    {
+      "metric": "Code quality",
+      "name": "Line coverage of src/lib + src/server ≥ 80%",
+      "pass": false,
+      "detail": "50.1%"
+    },
+    {
+      "metric": "Code quality",
+      "name": "No code lines over 220 characters (excluding prose strings)",
+      "pass": false,
+      "detail": "132: src/app/api/alerts/route.ts:59, src/app/api/desk/route.ts:58, src/app/api/lab/rule/route.ts:10, src/app/api/public/storm/route.ts:19, src/app/api/rug/[chain]/[address]/route.ts:35, src/app/api/trade/route.ts:16"
+    },
+    {
+      "metric": "Nansen data",
+      "name": "Every API operation used, or skipped with a written reason (0 planned, 0 unaccounted)",
+      "pass": true,
+      "detail": "93 used + 10 skipped with reasons of 103"
+    },
+    {
+      "metric": "Nansen data",
+      "name": "At least 90% of API operations in use",
+      "pass": true,
+      "detail": "90.3%"
+    },
+    {
+      "metric": "Nansen data",
+      "name": "Every used operation has a redistribution class",
+      "pass": true
+    },
+    {
+      "metric": "Nansen data",
+      "name": "Only Nansen data hosts in src/",
+      "pass": true
+    },
+    {
+      "metric": "Nansen data",
+      "name": "Redaction, label guard, public-site and budget tests pass",
+      "pass": true,
+      "detail": "Tests  33 passed (33)"
+    },
+    {
+      "metric": "UI/UX",
+      "name": "No legacy (pre-redesign) panel or heading styles",
+      "pass": false,
+      "detail": "19: src/app/trade/page.tsx:26, src/app/smart-money/page.tsx:23, src/app/smart-money/page.tsx:30, src/app/lab/page.tsx:173, src/app/agent/page.tsx:31"
+    },
+    {
+      "metric": "UI/UX",
+      "name": "First-load JS ≤ 250 kB on every route",
+      "pass": true,
+      "detail": "all within budget"
+    },
+    {
+      "metric": "UI/UX",
+      "name": "No sideways scroll on 20 routes × 3 views",
+      "pass": true,
+      "detail": "60 pages"
+    },
+    {
+      "metric": "UI/UX",
+      "name": "No page or console errors",
+      "pass": true,
+      "detail": "60 pages"
+    },
+    {
+      "metric": "UI/UX",
+      "name": "No serious or critical WCAG 2.1 AA violations (axe)",
+      "pass": false,
+      "detail": "36: /perps (desktop dark): color-contrast×29, scrollable-region-focusable×1; /predict (desktop dark): color-contrast×21, scrollable-region-focusable×1; /wallet/0xcbb811f129782ef87e19dea9d3375045219bae00 (desktop dark): scrollable-region-focusable×1; /coverage (desktop dark): scrollable-region-focusable×1; /perps (phone dark): color-contrast×30, scrollable-region-focusable×2; /predict (phone dark): color-contrast×21, scrollable-region-focusable×1; /wallet/0xcbb811f129782ef87e19dea9d3375045219bae00 (phone dark): scrollable-region-focusable×1; /lab (phone dark): scrollable-region-focusable×1; /coverage (phone dark): scrollable-region-focusable×2; / (desktop light): color-contrast×4"
+    }
+  ]
+}

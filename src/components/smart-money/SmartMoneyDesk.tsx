@@ -99,7 +99,7 @@ export function SmartMoneyDesk({ mode }: { mode: 'owner' | 'member' }) {
 
   return (
     <div className="space-y-4">
-      <section aria-labelledby="sm-title" className="glass rise relative overflow-hidden rounded-2xl p-4 sm:p-6">
+      <section aria-labelledby="sm-title" className="material rise relative overflow-hidden p-5 sm:p-7">
         <div className="relative">
           <div className="flex flex-wrap items-center gap-2 text-[12px]">
             <span className="rounded bg-brand/12 px-2 py-0.5 text-ink">Private · {mode === 'owner' ? 'key owner' : 'your Nansen key'}</span>

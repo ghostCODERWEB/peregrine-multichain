@@ -25,15 +25,15 @@ export default async function AccountPage() {
           Bring your own Nansen key: calls run as you, so the full data, labels and credits are yours.
         </p>
       </div>
-      <section className="glass rounded-2xl p-4">
+      <section className="material p-5 sm:p-6">
         <AccountPanel user={ctx.user ? { family: ctx.user.family, address: ctx.user.address } : null} keyInfo={info ? { last4: info.last4, plan: info.plan } : null} vault={vaultReady()} mode={ctx.mode} />
       </section>
-      <section aria-labelledby="mcp" className="glass rounded-2xl p-4">
+      <section aria-labelledby="mcp" className="material p-5 sm:p-6">
         <h2 id="mcp" className="mb-2 font-medium text-ink">MCP access</h2>
         <McpAccess />
       </section>
       {x402Enabled() && (
-        <section className="glass rounded-2xl p-4 text-sm text-ink-2">
+        <section className="material p-5 text-sm text-ink-2">
           <h2 className="mb-1 font-medium text-ink">No key? Pay per call</h2>
           <p>
             Some sections offer a priced button instead: Nansen sells {resources ?? 'most of its'} endpoints per call through x402, paid in USDC on Base or
