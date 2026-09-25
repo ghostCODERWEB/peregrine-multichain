@@ -63,7 +63,7 @@ export default async function WalletRoute({ params }: Params) {
       </div>
 
       <div className="grid gap-4 lg:grid-cols-3">
-        <Suspense fallback={<Card id="bal" title="Balances"><WaveLoading what="balances" height={300} /></Card>}>
+        <Suspense fallback={<Card id="bal-loading" title="Balances"><WaveLoading what="balances" height={300} /></Card>}>
           <BalancesCard p={redacted(mode, balP)} />
         </Suspense>
         <Card id="trail" className="lg:col-span-2" title={mode !== 'owner' ? 'Migration trail' : trailTitle(trail.steps, trail.chains)}
@@ -78,26 +78,26 @@ export default async function WalletRoute({ params }: Params) {
 
       <RotationsCard address={address} mode={mode} />
 
-      <Suspense fallback={<Card id="wallet-weather" title="Wallet profile"><WaveLoading what="wallet profile" height={280} /></Card>}>
+      <Suspense fallback={<Card id="wallet-weather-loading" title="Wallet profile"><WaveLoading what="wallet profile" height={280} /></Card>}>
         <WalletWeather p={redacted(mode, weatherP)} />
       </Suspense>
 
       <div className="grid gap-4 lg:grid-cols-3">
-        <Suspense fallback={<Card id="pnl" title="PnL, 30 days"><WaveLoading what="PnL" /></Card>}>
+        <Suspense fallback={<Card id="pnl-loading" title="PnL, 30 days"><WaveLoading what="PnL" /></Card>}>
           <PnlCard p={redacted(mode, pnlP)} mode={mode} />
         </Suspense>
-        <Suspense fallback={<Card id="origins" title="Origins"><WaveLoading what="first funder and related wallets" /></Card>}>
+        <Suspense fallback={<Card id="origins-loading" title="Origins"><WaveLoading what="first funder and related wallets" /></Card>}>
           <OriginsCard address={address} mainChain={mainChainP} mode={mode} />
         </Suspense>
-        <Suspense fallback={<Card id="cp" title="Counterparties"><WaveLoading what="counterparties" /></Card>}>
+        <Suspense fallback={<Card id="cp-loading" title="Counterparties"><WaveLoading what="counterparties" /></Card>}>
           <CounterpartiesCard p={redacted(mode, mainChainP.then((c) => counterparties(address, c)))} mode={mode} />
         </Suspense>
       </div>
 
-      <Suspense fallback={<Card id="tx" title="Recent transactions"><WaveLoading what="transactions" /></Card>}>
+      <Suspense fallback={<Card id="tx-loading" title="Recent transactions"><WaveLoading what="transactions" /></Card>}>
         <TransactionsCard address={address} mode={mode} />
       </Suspense>
-      <Suspense fallback={<Card id="wallet-desk" title="Wallet desk"><WaveLoading what="wallet chain" /></Card>}>
+      <Suspense fallback={<Card id="wallet-desk-loading" title="Wallet desk"><WaveLoading what="wallet chain" /></Card>}>
         <Desk address={address} mainChain={mainChainP} />
       </Suspense>
       <WalletLabels address={address} enabled={mode !== 'public'} />

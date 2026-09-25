@@ -26,7 +26,7 @@ export default async function AgentPage() {
   return (
     <div className="space-y-4">
       <section aria-labelledby="agent-title" className="glass rise rounded-2xl p-4 sm:p-6">
-        <div className="text-[12px] text-ink-muted">Nansen agent · expert mode</div>
+        <div className="text-[12.5px] font-bold text-brand">Nansen agent · expert mode</div>
         <h1 id="agent-title" className="mt-1 text-lg font-semibold text-ink sm:text-xl">Ask Nansen</h1>
         <p className="mt-1 max-w-3xl text-[13px] text-ink-2">
           Ask Nansen, with the tools it used. 750 credits per question on the asking key; every question is confirmed.

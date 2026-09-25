@@ -14,7 +14,7 @@ export default async function AlphaPage() {
   return (
     <div className="space-y-5">
       <div>
-        <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-brand">Alpha · what to look at</p>
+        <p className="text-[12.5px] font-bold text-brand">Alpha · what to look at</p>
         <h1 className="mt-1 text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
           {lead ? <>Money is leaning into <span className="brand-text">{lead.symbol ?? 'a token'}</span> on {chainName(lead.chain)}</> : 'What to look at, across every chain'}
         </h1>

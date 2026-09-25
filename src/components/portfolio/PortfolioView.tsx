@@ -36,7 +36,7 @@ export function PortfolioView({ demo }: { demo: boolean }) {
     } catch (e) { setError((e as Error).message); } finally { setBusy(''); }
   }
   return <div className="space-y-5">
-    <div className="rounded-2xl border border-border bg-gradient-to-br from-surface via-surface to-accent p-6 sm:p-8"><p className="text-xs uppercase tracking-[0.2em] text-ink-muted">Portfolio observatory</p><h1 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">See where your capital gathers.</h1><p className="mt-3 max-w-2xl text-sm leading-relaxed text-ink-2">Up to five wallets in one view: concentration by chain, every position, and a 7-day price-shock test.</p></div>
+    <div className="material p-6 sm:p-8"><p className="text-[12.5px] font-bold text-brand">Portfolio observatory</p><h1 className="mt-3 text-3xl font-extrabold tracking-[-0.04em] sm:text-[40px]">See where your capital gathers.</h1><p className="mt-3 max-w-2xl text-sm leading-relaxed text-ink-2">Up to five wallets in one view: concentration by chain, every position, and a 7-day price-shock test.</p></div>
     <Card id="watchset" title="Your wallet watch set" sub="One address per line. EVM addresses are deduplicated regardless of case; Solana and other case-sensitive addresses keep their identity.">
       <label htmlFor="portfolio-addresses" className="mb-2 block text-xs text-ink-2">Wallet addresses</label>
       <textarea id="portfolio-addresses" rows={3} value={input} disabled={!!busy} onChange={(e) => { setInput(e.target.value); setP(null); setStress(null); setMessage(''); setError(''); }} placeholder="0x… or a Solana, Bitcoin, Sui, TON, NEAR… wallet" className="num w-full rounded-lg border border-border bg-background p-3 text-xs" />

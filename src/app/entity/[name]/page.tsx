@@ -62,21 +62,21 @@ export default async function EntityRoute({ params }: Params) {
       </div>
 
       <div className="grid gap-4 lg:grid-cols-3">
-        <Suspense fallback={<Card id="bal" title="Balances"><WaveLoading what="balances" height={300} /></Card>}>
+        <Suspense fallback={<Card id="bal-loading" title="Balances"><WaveLoading what="balances" height={300} /></Card>}>
           <BalancesCard p={redacted(mode, balP)} />
         </Suspense>
         <div className="lg:col-span-2">
-          <Suspense fallback={<Card id="trend" title="Holdings, 30 days"><WaveLoading what="30 days of balances" height={260} /></Card>}>
+          <Suspense fallback={<Card id="trend-loading" title="Holdings, 30 days"><WaveLoading what="30 days of balances" height={260} /></Card>}>
             <HoldingsTrendCard p={redacted(mode, trendP)} />
           </Suspense>
         </div>
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2">
-        <Suspense fallback={<Card id="pnl" title="PnL, 30 days"><WaveLoading what="PnL" /></Card>}>
+        <Suspense fallback={<Card id="pnl-loading" title="PnL, 30 days"><WaveLoading what="PnL" /></Card>}>
           <PnlCard p={redacted(mode, pnl(subject))} mode={mode} />
         </Suspense>
-        <Suspense fallback={<Card id="cp" title="Counterparties"><WaveLoading what="counterparties" /></Card>}>
+        <Suspense fallback={<Card id="cp-loading" title="Counterparties"><WaveLoading what="counterparties" /></Card>}>
           <CounterpartiesCard p={redacted(mode, mainChainP.then((c) => counterparties(subject, c)))} mode={mode} />
         </Suspense>
       </div>

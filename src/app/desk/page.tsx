@@ -14,7 +14,7 @@ export default async function DeskPage() {
   return (
     <div className="space-y-4">
       <section aria-labelledby="desk-title" className="glass rise rounded-2xl p-4 sm:p-6">
-        <div className="text-[12px] text-ink-muted">See who moved · prove why it matters · remember if you were right</div>
+        <div className="text-[12.5px] font-bold text-brand">See who moved · prove why it matters · remember if you were right</div>
         <h1 id="desk-title" className="mt-1 text-lg font-semibold text-ink sm:text-xl">Desk</h1>
         <p className="mt-1 max-w-3xl text-[13px] text-ink-2">
           Your calls, priced by Nansen at entry and graded from Nansen candles when the horizon passes. Calls can&apos;t be edited.

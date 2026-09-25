@@ -22,7 +22,7 @@ export default async function TradePage({ searchParams }: { searchParams: Promis
   return (
     <div className="space-y-4">
       <section aria-labelledby="trade-title" className="glass rise rounded-2xl p-4 sm:p-6">
-        <div className="text-[12px] text-ink-muted">Nansen trading · Base + Solana</div>
+        <div className="text-[12.5px] font-bold text-brand">Nansen trading · Base + Solana</div>
         <h1 id="trade-title" className="mt-1 text-lg font-semibold text-ink sm:text-xl">Swap with Peregrine&apos;s signals in view</h1>
         <p className="mt-1 max-w-3xl text-[13px] text-ink-2">
           Nansen routes and simulates; you sign every step in your own wallet. Peregrine never holds keys or signs.

@@ -4,6 +4,8 @@ import { TimeAgo } from '@/components/TimeAgo';
 import { coverageMatrix, usage, type CellStatus } from '@/server/coverage';
 import { adminView, ledgerCoverage } from '@/server/admin';
 import { displayMode } from '@/server/mode';
+import { publicSite, webDailyCreditCap } from '@/server/site';
+import { webCreditsToday } from '@/server/nansen/ledger';
 import { AdminPanels, LedgerCard } from '@/components/coverage/AdminPanels';
 import { chainName, num } from '@/lib/viz/format';
 
@@ -46,13 +48,16 @@ export default async function CoveragePage() {
         {[
           ['Live API calls', u.liveCalls.toLocaleString('en-US'), `+ ${u.cacheHits.toLocaleString('en-US')} served from cache`],
           ['Credits spent', u.credits.toLocaleString('en-US'), 'by this Peregrine instance'],
-          ['Credits remaining', u.creditsRemaining == null ? '—' : u.creditsRemaining.toLocaleString('en-US'), u.creditsRemainingAt ? 'from the latest Nansen response header' : 'appears after the next Nansen call'],
+          // A public site shows its visitor budget, not the operator's account balance.
+          publicSite()
+            ? ['Live-data budget today', `${webCreditsToday().toLocaleString('en-US')} / ${webDailyCreditCap().toLocaleString('en-US')}`, 'credits used by visitors · resets 00:00 UTC']
+            : ['Credits remaining', u.creditsRemaining == null ? '—' : u.creditsRemaining.toLocaleString('en-US'), u.creditsRemainingAt ? 'from the latest Nansen response header' : 'appears after the next Nansen call'],
           ['Scanner runs', u.scans.runs.toLocaleString('en-US'), `${num(u.scans.runs ? u.scans.credits / u.scans.runs : null, 0)} credits per run`],
           ['Counting since', u.since ? new Date(u.since).toISOString().slice(0, 10) : '—', 'first call in the ledger'],
         ].map(([k, v, sub]) => (
-          <div key={k} className="glass rounded-xl px-3 py-2">
-            <div className="text-[11px] text-ink-muted">{k}</div>
-            <div className="num text-xl font-semibold text-ink">{v}</div>
+          <div key={k} className="inset-well rounded-[18px] px-4 py-3">
+            <div className="text-[12.5px] font-medium text-ink-muted">{k}</div>
+            <div className="num mt-1 text-[22px] font-extrabold tracking-[-0.02em] text-ink">{v}</div>
             <div className="text-[11px] text-ink-muted">{sub}</div>
           </div>
         ))}
