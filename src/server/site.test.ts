@@ -97,4 +97,13 @@ describe('daily web credit budget', () => {
     await expect(callNansen('tgm/indicators', { a: 2 }, { record: false })).resolves.toBeTruthy();
     expect(fetch).toHaveBeenCalledTimes(2);
   });
+  it('an agent run must fit in what is left of the day, not just start under the cap', async () => {
+    Object.assign(process.env, { NEXT_RUNTIME: 'nodejs', TIDE_PUBLIC_SITE: '1', WEB_DAILY_CREDIT_CAP: '1000', NANSEN_API_KEY: 'test-key', DEMO_MODE: '' });
+    const fetch = vi.fn();
+    vi.stubGlobal('fetch', fetch);
+    recordCall('tgm/holders', 900, false); // 100 left: less than an agent run
+    const { streamNansen } = await import('./nansen/client');
+    await expect(streamNansen('agent/fast', { text: 'hi' }).next()).rejects.toBeInstanceOf(DailyBudgetExhausted);
+    expect(fetch).not.toHaveBeenCalled();
+  });
 });

@@ -231,9 +231,11 @@ async function currentCaller(): Promise<{ apiKey: string | undefined; userId: nu
  *  WEB_DAILY_CREDIT_CAP set), with today's visitor spend at or over the
  *  cap. The scanner worker and scripts keep their own budgets
  *  (SCAN_INTERVAL_MIN, *_CREDIT_CAP) and never hit this. */
-function overWebBudget(): boolean {
+function overWebBudget(reserve = 0): boolean {
   if (!inWebServer() || !(publicSite() || process.env.WEB_DAILY_CREDIT_CAP)) return false;
-  return webCreditsToday() >= webDailyCreditCap();
+  // `reserve`: a known-expensive call (an agent run) must fit entirely, so
+  // one call can't carry the day's spend past the cap.
+  return webCreditsToday() + reserve >= webDailyCreditCap();
 }
 
 export async function callNansen<T>(
@@ -317,7 +319,8 @@ export async function* streamNansen(endpoint: string, body: unknown, opts: { rec
   const caller = await currentCaller();
   const apiKey = caller.apiKey;
   if (!apiKey) throw new Error('NANSEN_API_KEY is not set. Set it in .env, or run with DEMO_MODE=1.');
-  if (!caller.userId && overWebBudget()) throw new DailyBudgetExhausted(webDailyCreditCap());
+  // Agent runs cost 200–750 credits: reserve the cheaper price up front.
+  if (!caller.userId && overWebBudget(200)) throw new DailyBudgetExhausted(webDailyCreditCap());
   await getLimiter(plan()).acquire();
   const res = await fetch(urlFor(endpoint), {
     method: 'POST',
