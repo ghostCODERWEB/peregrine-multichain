@@ -9,7 +9,7 @@ const dir = await vi.hoisted(async () => {
 });
 
 import { getDb } from './db';
-import { callNansen, NansenApiError, callScope, lastKnownCreditsRemaining } from './client';
+import { callNansen, NansenApiError, callScope, lastKnownCreditsRemaining, streamNansen, callNansenPoints, callNansenPointsPage } from './client';
 
 const ENV = { ...process.env };
 afterAll(() => fs.rmSync(dir, { recursive: true, force: true }));
@@ -60,5 +60,48 @@ describe('callNansen', () => {
     vi.stubGlobal('fetch', vi.fn(async () => res(200, { data: 'not an array' })));
     const { z } = await import('zod');
     await expect(callNansen('tgm/holders', { e: 1 }, { record: false, schema: z.object({ data: z.array(z.number()) }) })).rejects.toThrow();
+  });
+
+  it('replays a recorded fixture in demo mode, and names a missing one', async () => {
+    process.env.DEMO_MODE = '1';
+    const fetch = vi.fn();
+    vi.stubGlobal('fetch', fetch);
+    await expect(callNansen('tgm/holders', { never: 'recorded' })).rejects.toThrow(/No recorded fixture/);
+    expect(fetch).not.toHaveBeenCalled();
+  });
+});
+
+describe('streamNansen', () => {
+  it('yields each agent event until [DONE], and records the call', async () => {
+    const sse = 'data: {"type":"delta","text":"Hi"}\n\ndata: {"type":"tool_call","name":"x"}\n\ndata: [DONE]\n\n';
+    vi.stubGlobal('fetch', vi.fn(async () => new Response(sse, { status: 200, headers: { 'x-nansen-credits-cost': '200' } })));
+    const out = [];
+    for await (const e of streamNansen('agent/fast', { text: 'q' }, { record: false })) out.push(e);
+    expect(out.map((e) => e.type)).toEqual(['delta', 'tool_call']);
+    expect((getDb().prepare("SELECT credits FROM credit_ledger WHERE endpoint = 'agent/fast'").get() as { credits: number }).credits).toBe(200);
+  });
+  it('throws NansenApiError on a failed stream', async () => {
+    vi.stubGlobal('fetch', vi.fn(async () => new Response('nope', { status: 402 })));
+    const g = streamNansen('agent/fast', { text: 'q' });
+    await expect(g.next()).rejects.toBeInstanceOf(NansenApiError);
+  });
+});
+
+describe('points (keyless)', () => {
+  it('validates the address, reads the tier and caches it; never sends a key', async () => {
+    process.env.TIDE_PUBLIC_SITE = '1'; // no fixture recording into the repo
+    await expect(callNansenPoints('bad')).rejects.toThrow(/wallet address/);
+    const fetch = vi.fn(async () => res(200, { tier: 'ICE', points: 1200 }));
+    vi.stubGlobal('fetch', fetch);
+    const a = '0x' + 'b'.repeat(40);
+    expect(await callNansenPoints(a)).toEqual({ tier: 'ice', points: 1200 });
+    expect(await callNansenPoints(a)).toEqual({ tier: 'ice', points: 1200 });
+    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(JSON.stringify(fetch.mock.calls[0])).not.toContain('apikey');
+  });
+  it('reads a leaderboard page and refuses page 0', async () => {
+    await expect(callNansenPointsPage(0)).rejects.toThrow(/out of range/);
+    vi.stubGlobal('fetch', vi.fn(async () => res(200, { total: 5, results: [{ points: 10, rank: 1001, tier: 'green', is_eligible: true }] })));
+    expect(await callNansenPointsPage(1)).toEqual({ total: 5, rows: [{ points: 10, rank: 1001, tier: 'green', eligible: true }] });
   });
 });

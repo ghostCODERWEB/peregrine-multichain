@@ -35,6 +35,8 @@ import { marketDetail } from './predict/board';
 import { txLookup, newsSearch } from './token/ondemand';
 import { alphaForward, ppiForward, spearman } from './backtest/forward';
 import { builderContext, planTemplate, channelOf } from './agents/builder';
+import { followScope, readFollows, setFollow, parseChain } from './smart-money/desk';
+import { explainRejection, paymentStats, checkPayment } from './nansen/x402';
 
 afterAll(() => fs.rmSync(dir, { recursive: true, force: true }));
 const AERO = '0x940181a94a35a4569e4529a3cdfb74e38fd98631';
@@ -154,5 +156,30 @@ describe('scanner, portfolio and on-demand lookups on recordings', () => {
     expect(() => channelOf({ type: 'telegram', chatId: 'abc' })).toThrow();
     const ch = channelOf({ type: 'telegram', chatId: '123456' });
     expect(() => planTemplate(PUBLIC_CTX, 'token-flows' as never, { chain: 'base', token: AERO } as never, ch as never)).not.toThrow();
+  });
+});
+
+describe('owner views on the demo database', () => {
+  it('bulletin, chain page and boards also build for the owner', async () => {
+    expect(buildBulletin('private').chains.length).toBeGreaterThan(30);
+    expect((await chainPage('base', 'owner')).chain).toBe('base');
+    expect(perpBoard('private')).toBeTruthy();
+    expect(sectorWeather('private')).toBeTruthy();
+    expect(alphaBoard('private')).toBeTruthy();
+  });
+  it('follow lists are scoped to an account or the owner, never an anonymous visitor', () => {
+    expect(followScope(PUBLIC_CTX)).toBeNull();
+    expect(followScope({ ...PUBLIC_CTX, mode: 'owner' })).toBe('owner');
+    setFollow('owner', WALLET, true, null);
+    expect(readFollows('owner')).toContain(WALLET);
+    setFollow('owner', WALLET, false, null);
+    expect(readFollows('owner')).not.toContain(WALLET);
+    expect(parseChain('base')).toBe('base');
+    expect(parseChain('not-a-chain')).toBe('all');
+  });
+  it('x402: rejections are explained, bad headers refused, stats read', async () => {
+    expect(explainRejection('{"reason":"insufficient_funds"}', 'base')).toMatch(/fund|USDC|balance/i);
+    expect(await checkPayment('not-base64').catch((e: Error) => e.message)).toBeTruthy();
+    expect(paymentStats(0)).toBeTruthy();
   });
 });
