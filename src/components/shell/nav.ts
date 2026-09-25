@@ -3,12 +3,12 @@
 export interface NavItem { href: string; label: string; icon: NavIcon; group: 'Explore' | 'Research' | 'Act'; /** Not offered on a public site: owner-only data, or a wallet or paid key action. */ ownerOnly?: true }
 
 /** Pages a public site redirects home (src/middleware.ts). */
-export const OWNER_ONLY_PATHS = ['/flows', '/smart-money', '/agent', '/alerts', '/trade'];
+export const OWNER_ONLY_PATHS = ['/smart-money', '/agent', '/alerts', '/trade'];
 export type NavIcon = 'map' | 'flows' | 'sparkles' | 'layers' | 'activity' | 'target' | 'bot' | 'swap' | 'brain' | 'briefcase' | 'flask' | 'gauge' | 'bell' | 'key' | 'notebook';
 
 export const NAV: NavItem[] = [
   { href: '/', label: 'Radar', icon: 'map', group: 'Explore' },
-  { href: '/flows', label: 'Capital Flows', icon: 'flows', group: 'Explore', ownerOnly: true },
+  { href: '/flows', label: 'Capital Flows', icon: 'flows', group: 'Explore' },
   { href: '/alpha', label: 'Alpha', icon: 'sparkles', group: 'Explore' },
   { href: '/sectors', label: 'Sectors', icon: 'layers', group: 'Explore' },
   { href: '/perps', label: 'Perps', icon: 'activity', group: 'Explore' },

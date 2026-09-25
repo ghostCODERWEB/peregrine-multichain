@@ -71,9 +71,10 @@ describe('public-site middleware', () => {
 
   it('redirects account and owner-only pages home and sets security headers', () => {
     process.env.TIDE_PUBLIC_SITE = '1';
-    for (const p of ['/flows', '/smart-money', '/agent', '/alerts', '/trade'])
+    for (const p of ['/smart-money', '/agent', '/alerts', '/trade'])
       expect(middleware(req(p)).headers.get('location'), p).toBe('https://peregrine.invalid/');
-    expect(middleware(req('/flowsheet')).status).toBe(200); // prefix only on a path boundary
+    expect(middleware(req('/flows')).status).toBe(200); // public: measured net-flow map
+    expect(middleware(req('/trades')).status).toBe(200); // prefix only on a path boundary
     const r = middleware(req('/account'));
     expect(r.status).toBe(307);
     expect(r.headers.get('location')).toBe('https://peregrine.invalid/');

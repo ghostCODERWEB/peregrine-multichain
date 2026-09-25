@@ -6,17 +6,18 @@
 import { useId } from 'react';
 import { chainLogoSrc } from '@/components/Logo';
 import { chainName, usd } from '@/lib/viz/format';
-import type { FrontWithProvenance } from '@/server/weather/bulletin';
+/** A rotation (owner view) or a modeled net-flow arc (public view). */
+export interface OrbitalFlow { from: string; to: string; netUsd: number; walletCount: number; inferred?: boolean }
 
 const W = 440, H = 330, CX = 220, CY = 212, RX = 176, RY = 70;
 // Server and browser trig can differ in the last digit; rounded coordinates
 // keep hydration stable.
 const r1 = (n: number) => Math.round(n * 10) / 10;
 
-export function FlowOrbital({ fronts }: { fronts: FrontWithProvenance[] }) {
+export function FlowOrbital({ fronts, modeled = false }: { fronts: OrbitalFlow[]; modeled?: boolean }) {
   const id = useId().replace(/:/g, '');
   const flows = fronts.filter((f) => !f.inferred).slice(0, 6);
-  if (!flows.length) return <p className="px-6 text-sm text-ink-muted">No qualifying same-wallet rotations in the last 24 hours.</p>;
+  if (!flows.length) return <p className="px-6 text-sm text-ink-muted">{modeled ? 'Not enough measured net flow on both sides yet.' : 'No qualifying same-wallet rotations in the last 24 hours.'}</p>;
 
   const net = new Map<string, number>();
   for (const f of flows) {
@@ -40,12 +41,14 @@ export function FlowOrbital({ fronts }: { fronts: FrontWithProvenance[] }) {
   const arcs = flows.map((f, i) => {
     const a = at.get(f.from)!, b = at.get(f.to)!, k = Math.sqrt(f.netUsd / max);
     const qx = r1((a.x + b.x) / 2), qy = r1(Math.max(18, Math.min(a.y, b.y) - 50 - 70 * k));
-    return { f, i, a, b, d: `M${a.x},${a.y} Q${qx},${qy} ${b.x},${b.y}`, w: r1(1.6 + 7 * k), n: Math.max(2, Math.min(6, Math.round(f.walletCount / 2) + 1)) };
+    // Rotations: more wallets, more particles. Modeled arcs have no wallets: size decides.
+    const n = modeled ? 2 + Math.round(3 * k) : Math.max(2, Math.min(6, Math.round(f.walletCount / 2) + 1));
+    return { f, i, a, b, d: `M${a.x},${a.y} Q${qx},${qy} ${b.x},${b.y}`, w: r1(1.6 + 7 * k), n };
   });
 
   return (
     <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img"
-      aria-label={`Capital rotations in 24 hours: ${flows.map((f) => `${chainName(f.from)} to ${chainName(f.to)} ${usd(f.netUsd)}`).join('; ')}`}>
+      aria-label={`${modeled ? 'Market-wide net flow, 24 hours, modeled arcs' : 'Capital rotations in 24 hours'}: ${flows.map((f) => `${chainName(f.from)} to ${chainName(f.to)} ${usd(f.netUsd)}`).join('; ')}`}>
       <defs>
         <radialGradient id={`${id}-floor`}><stop stopColor="var(--mint)" stopOpacity=".16" /><stop offset="1" stopColor="var(--mint)" stopOpacity="0" /></radialGradient>
         <filter id={`${id}-blur`} x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4" /></filter>
@@ -58,8 +61,9 @@ export function FlowOrbital({ fronts }: { fronts: FrontWithProvenance[] }) {
       <ellipse cx={CX} cy={CY + 8} rx={RX + 34} ry={RY + 46} fill={`url(#${id}-floor)`} />
       <ellipse cx={CX} cy={CY} rx={RX} ry={RY} fill="none" stroke="var(--hair-2)" />
       <ellipse cx={CX} cy={CY} rx={r1(RX * 0.7)} ry={r1(RY * 0.7)} fill="none" stroke="var(--hair)" strokeDasharray="2 6" />
-      <text x={24} y={H - 8} className="fill-[var(--flare)] text-[10px] font-extrabold tracking-[0.08em]">NET SELLERS</text>
-      <text x={W - 24} y={H - 8} textAnchor="end" className="fill-[var(--mint)] text-[10px] font-extrabold tracking-[0.08em]">NET BUYERS</text>
+      <text x={24} y={H - 8} className="fill-[var(--flare)] text-[10px] font-extrabold tracking-[0.08em]">{modeled ? 'NET OUTFLOW' : 'NET SELLERS'}</text>
+      <text x={W - 24} y={H - 8} textAnchor="end" className="fill-[var(--mint)] text-[10px] font-extrabold tracking-[0.08em]">{modeled ? 'NET INFLOW' : 'NET BUYERS'}</text>
+      {modeled && <text x={CX} y={H - 8} textAnchor="middle" className="fill-ink-muted text-[10px] font-bold">arcs modeled · nodes measured</text>}
 
       {arcs.map(({ i, d, w }) => (
         <g key={i}>

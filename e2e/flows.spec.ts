@@ -49,7 +49,7 @@ test('capital flows: Radar has an orbital teaser, not the full detail (synthetic
   expect(errors).toEqual([]);
 });
 
-test('capital flows page: in the nav, and locked in public views', async ({ page }) => {
+test('capital flows page: in the nav; public views get the measured net-flow map, not rotations', async ({ page }) => {
   await page.goto('/');
   if (test.info().project.name === 'desktop') {
     await page.getByRole('navigation', { name: 'Primary' }).getByRole('link', { name: 'Capital Flows' }).click();
@@ -58,8 +58,12 @@ test('capital flows page: in the nav, and locked in public views', async ({ page
     await page.goto('/flows');
   }
   await expect(page.getByRole('heading', { level: 1, name: 'Capital Flows' })).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Capital flows: key-owner view only' })).toBeVisible();
-  await expect(page.locator('#flow-days')).toHaveCount(0); // no history for public views
+  // Public: measured per-chain net flow with modeled arcs, never wallet-level rotations.
+  const map = page.locator('section[aria-labelledby="netflow-title"]');
+  await expect(map).toBeVisible();
+  await expect(map.getByText(/nodes measured, arcs modeled|Not enough measured net flow/)).toBeVisible();
+  await expect(page.locator('section[aria-labelledby="fronts-title"]')).toHaveCount(0);
+  await expect(page.locator('#flow-days')).toHaveCount(0); // no rotation history for public views
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
 });
 

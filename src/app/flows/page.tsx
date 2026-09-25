@@ -19,7 +19,10 @@ export default async function FlowsPage() {
   const now = Date.now();
   const flows = capitalFlows(view, 24, now);
   const history = flowHistory(view, 7, now);
-  const chains = weatherMap(now, view).map((c) => ({ chain: c.chain, cpi: c.cpi }));
+  const weather = weatherMap(now, view);
+  const chains = weather.map((c) => ({ chain: c.chain, cpi: c.cpi }));
+  // Public view: measured per-chain net flow, the only flow data Nansen lets a public page show.
+  const netChains = weather.map((c) => ({ chain: c.chain, cpi: c.cpi, windows: c.windows.map((w) => ({ window: w.window, netFlowUsd: w.netFlowUsd })) }));
   const maxDay = Math.max(1, ...(history?.days ?? []).map((d) => d.netUsd));
   const maxChain = Math.max(1, ...(history?.chains ?? []).map((c) => Math.abs(c.net)));
   const weekTotal = (history?.days ?? []).reduce((s, d) => s + d.netUsd, 0);
@@ -27,12 +30,12 @@ export default async function FlowsPage() {
   return (
     <div className="space-y-5">
       <div className="pt-2">
-        <p className="mb-2 text-[12.5px] font-bold text-brand">Cross-chain rotations · {flows ? 'owner view' : 'public view'}</p>
+        <p className="mb-2 text-[12.5px] font-bold text-brand">{flows ? 'Cross-chain rotations · owner view' : 'Market-wide net flow · all traders'}</p>
         <h1 className="text-[40px] font-extrabold tracking-[-.04em] text-ink">Capital Flows</h1>
-        <p className="mt-1 max-w-3xl text-[15px] text-ink-2">Where smart money moves between chains: the same wallets selling on one chain and buying on another within 12h.</p>
+        <p className="mt-1 max-w-3xl text-[15px] text-ink-2">{flows ? 'Where smart money moves between chains: the same wallets selling on one chain and buying on another within 12h.' : 'Where net flow left and where it arrived across chains in the last 24 hours, measured on every chain for all traders.'}</p>
       </div>
 
-      <FlowsView initial={{fronts:flows?.fronts ?? [],chains,withheld:flows == null ? ['fronts'] : []}} />
+      <FlowsView initial={{fronts:flows?.fronts ?? [],chains,withheld:flows == null ? ['fronts'] : []}} netChains={netChains} />
 
       {history && (
         <div className="grid gap-4 lg:grid-cols-2">

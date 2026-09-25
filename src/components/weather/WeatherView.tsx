@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { HexMap } from './HexMap';
 import { FrontsList, FrontSheet, frontKey } from './FrontsPanel';
@@ -11,6 +11,7 @@ import { AreaSpark } from '@/components/viz/AreaSpark';
 import { ActivityRings } from '@/components/viz/ActivityRings';
 import { FlowOrbital } from '@/components/viz/FlowOrbital';
 import { FlowMovers } from '@/components/viz/FlowMovers';
+import { netFlowMap, chainNets } from '@/lib/viz/net-flow-map';
 import { useSite } from '@/components/SiteContext';
 import { LockedPanel } from '@/components/ui/SurfaceKit';
 import { Segmented } from '@/components/ui/Segmented';
@@ -57,6 +58,12 @@ export function WeatherView({ initial, anchor, alpha }: { initial: WeatherBullet
   // On a public site the Capital Flows card is left out (it can never unlock).
   const { publicSite } = useSite();
   const flows = data.fronts.filter(f => !f.inferred).slice(0,5);
+  // Public view: the same map from each chain's measured market-wide net flow.
+  // The hero is a teaser: three chains each way stay legible on the small orbit.
+  const netMap = useMemo(() => netFlowMap(chainNets(data.chains), { sellers: 3, buyers: 3, pairs: 6 }), [data.chains]);
+  const netLine = netMap.sellers.length && netMap.buyers.length
+    ? `${usd(netMap.totalOut)} of net flow left ${chainName(netMap.sellers[0].chain)}${netMap.sellers.length > 1 ? ` and ${netMap.sellers.length - 1} more chain${netMap.sellers.length > 2 ? 's' : ''}` : ''} in 24h; ${chainName(netMap.buyers[0].chain)} took in the most (+${usd(netMap.buyers[0].net)}).`
+    : 'Market-wide net flow on every chain, measured against its own history.';
   return (
     <div className={`space-y-8 transition-opacity ${isFetching ? 'opacity-90' : ''}`}>
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -68,10 +75,10 @@ export function WeatherView({ initial, anchor, alpha }: { initial: WeatherBullet
           <div className="relative z-10">
             <p className="mb-5 text-[12.5px] font-bold text-brand">{withheld ? 'All traders' : 'Smart money'} · last 24 hours</p>
             <h2 className="radar-headline">{top && bottom ? <>Accumulating <span className="text-accumulation">{chainName(top.chain)}.</span><br />Distributing <span className="text-distribution">{chainName(bottom.chain)}.</span></> : mapHeadline(data.chains,data.fronts)}</h2>
-            <p className="mt-5 text-[15px] leading-relaxed text-ink-2">{withheld ? 'Market-wide net flow on every chain, measured against its own history.' : frontsHeadline(data.fronts)}</p>
-            <div className="mt-5 flex flex-wrap gap-2">{withheld ? <a href="#map-instrument-title" className="pill-button pill-primary">Explore all 38 chains ↓</a> : <Link href="/flows" className="pill-button pill-primary">Open Capital Flows →</Link>}<Link href="/agent" className="owner-action pill-button pill-secondary">Ask Nansen why</Link></div>
+            <p className="mt-5 text-[15px] leading-relaxed text-ink-2">{withheld ? netLine : frontsHeadline(data.fronts)}</p>
+            <div className="mt-5 flex flex-wrap gap-2"><Link href="/flows" className="pill-button pill-primary">Open Capital Flows →</Link><Link href="/agent" className="owner-action pill-button pill-secondary">Ask Nansen why</Link></div>
           </div>
-          {withheld ? <FlowMovers chains={data.chains} /> : <FlowOrbital fronts={data.fronts} />}
+          {!withheld ? <FlowOrbital fronts={data.fronts} /> : netMap.edges.length ? <FlowOrbital fronts={netMap.edges} modeled /> : <FlowMovers chains={data.chains} />}
         </section>
         <div className="grid gap-4 sm:grid-cols-2 xl:col-span-4 xl:grid-cols-1">
           {[top,bottom].map((c,i)=>c && <section key={i} className="material p-6" aria-label={i ? 'Top outflow' : 'Top inflow'}>
