@@ -9,8 +9,10 @@ test('home radar layers preserve map and table views @mobile', async ({ page }) 
     await page.setViewportSize({ width: 390, height: 844 });
     await page.getByRole('button', { name: 'Switch to paper chart theme' }).click();
   }
-  for (const title of ['Perp flow', 'Sector flow', 'Prediction activity']) {
-    await page.getByRole('button', { name: title, exact: true }).click();
+  // P8: the layer switch is a segmented control with short labels; each
+  // layer panel keeps its full title as its heading.
+  for (const [button, title] of [['Perps', 'Perp flow'], ['Sectors', 'Sector flow'], ['Predictions', 'Prediction activity']]) {
+    await page.getByRole('group', { name: 'Radar layers' }).getByRole('button', { name: button, exact: true }).click();
     await expect(page.getByRole('heading', { name: title, exact: true })).toBeVisible();
     await expect(page.getByText('Separate populations and units:', { exact: false })).toBeVisible();
     await page.getByRole('tab', { name: 'table', exact: true }).click();
@@ -20,7 +22,7 @@ test('home radar layers preserve map and table views @mobile', async ({ page }) 
     await page.screenshot({ path: test.info().outputPath(`${title.toLowerCase().replaceAll(' ', '-')}.png`), fullPage: true });
   }
   await expect(page.getByText(/Not net YES\/NO flow/)).toBeVisible();
-  await page.getByRole('button', { name: 'Spot flow', exact: true }).click();
+  await page.getByRole('group', { name: 'Radar layers' }).getByRole('button', { name: 'Spot', exact: true }).click();
   await expect(page.locator('svg[aria-label^="Hex map"] a')).toHaveCount(38);
   expect(errors).toEqual([]);
 });
@@ -38,7 +40,7 @@ test('prediction layer: an expired cache offers a priced load, then fills in pla
   await page.route('**/api/weather/categories', (route) => { posts.push(route.request().postDataJSON()); loaded = true; return route.fulfill({ json: { cached: false, credits: 1 } }); });
   await page.clock.install();
   await page.goto('/');
-  await page.getByRole('button', { name: 'Prediction activity', exact: true }).click();
+  await page.getByRole('group', { name: 'Radar layers' }).getByRole('button', { name: 'Predictions', exact: true }).click();
   const load = page.getByRole('button', { name: 'Load category activity · 1 credit' });
   await expect(async () => {
     await page.clock.fastForward(61_000);

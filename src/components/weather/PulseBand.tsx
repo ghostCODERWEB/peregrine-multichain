@@ -60,7 +60,7 @@ export function PulseBand({ data }: { data: WeatherBulletin }) {
   );
 
   return (
-    <section aria-label="Live market pulse" className="market-rail grid grid-cols-2 overflow-hidden rounded-md md:grid-cols-3 xl:grid-cols-6">
+    <section aria-label="Live market pulse" className="market-rail liquid-glass relative grid grid-cols-2 overflow-hidden rounded-[18px] md:grid-cols-3 xl:grid-cols-6">
       <Tile icon={<Radio className="h-3 w-3 text-brand" />} label="Chains online" foot={`of ${data.chains.length} Nansen chains`}>
         <div className="flex items-baseline gap-1.5"><span className="num text-[25px] font-medium leading-none text-ink">{scored.length}</span><span className="num text-[11px] text-ink-muted">/{data.chains.length}</span></div>
         <div className="mt-2 h-px overflow-hidden bg-axis" aria-hidden>

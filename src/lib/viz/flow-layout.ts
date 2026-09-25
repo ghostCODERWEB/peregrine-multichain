@@ -3,6 +3,10 @@
 // left → right the way money moves, and arcs bow through the middle.
 // Pure geometry: the component only draws what this returns.
 
+// Server and browser trig can differ in the last digit; rounding keeps the
+// server-rendered SVG identical to the hydrated one.
+const r1 = (n: number) => Math.round(n * 10) / 10;
+
 export interface FlowEdge { from: string; to: string; netUsd: number; walletCount: number; confidence: number }
 export interface FlowNode { chain: string; x: number; y: number; angle: number; inUsd: number; outUsd: number; net: number; side: 'left' | 'right' }
 export interface FlowArc { key: string; from: string; to: string; d: string; x1: number; y1: number; x2: number; y2: number; width: number; length: number; edge: FlowEdge }
@@ -30,7 +34,7 @@ export function flowLayout(edges: FlowEdge[], w: number, h: number, ring = 0.4):
   const left = all.filter((n) => n.net < 0).sort((a, b) => a.net - b.net || a.chain.localeCompare(b.chain));
   const right = all.filter((n) => n.net >= 0).sort((a, b) => b.net - a.net || a.chain.localeCompare(b.chain));
   const place = (list: typeof all, angles: number[], side: 'left' | 'right'): FlowNode[] =>
-    list.map((n, i) => ({ ...n, side, angle: angles[i], x: cx + R * Math.cos(deg(angles[i])), y: cy + R * Math.sin(deg(angles[i])) }));
+    list.map((n, i) => ({ ...n, side, angle: angles[i], x: r1(cx + R * Math.cos(deg(angles[i]))), y: r1(cy + R * Math.sin(deg(angles[i]))) }));
   const nodes = [
     ...place(left, spread(left.length, 235, 125), 'left'),
     ...place(right, spread(right.length, -55, 55), 'right'),

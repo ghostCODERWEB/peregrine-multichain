@@ -2,7 +2,8 @@
 import Link from 'next/link';
 import { ChainLogo } from '@/components/Logo';
 import { useMemo, useState } from 'react';
-import { ScoreRing } from '@/components/viz/ScoreRing';
+import { AreaSpark } from '@/components/viz/AreaSpark';
+import { BandBadge } from '@/components/ui/SurfaceKit';
 import { InfoPopover } from '@/components/InfoPopover';
 import { chainName, num, pct, usd } from '@/lib/viz/format';
 import type { ChainPageData, GridTile, PeerRow } from '@/server/weather/chain-page';
@@ -56,7 +57,7 @@ export function ChainHero({ d, tier, title, note }: { d: ChainPageData; tier: st
       <div className="relative flex flex-col gap-5 lg:flex-row lg:items-start">
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-3">
-            <ChainLogo chain={d.chain} size={44} labelled />
+            <ChainLogo chain={d.chain} size={64} labelled />
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-2 text-[12px] text-ink-2">
                 <span className="rounded border border-border px-2 py-0.5">Tier {tier}</span>
@@ -66,7 +67,7 @@ export function ChainHero({ d, tier, title, note }: { d: ChainPageData; tier: st
                   return r ? <span key={m} className="rounded bg-brand/12 px-2 py-0.5 text-ink">#{r} of {rows.filter((x) => x[m] > 0).length} by {IN_TEXT[m]}</span> : null;
                 })}
               </div>
-              <h1 id="chain-title" className="mt-1 text-lg font-semibold leading-snug text-ink sm:text-xl">{title}</h1>
+              <h1 id="chain-title" className="mt-1 text-[30px] font-extrabold leading-snug text-ink">{title}</h1>
             </div>
           </div>
           <p className="mt-2 text-[13px] text-ink-2">{note}</p>
@@ -88,10 +89,10 @@ export function ChainHero({ d, tier, title, note }: { d: ChainPageData; tier: st
         <div className="flex shrink-0 items-center gap-4 rounded-2xl border border-border/70 bg-raised/40 p-4 lg:w-[230px] lg:flex-col lg:text-center">
           {w.cpi != null && w.band ? (
             <>
-              <ScoreRing score={w.cpi} size={112} stroke={9} color={BAND_RING[w.band]} label="Flow Index" sublabel="0–100" />
+              <div className="num text-[64px] font-extrabold">{Math.round(w.cpi)}</div><AreaSpark values={w.series.map(v=>({t:v.t,value:v.cpi}))} label="Seven-day Flow Index; local trend scale" color={BAND_RING[w.band]}/>
               <div>
                 <div className="text-[11px] uppercase tracking-wider text-ink-muted">Flow Index</div>
-                <div className="text-[15px] font-semibold text-ink">{BAND_TEXT[w.band]}</div>
+                <BandBadge color={BAND_RING[w.band]}>{BAND_TEXT[w.band]}</BandBadge>
                 {w.trend6h != null && <div className="num text-[11.5px] text-ink-2">{w.trend6h >= 0 ? '+' : ''}{num(w.trend6h, 1)} over 6 hours</div>}
               </div>
             </>

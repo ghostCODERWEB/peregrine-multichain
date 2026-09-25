@@ -1,6 +1,7 @@
 'use client';
 import { EChart } from '@/components/charts/EChart';
 import { useThemeColors } from '@/components/charts/useThemeColors';
+import { ActivityRings } from '@/components/viz/ActivityRings';
 import { InfoPopover } from '@/components/InfoPopover';
 import { STORM_CLASS, STORM_LABEL } from '@/lib/viz/scales';
 import { num, pct } from '@/lib/viz/format';
@@ -26,27 +27,6 @@ export function stormTitle(symbol: string | null, s: StormWave): string {
   const storm = r.band === 'watch' || r.band === 'warning';
   const tail = !lead ? '' : ` · ${storm ? 'driven by' : 'top driver:'} ${name} ${num(lead[1], 0)}`;
   return `${symbol ?? 'This token'} · Dump Risk ${num(r.score, 0)}, ${STORM_LABEL[r.band]}${tail}`;
-}
-
-function Gauge({ score }: { score: number }) {
-  const c = useThemeColors();
-  const option = c && {
-    series: [{
-      type: 'gauge' as const, animation: false,
-      min: 0, max: 100, startAngle: 210, endAngle: -30, radius: '95%', center: ['50%', '58%'],
-      axisLine: { lineStyle: { width: 14, color: [[0.25, c.mid], [0.5, c['storm-1']], [0.75, c['storm-2']], [1, c['storm-3']]] as [number, string][] } },
-      splitLine: { distance: -14, length: 14, lineStyle: { color: c['surface-1'], width: 3 } },
-      splitNumber: 4,
-      axisTick: { show: false },
-      axisLabel: { distance: 20, color: c['ink-muted'], fontSize: 10 },
-      pointer: { length: '62%', width: 4, itemStyle: { color: c['ink-1'] } },
-      anchor: { show: true, size: 10, itemStyle: { color: c['ink-1'], borderColor: c['surface-1'], borderWidth: 2 } },
-      title: { show: false },
-      detail: { offsetCenter: [0, '42%'], fontSize: 30, fontWeight: 600, color: c['ink-1'], fontFamily: 'var(--font-geist-mono), monospace', formatter: (v: number) => v.toFixed(0) },
-      data: [{ value: score }],
-    }],
-  };
-  return option ? <EChart option={option} height={200} ariaLabel={`Dump Risk ${num(score, 0)} of 100`} /> : <div style={{ height: 200 }} />;
 }
 
 function Radar({ indicators }: { indicators: Indicator[] }) {
@@ -90,8 +70,8 @@ export function StormDial({ s, indicators }: { s: StormWave; indicators: Indicat
           {s.provenance.composite && <InfoPopover p={s.provenance.composite} />}
         </span>
       </div>
-      <Gauge score={r.score} />
-      <ul className="grid grid-cols-2 gap-1.5 sm:grid-cols-3" aria-label="Dump Risk inputs">
+      <ActivityRings value={r.score} band={STORM_LABEL[r.band]} values={(Object.entries(r.subScores) as Array<[StormInput,number|null]>).filter((v): v is [StormInput,number] => v[1] != null).sort((a,b)=>b[1]-a[1]).slice(0,4).map(([key,value])=>({name:INPUT_LABEL[key][1],value}))} />
+      <details className="mt-4"><summary className="cursor-pointer text-xs font-semibold text-ink-2">All inputs and Nansen indicators</summary><ul className="mt-3 grid grid-cols-2 gap-1.5" aria-label="Dump Risk inputs">
         {(Object.keys(INPUT_LABEL) as StormInput[]).map((k) => {
           const v = r.subScores[k];
           const cls = v == null ? null : STORM_CLASS[stormBand(v)];
@@ -119,7 +99,7 @@ export function StormDial({ s, indicators }: { s: StormWave; indicators: Indicat
         <div className="text-[12.5px] font-medium text-ink">Nansen&apos;s own indicators</div>
         <p className="text-[11.5px] text-ink-muted">Signal percentile vs all tokens Nansen scores (tgm/indicators).</p>
         <Radar indicators={indicators} />
-      </div>
+      </div></details>
     </div>
   );
 }

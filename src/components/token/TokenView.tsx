@@ -87,11 +87,10 @@ const VIEWS: Array<[View, string]> = [['overview', 'Overview'], ['flow', 'Flow']
 type Row = { cols: 2 | 3; items: Array<[string, number?]> };
 const LAYOUT: Record<View, Row[]> = {
   overview: [
-    { cols: 3, items: [['storm'], ['market', 2]] },
-    { cols: 3, items: [['gauges', 2], ['call']] },
+    { cols: 3, items: [['ask', 2], ['call']] },
+    { cols: 2, items: [['gauges', 2]] },
     { cols: 3, items: [['sphere', 2], ['cohorts']] },
     { cols: 3, items: [['odds'], ['leverage', 2]] },
-    { cols: 2, items: [['ask', 2]] },
   ],
   flow: [
     { cols: 3, items: [['cohorts'], ['wind'], ['traders']] },
@@ -304,7 +303,7 @@ export function TokenView({ chain, address, tier, mode }: { chain: string; addre
       </Card>
     ),
     ask: (cls) => ok(s.storm) && s.storm.final ? (
-      <Card id="ask" className={cls} title={`Ask the AI Analyst about ${symbol ?? 'this token'}, or set a risk alert`} sub="Nansen's agent explains this token's scores in four sentences; a risk alert turns them into Nansen Smart Alerts that keep watching after you leave.">
+      <Card id="ask" className={cls} title={`Ask Nansen about ${symbol ?? 'this token'}, or set a risk alert`} sub="Nansen's agent explains this token's scores in four sentences; a risk alert turns them into Nansen Smart Alerts that keep watching after you leave.">
         <AnchorCard query={`kind=token&chain=${chain}&address=${encodeURIComponent(address)}`} label="It reads the scores above; nothing is sent until you ask." />
         <div className="mt-4 border-t border-border pt-3">
           <StormAlertForm chain={chain} address={address} clusterWallets={[...clustered]} />
@@ -328,16 +327,16 @@ export function TokenView({ chain, address, tier, mode }: { chain: string; addre
   return (
     <div className="space-y-4">
       <Link href={`/chain/${chain}`} className="text-[12.5px] text-ink-2 hover:text-ink">← {chainName(chain)}</Link>
-      <TokenHero chain={chain} address={address} tier={tier} title={title} h={h} m={ok(s.market) ? s.market : null} storm={ok(s.storm) ? s.storm : null} done={s.done} />
+      <TokenHero chain={chain} address={address} tier={tier} title={title} h={h} m={ok(s.market) ? s.market : null} storm={ok(s.storm) ? s.storm : null} done={s.done}>{cards.storm('')}</TokenHero>
       {s.fatal && <p className="rounded-md border border-border px-3 py-2 text-sm text-ink-2">{s.fatal}</p>}
       {gone(s.header) && <Unavailable text={s.header.unavailable} />}
       {h?.isStablecoin && <p className="text-[12px] text-ink-2">Nansen classifies this token as a stablecoin; dump-risk scoring is not meaningful for it.</p>}
 
       <div className="sticky top-14 z-20 -mx-1 overflow-x-auto px-1 py-1 lg:top-2">
-        <div role="tablist" aria-label="Token views" className="glass inline-flex gap-1 rounded-full p-1">
+        <div role="tablist" aria-label="Token views" className="inline-flex max-w-full gap-1 overflow-x-auto rounded-full border border-[var(--hair)] bg-ink/5 p-1">
           {VIEWS.map(([k, label]) => (
             <button key={k} role="tab" aria-selected={view === k} onClick={() => setView(k)}
-              className={`whitespace-nowrap rounded px-3.5 py-1.5 text-[13px] transition-colors ${view === k ? 'bg-brand/15 font-medium text-ink ring-1 ring-brand/40' : 'text-ink-2 hover:text-ink'}`}>
+              className={`whitespace-nowrap rounded-full px-4 py-1.5 text-[13px] font-semibold transition-colors ${view === k ? 'bg-ink/12 text-ink shadow-[inset_0_1px_0_var(--hair-2),0_3px_8px_#0003]' : 'text-ink-muted hover:text-ink'}`}>
               {label}
             </button>
           ))}
@@ -346,7 +345,9 @@ export function TokenView({ chain, address, tier, mode }: { chain: string; addre
 
       <div role="tabpanel" aria-label={VIEWS.find(([k]) => k === view)![1]} className="space-y-4">
         {LAYOUT[view].map((row, i) => {
-          const items = row.items.map(([key, span]) => [key, cards[key](span ? SPAN[span] : '')] as const).filter(([, el]) => el);
+          // Dump Risk lives in the hero on every view; rendering it again here
+          // would duplicate its section and its #storm anchor.
+          const items = row.items.filter(([key]) => key !== 'storm').map(([key, span]) => [key, cards[key](span ? SPAN[span] : '')] as const).filter(([, el]) => el);
           if (!items.length) return null;
           return (
             <div key={`${view}-${i}`} className={`grid gap-4 ${row.cols === 3 ? 'lg:grid-cols-3' : 'lg:grid-cols-2'}`}>

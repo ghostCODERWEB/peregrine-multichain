@@ -7,7 +7,6 @@
 // never a mock: the data may not be redistributed.
 import Link from 'next/link';
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
-import { Lock } from 'lucide-react';
 import { InfoPopover } from '@/components/InfoPopover';
 import { ChainLogo, TokenLogo, chainLogoSrc } from '@/components/Logo';
 import { FrontSheet, frontKey } from './FrontsPanel';
@@ -15,6 +14,8 @@ import { flowLayout, particleCount } from '@/lib/viz/flow-layout';
 import { frontsHeadline } from '@/lib/insights';
 import { pressureClass, fillVar } from '@/lib/viz/scales';
 import { chainName, num, shortAddress, usd, walletName } from '@/lib/viz/format';
+import { LockedPanel } from '@/components/ui/SurfaceKit';
+import { Segmented } from '@/components/ui/Segmented';
 import type { FrontWithProvenance, ChainTile } from '@/server/weather/bulletin';
 
 const WINDOWS = [{ h: 24, label: '24h' }, { h: 48, label: '48h' }, { h: 168, label: '7d' }] as const;
@@ -102,10 +103,10 @@ export function CapitalFlows({ initial, chains, withheld, chain }: { initial: Fr
     : frontsHeadline(observed);
 
   return (
-    <section aria-labelledby="fronts-title" className="glass rounded-2xl p-4">
+    <section aria-labelledby="fronts-title" className="material p-5 sm:p-6">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
-          <h2 id="fronts-title" className="text-base font-semibold text-ink">
+          <h2 id="fronts-title" className="text-[19px] font-bold text-ink">
             {title}
           </h2>
           <p className="mt-0.5 text-[12.5px] text-ink-muted">
@@ -115,22 +116,13 @@ export function CapitalFlows({ initial, chains, withheld, chain }: { initial: Fr
         {!withheld && (
           <div className="flex items-center gap-2">
             <span className="num text-[12px] text-ink-muted">{observed.length} flows · {usd(total)} net</span>
-            <div role="group" aria-label="Flow window" className="flex rounded-md border border-border p-0.5">
-              {WINDOWS.map((w) => (
-                <button key={w.h} type="button" aria-pressed={hours === w.h} onClick={() => pick(w.h)}
-                  className={`num rounded px-2.5 py-1 text-[12px] ${hours === w.h ? 'bg-accent text-ink' : 'text-ink-2 hover:text-ink'}`}>{w.label}</button>
-              ))}
-            </div>
+            <Segmented label="Flow window" value={hours} options={WINDOWS.map(w=>({value:w.h,label:w.label}))} onChange={pick}/>
           </div>
         )}
       </div>
 
       {withheld ? (
-        <div className="mt-3 flex flex-col items-center gap-3 rounded-xl border border-dashed border-border px-4 py-10 text-center">
-          <Lock className="h-5 w-5 text-ink-muted" aria-hidden />
-          <p className="max-w-lg text-[13px] text-ink-2">Built from Nansen smart-money DEX trades, which Nansen&apos;s rules keep out of public views. Connect your own Nansen key to see where smart money is rotating, live.</p>
-          <Link href="/account" className="rounded-md bg-brand/15 px-3 py-1.5 text-[13px] text-ink ring-1 ring-brand/40 hover:bg-brand/25">Use my Nansen key</Link>
-        </div>
+        <LockedPanel />
       ) : error ? (
         <p className="mt-3 rounded-lg border border-dashed border-border px-3 py-6 text-[13px] text-ink-2">{error}</p>
       ) : !observed.length ? (
@@ -138,7 +130,7 @@ export function CapitalFlows({ initial, chains, withheld, chain }: { initial: Fr
           No capital rotations in the last {window}: fewer than two wallets moved between the same pair of chains.
         </p>
       ) : (
-        <div className={`mt-3 grid gap-4 lg:grid-cols-[minmax(0,1fr)_300px] ${loading ? 'opacity-60' : ''}`}>
+        <div className={`mt-3 grid gap-4 xl:grid-cols-[minmax(0,1fr)_360px] ${loading ? 'opacity-60' : ''}`}>
           <div ref={wrap} className="min-w-0">
             <svg viewBox={`0 0 ${W} ${H}`} className="h-auto w-full" role="img"
               aria-label={`Capital flows over ${window}: ${observed.slice(0, 5).map((f) => `${chainName(f.from)} to ${chainName(f.to)} ${usd(f.netUsd)}`).join('; ')}`}>
@@ -155,6 +147,10 @@ export function CapitalFlows({ initial, chains, withheld, chain }: { initial: Fr
                 ))}
               </defs>
 
+              {/* Calibrated ring ticks; no fabricated values. */}
+              {/* Rounded: server and browser trig differ in the last digit. */}
+              {Array.from({length:60},(_,i)=>{const a=i*Math.PI/30,r=Math.min(W,H)*ring,q=(n:number)=>Math.round(n*10)/10;return <line key={i} x1={q(W/2+Math.cos(a)*(r-8))} y1={q(H/2+Math.sin(a)*(r-8))} x2={q(W/2+Math.cos(a)*(r+(i%5===0?4:0)))} y2={q(H/2+Math.sin(a)*(r+(i%5===0?4:0)))} stroke="var(--mint)" opacity={i%5===0?.5:.18}/>;})}
+              <circle cx={W/2} cy={H/2} r={Math.min(W,H)*ring-35} fill="none" stroke="var(--hair-2)" strokeDasharray="3 8"/>
               {/* Orbit guide */}
               <circle cx={W / 2} cy={H / 2} r={Math.min(W, H) * ring} fill="none" stroke="var(--axis)" strokeOpacity={0.5} strokeDasharray="2 6" />
 
@@ -204,7 +200,7 @@ export function CapitalFlows({ initial, chains, withheld, chain }: { initial: Fr
                     <text x={lx} y={ly} textAnchor={anchor} className="fill-ink text-[13px] font-medium">{chainName(n.chain)}</text>
                     <text x={lx} y={ly + 16} textAnchor={anchor} className="num text-[11.5px]"
                       style={{ fill: n.net >= 0 ? 'var(--in-3)' : 'var(--out-3)' }}>
-                      {n.net >= 0 ? '▲ +' : '▼ −'}{usd(Math.abs(n.net))}{c != null && !narrow ? ` · Flow ${num(c, 0)}` : ''}
+                      {n.net >= 0 ? '▲ +' : '▼ −'}{usd(Math.abs(n.net))} rotated{c != null && !narrow ? ` · Flow ${num(c, 0)}` : ''}
                     </text>
                   </g>
                 );
@@ -212,8 +208,8 @@ export function CapitalFlows({ initial, chains, withheld, chain }: { initial: Fr
               <text x={W / 2 - (narrow ? 120 : 250)} y={H - 6} textAnchor="middle" className="fill-ink-muted text-[10.5px] uppercase tracking-[0.14em]">Net sellers</text>
               <text x={W / 2 + (narrow ? 120 : 250)} y={H - 6} textAnchor="middle" className="fill-ink-muted text-[10.5px] uppercase tracking-[0.14em]">Net buyers</text>
             </svg>
-            <p className="mt-1 text-[11px] text-ink-muted">Width = net USD · particles = wallets behind the flow · red → green = sell side to buy side · ring = the chain&apos;s Flow Index</p>
-            <RotatedTokens fronts={observed} />
+            <p className="mt-1 text-[11px] text-ink-muted">Width = net USD · particles = wallets behind the flow · flare → mint = sell side to buy side · ring = the chain&apos;s Flow Index</p>
+            <p className="mt-2 text-xs text-ink-muted">Flow Index is market-wide net flow against each chain’s own history; rotations track the same wallets moving between chains. They can disagree.</p><RotatedTokens fronts={observed} />
           </div>
 
           {/* Detail of the selected flow, then every flow as a keyboard-reachable list. */}
@@ -247,15 +243,16 @@ function FlowDetail({ front: f, onWallets }: { front: FrontWithProvenance; onWal
   const sold = topTokens(f.wallets.map((w) => w.soldTokens));
   const bought = topTokens(f.wallets.map((w) => w.boughtTokens));
   return (
-    <div className="rounded-xl border border-border bg-raised/40 p-3">
+    <div className="material-strong rounded-[22px] p-5">
       <div className="flex items-start justify-between gap-2">
         <div className="flex items-center gap-2 text-[14px] font-semibold text-ink">
           <ChainLogo chain={f.from} size={18} />{chainName(f.from)}<span className="text-ink-muted">→</span><ChainLogo chain={f.to} size={18} />{chainName(f.to)}
         </div>
         <InfoPopover p={f.provenance} />
       </div>
-      <div className="num mt-2 text-[24px] font-semibold leading-none" style={{ color: 'var(--in-3)' }}>{usd(f.netUsd)}</div>
-      <div className="mt-0.5 text-[11.5px] text-ink-muted">net rotated · {usd(f.grossForward)} forward, {usd(f.grossBack)} back</div>
+      <div className="num mt-2 text-[48px] font-extrabold leading-none" style={{ color: 'var(--in-3)' }}>{usd(f.netUsd)}</div>
+      <div className="mt-0.5 text-[11.5px] text-ink-muted">net rotated</div>
+      <div className="mt-4 grid grid-cols-2 gap-2"><div className="inset-well p-3 text-xs text-ink-muted">Forward<div className="num mt-1 text-lg font-bold text-ink">{usd(f.grossForward)}</div></div><div className="inset-well p-3 text-xs text-ink-muted">Back<div className="num mt-1 text-lg font-bold text-ink">{usd(f.grossBack)}</div></div></div>
       <dl className="mt-3 grid grid-cols-2 gap-2 text-[12px]">
         <div><dt className="label">Wallets</dt><dd className="num text-ink">{f.walletCount}</dd></div>
         <div>
@@ -290,7 +287,7 @@ function refsOn(f: FrontWithProvenance, chain: string): Map<string, string> {
 
 /** A token chip: a link to the token's page when its address is known. */
 function Chip({ t, href, children }: { t: string; href?: string; children?: React.ReactNode }) {
-  const cls = 'inline-flex items-center gap-1 rounded border border-border px-1.5 py-0.5 text-ink';
+  const cls = 'inline-flex min-h-[26px] items-center gap-1 rounded-full border border-brand/25 bg-brand/10 px-2.5 py-1 text-ink';
   const inner = <><TokenLogo symbol={t} size={12} badge={false} />{t}{children}</>;
   return href ? <Link href={href} className={`${cls} hover:border-axis hover:bg-raised`}>{inner}</Link> : <span className={cls}>{inner}</span>;
 }

@@ -108,7 +108,7 @@ export function AskNansenPanel({ subject, label, attachTo, open, onOpenChange }:
           <div className="min-w-0 flex-1 space-y-3 px-4 pb-6">
             {error && <p className="text-[12.5px] text-ink-2">{error}</p>}
             {!error && !info && <p className="animate-pulse text-[12.5px] text-ink-muted">Reading what Peregrine knows about this page…</p>}
-            {info?.demo && <p className="rounded-lg border border-dashed border-border p-2 text-[12px] text-ink-muted">Keyless demo: the research agent costs 750 credits a question and does not run here. This shows the panel with no live answer.</p>}
+            {info?.demo && <p className="rounded-lg border border-dashed border-border p-2 text-[12px] text-ink-muted">Keyless demo: Ask Nansen costs 750 credits a question and does not run here. This shows the panel with no live answer.</p>}
             {info?.context && (
               <details className="rounded-lg border border-border p-2.5 text-[12px] text-ink-2" open={!turns.length}>
                 <summary className="cursor-pointer select-none text-ink">What Peregrine will send with your first question ({info.context.view})</summary>
@@ -166,7 +166,7 @@ export function AskNansenPanel({ subject, label, attachTo, open, onOpenChange }:
                 ))}</ul>
               </div>
             )}
-            <p className="text-[11px] text-ink-muted">Free text from Nansen&apos;s agent: check it against the receipts elsewhere on the page. Saved to your account only, never published. <Link href="/agent" className="underline underline-offset-2">Full research agent →</Link> Not financial advice.</p>
+            <p className="text-[11px] text-ink-muted">Free text from Nansen&apos;s agent: check it against the receipts elsewhere on the page. Saved to your account only, never published. <Link href="/agent" className="underline underline-offset-2">Open Ask Nansen →</Link> Not financial advice.</p>
           </div>
         </SheetContent>
       </Sheet>

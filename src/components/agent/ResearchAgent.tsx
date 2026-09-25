@@ -26,7 +26,7 @@ export function ResearchAgent({ suggestions }: { suggestions: string[] }) {
   const bottom = useRef<HTMLDivElement>(null);
 
   const load = () => fetch('/api/agent').then(async (r) => { const j = await r.json(); if (r.ok) setInfo(j); else setError(j.error ?? 'Unavailable.'); }).catch(() => setError('Could not reach the agent API.'));
-  useEffect(() => { void load(); }, []);
+  useEffect(() => { void load(); setQuestion(new URLSearchParams(window.location.search).get('q') ?? ''); }, []);
 
   async function ask() {
     const q = question.trim();
@@ -88,7 +88,7 @@ export function ResearchAgent({ suggestions }: { suggestions: string[] }) {
         ))}
         <div ref={bottom} />
         <div className="glass rounded-2xl p-4">
-          <label htmlFor="agent-q" className="text-[12.5px] text-ink-2">{conversationId ? 'Follow up in this conversation' : 'Ask Nansen’s research agent'}</label>
+          <label htmlFor="agent-q" className="text-[12.5px] text-ink-2">{conversationId ? 'Follow up in this conversation' : 'Ask Nansen'}</label>
           <textarea id="agent-q" value={question} onChange={(e) => { setQuestion(e.target.value); setConfirming(false); }} rows={3} maxLength={2000}
             className="mt-1 block w-full rounded-lg border border-border bg-raised px-3 py-2 text-[13.5px] text-ink" placeholder="e.g. Which tokens are smart money accumulating on Base this week, and who is selling them?" />
           {!turns.length && suggestions.length > 0 && (

@@ -26,7 +26,7 @@ export function ThemeToggle() {
     <button
       type="button"
       onClick={toggle}
-      className="inline-flex h-8 w-8 items-center justify-center rounded-md text-ink-2 hover:bg-accent hover:text-ink"
+      className="liquid-control inline-flex h-8 w-8 items-center justify-center rounded-xl text-ink-2 hover:text-ink"
       aria-label={dark ? 'Switch to paper chart theme' : 'Switch to navy theme'}
       title={dark ? 'Paper chart theme' : 'Navy theme'}
     >

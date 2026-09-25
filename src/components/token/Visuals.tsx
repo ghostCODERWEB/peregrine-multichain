@@ -1,4 +1,5 @@
 'use client';
+import { CandleChart } from './CandleChart';
 import { useState } from 'react';
 import { ScoreRing } from '@/components/viz/ScoreRing';
 import { InfoPopover } from '@/components/InfoPopover';
@@ -27,30 +28,6 @@ function change(m: MarketWave | null, hours: number): number | null {
   return from > 0 ? to / from - 1 : null;
 }
 
-function PriceSpark({ m }: { m: MarketWave }) {
-  const closes = m.candles.map((c) => c.c);
-  if (closes.length < 2) return null;
-  const W = 220, H = 54;
-  const lo = Math.min(...closes), hi = Math.max(...closes), span = hi - lo || 1;
-  const pts = closes.map((v, i) => [(i / (closes.length - 1)) * W, H - 4 - ((v - lo) / span) * (H - 8)] as const);
-  const line = pts.map(([x, y], i) => `${i ? 'L' : 'M'}${x.toFixed(1)},${y.toFixed(1)}`).join('');
-  const up = closes.at(-1)! >= closes[0];
-  const col = up ? 'var(--in-2)' : 'var(--out-2)';
-  return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="h-[54px] w-full max-w-[220px]" role="img" aria-label={`Price over ${Math.round(closes.length / 6)} days: ${up ? 'up' : 'down'} ${pct(closes.at(-1)! / closes[0] - 1, 1)}`}>
-      <defs>
-        <linearGradient id="hero-spark" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0%" stopColor={col} stopOpacity="0.35" />
-          <stop offset="100%" stopColor={col} stopOpacity="0" />
-        </linearGradient>
-      </defs>
-      <path d={`${line}L${W},${H}L0,${H}Z`} fill="url(#hero-spark)" />
-      <path d={line} fill="none" stroke={col} strokeWidth={2} strokeLinejoin="round" />
-      <circle cx={pts.at(-1)![0]} cy={pts.at(-1)![1]} r={3} fill={col} />
-    </svg>
-  );
-}
-
 function Delta({ v, label }: { v: number | null; label: string }) {
   if (v == null) return null;
   const up = v >= 0;
@@ -67,10 +44,11 @@ function Delta({ v, label }: { v: number | null; label: string }) {
  * buy/sell split of the day, and the Storm Score as a ring. Every number is
  * from Nansen; anything it did not return reads "—".
  */
-export function TokenHero({ chain, address, tier, h, m, storm, done, title }: {
+export function TokenHero({ chain, address, tier, h, m, storm, done, title, children }: {
   chain: string; address: string; tier: string; title: string;
   h: TokenHeader | null; m: MarketWave | null; storm: StormWave | null;
   done?: { calls: number; credits: number; cached: number };
+  children?: React.ReactNode;
 }) {
   const price = m?.candles.at(-1)?.c ?? null;
   const buy = h?.buyVolumeUsd ?? null, sell = h?.sellVolumeUsd ?? null;
@@ -78,12 +56,12 @@ export function TokenHero({ chain, address, tier, h, m, storm, done, title }: {
   const age = h?.deployedAt ? Math.max(0, Math.floor((Date.now() - Date.parse(h.deployedAt)) / 86_400_000)) : null;
   const initials = (h?.symbol ?? '?').replace(/[^A-Za-z0-9]/g, '').slice(0, 3).toUpperCase() || '?';
   return (
-    <section aria-labelledby="token-title" className="glass rise relative overflow-hidden rounded-2xl p-4 sm:p-6">
-      <div className="relative flex flex-col gap-5 lg:flex-row lg:items-start">
-        <div className="min-w-0 flex-1">
+    <section aria-labelledby="token-title" className="rise relative">
+      <div className="relative grid gap-4 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+        <div className="material min-w-0 p-5 sm:p-7">
           <div className="flex items-center gap-3">
             <div className="relative shrink-0">
-              <TokenLogo symbol={h?.symbol ?? initials} logo={h?.logo} size={44} />
+              <TokenLogo symbol={h?.symbol ?? initials} logo={h?.logo} size={64} />
               <span className="absolute -bottom-1 -right-1 rounded-md bg-surface p-0.5 ring-1 ring-border"><ChainLogo chain={chain} size={16} /></span>
             </div>
             <div className="min-w-0">
@@ -93,44 +71,22 @@ export function TokenHero({ chain, address, tier, h, m, storm, done, title }: {
                 {h?.marketCapGroup && <span className="rounded border border-border px-2 py-0.5">{h.marketCapGroup.replace(/_/g, ' ')}</span>}
                 <span className="num text-ink-muted">{shortAddress(address)}</span>
               </div>
-              <h1 id="token-title" className="mt-1 text-lg font-semibold leading-snug text-ink sm:text-xl">{title}</h1>
+              <h1 id="token-title" className="mt-1 text-[30px] font-extrabold leading-snug text-ink" title={title}>{h?.name ?? h?.symbol ?? title}</h1>
             </div>
           </div>
           <div className="mt-4 flex flex-wrap items-end gap-x-5 gap-y-3">
             <div>
               <div className="text-[11px] uppercase tracking-wider text-ink-muted">{h?.symbol ?? 'Token'} price</div>
-              <div className="num text-3xl font-semibold text-ink sm:text-4xl">{price != null ? (price < 1 ? `$${num(price, price < 0.01 ? 6 : 4)}` : usd(price)) : '—'}</div>
+              <div className="num text-[48px] leading-tight tracking-[-.05em] font-extrabold text-ink sm:text-[72px]">{price != null ? (price < 1 ? `$${num(price, price < 0.01 ? 6 : 4)}` : usd(price)) : '—'}</div>
             </div>
             <div className="flex flex-wrap gap-1.5 pb-1.5"><Delta v={change(m, 24)} label="24h" /><Delta v={change(m, 24 * 7)} label="7d" /></div>
-            {m && <div className="min-w-[160px] flex-1 pb-1"><PriceSpark m={m} /></div>}
+            
           </div>
-          <dl className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-6">
-            {[
-              ['Market cap', usd(h?.marketCapUsd)], ['FDV', usd(h?.fdvUsd)], ['Liquidity', usd(h?.liquidityUsd)],
-              ['24h volume', usd(h?.volume24hUsd)], ['Holders', h?.holders?.toLocaleString('en-US') ?? '—'], ['Age', age != null ? `${age.toLocaleString('en-US')} days` : '—'],
-            ].map(([k, v]) => (
-              <div key={k} className="rounded-xl border border-border/70 bg-raised/50 px-3 py-2">
-                <dt className="text-[10.5px] uppercase tracking-wider text-ink-muted">{k}</dt>
-                <dd className="num mt-0.5 text-[14px] text-ink">{v}</dd>
-              </div>
-            ))}
-          </dl>
-          {buyShare != null && (
-            <div className="mt-3">
-              <div className="flex justify-between text-[11.5px] text-ink-2">
-                <span>Bought {usd(buy)}{h?.uniqueBuyers != null ? ` · ${h.uniqueBuyers.toLocaleString('en-US')} buyers` : ''}</span>
-                <span>Sold {usd(sell)}{h?.uniqueSellers != null ? ` · ${h.uniqueSellers.toLocaleString('en-US')} sellers` : ''}</span>
-              </div>
-              <div className="mt-1 flex h-2 overflow-hidden rounded-full" role="img" aria-label={`24h DEX volume: ${pct(buyShare, 0)} buys, ${pct(1 - buyShare, 0)} sells`}>
-                <div style={{ width: `${buyShare * 100}%`, background: 'var(--in-2)' }} />
-                <div className="w-[2px] bg-page" />
-                <div className="flex-1" style={{ background: 'var(--out-2)' }} />
-              </div>
-            </div>
-          )}
+          {m && <div className="mt-6"><CandleChart m={m}/></div>}
+
         </div>
-        <div className="flex shrink-0 items-center gap-4 rounded-2xl border border-border/70 bg-raised/40 p-4 lg:w-[230px] lg:flex-col lg:text-center">
-          {storm ? (
+        <div className="min-w-0 space-y-4">
+          {children ?? (storm ? (
             <>
               <ScoreRing score={storm.result.score} size={112} stroke={9} color={STORM_RING[storm.result.band]} label="Dump Risk" sublabel="of 100" />
               <div>
@@ -141,9 +97,35 @@ export function TokenHero({ chain, address, tier, h, m, storm, done, title }: {
             </>
           ) : (
             <div className="py-6 text-[12.5px] text-ink-2">Dump Risk lands once holders, flows and liquidity are in.</div>
+          ))}
+          <div className="material p-5"><h2 className="text-[19px] font-bold">DEX activity · 24h</h2><p className="mt-1 text-xs text-ink-muted">All traders, not only smart money.</p>          {buyShare != null && (
+            <div className="mt-3">
+              <div className="flex justify-between text-[11.5px] text-ink-2">
+                <span>Bought {usd(buy)}{h?.uniqueBuyers != null ? ` · ${h.uniqueBuyers.toLocaleString('en-US')} buyers` : ''}</span>
+                <span>Sold {usd(sell)}{h?.uniqueSellers != null ? ` · ${h.uniqueSellers.toLocaleString('en-US')} sellers` : ''}</span>
+              </div>
+              <div className="mt-3 flex h-3.5 overflow-hidden rounded-full" role="img" aria-label={`24h DEX volume: ${pct(buyShare, 0)} buys, ${pct(1 - buyShare, 0)} sells`}>
+                <div style={{ width: `${buyShare * 100}%`, background: 'var(--in-2)' }} />
+                <div className="w-[2px] bg-page" />
+                <div className="flex-1" style={{ background: 'var(--out-2)' }} />
+              </div>
+            </div>
           )}
+          {buyShare == null && <p className="mt-3 text-xs text-ink-muted">Buy/sell volume unavailable from Nansen.</p>}
+          </div>
         </div>
       </div>
+          <dl className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-6">
+            {[
+              ['Market cap', usd(h?.marketCapUsd)], ['FDV', usd(h?.fdvUsd)], ['Liquidity', usd(h?.liquidityUsd)],
+              ['24h volume', usd(h?.volume24hUsd)], ['Holders', h?.holders?.toLocaleString('en-US') ?? '—'], ['Age', age != null ? `${age.toLocaleString('en-US')} days` : '—'],
+            ].map(([k, v]) => (
+              <div key={k} className="inset-well px-4 py-3">
+                <dt className="text-[12.5px] text-ink-muted">{k}</dt>
+                <dd className="num mt-0.5 text-[22px] font-extrabold text-ink">{v}</dd>
+              </div>
+            ))}
+          </dl>
       <div className="relative mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-border/60 pt-3 text-[11.5px] text-ink-muted">
         {h?.deployedAt && <span>Deployed {h.deployedAt.slice(0, 10)}</span>}
         {done && <span className="num">This page: {done.calls} Nansen calls, {done.credits} credits ({done.cached} from cache)</span>}
@@ -187,8 +169,8 @@ export function LiquidationLadder({ w }: { w: LeverageWave }) {
       <li key={`${b.side}${b.outer}`} className={`grid grid-cols-[64px_1fr_76px] items-center gap-2 rounded-md px-1 py-[3px] ${dense ? 'ring-1 ring-ink-2/50' : ''} ${hover === b ? 'bg-raised' : ''}`}
         onPointerEnter={() => setHover(b)} onPointerLeave={() => setHover(null)}>
         <span className="num text-right text-[11.5px] text-ink-2">{b.outer > 0 ? '+' : ''}{pct(b.outer, 0)}</span>
-        <span className="relative h-[14px]">
-          <span className="absolute inset-y-0 left-0 rounded-r-[4px]" style={{ width: `${b.usd > 0 ? Math.max(1.5, (b.usd / peak) * 100) : 0}%`, background: col, opacity: dense ? 1 : 0.8 }} />
+        <span className="relative h-[20px] rounded bg-raised">
+          <span className="absolute inset-y-0 left-0 rounded-[6px]" style={{ width: `${b.usd > 0 ? Math.max(1.5, (b.usd / peak) * 100) : 0}%`, background: `linear-gradient(90deg, color-mix(in srgb, ${col} 20%, transparent), ${col})`, opacity: dense ? 1 : 0.8 }} />
         </span>
         <span className="num text-right text-[11.5px] text-ink">{b.usd > 0 ? usd(b.usd) : <span className="text-ink-muted">—</span>}</span>
       </li>
@@ -213,7 +195,7 @@ export function LiquidationLadder({ w }: { w: LeverageWave }) {
           <ul>{shorts.map(row)}</ul>
           <div className="my-1.5 flex items-center gap-2">
             <span className="h-px flex-1 bg-ink-2/60" />
-            <span className="num rounded border border-border bg-raised px-2.5 py-0.5 text-[11.5px] text-ink">Mark {fmtPrice(l.mark)}</span>
+            <span className="num rounded-full border border-brand/40 bg-brand/10 px-3 py-1 text-[12px] font-bold text-brand" style={{boxShadow:"0 0 14px color-mix(in srgb,var(--mint) 18%,transparent)"}}>Mark {fmtPrice(l.mark)}</span>
             <span className="h-px flex-1 bg-ink-2/60" />
           </div>
           <ul>{longs.map(row)}</ul>

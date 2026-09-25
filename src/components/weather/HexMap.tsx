@@ -34,15 +34,21 @@ export function HexMap({
   const wrap = useRef<HTMLDivElement>(null);
   // Narrow containers re-flow the clusters into more rows instead of
   // shrinking a desktop-width map until the tile labels are unreadable.
-  const [narrow, setNarrow] = useState(false);
+  // Wide containers pack the clusters to their own width (in 50px steps), so
+  // tiles stay near full size inside a bento card instead of shrinking a
+  // 1100px layout.
+  const [span, setSpan] = useState(1100);
   useEffect(() => {
     const el = wrap.current;
     if (!el) return;
-    const ro = new ResizeObserver(([entry]) => setNarrow(entry.contentRect.width < 640));
+    const ro = new ResizeObserver(([entry]) => {
+      const w = entry.contentRect.width;
+      setSpan(w < 640 ? 0 : Math.max(700, Math.min(1100, Math.round((w * 1.1) / 50) * 50)));
+    });
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
-  const layout = useMemo(() => (narrow ? layoutHexMap(34, 420, 28) : layoutHexMap(34, 1100, 40)), [narrow]);
+  const layout = useMemo(() => (span === 0 ? layoutHexMap(34, 420, 28) : layoutHexMap(34, span, 36)), [span]);
   const byChain = useMemo(() => new Map(chains.map((c) => [c.chain, c])), [chains]);
   const pos = useMemo(() => new Map(layout.tiles.map((t) => [t.chain, t])), [layout]);
   const [hover, setHover] = useState<Hover | null>(null);
@@ -72,13 +78,14 @@ export function HexMap({
         aria-label="Hex map of every chain the Nansen API lists, colored by Flow Index"
       >
         <defs>
+          <linearGradient id="hex-highlight" x1="0" y1="0" x2="0" y2="1"><stop stopColor="white" stopOpacity=".08"/><stop offset="1" stopColor="white" stopOpacity="0"/></linearGradient>
           <marker id="front-head" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.2" markerHeight="3.2" orient="auto-start-reverse">
             <path d="M0,0 L10,5 L0,10 z" fill="var(--ink-1)" />
           </marker>
         </defs>
 
         {layout.groups.map((g) => (
-          <text key={g.id} x={g.x} y={g.y + 12} className="fill-ink-muted text-[11px] uppercase tracking-[0.14em]">
+          <text key={g.id} x={g.x} y={g.y + 12} className="fill-ink-muted text-[12px] font-semibold">
             {g.label}
           </text>
         ))}
@@ -104,6 +111,7 @@ export function HexMap({
                   stroke={active ? 'var(--ink-1)' : cls ? 'var(--surface-1)' : 'var(--axis)'}
                   strokeWidth={active ? 2 : cls ? 2 : 1.25}
                 />
+                {cls && <polygon points={hexPoints(t.cx,t.cy,r-2)} fill="url(#hex-highlight)"/>}
               </g>
             );
           })}

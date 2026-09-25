@@ -1,7 +1,8 @@
 'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Activity, Shuffle, Target, Bot, ArrowLeftRight, Bell, BrainCircuit, Briefcase, FlaskConical, Gauge, KeyRound, Layers, Map, Menu, Sparkles, X, NotebookPen } from 'lucide-react';
 import { NAV, type NavIcon } from './nav';
 
@@ -19,7 +20,7 @@ export function NavList({ onNavigate }: { onNavigate?: () => void }) {
     <nav aria-label="Primary" className="space-y-4">
       {groups.map((g) => (
         <div key={g}>
-          <div className="label px-2 pb-1">{g}</div>
+          {g !== 'Explore' && <div className="label px-2 pb-2">{g}</div>}
           <ul className="space-y-0.5">
             {NAV.filter((n) => n.group === g).map((n) => {
               const Icon = ICONS[n.icon];
@@ -27,7 +28,7 @@ export function NavList({ onNavigate }: { onNavigate?: () => void }) {
               return (
                 <li key={n.href}>
                   <Link href={n.href} onClick={onNavigate} aria-current={on ? 'page' : undefined}
-                    className={`nav-item liquid-control group flex items-center gap-2.5 rounded-md px-2.5 py-2 text-[13px] ${on ? 'is-active text-ink' : 'text-ink-2 hover:text-ink'}`}>
+                    className={`nav-item liquid-control group flex items-center gap-2.5 rounded-xl px-2.5 py-2 text-[13px] ${on ? 'is-active text-ink' : 'text-ink-2 hover:text-ink'}`}>
                     <Icon className={`h-4 w-4 shrink-0 ${on ? 'text-brand' : 'text-ink-muted group-hover:text-ink-2'}`} aria-hidden />
                     <span>{n.label}</span>
                   </Link>
@@ -46,30 +47,41 @@ export function NavList({ onNavigate }: { onNavigate?: () => void }) {
 export function MobileMenu({ children }: { children?: React.ReactNode }) {
   const [open, setOpen] = useState(false);
   const path = usePathname();
+  const dialog = useRef<HTMLDivElement>(null);
+  const trigger = useRef<HTMLButtonElement>(null);
   useEffect(() => setOpen(false), [path]);
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false); };
+    const returnFocus = trigger.current;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const focusables = () => [...(dialog.current?.querySelectorAll<HTMLElement>('a[href],button') ?? [])];
+    focusables()[0]?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false);
+      if (e.key === 'Tab') { const all = focusables(), first = all[0], last = all.at(-1); if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last?.focus(); } else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first?.focus(); } }
+    };
     window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
+    return () => { window.removeEventListener('keydown', onKey); document.body.style.overflow = prev; returnFocus?.focus(); };
   }, [open]);
   return (
     <>
-      <button type="button" onClick={() => setOpen(true)} aria-label="Open menu" aria-expanded={open}
-        className="liquid-control inline-flex h-8 w-8 items-center justify-center rounded-md text-ink-2 hover:text-ink lg:hidden">
+      <button ref={trigger} type="button" onClick={() => setOpen(true)} aria-label="Open menu" aria-expanded={open}
+        className="liquid-control inline-flex h-8 w-8 items-center justify-center rounded-xl text-ink-2 hover:text-ink lg:hidden">
         <Menu className="h-4 w-4" />
       </button>
-      {open && (
-        <div className="fixed inset-0 z-50 bg-background/70 lg:hidden" onMouseDown={(e) => { if (e.target === e.currentTarget) setOpen(false); }}>
-          <div role="dialog" aria-modal="true" aria-label="Menu" className="glass glass-strong absolute inset-y-0 right-0 flex w-[min(300px,88vw)] flex-col overflow-y-auto rounded-none border-y-0 border-r-0 p-4">
+      {open && createPortal(
+        <div className="fixed inset-0 z-50 bg-background/55 backdrop-blur-sm lg:hidden" onMouseDown={(e) => { if (e.target === e.currentTarget) setOpen(false); }}>
+          <div ref={dialog} role="dialog" aria-modal="true" aria-label="Menu" className="liquid-glass liquid-glass-strong liquid-drawer absolute inset-y-2 right-2 flex w-[min(300px,88vw)] flex-col overflow-y-auto rounded-[24px] p-4">
             <div className="mb-3 flex items-center justify-between">
               <span className="text-[13px] font-medium text-ink-2">Menu</span>
               <button type="button" onClick={() => setOpen(false)} aria-label="Close menu" className="liquid-control rounded-md p-1.5 text-ink-2 hover:text-ink"><X className="h-4 w-4" /></button>
             </div>
             <NavList onNavigate={() => setOpen(false)} />
+            <div className="my-4 flex gap-4 text-sm"><Link href="/coverage">Coverage</Link><Link href="/account">Account</Link></div>
             {children && <div className="mt-auto space-y-2 border-t border-border pt-3">{children}</div>}
           </div>
-        </div>
+        </div>, document.body
       )}
     </>
   );

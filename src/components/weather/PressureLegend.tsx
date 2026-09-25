@@ -22,13 +22,6 @@ export function PressureLegend() {
         <span>no reading — not neutral</span>
       </div>
       <div className="flex items-center gap-1.5">
-        <svg width="26" height="10" viewBox="0 0 26 10" aria-hidden>
-          <path d="M1,5 L22,5" stroke="var(--ink-1)" strokeWidth="2.5" strokeLinecap="round" />
-          <path d="M19,2 L25,5 L19,8 z" fill="var(--ink-1)" />
-        </svg>
-        <span>capital rotation · width = USD · opacity = confidence</span>
-      </div>
-      <div className="flex items-center gap-1.5">
         <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden>
           <polygon points="7,1 12.2,4 12.2,10 7,13 1.8,10 1.8,4" fill="none" stroke="var(--in-3)" strokeWidth="1" />
         </svg>

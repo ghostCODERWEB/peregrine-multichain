@@ -30,13 +30,13 @@ export async function SiteHeader() {
     : 'Public view: smart-money trades, holdings and labels are withheld per Nansen’s redistribution rules.';
 
   return (
-    <header className="shell-rail glass glass-strong fixed inset-x-0 top-0 z-40 flex h-14 items-center gap-2 rounded-none border-x-0 border-t-0 px-3
-      lg:inset-y-0 lg:left-0 lg:right-auto lg:h-auto lg:w-[236px] lg:flex-col lg:items-stretch lg:gap-0 lg:rounded-none lg:border-y-0 lg:border-l-0 lg:p-3">
-      <Link href="/" className="brand-lockup flex items-center gap-2.5 lg:border-b lg:border-border lg:px-1 lg:pb-4 lg:pt-1" aria-label="Peregrine home">
-        <span className="grid h-7 w-7 place-items-center rounded border border-border bg-raised"><BrandMark size={18} /></span>
+    <header className="shell-rail liquid-glass liquid-glass-strong fixed inset-x-2 top-2 z-40 flex h-12 items-center gap-2 rounded-2xl px-2.5
+      lg:inset-y-[14px] lg:left-[14px] lg:right-auto lg:top-[14px] lg:h-auto lg:w-[236px] lg:flex-col lg:items-stretch lg:gap-0 lg:rounded-[22px] lg:p-3">
+      <Link href="/" className="brand-lockup flex items-center gap-2.5 lg:border-b lg:border-[var(--liquid-separator)] lg:px-1 lg:pb-4 lg:pt-1" aria-label="Peregrine home">
+        <span className="liquid-symbol grid h-8 w-8 place-items-center rounded-[11px]"><BrandMark size={19} /></span>
         <span className="leading-tight">
-          <span className="block text-[15px] font-semibold tracking-[-0.02em] text-ink">Peregrine</span>
-          <span className="hidden text-[9px] uppercase tracking-[0.12em] text-ink-muted lg:block">onchain intelligence</span>
+          <span className="block text-[17px] font-extrabold tracking-[-0.02em] text-ink">Peregrine</span>
+          
         </span>
       </Link>
 
@@ -46,14 +46,14 @@ export async function SiteHeader() {
 
       <div className="flex items-center gap-1.5 lg:mt-3 lg:flex-col lg:items-stretch lg:gap-2 lg:border-t lg:border-border lg:pt-3">
         {demo && (
-          <span className="hidden rounded-md border border-border px-2 py-1 text-center text-[10.5px] uppercase tracking-wider text-ink-2 lg:block"
+          <span className="liquid-chip hidden rounded-xl px-2 py-1 text-center text-[10.5px] uppercase tracking-wider text-ink-2 lg:block"
             title={`Replaying recorded Nansen responses — no API key, no credits.${recorded ? ` Scanner history recorded live on ${recorded} UTC, replayed with its clock moved to now.` : ''}`}>
             Demo{recorded ? ` · recorded ${recorded.slice(0, 10)}` : ' mode'}
           </span>
         )}
         <div className="hidden items-center justify-between gap-2 lg:flex">
-          <span className={`inline-flex items-center gap-1.5 rounded-md border border-border/70 bg-raised/40 px-2 py-1 text-[11px] ${mode !== 'public' ? 'text-ink-2' : 'text-ink-muted'}`} title={modeTitle}>
-            <span className="live-dot" aria-hidden />{modeText}
+          <span className={`liquid-chip inline-flex items-center gap-1.5 rounded-xl px-2 py-1 text-[11px] ${mode !== 'public' ? 'text-ink-2' : 'text-ink-muted'}`} title={modeTitle}>
+            <span className="h-5 w-5 rounded-full" style={{ background: mode === 'public' ? 'var(--ink-muted)' : 'radial-gradient(circle at 30% 20%, #c0ffe8, #00c987 65%)' }} aria-hidden />{modeText}
           </span>
           {acct?.creditsRemaining != null && (
             <span className="num text-[11px] text-ink-2" title={`Nansen credits remaining${acct.plan ? ` · ${acct.plan} plan` : ''} (${acct.source === 'account' ? 'live from /api/v1/account' : 'last response header'})`}>
@@ -65,7 +65,7 @@ export async function SiteHeader() {
           {!demo && <span className="hidden lg:inline"><AccountButton signedIn={!!ctx.user} address={ctx.user?.address ?? null} /></span>}
           <ThemeToggle />
         </div>
-        <a href="https://www.nansen.ai" target="_blank" rel="noopener noreferrer" className="hidden px-1 text-[11px] text-ink-muted hover:text-ink lg:block">Powered by Nansen API</a>
+        <div className="hidden items-center justify-between gap-2 px-1 lg:flex"><Link href="/coverage" className="text-[10.5px] text-ink-muted">Coverage</Link><Link href="/account" className="text-[10.5px] text-ink-muted">Account</Link><a href="https://www.nansen.ai" target="_blank" rel="noopener noreferrer" className="text-[10.5px] text-ink-muted hover:text-ink">Nansen API</a></div>
         <MobileMenu>
           <p className="text-[12px] text-ink-2" title={modeTitle}>{modeText}{acct?.creditsRemaining != null ? ` · ${acct.creditsRemaining.toLocaleString('en-US')} cr` : ''}</p>
           {!demo && <AccountButton signedIn={!!ctx.user} address={ctx.user?.address ?? null} />}

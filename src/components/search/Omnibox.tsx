@@ -1,4 +1,5 @@
 'use client';
+import { createPortal } from 'react-dom';
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { ChainLogo, TokenLogo } from '@/components/Logo';
 import { usePathname, useRouter } from 'next/navigation';
@@ -50,7 +51,15 @@ export function Omnibox() {
     return () => window.removeEventListener('keydown', onKey);
   }, [open]);
 
-  useEffect(() => { if (open) input.current?.focus(); }, [open]);
+  useEffect(() => {
+    if (!open) return;
+    input.current?.focus();
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const trap = (e: KeyboardEvent) => { if (e.key === 'Tab') { e.preventDefault(); input.current?.focus(); } if (e.key === 'Escape') close(); };
+    window.addEventListener('keydown', trap);
+    return () => { document.body.style.overflow = previous; window.removeEventListener('keydown', trap); };
+  }, [open, close]);
 
   // Typing never spends: search and command previews use Nansen's free search.
   useEffect(() => {
@@ -111,15 +120,15 @@ export function Omnibox() {
   return (
     <>
       <button ref={trigger} type="button" onClick={() => setOpen(true)} aria-label="Search tokens, wallets, entities, chains and sectors"
-        className="flex h-8 items-center gap-2 rounded-md border border-border bg-raised px-2 text-[12px] text-ink-muted hover:border-axis hover:text-ink lg:h-9 lg:w-full lg:px-2.5">
+        className="liquid-chip liquid-control flex h-8 items-center gap-2 rounded-xl px-2 text-[12px] text-ink-muted hover:text-ink lg:h-9 lg:w-full lg:px-2.5">
         <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" strokeWidth="1.6" /><path d="M11 11l3.5 3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" /></svg>
         <span className="hidden lg:inline">Search token, wallet…</span>
         <kbd className="hidden rounded border border-border px-1 text-[10px] lg:ml-auto lg:inline">⌘K</kbd>
       </button>
 
-      {open && (
-        <div className="fixed inset-0 z-50 bg-page/80 px-4 pt-[12vh]" onMouseDown={(e) => { if (e.target === e.currentTarget) close(); }}>
-          <div role="dialog" aria-modal="true" aria-label="Search" className="mx-auto w-full max-w-xl overflow-hidden rounded-2xl border border-border bg-surface shadow-2xl">
+      {open && createPortal(
+        <div className="fixed inset-0 z-50 bg-page/55 px-4 pt-[12vh] backdrop-blur-sm" onMouseDown={(e) => { if (e.target === e.currentTarget) close(); }}>
+          <div role="dialog" aria-modal="true" aria-label="Search" className="liquid-glass liquid-glass-strong liquid-dialog relative mx-auto w-full max-w-xl overflow-hidden rounded-[24px]">
             <div className="flex items-center gap-2 border-b border-border px-3">
               <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden className="shrink-0 text-ink-muted"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" strokeWidth="1.6" /><path d="M11 11l3.5 3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" /></svg>
               <input
@@ -164,7 +173,7 @@ export function Omnibox() {
               <span>{commandMode ? 'Nothing is charged until Enter' : 'Search by Nansen API'}</span>
             </div>
           </div>
-        </div>
+        </div>, document.body
       )}
     </>
   );

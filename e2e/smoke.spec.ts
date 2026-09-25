@@ -24,8 +24,8 @@ test('home: all 38 chains on the map, rotations, risk ticker, market brief @mobi
   await page.goto('/');
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
   await expect(page.locator('svg[aria-label^="Hex map"] a')).toHaveCount(38); // one link per chain
-  await expect(page.getByRole('heading', { name: /Risk alerts/ })).toBeVisible();
-  await expect(page.getByRole('heading', { name: /market brief/i })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Dump risk', exact: true })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Ask Nansen', exact: true })).toBeVisible();
   await w.noOverflow();
   expect(w.errors).toEqual([]);
 });
@@ -37,7 +37,7 @@ test('chain page: Tier A with every module, and an unsupported chain says so', a
   await expect(page.locator('#flows')).toBeVisible();
   await expect(page.locator('#tape')).toBeVisible();
   // V4: the hero's pressure ring, the market grid and the chain ranking.
-  await expect(page.getByRole('img', { name: /^Flow Index \d+ of 100$/ })).toBeVisible();
+  await expect(page.getByRole('img', { name: /^Seven-day Flow Index/ })).toBeVisible();
   await expect(page.locator('#grid')).toBeVisible();
   await expect(page.locator('section[aria-labelledby="grid"]')).toContainText(/most-traded tokens up|Nansen/);
   await expect(page.getByRole('list', { name: /Chains by DEX volume|Chains by/ })).toBeVisible();
@@ -56,7 +56,7 @@ test('token page: waves stream in and the Dump Risk lands @mobile', async ({ pag
   await expect(page.locator('#odds')).toBeVisible();
   await expect(page.getByText(/This page: \d+ Nansen calls/)).toBeVisible({ timeout: 60_000 });
   // The hero carries the Storm ring once the score lands.
-  await expect(page.getByRole('region', { name: /Dump Risk/ }).first().getByRole('img', { name: /^Dump Risk \d+ of 100$/ })).toBeVisible();
+  await expect(page.locator('section[aria-labelledby="storm"]').getByRole('img', { name: /of 100/ }).first()).toBeVisible();
   // The terminal (M2): tape, transfer river, social pulse; owner-only
   // sections say why they are withheld in the public demo.
   await expect(page.getByRole('heading', { name: /buyers vs \d+ sellers in the latest \d+ trades/ })).toBeVisible();
@@ -168,7 +168,7 @@ test('predictions: category weather, repricing, and a market opens its detail @m
 test('agents: research agent explains it runs on a key; MCP answers tools/list @mobile', async ({ page, request }) => {
   const w = await watch(page);
   await page.goto('/agent');
-  await expect(page.getByRole('heading', { name: 'Research agent' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Ask Nansen' })).toBeVisible();
   await expect(page.getByText(/runs on a Nansen key/)).toBeVisible();
   await w.noOverflow();
   expect(w.errors).toEqual([]);

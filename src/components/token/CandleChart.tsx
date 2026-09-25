@@ -1,4 +1,6 @@
 'use client';
+import { useState } from 'react';
+import { Segmented } from '@/components/ui/Segmented';
 import { EChart } from '@/components/charts/EChart';
 import { useThemeColors } from '@/components/charts/useThemeColors';
 import { InfoPopover } from '@/components/InfoPopover';
@@ -21,14 +23,24 @@ export function marketTitle(symbol: string | null, m: MarketWave): string {
  *  each with its own single y-axis: never two scales on one plot. */
 export function CandleChart({ m }: { m: MarketWave }) {
   const c = useThemeColors();
+  const [days, setDays] = useState(14);
+  const [style, setStyle] = useState('line');
   const cone = m.cone;
   const coneLow = cone ? [[cone.lastT, cone.lastClose], ...cone.bands.map((b) => [b.t, b.low])] : [];
   const coneBand = cone ? [[cone.lastT, 0], ...cone.bands.map((b) => [b.t, b.high - b.low])] : [];
   // Both panels share one explicit x range (first candle → end of the
   // cone), or the flow panel would stop at today while prices run a week
   // further and the days would no longer line up.
-  const xMin = m.candles[0].t;
-  const xMax = cone ? cone.bands.at(-1)!.t : m.candles.at(-1)!.t;
+  const xMin = Math.max(m.candles[0].t, m.candles.at(-1)!.t - days * 86400000);
+  const xMax = style === 'candles' && cone ? cone.bands.at(-1)!.t : m.candles.at(-1)!.t;
+  // Line mode fits a linear axis to the candles in view (the move is the
+  // story); candles keep the log axis the volatility cone needs.
+  const inView = m.candles.filter((k) => k.t >= xMin).map((k) => k.c);
+  const up = inView.length < 2 || inView.at(-1)! >= inView[0];
+  const lo = Math.min(...inView), hi = Math.max(...inView), padY = (hi - lo) * 0.08 || hi * 0.02;
+  const priceAxis = style === 'line'
+    ? { type: 'value' as const, gridIndex: 0, min: lo - padY, max: hi + padY, axisLabel: { color: c?.['ink-muted'], fontSize: 10, formatter: (v: number) => price(v) }, splitLine: { lineStyle: { color: c?.grid } }, splitNumber: 4 }
+    : null;
   // No segment flow on this token: price takes the whole plot.
   const flowPanel = m.segmentFlow.length > 0;
   const option = c && {
@@ -45,7 +57,7 @@ export function CandleChart({ m }: { m: MarketWave }) {
     yAxis: [
       // Log price axis: the cone is symmetric in log space, and on a token
       // that spiked a linear axis squashed every candle into one line.
-      { type: 'log' as const, gridIndex: 0, logBase: 10, axisLabel: { color: c['ink-muted'], fontSize: 10, formatter: (v: number) => price(v) }, splitLine: { lineStyle: { color: c.grid } } },
+      priceAxis ?? { type: 'log' as const, gridIndex: 0, logBase: 10, axisLabel: { color: c['ink-muted'], fontSize: 10, formatter: (v: number) => price(v) }, splitLine: { lineStyle: { color: c.grid } } },
       { type: 'value' as const, gridIndex: 1, show: flowPanel, axisLabel: { color: c['ink-muted'], fontSize: 10, formatter: (v: number) => usd(v) }, splitLine: { lineStyle: { color: c.grid } }, splitNumber: 2 },
     ],
     tooltip: {
@@ -55,7 +67,8 @@ export function CandleChart({ m }: { m: MarketWave }) {
         const ps = (Array.isArray(raw) ? raw : [raw]) as Array<{ seriesName: string; value: number[]; axisValue: number }>;
         const lines: string[] = [];
         const k = ps.find((p) => p.seriesName === 'Price');
-        if (k) lines.push(`<b>${price(k.value[2])}</b> close<br/>O ${price(k.value[1])} · H ${price(k.value[4])} · L ${price(k.value[3])}`);
+        if (k && style === 'line') lines.push(`<b>${price(k.value[1])}</b> close`);
+        if (k && style === 'candles') lines.push(`<b>${price(k.value[2])}</b> close<br/>O ${price(k.value[1])} · H ${price(k.value[4])} · L ${price(k.value[3])}`);
         const f = ps.find((p) => p.seriesName === 'Flow');
         if (f) lines.push(`<b>${usd(f.value[1], { signed: true })}</b> ${m.segment} net flow that day`);
         const t = ps[0]?.axisValue;
@@ -64,12 +77,17 @@ export function CandleChart({ m }: { m: MarketWave }) {
       },
     },
     series: [
-      {
+      ...(style === 'line' ? [{
+        name: 'Price', type: 'line' as const, xAxisIndex: 0, yAxisIndex: 0,
+        data: m.candles.filter(k => k.t >= xMin).map(k => [k.t,k.c]), smooth: .25, showSymbol: false,
+        lineStyle: {color:up ? c['in-4'] : c['out-3'],width:2.2},
+        areaStyle: {color:{type:'linear' as const,x:0,y:0,x2:0,y2:1,colorStops:[{offset:0,color:up ? c['in-3'] : c['out-3']},{offset:1,color:'transparent'}]},opacity:.38},
+      }] : [{
         name: 'Price', type: 'candlestick' as const, xAxisIndex: 0, yAxisIndex: 0,
-        data: m.candles.map((k) => [k.t, k.o, k.c, k.l, k.h]),
-        itemStyle: { color: c['in-3'], color0: c['out-3'], borderColor: c['in-3'], borderColor0: c['out-3'] },
-      },
-      ...(cone ? [
+        data: m.candles.map(k=>[k.t,k.o,k.c,k.l,k.h]),
+        itemStyle:{color:c['in-3'],color0:c['out-3'],borderColor:c['in-3'],borderColor0:c['out-3']},
+      }]),
+      ...(cone && style === 'candles' ? [
         { name: 'cone-low', type: 'line' as const, xAxisIndex: 0, yAxisIndex: 0, data: coneLow, stack: 'cone', smooth: true, symbol: 'none', lineStyle: { opacity: 0 }, silent: true, tooltip: { show: false } },
         {
           name: 'cone', type: 'line' as const, xAxisIndex: 0, yAxisIndex: 0, data: coneBand, stack: 'cone', smooth: true, symbol: 'none', silent: true,
@@ -85,14 +103,16 @@ export function CandleChart({ m }: { m: MarketWave }) {
   };
   return (
     <div>
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-2"><Segmented label="Price range" value={days} options={[{value:1,label:'1D'},{value:7,label:'7D'},{value:14,label:'14D'},{value:30,label:'30D'}]} onChange={setDays}/><Segmented label="Price style" value={style} options={[{value:'line',label:'Line'},{value:'candles',label:'Candles'}]} onChange={setStyle}/></div>
+      {days > 14 && <p className="mb-2 text-xs text-ink-muted">Only the available 14-day candle history is shown; no older observations have been fetched.</p>}
       <div className="flex items-center justify-end gap-1">
         <span className="text-[11px] text-ink-muted">candles</span><InfoPopover p={m.provenance.candles} />
         {m.provenance.cone && <><span className="ml-2 text-[11px] text-ink-muted">cone</span><InfoPopover p={m.provenance.cone} /></>}
       </div>
-      {option ? <EChart option={option} height={flowPanel ? 340 : 300} ariaLabel="4-hour price candles with volatility cone, and daily holder-segment net flow" /> : <div style={{ height: 340 }} />}
+      {option ? <EChart option={option} height={flowPanel ? 390 : 350} ariaLabel="4-hour price candles with volatility cone, and daily holder-segment net flow" /> : <div style={{ height: 340 }} />}
       <div className="mt-1 flex flex-wrap justify-between gap-x-4 gap-y-1 text-[11px] text-ink-muted">
         <span>
-          price on a log scale ·{' '}
+          {style === 'line' ? 'close price, axis fitted to the range' : 'price on a log scale'} ·{' '}
           <span className="mr-1 inline-block h-2 w-2 rounded-sm align-middle" style={{ background: 'var(--in-3)' }} />up / inflow
           <span className="ml-3 mr-1 inline-block h-2 w-2 rounded-sm align-middle" style={{ background: 'var(--out-3)' }} />down / outflow
           {' · '}lower panel: {m.segment ? `${m.segment} daily net flow` : m.segmentUnavailable}

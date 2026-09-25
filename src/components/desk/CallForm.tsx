@@ -9,7 +9,7 @@ import { SETUPS, setupLabel, type Horizon, type Setup, type Stance } from '@/lib
 import { receiptProvenance, fmtPrice, GRADE_RULES, type ReceiptLike } from './receipt';
 
 interface Saved { id: number; stance: Stance; horizon: Horizon; entry: number; dueAt: number; entryReceipt: ReceiptLike; symbol: string | null }
-const STANCES: Array<[Stance, string]> = [['bull', 'Bull'], ['bear', 'Bear'], ['pass', 'Pass']];
+const STANCES: Array<[Stance, string]> = [['bull', 'Bull'], ['pass', 'Pass'], ['bear', 'Bear']];
 const HORIZONS: Horizon[] = ['1h', '24h', '7d'];
 
 export function CallForm({ chain, token, symbol, price, gauges }: { chain: string; token: string; symbol: string | null; price: number | null; gauges?: { direction: number | null; confidence: number | null; coordination: number | null } }) {
@@ -49,7 +49,7 @@ export function CallForm({ chain, token, symbol, price, gauges }: { chain: strin
   return (
     <div className="space-y-3 text-[13px]">
       <div className="flex flex-wrap gap-1" role="radiogroup" aria-label="Stance">
-        {STANCES.map(([k, label]) => <button key={k} type="button" role="radio" aria-checked={stance === k} onClick={() => setStance(k)} className={seg(stance === k)}>{label}</button>)}
+        {STANCES.map(([k, label]) => <button key={k} type="button" role="radio" aria-checked={stance === k} onClick={() => setStance(k)} className={`${seg(stance === k)} min-h-14 flex-1 font-bold`}>{label}</button>)}
       </div>
       <div className="flex flex-wrap items-end gap-3">
         <div className="flex gap-1" role="radiogroup" aria-label="Horizon">
@@ -60,7 +60,7 @@ export function CallForm({ chain, token, symbol, price, gauges }: { chain: strin
       </div>
       <input aria-label="Thesis" value={thesis} onChange={(e) => setThesis(e.target.value.slice(0, 200))} placeholder="One line: why, and what would prove you wrong" className="block w-full rounded-lg border border-border bg-raised px-2.5 py-1.5 text-ink" />
       <div className="flex flex-wrap items-center gap-3">
-        <button type="button" disabled={!stance || busy} onClick={save} className="rounded bg-brand/15 px-3 py-1 text-ink ring-1 ring-brand/40 disabled:opacity-45">{busy ? 'Saving…' : 'Save the call'}</button>
+        <button type="button" disabled={!stance || busy} onClick={save} className="pill-button pill-primary w-full disabled:opacity-45">{busy ? 'Saving…' : 'Save the call'}</button>
         <span className="text-[11.5px] text-ink-muted">{price != null ? `Entry is Nansen’s latest close (about ${fmtPrice(price)}) at the moment you save.` : 'Entry is Nansen’s latest close at the moment you save.'}</span>
       </div>
       {err && <p className="text-ink">{err}</p>}
