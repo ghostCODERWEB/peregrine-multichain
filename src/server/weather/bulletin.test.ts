@@ -39,3 +39,24 @@ describe('capitalFlows (P3)', () => {
     expect(capitalFlows('private', Number.NaN, now)!.hours).toBe(24);
   });
 });
+
+describe('flowHistory (P4)', () => {
+  it('is owner-only, returns one entry per day, and nets each chain in − out over the week', async () => {
+    const { flowHistory } = await import('./bulletin');
+    getDb().exec('DELETE FROM smart_money_trades;');
+    const t = (w: string, c: string, s: 'buy' | 'sell', usd: number, at: number, i: number) => getDb().prepare('INSERT INTO smart_money_trades (chain, tx_hash, wallet, side, token_address, usd_value, traded_at, captured_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)').run(c, `h${i}`, w, s, `0x${String(i).padStart(40, '0')}`, usd, at, at);
+    t(`0x${'a'.repeat(40)}`, 'base', 'sell', 10_000, now - 3 * 3_600_000, 1);
+    t(`0x${'a'.repeat(40)}`, 'robinhood', 'buy', 9_000, now - 2 * 3_600_000, 2);
+    t(`0x${'b'.repeat(40)}`, 'base', 'sell', 6_000, now - 3 * 3_600_000, 3);
+    t(`0x${'b'.repeat(40)}`, 'robinhood', 'buy', 6_000, now - 2 * 3_600_000, 4);
+    expect(flowHistory('public', 7, now)).toBeNull();
+    const h = flowHistory('private', 7, now)!;
+    expect(h.days).toHaveLength(7);
+    expect(h.days.at(-1)).toMatchObject({ day: '2026-09-25', flows: 1, netUsd: 15_000, top: { from: 'base', to: 'robinhood' } });
+    expect(h.days.slice(0, 6).every((d) => d.flows === 0)).toBe(true);
+    // Days before the first stored trade are unknown, not quiet.
+    expect(h.days[0].recorded).toBe(false);
+    expect(h.days.at(-1)!.recorded).toBe(true);
+    expect(h.chains.map((c) => [c.chain, c.net])).toEqual([['robinhood', 15_000], ['base', -15_000]]);
+  });
+});

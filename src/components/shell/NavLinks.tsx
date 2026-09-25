@@ -2,11 +2,11 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { Activity, Target, Bot, ArrowLeftRight, Bell, BrainCircuit, Briefcase, FlaskConical, Gauge, KeyRound, Layers, Map, Menu, Sparkles, X, NotebookPen } from 'lucide-react';
+import { Activity, Shuffle, Target, Bot, ArrowLeftRight, Bell, BrainCircuit, Briefcase, FlaskConical, Gauge, KeyRound, Layers, Map, Menu, Sparkles, X, NotebookPen } from 'lucide-react';
 import { NAV, type NavIcon } from './nav';
 
 const ICONS: Record<NavIcon, typeof Map> = {
-  map: Map, sparkles: Sparkles, layers: Layers, activity: Activity, target: Target, bot: Bot, swap: ArrowLeftRight, brain: BrainCircuit, briefcase: Briefcase, flask: FlaskConical, gauge: Gauge, bell: Bell, key: KeyRound, notebook: NotebookPen,
+  map: Map, flows: Shuffle, sparkles: Sparkles, layers: Layers, activity: Activity, target: Target, bot: Bot, swap: ArrowLeftRight, brain: BrainCircuit, briefcase: Briefcase, flask: FlaskConical, gauge: Gauge, bell: Bell, key: KeyRound, notebook: NotebookPen,
 };
 
 const active = (path: string, href: string) => (href === '/' ? path === '/' : path === href || path.startsWith(`${href}/`));

@@ -3,6 +3,7 @@
 // server-side; /api/weather serves the same object as JSON for polling and
 // for other agents.
 import { weatherMap, rotationFronts, pressureForecast, scanStatus, stormTicker, type PressureView, type ChainWeather, type Front, type PressureForecast, type StormTick } from './queries';
+import { getDb } from '@/server/nansen/db';
 import { cpiProvenance, frontProvenance, forecastProvenance } from './provenance';
 import type { Provenance } from '@/lib/provenance';
 import { weatherLayers, type WeatherLayer } from './layers';
@@ -60,4 +61,35 @@ export function capitalFlows(mode: PressureView, hours: number, now = Date.now()
   if (mode !== 'private') return null;
   const h = (FLOW_WINDOWS as readonly number[]).includes(hours) ? (hours as FlowWindow) : 24;
   return { hours: h, fronts: rotationFronts(h, now).map((f) => ({ ...f, provenance: frontProvenance(f, h) })) };
+}
+
+/** `recorded`: false for days before the scanner's first stored trade — unknown, not quiet. */
+export interface FlowDay { day: string; start: number; netUsd: number; flows: number; recorded: boolean; top: { from: string; to: string; netUsd: number } | null }
+export interface FlowChainRow { chain: string; inUsd: number; outUsd: number; net: number; flows: number }
+
+/**
+ * P4: the Flows page. Rotation history day by day (each UTC day's own
+ * rotations, matched within that day) and a 7-day chain leaderboard of net
+ * capital rotated in vs out. Owner view only, like every rotation read.
+ */
+export function flowHistory(mode: PressureView, days = 7, now = Date.now()): { days: FlowDay[]; chains: FlowChainRow[] } | null {
+  if (mode !== 'private') return null;
+  const DAY = 86_400_000;
+  const todayStart = Math.floor(now / DAY) * DAY;
+  const first = (getDb().prepare('SELECT MIN(traded_at) AS t FROM smart_money_trades').get() as { t: number | null }).t;
+  const out: FlowDay[] = [];
+  for (let k = days - 1; k >= 0; k--) {
+    const start = todayStart - k * DAY, end = Math.min(now, start + DAY);
+    const f = rotationFronts((end - start) / 3_600_000, end);
+    out.push({ day: new Date(start).toISOString().slice(0, 10), start, netUsd: f.reduce((s, x) => s + x.netUsd, 0), flows: f.length, recorded: first != null && first < end, top: f[0] ? { from: f[0].from, to: f[0].to, netUsd: f[0].netUsd } : null });
+  }
+  const week = rotationFronts(days * 24, now);
+  const chains = new Map<string, FlowChainRow>();
+  const row = (c: string) => chains.get(c) ?? { chain: c, inUsd: 0, outUsd: 0, net: 0, flows: 0 };
+  for (const f of week) {
+    const a = row(f.from); a.outUsd += f.netUsd; a.flows++; chains.set(f.from, a);
+    const b = row(f.to); b.inUsd += f.netUsd; b.flows++; chains.set(f.to, b);
+  }
+  const list = [...chains.values()].map((r) => ({ ...r, net: r.inUsd - r.outUsd })).sort((x, y) => y.net - x.net);
+  return { days: out, chains: list };
 }

@@ -52,3 +52,17 @@ test('capital flows: animated arcs, flow detail and window switch (synthetic own
   await flows.screenshot({ path: test.info().outputPath('capital-flows.png') });
   expect(errors).toEqual([]);
 });
+
+test('capital flows page: in the nav, and locked in public views', async ({ page }) => {
+  await page.goto('/');
+  if (test.info().project.name === 'desktop') {
+    await page.getByRole('navigation', { name: 'Primary' }).getByRole('link', { name: 'Capital Flows' }).click();
+    await expect(page).toHaveURL(/\/flows$/);
+  } else {
+    await page.goto('/flows');
+  }
+  await expect(page.getByRole('heading', { level: 1, name: 'Capital Flows' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Capital flows: key-owner view only' })).toBeVisible();
+  await expect(page.locator('#flow-days')).toHaveCount(0); // no history for public views
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
+});
