@@ -366,6 +366,12 @@ const MIGRATIONS: string[] = [
     PRIMARY KEY (chain, token_address)
   );
   `,
+  // 22 — public site: which process spent the credits. 'web' = a visitor's
+  // request in the Next.js server (counted against WEB_DAILY_CREDIT_CAP),
+  // 'system' = the scanner worker and scripts. Older rows stay NULL.
+  `
+  ALTER TABLE credit_ledger ADD COLUMN source TEXT;
+  `,
 ];
 
 export function audit(userId: number | null, action: string, detail?: string): void {

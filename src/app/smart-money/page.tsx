@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { displayMode } from '@/server/mode';
 import { SmartMoneyDesk } from '@/components/smart-money/SmartMoneyDesk';
+import { accountsEnabled } from '@/server/site';
 
 export const metadata: Metadata = { title: 'Smart-money desk — Peregrine' };
 export const dynamic = 'force-dynamic';
@@ -23,9 +24,9 @@ export default async function SmartMoneyPage() {
           <div className="text-[12px] text-ink-muted">Smart-money desk</div>
           <h1 id="sm-title" className="mt-1 text-lg font-semibold text-ink sm:text-xl">The smart-money desk is private</h1>
           <p className="mt-2 max-w-[68ch] text-[13px] text-ink-2">
-          Nansen smart-money holdings, PnL leaderboard, perp trades and DCAs. Nansen&apos;s redistribution rules keep these out of public views: shown only to this instance&apos;s owner, or to you with your own Nansen key.
+          Nansen smart-money holdings, PnL leaderboard, perp trades and DCAs. Nansen&apos;s redistribution rules keep these out of public views: shown only to this instance&apos;s owner{accountsEnabled() ? <>, or to you with your own Nansen key</> : null}.
         </p>
-          <Link href="/account" className="mt-4 inline-flex rounded bg-brand/15 px-3.5 py-1.5 text-[13px] text-ink ring-1 ring-brand/40 hover:bg-brand/25">Sign in with your Nansen key</Link>
+          {accountsEnabled() && <Link href="/account" className="mt-4 inline-flex rounded bg-brand/15 px-3.5 py-1.5 text-[13px] text-ink ring-1 ring-brand/40 hover:bg-brand/25">Sign in with your Nansen key</Link>}
         </section>
         <section aria-labelledby="sm-what" className="glass rise rounded-2xl p-4 sm:p-6">
           <h2 id="sm-what" className="text-[15px] font-semibold text-ink">What the desk shows</h2>

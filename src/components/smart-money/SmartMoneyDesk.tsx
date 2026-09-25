@@ -243,7 +243,7 @@ export function SmartMoneyDesk({ mode }: { mode: 'owner' | 'member' }) {
         <Card id="follows" title={follows.length ? `Following ${follows.length} wallet${follows.length === 1 ? '' : 's'}` : 'Follow list'}
           sub={moves.state === 'ok' && moves.data.source === 'scanner' ? 'Their latest smart-money trades, as the scanner recorded them (free).' : 'Their latest smart-money trades, fetched with your key (5 credits).'}
           action={moves.state === 'ok' ? <InfoPopover p={moves.data.provenance} /> : undefined}>
-          {!canFollow ? <Unavailable text="Sign in to keep a follow list." />
+          {!canFollow ? <Unavailable text="Keeping a follow list needs a signed-in account." />
             : !follows.length ? <p className="text-[12.5px] text-ink-2">Follow wallets from the leaderboard to collect their trades here.</p>
             : moves.state === 'ok' ? (
               moves.data.moves.length ? (

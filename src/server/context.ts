@@ -9,6 +9,7 @@ import { cookieFrom, sessionUser, SESSION_COOKIE, type SessionUser } from './aut
 import { userApiKey, keyInfo } from './auth/keys';
 import { resolveMode, type DisplayMode } from './mode';
 import { getDb } from './nansen/db';
+import { accountsEnabled, publicSite } from './site';
 
 export interface RequestContext {
   mode: DisplayMode;
@@ -22,7 +23,9 @@ export interface RequestContext {
 const PUBLIC_CTX: RequestContext = { mode: 'public', user: null, apiKey: null, keyLast4: null, keyPlan: null };
 
 function build(sessionId: string | null): RequestContext {
-  const user = sessionUser(sessionId);
+  // Accounts off (public site): a session cookie, even a valid old one,
+  // identifies no one.
+  const user = accountsEnabled() ? sessionUser(sessionId) : null;
   const info = user ? keyInfo(user.id) : null;
   const apiKey = user && info ? userApiKey(user.id) : null;
   const mode = resolveMode({
@@ -31,6 +34,7 @@ function build(sessionId: string | null): RequestContext {
     userAddress: user?.address ?? null,
     ownerAddress: process.env.TIDE_OWNER_ADDRESS ?? null,
     userHasKey: !!apiKey,
+    publicSite: publicSite(),
   });
   // Owners use the instance key even when signed in; members use their own.
   return { mode, user, apiKey: mode === 'member' ? apiKey : null, keyLast4: info?.last4 ?? null, keyPlan: info?.plan ?? null };
@@ -48,6 +52,7 @@ export const requestContext = cache(async (): Promise<RequestContext> => {
 
 /** A signed-in member's context without a session (their personal MCP token). */
 export function contextForUser(userId: number): RequestContext {
+  if (!accountsEnabled()) return { ...PUBLIC_CTX };
   const user = getDb().prepare('SELECT id, family, address FROM users WHERE id = ?').get(userId) as SessionUser | undefined;
   if (!user) return { ...PUBLIC_CTX };
   const info = keyInfo(user.id);
@@ -58,6 +63,7 @@ export function contextForUser(userId: number): RequestContext {
     userAddress: user.address,
     ownerAddress: process.env.TIDE_OWNER_ADDRESS ?? null,
     userHasKey: !!apiKey,
+    publicSite: publicSite(),
   });
   return { mode, user, apiKey: mode === 'member' ? apiKey : null, keyLast4: info?.last4 ?? null, keyPlan: info?.plan ?? null };
 }

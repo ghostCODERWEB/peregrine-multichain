@@ -64,4 +64,9 @@ describe('resolveMode', () => {
   it('the configured owner address signs in as owner', () => expect(resolveMode({ ...none, userAddress: '0xAbC', ownerAddress: '0xabc' })).toBe('owner'));
   it('a signed-in user with their own key is a member', () => expect(resolveMode({ ...none, userAddress: '0x1', userHasKey: true })).toBe('member'));
   it('signed in without a key is still public', () => expect(resolveMode({ ...none, userAddress: '0x1' })).toBe('public'));
+  it('a public site is public for everyone, even with TIDE_DISPLAY_MODE=private or the owner signed in', () => {
+    expect(resolveMode({ ...none, publicSite: true, instancePrivate: true })).toBe('public');
+    expect(resolveMode({ ...none, publicSite: true, userAddress: '0xabc', ownerAddress: '0xabc' })).toBe('public');
+    expect(resolveMode({ ...none, publicSite: true, userAddress: '0x1', userHasKey: true })).toBe('public');
+  });
 });

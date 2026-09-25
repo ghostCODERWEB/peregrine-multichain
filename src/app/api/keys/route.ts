@@ -4,16 +4,19 @@
 import { requireUser, sameOrigin, fail } from '@/server/auth/http';
 import { saveUserKey, deleteUserKey, keyInfo } from '@/server/auth/keys';
 import { vaultReady } from '@/server/auth/vault';
+import { accountsEnabled } from '@/server/site';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET(req: Request) {
+  if (!accountsEnabled()) return Response.json({ error: 'Accounts are off on this site.' }, { status: 404 });
   const ctx = requireUser(req);
   if (!ctx) return fail('Sign in first.', 401);
   return Response.json({ key: keyInfo(ctx.user!.id), vault: vaultReady(), mode: ctx.mode });
 }
 
 export async function POST(req: Request) {
+  if (!accountsEnabled()) return Response.json({ error: 'Accounts are off on this site.' }, { status: 404 });
   if (!sameOrigin(req)) return fail('Cross-site request refused.', 403);
   const ctx = requireUser(req);
   if (!ctx) return fail('Sign in first.', 401);
@@ -24,6 +27,7 @@ export async function POST(req: Request) {
 }
 
 export async function DELETE(req: Request) {
+  if (!accountsEnabled()) return Response.json({ error: 'Accounts are off on this site.' }, { status: 404 });
   if (!sameOrigin(req)) return fail('Cross-site request refused.', 403);
   const ctx = requireUser(req);
   if (!ctx) return fail('Sign in first.', 401);

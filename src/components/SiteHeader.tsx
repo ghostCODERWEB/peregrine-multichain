@@ -7,6 +7,7 @@ import { AccountButton } from '@/components/auth/AccountButton';
 import { Omnibox } from '@/components/search/Omnibox';
 import { BrandMark } from '@/components/shell/BrandMark';
 import { NavList, MobileMenu } from '@/components/shell/NavLinks';
+import { accountsEnabled } from '@/server/site';
 
 /**
  * The app shell: one header element that is a sidebar on large screens and
@@ -16,6 +17,7 @@ import { NavList, MobileMenu } from '@/components/shell/NavLinks';
  */
 export async function SiteHeader() {
   const demo = process.env.DEMO_MODE === '1';
+  const accounts = !demo && accountsEnabled();
   const ctx = await requestContext();
   const mode = ctx.mode;
   // Balances are private: the owner sees the instance's, a member their own.
@@ -62,13 +64,13 @@ export async function SiteHeader() {
           )}
         </div>
         <div className="flex items-center gap-1.5 lg:justify-between">
-          {!demo && <span className="hidden lg:inline"><AccountButton signedIn={!!ctx.user} address={ctx.user?.address ?? null} /></span>}
+          {accounts && <span className="hidden lg:inline"><AccountButton signedIn={!!ctx.user} address={ctx.user?.address ?? null} /></span>}
           <ThemeToggle />
         </div>
-        <div className="hidden items-center justify-between gap-2 px-1 lg:flex"><Link href="/coverage" className="text-[10.5px] text-ink-muted">Coverage</Link><Link href="/account" className="text-[10.5px] text-ink-muted">Account</Link><a href="https://www.nansen.ai" target="_blank" rel="noopener noreferrer" className="text-[10.5px] text-ink-muted hover:text-ink">Nansen API</a></div>
+        <div className="hidden items-center justify-between gap-2 px-1 lg:flex"><Link href="/coverage" className="text-[10.5px] text-ink-muted">Coverage</Link>{accounts && <Link href="/account" className="text-[10.5px] text-ink-muted">Account</Link>}<a href="https://www.nansen.ai" target="_blank" rel="noopener noreferrer" className="text-[10.5px] text-ink-muted hover:text-ink">Nansen API</a></div>
         <MobileMenu>
           <p className="text-[12px] text-ink-2" title={modeTitle}>{modeText}{acct?.creditsRemaining != null ? ` · ${acct.creditsRemaining.toLocaleString('en-US')} cr` : ''}</p>
-          {!demo && <AccountButton signedIn={!!ctx.user} address={ctx.user?.address ?? null} />}
+          {accounts && <AccountButton signedIn={!!ctx.user} address={ctx.user?.address ?? null} />}
         </MobileMenu>
       </div>
     </header>

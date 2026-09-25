@@ -7,7 +7,8 @@ import { z, type ZodType } from 'zod';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { getLimiter, type NansenPlan } from './limiter';
 import { readCache, writeCache } from './cache';
-import { recordCall } from './ledger';
+import { recordCall, webCreditsToday } from './ledger';
+import { inWebServer, publicSite, webDailyCreditCap, DailyBudgetExhausted } from '@/server/site';
 import { recordError, checkDriftLater } from './health';
 import { setKv } from './db';
 import { recordFixture, replayFixture, replayLatest, fixtureMode } from './demo';
@@ -226,6 +227,15 @@ async function currentCaller(): Promise<{ apiKey: string | undefined; userId: nu
   return { apiKey: process.env.NANSEN_API_KEY, userId: null };
 }
 
+/** A visitor request in the web server (public site, or any instance with
+ *  WEB_DAILY_CREDIT_CAP set), with today's visitor spend at or over the
+ *  cap. The scanner worker and scripts keep their own budgets
+ *  (SCAN_INTERVAL_MIN, *_CREDIT_CAP) and never hit this. */
+function overWebBudget(): boolean {
+  if (!inWebServer() || !(publicSite() || process.env.WEB_DAILY_CREDIT_CAP)) return false;
+  return webCreditsToday() >= webDailyCreditCap();
+}
+
 export async function callNansen<T>(
   endpoint: string,
   body: unknown = {},
@@ -254,6 +264,19 @@ export async function callNansen<T>(
     if (t) { t.calls++; t.cached++; }
     if (schema) schema.parse(data);
     return { data, meta: { creditsCost: 0, creditsUsed: null, creditsRemaining: null, cacheHit: true } };
+  }
+
+  // Visitor traffic on the instance key shares one daily budget. Past it,
+  // serve the last known response if there is one, else say why.
+  if (!caller.userId && overWebBudget()) {
+    const stale = readCache<T>(endpoint, body, scope, { stale: true });
+    if (stale) {
+      recordCall(endpoint, 0, true, null);
+      const t = callScope.getStore();
+      if (t) { t.calls++; t.cached++; }
+      return { data: stale.value, meta: { creditsCost: 0, creditsUsed: null, creditsRemaining: null, cacheHit: true } };
+    }
+    throw new DailyBudgetExhausted(webDailyCreditCap());
   }
 
   let result: CallResult<T>;
@@ -292,6 +315,7 @@ export async function* streamNansen(endpoint: string, body: unknown, opts: { rec
   const caller = await currentCaller();
   const apiKey = caller.apiKey;
   if (!apiKey) throw new Error('NANSEN_API_KEY is not set. Set it in .env, or run with DEMO_MODE=1.');
+  if (!caller.userId && overWebBudget()) throw new DailyBudgetExhausted(webDailyCreditCap());
   await getLimiter(plan()).acquire();
   const res = await fetch(urlFor(endpoint), {
     method: 'POST',

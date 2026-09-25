@@ -90,13 +90,16 @@ export function cacheKey(endpoint: string, body: unknown, scope?: string | null)
 
 export interface CacheHit<T> { value: T; fetchedAt: number; }
 
-export function readCache<T>(endpoint: string, body: unknown, scope?: string | null): CacheHit<T> | null {
+/** `stale: true` also returns an expired entry (until the sweep removes
+ *  it): the public site serves the last known response once its daily
+ *  credit budget is spent, instead of an empty page. */
+export function readCache<T>(endpoint: string, body: unknown, scope?: string | null, opts: { stale?: boolean } = {}): CacheHit<T> | null {
   const key = cacheKey(endpoint, body, scope);
   const row = getDb()
     .prepare('SELECT body, fetched_at, expires_at FROM response_cache WHERE cache_key = ?')
     .get(key) as { body: string; fetched_at: number; expires_at: number } | undefined;
   if (!row) return null;
-  if (Date.now() > row.expires_at) return null;
+  if (!opts.stale && Date.now() > row.expires_at) return null;
   return { value: JSON.parse(row.body) as T, fetchedAt: row.fetched_at };
 }
 

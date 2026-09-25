@@ -3,10 +3,12 @@
 import { buildMessage, type Family } from '@/server/auth/wallet-sig';
 import { newNonce } from '@/server/auth/session';
 import { sameOrigin, fail } from '@/server/auth/http';
+import { accountsEnabled } from '@/server/site';
 
 export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
+  if (!accountsEnabled()) return Response.json({ error: 'Accounts are off on this site.' }, { status: 404 });
   if (!sameOrigin(req)) return fail('Cross-site request refused.', 403);
   const b = (await req.json().catch(() => ({}))) as { family?: Family; address?: string };
   if ((b.family !== 'evm' && b.family !== 'solana') || !b.address || b.address.length > 64) return fail('Need family and address.');

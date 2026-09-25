@@ -3,11 +3,21 @@
 // running total the buildathon submission needs (>= 1,000 calls) without
 // trusting Nansen's own dashboard to be checked live.
 import { getDb } from './db';
+import { inWebServer, utcDayStart } from '@/server/site';
 
 export function recordCall(endpoint: string, credits: number, cacheHit: boolean, userId: number | null = null): void {
   getDb()
-    .prepare('INSERT INTO credit_ledger (endpoint, credits, cache_hit, called_at, user_id) VALUES (?, ?, ?, ?, ?)')
-    .run(endpoint, credits, cacheHit ? 1 : 0, Date.now(), userId);
+    .prepare('INSERT INTO credit_ledger (endpoint, credits, cache_hit, called_at, user_id, source) VALUES (?, ?, ?, ?, ?, ?)')
+    .run(endpoint, credits, cacheHit ? 1 : 0, Date.now(), userId, inWebServer() ? 'web' : 'system');
+}
+
+/** Credits visitor requests spent on the instance key since 00:00 UTC
+ *  (members' own-key calls excluded): the public site's daily budget. */
+export function webCreditsToday(now = Date.now()): number {
+  const row = getDb()
+    .prepare("SELECT SUM(credits) AS credits FROM credit_ledger WHERE source = 'web' AND user_id IS NULL AND called_at >= ?")
+    .get(utcDayStart(now)) as { credits: number | null };
+  return row.credits ?? 0;
 }
 
 export interface LedgerSummary {

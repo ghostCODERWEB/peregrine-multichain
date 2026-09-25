@@ -89,11 +89,11 @@ export function AnchorCard({ query, initial, label }: { query: string; initial?:
       <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-[11.5px] text-ink-muted">
         <span>
           {report ? <>Nansen agent/fast · <TimeAgo ts={report.createdAt} />{stale ? ' · over an hour old' : ' · reused for an hour'}</> : 'Nansen agent/fast · 200 credits per report'}
-          {left != null && ` · ${left} fresh report${left === 1 ? '' : 's'} left this hour`}
+          {left != null && <span className="owner-action">{` · ${left} fresh report${left === 1 ? '' : 's'} left this hour`}</span>}
         </span>
         {(!report || stale) && status !== 'loading' && status !== 'streaming' && (
           <button onClick={run} disabled={left === 0}
-            className="rounded-md border border-border px-2.5 py-1 text-[12px] text-ink hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50">
+            className="owner-action rounded-md border border-border px-2.5 py-1 text-[12px] text-ink hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50">
             {report ? 'Refresh report (200 credits)' : 'Generate report (200 credits)'}
           </button>
         )}

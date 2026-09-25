@@ -1,15 +1,19 @@
 import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 import { requestContext } from '@/server/context';
 import { keyInfo } from '@/server/auth/keys';
 import { vaultReady } from '@/server/auth/vault';
 import { AccountPanel } from '@/components/auth/AccountPanel';
 import { x402Enabled, x402Resources } from '@/server/nansen/x402';
 import { McpAccess } from '@/components/account/McpAccess';
+import { accountsEnabled } from '@/server/site';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = { title: 'Account — Peregrine' };
 
 export default async function AccountPage() {
+  // No accounts on a public site (the middleware redirects too).
+  if (!accountsEnabled()) redirect('/');
   const ctx = await requestContext();
   const info = ctx.user ? keyInfo(ctx.user.id) : null;
   const resources = x402Enabled() ? await x402Resources().then((r) => r.size).catch(() => null) : null;

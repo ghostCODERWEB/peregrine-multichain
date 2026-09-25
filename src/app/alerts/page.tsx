@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { AlertsList } from '@/components/AlertsList';
 import { AlertBuilder } from '@/components/alerts/AlertBuilder';
 import { displayMode } from '@/server/mode';
+import { accountsEnabled } from '@/server/site';
 
 export const metadata: Metadata = { title: 'Alerts — Peregrine' };
 export const dynamic = 'force-dynamic';
@@ -21,7 +22,7 @@ export default async function AlertsPage() {
       <section aria-labelledby="alerts-list" className="glass rise rounded-2xl p-4 sm:p-5">
         <h2 id="alerts-list" className="mb-3 text-[15px] font-semibold text-ink">Your Peregrine alerts</h2>
         {mode === 'public'
-          ? <p className="text-sm text-ink-2">Smart Alerts live on a Nansen account: they are managed by this instance&apos;s owner, or by you once you <Link href="/account" className="text-ink underline-offset-2 hover:underline">sign in with your own Nansen key</Link>.</p>
+          ? <p className="text-sm text-ink-2">Smart Alerts live on a Nansen account: they are managed by this instance&apos;s owner{accountsEnabled() ? <>, or by you once you <Link href="/account" className="text-ink underline-offset-2 hover:underline">sign in with your own Nansen key</Link></> : null}.</p>
           : <AlertsList />}
       </section>
       {mode !== 'public' && (

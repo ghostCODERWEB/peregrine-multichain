@@ -5,6 +5,7 @@ import { Providers } from '@/components/Providers';
 import { SiteHeader } from '@/components/SiteHeader';
 import { themeBootScript } from '@/components/ThemeToggle';
 import { TabBar } from '@/components/shell/TabBar';
+import { publicSite } from '@/server/site';
 
 const geistSans = Manrope({ variable: '--font-geist-sans', subsets: ['latin'] });
 const geistMono = IBM_Plex_Mono({ variable: '--font-geist-mono', subsets: ['latin'], weight: ['400', '500'] });
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`dark ${geistSans.variable} ${geistMono.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`dark ${geistSans.variable} ${geistMono.variable}${publicSite() ? ' public-site' : ''}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
       </head>

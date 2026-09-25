@@ -12,7 +12,9 @@ import type { RequestContext } from '@/server/context';
 import { chainWeather } from '@/server/weather/queries';
 import { viewOf } from '@/server/mode';
 
-export const tradingEnabled = () => process.env.FEATURE_TRADING === '1';
+// Never on a public site: quotes and prepared transactions spend the
+// operator's key, and trading needs visitors to connect a wallet.
+export const tradingEnabled = () => process.env.FEATURE_TRADING === '1' && process.env.TIDE_PUBLIC_SITE !== '1';
 export const TRADE_CHAINS = ['base', 'solana'] as const;
 export type TradeChain = (typeof TRADE_CHAINS)[number];
 export const TOKENS = {

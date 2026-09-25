@@ -5,10 +5,12 @@ import { parseMessage, verifyEvm, verifySolana, type Family } from '@/server/aut
 import { consumeNonce, createSession, SESSION_COOKIE, SESSION_TTL_MS } from '@/server/auth/session';
 import { sameOrigin, fail } from '@/server/auth/http';
 import { audit } from '@/server/nansen/db';
+import { accountsEnabled } from '@/server/site';
 
 export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
+  if (!accountsEnabled()) return Response.json({ error: 'Accounts are off on this site.' }, { status: 404 });
   if (!sameOrigin(req)) return fail('Cross-site request refused.', 403);
   const b = (await req.json().catch(() => ({}))) as { family?: Family; message?: string; signature?: string };
   if (!b.family || !b.message || !b.signature) return fail('Need family, message and signature.');

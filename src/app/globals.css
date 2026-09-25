@@ -163,3 +163,8 @@ main .uppercase { text-transform:none;letter-spacing:0; }
 main .animate-pulse { animation:none; }
 .shell-rail { scrollbar-width:thin;scrollbar-color:var(--hair-2) transparent; }
 @media(max-width:1023px) { main h1:not(#map-title):not(#token-title):not(#chain-title) {font-size:34px;} }
+
+/* Public site (TIDE_PUBLIC_SITE=1): no accounts, and no visitor-triggered
+   paid runs on the operator's key. The server refuses these routes too
+   (src/middleware.ts); hiding the controls just keeps the page honest. */
+.public-site .needs-account, .public-site .owner-action { display: none !important; }

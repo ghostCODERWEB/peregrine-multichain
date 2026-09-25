@@ -65,7 +65,7 @@ export function WeatherView({ initial, anchor, alpha }: { initial: WeatherBullet
             <p className="mb-5 text-[12.5px] font-bold text-brand">{withheld ? 'All traders' : 'Smart money'} · last 24 hours</p>
             <h2 className="radar-headline">{top && bottom ? <>Accumulating <span className="text-accumulation">{chainName(top.chain)}.</span><br />Distributing <span className="text-distribution">{chainName(bottom.chain)}.</span></> : mapHeadline(data.chains,data.fronts)}</h2>
             <p className="mt-5 text-[15px] leading-relaxed text-ink-2">{withheld ? 'Market-wide flow, normalized against each chain’s own history. Same-wallet rotations are private.' : frontsHeadline(data.fronts)}</p>
-            <div className="mt-5 flex flex-wrap gap-2"><Link href="/flows" className="pill-button pill-primary">Open Capital Flows →</Link><Link href="/agent" className="pill-button pill-secondary">Ask Nansen why</Link></div>
+            <div className="mt-5 flex flex-wrap gap-2"><Link href="/flows" className="pill-button pill-primary">Open Capital Flows →</Link><Link href="/agent" className="owner-action pill-button pill-secondary">Ask Nansen why</Link></div>
           </div>
           {withheld ? <LockedPanel /> : <FlowOrbital fronts={data.fronts} />}
         </section>
@@ -91,8 +91,8 @@ export function WeatherView({ initial, anchor, alpha }: { initial: WeatherBullet
         </Card>
         <Card id="anchor-title" title="Ask Nansen" sub="Market brief · expert questions cost 750 credits" className="xl:col-span-5">
           <AnchorCard query="kind=bulletin" initial={anchor} label="Nansen’s market brief from available observations."/>
-          <div className="mt-4 flex flex-wrap gap-2">{['What is accumulating?','Where are wallets rotating?','What is driving risk?'].map(q=><Link key={q} href={`/agent?q=${encodeURIComponent(q)}`} className="rounded-full border border-border px-3 py-2 text-xs">{q}</Link>)}</div>
-          <Link href="/agent" className="inset-well mt-4 flex justify-between gap-3 p-4 text-sm text-ink-muted">Ask about a chain, token or wallet <span className="text-ink">↑</span></Link>
+          <div className="owner-action mt-4 flex flex-wrap gap-2">{['What is accumulating?','Where are wallets rotating?','What is driving risk?'].map(q=><Link key={q} href={`/agent?q=${encodeURIComponent(q)}`} className="rounded-full border border-border px-3 py-2 text-xs">{q}</Link>)}</div>
+          <Link href="/agent" className="owner-action inset-well mt-4 flex justify-between gap-3 p-4 text-sm text-ink-muted">Ask about a chain, token or wallet <span className="text-ink">↑</span></Link>
         </Card>
       </div>
       {alpha}

@@ -41,7 +41,7 @@ export function PortfolioView({ demo }: { demo: boolean }) {
       <label htmlFor="portfolio-addresses" className="mb-2 block text-xs text-ink-2">Wallet addresses</label>
       <textarea id="portfolio-addresses" rows={3} value={input} disabled={!!busy} onChange={(e) => { setInput(e.target.value); setP(null); setStress(null); setMessage(''); setError(''); }} placeholder="0x… or a Solana, Bitcoin, Sui, TON, NEAR… wallet" className="num w-full rounded-lg border border-border bg-background p-3 text-xs" />
       <div className="mt-3 flex flex-wrap gap-2"><button className={`${button} bg-accent`} disabled={!!busy || !input.trim()} onClick={() => run('analyze')}>Analyze · up to 5 credits</button><button className={button} disabled={!!busy || !canSave} onClick={() => run('save')}>Save watch set</button>{demo && <button className={button} disabled={!!busy} onClick={() => { setInput(DEMO); setP(null); setStress(null); }}>Use recorded demo wallet</button>}</div>
-      {!canSave && <p className="mt-2 text-xs text-ink-muted">Sign in to save a private watch set. Analysis does not require a wallet connection.</p>}
+      {!canSave && <p className="needs-account mt-2 text-xs text-ink-muted">Sign in to save a private watch set. Analysis does not require a wallet connection.</p>}
       <p className="mt-2 text-xs text-ink-muted">Prices are maximum uncached API credits; cached responses and demo replay use zero.</p>
       <div aria-live="polite" className="mt-3">{error && <Unavailable text={error} />}{message && <p className="text-sm">{message}</p>}{busy === 'analyze' && <WaveLoading what="portfolio balances" height={140} />}</div>
     </Card>

@@ -38,7 +38,7 @@ export function StormAlertForm({ chain, address, clusterWallets }: { chain: stri
 
   if (!open) {
     return (
-      <button onClick={() => { setOpen(true); void post(true); }} className="rounded-md border border-border px-3 py-1.5 text-[12.5px] text-ink hover:bg-accent">
+      <button onClick={() => { setOpen(true); void post(true); }} className="owner-action rounded-md border border-border px-3 py-1.5 text-[12.5px] text-ink hover:bg-accent">
         Set risk alert
       </button>
     );

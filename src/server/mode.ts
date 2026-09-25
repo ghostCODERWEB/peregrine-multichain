@@ -23,8 +23,12 @@ export type PressureView = 'private' | 'public';
 /** Scanner-derived smart-money views are the owner's only. */
 export const viewOf = (mode: DisplayMode): PressureView => (mode === 'owner' ? 'private' : 'public');
 
-export function resolveMode(p: { demo: boolean; instancePrivate: boolean; userAddress: string | null; ownerAddress: string | null; userHasKey: boolean }): DisplayMode {
+export function resolveMode(p: { demo: boolean; instancePrivate: boolean; userAddress: string | null; ownerAddress: string | null; userHasKey: boolean; publicSite?: boolean }): DisplayMode {
   if (p.demo) return 'public'; // demo data is published with the repo
+  // A public site shows every visitor the public view, whatever else the
+  // environment says: TIDE_DISPLAY_MODE=private there would hand smart-money
+  // data and labels to anyone who opens the page.
+  if (p.publicSite) return 'public';
   if (p.instancePrivate) return 'owner';
   if (p.userAddress && p.ownerAddress && p.userAddress.toLowerCase() === p.ownerAddress.toLowerCase()) return 'owner';
   if (p.userAddress && p.userHasKey) return 'member';

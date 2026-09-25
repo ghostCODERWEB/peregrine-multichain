@@ -52,7 +52,7 @@ export function contextFromMcp(req: Request): RequestContext | { error: string }
   if (row.scope === 'owner') {
     // An owner token keeps working only while the instance is still private to its owner.
     const base = contextFromRequest(req);
-    return process.env.TIDE_DISPLAY_MODE === 'private' ? { ...base, mode: 'owner' } : { error: 'Owner tokens work only on a private instance (TIDE_DISPLAY_MODE=private).' };
+    return process.env.TIDE_DISPLAY_MODE === 'private' && process.env.TIDE_PUBLIC_SITE !== '1' ? { ...base, mode: 'owner' } : { error: 'Owner tokens work only on a private instance (TIDE_DISPLAY_MODE=private).' };
   }
   return row.user_id != null ? contextForUser(row.user_id) : { error: 'Token has no account.' };
 }
