@@ -352,6 +352,17 @@ export function PerpsView({ board, title, mode }: { board: PerpBoard; title: str
       .catch((e) => setLeaders({ state: 'error', message: (e as Error).message }));
   }, [priv]);
 
+  // Deep link from the Overview: /perps?coin=BTC opens that coin's detail.
+  useEffect(() => {
+    const want = new URLSearchParams(window.location.search).get('coin');
+    const coin = want ? board.coins.find((c) => c.symbol === want) : null;
+    if (coin) {
+      pick(coin);
+      document.getElementById('coins')?.scrollIntoView({ block: 'start' });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- once, on arrival
+  }, []);
+
   const pickedCoin = useMemo(() => board.coins.find((c) => c.symbol === picked) ?? null, [board.coins, picked]);
   const divergent = board.coins.filter((c) => c.divergence);
   const hot = [...board.coins].filter((c) => c.ppi != null && (c.openInterest ?? 0) >= 10_000_000).sort((a, b) => b.ppi! - a.ppi!);

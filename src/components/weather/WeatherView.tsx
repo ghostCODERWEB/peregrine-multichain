@@ -27,7 +27,7 @@ import { LayerPanel } from './LayerPanel';
 import { InferenceControls } from './InferenceControls';
 import { AnchorCard } from '@/components/AnchorCard';
 import type { AnchorReport } from '@/server/agents/anchor';
-import { mapHeadline, frontsHeadline } from '@/lib/insights';
+import { mapHeadline } from '@/lib/insights';
 import { TimeAgo } from '@/components/TimeAgo';
 import type { WeatherBulletin } from '@/server/weather/bulletin';
 
@@ -72,10 +72,12 @@ export function WeatherView({
   // Public view: the same map from each chain's measured market-wide net flow.
   // The hero is a teaser: three chains each way stay legible on the small orbit.
   const netMap = useMemo(() => netFlowMap(chainNets(data.chains), { sellers: 3, buyers: 3, pairs: 6 }), [data.chains]);
-  const netLine =
-    netMap.sellers.length && netMap.buyers.length
-      ? `${usd(netMap.totalOut)} of net flow left ${chainName(netMap.sellers[0].chain)}${netMap.sellers.length > 1 ? ` and ${netMap.sellers.length - 1} more chain${netMap.sellers.length > 2 ? 's' : ''}` : ''} in 24h; ${chainName(netMap.buyers[0].chain)} took in the most (+${usd(netMap.buyers[0].net)}).`
-      : 'Market-wide net flow on every chain, measured against its own history.';
+  // Hero figures: the day's largest measured inflow and outflow, and coverage.
+  const byNet = useMemo(() => chainNets(data.chains).sort((x, y) => y.net - x.net), [data.chains]);
+  const heroFigures = [
+    byNet[0] && byNet[0].net > 0 && { label: 'Largest inflow', chain: byNet[0].chain, value: usd(byNet[0].net, { signed: true }), tone: 'var(--mint)' },
+    byNet.at(-1) && byNet.at(-1)!.net < 0 && { label: 'Largest outflow', chain: byNet.at(-1)!.chain, value: usd(byNet.at(-1)!.net, { signed: true }), tone: 'var(--flare)' },
+  ].filter(Boolean) as Array<{ label: string; chain: string; value: string; tone: string }>;
   const nets = useMemo(() => new Map([...netMap.sellers, ...netMap.buyers].map((n) => [n.chain, n.net])), [netMap]);
   const riskAlerts = (cls: string) => (
     <Card id="risk-alerts" title="Risk alerts" sub="Highest Dump Risk across chains, last 48 hours · not financial advice" className={cls}>
@@ -138,7 +140,7 @@ export function WeatherView({
           <div className="grid grid-cols-1 gap-4 xl:grid-cols-12">
             <section
               aria-label="Market overview"
-              className="material rise relative grid min-h-[440px] items-center gap-6 p-7 sm:p-9 xl:col-span-8 xl:grid-cols-[0.9fr_1.1fr]"
+              className="material rise relative grid items-center gap-6 p-5 sm:p-9 xl:min-h-[440px] xl:col-span-8 xl:grid-cols-[0.9fr_1.1fr]"
             >
               <div className="relative z-10">
                 <p className="seq mb-5 text-[12.5px] font-bold text-brand" style={{ '--i': 0 } as React.CSSProperties}>{withheld ? 'All traders' : 'Smart money'} · last 24 hours</p>
@@ -153,7 +155,26 @@ export function WeatherView({
                     mapHeadline(data.chains, data.fronts)
                   )}
                 </h2>
-                <p className="lede seq mt-5" style={{ '--i': 2 } as React.CSSProperties}>{withheld ? netLine : frontsHeadline(data.fronts)}</p>
+                <dl className="seq mt-6 grid max-w-[520px] grid-cols-3 gap-3 border-t border-[var(--hair)] pt-5" style={{ '--i': 2 } as React.CSSProperties}>
+                  {heroFigures.map((f) => (
+                    <div key={f.label} className="min-w-0">
+                      <dt className="text-[11.5px] font-semibold text-ink-muted">{f.label}</dt>
+                      <dd className="mt-1">
+                        <Link href={`/chain/${f.chain}`} className="group block min-w-0">
+                          <span className="num block truncate text-[clamp(15px,1.25vw,21px)] font-bold tracking-[-0.02em]" style={{ color: f.tone }}>{f.value}</span>
+                          <span className="block truncate text-[12.5px] text-ink-2 group-hover:text-ink">{chainName(f.chain)}</span>
+                        </Link>
+                      </dd>
+                    </div>
+                  ))}
+                  <div className="min-w-0">
+                    <dt className="text-[11.5px] font-semibold text-ink-muted">Chains measured</dt>
+                    <dd className="mt-1">
+                      <span className="num block text-[clamp(15px,1.25vw,21px)] font-bold tracking-[-0.02em] text-ink">{data.chains.filter((c) => c.cpi != null).length}</span>
+                      <span className="block text-[12.5px] text-ink-2">of {data.chains.length} supported</span>
+                    </dd>
+                  </div>
+                </dl>
                 <div className="seq mt-7 flex flex-wrap gap-2" style={{ '--i': 3 } as React.CSSProperties}>
                   <Link href="/flows" className="pill-button pill-primary">
                     Open Capital Flows <span className="arrow" aria-hidden>→</span>
@@ -396,7 +417,7 @@ function LayerOverview({
     r && (
       <section key={i} className="material p-6" aria-label={i ? 'Lowest reading' : 'Highest reading'}>
         <div className="flex items-center justify-between gap-2 text-[13px]">
-          <span className="truncate font-semibold text-ink-2">{r.name}</span>
+          <Link href={r.href ?? layer.href} className="truncate font-semibold text-ink-2 hover:text-ink">{r.name}</Link>
           <span className="font-semibold" style={{ color: i ? 'var(--flare)' : 'var(--mint)' }}>
             {i ? '↓ Lowest' : '↑ Highest'}
           </span>
@@ -414,7 +435,7 @@ function LayerOverview({
     <div className="grid grid-cols-1 gap-4 xl:grid-cols-12">
       <section
         aria-label={`${layer.title} overview`}
-        className={`material rise flex flex-col justify-center p-6 sm:p-7 ${empty ? 'xl:col-span-12' : 'min-h-[260px] xl:col-span-8'}`}
+        className={`material rise flex flex-col justify-center p-5 sm:p-8 ${empty ? 'xl:col-span-12' : 'min-h-[260px] xl:col-span-8'}`}
       >
         <p className="mb-4 text-[12.5px] font-bold text-brand">
           {layer.title}
@@ -426,10 +447,10 @@ function LayerOverview({
           ) : null}
         </p>
         <h2 className="radar-headline">{empty ? `No fresh ${layer.title.toLowerCase()} yet` : headline}</h2>
-        <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-ink-2">{plain}</p>
-        <div className="mt-5">
+        <p className="lede mt-4 hidden sm:block">{plain}</p>
+        <div className="mt-6">
           <Link href={layer.href} className="pill-button pill-primary">
-            Open {layer.title} →
+            Open {layer.title} <span className="arrow" aria-hidden>→</span>
           </Link>
         </div>
       </section>
@@ -460,8 +481,12 @@ function LayerOverview({
   );
 }
 
-/** The Overview's short list: the three highest and three lowest readings. */
-function glance<T extends { score: number | null }>(rows: T[]): T[] {
+/** The Overview's short list: the three highest and three lowest readings,
+ *  six each on very wide screens (the extra ones carry `wide`). */
+function glance<T extends { score: number | null }>(rows: T[]): Array<T & { wide?: boolean }> {
   const scored = rows.filter((r) => r.score != null).sort((a, b) => b.score! - a.score!);
-  return scored.length <= 6 ? scored : [...scored.slice(0, 3), ...scored.slice(-3)];
+  if (scored.length <= 6) return scored;
+  const n = Math.min(6, Math.floor(scored.length / 2));
+  const top = scored.slice(0, n), bottom = scored.slice(-n);
+  return [...top.map((r, i) => ({ ...r, wide: i >= 3 })), ...bottom.map((r, i) => ({ ...r, wide: i < n - 3 }))];
 }

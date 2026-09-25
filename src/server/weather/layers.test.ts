@@ -17,7 +17,7 @@ beforeEach(() => { getDb().exec('DELETE FROM response_cache'); vi.mocked(fixture
 
 describe('home weather layers', () => {
   it('normalizes prediction volume without leaking raw fields or inventing directional flow', () => {
-    expect(predictionReadings(raw)).toEqual([{ name: 'Politics', score: 50, value: 10 }]);
+    expect(predictionReadings(raw)).toEqual([{ name: 'Politics', score: 50, value: 10, href: '/predict?q=Politics' }]);
     expect(predictionReadings(null)).toEqual([]);
     expect(predictionReadings({ data: [null, {}, { category: 'x', total_volume_24hr: -1, total_volume_1wk: 1 }, { category: 'y', total_volume_24hr: 1, total_volume_1wk: 0 }] })).toEqual([]);
   });
@@ -38,7 +38,7 @@ describe('home weather layers', () => {
     expect(p.readings).toHaveLength(1);
     expect(p.at).toBeGreaterThan(0);
     expect(p.recorded).toBe(false);
-    expect(p.description).toContain('Not net YES/NO flow');
+    expect(p.description).toContain('says nothing about which outcome is favoured');
   });
   it('does not serve expired predictions as fresh', () => {
     writeCache('prediction-market/categories', body, raw);

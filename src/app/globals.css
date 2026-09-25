@@ -4,6 +4,11 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@theme {
+  --breakpoint-3xl: 120rem;
+  --breakpoint-4xl: 150rem;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -69,7 +74,7 @@
  --dur-fast:160ms; --dur-normal:280ms; --dur-reveal:640ms; --dur-hero:1000ms; --stagger:90ms;
  /* Shape and type */
  --r-card:26px; --r-inner:16px; --r-control:12px;
- --fs-display:clamp(34px,3.3vw,50px); --fs-title:clamp(24px,2vw,30px); --fs-section:19px; --fs-lede:15.5px; --fs-caption:12.5px;
+ --fs-display:clamp(28px,1.4vw + 22px,52px); --fs-title:clamp(24px,2vw,30px); --fs-section:19px; --fs-lede:15.5px; --fs-caption:12.5px;
  --measure:62ch;
  --surface-page:#F5F6F8; --surface-1:#fff; --surface-2:#eef0f3;
  --ink-1:#0B0D10; --ink-2:#4A5260; --ink-muted:#59616D;
@@ -220,3 +225,11 @@ main summary { list-style:none; display:flex; align-items:center; gap:.5rem; cur
 main summary::-webkit-details-marker { display:none; }
 main summary::before { content:''; flex:none; width:6px; height:6px; margin:0 2px; border-right:1.5px solid currentColor; border-bottom:1.5px solid currentColor; transform:rotate(-45deg); transition:transform var(--dur-normal) var(--ease-out); opacity:.7; }
 main details[open] > summary::before { transform:rotate(45deg); }
+
+.orbital-node { cursor:pointer; }
+.orbital-node:hover circle:nth-of-type(2) { stroke:var(--ink-2); }
+.orbital-node:focus-visible { outline:none; }
+.orbital-node:focus-visible circle:nth-of-type(2) { stroke:var(--mint); stroke-width:2; }
+/* 4K: widen the canvas, then scale the whole interface so type and hit
+   targets stay proportional at 2560+ CSS px. */
+@media(min-width:2560px) { html { zoom:1.2; } }

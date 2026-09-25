@@ -11,6 +11,10 @@ export interface LayerReading {
   name: string;
   score: number | null;
   value: number | null;
+  /** Where this reading's own detail lives. */
+  href?: string;
+  /** Overview only: shown on very wide screens. */
+  wide?: boolean;
 }
 export interface WeatherLayer {
   id: 'perps' | 'sectors' | 'predictions';
@@ -40,6 +44,7 @@ export function predictionReadings(raw: unknown): LayerReading[] {
           name: r.category,
           score: categoryHeat({ volume24h, volume1w, openInterest: finite(r.total_open_interest) }).weather,
           value: volume24h,
+          href: `/predict?q=${encodeURIComponent(r.category)}`,
         },
       ];
     })
@@ -71,11 +76,11 @@ export function weatherLayers(view: PressureView, now = Date.now()): WeatherLaye
       recorded,
       provenance: perps.provenance,
       description:
-        'Top 24 Hyperliquid coins by open interest • Perp Flow Index combines taker flow and funding, plus owner-only smart-money positioning. Positioning is not a price forecast.',
+        'The 24 largest Hyperliquid markets by open interest, scored from taker flow and funding. Above 50, buyers are paying up to hold longs; below, shorts are. Positioning, not a price forecast.',
       readings: [...perps.coins]
         .sort((a, b) => (b.openInterest ?? 0) - (a.openInterest ?? 0))
         .slice(0, 24)
-        .map((c) => ({ name: c.symbol, score: c.ppi, value: c.openInterest })),
+        .map((c) => ({ name: c.symbol, score: c.ppi, value: c.openInterest, href: `/perps?coin=${encodeURIComponent(c.symbol)}` })),
       unavailable: perps.unavailable,
     },
     {
@@ -86,10 +91,10 @@ export function weatherLayers(view: PressureView, now = Date.now()): WeatherLaye
       at: sectors.at,
       recorded,
       provenance: sectors.provenance,
-      description: `Sector baskets • ${sectors.source} flow normalized against history (peers until enough history). A high relative score need not mean positive net flow. Membership overlaps.`,
+      description: `24-hour ${sectors.source === 'smart-money' ? 'smart-money' : 'all-trader'} net flow into each Nansen sector, scored against its own week (against other sectors until it has enough history). A token can sit in more than one sector.`,
       readings: [...sectors.sectors]
         .sort((a, b) => Math.abs(b.pressure - 50) - Math.abs(a.pressure - 50))
-        .map((s) => ({ name: s.sector, score: s.pressure, value: s.netFlow24hUsd })),
+        .map((s) => ({ name: s.sector, score: s.pressure, value: s.netFlow24hUsd, href: `/sectors/${encodeURIComponent(s.sector)}` })),
       unavailable: sectors.unavailable,
     },
     {
@@ -117,7 +122,7 @@ export function weatherLayers(view: PressureView, now = Date.now()): WeatherLaye
         ],
       },
       description:
-        'Polymarket categories • activity = 50 + 50 × tanh(ln(24h volume ÷ weekly daily average)). Not net YES/NO flow, direction or probability. Categories overlap.',
+        'Trading activity per Polymarket category: today\'s volume against its average day this week. 50 is a normal day; it says nothing about which outcome is favoured.',
       readings: predictionReadings(prediction?.value),
       unavailable: prediction
         ? null

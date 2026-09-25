@@ -7,6 +7,11 @@ import { useEffect, useRef, useState } from 'react';
  *  when none of their items match and open while a search is active. */
 export function FilterBox({ target, placeholder, groups = [], label }: { target: string; placeholder: string; groups?: string[]; label: string }) {
   const [q, setQ] = useState('');
+  // A link can arrive pre-filtered: /predict?q=Politics.
+  useEffect(() => {
+    const initial = new URLSearchParams(window.location.search).get('q');
+    if (initial) setQ(initial);
+  }, []);
   const [group, setGroup] = useState<string | null>(null);
   const [shown, setShown] = useState<number | null>(null);
   const opened = useRef(new Set<HTMLDetailsElement>());
@@ -44,14 +49,14 @@ export function FilterBox({ target, placeholder, groups = [], label }: { target:
         className="inset-well min-h-[36px] w-full rounded-[10px] px-3 text-[13px] text-ink placeholder:text-ink-muted sm:w-72"
       />
       {groups.length > 0 && (
-        <div className="flex flex-wrap gap-1.5">
+        <div className="-mx-1 flex max-w-full gap-1.5 overflow-x-auto px-1 [scrollbar-width:none]">
           {[null, ...groups].map((g) => (
             <button
               key={g ?? 'all'}
               type="button"
               aria-pressed={group === g}
               onClick={() => setGroup(g)}
-              className={`min-h-[32px] rounded-full px-3 text-[12px] font-bold ${group === g ? 'bg-ink/15 text-ink' : 'text-ink-muted hover:text-ink'}`}
+              className={`min-h-[32px] shrink-0 whitespace-nowrap rounded-full px-3 text-[12px] font-bold ${group === g ? 'bg-ink/15 text-ink' : 'text-ink-muted hover:text-ink'}`}
             >
               {g ?? 'All'}
             </button>

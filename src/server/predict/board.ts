@@ -186,13 +186,12 @@ export function predictTitle(b: PredictBoard): string {
   if (b.unavailable || !b.categories.length) return 'Prediction markets: no reading from Nansen right now';
   const hot = [...b.categories].filter((x) => x.weather != null && (x.volume24h ?? 0) > 100_000).sort((a, z) => z.weather! - a.weather!)[0];
   const mover = [...b.markets].filter((m) => isMover(m, b.asOf)).sort((a, z) => Math.abs(z.change1d!) - Math.abs(a.change1d!))[0];
+  const q = mover ? (mover.question.length > 70 ? `${mover.question.slice(0, 69).trimEnd()}…` : mover.question) : '';
   const parts = [
-    hot ? `${hot.category} is running ${num(hot.heat, 1)}× its usual daily volume` : null,
-    mover
-      ? `the biggest repricing: "${mover.question.slice(0, 70)}${mover.question.length > 70 ? '…' : ''}" ${mover.change1d! > 0 ? 'up' : 'down'} ${Math.round(Math.abs(mover.change1d!) * 100)} points`
-      : null,
+    hot ? `${hot.category} is trading at ${num(hot.heat, 1)}× a normal day.` : null,
+    mover ? `Biggest move: “${q}”, ${mover.change1d! > 0 ? 'up' : 'down'} ${Math.round(Math.abs(mover.change1d!) * 100)} points.` : null,
   ].filter(Boolean);
-  return parts.length ? parts.join('; ') : 'Prediction markets are at a normal pace';
+  return parts.length ? parts.join(' ') : 'Prediction markets are trading at a normal pace.';
 }
 
 // ------------------------------------------------------------ market detail

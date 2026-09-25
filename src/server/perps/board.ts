@@ -259,7 +259,7 @@ export function perpTitle(b: PerpBoard): string {
     .filter((c) => c.ppi != null && (c.openInterest ?? 0) >= 10_000_000)
     .sort((x, y) => Math.abs(y.ppi! - 50) - Math.abs(x.ppi! - 50))[0];
   const p = b.venue.ppi;
-  const mood = p > 65 ? 'long-biased' : p < 35 ? 'short-biased' : 'balanced';
+  const mood = p > 65 ? 'Perps lean long.' : p < 35 ? 'Perps lean short.' : 'Perps are balanced.';
   const name = (sym: string) => (sym.includes(':') ? `${sym.split(':')[1]} (${sym.split(':')[0]})` : sym);
-  return `Hyperliquid perps ${mood} (Perp Flow ${num(p, 0)})${lead ? ` · ${name(lead.symbol)} most one-sided at ${num(lead.ppi, 0)}, ${lead.ppi! >= 50 ? 'long' : 'short'}` : ''}`;
+  return lead ? `${mood} ${name(lead.symbol)} is the most one-sided market, leaning ${lead.ppi! >= 50 ? 'long' : 'short'}.` : mood;
 }

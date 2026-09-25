@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { ChainLogo } from '@/components/Logo';
 import { chainName } from '@/lib/viz/format';
@@ -12,12 +12,20 @@ import type { ChainTile } from '@/server/weather/bulletin';
  *  an arrow and the band word carry the same meaning without colour. */
 export function ChainGrid({ chains, brief = 0 }: { chains: ChainTile[]; /** show only the n strongest and n weakest until expanded */ brief?: number }) {
   const [all, setAll] = useState(false);
+  // Wide screens have room for every chain.
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 1920px)');
+    const sync = () => setAll((a) => a || mq.matches);
+    sync();
+    mq.addEventListener('change', sync);
+    return () => mq.removeEventListener('change', sync);
+  }, []);
   const tiles = chains.filter((c) => c.cpi != null).sort((a, b) => b.cpi! - a.cpi! || a.chain.localeCompare(b.chain));
   const cut = brief > 0 && !all && tiles.length > brief * 2;
   const shown = cut ? [...tiles.slice(0, brief), ...tiles.slice(-brief)] : tiles;
   return (
     <>
-      <ul className="grid grid-cols-2 gap-2 min-[520px]:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7" aria-label="Chains by Flow Index">
+      <ul className="grid grid-cols-2 gap-2 min-[520px]:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 3xl:grid-cols-9 4xl:grid-cols-10" aria-label="Chains by Flow Index">
         {shown.map((c) => <li key={c.chain}><Tile c={c} /></li>)}
       </ul>
       {brief > 0 && tiles.length > brief * 2 && (

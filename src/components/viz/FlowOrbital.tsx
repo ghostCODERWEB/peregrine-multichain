@@ -38,7 +38,7 @@ export function FlowOrbital({ fronts, modeled = false, nets }: { fronts: Orbital
   const cx = W / 2, cy = H / 2, R = Math.min(W, H) * RING;
 
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img"
+    <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="group"
       aria-label={`${modeled ? 'Market-wide net flow, 24 hours, modeled arcs' : 'Capital rotations in 24 hours'}: ${arcs.map((a) => `${chainName(a.from)} to ${chainName(a.to)} ${usd(a.edge.netUsd)}`).join('; ')}`}>
       <defs>
         <radialGradient id={`${id}-glow`}><stop stopColor="var(--mint)" stopOpacity=".13" /><stop offset="1" stopColor="var(--mint)" stopOpacity="0" /></radialGradient>
@@ -77,7 +77,8 @@ export function FlowOrbital({ fronts, modeled = false, nets }: { fronts: Orbital
         const v = nets?.get(nd.chain) ?? nd.net, col = v >= 0 ? 'var(--mint)' : 'var(--flare)', src = chainLogoSrc(nd.chain);
         const left = nd.side === 'left', lx = r1(nd.x + (left ? -(NODE_R + 9) : NODE_R + 9)), anchor = left ? 'end' : 'start';
         return (
-          <g key={nd.chain} className="node-in" style={{ '--i': ni } as React.CSSProperties}>
+          <a key={nd.chain} href={`/chain/${nd.chain}`} aria-label={`${chainName(nd.chain)}: open chain`} className="orbital-node">
+          <g className="node-in" style={{ '--i': ni } as React.CSSProperties}>
             <circle cx={nd.x} cy={nd.y} r={NODE_R + 5} fill="none" stroke={col} strokeOpacity={0.3} />
             <circle cx={nd.x} cy={nd.y} r={NODE_R} fill="var(--surface-1)" stroke="var(--hair-2)" />
             {src ? <SvgChainLogo chain={nd.chain} x={r1(nd.x - 11)} y={r1(nd.y - 11)} size={22} />
@@ -85,6 +86,7 @@ export function FlowOrbital({ fronts, modeled = false, nets }: { fronts: Orbital
             <text x={lx} y={r1(nd.y - 2)} textAnchor={anchor} className="fill-ink text-[12.5px] font-bold">{chainName(nd.chain)}</text>
             <text x={lx} y={r1(nd.y + 13)} textAnchor={anchor} className="num text-[11px] font-bold" style={{ fill: col }}>{v >= 0 ? '+' : '−'}{usd(Math.abs(v))}</text>
           </g>
+          </a>
         );
       })}
       <text x={14} y={H - 8} className="fill-[var(--flare)] text-[10px] font-extrabold tracking-[0.08em]">{modeled ? 'NET OUTFLOW' : 'NET SELLERS'}</text>
