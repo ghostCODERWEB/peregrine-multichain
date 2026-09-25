@@ -19,7 +19,7 @@ const pct = (v: number) => `${(v * 100).toFixed(v > 0 && v < 0.01 ? 1 : 0)}%`;
 function Table({ head, children, empty }: { head: string[]; children: ReactNode; empty?: string | false }) {
   if (empty) return <p className="text-sm text-ink-2">{empty}</p>;
   return (
-    <div className="max-h-[380px] overflow-auto">
+    <div tabIndex={0} role="region" aria-label="Scrollable list" className="max-h-[380px] overflow-auto">
       <table className="w-full text-[12px]">
         <thead className="sticky top-0 bg-surface">
           <tr className="border-b border-border text-left text-[11px] uppercase tracking-wider text-ink-muted">

@@ -67,7 +67,7 @@ export function TrailMap({ steps }: { steps: TrailStep[] }) {
           });
         })()}
       </svg>
-      <ol className="mt-3 max-h-[260px] space-y-1 overflow-y-auto text-[12.5px]">
+      <ol tabIndex={0} aria-label="Scrollable list" className="mt-3 max-h-[260px] space-y-1 overflow-y-auto text-[12.5px]">
         {[...steps].reverse().map((s, i) => (
           <li key={i} className="flex items-center gap-2 border-b border-border/50 py-1">
             <span className="num w-16 shrink-0 text-ink-muted"><TimeAgo ts={s.at} /></span>

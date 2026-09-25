@@ -1,9 +1,10 @@
 {
-  "at": "2026-09-25 19:39",
+  "at": "2026-09-25 22:42",
   "scores": {
-    "Code quality": 60,
+    "Code quality": 100,
     "Nansen data": 100,
-    "UI/UX": 60
+    "Novelty": 100,
+    "UI/UX": 80
   },
   "checks": [
     {
@@ -20,19 +21,19 @@
       "metric": "Code quality",
       "name": "Unit tests all pass",
       "pass": true,
-      "detail": "Tests  535 passed | 1 skipped"
+      "detail": "Tests  597 passed | 1 skipped"
     },
     {
       "metric": "Code quality",
       "name": "Line coverage of src/lib + src/server ≥ 80%",
-      "pass": false,
-      "detail": "50.1%"
+      "pass": true,
+      "detail": "80.5%"
     },
     {
       "metric": "Code quality",
       "name": "No code lines over 220 characters (excluding prose strings)",
-      "pass": false,
-      "detail": "132: src/app/api/alerts/route.ts:59, src/app/api/desk/route.ts:58, src/app/api/lab/rule/route.ts:10, src/app/api/public/storm/route.ts:19, src/app/api/rug/[chain]/[address]/route.ts:35, src/app/api/trade/route.ts:16"
+      "pass": true,
+      "detail": "0"
     },
     {
       "metric": "Nansen data",
@@ -63,10 +64,52 @@
       "detail": "Tests  33 passed (33)"
     },
     {
+      "metric": "Novelty",
+      "name": "Cross-chain capital map (wallet rotations for the owner; measured net flow with modeled arcs in public)",
+      "pass": true,
+      "detail": "nav: Capital Flows · e2e/flows.spec.ts"
+    },
+    {
+      "metric": "Novelty",
+      "name": "Rug Checker: six measured checks and a model verdict on 25 networks",
+      "pass": true,
+      "detail": "nav: Rug Checker · e2e/rug.spec.ts"
+    },
+    {
+      "metric": "Novelty",
+      "name": "Calls graded against real candles, with Trader DNA",
+      "pass": true,
+      "detail": "nav: Desk · e2e/desk.spec.ts"
+    },
+    {
+      "metric": "Novelty",
+      "name": "Time Machine: lock a call on past data, then reveal",
+      "pass": true,
+      "detail": "token page → Make a call · e2e/replay.spec.ts"
+    },
+    {
+      "metric": "Novelty",
+      "name": "Dump Risk model with a published out-of-sample backtest",
+      "pass": true,
+      "detail": "nav: Backtest Lab · src/lib/models/storm-score.test.ts"
+    },
+    {
+      "metric": "Novelty",
+      "name": "Ask Nansen on any token, with a public label guard",
+      "pass": true,
+      "detail": "every token page · src/server/agents/quick.test.ts"
+    },
+    {
+      "metric": "Novelty",
+      "name": "Public site on one key: no wallet, same-origin API, daily budget",
+      "pass": true,
+      "detail": "TIDE_PUBLIC_SITE=1 · src/middleware.test.ts"
+    },
+    {
       "metric": "UI/UX",
       "name": "No legacy (pre-redesign) panel or heading styles",
-      "pass": false,
-      "detail": "19: src/app/trade/page.tsx:26, src/app/smart-money/page.tsx:23, src/app/smart-money/page.tsx:30, src/app/lab/page.tsx:173, src/app/agent/page.tsx:31"
+      "pass": true,
+      "detail": "0"
     },
     {
       "metric": "UI/UX",
@@ -90,7 +133,7 @@
       "metric": "UI/UX",
       "name": "No serious or critical WCAG 2.1 AA violations (axe)",
       "pass": false,
-      "detail": "36: /perps (desktop dark): color-contrast×29, scrollable-region-focusable×1; /predict (desktop dark): color-contrast×21, scrollable-region-focusable×1; /wallet/0xcbb811f129782ef87e19dea9d3375045219bae00 (desktop dark): scrollable-region-focusable×1; /coverage (desktop dark): scrollable-region-focusable×1; /perps (phone dark): color-contrast×30, scrollable-region-focusable×2; /predict (phone dark): color-contrast×21, scrollable-region-focusable×1; /wallet/0xcbb811f129782ef87e19dea9d3375045219bae00 (phone dark): scrollable-region-focusable×1; /lab (phone dark): scrollable-region-focusable×1; /coverage (phone dark): scrollable-region-focusable×2; / (desktop light): color-contrast×4"
+      "detail": "8: /wallet/0xcbb811f129782ef87e19dea9d3375045219bae00 (desktop dark): scrollable-region-focusable×1; /wallet/0xcbb811f129782ef87e19dea9d3375045219bae00 (phone dark): scrollable-region-focusable×1; /rug/base/0x940181a94a35a4569e4529a3cdfb74e38fd98631 (desktop light): color-contrast×2; /wallet/0xcbb811f129782ef87e19dea9d3375045219bae00 (desktop light): link-in-text-block×1, scrollable-region-focusable×1; /trade (desktop light): link-in-text-block×1; /alerts (desktop light): link-in-text-block×1; /agent (desktop light): link-in-text-block×1"
     }
   ]
 }

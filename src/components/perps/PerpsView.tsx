@@ -414,7 +414,7 @@ export function PerpsView({ board, title, mode }: { board: PerpBoard; title: str
           title={`${board.coins.filter((c) => c.ppi != null).length} coins scored`}
           sub="Largest open interest first. Select a row for its liquidation ladder and trades."
         >
-          <div className="max-h-[440px] overflow-auto">
+          <div tabIndex={0} role="region" aria-label="Scrollable list" className="max-h-[440px] overflow-auto">
             <table className="w-full text-left text-[12.5px]">
               <thead className="sticky top-0 bg-surface text-[11px] uppercase tracking-wider text-ink-muted">
                 <tr>
@@ -544,7 +544,7 @@ export function PerpsView({ board, title, mode }: { board: PerpBoard; title: str
                 'unavailable' in detail.data.tape ? (
                   <Unavailable text={detail.data.tape.unavailable} />
                 ) : (
-                  <div className="max-h-[360px] overflow-auto">
+                  <div tabIndex={0} role="region" aria-label="Scrollable list" className="max-h-[360px] overflow-auto">
                     <table className="w-full min-w-[440px] text-left text-[12.5px]">
                       <tbody>
                         {detail.data.tape.rows.map((t) => (
@@ -553,7 +553,7 @@ export function PerpsView({ board, title, mode }: { board: PerpBoard; title: str
                             <td className="max-w-[150px] truncate text-ink-2">{walletName(t.label, t.address)}</td>
                             <td className="text-ink">
                               <span
-                                style={{ color: t.side === 'Long' ? 'var(--in-2)' : t.side === 'Short' ? 'var(--out-2)' : undefined }}
+                                style={{ color: t.side === 'Long' ? 'var(--mint)' : t.side === 'Short' ? 'var(--flare)' : undefined }}
                                 aria-hidden
                               >
                                 ●
@@ -588,7 +588,7 @@ export function PerpsView({ board, title, mode }: { board: PerpBoard; title: str
                   !detail.data.pnl ? null : 'unavailable' in detail.data.pnl ? (
                     <Unavailable text={detail.data.pnl.unavailable} />
                   ) : (
-                    <div className="max-h-[360px] overflow-auto">
+                    <div tabIndex={0} role="region" aria-label="Scrollable list" className="max-h-[360px] overflow-auto">
                       <table className="w-full min-w-[440px] text-left text-[12.5px]">
                         <thead className="text-[11px] uppercase tracking-wider text-ink-muted">
                           <tr>
@@ -644,7 +644,7 @@ export function PerpsView({ board, title, mode }: { board: PerpBoard; title: str
         {!priv ? (
           <Unavailable text="Shown to the API key owner or a signed-in member with their own key: Nansen does not allow its perp leaderboard in public views." />
         ) : leaders.state === 'ok' ? (
-          <div className="max-h-[560px] overflow-auto">
+          <div tabIndex={0} role="region" aria-label="Scrollable list" className="max-h-[560px] overflow-auto">
             <table className="w-full min-w-[760px] text-left text-[12.5px]">
               <thead className="sticky top-0 bg-surface text-[11px] uppercase tracking-wider text-ink-muted">
                 <tr>

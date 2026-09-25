@@ -115,7 +115,7 @@ export function WalletDesk({ address, initialChain, chains }: { address: string;
               <div key={t.title}>
                 <h4 className="mb-2 text-sm text-ink-2">{t.title}</h4>
                 {t.rows.length ? (
-                  <div className="max-h-96 overflow-auto">
+                  <div tabIndex={0} role="region" aria-label="Scrollable list" className="max-h-96 overflow-auto">
                     <table className="w-full text-left text-xs">
                       <thead>
                         <tr>

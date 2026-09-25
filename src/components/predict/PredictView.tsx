@@ -420,7 +420,7 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
             >
               {detail.state === 'ok' ? (
                 detail.data.trades.length ? (
-                  <div className="max-h-[320px] overflow-auto">
+                  <div tabIndex={0} role="region" aria-label="Scrollable list" className="max-h-[320px] overflow-auto">
                     <table className="w-full min-w-[420px] text-left text-[12.5px]">
                       <tbody>
                         {detail.data.trades.slice(0, 30).map((tr, i) => (
@@ -430,7 +430,7 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
                             </td>
                             <td className="text-ink">
                               {tr.action ?? '—'}{' '}
-                              <span style={{ color: /yes/i.test(tr.side ?? '') ? 'var(--in-2)' : 'var(--out-2)' }}>{tr.side}</span>
+                              <span style={{ color: /yes/i.test(tr.side ?? '') ? 'var(--mint)' : 'var(--flare)' }}>{tr.side}</span>
                             </td>
                             <td className="num text-ink-2">{impliedPct(tr.price)}</td>
                             <td className="num text-right text-ink">{usd(tr.usd)}</td>
@@ -465,7 +465,7 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
               sub="Each large holder's own prediction-market record, and who is winning in this market."
             >
               {records.state === 'ok' ? (
-                <div className="max-h-[320px] overflow-auto">
+                <div tabIndex={0} role="region" aria-label="Scrollable list" className="max-h-[320px] overflow-auto">
                   <table className="w-full min-w-[460px] text-left text-[12.5px]">
                     <thead className="text-[11px] uppercase tracking-wider text-ink-muted">
                       <tr>
@@ -486,7 +486,7 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
                             </Link>
                             {r.skilled && <span className="ml-1.5 rounded bg-brand/15 px-1.5 text-[10.5px] text-ink">skilled</span>}
                           </td>
-                          <td style={{ color: /yes/i.test(r.side) ? 'var(--in-2)' : 'var(--out-2)' }}>{r.side}</td>
+                          <td style={{ color: /yes/i.test(r.side) ? 'var(--mint)' : 'var(--flare)' }}>{r.side}</td>
                           <td className="num text-ink">{usd(r.valueUsd)}</td>
                           <td className="num text-ink-2">{r.marketsTraded ?? '—'}</td>
                           <td className="num text-ink-2">{r.winRate != null ? `${Math.round(r.winRate * 100)}%` : '—'}</td>
@@ -509,7 +509,7 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
         title={`${board.markets.length} most-traded active markets`}
         sub="Implied probability (YES price), today's change, and depth. Select a market for its price, order book and holders."
       >
-        <div className="max-h-[560px] overflow-auto">
+        <div tabIndex={0} role="region" aria-label="Scrollable list" className="max-h-[560px] overflow-auto">
           <table className="w-full min-w-[760px] text-left text-[12.5px]">
             <thead className="sticky top-0 bg-surface text-[11px] uppercase tracking-wider text-ink-muted">
               <tr>
@@ -533,7 +533,7 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
                     {m.question}
                   </td>
                   <td className="num text-ink">{impliedPct(m.price)}</td>
-                  <td className="num" style={{ color: m.change1d ? (m.change1d > 0 ? 'var(--in-2)' : 'var(--out-2)') : undefined }}>
+                  <td className="num" style={{ color: m.change1d ? (m.change1d > 0 ? 'var(--mint)' : 'var(--flare)') : undefined }}>
                     {pts(m.change1d)}
                   </td>
                   <td className="num text-ink">{usd(m.volume24h)}</td>
