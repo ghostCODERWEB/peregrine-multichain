@@ -24,8 +24,8 @@ export function stormTitle(symbol: string | null, s: StormWave): string {
     .sort((a, b) => (b[1] as number) - (a[1] as number))[0];
   const name = lead && (lead[0] === 'nansenRisk' ? 'Nansen risk' : INPUT_LABEL[lead[0]][1].toLowerCase());
   const storm = r.band === 'watch' || r.band === 'warning';
-  const tail = !lead ? '' : storm ? `, driven by ${name} (${num(lead[1], 0)})` : `; highest input: ${name} (${num(lead[1], 0)})`;
-  return `${symbol ?? 'This token'}: ${STORM_LABEL[r.band]} — Dump Risk ${num(r.score, 0)}${tail}`;
+  const tail = !lead ? '' : ` · ${storm ? 'driven by' : 'top driver:'} ${name} ${num(lead[1], 0)}`;
+  return `${symbol ?? 'This token'} · Dump Risk ${num(r.score, 0)}, ${STORM_LABEL[r.band]}${tail}`;
 }
 
 function Gauge({ score }: { score: number }) {

@@ -122,6 +122,9 @@ export interface FrontWallet {
   boughtTokens: string[];
 }
 
+/** A token a rotation sold or bought, resolved to its address on that chain. */
+export interface TokenRef { symbol: string; chain: string; address: string }
+
 export interface Front {
   evidence?: import('@/lib/models/inferred-rotations').InferredMatch[];
   from: string;
@@ -133,11 +136,13 @@ export interface Front {
   walletCount: number;
   inferred: boolean;
   wallets: FrontWallet[];
+  /** Tokens sold on `from` and bought on `to`, with addresses, for linking (P4). */
+  tokenRefs?: TokenRef[];
 }
 
 interface TradeRow {
   chain: string; wallet: string; wallet_label: string | null; side: 'buy' | 'sell';
-  token_symbol: string | null; usd_value: number; traded_at: number;
+  token_symbol: string | null; token_address: string | null; usd_value: number; traded_at: number;
 }
 
 /**
@@ -151,7 +156,7 @@ interface TradeRow {
 export function rotationFronts(hours = 24, now = Date.now()): Front[] {
   const since = now - hours * 60 * 60_000;
   const rows = getDb().prepare(`
-    SELECT chain, wallet, wallet_label, side, token_symbol, usd_value, traded_at
+    SELECT chain, wallet, wallet_label, side, token_symbol, token_address, usd_value, traded_at
     FROM smart_money_trades WHERE traded_at >= ? AND traded_at <= ? ORDER BY traded_at
   `).all(since - 12 * 60 * 60_000, now) as TradeRow[];
 
@@ -187,6 +192,15 @@ export function rotationFronts(hours = 24, now = Date.now()): Front[] {
           boughtTokens: [...new Set(buys.map((t) => t.token_symbol).filter((s): s is string => !!s))].slice(0, 5),
         };
       }).sort((a, b) => b.boughtUsd - a.boughtUsd);
+      // Symbols → addresses on the chain they traded on; the biggest trade wins a tie.
+      const refs = new Map<string, TokenRef & { usd: number }>();
+      for (const w of walletIds) for (const t of byWallet.get(w) ?? []) {
+        const relevant = (t.chain === from && t.side === 'sell') || (t.chain === to && t.side === 'buy');
+        if (!relevant || !t.token_symbol || !t.token_address) continue;
+        const k = `${t.chain}:${t.token_symbol}`, cur = refs.get(k);
+        if (!cur || t.usd_value > cur.usd) refs.set(k, { symbol: t.token_symbol, chain: t.chain, address: t.token_address, usd: t.usd_value });
+      }
+      const tokenRefs = [...refs.values()].map(({ symbol, chain, address }) => ({ symbol, chain, address }));
       return {
         from, to,
         netUsd: Math.abs(f.netUsd),
@@ -196,6 +210,7 @@ export function rotationFronts(hours = 24, now = Date.now()): Front[] {
         walletCount: wallets.length,
         inferred: f.inferred,
         wallets,
+        tokenRefs,
       };
     })
     .filter((f) => f.walletCount >= 2)

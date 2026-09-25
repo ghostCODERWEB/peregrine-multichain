@@ -77,6 +77,16 @@ export function CapitalFlows({ initial, chains, withheld, chain }: { initial: Fr
     } catch (e) { setError((e as Error).message); } finally { setLoading(false); }
   }
 
+  // An empty 24h is common on quieter chains: widen to 7 days once, on its own,
+  // rather than showing a blank panel. The window switch still shows 7d.
+  const widened = useRef(false);
+  useEffect(() => {
+    if (withheld || widened.current || hours !== 24 || initial.some((f) => !f.inferred && (!chain || f.from === chain || f.to === chain))) return;
+    widened.current = true;
+    void pick(168);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- runs once per mount when 24h is empty
+  }, [withheld, initial]);
+
   const observed = useMemo(() => fronts.filter((f) => !f.inferred), [fronts]);
   const layout = useMemo(() => flowLayout(observed.map((f) => ({ from: f.from, to: f.to, netUsd: f.netUsd, walletCount: f.walletCount, confidence: f.confidence })), W, H, ring), [observed, W, H, ring]);
   const cpi = useMemo(() => new Map(chains.map((c) => [c.chain, c.cpi])), [chains]);
@@ -256,8 +266,8 @@ function FlowDetail({ front: f, onWallets }: { front: FrontWithProvenance; onWal
       </dl>
       {(sold.length > 0 || bought.length > 0) && (
         <div className="mt-3 space-y-1.5 text-[12px]">
-          {sold.length > 0 && <TokenRow label={`Sold on ${chainName(f.from)}`} tokens={sold} />}
-          {bought.length > 0 && <TokenRow label={`Bought on ${chainName(f.to)}`} tokens={bought} />}
+          {sold.length > 0 && <TokenRow label={`Sold on ${chainName(f.from)}`} tokens={sold} refs={refsOn(f, f.from)} />}
+          {bought.length > 0 && <TokenRow label={`Bought on ${chainName(f.to)}`} tokens={bought} refs={refsOn(f, f.to)} />}
         </div>
       )}
       <ul className="mt-3 space-y-1 text-[12px]">
@@ -273,12 +283,24 @@ function FlowDetail({ front: f, onWallets }: { front: FrontWithProvenance; onWal
   );
 }
 
-function TokenRow({ label, tokens }: { label: string; tokens: string[] }) {
+/** symbol → token page, for tokens a flow traded on `chain`. */
+function refsOn(f: FrontWithProvenance, chain: string): Map<string, string> {
+  return new Map((f.tokenRefs ?? []).filter((r) => r.chain === chain).map((r) => [r.symbol, `/token/${r.chain}/${encodeURIComponent(r.address)}`]));
+}
+
+/** A token chip: a link to the token's page when its address is known. */
+function Chip({ t, href, children }: { t: string; href?: string; children?: React.ReactNode }) {
+  const cls = 'inline-flex items-center gap-1 rounded border border-border px-1.5 py-0.5 text-ink';
+  const inner = <><TokenLogo symbol={t} size={12} badge={false} />{t}{children}</>;
+  return href ? <Link href={href} className={`${cls} hover:border-axis hover:bg-raised`}>{inner}</Link> : <span className={cls}>{inner}</span>;
+}
+
+function TokenRow({ label, tokens, refs }: { label: string; tokens: string[]; refs: Map<string, string> }) {
   return (
     <div>
       <div className="label">{label}</div>
       <div className="mt-1 flex flex-wrap gap-1.5">
-        {tokens.map((t) => <span key={t} className="inline-flex items-center gap-1 rounded border border-border px-1.5 py-0.5 text-ink"><TokenLogo symbol={t} size={12} badge={false} />{t}</span>)}
+        {tokens.map((t) => <Chip key={t} t={t} href={refs.get(t)} />)}
       </div>
     </div>
   );
@@ -289,20 +311,24 @@ function RotatedTokens({ fronts }: { fronts: FrontWithProvenance[] }) {
   const wallets = fronts.flatMap((f) => f.wallets);
   const sold = rankTokens(wallets.map((w) => w.soldTokens), 6), bought = rankTokens(wallets.map((w) => w.boughtTokens), 6);
   if (!sold.length && !bought.length) return null;
-  const row = (label: string, list: Array<[string, number]>, color: string) => (
-    <div className="flex flex-wrap items-center gap-1.5">
+  // First flow that sold (or bought) the symbol decides which chain's token it links to.
+  const soldRefs = new Map<string, string>(), boughtRefs = new Map<string, string>();
+  for (const f of fronts) {
+    for (const [s, h] of refsOn(f, f.from)) if (!soldRefs.has(s)) soldRefs.set(s, h);
+    for (const [s, h] of refsOn(f, f.to)) if (!boughtRefs.has(s)) boughtRefs.set(s, h);
+  }
+  const row = (label: string, list: Array<[string, number]>, color: string, refs: Map<string, string>) => (
+    <div className="flex flex-wrap items-center gap-1.5 text-[12px]">
       <span className="label w-32 shrink-0">{label}</span>
       {list.map(([t, n]) => (
-        <span key={t} className="inline-flex items-center gap-1 rounded border border-border px-1.5 py-0.5 text-[12px] text-ink" title={`${n} rotating wallet${n === 1 ? '' : 's'}`}>
-          <TokenLogo symbol={t} size={12} badge={false} />{t}<span className="num text-[10.5px]" style={{ color }}>{n}</span>
-        </span>
+        <Chip key={t} t={t} href={refs.get(t)}><span className="num text-[10.5px]" style={{ color }} title={`${n} rotating wallet${n === 1 ? '' : 's'}`}>{n}</span></Chip>
       ))}
     </div>
   );
   return (
     <div className="mt-3 space-y-1.5 rounded-xl border border-border p-3">
-      {row('Rotated out of', sold, 'var(--out-3)')}
-      {row('Rotated into', bought, 'var(--in-3)')}
+      {row('Rotated out of', sold, 'var(--out-3)', soldRefs)}
+      {row('Rotated into', bought, 'var(--in-3)', boughtRefs)}
     </div>
   );
 }

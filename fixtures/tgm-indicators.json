@@ -100,7 +100,7 @@
       "token_address": "6GmAFSYs4gk3FDao5FzzySQpPZaWsa4rUJHacpMpUNgx",
       "chain": "solana",
       "token_info": {
-        "market_cap_usd": 307603713.206159,
+        "market_cap_usd": 280816308.415804,
         "market_cap_group": "midcap",
         "is_stablecoin": false
       },
@@ -109,14 +109,14 @@
           "indicator_type": "btc-reflexivity",
           "score": "high",
           "signal": 5.74,
-          "signal_percentile": 97.81685870224378,
+          "signal_percentile": 97.81553398058253,
           "last_trigger_on": "2026-09-15"
         },
         {
           "indicator_type": "liquidity-risk",
           "score": "low",
           "signal": 0.02849184919651753,
-          "signal_percentile": 73.29650092081032,
+          "signal_percentile": 73.16176470588235,
           "last_trigger_on": "2026-09-24"
         }
       ],
@@ -130,14 +130,14 @@
         },
         {
           "indicator_type": "price-momentum",
-          "score": "bearish",
-          "signal": 0.08606770350142479,
-          "signal_percentile": 97.3293768545994,
-          "last_trigger_on": "2026-09-24"
+          "score": "bullish",
+          "signal": -0.049400073570301184,
+          "signal_percentile": 2.2189349112426036,
+          "last_trigger_on": "2026-09-25"
         }
       ]
     },
-    "recordedAt": 1790264359637
+    "recordedAt": 1790307608913
   },
   {
     "requestHash": "eaef86ed800caf254ba762875063248a26176c44",
@@ -191,7 +191,7 @@
       "token_address": "0x39dbed3a2bd333467115de45665cc57f813c4571",
       "chain": "robinhood",
       "token_info": {
-        "market_cap_usd": 421884092.535316,
+        "market_cap_usd": 419589064.264208,
         "market_cap_group": "midcap",
         "is_stablecoin": false
       },
@@ -200,21 +200,21 @@
           "indicator_type": "btc-reflexivity",
           "score": "high",
           "signal": 4.37,
-          "signal_percentile": 96.96785930867192,
+          "signal_percentile": 96.96601941747572,
           "last_trigger_on": "2026-09-04"
         },
         {
           "indicator_type": "liquidity-risk",
           "score": "low",
           "signal": 0.056009600957158165,
-          "signal_percentile": 81.58379373848987,
+          "signal_percentile": 81.25,
           "last_trigger_on": "2026-09-24"
         },
         {
           "indicator_type": "token-supply-inflation",
           "score": "low",
           "signal": -0.2107243053237304,
-          "signal_percentile": 15.09433962264151,
+          "signal_percentile": 14.937106918238992,
           "last_trigger_on": "2026-09-01"
         }
       ],
@@ -229,13 +229,13 @@
         {
           "indicator_type": "price-momentum",
           "score": "bullish",
-          "signal": -0.027782156171898942,
-          "signal_percentile": 3.4124629080118694,
-          "last_trigger_on": "2026-09-24"
+          "signal": -0.024941417537944766,
+          "signal_percentile": 10.502958579881657,
+          "last_trigger_on": "2026-09-25"
         }
       ]
     },
-    "recordedAt": 1790264357573
+    "recordedAt": 1790307606409
   },
   {
     "requestHash": "0d1b9e3711cebc9a5a48a81a804232c8a49d0134",
@@ -588,7 +588,7 @@
       "token_address": "HTmQz7My6MehV7bjhJ6jde8nDND1yvsz68d24LP7YgUQ",
       "chain": "solana",
       "token_info": {
-        "market_cap_usd": 29925692.056488,
+        "market_cap_usd": 24437532.6923946,
         "market_cap_group": "lowcap",
         "is_stablecoin": false
       },
@@ -597,13 +597,13 @@
           "indicator_type": "btc-reflexivity",
           "score": "high",
           "signal": 11.78,
-          "signal_percentile": 80.43478260869566,
+          "signal_percentile": 80.43281353276703,
           "last_trigger_on": "2026-09-15"
         }
       ],
       "reward_indicators": []
     },
-    "recordedAt": 1790264361424
+    "recordedAt": 1790307613983
   },
   {
     "requestHash": "422e26f1562f8d72593bdb0ffb93fbaa78392d83",
@@ -790,7 +790,7 @@
       "token_address": "0x0bd7d308f8e1639fab988df18a8011f41eacad73",
       "chain": "robinhood",
       "token_info": {
-        "market_cap_usd": 99370408.3901437,
+        "market_cap_usd": 96330188.6069682,
         "market_cap_group": "lowcap",
         "is_stablecoin": false
       },
@@ -799,14 +799,14 @@
           "indicator_type": "btc-reflexivity",
           "score": "medium",
           "signal": 1.06,
-          "signal_percentile": 41.49529964747356,
+          "signal_percentile": 41.496731866141154,
           "last_trigger_on": "2026-09-15"
         },
         {
           "indicator_type": "liquidity-risk",
           "score": "low",
           "signal": 0.6956343201803776,
-          "signal_percentile": 91.9459359377893,
+          "signal_percentile": 91.94295239859234,
           "last_trigger_on": "2026-09-24"
         }
       ],
@@ -814,13 +814,13 @@
         {
           "indicator_type": "price-momentum",
           "score": "neutral",
-          "signal": -0.004369452194565415,
-          "signal_percentile": 41.593977775122475,
+          "signal": -0.007889472087390326,
+          "signal_percentile": 38.4854276158624,
           "last_trigger_on": "2026-09-24"
         }
       ]
     },
-    "recordedAt": 1790264367573
+    "recordedAt": 1790307610271
   },
   {
     "requestHash": "ad142e31d1f00c2f52bb7bad01b1400ddec87683",
@@ -863,5 +863,89 @@
       ]
     },
     "recordedAt": 1790264372462
+  },
+  {
+    "requestHash": "ae5337f67280d223df630323ccd99dad562872e6",
+    "request": {
+      "chain": "solana",
+      "token_address": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8"
+    },
+    "response": {
+      "token_address": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+      "chain": "solana",
+      "token_info": {
+        "market_cap_usd": 6431903.18653575,
+        "market_cap_group": "lowcap",
+        "is_stablecoin": false
+      },
+      "risk_indicators": [
+        {
+          "indicator_type": "btc-reflexivity",
+          "score": "high",
+          "signal": 12.77,
+          "signal_percentile": 81.91142990036477,
+          "last_trigger_on": "2026-09-15"
+        },
+        {
+          "indicator_type": "liquidity-risk",
+          "score": "low",
+          "signal": 0.04129706463100167,
+          "signal_percentile": 27.644008149657346,
+          "last_trigger_on": "2026-09-24"
+        }
+      ],
+      "reward_indicators": [
+        {
+          "indicator_type": "price-momentum",
+          "score": "neutral",
+          "signal": -0.005911529821991612,
+          "signal_percentile": 42.15241280458672,
+          "last_trigger_on": "2026-09-25"
+        }
+      ]
+    },
+    "recordedAt": 1790307615351
+  },
+  {
+    "requestHash": "1dd4375a2550999b21fc70b94bdfcf8c829e7a33",
+    "request": {
+      "chain": "solana",
+      "token_address": "Xsv9hRk1z5ystj9MhnA7Lq4vjSsLwzL2nxrwmwtD3re"
+    },
+    "response": {
+      "token_address": "Xsv9hRk1z5ystj9MhnA7Lq4vjSsLwzL2nxrwmwtD3re",
+      "chain": "solana",
+      "token_info": {
+        "market_cap_usd": 12320290.7056852,
+        "market_cap_group": "lowcap",
+        "is_stablecoin": false
+      },
+      "risk_indicators": [
+        {
+          "indicator_type": "btc-reflexivity",
+          "score": "low",
+          "signal": 0.61,
+          "signal_percentile": 35.46476045925237,
+          "last_trigger_on": "2026-09-04"
+        },
+        {
+          "indicator_type": "liquidity-risk",
+          "score": "low",
+          "signal": 0.18530629324054845,
+          "signal_percentile": 54.89905538062604,
+          "last_trigger_on": "2026-09-24"
+        }
+      ],
+      "reward_indicators": [
+        {
+          "indicator_type": "price-momentum",
+          "score": "neutral",
+          "signal": 0.007536237689019565,
+          "signal_percentile": 78.27281414237936,
+          "last_trigger_on": "2026-09-23"
+        }
+      ]
+    },
+    "recordedAt": 1790307617036
   }
 ]

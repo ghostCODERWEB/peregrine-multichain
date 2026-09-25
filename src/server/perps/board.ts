@@ -136,7 +136,7 @@ export function perpTitle(b: PerpBoard): string {
   if (!b.venue || b.venue.ppi == null) return 'Hyperliquid perps: no reading yet';
   const lead = [...b.coins].filter((c) => c.ppi != null && (c.openInterest ?? 0) >= 10_000_000).sort((x, y) => Math.abs(y.ppi! - 50) - Math.abs(x.ppi! - 50))[0];
   const p = b.venue.ppi;
-  const mood = p > 65 ? 'long bias' : p < 35 ? 'short bias' : 'balanced';
+  const mood = p > 65 ? 'long-biased' : p < 35 ? 'short-biased' : 'balanced';
   const name = (sym: string) => (sym.includes(':') ? `${sym.split(':')[1]} (${sym.split(':')[0]})` : sym);
-  return `Hyperliquid perps are ${mood} (${num(p, 0)})${lead ? `; ${name(lead.symbol)} is the most pressured large coin at ${num(lead.ppi, 0)}` : ''}`;
+  return `Hyperliquid perps ${mood} (Perp Flow ${num(p, 0)})${lead ? ` · ${name(lead.symbol)} most one-sided at ${num(lead.ppi, 0)}, ${lead.ppi! >= 50 ? 'long' : 'short'}` : ''}`;
 }
