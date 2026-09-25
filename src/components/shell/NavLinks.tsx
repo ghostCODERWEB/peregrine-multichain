@@ -30,7 +30,6 @@ export function NavList({ onNavigate }: { onNavigate?: () => void }) {
                     className={`nav-item liquid-control group flex items-center gap-2.5 rounded-md px-2.5 py-2 text-[13px] ${on ? 'is-active text-ink' : 'text-ink-2 hover:text-ink'}`}>
                     <Icon className={`h-4 w-4 shrink-0 ${on ? 'text-brand' : 'text-ink-muted group-hover:text-ink-2'}`} aria-hidden />
                     <span>{n.label}</span>
-                    {on && <span className="ml-auto h-3.5 w-0.5 rounded-full bg-brand" aria-hidden />}
                   </Link>
                 </li>
               );

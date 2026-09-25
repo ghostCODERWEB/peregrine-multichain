@@ -84,14 +84,14 @@
 
 /* Light */
 :root {
-  --surface-page: #f3f5fb;
+  --surface-page: #f4f5f7;
   --surface-1: #ffffff;
-  --surface-2: #f7f8fc;
-  --ink-1: #11151a;
-  --ink-2: #4a525e;
-  --ink-muted: #6b7482;
-  --grid: #eceef2;
-  --axis: #d3d8df;
+  --surface-2: #eef0f3;
+  --ink-1: #101214;
+  --ink-2: #495057;
+  --ink-muted: #737b84;
+  --grid: #e6e8eb;
+  --axis: #cdd1d6;
   --mid: #e3e6eb;
 
   --out-1: #f0968c;
@@ -129,43 +129,41 @@
   --popover-foreground: var(--ink-1);
   --primary: var(--ink-1);
   --primary-foreground: var(--surface-1);
-  --secondary: #eef0f3;
+  --secondary: #e9ebee;
   --secondary-foreground: var(--ink-1);
-  --muted: #eef0f3;
+  --muted: #e9ebee;
   --muted-foreground: var(--ink-muted);
-  --accent: #eef0f3;
+  --accent: #e7e9ed;
   --accent-foreground: var(--ink-1);
   --destructive: #c8352e;
-  --border: #dfe3ee;
-  --input: #d3d8df;
+  --border: #d9dde2;
+  --input: #c9ced4;
   --ring: var(--brand);
-  --radius: 0.7rem;
+  --radius: 0.5rem;
 
   /* Brand accent (never a data color): violet, carried over from the first
      Peregrine, for actions, focus and the active nav item. */
-  --brand: #5b45e0;
-  --brand-2: #009f91;
+  --brand: #5d4ee5;
+  --brand-2: #5d4ee5;
   --on-brand: #ffffff;
-  --glass: rgba(255, 255, 255, 0.76);
-  --glass-strong: rgba(255, 255, 255, 0.9);
-  --glass-edge: rgba(89, 72, 196, 0.16);
-  --glass-highlight: rgba(255, 255, 255, 0.92);
-  --ambient-violet: rgba(91, 69, 224, 0.15);
-  --ambient-cyan: rgba(0, 159, 145, 0.1);
-  --panel-shadow: 0 18px 55px rgba(42, 37, 92, 0.08);
+  --glass: #ffffff;
+  --glass-strong: #ffffff;
+  --glass-edge: var(--border);
+  --glass-highlight: transparent;
+  --panel-shadow: none;
 }
 
 /* Dark — the default (see layout.tsx). */
 .dark {
-  --surface-page: #070910;
-  --surface-1: #101521;
-  --surface-2: #181e2d;
-  --ink-1: #eaecef;
-  --ink-2: #a3aab5;
-  --ink-muted: #7a8391;
-  --grid: #171d2a;
-  --axis: #2b3447;
-  --mid: #2d3648;
+  --surface-page: #08090a;
+  --surface-1: #0d0f11;
+  --surface-2: #14171a;
+  --ink-1: #f0f1f2;
+  --ink-2: #a0a6ad;
+  --ink-muted: #6f767e;
+  --grid: #171a1e;
+  --axis: #292e34;
+  --mid: #30353b;
 
   --out-1: #9a2a3c;
   --out-2: #c8374d;
@@ -200,27 +198,25 @@
   --popover-foreground: var(--ink-1);
   --primary: var(--ink-1);
   --primary-foreground: var(--surface-page);
-  --secondary: #171d2a;
+  --secondary: #15181b;
   --secondary-foreground: var(--ink-1);
-  --muted: #171d2a;
+  --muted: #15181b;
   --muted-foreground: var(--ink-muted);
-  --accent: #1b2232;
+  --accent: #1a1d21;
   --accent-foreground: var(--ink-1);
   --destructive: #f04a5f;
-  --border: #252d3f;
-  --input: #30394d;
+  --border: #24282d;
+  --input: #30353b;
   --ring: var(--brand);
 
-  --brand: #9d8cff;
-  --brand-2: #5eead4;
-  --on-brand: #0b0e11;
-  --glass: rgba(14, 19, 31, 0.72);
-  --glass-strong: rgba(13, 17, 28, 0.88);
-  --glass-edge: rgba(157, 140, 255, 0.16);
-  --glass-highlight: rgba(255, 255, 255, 0.075);
-  --ambient-violet: rgba(111, 89, 255, 0.2);
-  --ambient-cyan: rgba(35, 208, 188, 0.12);
-  --panel-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+  --brand: #8b7cff;
+  --brand-2: #8b7cff;
+  --on-brand: #090a0b;
+  --glass: #0d0f11;
+  --glass-strong: #0b0d0f;
+  --glass-edge: var(--border);
+  --glass-highlight: transparent;
+  --panel-shadow: none;
 }
 
 @layer base {
@@ -234,128 +230,66 @@
     @apply bg-background text-foreground;
     min-width: 320px;
     overflow-x: clip;
-    background:
-      radial-gradient(900px 620px at 18% -8%, var(--ambient-violet), transparent 66%),
-      radial-gradient(760px 540px at 95% 15%, var(--ambient-cyan), transparent 70%),
-      var(--surface-page);
-    background-attachment: fixed;
+    background: var(--surface-page);
     letter-spacing: -0.006em;
   }
   ::selection { background: color-mix(in srgb, var(--brand) 34%, transparent); color: var(--ink-1); }
   :focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
 }
 
-/* Liquid terminal surfaces: brand/navigation gain atmospheric depth while
-   numerical charts keep their solid, high-contrast data colors. */
+/* Terminal surfaces stay flat. Hierarchy comes from rules, spacing and type,
+   never simulated glass, glow or floating shadows. The historical class name
+   remains so feature components do not need visual-system knowledge. */
 .glass {
-  background:
-    linear-gradient(145deg, var(--glass-highlight), transparent 36%),
-    var(--glass);
-  border: 1px solid var(--glass-edge);
-  box-shadow: inset 0 1px 0 var(--glass-highlight), var(--panel-shadow);
-  backdrop-filter: blur(18px) saturate(135%);
-  -webkit-backdrop-filter: blur(18px) saturate(135%);
+  background: var(--glass);
+  border: 1px solid var(--border);
+  box-shadow: none;
 }
 .glass-strong {
-  background:
-    linear-gradient(155deg, var(--glass-highlight), transparent 28%),
-    var(--glass-strong);
-  box-shadow: inset 0 1px 0 var(--glass-highlight), 0 28px 80px rgba(0, 0, 0, 0.22);
+  background: var(--glass-strong);
+  box-shadow: none;
 }
 
 /* Controls: an instant background change on hover, no movement. */
 .liquid-control {
-  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease;
+  transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease;
 }
-.liquid-control:hover { background-color: color-mix(in srgb, var(--brand) 8%, var(--surface-2)); }
-.liquid-control:active { transform: scale(0.98); }
+.liquid-control:hover { background-color: var(--surface-2); }
+.liquid-control:active { background-color: color-mix(in srgb, var(--brand) 9%, var(--surface-2)); }
 .liquid-control.is-active {
-  background: linear-gradient(90deg, color-mix(in srgb, var(--brand) 17%, var(--surface-2)), color-mix(in srgb, var(--brand-2) 7%, var(--surface-2)));
-  border-color: color-mix(in srgb, var(--brand) 34%, transparent);
+  background: var(--surface-2);
+  border-color: var(--border);
 }
-.liquid-panel { transition: border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease; }
+.liquid-panel { transition: border-color 120ms ease, background-color 120ms ease; }
 @media (hover: hover) and (pointer: fine) {
-  .liquid-panel:hover { border-color: color-mix(in srgb, var(--brand) 30%, var(--border)); transform: translateY(-1px); }
+  .liquid-panel:hover { border-color: color-mix(in srgb, var(--ink-muted) 48%, var(--border)); }
 }
 
 .shell-rail { overflow: hidden; }
-.shell-rail::before {
-  content: '';
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: 118px;
-  pointer-events: none;
-  background: radial-gradient(240px 120px at 25% 0%, color-mix(in srgb, var(--brand) 20%, transparent), transparent 72%);
-}
 .brand-lockup { position: relative; }
-.brand-mark-shell {
-  display: grid;
-  width: 34px;
-  height: 34px;
-  place-items: center;
-  border: 1px solid color-mix(in srgb, var(--brand) 34%, transparent);
-  border-radius: 11px;
-  background: linear-gradient(145deg, color-mix(in srgb, var(--brand) 18%, transparent), color-mix(in srgb, var(--brand-2) 8%, transparent));
-  box-shadow: inset 0 1px 0 var(--glass-highlight), 0 9px 24px color-mix(in srgb, var(--brand) 16%, transparent);
-}
 .nav-item { position: relative; border: 1px solid transparent; }
 .nav-item[aria-current='page']::before {
   content: '';
   position: absolute;
-  inset: 6px auto 6px -1px;
+  inset: 5px auto 5px -1px;
   width: 2px;
-  border-radius: 2px;
-  background: linear-gradient(var(--brand), var(--brand-2));
-  box-shadow: 0 0 12px color-mix(in srgb, var(--brand) 55%, transparent);
+  background: var(--brand);
 }
 
 .radar-hero {
-  position: relative;
-  overflow: hidden;
-  padding: 18px 20px;
-  border: 1px solid var(--glass-edge);
-  border-radius: calc(var(--radius) * 1.45);
-  background:
-    radial-gradient(500px 180px at 8% 0%, color-mix(in srgb, var(--brand) 17%, transparent), transparent 70%),
-    radial-gradient(360px 180px at 100% 100%, color-mix(in srgb, var(--brand-2) 10%, transparent), transparent 72%),
-    var(--glass);
-  box-shadow: inset 0 1px 0 var(--glass-highlight), var(--panel-shadow);
-  backdrop-filter: blur(18px) saturate(135%);
-}
-.radar-hero::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.3;
-  background-image:
-    linear-gradient(color-mix(in srgb, var(--brand) 12%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in srgb, var(--brand) 12%, transparent) 1px, transparent 1px);
-  background-size: 42px 42px;
-  mask-image: linear-gradient(90deg, transparent 20%, black 100%);
+  padding: 3px 0 15px;
+  border-bottom: 1px solid var(--border);
 }
 .signature-panel { position: relative; overflow: hidden; }
-.signature-panel::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(60% 55% at 50% 45%, color-mix(in srgb, var(--brand) 5%, transparent), transparent 100%);
+.market-rail { background: var(--surface-1); border: 1px solid var(--border); }
+.market-cell { min-width: 0; border-bottom: 1px solid var(--border); }
+.module-toolbar { background: var(--surface-1); border: 1px solid var(--border); border-bottom: 0; }
+.terminal-tab { border-left: 1px solid transparent; border-right: 1px solid transparent; }
+.terminal-tab[aria-pressed='true'], .terminal-tab[aria-selected='true'] {
+  color: var(--ink-1);
+  background: var(--surface-2);
+  box-shadow: inset 0 -2px 0 var(--brand);
 }
-.metric-card { position: relative; overflow: hidden; }
-.metric-card::after {
-  content: '';
-  position: absolute;
-  inset: 0 0 auto;
-  height: 2px;
-  opacity: 0.75;
-  background: linear-gradient(90deg, var(--metric-tone, var(--brand)), transparent 72%);
-}
-.metric-brand { --metric-tone: var(--brand); }
-.metric-in { --metric-tone: var(--in-3); }
-.metric-out { --metric-tone: var(--out-3); }
-.metric-risk { --metric-tone: var(--storm-3); }
-.metric-cyan { --metric-tone: var(--brand-2); }
 
 /* Exchange-style section label: small, uppercase, muted. */
 .label {
@@ -383,20 +317,7 @@ section[aria-labelledby] { scroll-margin-top: 7rem; }
 }
 .live-dot { width: 6px; height: 6px; border-radius: 999px; background: var(--brand); animation: pulse-dot 2s ease-in-out infinite; }
 
-/* Hero figures: plain ink, no gradient. */
-.brand-text {
-  color: var(--ink-1);
-  background: linear-gradient(92deg, var(--ink-1) 0%, color-mix(in srgb, var(--brand) 66%, var(--ink-1)) 58%, color-mix(in srgb, var(--brand-2) 72%, var(--ink-1)) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-@keyframes ambient-shift {
-  0%, 100% { background-position: 0% 0%, 100% 0%; }
-  50% { background-position: 8% 2%, 94% 8%; }
-}
-body { animation: ambient-shift 18s ease-in-out infinite; }
+.brand-text { color: var(--ink-1); }
 
 /* Numbers are the instrument readouts: monospace, per the product spec.
    Tabular so columns and tickers don't jitter as values update. */
@@ -414,8 +335,19 @@ body { animation: ambient-shift 18s ease-in-out infinite; }
 }
 
 @media (max-width: 1023px) {
-  .glass { backdrop-filter: blur(14px) saturate(125%); -webkit-backdrop-filter: blur(14px) saturate(125%); }
-  .radar-hero { padding: 15px 16px; }
+  .radar-hero { padding-top: 1px; }
+}
+
+@media (min-width: 768px) {
+  .market-cell { border-bottom: 0; border-right: 1px solid var(--border); }
+  .market-cell:nth-child(3n) { border-right: 0; }
+  .market-cell:nth-child(-n + 3) { border-bottom: 1px solid var(--border); }
+}
+
+@media (min-width: 1280px) {
+  .market-cell, .market-cell:nth-child(-n + 3) { border-bottom: 0; border-right: 1px solid var(--border); }
+  .market-cell:nth-child(3n) { border-right: 1px solid var(--border); }
+  .market-cell:last-child { border-right: 0; }
 }
 
 @media (prefers-contrast: more) {

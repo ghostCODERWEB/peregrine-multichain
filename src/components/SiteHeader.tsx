@@ -31,12 +31,12 @@ export async function SiteHeader() {
 
   return (
     <header className="shell-rail glass glass-strong fixed inset-x-0 top-0 z-40 flex h-14 items-center gap-2 rounded-none border-x-0 border-t-0 px-3
-      lg:inset-y-3 lg:left-3 lg:right-auto lg:h-auto lg:w-[236px] lg:flex-col lg:items-stretch lg:gap-0 lg:rounded-2xl lg:border lg:p-3">
-      <Link href="/" className="brand-lockup flex items-center gap-2.5 lg:px-1 lg:pb-4 lg:pt-1" aria-label="Peregrine home">
-        <span className="brand-mark-shell"><BrandMark size={21} /></span>
+      lg:inset-y-0 lg:left-0 lg:right-auto lg:h-auto lg:w-[236px] lg:flex-col lg:items-stretch lg:gap-0 lg:rounded-none lg:border-y-0 lg:border-l-0 lg:p-3">
+      <Link href="/" className="brand-lockup flex items-center gap-2.5 lg:border-b lg:border-border lg:px-1 lg:pb-4 lg:pt-1" aria-label="Peregrine home">
+        <span className="grid h-7 w-7 place-items-center rounded border border-border bg-raised"><BrandMark size={18} /></span>
         <span className="leading-tight">
           <span className="block text-[15px] font-semibold tracking-[-0.02em] text-ink">Peregrine</span>
-          <span className="hidden text-[10px] uppercase tracking-[0.08em] text-ink-muted lg:block">onchain intelligence</span>
+          <span className="hidden text-[9px] uppercase tracking-[0.12em] text-ink-muted lg:block">onchain intelligence</span>
         </span>
       </Link>
 

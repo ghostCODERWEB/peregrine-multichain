@@ -43,41 +43,41 @@ export function WeatherView({ initial, anchor, alpha }: { initial: WeatherBullet
   return (
     <div className={`space-y-8 transition-opacity ${isFetching ? 'opacity-90' : ''}`}>
       <section aria-labelledby="map-title">
-        <div className="radar-hero mb-4 flex flex-wrap items-end justify-between gap-3">
+        <div className="radar-hero mb-3 flex flex-wrap items-end justify-between gap-3">
           <div>
-            <div className="mb-2 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-brand"><span className="live-dot" aria-hidden />Live multichain radar</div>
-            <h1 id="map-title" className="brand-text max-w-4xl text-xl font-semibold tracking-[-0.025em] text-ink sm:text-[28px] sm:leading-tight">
+            <div className="mb-2 flex items-center gap-2 font-mono text-[9px] font-medium uppercase tracking-[0.14em] text-ink-muted">
+              <span className="text-ink-2">Peregrine</span><span aria-hidden>/</span><span>Radar</span><span className="inline-flex items-center gap-1.5 text-in-3"><span className="live-dot" aria-hidden />Live</span>
+            </div>
+            <h1 id="map-title" className="brand-text max-w-4xl text-[20px] font-medium tracking-[-0.02em] text-ink sm:text-[24px] sm:leading-tight">
               {mapHeadline(data.chains, data.fronts)}
             </h1>
-            <p className="num mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-[12px] text-ink-muted">
-              <span><span className="text-ink">{scored}</span>/{data.chains.length} chains live</span>
-              <span aria-hidden>·</span>
-              <span>scanned <TimeAgo ts={data.scan.last?.finished_at} /></span>
-              <span aria-hidden>·</span>
+            <p className="num mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-[10.5px] uppercase tracking-[0.04em] text-ink-muted">
+              <span><span className="text-ink-2">{scored}/{data.chains.length}</span> chains</span>
+              <span className="text-axis" aria-hidden>|</span>
+              <span>updated <TimeAgo ts={data.scan.last?.finished_at} /></span>
+              <span className="text-axis" aria-hidden>|</span>
               <span>{data.scan.runs} scans</span>
-              <span aria-hidden>·</span>
-              <span>{data.scan.trades.toLocaleString('en-US')} smart-money trades</span>
+              <span className="text-axis" aria-hidden>|</span>
+              <span>{data.scan.trades.toLocaleString('en-US')} trades</span>
             </p>
           </div>
-          <div className="relative z-10 flex rounded-md border border-border bg-raised/45 p-0.5 text-sm" role="tablist" aria-label="Map or table view">
-            {(['map', 'table'] as const).map((v) => (
-              <button
-                key={v}
-                role="tab"
-                aria-selected={view === v}
-                onClick={() => setView(v)}
-                className={`rounded px-3 py-1 capitalize ${view === v ? 'bg-accent text-ink' : 'text-ink-2 hover:text-ink'}`}
-              >
-                {v}
-              </button>
-            ))}
+          <div className="hidden items-center gap-4 font-mono text-[9px] uppercase tracking-[0.1em] text-ink-muted sm:flex" aria-label="Data source status">
+            <span>Nansen API</span>
+            <span className="text-in-3">● dataset ready</span>
           </div>
         </div>
         <div className="mb-4"><PulseBand data={data} /></div>
-        <div className="mb-3 flex flex-wrap gap-2" role="group" aria-label="Radar layers">
-          {[{ id: 'spot', title: 'Spot flow' }, ...(data.layers ?? [])].map((l) => <button key={l.id} aria-pressed={layer === l.id} onClick={() => setLayer(l.id)} className={`rounded border border-border px-4 py-2 text-sm ${layer === l.id ? 'bg-accent text-ink' : 'text-ink-2 hover:text-ink'}`}>{l.title}</button>)}
+        <div className="module-toolbar flex min-h-10 flex-wrap items-center justify-between gap-x-4 rounded-t-md px-2" aria-label="Radar controls">
+          <div className="flex flex-wrap" role="group" aria-label="Radar layers">
+            {[{ id: 'spot', title: 'Spot flow' }, ...(data.layers ?? [])].map((l) => <button key={l.id} aria-pressed={layer === l.id} onClick={() => setLayer(l.id)} className="terminal-tab px-3 py-3 text-[10px] font-medium uppercase tracking-[0.08em] text-ink-muted hover:text-ink">{l.title}</button>)}
+          </div>
+          <div className="flex self-stretch border-l border-border" role="tablist" aria-label="Map or table view">
+            {(['map', 'table'] as const).map((v) => (
+              <button key={v} role="tab" aria-selected={view === v} onClick={() => setView(v)} className="terminal-tab px-3 text-[10px] font-medium uppercase tracking-[0.08em] text-ink-muted hover:text-ink">{v}</button>
+            ))}
+          </div>
         </div>
-        <div className="signature-panel glass rounded-2xl p-4 sm:p-5">
+        <div className="signature-panel glass rounded-b-md rounded-t-none p-3 sm:p-4">
           {activeLayer ? <LayerPanel layer={activeLayer} table={view === 'table'} onRefresh={refetch} /> : view === 'map' ? (
             <HexMap chains={data.chains} fronts={[...data.fronts, ...(showInferred ? inferred : [])]} selectedFront={selected} onSelectFront={setSelected} />
           ) : (
