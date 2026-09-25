@@ -58,7 +58,7 @@ export default async function WalletRoute({ params }: Params) {
           <Link href="/" className="text-[12.5px] text-ink-2 hover:text-ink">
             ← Overview
           </Link>
-          <h1 className="mt-1 break-all text-xl font-semibold text-ink sm:text-2xl">
+          <h1 className="t-headline mt-1 break-all text-ink">
             {mode === 'owner' && trail.label ? walletName(trail.label, address) : shortAddress(address)}
           </h1>
           <p className="num mt-1 break-all text-[12.5px] text-ink-2">{address}</p>
@@ -187,7 +187,7 @@ async function OriginsCard({ address, mainChain, mode }: { address: string; main
     >
       {f ? (
         <p className="text-[12.5px] text-ink-2">
-          <Link href={`/wallet/${f.address}`} className="num text-ink hover:underline">
+          <Link href={`/wallet/${f.address}`} className="num text-ink underline underline-offset-2">
             {shortAddress(f.address)}
           </Link>{' '}
           on {chainName(f.chain)}, {f.at.slice(0, 10)}
@@ -197,7 +197,7 @@ async function OriginsCard({ address, mainChain, mode }: { address: string; main
       )}
       <div className="mt-3 text-[12px] text-ink-2">Related wallets{r.relatedChain ? ` on ${chainName(r.relatedChain)}` : ''}</div>
       {r.related.length ? (
-        <ul className="mt-1 max-h-[220px] space-y-1 overflow-y-auto text-[12px]">
+        <ul tabIndex={0} aria-label="Scrollable list" className="mt-1 max-h-[220px] space-y-1 overflow-y-auto text-[12px]">
           {r.related.map((x, i) => (
             <li key={`${x.address}-${i}`} className="flex justify-between gap-2 border-b border-border/50 py-0.5">
               <Link href={`/wallet/${x.address}`} className="truncate text-ink hover:underline">
@@ -229,7 +229,7 @@ async function TransactionsCard({ address, mode }: { address: string; mode: Disp
       sub="Newest first, across chains; spam tokens hidden."
       action={<InfoPopover p={r.provenance} />}
     >
-      <div className="max-h-[360px] overflow-auto">
+      <div tabIndex={0} role="region" aria-label="Scrollable list" className="max-h-[360px] overflow-auto">
         <table className="w-full min-w-[560px] text-[12.5px]">
           <thead className="sticky top-0 bg-surface">
             <tr className="border-b border-border text-left text-[11px] uppercase tracking-wider text-ink-muted">

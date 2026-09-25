@@ -1,4 +1,5 @@
 'use client';
+import { FilterBox } from '@/components/FilterBox';
 import Link from 'next/link';
 import { TokenLogo } from '@/components/Logo';
 import { useEffect, useMemo, useState } from 'react';
@@ -64,7 +65,7 @@ function Hero({ b, title, mode }: { b: PerpBoard; title: string; mode: 'owner' |
               </span>
             )}
           </div>
-          <h1 id="perps-title" className="mt-1.5 text-lg font-semibold leading-snug text-ink sm:text-xl">
+          <h1 id="perps-title" className="t-headline mt-1.5 text-ink">
             {title}
           </h1>
           {v && (
@@ -412,9 +413,10 @@ export function PerpsView({ board, title, mode }: { board: PerpBoard; title: str
         <Card
           id="coins"
           title={`${board.coins.filter((c) => c.ppi != null).length} coins scored`}
-          sub="Largest open interest first. Select a row for its liquidation ladder and trades."
+          sub="Largest open interest first. Search, filter by bias, and select a row for its liquidation ladder and trades."
         >
-          <div tabIndex={0} role="region" aria-label="Scrollable list" className="max-h-[440px] overflow-auto">
+          <FilterBox target="#perp-coins" label="Filter coins" placeholder="Search coins" groups={['Long bias', 'Neutral', 'Short bias']} />
+          <div id="perp-coins" tabIndex={0} role="region" aria-label="Scrollable list" className="mt-3 max-h-[440px] overflow-auto">
             <table className="w-full text-left text-[12.5px]">
               <thead className="sticky top-0 bg-surface text-[11px] uppercase tracking-wider text-ink-muted">
                 <tr>
@@ -427,10 +429,11 @@ export function PerpsView({ board, title, mode }: { board: PerpBoard; title: str
               <tbody>
                 {board.coins
                   .filter((c) => c.ppi != null)
-                  .slice(0, 80)
                   .map((c) => (
                     <tr
                       key={c.symbol}
+                      data-search={`${c.symbol} ${c.symbol.replace(/^[^:]+:/, '')}${c.divergence ? ' divergent' : ''}`}
+                      data-group={c.ppi! >= 60 ? 'Long bias' : c.ppi! <= 40 ? 'Short bias' : 'Neutral'}
                       onClick={() => pick(c)}
                       className={`cursor-pointer border-t border-border hover:bg-raised/60 ${picked === c.symbol ? 'bg-raised' : ''}`}
                     >

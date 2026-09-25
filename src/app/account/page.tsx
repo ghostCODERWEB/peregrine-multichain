@@ -20,7 +20,7 @@ export default async function AccountPage() {
   return (
     <div className="mx-auto max-w-2xl space-y-4">
       <div>
-        <h1 className="text-xl font-semibold text-ink sm:text-2xl">{ctx.user ? 'Your Peregrine account' : 'Sign in to use your own Nansen key'}</h1>
+        <h1 className="t-headline text-ink">{ctx.user ? 'Your Peregrine account' : 'Sign in to use your own Nansen key'}</h1>
         <p className="mt-1 max-w-3xl text-[13px] text-ink-2">
           Bring your own Nansen key: calls run as you, so the full data, labels and credits are yours.
         </p>

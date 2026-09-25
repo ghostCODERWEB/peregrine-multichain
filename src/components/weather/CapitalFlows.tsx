@@ -8,7 +8,7 @@
 import Link from 'next/link';
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { InfoPopover } from '@/components/InfoPopover';
-import { ChainLogo, TokenLogo, chainLogoSrc } from '@/components/Logo';
+import { ChainLogo, TokenLogo, chainLogoSrc, SvgChainLogo } from '@/components/Logo';
 import { FrontSheet, frontKey } from './FrontsPanel';
 import { flowLayout, particleCount } from '@/lib/viz/flow-layout';
 import { frontsHeadline } from '@/lib/insights';
@@ -305,7 +305,7 @@ export function CapitalFlows({
                   <g key={n.chain}>
                     <circle cx={n.x} cy={n.y} r={24} style={{ fill: 'var(--surface-2)' }} stroke={ring} strokeWidth={involved ? 3.5 : 2} />
                     {logo ? (
-                      <image href={logo} x={n.x - 11} y={n.y - 11} width={22} height={22} />
+                      <SvgChainLogo chain={n.chain} x={n.x - 11} y={n.y - 11} size={22} />
                     ) : (
                       <text x={n.x} y={n.y + 4} textAnchor="middle" className="fill-ink text-[11px] font-semibold">
                         {chainName(n.chain).slice(0, 2).toUpperCase()}

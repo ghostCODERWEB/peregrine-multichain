@@ -57,7 +57,7 @@ export function RugReportView({ chain, address }: { chain: string; address: stri
                 <div className="num truncate text-[13px] text-ink-muted">{info?.symbol ?? '—'} · {chainName(chain)} · {shortAddress(address)}</div>
               </div>
             </div>
-            <h1 id="rug-verdict" className="mt-6 text-[40px] font-extrabold leading-[1.05] tracking-[-0.04em]">
+            <h1 id="rug-verdict" className="mt-6 text-[clamp(30px,3vw,40px)] font-extrabold leading-[1.05] tracking-[-0.04em] text-balance">
               {v ? <>Rug risk: <span style={{ color: v.color }}>{v.word}</span></> : 'Checking…'}
             </h1>
             <p className="mt-2 max-w-xl text-[15px] text-ink-2">{v?.line ?? 'Reading liquidity, holders and who funded them from Nansen.'}</p>

@@ -5,7 +5,7 @@ import { layoutHexMap, hexPoints } from '@/lib/viz/hexmap-layout';
 import { pressureClass, fillVar, onFillVar } from '@/lib/viz/scales';
 import { chainName, num, signed, usd } from '@/lib/viz/format';
 import type { ChainTile, FrontWithProvenance } from '@/server/weather/bulletin';
-import { chainLogoSrc, ChainLogo } from '@/components/Logo';
+import { chainLogoSrc, SvgChainLogo, ChainLogo } from '@/components/Logo';
 
 const TILE_LABEL: Record<string, string> = {
   bnb: 'BNB', hyperevm: 'HyperEVM', iotaevm: 'IOTA', hyperliquid: 'HL perps', robinhood: 'Robinhood',
@@ -172,7 +172,7 @@ export function HexMap({
             const logo = chainLogoSrc(t.chain);
             return (
               <g key={t.chain}>
-                {logo && <image href={logo} x={t.cx - 7} y={t.cy - 26} width={14} height={14} opacity={w?.cpi != null ? 1 : 0.55} />}
+                <SvgChainLogo chain={t.chain} x={t.cx - 7} y={t.cy - 26} size={14} opacity={w?.cpi != null ? 1 : 0.55} />
                 <text x={t.cx} y={t.cy + (logo ? 1 : -4)} textAnchor="middle" className="text-[9.5px] font-medium" fill={ink} {...textProps}>
                   {tileLabel(t.chain)}
                 </text>

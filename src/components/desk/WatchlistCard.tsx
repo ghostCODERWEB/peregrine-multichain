@@ -19,7 +19,7 @@ export function WatchlistCard() {
   if (!list.length) return null;
   return (
     <section aria-labelledby="watch-title" className="material p-5 sm:p-6">
-      <h2 id="watch-title" className="text-[19px] font-bold tracking-[-0.02em]">Watching {list.length} token{list.length === 1 ? '' : 's'}</h2>
+      <h2 id="watch-title" className="t-section">Watching {list.length} token{list.length === 1 ? '' : 's'}</h2>
       <p className="mt-1 text-[13.5px] text-ink-muted">Saved in this browser from the token pages’ bookmark button.</p>
       <ul className="mt-3 flex flex-wrap gap-2">
         {list.map((w) => (

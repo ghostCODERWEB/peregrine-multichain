@@ -10,14 +10,14 @@
 // arcs. At most MAX_PER_SIDE chains a side, in viewBox units, so it holds
 // at any screen width.
 import { useId } from 'react';
-import { chainLogoSrc } from '@/components/Logo';
+import { chainLogoSrc, SvgChainLogo } from '@/components/Logo';
 import { flowLayout } from '@/lib/viz/flow-layout';
 import { chainName, usd } from '@/lib/viz/format';
 
 /** A rotation (owner view) or a modeled net-flow arc (public view). */
 export interface OrbitalFlow { from: string; to: string; netUsd: number; walletCount: number; inferred?: boolean }
 
-const W = 460, H = 330, RING = 0.37;
+const W = 460, H = 340, RING = 0.4;
 export const MAX_PER_SIDE = 3;
 const NODE_R = 21;
 const r1 = (n: number) => Math.round(n * 10) / 10;
@@ -55,12 +55,14 @@ export function FlowOrbital({ fronts, modeled = false, nets }: { fronts: Orbital
 
       {arcs.map((a, i) => {
         const k = Math.sqrt(a.edge.netUsd / maxUsd), w = r1(1.6 + 6 * k), lead = i === 0;
-        const n = modeled ? 2 + Math.round(2 * k) : Math.max(2, Math.min(5, Math.round(a.edge.walletCount / 2) + 1));
+        // Particles carry the lead arc; the rest stay quiet so one story reads first.
+        const n = lead ? (modeled ? 3 + Math.round(2 * k) : Math.max(3, Math.min(5, Math.round(a.edge.walletCount / 2) + 1))) : 1;
+        const draw = { '--i': i } as React.CSSProperties;
         const dur = (3.4 + i * 0.3).toFixed(2);
         return (
           <g key={a.key}>
-            {lead && <path d={a.d} fill="none" stroke={`url(#${id}-g${i})`} strokeWidth={w + 6} strokeOpacity={0.3} filter={`url(#${id}-blur)`} />}
-            <path id={`${id}-p${i}`} d={a.d} fill="none" stroke={`url(#${id}-g${i})`} strokeWidth={w} strokeLinecap="round" strokeOpacity={lead ? 0.95 : 0.45} />
+            {lead && <path d={a.d} pathLength={1} className="arc-draw" style={draw} fill="none" stroke={`url(#${id}-g${i})`} strokeWidth={w + 6} strokeOpacity={0.3} filter={`url(#${id}-blur)`} />}
+            <path id={`${id}-p${i}`} d={a.d} pathLength={1} className="arc-draw" style={draw} fill="none" stroke={`url(#${id}-g${i})`} strokeWidth={w} strokeLinecap="round" strokeOpacity={lead ? 0.95 : 0.4} />
             {Array.from({ length: n }, (_, j) => (
               <circle key={j} r={lead ? 2.5 : 1.9} fill="#EFFFF8" fillOpacity={lead ? 1 : 0.75} className="flow-particle">
                 <animateMotion dur={`${dur}s`} begin={`${(-(j / n) * Number(dur)).toFixed(2)}s`} repeatCount="indefinite"><mpath href={`#${id}-p${i}`} /></animateMotion>
@@ -71,14 +73,14 @@ export function FlowOrbital({ fronts, modeled = false, nets }: { fronts: Orbital
         );
       })}
 
-      {nodes.map((nd) => {
+      {nodes.map((nd, ni) => {
         const v = nets?.get(nd.chain) ?? nd.net, col = v >= 0 ? 'var(--mint)' : 'var(--flare)', src = chainLogoSrc(nd.chain);
         const left = nd.side === 'left', lx = r1(nd.x + (left ? -(NODE_R + 9) : NODE_R + 9)), anchor = left ? 'end' : 'start';
         return (
-          <g key={nd.chain}>
+          <g key={nd.chain} className="node-in" style={{ '--i': ni } as React.CSSProperties}>
             <circle cx={nd.x} cy={nd.y} r={NODE_R + 5} fill="none" stroke={col} strokeOpacity={0.3} />
             <circle cx={nd.x} cy={nd.y} r={NODE_R} fill="var(--surface-1)" stroke="var(--hair-2)" />
-            {src ? <image href={src} x={r1(nd.x - 11)} y={r1(nd.y - 11)} width={22} height={22} />
+            {src ? <SvgChainLogo chain={nd.chain} x={r1(nd.x - 11)} y={r1(nd.y - 11)} size={22} />
               : <text x={nd.x} y={r1(nd.y + 4)} textAnchor="middle" className="fill-ink text-[11px] font-bold">{chainName(nd.chain).slice(0, 2)}</text>}
             <text x={lx} y={r1(nd.y - 2)} textAnchor={anchor} className="fill-ink text-[12.5px] font-bold">{chainName(nd.chain)}</text>
             <text x={lx} y={r1(nd.y + 13)} textAnchor={anchor} className="num text-[11px] font-bold" style={{ fill: col }}>{v >= 0 ? '+' : '−'}{usd(Math.abs(v))}</text>

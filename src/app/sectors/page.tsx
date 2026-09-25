@@ -4,6 +4,7 @@ import { Card, Unavailable } from '@/components/Card';
 import { InfoPopover } from '@/components/InfoPopover';
 import { TimeAgo } from '@/components/TimeAgo';
 import { SectorSpark } from '@/components/sectors/SectorSpark';
+import { FilterBox } from '@/components/FilterBox';
 import { sectorWeather, MIN_HISTORY, type SectorReading } from '@/server/sectors/weather';
 import { displayMode, viewOf } from '@/server/mode';
 import { pressureClass, fillVar, onFillVar, PRESSURE_LEGEND } from '@/lib/viz/scales';
@@ -31,7 +32,9 @@ function Tile({ s }: { s: SectorReading }) {
   const cls = pressureClass(s.pressure);
   const share = s.netFlow24hUsd != null && s.volume24hUsd ? s.netFlow24hUsd / s.volume24hUsd : null;
   return (
-    <li id={encodeURIComponent(s.sector)} className="scroll-mt-20 material p-4 target:ring-2 target:ring-ring">
+    <li id={encodeURIComponent(s.sector)} data-group={BAND_WORD[s.band]}
+      data-search={[s.sector, BAND_WORD[s.band], ...s.top.inflows.map((m) => m.symbol ?? ''), ...s.top.outflows.map((m) => m.symbol ?? '')].join(' ')}
+      className="scroll-mt-20 material p-4 target:ring-2 target:ring-ring">
       <div className="flex items-start justify-between gap-2">
         <h3 className="text-[13.5px] font-medium leading-snug text-ink">{s.sector}</h3>
         <span className="num rounded px-1.5 py-0.5 text-[13px] font-semibold" style={{ background: fillVar(cls), color: onFillVar(cls) }} title={`Sector flow ${num(s.pressure, 1)} of 100`}>
@@ -46,7 +49,10 @@ function Tile({ s }: { s: SectorReading }) {
       </p>
       <SectorSpark points={s.spark} label={`${s.sector}: 24h net flow as a share of volume over time`} />
       {(s.top.inflows.length > 0 || s.top.outflows.length > 0) && (
-        <div className="mt-2 grid grid-cols-2 gap-2 text-[11.5px]">
+        <details className="mt-2 text-[11.5px]">
+          <summary className="cursor-pointer font-bold text-brand">Top tokens in and out ({s.top.inflows.length + s.top.outflows.length})</summary>
+          {s.tokens != null && <p className="mt-1 text-ink-muted">{s.tokens} tokens tracked in this sector</p>}
+        <div className="mt-2 grid grid-cols-2 gap-2">
           {([['In', s.top.inflows], ['Out', s.top.outflows]] as const).map(([k, movers]) => (
             <ul key={k} className="min-w-0 space-y-0.5">
               <li className="text-[10.5px] uppercase tracking-wider text-ink-muted">{k}</li>
@@ -61,6 +67,7 @@ function Tile({ s }: { s: SectorReading }) {
             </ul>
           ))}
         </div>
+        </details>
       )}
     </li>
   );
@@ -86,7 +93,7 @@ export default async function SectorsPage() {
   return (
     <div className="space-y-5">
       <div>
-        <h1 className="text-xl font-semibold text-ink sm:text-2xl">{title}</h1>
+        <h1 className="t-headline text-ink">{title}</h1>
         <p className="mt-1 max-w-3xl text-[13px] text-ink-2">
           Net flow per Nansen sector as a share of volume, 0–100 against its own 7-day history; 50 = neutral.{' '}
           {w.source === 'market-flow' ? 'Public view: all-trader flows.' : 'Owner view: smart-money flows.'}
@@ -98,10 +105,23 @@ export default async function SectorsPage() {
         action={w.provenance ? <InfoPopover p={w.provenance} /> : undefined}>
         {w.unavailable ? <Unavailable text={w.unavailable} /> : (
           <>
-            <ScaleLegend />
-            <ul className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {w.sectors.map((s) => <Tile key={s.sector} s={s} />)}
-            </ul>
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <FilterBox target="#sector-groups" label="Filter sectors" placeholder="Search sectors or tokens" groups={Object.values(BAND_WORD)} />
+              <ScaleLegend />
+            </div>
+            <div id="sector-groups" className="mt-4 space-y-4">
+              {(['high', 'neutral', 'low'] as const).map((band) => {
+                const list = w.sectors.filter((x) => x.band === band);
+                return list.length > 0 && (
+                  <details key={band} open data-filter-group className="group">
+                    <summary className="mb-3 cursor-pointer text-[14px] font-bold text-ink">{BAND_WORD[band]} <span className="font-normal text-ink-muted">· {list.length}</span></summary>
+                    <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                      {list.map((s) => <Tile key={s.sector} s={s} />)}
+                    </ul>
+                  </details>
+                );
+              })}
+            </div>
           </>
         )}
       </Card>

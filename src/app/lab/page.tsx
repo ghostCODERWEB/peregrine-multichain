@@ -155,7 +155,7 @@ export default async function LabPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-xl font-semibold text-ink sm:text-2xl">
+        <h1 className="t-headline text-ink">
           {bt ? `Backtest Lab: every model in Peregrine, scored on data it never saw` : 'Backtest Lab'}
         </h1>
         <p className="mt-1 max-w-3xl text-[13px] text-ink-2">

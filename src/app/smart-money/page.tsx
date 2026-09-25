@@ -21,7 +21,7 @@ export default async function SmartMoneyPage() {
     return (
       <div className="space-y-4">
         <section aria-labelledby="sm-title" className="material rise p-5 sm:p-6">
-          <h1 id="sm-title" className="text-lg font-semibold text-ink sm:text-xl">
+          <h1 id="sm-title" className="t-headline text-ink">
             The smart-money desk is private
           </h1>
           <p className="mt-2 max-w-[68ch] text-[13px] text-ink-2">

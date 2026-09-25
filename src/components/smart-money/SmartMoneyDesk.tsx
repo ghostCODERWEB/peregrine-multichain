@@ -105,7 +105,7 @@ export function SmartMoneyDesk({ mode }: { mode: 'owner' | 'member' }) {
             <span className="rounded bg-brand/12 px-2 py-0.5 text-ink">Private · {mode === 'owner' ? 'key owner' : 'your Nansen key'}</span>
             <span className="text-ink-muted">Smart-money desk</span>
           </div>
-          <h1 id="sm-title" className="mt-2 text-lg font-semibold leading-snug text-ink sm:text-xl">
+          <h1 id="sm-title" className="t-headline mt-2 text-ink">
             {d ? deskTitle(d) : desk.state === 'error' ? 'The smart-money desk could not load' : 'Reading smart-money holdings and the PnL leaderboard from Nansen…'}
           </h1>
           <div className="mt-3 flex flex-wrap items-center gap-2">

@@ -5,7 +5,7 @@
 // allocation and are labelled that way everywhere they appear.
 import Link from 'next/link';
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
-import { ChainLogo, chainLogoSrc } from '@/components/Logo';
+import { ChainLogo, chainLogoSrc, SvgChainLogo } from '@/components/Logo';
 import { flowLayout } from '@/lib/viz/flow-layout';
 import { netFlowMap, chainNets } from '@/lib/viz/net-flow-map';
 import { chainName, num, usd } from '@/lib/viz/format';
@@ -194,7 +194,7 @@ export function NetFlowRing({ chains }: { chains: NetFlowChain[] }) {
                   <circle cx={nd.x} cy={nd.y} r={36} fill="none" stroke={col} strokeOpacity={0.35} strokeWidth={1.5} />
                   <circle cx={nd.x} cy={nd.y} r={28} fill="var(--surface-1)" stroke="var(--hair-2)" />
                   {src ? (
-                    <image href={src} x={r1(nd.x - 16)} y={r1(nd.y - 16)} width={32} height={32} />
+                    <SvgChainLogo chain={nd.chain} x={r1(nd.x - 16)} y={r1(nd.y - 16)} size={32} />
                   ) : (
                     <text x={nd.x} y={r1(nd.y + 4)} textAnchor="middle" className="fill-ink text-[12px] font-bold">
                       {chainName(nd.chain).slice(0, 2)}
@@ -301,7 +301,7 @@ export function NetFlowBoard({ chains }: { chains: NetFlowChain[] }) {
   const max = Math.max(1, ...rows.map((r) => Math.abs(r.net)));
   return (
     <section aria-labelledby="netflow-board" className="material p-5 sm:p-6">
-      <h2 id="netflow-board" className="text-[19px] font-bold tracking-[-0.02em]">
+      <h2 id="netflow-board" className="t-section">
         {rows[0] ? `${chainName(rows[0].chain)} drew the most net flow in 24 hours` : 'Chains by net flow'}
       </h2>
       <p className="mt-1 text-[13.5px] text-ink-muted">Market-wide net flow, all traders, measured per chain. The largest six each way.</p>

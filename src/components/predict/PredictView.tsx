@@ -1,4 +1,5 @@
 'use client';
+import { FilterBox } from '@/components/FilterBox';
 import Link from 'next/link';
 import { useState } from 'react';
 import { Card, WaveLoading, Unavailable } from '@/components/Card';
@@ -144,6 +145,9 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
     .slice(0, 12);
   const peakMove = Math.max(0.01, ...movers.map((m) => Math.abs(m.change1d!)));
   const cats = board.categories.filter((c) => (c.volume24h ?? 0) >= 10_000).slice(0, 24);
+  const tagCount = new Map<string, number>();
+  for (const m of board.markets) for (const t of m.tags) tagCount.set(t, (tagCount.get(t) ?? 0) + 1);
+  const topTags = [...tagCount].sort((a, z) => z[1] - a[1]).slice(0, 6).map(([t]) => t);
 
   return (
     <div className="space-y-4">
@@ -156,7 +160,7 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
                 This view: {board.tally.calls} Nansen calls, {board.tally.credits} credits ({board.tally.cached} from cache)
               </span>
             </div>
-            <h1 id="pm-title" className="mt-1.5 text-lg font-semibold leading-snug text-ink sm:text-xl">
+            <h1 id="pm-title" className="t-headline mt-1.5 text-ink">
               {title}
             </h1>
             <dl className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
@@ -507,9 +511,10 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
       <Card
         id="markets"
         title={`${board.markets.length} most-traded active markets`}
-        sub="Implied probability (YES price), today's change, and depth. Select a market for its price, order book and holders."
+        sub="Implied probability (YES price), today's change, and depth. Search, filter by category, and select a market for its price, order book and holders."
       >
-        <div tabIndex={0} role="region" aria-label="Scrollable list" className="max-h-[560px] overflow-auto">
+        <FilterBox target="#pm-markets" label="Filter markets" placeholder="Search markets" groups={topTags} />
+        <div id="pm-markets" tabIndex={0} role="region" aria-label="Scrollable list" className="mt-3 max-h-[560px] overflow-auto">
           <table className="w-full min-w-[760px] text-left text-[12.5px]">
             <thead className="sticky top-0 bg-surface text-[11px] uppercase tracking-wider text-ink-muted">
               <tr>
@@ -523,9 +528,11 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
               </tr>
             </thead>
             <tbody>
-              {board.markets.slice(0, 100).map((m) => (
+              {board.markets.map((m) => (
                 <tr
                   key={m.id}
+                  data-search={`${m.question} ${m.tags.join(' ')}`}
+                  data-group={m.tags.join('|')}
                   onClick={() => pick(m)}
                   className={`cursor-pointer border-t border-border hover:bg-raised/60 ${picked?.id === m.id ? 'bg-raised' : ''}`}
                 >

@@ -8,14 +8,14 @@ import { LoadCategories } from './LoadCategories';
 
 /** Every reading of one Overview view (Perps, Sectors, Predictions) as tiles
  *  or a table. The view's finding and description sit in its hero above. */
-export function LayerPanel({ layer, table, onRefresh }: { layer: WeatherLayer; table: boolean; onRefresh?: () => Promise<unknown> }) {
+export function LayerPanel({ layer, table, onRefresh, brief = false }: { layer: WeatherLayer; table: boolean; onRefresh?: () => Promise<unknown>; brief?: boolean }) {
   const tone = (s: number) => (layer.id === 'predictions' ? 'var(--signal)' : Math.abs(s - 50) < 5 ? 'var(--ink-muted)' : s > 50 ? 'var(--mint)' : 'var(--flare)');
   return <div className="space-y-4" aria-label={layer.title}>
-    <div className="flex flex-wrap items-center justify-between gap-2 text-[12.5px] text-ink-muted">
+    {!brief && <div className="flex flex-wrap items-center justify-between gap-2 text-[12.5px] text-ink-muted">
       <div className="flex items-center gap-2"><h3 className="text-[14px] font-bold text-ink">{layer.title}</h3>{layer.provenance && <InfoPopover p={layer.provenance} />}
         <span>· {layer.recorded ? 'recorded demo data' : layer.at ? <>updated <TimeAgo ts={layer.at} /></> : 'no reading yet'}</span></div>
       <Link className="font-semibold text-brand" href={layer.href}>Methodology →</Link>
-    </div>
+    </div>}
     {layer.unavailable && <div className="inset-well space-y-3 p-4"><p className="text-sm text-ink-2">{layer.unavailable}</p>
       {layer.id === 'predictions' && !layer.recorded && onRefresh && <LoadCategories onLoaded={onRefresh} />}</div>}
     {!layer.unavailable && !layer.readings.length && <p className="text-sm text-ink-2">No usable readings in this snapshot.</p>}
@@ -27,6 +27,6 @@ export function LayerPanel({ layer, table, onRefresh }: { layer: WeatherLayer; t
         <div className="min-w-0"><h4 className="truncate text-[13.5px] font-bold text-ink">{r.name}</h4><p className="mt-0.5 truncate text-[13px] text-ink-2"><span className="num">{usd(r.value, { signed: layer.id === 'sectors' })}</span> <span className="text-[11.5px] text-ink-muted">· {layer.metric}</span></p></div>
       </Link></li>)}
     </ul>}
-    <p className="text-[11.5px] text-ink-muted">Separate populations and units: indices don’t compare across views, and missing readings aren’t zero.</p>
+    {!brief && <p className="text-[11.5px] text-ink-muted">Separate populations and units: indices don’t compare across views, and missing readings aren’t zero.</p>}
   </div>;
 }

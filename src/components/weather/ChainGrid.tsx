@@ -1,3 +1,5 @@
+'use client';
+import { useState } from 'react';
 import Link from 'next/link';
 import { ChainLogo } from '@/components/Logo';
 import { chainName } from '@/lib/viz/format';
@@ -8,25 +10,36 @@ import type { ChainTile } from '@/server/weather/bulletin';
  *  table view and chain pages say why). Tint deepens with distance from
  *  neutral 50, mint for accumulation and flare for distribution; the value,
  *  an arrow and the band word carry the same meaning without colour. */
-export function ChainGrid({ chains }: { chains: ChainTile[] }) {
+export function ChainGrid({ chains, brief = 0 }: { chains: ChainTile[]; /** show only the n strongest and n weakest until expanded */ brief?: number }) {
+  const [all, setAll] = useState(false);
   const tiles = chains.filter((c) => c.cpi != null).sort((a, b) => b.cpi! - a.cpi! || a.chain.localeCompare(b.chain));
+  const cut = brief > 0 && !all && tiles.length > brief * 2;
+  const shown = cut ? [...tiles.slice(0, brief), ...tiles.slice(-brief)] : tiles;
   return (
-    <ul className="grid grid-cols-2 gap-2 min-[520px]:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7" aria-label="Chains by Flow Index">
-      {tiles.map((c) => <li key={c.chain}><Tile c={c} /></li>)}
-    </ul>
+    <>
+      <ul className="grid grid-cols-2 gap-2 min-[520px]:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7" aria-label="Chains by Flow Index">
+        {shown.map((c) => <li key={c.chain}><Tile c={c} /></li>)}
+      </ul>
+      {brief > 0 && tiles.length > brief * 2 && (
+        <button type="button" onClick={() => setAll(!all)} aria-expanded={all} className="mt-3 text-[12.5px] font-bold text-brand">
+          {all ? 'Show strongest and weakest only' : `Show all ${tiles.length} chains`}
+        </button>
+      )}
+    </>
   );
 }
 
 function Tile({ c }: { c: ChainTile }) {
   const v = Math.round(c.cpi!), d = (v - 50) / 50;
   const color = d >= 0 ? 'var(--mint)' : 'var(--flare)';
-  const tint = Math.min(0.34, Math.abs(d) * 0.4);
   const band = v >= 65 ? 'Accumulation' : v <= 35 ? 'Distribution' : 'Neutral';
+  // Colour is reserved for a signal: neutral tiles stay quiet.
+  const tint = band === 'Neutral' ? 0 : Math.min(0.24, Math.abs(d) * 0.34);
   const t = c.trend6h;
   return (
     <Link href={`/chain/${c.chain}`} aria-label={`${chainName(c.chain)}: Flow Index ${v}, ${band.toLowerCase()}${t != null ? `, ${t >= 0 ? 'up' : 'down'} ${Math.abs(Math.round(t))} in 6 hours` : ''}`}
-      className="group block rounded-[14px] border border-[var(--hair)] p-3 transition-colors hover:border-[var(--hair-2)]"
-      style={{ background: `linear-gradient(160deg, color-mix(in srgb, ${color} ${Math.round(tint * 100)}%, transparent), color-mix(in srgb, ${color} ${Math.round(tint * 40)}%, transparent))` }}>
+      className="group block rounded-[var(--r-inner)] border border-[var(--hair)] p-3.5 transition-[border-color,transform] duration-[var(--dur-fast)] ease-[var(--ease-out)] hover:-translate-y-px hover:border-[var(--hair-2)]"
+      style={{ background: tint ? `linear-gradient(160deg, color-mix(in srgb, ${color} ${Math.round(tint * 100)}%, transparent), color-mix(in srgb, ${color} ${Math.round(tint * 30)}%, transparent))` : 'color-mix(in srgb, var(--ink-1) 3%, transparent)' }}>
       <div className="flex items-center gap-2">
         <ChainLogo chain={c.chain} size={18} />
         <span className="min-w-0 truncate text-[13px] font-bold text-ink">{chainName(c.chain)}</span>
@@ -39,7 +52,7 @@ function Tile({ c }: { c: ChainTile }) {
       </div>
       <div className="relative mt-2.5 h-1 rounded-full bg-ink/10" aria-hidden>
         <span className="absolute inset-y-[-2px] left-1/2 w-px bg-[var(--hair-2)]" />
-        <span className="absolute inset-y-0 rounded-full" style={v >= 50 ? { left: '50%', width: `${(v - 50)}%`, background: color } : { right: '50%', width: `${(50 - v)}%`, background: color }} />
+        <span className="absolute inset-y-0 rounded-full" style={{ ...(v >= 50 ? { left: '50%', width: `${v - 50}%` } : { right: '50%', width: `${50 - v}%` }), background: band === 'Neutral' ? 'var(--ink-muted)' : color }} />
       </div>
       <div className="mt-1.5 text-[11px] font-semibold" style={{ color: band === 'Neutral' ? 'var(--ink-muted)' : color }}>{band}</div>
     </Link>

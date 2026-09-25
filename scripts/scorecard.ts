@@ -1,7 +1,7 @@
 // Scorecard: measurable checks behind the project scores (Nansen data use,
 // UI/UX, code quality). Each metric is a pass rate of concrete checks, never
 // a feeling. Run against a keyless demo server:
-//   SCORE_URL=http://localhost:3413 pnpm tsx scripts/scorecard.ts
+//   SCORE_URL=http://localhost:3000 pnpm tsx scripts/scorecard.ts
 // Writes docs/SCORECARD.md and docs/scorecard.json.
 import { execSync } from 'node:child_process';
 import fs from 'node:fs';
@@ -10,7 +10,7 @@ import { chromium } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { coverageStats, ALL_LEDGER } from '../src/config/endpoint-ledger';
 
-const BASE = process.env.SCORE_URL ?? 'http://localhost:3413';
+const BASE = process.env.SCORE_URL ?? 'http://localhost:3000';
 const ROOT = path.resolve(__dirname, '..');
 const sh = (cmd: string) => { try { return { ok: true, out: execSync(cmd, { cwd: ROOT, stdio: 'pipe', encoding: 'utf8', maxBuffer: 64 << 20 }) }; } catch (e) { const x = e as { stdout?: string; stderr?: string }; return { ok: false, out: `${x.stdout ?? ''}${x.stderr ?? ''}` }; } };
 

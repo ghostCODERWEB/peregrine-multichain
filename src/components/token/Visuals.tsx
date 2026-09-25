@@ -70,7 +70,7 @@ export function TokenHero({ chain, address, tier, h, m, storm, done, title, chil
               <span className="absolute -bottom-1 -right-1 rounded-md bg-surface p-0.5 ring-1 ring-border"><ChainLogo chain={chain} size={16} /></span>
             </div>
             <div className="min-w-0 flex-1">
-              <h1 id="token-title" className="text-[30px] font-extrabold leading-tight tracking-[-0.03em] text-ink" title={title}>{h?.name ?? h?.symbol ?? title}</h1>
+              <h1 id="token-title" className="t-title text-ink" title={title}>{h?.name ?? h?.symbol ?? title}</h1>
               <div className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-[13px] text-ink-muted">
                 <span className="font-semibold text-ink-2">{h?.symbol ?? 'Token'}</span><span aria-hidden>·</span>
                 <span className="inline-flex items-center gap-1"><ChainLogo chain={chain} size={13} />{chainName(chain)}</span>

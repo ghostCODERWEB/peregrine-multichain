@@ -67,7 +67,7 @@ export function ChainHero({ d, tier, title, note }: { d: ChainPageData; tier: st
                   return r ? <span key={m} className="rounded bg-brand/12 px-2 py-0.5 text-ink">#{r} of {rows.filter((x) => x[m] > 0).length} by {IN_TEXT[m]}</span> : null;
                 })}
               </div>
-              <h1 id="chain-title" className="mt-1 text-[30px] font-extrabold leading-snug text-ink">{title}</h1>
+              <h1 id="chain-title" className="t-title mt-1 text-ink">{title}</h1>
             </div>
           </div>
           <p className="mt-2 text-[13px] text-ink-2">{note}</p>

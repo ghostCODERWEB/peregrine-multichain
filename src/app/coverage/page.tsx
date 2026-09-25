@@ -36,7 +36,7 @@ export default async function CoveragePage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-xl font-semibold text-ink sm:text-2xl">
+        <h1 className="t-headline text-ink">
           {rows.length} chains, {columns.length} Nansen endpoints: {u.liveCalls.toLocaleString('en-US')} live API calls so far
         </h1>
         <p className="mt-1 max-w-3xl text-[13px] text-ink-2">

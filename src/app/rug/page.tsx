@@ -22,7 +22,7 @@ export default function RugPage() {
         <RugSearch chains={RUG_CHAINS} />
       </section>
       <section aria-labelledby="rug-how" className="material p-5 sm:p-6">
-        <h2 id="rug-how" className="text-[19px] font-bold tracking-[-0.02em]">
+        <h2 id="rug-how" className="t-section">
           What it checks
         </h2>
         <ul className="mt-3 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">

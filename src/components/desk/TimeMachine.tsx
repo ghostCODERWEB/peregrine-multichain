@@ -117,7 +117,7 @@ export function TimeMachine({ chain, token }: { chain: string; token: string }) 
   return (
     <div className="space-y-5">
       <div className="material p-5 sm:p-6">
-        <h1 className="text-2xl font-semibold">Time Machine</h1>
+        <h1 className="t-title">Time Machine</h1>
         <p className="mt-2 max-w-3xl text-sm text-ink-2">
           Read the evidence at a past cutoff, lock BUY, PASS or SHORT, then reveal what followed. A historical exercise, not a trade.
         </p>

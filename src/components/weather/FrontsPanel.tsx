@@ -138,7 +138,7 @@ export function FrontSheet({ front, onClose }: { front: FrontWithProvenance | nu
                       {front.wallets.map((w) => (
                         <tr key={w.wallet} className="border-b border-border/60 align-top">
                           <td className="py-2 pr-2">
-                            <Link href={`/wallet/${w.wallet}`} className="text-ink underline-offset-2 hover:underline">
+                            <Link href={`/wallet/${w.wallet}`} className="text-ink underline underline-offset-2">
                               {walletName(w.label, w.wallet)}
                             </Link>
                             {walletName(w.label, w.wallet) !== shortAddress(w.wallet) && (

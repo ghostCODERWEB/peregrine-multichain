@@ -112,7 +112,7 @@ export function WeatherView({
     <div className={`space-y-6 transition-opacity ${isFetching ? 'opacity-90' : ''}`}>
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-3">
-          <h1 id="map-title" className="text-[22px] font-extrabold tracking-[-0.02em]">
+          <h1 id="map-title" className="t-title">
             Overview
           </h1>
           <span className="flex items-center gap-2 rounded-full bg-brand/10 px-3 py-1 text-xs font-semibold text-brand">
@@ -138,11 +138,11 @@ export function WeatherView({
           <div className="grid grid-cols-1 gap-4 xl:grid-cols-12">
             <section
               aria-label="Market overview"
-              className="material rise relative grid min-h-[400px] items-center gap-2 p-6 sm:p-7 xl:col-span-8 xl:grid-cols-[1fr_1.05fr]"
+              className="material rise relative grid min-h-[440px] items-center gap-6 p-7 sm:p-9 xl:col-span-8 xl:grid-cols-[0.9fr_1.1fr]"
             >
               <div className="relative z-10">
-                <p className="mb-4 text-[12.5px] font-bold text-brand">{withheld ? 'All traders' : 'Smart money'} · last 24 hours</p>
-                <h2 className="radar-headline">
+                <p className="seq mb-5 text-[12.5px] font-bold text-brand" style={{ '--i': 0 } as React.CSSProperties}>{withheld ? 'All traders' : 'Smart money'} · last 24 hours</p>
+                <h2 className="radar-headline seq" style={{ '--i': 1 } as React.CSSProperties}>
                   {top && bottom ? (
                     <>
                       Accumulating <span className="text-accumulation">{chainName(top.chain)}.</span>
@@ -153,26 +153,28 @@ export function WeatherView({
                     mapHeadline(data.chains, data.fronts)
                   )}
                 </h2>
-                <p className="mt-4 text-[15px] leading-relaxed text-ink-2">{withheld ? netLine : frontsHeadline(data.fronts)}</p>
-                <div className="mt-5 flex flex-wrap gap-2">
+                <p className="lede seq mt-5" style={{ '--i': 2 } as React.CSSProperties}>{withheld ? netLine : frontsHeadline(data.fronts)}</p>
+                <div className="seq mt-7 flex flex-wrap gap-2" style={{ '--i': 3 } as React.CSSProperties}>
                   <Link href="/flows" className="pill-button pill-primary">
-                    Open Capital Flows →
+                    Open Capital Flows <span className="arrow" aria-hidden>→</span>
                   </Link>
                 </div>
               </div>
-              {!withheld ? (
-                <FlowOrbital fronts={data.fronts} />
-              ) : netMap.edges.length ? (
-                <FlowOrbital fronts={netMap.edges} modeled nets={nets} />
-              ) : (
-                <FlowMovers chains={data.chains} />
-              )}
+              <div className="seq-visual min-w-0" style={{ '--i': 3 } as React.CSSProperties}>
+                {!withheld ? (
+                  <FlowOrbital fronts={data.fronts} />
+                ) : netMap.edges.length ? (
+                  <FlowOrbital fronts={netMap.edges} modeled nets={nets} />
+                ) : (
+                  <FlowMovers chains={data.chains} />
+                )}
+              </div>
             </section>
             <div className="grid gap-4 sm:grid-cols-2 xl:col-span-4 xl:grid-cols-1">
               {[top, bottom].map(
                 (c, i) =>
                   c && (
-                    <section key={i} className="material p-6" aria-label={i ? 'Top outflow' : 'Top inflow'}>
+                    <section key={i} className="material rise p-6" style={{ animationDelay: `${300 + i * 90}ms` }} aria-label={i ? 'Top outflow' : 'Top inflow'}>
                       <div className="flex items-center justify-between gap-2 text-[13px]">
                         <Link href={`/chain/${c.chain}`} className="flex items-center gap-2 font-semibold text-ink-2">
                           <ChainLogo chain={c.chain} size={24} />
@@ -198,7 +200,7 @@ export function WeatherView({
             </div>
             <section aria-labelledby="map-instrument-title" className="material min-w-0 p-5 sm:p-6 xl:col-span-12">
               <div className="mb-1 flex flex-wrap items-center justify-between gap-3">
-                <h2 id="map-instrument-title" className="text-[19px] font-bold tracking-[-0.02em]">
+                <h2 id="map-instrument-title" className="t-section">
                   Flow Index
                 </h2>
                 {mapTabs}
@@ -209,7 +211,7 @@ export function WeatherView({
               ) : showInferred ? (
                 <HexMap chains={data.chains} fronts={inferred} selectedFront={selected} onSelectFront={setSelected} />
               ) : (
-                <ChainGrid chains={data.chains} />
+                <ChainGrid chains={data.chains} brief={7} />
               )}
             </section>
             <Card id="storms-title" title="Dump risk" sub="Highest readings, last 48 hours" className="xl:col-span-4">
@@ -296,7 +298,7 @@ export function WeatherView({
           {!(publicSite && withheld) && riskAlerts('')}
           {data.inference && (
             <section aria-labelledby="inferred-title" className="material border-dashed p-5 sm:p-6">
-              <h2 id="inferred-title" className="text-[19px] font-bold tracking-[-0.02em] text-ink">
+              <h2 id="inferred-title" className="t-section text-ink">
                 Inferred rotations
               </h2>
               <p className="mt-1 text-[13.5px] text-ink-muted">
@@ -437,15 +439,29 @@ function LayerOverview({
           {card(lo, 1)}
         </div>
       )}
-      <section aria-labelledby="layer-readings" className="material min-w-0 p-5 sm:p-6 xl:col-span-12">
-        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-          <h2 id="layer-readings" className="text-[19px] font-bold tracking-[-0.02em]">
-            All readings
-          </h2>
-          {tabs}
-        </div>
-        <LayerPanel layer={layer} table={table} onRefresh={onRefresh} />
-      </section>
+      {!empty && (
+        <section aria-labelledby="layer-readings" className="material min-w-0 p-5 sm:p-6 xl:col-span-12">
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+            <h2 id="layer-readings" className="t-section">
+              At a glance
+            </h2>
+            <div className="flex flex-wrap items-center gap-3">
+              {tabs}
+              <Link href={layer.href} className="text-[12.5px] font-bold text-brand">
+                Search all {layer.readings.length} in {layer.title} →
+              </Link>
+            </div>
+          </div>
+          <LayerPanel layer={{ ...layer, readings: glance(layer.readings) }} table={table} onRefresh={onRefresh} brief />
+        </section>
+      )}
+      {empty && layer.unavailable && <div className="xl:col-span-12"><LayerPanel layer={layer} table={false} onRefresh={onRefresh} brief /></div>}
     </div>
   );
+}
+
+/** The Overview's short list: the three highest and three lowest readings. */
+function glance<T extends { score: number | null }>(rows: T[]): T[] {
+  const scored = rows.filter((r) => r.score != null).sort((a, b) => b.score! - a.score!);
+  return scored.length <= 6 ? scored : [...scored.slice(0, 3), ...scored.slice(-3)];
 }

@@ -108,7 +108,7 @@ export function TokenAskChat({
         >
           <MessageCircle size={17} className="text-white" aria-hidden />
         </span>
-        <h2 id="ask" className="text-[19px] font-bold tracking-[-0.02em]">
+        <h2 id="ask" className="t-section">
           Ask Nansen about {sym}
         </h2>
         <span className="ml-auto text-[12px] text-ink-muted">
