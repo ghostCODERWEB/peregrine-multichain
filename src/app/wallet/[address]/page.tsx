@@ -20,6 +20,8 @@ import { forMode, redacted } from '@/server/redact';
 import { chainName, shortAddress, usd, walletName } from '@/lib/viz/format';
 import { AskNansen } from '@/components/agent/AskNansen';
 import { walletWeatherReading } from '@/server/wallet/weather';
+import { walletRotations } from '@/server/weather/queries';
+import { ChainLogo } from '@/components/Logo';
 
 export const dynamic = 'force-dynamic';
 
@@ -73,6 +75,8 @@ export default async function WalletRoute({ params }: Params) {
             : trail.steps.length ? <TrailMap steps={trail.steps} /> : <Unavailable text="The scanner has not recorded a smart-money DEX trade by this wallet in the last 7 days. Only Nansen smart-money wallets appear in that feed." />}
         </Card>
       </div>
+
+      <RotationsCard address={address} mode={mode} />
 
       <Suspense fallback={<Card id="wallet-weather" title="Wallet profile"><WaveLoading what="wallet profile" height={280} /></Card>}>
         <WalletWeather p={redacted(mode, weatherP)} />
@@ -157,6 +161,30 @@ async function TransactionsCard({ address, mode }: { address: string; mode: Disp
           </tbody>
         </table>
       </div>
+    </Card>
+  );
+}
+
+/** P4: this wallet's part in chain-to-chain capital rotations (owner view:
+ *  built from the scanner's smart-money trades). */
+function RotationsCard({ address, mode }: { address: string; mode: DisplayMode }) {
+  if (mode !== 'owner') return null;
+  const rows = walletRotations(address, 168);
+  if (!rows.length) return null;
+  return (
+    <Card id="rotations" title={`Rotated capital across ${rows.length} chain pair${rows.length === 1 ? '' : 's'} in 7 days`}
+      sub="This wallet's part in chain-to-chain rotations: sold on one chain, bought on another within 12h."
+      action={<Link href="/#fronts-title" className="text-[12px] text-brand hover:underline">Capital Flows →</Link>}>
+      <ul className="divide-y divide-border">
+        {rows.map((r) => (
+          <li key={`${r.from}>${r.to}`} className="grid gap-2 py-2.5 text-[12.5px] sm:grid-cols-[180px_minmax(0,1fr)_minmax(0,1fr)_200px] sm:items-center">
+            <span className="flex items-center gap-1.5 font-medium text-ink"><ChainLogo chain={r.from} size={16} />{chainName(r.from)}<span className="text-ink-muted">→</span><ChainLogo chain={r.to} size={16} />{chainName(r.to)}</span>
+            <span className="min-w-0 truncate text-ink-2"><span className="num" style={{ color: 'var(--out-3)' }}>−{usd(r.soldUsd)}</span> sold {r.soldTokens.slice(0, 3).join(', ')}</span>
+            <span className="min-w-0 truncate text-ink-2"><span className="num" style={{ color: 'var(--in-3)' }}>+{usd(r.boughtUsd)}</span> bought {r.boughtTokens.slice(0, 3).join(', ')}</span>
+            <span className="num whitespace-nowrap text-right text-ink-muted">in a {usd(r.flowNetUsd)} flow · {r.flowWallets} wallets</span>
+          </li>
+        ))}
+      </ul>
     </Card>
   );
 }

@@ -2,6 +2,7 @@
 // pages show. No Nansen calls here — everything is derived from TIDE's own
 // history, which is why the map loads instantly and costs nothing to view.
 import { getDb } from '@/server/nansen/db';
+import { tokenLogos, logoOf } from '@/server/token/meta';
 import { pressureBand, type Window } from '@/lib/models/cpi';
 import { matchWalletRotations, buildDirectedFronts, netFronts, type Trade, type RotationMatch } from '@/lib/models/rotation-fronts';
 import { holtForecast, mape } from '@/lib/models/holt-forecast';
@@ -284,6 +285,8 @@ export interface StormTick {
   missing: string[];
   source: 'page' | 'sweep';
   computedAt: number;
+  /** Nansen's logo URL, remembered from the token's page (P4); null if never seen. */
+  logo: string | null;
 }
 
 /** The home ticker: the latest Storm Score of every token scored in the
@@ -295,8 +298,25 @@ export function stormTicker(limit = 12, now = Date.now()): StormTick[] {
     JOIN (SELECT MAX(id) AS id FROM storm_scores WHERE computed_at >= ? GROUP BY chain, token_address) m ON m.id = s.id
     ORDER BY s.score DESC LIMIT ?
   `).all(now - 48 * 3_600_000, limit) as Array<{ chain: string; token_address: string; symbol: string | null; score: number; band: StormTick['band']; confidence: number; missing: string; source: StormTick['source']; computed_at: number }>;
+  const logos = tokenLogos(rows.map((r) => ({ chain: r.chain, address: r.token_address })));
   return rows.map((r) => ({
     chain: r.chain, tokenAddress: r.token_address, symbol: r.symbol, score: r.score, band: r.band,
     confidence: r.confidence, missing: JSON.parse(r.missing) as string[], source: r.source, computedAt: r.computed_at,
+    logo: logoOf(logos, r.chain, r.token_address),
   }));
+}
+
+export interface WalletRotation { from: string; to: string; soldUsd: number; boughtUsd: number; soldTokens: string[]; boughtTokens: string[]; flowNetUsd: number; flowWallets: number }
+
+/**
+ * P4: the capital rotations one wallet took part in over the window —
+ * its own sells and buys inside each chain-to-chain flow it helped form.
+ * Built from the owner's stored smart-money trades (owner view only).
+ */
+export function walletRotations(address: string, hours = 168, now = Date.now()): WalletRotation[] {
+  const a = address.toLowerCase();
+  return rotationFronts(hours, now).flatMap((f) => {
+    const w = f.wallets.find((x) => x.wallet.toLowerCase() === a);
+    return w ? [{ from: f.from, to: f.to, soldUsd: w.soldUsd, boughtUsd: w.boughtUsd, soldTokens: w.soldTokens, boughtTokens: w.boughtTokens, flowNetUsd: f.netUsd, flowWallets: f.walletCount }] : [];
+  });
 }

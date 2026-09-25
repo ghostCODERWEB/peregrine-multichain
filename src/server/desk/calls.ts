@@ -4,6 +4,7 @@
 // window. Calls are private to a desk and can't be edited: a track record
 // that can be rewritten isn't one.
 import { callNansen } from '@/server/nansen/client';
+import { tokenLogos, logoOf } from '@/server/token/meta';
 import { getDb } from '@/server/nansen/db';
 import { fixtureMode, requestDay } from '@/server/nansen/demo';
 import { chainWeather } from '@/server/weather/queries';
@@ -24,6 +25,8 @@ export interface GaugeSnapshot { direction: number | null; confidence: number | 
 export interface CallContext { storm: { score: number; band: string } | null; chainCpi: number | null; chainSource: string | null; gauges?: GaugeSnapshot | null; replayAt?: number }
 export interface CallCard {
   id: number; source: 'live' | 'replay'; chain: string; token: string; symbol: string | null;
+  /** Nansen's logo URL remembered from the token's page (P4). */
+  logo?: string | null;
   stance: Stance; horizon: Horizon; setup: Setup; thesis: string | null;
   entry: number; entryAt: number; invalidation: number | null; createdAt: number; dueAt: number;
   context: CallContext | null; entryReceipt: Receipt;
@@ -42,6 +45,7 @@ type Row = Record<string, unknown>;
 const json = <T,>(v: unknown): T | null => { try { return typeof v === 'string' ? JSON.parse(v) as T : null; } catch { return null; } };
 export const toCard = (r: Row): CallCard => ({
   id: r.id as number, source: r.source as CallCard['source'], chain: r.chain as string, token: r.token as string, symbol: (r.symbol as string | null) ?? null,
+  logo: logoOf(tokenLogos([{ chain: r.chain as string, address: r.token as string }]), r.chain as string, r.token as string),
   stance: r.stance as Stance, horizon: r.horizon as Horizon, setup: r.setup as Setup, thesis: (r.thesis as string | null) ?? null,
   entry: r.entry_price as number, entryAt: r.entry_at as number, invalidation: (r.invalidation as number | null) ?? null, createdAt: r.created_at as number, dueAt: r.due_at as number,
   context: json<CallContext>(r.context), entryReceipt: json<Receipt>(r.entry_receipt)!,

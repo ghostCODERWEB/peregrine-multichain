@@ -5,6 +5,7 @@
 // trace next to every number. A wave that Nansen can't serve for this
 // chain or token returns `unavailable` with the reason, never a guess.
 import { callNansen } from '@/server/nansen/client';
+import { rememberToken } from './meta';
 import { traced, errText, isUnavailable, type Wave } from '@/server/nansen/traced';
 import { requestDay } from '@/server/nansen/demo';
 import { endpointUnavailable } from '@/lib/registry';
@@ -90,6 +91,7 @@ export async function headerWave(chain: string, token: string): Promise<Wave<Tok
       reward: indOk?.data.reward_indicators.map(mapInd) ?? [],
       indicatorsUnavailable: indOk ? null : ('error' in ind ? ind.error : null),
     };
+    try { rememberToken(chain, token, header.symbol, header.logo); } catch { /* a cache, never a reason to fail the page */ }
     return {
       ...header,
       provenance: {

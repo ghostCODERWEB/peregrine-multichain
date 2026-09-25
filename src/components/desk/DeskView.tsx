@@ -33,7 +33,7 @@ function CallRow({ c, now, onNoteAttached }: { c: CallCardWithNotes; now: number
     <li className="space-y-1 border-t border-border py-3 first:border-0 text-[13px]">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <span className="text-ink">
-          <b className="uppercase">{c.stance}</b> <Link href={`/token/${c.chain}/${encodeURIComponent(c.token)}`} className="inline-flex items-center gap-1.5 align-middle underline-offset-2 hover:underline"><TokenLogo symbol={c.symbol} size={16} />{name}</Link>
+          <b className="uppercase">{c.stance}</b> <Link href={`/token/${c.chain}/${encodeURIComponent(c.token)}`} className="inline-flex items-center gap-1.5 align-middle underline-offset-2 hover:underline"><TokenLogo symbol={c.symbol} logo={c.logo} size={16} />{name}</Link>
           <span className="text-ink-muted"> · <ChainLogo chain={c.chain} size={12} /> {chainName(c.chain)} · {c.horizon} · {setupLabel(c.setup)}{c.source === 'replay' ? ' · Time Machine' : ''}</span>
         </span>
         <span className="flex items-center gap-2">

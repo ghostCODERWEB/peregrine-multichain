@@ -354,6 +354,18 @@ const MIGRATIONS: string[] = [
   );
   CREATE INDEX idx_call_notes_call ON call_notes(call_id);
   `,
+  // 21 — P4: what Nansen told us about a token's identity (symbol, logo URL),
+  // remembered when its page loads so lists can show the real logo.
+  `
+  CREATE TABLE token_meta (
+    chain TEXT NOT NULL,
+    token_address TEXT NOT NULL,
+    symbol TEXT,
+    logo TEXT,
+    updated_at INTEGER NOT NULL,
+    PRIMARY KEY (chain, token_address)
+  );
+  `,
 ];
 
 export function audit(userId: number | null, action: string, detail?: string): void {

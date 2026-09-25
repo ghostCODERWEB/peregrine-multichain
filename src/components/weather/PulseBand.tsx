@@ -81,7 +81,7 @@ export function PulseBand({ data }: { data: WeatherBulletin }) {
       </Tile>
       <Tile icon={<TriangleAlert className="h-3.5 w-3.5" />} label="Risk alerts" href="/#storms-title" foot="tokens at High or Critical">
         <div className="num text-[26px] font-semibold leading-none" style={{ color: storms.length ? 'var(--storm-3)' : 'var(--ink-1)' }}>{storms.length}</div>
-        {storms[0] && <div className="mt-1.5 flex items-center gap-1.5 truncate text-[12px] text-ink-2"><TokenLogo symbol={storms[0].symbol} size={14} />{storms[0].symbol ?? 'token'} · <ChainLogo chain={storms[0].chain} size={12} />{chainName(storms[0].chain)} · {num(storms[0].score, 0)}</div>}
+        {storms[0] && <div className="mt-1.5 flex items-center gap-1.5 truncate text-[12px] text-ink-2"><TokenLogo symbol={storms[0].symbol} logo={storms[0].logo} size={14} />{storms[0].symbol ?? 'token'} · <ChainLogo chain={storms[0].chain} size={12} />{chainName(storms[0].chain)} · {num(storms[0].score, 0)}</div>}
       </Tile>
       <Tile icon={<Activity className="h-3.5 w-3.5" />} label="Evidence" foot={data.mode === 'public' ? 'scanner runs, all-trader flow' : 'scanner runs · smart-money trades'}>
         <div className="num text-[26px] font-semibold leading-none text-ink">{data.scan.runs.toLocaleString('en-US')}</div>

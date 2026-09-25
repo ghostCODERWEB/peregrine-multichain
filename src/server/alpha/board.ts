@@ -4,6 +4,7 @@
 // time. Public views score on all-trader flow only; the key owner's view
 // adds the smart-money component.
 import { getDb } from '@/server/nansen/db';
+import { tokenLogos, logoOf } from '@/server/token/meta';
 import { alphaScore, type AlphaPart } from '@/lib/models/alpha';
 import { isStablecoin, isMajorOrWrapped } from '@/lib/models/trade-side';
 import type { PressureView } from '@/server/weather/queries';
@@ -13,6 +14,8 @@ export interface AlphaRow {
   chain: string;
   tokenAddress: string;
   symbol: string | null;
+  /** Nansen's logo URL remembered from the token's page (P4). */
+  logo?: string | null;
   score: number;
   parts: AlphaPart[];
   flowShare: number | null;
@@ -103,7 +106,8 @@ export function alphaBoard(view: PressureView, now = Date.now(), limit = 60): Al
     });
   }
   rows.sort((a, b) => b.score - a.score || (b.volume24hUsd ?? 0) - (a.volume24hUsd ?? 0));
-  const top = rows.slice(0, limit);
+  const logos = tokenLogos(rows.slice(0, limit).map((r) => ({ chain: r.chain, address: r.tokenAddress })));
+  const top = rows.slice(0, limit).map((r) => ({ ...r, logo: logoOf(logos, r.chain, r.tokenAddress) }));
   return {
     rows: top, at: latest, scans: hourlyAt.length, chains: [...new Set(rows.map((r) => r.chain))].sort(), view, unavailable: null,
     provenance: {

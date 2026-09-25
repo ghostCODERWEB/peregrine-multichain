@@ -25,7 +25,7 @@ export function StormTicker({ storms }: { storms: StormTick[] }) {
           <li key={`${s.chain}:${s.tokenAddress}`} className="shrink-0">
             <Link href={`/token/${s.chain}/${encodeURIComponent(s.tokenAddress)}`} className="block w-[168px] glass rounded-xl px-3 py-2 hover:border-axis">
               <div className="flex items-center justify-between gap-2">
-                <span className="flex min-w-0 items-center gap-1.5 truncate text-[13px] font-medium text-ink"><TokenLogo symbol={s.symbol} size={16} />{s.symbol ?? s.tokenAddress.slice(0, 8)}</span>
+                <span className="flex min-w-0 items-center gap-1.5 truncate text-[13px] font-medium text-ink"><TokenLogo symbol={s.symbol} logo={s.logo} size={16} />{s.symbol ?? s.tokenAddress.slice(0, 8)}</span>
                 <span className="num text-[15px] font-semibold text-ink">{num(s.score, 0)}</span>
               </div>
               <div className="mt-1 flex items-center justify-between gap-2">

@@ -30,7 +30,7 @@ function Leader({ row, rank }: { row: AlphaRow; rank: number }) {
       <ScoreRing score={row.score} size={76} stroke={7} color={ringColor(row.score)} label={`${row.symbol ?? 'Token'} alpha score`} sublabel="alpha" />
       <div className="min-w-0 flex-1">
         <div className="flex items-baseline justify-between gap-2">
-          <div className="flex items-center gap-2 truncate text-[17px] font-semibold text-ink group-hover:underline"><TokenLogo symbol={row.symbol} size={20} />{row.symbol ?? 'Token'}</div>
+          <div className="flex items-center gap-2 truncate text-[17px] font-semibold text-ink group-hover:underline"><TokenLogo symbol={row.symbol} logo={row.logo} size={20} />{row.symbol ?? 'Token'}</div>
           <span className="inline-flex items-center gap-1 text-[11px] text-ink-muted">#{rank} · <ChainLogo chain={row.chain} size={12} />{chainName(row.chain)}</span>
         </div>
         <div className="num mt-0.5 text-[12px] text-ink-2">
@@ -87,7 +87,7 @@ export function AlphaView({ board }: { board: AlphaBoard }) {
                 <tr key={`${r.chain}:${r.tokenAddress}`} className="border-b border-border/50 hover:bg-accent/40">
                   <td className="py-1.5 pr-2"><ScoreRing score={r.score} size={34} stroke={3.5} color={ringColor(r.score)} label={`${r.symbol ?? 'Token'} alpha score`} /></td>
                   <td className="py-1.5 pr-2">
-                    <Link href={`/token/${r.chain}/${encodeURIComponent(r.tokenAddress)}`} className="inline-flex items-center gap-1.5 font-medium text-ink hover:underline"><TokenLogo symbol={r.symbol} size={16} />{r.symbol ?? 'Token'}</Link>
+                    <Link href={`/token/${r.chain}/${encodeURIComponent(r.tokenAddress)}`} className="inline-flex items-center gap-1.5 font-medium text-ink hover:underline"><TokenLogo symbol={r.symbol} logo={r.logo} size={16} />{r.symbol ?? 'Token'}</Link>
                     <div className="flex items-center gap-1 text-[11px] text-ink-muted"><ChainLogo chain={r.chain} size={12} />{chainName(r.chain)}</div>
                   </td>
                   <td className="num py-1.5 pr-2 text-right" style={{ color: (r.flowShare ?? 0) >= 0 ? 'var(--in-3)' : 'var(--out-3)' }}>{r.flowShare != null ? pct(r.flowShare, 1) : '—'}</td>

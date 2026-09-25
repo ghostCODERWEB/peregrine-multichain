@@ -22,12 +22,13 @@ const WINDOWS = [{ h: 24, label: '24h' }, { h: 48, label: '48h' }, { h: 168, lab
 // (text stays near its real size) with labels under each chain.
 const WIDE = { W: 900, H: 520, ring: 0.4 }, NARROW = { W: 420, H: 460, ring: 0.33 };
 
-/** Tokens that appear most across a rotation's wallets, most frequent first. */
-function topTokens(lists: string[][], n = 5): string[] {
+/** Tokens that appear most across wallets, most frequent first, with how many wallets moved each. */
+function rankTokens(lists: string[][], n = 5): Array<[string, number]> {
   const c = new Map<string, number>();
-  for (const l of lists) for (const s of l) c.set(s, (c.get(s) ?? 0) + 1);
-  return [...c.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).slice(0, n).map(([s]) => s);
+  for (const l of lists) for (const s of new Set(l)) c.set(s, (c.get(s) ?? 0) + 1);
+  return [...c.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).slice(0, n);
 }
+const topTokens = (lists: string[][], n = 5) => rankTokens(lists, n).map(([s]) => s);
 
 function useReducedMotion() {
   const [reduce, setReduce] = useState(false);
@@ -202,6 +203,7 @@ export function CapitalFlows({ initial, chains, withheld, chain }: { initial: Fr
               <text x={W / 2 + (narrow ? 120 : 250)} y={H - 6} textAnchor="middle" className="fill-ink-muted text-[10.5px] uppercase tracking-[0.14em]">Net buyers</text>
             </svg>
             <p className="mt-1 text-[11px] text-ink-muted">Width = net USD · particles = wallets behind the flow · red → green = sell side to buy side · ring = the chain&apos;s Flow Index</p>
+            <RotatedTokens fronts={observed} />
           </div>
 
           {/* Detail of the selected flow, then every flow as a keyboard-reachable list. */}
@@ -278,6 +280,29 @@ function TokenRow({ label, tokens }: { label: string; tokens: string[] }) {
       <div className="mt-1 flex flex-wrap gap-1.5">
         {tokens.map((t) => <span key={t} className="inline-flex items-center gap-1 rounded border border-border px-1.5 py-0.5 text-ink"><TokenLogo symbol={t} size={12} badge={false} />{t}</span>)}
       </div>
+    </div>
+  );
+}
+
+/** Across every flow in view: what rotating wallets sold and what they bought, by wallet count. */
+function RotatedTokens({ fronts }: { fronts: FrontWithProvenance[] }) {
+  const wallets = fronts.flatMap((f) => f.wallets);
+  const sold = rankTokens(wallets.map((w) => w.soldTokens), 6), bought = rankTokens(wallets.map((w) => w.boughtTokens), 6);
+  if (!sold.length && !bought.length) return null;
+  const row = (label: string, list: Array<[string, number]>, color: string) => (
+    <div className="flex flex-wrap items-center gap-1.5">
+      <span className="label w-32 shrink-0">{label}</span>
+      {list.map(([t, n]) => (
+        <span key={t} className="inline-flex items-center gap-1 rounded border border-border px-1.5 py-0.5 text-[12px] text-ink" title={`${n} rotating wallet${n === 1 ? '' : 's'}`}>
+          <TokenLogo symbol={t} size={12} badge={false} />{t}<span className="num text-[10.5px]" style={{ color }}>{n}</span>
+        </span>
+      ))}
+    </div>
+  );
+  return (
+    <div className="mt-3 space-y-1.5 rounded-xl border border-border p-3">
+      {row('Rotated out of', sold, 'var(--out-3)')}
+      {row('Rotated into', bought, 'var(--in-3)')}
     </div>
   );
 }
