@@ -127,3 +127,22 @@ export function TokenLogo({
     />
   );
 }
+
+/** A chain logo on a uniform round badge, so marks of any shape (squares, glyphs) sit at one size. */
+export function ChainBadge({ chain, size = 28, className = '' }: { chain: string; size?: number; className?: string }) {
+  return (
+    <span className={`grid shrink-0 place-items-center rounded-full bg-[var(--surface-2)] ring-2 ring-[var(--surface-1)] ${className}`} style={{ width: size, height: size }}>
+      <ChainLogo chain={chain} size={Math.round(size * 0.58)} />
+    </span>
+  );
+}
+
+/** A from → to chain pair as two overlapping badges. */
+export function ChainPair({ from, to, size = 28 }: { from: string; to: string; size?: number }) {
+  return (
+    <span className="flex shrink-0 items-center" aria-hidden>
+      <ChainBadge chain={from} size={size} />
+      <ChainBadge chain={to} size={size} className="-ml-2" />
+    </span>
+  );
+}

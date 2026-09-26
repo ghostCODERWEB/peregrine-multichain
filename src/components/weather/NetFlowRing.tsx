@@ -5,7 +5,7 @@
 // allocation and are labelled that way everywhere they appear.
 import Link from 'next/link';
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
-import { ChainLogo, chainLogoSrc, SvgChainLogo } from '@/components/Logo';
+import { ChainBadge, ChainLogo, chainLogoSrc, SvgChainLogo } from '@/components/Logo';
 import { flowLayout } from '@/lib/viz/flow-layout';
 import { netFlowMap, chainNets } from '@/lib/viz/net-flow-map';
 import { chainName, num, usd } from '@/lib/viz/format';
@@ -218,13 +218,11 @@ export function NetFlowRing({ chains }: { chains: NetFlowChain[] }) {
         {selected && (
           <aside className="material-strong flex flex-col gap-4 rounded-[22px] p-5" aria-label="Selected flow">
             <div className="flex items-center gap-3">
-              <span className="flex -space-x-2">
-                <ChainLogo chain={selected.from} size={32} />
-                <ChainLogo chain={selected.to} size={32} />
-              </span>
               <div className="min-w-0">
-                <div className="text-[18px] font-extrabold tracking-[-0.02em]">
-                  {chainName(selected.from)} <Go /> {chainName(selected.to)}
+                <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[18px] font-extrabold tracking-[-0.02em]">
+                  <span className="inline-flex items-center gap-2"><ChainBadge chain={selected.from} size={30} />{chainName(selected.from)}</span>
+                  <span className="text-ink-muted"><Go /></span>
+                  <span className="inline-flex items-center gap-2"><ChainBadge chain={selected.to} size={30} />{chainName(selected.to)}</span>
                 </div>
                 <div className="text-[12.5px] text-ink-muted">modeled share · last 24 hours</div>
               </div>
