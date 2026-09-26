@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { getKv } from '@/server/nansen/db';
+import { GetNansen } from '@/components/shell/GetNansen';
 import { requestContext } from '@/server/context';
 import { AccountButton } from '@/components/auth/AccountButton';
 import { Omnibox } from '@/components/search/Omnibox';
@@ -52,12 +53,14 @@ export async function SiteHeader() {
             Demo{recorded ? ` · recorded ${recorded.slice(0, 10)}` : ' mode'}
           </span>
         )}
+        <GetNansen className="hidden lg:flex" />
         <div className="flex items-center gap-1.5 lg:justify-between">
           {accounts && <span className="hidden lg:inline"><AccountButton signedIn={!!ctx.user} address={ctx.user?.address ?? null} /></span>}
           <ThemeToggle />
         </div>
         <div className="hidden items-center justify-between gap-2 px-1 lg:flex"><Link href="/coverage" className="text-[10.5px] text-ink-muted">Coverage</Link>{accounts && <Link href="/account" className="text-[10.5px] text-ink-muted">Account</Link>}</div>
         <MobileMenu>
+          <GetNansen />
           <p className="text-[12px] text-ink-2" title={modeTitle}>{modeText}</p>
           {accounts && <AccountButton signedIn={!!ctx.user} address={ctx.user?.address ?? null} />}
         </MobileMenu>
