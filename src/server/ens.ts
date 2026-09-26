@@ -52,12 +52,14 @@ export async function ensAddress(name: string): Promise<string | null> {
   const key = `ens2:addr:${norm}`;
   const hit = getKv(key);
   if (hit && Date.now() - hit.updatedAt < (hit.value ? DAY : NEG)) return hit.value || null;
-  try {
-    const a = await client.getEnsAddress({ name: norm });
-    setKv(key, a ?? '');
-    if (a) setKv(`ens2:name:${a.toLowerCase()}`, norm);
-    return a ?? null;
-  } catch {
-    return hit ? hit.value || null : null;
-  }
+  // RPC first; if it fails or finds nothing, a free public ENS API as a second opinion.
+  const viaRpc = await client.getEnsAddress({ name: norm }).catch(() => undefined);
+  const a = viaRpc ?? (await fetch(`https://api.ensideas.com/ens/resolve/${encodeURIComponent(norm)}`, { signal: AbortSignal.timeout(6_000) })
+    .then((r) => (r.ok ? (r.json() as Promise<{ address?: string | null }>) : null))
+    .then((j) => (j?.address && isAddress(j.address) ? getAddress(j.address) : null))
+    .catch(() => undefined));
+  if (a === undefined) return hit ? hit.value || null : null; // both failed: keep what we had
+  setKv(key, a ?? '');
+  if (a) setKv(`ens2:name:${a.toLowerCase()}`, norm);
+  return a ?? null;
 }
