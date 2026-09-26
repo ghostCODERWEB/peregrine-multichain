@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { navStatus } from '@/server/nav-status';
 import { displayMode } from '@/server/mode';
 
-const ORDER: Array<[string, string]> = [['/smart-money', 'Smart Money'], ['/flows', 'Spot'], ['/perps', 'Perps'], ['/sectors', 'Sectors'], ['/', 'Chains']];
+const ORDER: Array<[string, string]> = [['/smart-money', 'Smart Money'], ['/flows', 'Chain flows'], ['/perps', 'Perps'], ['/predict', 'Predictions'], ['/sectors', 'Sectors'], ['/', 'Chains']];
 
 /** A persistent one-line read of the market, from stored scanner data (no Nansen call). */
 export async function MarketStrip() {

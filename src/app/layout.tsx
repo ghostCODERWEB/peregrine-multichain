@@ -12,6 +12,7 @@ import { Suspense } from 'react';
 import { accountsEnabled, publicSite } from '@/server/site';
 import { NANSEN_REF_URL } from '@/config/referral';
 import { TableSort } from '@/components/TableSort';
+import { AnalyzeDock } from '@/components/analyze/AnalyzeDock';
 
 const geistSans = Manrope({ variable: '--font-geist-sans', subsets: ['latin'] });
 const geistMono = IBM_Plex_Mono({ variable: '--font-geist-mono', subsets: ['latin'], weight: ['400', '500'] });
@@ -36,6 +37,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className="min-h-screen antialiased">
         <Providers publicSite={publicSite()} accounts={accountsEnabled()}>
           <TableSort />
+          <AnalyzeDock />
           <MotionObserver />
           <SiteHeader />
           <TabBar />

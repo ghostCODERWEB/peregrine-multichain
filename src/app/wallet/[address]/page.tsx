@@ -288,7 +288,7 @@ function RotationsCard({ address, mode }: { address: string; mode: DisplayMode }
       sub="This wallet's part in chain-to-chain rotations: sold on one chain, bought on another within 12h."
       action={
         <Link href="/#fronts-title" className="text-[12px] text-brand hover:underline">
-          Capital Flows <Go />
+          Chain flows <Go />
         </Link>
       }
     >

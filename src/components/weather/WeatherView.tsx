@@ -83,9 +83,11 @@ export function WeatherView({
       <StormTicker storms={data.storms} />
     </Card>
   );
+  // Trader order: where money moves between chains, then leverage, then event odds, then sector baskets.
+  const ORDER = ['perps', 'predictions', 'sectors'];
   const views = [
-    { value: 'spot', label: 'Spot' },
-    ...(data.layers ?? []).map((l) => ({
+    { value: 'spot', label: 'Chain flows' },
+    ...[...(data.layers ?? [])].sort((a, b) => (ORDER.indexOf(a.id) + 99) % 99 - (ORDER.indexOf(b.id) + 99) % 99).map((l) => ({
       value: l.id,
       label: ({ perps: 'Perps', sectors: 'Sectors', predictions: 'Predictions' } as Record<string, string>)[l.id] ?? l.title,
     })),
@@ -176,7 +178,7 @@ export function WeatherView({
                 </dl>
                 <div className="seq mt-7 flex flex-wrap gap-2" style={{ '--i': 3 } as React.CSSProperties}>
                   <Link href="/flows" className="pill-button pill-primary">
-                    Open Capital Flows <span className="arrow" aria-hidden><Go /></span>
+                    Open Chain flows <span className="arrow" aria-hidden><Go /></span>
                   </Link>
                 </div>
               </div>
@@ -254,7 +256,7 @@ export function WeatherView({
               <>
                 <Card
                   id="fronts-title"
-                  title={withheld ? 'Capital flows: key-owner view only' : 'Capital Flows'}
+                  title={withheld ? 'Wallet rotations: key-owner view only' : 'Wallet rotations'}
                   sub="Same wallets moving between chains within 12 hours"
                   className="xl:col-span-8"
                   action={
@@ -293,7 +295,7 @@ export function WeatherView({
                       ))}
                     </ul>
                   ) : (
-                    <p className="text-sm text-ink-muted">No rotations in 24 hours. Try a longer window in Capital Flows.</p>
+                    <p className="text-sm text-ink-muted">No rotations in 24 hours. Try a longer window in Chain flows.</p>
                   )}
                 </Card>
               </>

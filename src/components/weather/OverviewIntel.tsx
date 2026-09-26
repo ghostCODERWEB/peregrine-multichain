@@ -89,7 +89,7 @@ export function OverviewIntel({ mode }: { mode: DisplayMode }) {
   return (
     <div className="xl:col-span-12">
     <div className="mb-4"><MarketPulse mode={mode} /></div>
-    {owner && <div className="mb-2 flex justify-end"><ExplainView view="overview" context={context} coins={['BTC', 'ETH', 'SOL']} /></div>}
+    {owner && <ExplainView view="overview" context={context} coins={['BTC', 'ETH', 'SOL']} />}
     <div className="stagger grid gap-4 md:grid-cols-2 2xl:grid-cols-4">
       {owner && cur && (
         <Module title="Smart Money on DEXs, 24h" href="/smart-money">

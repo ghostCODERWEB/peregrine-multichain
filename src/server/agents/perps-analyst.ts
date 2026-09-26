@@ -114,10 +114,13 @@ export function savedAnswers(symbol: string, limit = 8): SavedAnswer[] {
 
 /** "Explain this view" for any page module: the module's own data in, a short
  *  evidence-led explanation out (agent/fast, 200 credits, owner and members). */
-export async function* explainView(ctx: RequestContext, view: string, context: unknown): AsyncGenerator<AnalystEvent> {
+export async function* explainView(ctx: RequestContext, view: string, context: unknown, question?: string | null): AsyncGenerator<AnalystEvent> {
   if (ctx.mode === 'public') { yield { type: 'error', message: 'Explanations use wallet labels and Smart Money data, which Nansen allows only in the key owner\'s view.' }; return; }
   const json = JSON.stringify(context);
-  const text = `You are Peregrine's analyst, explaining one view of a Nansen-powered intelligence app. View: ${view}. ${RULES} Structure: what changed, which wallets or tokens drove it, which metrics support that, and the timeframe. Use only the data below unless a Nansen tool is needed to verify.\n\nData on screen (JSON):\n${json.length > MAX_CONTEXT_CHARS ? `${json.slice(0, MAX_CONTEXT_CHARS)}…(truncated)` : json}`;
+  const ask = question?.trim()
+    ? `Answer this question about it: "${question.trim().slice(0, 500)}". Lead with the direct answer.`
+    : 'Structure: what changed, which wallets or tokens drove it, which metrics support that, and the timeframe.';
+  const text = `You are Peregrine's analyst inside a Nansen-powered intelligence terminal. The user is looking at: ${view}. ${RULES} ${ask} Use the data below first; call a Nansen tool only to verify or fill a gap.\n\nData (JSON):\n${json.length > MAX_CONTEXT_CHARS ? `${json.slice(0, MAX_CONTEXT_CHARS)}…(truncated)` : json}`;
   let answer = '';
   const tools: string[] = [];
   try {

@@ -38,7 +38,7 @@ export function SmartMoneyState() {
     recentEvents: events.slice(0, 25).map((e) => ({ at: new Date(e.at).toISOString(), type: e.kind, wallet: e.wallet, label: e.label, action: e.verb, usd: Math.round(e.usd) })) };
   return (
     <div className="space-y-4">
-      <div className="flex justify-end"><ExplainView view="smart-money" context={context} /></div>
+      <ExplainView view="smart-money" context={context} />
       <StatStrip className="rise" stats={[
         { label: 'Smart Money DEX net, 24h', value: usd(net, { signed: true }), tone: net >= 0 ? 'in' : 'out', note: prevNet ? `prior 24h ${usd(prevNet, { signed: true })}` : undefined },
         { label: 'Inflow / outflow', value: `${usd(cur.inflow)} / ${usd(cur.outflow)}`, note: `${cur.w} wallets${prev.w ? ` (prior ${prev.w})` : ''}` },

@@ -9,7 +9,7 @@ export function MiniBars({ values, height = 44, label, title }: { values: number
   const max = Math.max(1e-9, ...values.map(Math.abs));
   const mid = height / 2, bw = W / values.length;
   return (
-    <svg viewBox={`0 0 ${W} ${height}`} className="draw block w-full" style={{ height }} role="img" aria-label={label} preserveAspectRatio="none">
+    <svg viewBox={`0 0 ${W} ${height}`} className="draw block w-full" style={{ height }} role="img" aria-label={label} data-series={JSON.stringify(values.map((v) => Math.round(v)))} preserveAspectRatio="none">
       <line x1={0} x2={W} y1={mid} y2={mid} stroke="var(--hair-2)" strokeWidth={1} vectorEffect="non-scaling-stroke" />
       {values.map((v, i) => {
         const h = Math.max(1, (Math.abs(v) / max) * (mid - 2));
@@ -40,7 +40,7 @@ export function MiniLines({ series, height = 40, label, min, max, baseline }: { 
     return d;
   };
   return (
-    <svg viewBox={`0 0 ${W} ${height}`} className="draw block w-full overflow-visible" style={{ height }} role="img" aria-label={label} preserveAspectRatio="none">
+    <svg viewBox={`0 0 ${W} ${height}`} className="draw block w-full overflow-visible" style={{ height }} role="img" aria-label={label} data-series={JSON.stringify(series.map((x) => x.values.map((v) => (v == null ? null : Math.round(v * 100) / 100))))} preserveAspectRatio="none">
       {baseline != null && baseline >= lo && baseline <= hi && <line x1={0} x2={W} y1={y(baseline)} y2={y(baseline)} stroke="var(--hair-2)" strokeDasharray="3 3" strokeWidth={1} />}
       {series.map((s, i) => (
         <g key={i}>

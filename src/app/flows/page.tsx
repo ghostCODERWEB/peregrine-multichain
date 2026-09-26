@@ -11,7 +11,7 @@ import { PageTitle } from '@/components/PageTitle';
 import { Go } from '@/components/ui/Icons';
 
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'Capital Flows · Peregrine' };
+export const metadata: Metadata = { title: 'Chain flows · Peregrine' };
 
 // P4: Capital Flows as its own page — the animated chain-to-chain map with
 // room, a 7-day rotation timeline and a chain leaderboard. All of it is read
@@ -34,7 +34,7 @@ export default async function FlowsPage() {
 
   return (
     <div className="space-y-5">
-      <PageTitle title="Spot flows" pill={flows ? 'Owner view · wallet rotations' : 'All traders · last 24 hours'} />
+      <PageTitle title="Chain flows" pill={flows ? 'Wallet rotations and net flow · 24h' : 'All traders · last 24 hours'} />
       <SpotState mode={mode} />
 
       <FlowsView initial={{fronts:flows?.fronts ?? [],chains,withheld:flows == null ? ['fronts'] : []}} netChains={netChains} />
