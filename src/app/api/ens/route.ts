@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { ensAddress, ensDebug, ensNames, ENS_NAME_RE } from '@/server/ens';
+import { ensAddress, ensNames, ENS_NAME_RE } from '@/server/ens';
 
 /** GET ?a=0x..,0x.. → { names: { addr: name|null } }; GET ?name=vitalik.eth → { address }. Public, cached. */
 export async function GET(req: Request) {
@@ -7,7 +7,6 @@ export async function GET(req: Request) {
   const name = q.get('name');
   if (name) {
     if (!ENS_NAME_RE.test(name)) return NextResponse.json({ address: null }, { status: 400 });
-    if (q.get('debug') === '1') return NextResponse.json(await ensDebug(name), { headers: { 'cache-control': 'no-store' } });
     return NextResponse.json({ address: await ensAddress(name) }, { headers: { 'cache-control': 'public, max-age=3600' } });
   }
   const list = (q.get('a') ?? '').split(',').map((s) => s.trim()).filter(Boolean).slice(0, 60);

@@ -60,7 +60,6 @@ export async function ensAddress(name: string): Promise<string | null> {
     .then((r) => { if (!r.ok) console.warn(`[ens] api ${norm}: HTTP ${r.status}`); return r.ok ? (r.json() as Promise<{ address?: string | null }>) : null; })
     .then((j) => (j?.address && isAddress(j.address) ? getAddress(j.address) : null))
     .catch((e: Error) => { console.warn(`[ens] api ${norm}: ${e.message.slice(0, 160)}`); return undefined; }));
-  if (!a) console.warn(`[ens] ${norm}: rpc=${String(viaRpc)} final=${String(a)}`);
   if (a === undefined) return hit ? hit.value || null : null; // both failed: keep what we had
   setKv(key, a ?? '');
   // A forward record can point at any wallet. Never promote it to a primary
@@ -68,14 +67,3 @@ export async function ensAddress(name: string): Promise<string | null> {
   return a ?? null;
 }
 
-/** Diagnostics for one name: each source's raw answer, uncached. */
-export async function ensDebug(name: string) {
-  const out: Record<string, unknown> = { name };
-  try { out.norm = normalize(name); } catch (e) { out.normErr = (e as Error).message.slice(0, 160); }
-  const norm = (out.norm as string) ?? name.toLowerCase();
-  out.rpc = await client.getEnsAddress({ name: norm }).then((a) => a ?? null, (e: Error) => `ERR ${e.message.split('\n')[0].slice(0, 200)}`);
-  out.api = await fetch(`https://api.ensideas.com/ens/resolve/${encodeURIComponent(norm)}`, { signal: AbortSignal.timeout(6_000) })
-    .then(async (r) => `${r.status} ${(await r.text()).slice(0, 160)}`, (e: Error) => `ERR ${e.message.slice(0, 160)}`);
-  out.cached = getKv(`ens3:addr:${norm}`);
-  return out;
-}
