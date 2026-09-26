@@ -1,4 +1,5 @@
 import { LockedPanel } from '@/components/ui/SurfaceKit';
+import { friendlyError } from '@/lib/friendly-error';
 import type { ReactNode } from 'react';
 
 /** The page section every dashboard card uses: an insight title (states
@@ -28,5 +29,5 @@ export function WaveLoading({ what, height = 200 }: { what: string; height?: num
 
 export function Unavailable({ text }: { text: string }) {
   if (/redistribution|withheld|key owner|key-owner|owner.only|own Nansen key|public views/i.test(text)) return <LockedPanel reason={text} />;
-  return <p className="rounded border border-dashed border-border px-3 py-4 text-[13px] text-ink-2">{text}</p>;
+  return <p className="rounded border border-dashed border-border px-3 py-4 text-[13px] text-ink-2">{friendlyError(text)}</p>;
 }

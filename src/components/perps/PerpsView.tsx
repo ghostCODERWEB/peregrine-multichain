@@ -1,4 +1,5 @@
 'use client';
+import { Flag } from 'lucide-react';
 import { FilterBox } from '@/components/FilterBox';
 import Link from 'next/link';
 import { TokenLogo } from '@/components/Logo';
@@ -440,7 +441,7 @@ export function PerpsView({ board, title, mode, analytics }: { board: PerpBoard;
                     >
                       <td className="py-1.5">
                         <Sym s={c.symbol} className="text-ink" />
-                        {c.divergence && <span className="ml-1 text-[10px] text-ink-2">⚑</span>}
+                        {c.divergence && <Flag className="ml-1 inline h-3 w-3 text-[var(--amber)]" aria-label="Crowd and Smart Money disagree" />}
                       </td>
                       <td>
                         <span

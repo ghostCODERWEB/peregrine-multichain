@@ -1,4 +1,5 @@
 'use client';
+import { ArrowUpRight } from 'lucide-react';
 import { polymarketMarket } from '@/config/external';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -51,7 +52,7 @@ export function PredictMarketView({ market, detail, outcomes, owner, analytics }
           {(market?.volumeTotal != null || market?.createdAt) && <p className="num mt-1 text-[12px] text-ink-muted">{market?.volumeTotal != null ? `${usd(market.volumeTotal)} traded all time` : ''}{market?.createdAt ? ` · opened ${market.createdAt.slice(0, 10)}` : ''}{market?.volumeChangePct != null ? ` · volume ${market.volumeChangePct >= 0 ? '+' : '−'}${Math.abs(Math.round(market.volumeChangePct))}% vs the prior period` : ''}</p>}
         </div>
         {market?.slug && (
-          <a href={polymarketMarket(market.slug)} target="_blank" rel="noopener noreferrer" className="pill-button pill-primary shrink-0 text-[13px]">Trade on Polymarket <span aria-hidden>↗</span></a>
+          <a href={polymarketMarket(market.slug)} target="_blank" rel="noopener noreferrer" className="pill-button pill-primary shrink-0 text-[13px]">Trade on Polymarket <ArrowUpRight className="h-3.5 w-3.5 shrink-0" aria-hidden /></a>
         )}
         <ExplainView view="prediction-market" context={{ question: market?.question, event: market?.eventTitle, impliedProbability: last, change24h: market?.change1d, volume24h: market?.volume24h, openInterest: market?.openInterest, holders: { yesUsd: bal.yesUsd, noUsd: bal.noUsd, yesInProfit: bal.yesInProfit, noInProfit: bal.noInProfit }, outcomes: outcomes.outcomes.slice(0, 10).map((o) => ({ outcome: o.question, probability: o.price, change24h: o.change1d })), skilledCheck: rec && !('error' in rec) ? { skilledHolders: rec.skilled, skilledYesShare: rec.skilledYesShare, divergence: rec.divergence } : null }} />
       </header>

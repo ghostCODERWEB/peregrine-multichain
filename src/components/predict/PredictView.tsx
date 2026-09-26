@@ -1,4 +1,5 @@
 'use client';
+import { ArrowUpRight } from 'lucide-react';
 import { polymarketMarket } from '@/config/external';
 import { FilterBox } from '@/components/FilterBox';
 import Link from 'next/link';
@@ -310,7 +311,7 @@ export function PredictView({ board, title, analytics, series = {} }: { board: P
               action={
                 <span className="flex items-center gap-2 text-[12px] font-semibold">
                   <Link href={`/predict/${picked.id}`} className="text-brand hover:underline">Full analysis <Go /></Link>
-                  {picked.slug && <a href={polymarketMarket(picked.slug)} target="_blank" rel="noopener noreferrer" className="text-ink-2 hover:text-ink">Polymarket ↗</a>}
+                  {picked.slug && <a href={polymarketMarket(picked.slug)} target="_blank" rel="noopener noreferrer" className="text-ink-2 hover:text-ink">Polymarket <ArrowUpRight className="inline h-3.5 w-3.5" aria-hidden /></a>}
                 </span>
               }
             >

@@ -311,8 +311,8 @@ export function AllocationTreemap({ items, height = 320 }: { items: Array<{ chai
       animationDuration: 400,
       tooltip: { ...tip(c), formatter: (raw: unknown) => { const d = (raw as { data: { name: string; value: number; share?: number; chain?: string } }).data; return `<b>${d.name}</b>${d.chain ? ` · ${chainName(d.chain)}` : ''}<br/>${usd(d.value)}${d.share != null ? ` · ${(d.share * 100).toFixed(1)}%` : ''}`; } },
       series: [{
-        type: 'treemap', roam: false, nodeClick: false, breadcrumb: { show: false }, width: '100%', height: '100%', top: 0, left: 0,
-        levels: [{ itemStyle: { borderColor: c['surface-page'], borderWidth: 3, gapWidth: 3 } }, { itemStyle: { borderColor: c['surface-1'], borderWidth: 1, gapWidth: 1 } }],
+        type: 'treemap', name: 'Portfolio', roam: false, nodeClick: false, breadcrumb: { show: false }, width: '100%', height: '100%', top: 0, left: 0,
+        levels: [{ upperLabel: { show: false }, itemStyle: { borderColor: c['surface-page'], borderWidth: 0, gapWidth: 3 } }, { itemStyle: { borderColor: c['surface-page'], borderWidth: 3, gapWidth: 2 } }, { itemStyle: { borderColor: c['surface-1'], borderWidth: 1, gapWidth: 1 } }],
         upperLabel: { show: true, height: 18, color: c['ink-1'], fontSize: 11, fontWeight: 'bold' },
         label: { show: true, formatter: (p: { data: { name: string; share?: number } }) => `${p.data.name}\n${((p.data.share ?? 0) * 100).toFixed(1)}%`, color: '#fff', fontSize: 11, fontWeight: 'bold' },
         data: chains.map((ch, i) => ({ name: chainName(ch), value: items.filter((x) => x.chain === ch).reduce((a, x) => a + x.value, 0), itemStyle: { color: palette[i % palette.length] },

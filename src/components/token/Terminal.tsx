@@ -1,4 +1,5 @@
 'use client';
+import { ArrowUpRight } from 'lucide-react';
 // The token terminal's sections (M2). Each takes its wave's data; the
 // TokenView decides loading and unavailable states.
 import Link from 'next/link';
@@ -198,7 +199,7 @@ export function SocialPulse({ s }: { s: SocialWave }) {
                   rel="noopener noreferrer nofollow"
                   className="text-[11px] text-ink-muted hover:text-ink hover:underline"
                 >
-                  open post ↗
+                  open post <ArrowUpRight className="inline h-3 w-3" aria-hidden />
                 </a>
               )}
               {s.top.findIndex((q) => q.username === p.username) === i && <AuthorWeekButton username={p.username} symbol={s.symbol} />}

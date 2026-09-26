@@ -1,3 +1,4 @@
+import { NansenButton } from '@/components/shell/GetNansen';
 import Link from 'next/link';
 import { ProfilerTabs } from '@/components/research/ProfilerTabs';
 import { WalletPortfolio } from '@/components/research/WalletPortfolio';
@@ -76,7 +77,7 @@ export default async function WalletRoute({ params }: Params) {
           <p className="num mt-1 break-all text-[12.5px] text-ink-2">{address}</p>
         </div>
         <span className="flex items-center gap-2">
-          <a href={nansenWallet(address)} target="_blank" rel="noopener noreferrer" className="get-nansen inline-flex h-9 items-center gap-1.5 rounded-[12px] px-3.5 text-[13px] font-extrabold">Open in Nansen Profiler <span aria-hidden>↗</span></a>
+          <NansenButton href={nansenWallet(address)} label="Open in Nansen Profiler" size="sm" logo={false} />
           <AskNansen subject={{ kind: 'wallet', address, chain: null }} label={`the wallet ${shortAddress(address)}`} />
         </span>
       </div>

@@ -1,4 +1,5 @@
 'use client';
+import { friendlyError } from '@/lib/friendly-error';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { AddressLink } from '@/components/entity/AddressLink';
@@ -66,7 +67,7 @@ export function TokenTimeMachine({ chain, address, owner }: { chain: string; add
     void loadCore(); void loadOne('holders'); if (owner) void loadOne('pnl');
     // eslint-disable-next-line react-hooks/exhaustive-deps -- reload per date
   }, [date]);
-  const err = (x: { error: string }) => <p role="alert" className="text-[12.5px] text-[var(--flare)]">{x.error}</p>;
+  const err = (x: { error: string }) => <p role="alert" className="text-[12.5px] text-ink-2">{friendlyError(x.error)}</p>;
 
   return (
     <section aria-labelledby="tok-tm" className="material space-y-4 p-4 sm:p-5">
@@ -175,7 +176,7 @@ export function WalletTimeMachine({ address, current }: { address: string; curre
           {busy && <span className="text-[12px] text-ink-muted">Reading…</span>}
         </div>
       </div>
-      {res && 'error' in res && <p role="alert" className="text-[12.5px] text-[var(--flare)]">{res.error}</p>}
+      {res && 'error' in res && <p role="alert" className="text-[12.5px] text-ink-2">{friendlyError(res.error)}</p>}
       {res && !('error' in res) && (
         <>
           <div className="grid grid-cols-3 gap-px overflow-hidden rounded-[var(--r-inner)] border border-[var(--hair)] bg-[var(--hair)]">

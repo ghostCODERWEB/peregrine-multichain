@@ -1,4 +1,5 @@
 'use client';
+import { ArrowUpRight } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { Eye, EyeOff, GitCompare } from 'lucide-react';
@@ -174,7 +175,7 @@ function PositionDetail({ d, sel }: { d: TraderWorkspace; sel: { kind: 'open'; p
         <div className="mb-1 flex flex-wrap items-baseline gap-2">
           <h3 className="flex items-center gap-1.5 text-[14px] font-bold text-ink"><TokenLogo symbol={coin} coin={coin} size={18} />{coin} {sel.p.side} {sel.kind === 'closed' ? '(closed)' : ''}</h3>
           <span className="text-[11.5px] text-ink-muted">{events.length} fills in this position{sel.kind === 'open' && !o?.openedAt ? ' · opened before the fill history: showing 7 days' : ''}</span>
-          <a href={hyperliquidTrade(coin)} target="_blank" rel="noopener noreferrer" className="ml-auto text-[12px] font-semibold text-ink-2 hover:text-ink">{coin} on Hyperliquid ↗</a>
+          <a href={hyperliquidTrade(coin)} target="_blank" rel="noopener noreferrer" className="ml-auto text-[12px] font-semibold text-ink-2 hover:text-ink">{coin} on Hyperliquid <ArrowUpRight className="inline h-3.5 w-3.5" aria-hidden /></a>
         </div>
         <PositionChart coin={coin} start={start} end={end} events={events} entry={o?.entry ?? cl?.avgEntry} mark={o?.mark ?? null} liq={o?.liq ?? null} />
       </div>
