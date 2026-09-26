@@ -17,6 +17,7 @@ export const NAV: NavItem[] = [
   { href: '/smart-money', label: 'Smart money', icon: 'brain', group: 'Research', ownerOnly: true },
   { href: '/wallet', label: 'Profiler', icon: 'key', group: 'Research' },
   { href: '/portfolio', label: 'Portfolio', icon: 'briefcase', group: 'Research' },
+  { href: '/history', label: 'History', icon: 'gauge', group: 'Research' },
   { href: '/lab', label: 'Backtest Lab', icon: 'flask', group: 'Research' },
   { href: '/desk', label: 'Desk', icon: 'notebook', group: 'Act' },
   { href: '/agent', label: 'Ask Nansen', icon: 'bot', group: 'Act', ownerOnly: true },

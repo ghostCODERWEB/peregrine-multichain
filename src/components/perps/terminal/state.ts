@@ -7,7 +7,7 @@ import { useCallback, useMemo } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import type { Cohort, Side } from '@/lib/perps/positions';
 
-export type Tab = 'positions' | 'proximity' | 'leverage' | 'entries' | 'trades' | 'changes' | 'cohorts';
+export type Tab = 'leaders' | 'positions' | 'proximity' | 'leverage' | 'entries' | 'trades' | 'changes' | 'cohorts';
 export const TABS: Array<{ key: Tab; label: string }> = [
   { key: 'positions', label: 'Positions' },
   { key: 'proximity', label: 'Near liquidation' },
@@ -16,6 +16,7 @@ export const TABS: Array<{ key: Tab; label: string }> = [
   { key: 'leverage', label: 'Leverage' },
   { key: 'entries', label: 'Entries' },
   { key: 'trades', label: 'Trades' },
+  { key: 'leaders', label: 'PnL leaders' },
 ];
 export type WindowKey = '15m' | '1h' | '4h' | '24h' | '7d';
 export const WINDOWS: WindowKey[] = ['15m', '1h', '4h', '24h', '7d'];

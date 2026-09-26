@@ -176,3 +176,21 @@ export async function snapshotScheduledCoins(log: (s: string) => void) {
     }
   }
 }
+
+export interface PnlLeader { suspect?: boolean; address: string; label: string | null; pnlUsd: number | null; realizedUsd: number | null; unrealizedUsd: number | null; positionUsd: number | null; roi: number | null; trades: number | null }
+
+/** Who made money on this coin's perp over 30 days (tgm/perp-pnl-leaderboard, 5 credits, owner view). */
+export async function perpPnlLeaders(symbol: string): Promise<PnlLeader[]> {
+  const body = { token_symbol: symbol, date: { from: requestDay(30), to: requestDay(0) }, pagination: { page: 1, per_page: 100 }, order_by: [{ field: 'pnl_usd_total', direction: 'DESC' }] };
+  const r = await traced<{ data: Array<Record<string, unknown>> }>('tgm/perp-pnl-leaderboard', body, 5);
+  // Nansen occasionally returns corrupt totals (trillions of dollars, billion-percent ROI).
+  // Such rows are kept but flagged, their figures withheld, so they never lead the ranking.
+  const PLAUSIBLE_USD = 1e11, PLAUSIBLE_ROI = 1e6;
+  return (r.data.data ?? []).map((t) => ({
+    address: s(t.trader_address) ?? '', label: s(t.trader_address_label), pnlUsd: n(t.pnl_usd_total), realizedUsd: n(t.pnl_usd_realised),
+    unrealizedUsd: n(t.pnl_usd_unrealised), positionUsd: n(t.position_value_usd), roi: n(t.roi_percent_total), trades: n(t.nof_trades),
+  })).map((l) => {
+    const bad = [l.pnlUsd, l.realizedUsd, l.unrealizedUsd, l.positionUsd].some((v) => v != null && Math.abs(v) > PLAUSIBLE_USD) || (l.roi != null && Math.abs(l.roi) > PLAUSIBLE_ROI);
+    return bad ? { ...l, suspect: true, pnlUsd: null, realizedUsd: null, unrealizedUsd: null, roi: null } : l;
+  });
+}

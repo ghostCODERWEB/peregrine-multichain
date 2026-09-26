@@ -13,7 +13,7 @@ import { Go } from '@/components/ui/Icons';
 const DEMO = '0xcbb811f129782ef87e19dea9d3375045219bae00';
 const button = 'rounded-lg border border-border px-3 py-2 text-sm text-ink hover:bg-accent disabled:opacity-50';
 
-export function PortfolioView({ demo }: { demo: boolean }) {
+export function PortfolioView({ demo, suggestions = [] }: { demo: boolean; suggestions?: Array<{ address: string; label: string | null }> }) {
   const [input, setInput] = useState(''),
     [canSave, setCanSave] = useState(false);
   const [p, setP] = useState<Portfolio | null>(null),
@@ -104,6 +104,12 @@ export function PortfolioView({ demo }: { demo: boolean }) {
           <button className={button} disabled={!!busy || !canSave} onClick={() => run('save')}>
             Save watch set
           </button>
+          {suggestions.length > 0 && (
+            <button className={button} disabled={!!busy} title={suggestions.map((w) => w.label ?? w.address).join('\n')}
+              onClick={() => { setInput(suggestions.map((w) => w.address).join('\n')); setP(null); setStress(null); }}>
+              Load the 5 largest Smart Money wallets
+            </button>
+          )}
           {demo && (
             <button
               className={button}

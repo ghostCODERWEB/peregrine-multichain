@@ -14,7 +14,7 @@ import type { Provenance } from '@/lib/provenance';
 import { AnalystPanel } from './AnalystPanel';
 import { ChangesPanel, ShiftCard, useChanges } from './ChangesPanel';
 import { LiquidationRadar } from './LiquidationRadar';
-import { BandInspector, CohortMatrix, DataTable, EntryChart, LeverageChart, ProximityTable, TradesTable, positionCols } from './Panels';
+import { BandInspector, CohortMatrix, DataTable, EntryChart, LeverageChart, PnlLeaders, ProximityTable, TradesTable, positionCols } from './Panels';
 import { TABS, useTerminalState, type Tab } from './state';
 
 
@@ -239,6 +239,7 @@ export function PerpsTerminal({ symbol, coins, owner }: { symbol: string; coins:
               <DataTable rows={inBand} cols={cols} rowKey={(p) => `${p.address}:${p.side}`} initialSort={{ key: 'value', dir: -1 }} onRowHover={(p) => setHoverLiq(p?.liq ?? null)}
                 label="Observed positions" empty={<>No positions match these filters. {activeChips.length > 0 && <button type="button" className="font-semibold text-brand" onClick={() => set({ cohort: 'all', side: 'both', minLeverage: 1, minUsd: 0, band: null, entry: null })}>Clear filters</button>}</>} />
             )}
+            {state.tab === 'leaders' && (owner ? <PnlLeaders symbol={symbol} /> : <p className="text-[13px] text-ink-muted">Nansen allows the PnL leaderboard only in the key owner&apos;s view.</p>)}
             {state.tab === 'proximity' && <ProximityTable positions={inEntry} mark={mark} onHover={setHoverLiq} />}
             {state.tab === 'changes' && <ChangesPanel data={changes} win={state.win} onWin={(w) => set({ win: w })} cohort={filters.cohort} />}
             {state.tab === 'cohorts' && <CohortMatrix positions={data.positions} mark={mark} available={available} active={filters.cohort} onPick={(c) => set({ cohort: c })} />}

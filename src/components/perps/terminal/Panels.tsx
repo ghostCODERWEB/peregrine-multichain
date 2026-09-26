@@ -1,5 +1,5 @@
 'use client';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ArrowDown, ArrowUp } from 'lucide-react';
 import { AddressLink } from '@/components/entity/AddressLink';
 import { CohortBadges } from '@/components/entity/CohortBadges';
@@ -248,4 +248,26 @@ export function TradesTable({ trades, label }: { trades: PerpTrade[]; label: str
 export function ProximityTable({ positions, mark, onHover }: { positions: Position[]; mark: number; onHover: (liq: number | null) => void }) {
   const rows = useMemo(() => nearestToLiquidation(positions, mark, 200).map((x) => x.p), [positions, mark]);
   return <DataTable rows={rows} cols={positionCols(mark)} rowKey={(p) => `${p.address}:${p.side}`} initialSort={{ key: 'dist', dir: 1 }} onRowHover={(p) => onHover(p?.liq ?? null)} label="Positions nearest to liquidation" empty="No positions with a liquidation price match these filters." />;
+}
+
+export function PnlLeaders({ symbol }: { symbol: string }) {
+  const [rows, setRows] = useState<import('@/server/perps/terminal').PnlLeader[] | { error: string } | null>(null);
+  useEffect(() => {
+    const ac = new AbortController();
+    fetch(`/api/perps/terminal?symbol=${encodeURIComponent(symbol)}&leaders=1`, { signal: ac.signal }).then(async (r) => { const d = await r.json(); setRows(r.ok ? d.leaders : { error: d.error }); }).catch(() => {});
+    return () => ac.abort();
+  }, [symbol]);
+  if (!rows) return <div className="h-40 animate-pulse rounded-[10px] bg-ink/5" />;
+  if ('error' in rows) return <p className="text-[13px] text-ink-muted">{rows.error}</p>;
+  type L = (typeof rows)[number];
+  const cols: Col<L>[] = [
+    { key: 'trader', label: 'Trader', cell: (t) => <span className="flex max-w-[280px]"><AddressLink address={t.address} label={t.label} /></span> },
+    { key: 'pnl', label: 'PnL, 30d', right: true, sort: (t) => t.pnlUsd, cell: (t) => (t.suspect ? <span className="text-ink-muted" title="Nansen returned implausible totals for this trader; figures withheld">implausible data</span> : pnlCell(t.pnlUsd)) },
+    { key: 'real', label: 'Realized', right: true, sort: (t) => t.realizedUsd, cell: (t) => pnlCell(t.realizedUsd) },
+    { key: 'unreal', label: 'Unrealized', right: true, sort: (t) => t.unrealizedUsd, cell: (t) => pnlCell(t.unrealizedUsd) },
+    { key: 'roi', label: 'ROI', right: true, sort: (t) => t.roi, cell: (t) => (t.roi == null ? 'n/a' : `${num(t.roi, 1)}%`) },
+    { key: 'pos', label: 'Open position', right: true, sort: (t) => t.positionUsd, cell: (t) => usd(t.positionUsd) },
+    { key: 'trades', label: 'Trades', right: true, sort: (t) => t.trades, cell: (t) => t.trades ?? 'n/a' },
+  ];
+  return <DataTable rows={rows} cols={cols} rowKey={(t) => t.address} initialSort={{ key: 'pnl', dir: -1 }} label="PnL leaders" empty="Nansen returned no PnL leaders for this coin." />;
 }

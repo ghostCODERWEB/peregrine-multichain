@@ -21,8 +21,11 @@ export function WorkspaceBar() {
 
   useEffect(() => {
     const nav = (window as unknown as { navigation?: Nav }).navigation;
-    const sync = () => setCan({ back: nav?.canGoBack ?? window.history.length > 1, forward: nav?.canGoForward ?? true });
-    sync();
+    const read = () => setCan({ back: nav?.canGoBack ?? window.history.length > 1, forward: nav?.canGoForward ?? true });
+    // Next writes history inside a React insertion effect, and the Navigation API
+    // reports it synchronously: defer, since state updates are not allowed there.
+    const sync = () => { setTimeout(read, 0); };
+    read();
     nav?.addEventListener?.('currententrychange', sync);
     return () => nav?.removeEventListener?.('currententrychange', sync);
   }, []);

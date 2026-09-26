@@ -51,6 +51,8 @@ export class FixtureMiss extends Error {
 }
 
 export function recordFixture(endpoint: string, request: unknown, rawResponse: unknown, publicSafe = false): void {
+  // FIXTURE_RECORD=0 (the local dev server): live calls leave the tracked fixtures alone.
+  if (process.env.FIXTURE_RECORD === '0') return;
   // Fixtures are published with the repo: only what Nansen allows, labels stripped.
   const response = publishableFixture(endpoint, request, rawResponse, publicSafe);
   if (response === null) return;
@@ -65,7 +67,10 @@ export function recordFixture(endpoint: string, request: unknown, rawResponse: u
   // Cap the library per endpoint so it stays a reasonable git-tracked size;
   // newest recordings displace the oldest once the cap is hit.
   const capped = entries.slice(-200);
-  fs.writeFileSync(file, JSON.stringify(capped, null, 2));
+  // Atomic: a concurrent reader never sees half a file.
+  const tmp = `${file}.${process.pid}.tmp`;
+  fs.writeFileSync(tmp, JSON.stringify(capped, null, 2));
+  fs.renameSync(tmp, file);
 }
 
 export function replayFixture<T>(endpoint: string, request: unknown): T {
