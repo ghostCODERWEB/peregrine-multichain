@@ -1,4 +1,5 @@
 'use client';
+import { hyperliquidTrade } from '@/config/external';
 import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -152,6 +153,7 @@ export function PerpsTerminal({ symbol, coins, owner, positioning = [] }: { symb
           </span>
           <button type="button" onClick={refresh} disabled={loading} aria-label="Refresh" className="pill-button pill-secondary min-h-[34px] px-3"><RefreshCw className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`} aria-hidden /></button>
           <Link href={`/perps/compare?a=${encodeURIComponent(symbol)}&b=${symbol === 'BTC' ? 'ETH' : 'BTC'}`} className="pill-button pill-secondary min-h-[34px] px-3.5 text-[12.5px]">Compare</Link>
+          <a href={hyperliquidTrade(symbol)} target="_blank" rel="noopener noreferrer" className="pill-button pill-secondary min-h-[34px] px-3.5 text-[12.5px]">Trade on Hyperliquid <span aria-hidden>↗</span></a>
           <button type="button" onClick={() => goTab('changes')} className="pill-button pill-secondary min-h-[34px] px-3.5 text-[12.5px]"><History className="h-3.5 w-3.5" aria-hidden />What changed?</button>
         </div>
       </header>

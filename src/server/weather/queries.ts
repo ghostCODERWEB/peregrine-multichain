@@ -1,6 +1,7 @@
 // Read side of the scanner: turns stored snapshots and trades into what the
 // pages show. No Nansen calls here — everything is derived from TIDE's own
 // history, which is why the map loads instantly and costs nothing to view.
+import { properAddress } from '@/server/nansen/address-case';
 import { getDb } from '@/server/nansen/db';
 import { tokenLogos, logoOf } from '@/server/token/meta';
 import { pressureBand, type Window } from '@/lib/models/cpi';
@@ -315,7 +316,7 @@ export function stormTicker(limit = 12, now = Date.now()): StormTick[] {
   `).all(now - 48 * 3_600_000, limit) as Array<{ chain: string; token_address: string; symbol: string | null; score: number; band: StormTick['band']; confidence: number; missing: string; source: StormTick['source']; computed_at: number }>;
   const logos = tokenLogos(rows.map((r) => ({ chain: r.chain, address: r.token_address })));
   return rows.map((r) => ({
-    chain: r.chain, tokenAddress: r.token_address, symbol: r.symbol, score: r.score, band: r.band,
+    chain: r.chain, tokenAddress: properAddress(r.chain, r.token_address), symbol: r.symbol, score: r.score, band: r.band,
     confidence: r.confidence, missing: JSON.parse(r.missing) as string[], source: r.source, computedAt: r.computed_at,
     logo: logoOf(logos, r.chain, r.token_address),
   }));

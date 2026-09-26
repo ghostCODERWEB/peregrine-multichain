@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { properAddress } from '@/server/nansen/address-case';
 import { TokenLogo } from '@/components/Logo';
 import { getDb } from '@/server/nansen/db';
 import { chainName, usd } from '@/lib/viz/format';
@@ -27,12 +28,13 @@ export function RiskBoard() {
           <tbody>
             {rows.map((r) => {
               const sub = JSON.parse(r.sub) as Record<string, number | null>;
+              const addr = properAddress(r.chain, r.t);
               const [band, color] = BAND[r.band] ?? [r.band, 'var(--ink-2)'];
               return (
                 <tr key={`${r.chain}:${r.t}`} className="border-t border-[var(--hair)] hover:bg-[var(--surface-2)]">
                   <td className="py-1.5 pr-3">
-                    <Link href={`/rug/${r.chain}/${encodeURIComponent(r.t)}`} className="flex items-center gap-2 font-semibold text-ink hover:underline">
-                      <TokenLogo symbol={r.symbol} chain={r.chain} address={r.t} size={18} />{r.symbol ?? r.t.slice(0, 6)}<span className="font-normal text-ink-muted">{chainName(r.chain)}</span>
+                    <Link href={`/rug/${r.chain}/${encodeURIComponent(addr)}`} className="flex items-center gap-2 font-semibold text-ink hover:underline">
+                      <TokenLogo symbol={r.symbol} chain={r.chain} address={addr} size={18} />{r.symbol ?? r.t.slice(0, 6)}<span className="font-normal text-ink-muted">{chainName(r.chain)}</span>
                     </Link>
                   </td>
                   <td className="pr-3">

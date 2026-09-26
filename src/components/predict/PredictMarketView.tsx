@@ -1,9 +1,10 @@
 'use client';
+import { polymarketMarket } from '@/config/external';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { AddressLink } from '@/components/entity/AddressLink';
+import { DepthChart, ProbabilityChart } from '@/components/charts/IntelCharts';
 import { ExplainView } from '@/components/ExplainView';
-import { AreaSpark } from '@/components/viz/AreaSpark';
 import { StatStrip } from '@/components/StatStrip';
 import { Go } from '@/components/ui/Icons';
 import { pct, usd } from '@/lib/viz/format';
@@ -14,7 +15,7 @@ import type { PmPosition } from '@/server/predict/trader';
 const pts = (v: number | null | undefined) => (v == null ? 'n/a' : `${v > 0 ? '+' : v < 0 ? '−' : ''}${Math.abs(Math.round(v * 100))} pts`);
 const prob = (v: number | null | undefined) => (v == null ? 'n/a' : `${(v * 100).toFixed(v < 0.1 ? 1 : 0)}%`);
 
-export function PredictMarketView({ market, detail, outcomes, owner }: { market: PmMarket | null; detail: PmDetail; outcomes: OutcomeBoard; owner: boolean }) {
+export function PredictMarketView({ market, detail, outcomes, owner, analytics }: { market: PmMarket | null; detail: PmDetail; outcomes: OutcomeBoard; owner: boolean; analytics?: React.ReactNode }) {
   const [rec, setRec] = useState<PmRecords | { error: string } | null>(null);
   const [, setBusy] = useState(false);
   const [pos, setPos] = useState<{ positions: PmPosition[]; tally: { credits: number } } | { error: string } | null>(null);
@@ -47,7 +48,11 @@ export function PredictMarketView({ market, detail, outcomes, owner }: { market:
         <div className="min-w-0 max-w-[80ch]">
           <p className="text-[12px] text-ink-muted">Polymarket via Nansen{market?.endDate ? ` · ends ${market.endDate.slice(0, 10)}` : ''}{market?.tags.length ? ` · ${market.tags.slice(0, 3).join(', ')}` : ''}</p>
           <h1 className="t-headline mt-1 text-ink">{market?.question ?? `Market ${detail.id}`}</h1>
+          {(market?.volumeTotal != null || market?.createdAt) && <p className="num mt-1 text-[12px] text-ink-muted">{market?.volumeTotal != null ? `${usd(market.volumeTotal)} traded all time` : ''}{market?.createdAt ? ` · opened ${market.createdAt.slice(0, 10)}` : ''}{market?.volumeChangePct != null ? ` · volume ${market.volumeChangePct >= 0 ? '+' : '−'}${Math.abs(Math.round(market.volumeChangePct))}% vs the prior period` : ''}</p>}
         </div>
+        {market?.slug && (
+          <a href={polymarketMarket(market.slug)} target="_blank" rel="noopener noreferrer" className="pill-button pill-primary shrink-0 text-[13px]">Trade on Polymarket <span aria-hidden>↗</span></a>
+        )}
         <ExplainView view="prediction-market" context={{ question: market?.question, event: market?.eventTitle, impliedProbability: last, change24h: market?.change1d, volume24h: market?.volume24h, openInterest: market?.openInterest, holders: { yesUsd: bal.yesUsd, noUsd: bal.noUsd, yesInProfit: bal.yesInProfit, noInProfit: bal.noInProfit }, outcomes: outcomes.outcomes.slice(0, 10).map((o) => ({ outcome: o.question, probability: o.price, change24h: o.change1d })), skilledCheck: rec && !('error' in rec) ? { skilledHolders: rec.skilled, skilledYesShare: rec.skilledYesShare, divergence: rec.divergence } : null }} />
       </header>
       <StatStrip className="rise" stats={[
@@ -57,6 +62,7 @@ export function PredictMarketView({ market, detail, outcomes, owner }: { market:
         { label: 'Bid / ask', value: bestBid != null && bestAsk != null ? `${prob(bestBid)} / ${prob(bestAsk)}` : 'n/a', note: spread != null ? `spread ${pts(spread)}` : undefined },
         { label: 'Traders, 24h', value: market?.traders24h?.toLocaleString('en-US') ?? 'n/a' },
       ]} />
+      {analytics}
 
       {outcomes.outcomes.length > 1 && (
         <section aria-labelledby="outcomes" className="material p-4 sm:p-5">
@@ -87,12 +93,12 @@ export function PredictMarketView({ market, detail, outcomes, owner }: { market:
       <div className="grid gap-4 xl:grid-cols-3">
         <section aria-labelledby="price" className="material min-w-0 p-4 sm:p-5 xl:col-span-2">
           <h2 id="price" className="t-section mb-2">Implied probability</h2>
-          {detail.candles.length > 1 ? <AreaSpark values={detail.candles.map((c) => ({ t: new Date(c.t).getTime(), value: c.close * 100 }))} color="var(--signal)" label="Implied probability, percent" height={200} />
-            : <p className="text-[13px] text-ink-muted">Nansen returned no price history for this market.</p>}
-          <p className="mt-1 text-[11.5px] text-ink-muted">YES price as a percentage · {detail.candles.length} points</p>
+          <ProbabilityChart candles={detail.candles} />
+          <p className="mt-1 text-[11.5px] text-ink-muted">YES price and hourly volume · {detail.candles.length} hours · scroll or drag to zoom</p>
         </section>
         <section aria-labelledby="book" className="material min-w-0 p-4 sm:p-5">
           <h2 id="book" className="t-section mb-2">Order book</h2>
+          {detail.book && <DepthChart bids={detail.book.bids} asks={detail.book.asks} />}
           {detail.book ? (
             <div className="grid grid-cols-2 gap-3 text-[12.5px]">
               {(['bids', 'asks'] as const).map((k) => (
@@ -144,8 +150,8 @@ export function PredictMarketView({ market, detail, outcomes, owner }: { market:
                 {rec.skilledYesShare != null && <> Skilled value is <span className="font-semibold">{pct(rec.skilledYesShare, 0)} on YES</span> against a {prob(rec.price)} price{rec.divergence != null ? <> ({rec.divergence >= 0 ? '+' : '−'}{Math.abs(Math.round(rec.divergence * 100))} pts)</> : null}.</>}
               </p>
               <ol className="divide-y divide-[var(--hair)]">
-                {rec.records.map((r) => (
-                  <li key={r.address} className="flex items-center gap-2 py-1.5">
+                {rec.records.map((r, i) => (
+                  <li key={`${r.address}:${r.side}:${i}`} className="flex items-center gap-2 py-1.5">
                     <span className="w-9 font-semibold" style={{ color: /^yes$/i.test(r.side) ? 'var(--mint)' : 'var(--flare)' }}>{r.side}</span>
                     <span className="min-w-0 flex-1"><AddressLink address={r.address} /></span>
                     {r.skilled && <span className="rounded bg-[color-mix(in_srgb,var(--signal)_16%,transparent)] px-1.5 text-[10.5px] font-bold text-[var(--signal)]">skilled</span>}

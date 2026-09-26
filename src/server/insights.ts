@@ -9,12 +9,13 @@ import { perpBoard } from '@/server/perps/board';
 import { sectorWeather } from '@/server/sectors/weather';
 import { weatherMap } from '@/server/weather/queries';
 import { capitalFlows } from '@/server/weather/bulletin';
-import { predictBoard } from '@/server/predict/board';
+import { predictBoard, marketDetail, MARKET_ID_RE } from '@/server/predict/board';
+import { marketAnalytics } from '@/server/predict/market';
 import { predictOverview } from '@/server/predict/overview';
 import { chainName, pct, usd } from '@/lib/viz/format';
 
-export type InsightKey = 'pulse' | 'perps' | 'sectors' | 'predict' | 'flows';
-export const BRIEF_SUBJECT: Record<InsightKey, string> = {
+export type InsightKey = 'pulse' | 'perps' | 'sectors' | 'predict' | 'flows' | `pm-${string}`;
+export const BRIEF_SUBJECT: Record<'pulse' | 'perps' | 'sectors' | 'predict' | 'flows', string> = {
   pulse: 'the crypto market', perps: 'Hyperliquid perpetuals', sectors: 'sector rotation', predict: 'Polymarket prediction markets', flows: 'cross-chain capital flows',
 };
 
@@ -146,5 +147,21 @@ export async function insightsFor(key: InsightKey, mode: DisplayMode): Promise<P
   if (key === 'perps') return perpsAnalytics(mode).insights;
   if (key === 'sectors') return sectorsAnalytics(mode).insights;
   if (key === 'flows') return flowsAnalytics(mode).insights;
+  if (key.startsWith('pm-')) {
+    const id = key.slice(3);
+    if (!MARKET_ID_RE.test(id)) return [];
+    const [board, detail] = await Promise.all([predictBoard(), marketDetail(id)]);
+    return (await marketAnalytics(id, detail, board)).insights;
+  }
   return (await predictOverview(await predictBoard())).insights;
+}
+
+/** The brief's subject: a fixed page, or one market's question. */
+export async function briefSubject(key: InsightKey): Promise<string | null> {
+  if (key in BRIEF_SUBJECT) return BRIEF_SUBJECT[key as keyof typeof BRIEF_SUBJECT];
+  if (key.startsWith('pm-') && MARKET_ID_RE.test(key.slice(3))) {
+    const m = (await predictBoard()).markets.find((x) => x.id === key.slice(3));
+    return m ? `the Polymarket market "${m.question}"` : 'one Polymarket market';
+  }
+  return null;
 }

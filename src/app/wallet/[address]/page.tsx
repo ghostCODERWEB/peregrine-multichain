@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { nansenWallet } from '@/config/external';
 import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
@@ -72,7 +73,10 @@ export default async function WalletRoute({ params }: Params) {
           </h1>
           <p className="num mt-1 break-all text-[12.5px] text-ink-2">{address}</p>
         </div>
-        <AskNansen subject={{ kind: 'wallet', address, chain: null }} label={`the wallet ${shortAddress(address)}`} />
+        <span className="flex items-center gap-2">
+          <a href={nansenWallet(address)} target="_blank" rel="noopener noreferrer" className="get-nansen inline-flex h-9 items-center gap-1.5 rounded-[12px] px-3.5 text-[13px] font-extrabold">Open in Nansen Profiler <span aria-hidden>↗</span></a>
+          <AskNansen subject={{ kind: 'wallet', address, chain: null }} label={`the wallet ${shortAddress(address)}`} />
+        </span>
       </div>
 
       {mode === 'owner' && <WalletQuickRead address={address} />}

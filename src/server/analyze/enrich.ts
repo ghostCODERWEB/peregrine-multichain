@@ -14,7 +14,7 @@ export function enrichSelection(sel: Sel, now = Date.now()): Record<string, unkn
         FROM smart_money_trades WHERE chain = ? AND token_address = ? AND traded_at >= ?`).get(sel.chain, sel.address, now - D);
       const wallets = db.prepare(`SELECT wallet, MAX(wallet_label) AS label, SUM(CASE WHEN side='buy' THEN usd_value ELSE -usd_value END) AS net FROM smart_money_trades
         WHERE chain = ? AND token_address = ? AND traded_at >= ? GROUP BY wallet ORDER BY ABS(net) DESC LIMIT 8`).all(sel.chain, sel.address, now - D);
-      const risk = db.prepare('SELECT score, band, sub_scores, market_cap_usd, price_usd, computed_at FROM storm_scores WHERE chain = ? AND token_address = ? ORDER BY computed_at DESC LIMIT 1').get(sel.chain, sel.address);
+      const risk = db.prepare('SELECT score, band, sub_scores, market_cap_usd, price_usd, computed_at FROM storm_scores WHERE chain = ? AND token_address = ? ORDER BY computed_at DESC LIMIT 1').get(sel.chain, sel.address.toLowerCase());
       return { smartMoneyDex24h: flow, largestSmartMoneyWallets24h: wallets, dumpRisk: risk ?? null };
     }
     if (sel.kind === 'wallet' && sel.address) {

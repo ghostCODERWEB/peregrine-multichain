@@ -1,8 +1,10 @@
 'use client';
+import { polymarketMarket } from '@/config/external';
 import { FilterBox } from '@/components/FilterBox';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { MiniLines } from '@/components/charts/Mini';
+import { Go } from '@/components/ui/Icons';
 import { MoodRing, MoodWord } from '@/components/viz/MoodRing';
 import { Card, WaveLoading, Unavailable } from '@/components/Card';
 import { InfoPopover } from '@/components/InfoPopover';
@@ -305,7 +307,12 @@ export function PredictView({ board, title, analytics, series = {} }: { board: P
               className="lg:col-span-2"
               title={`${picked.question}: ${impliedPct(picked.price)} (${pts(picked.change1d)} today)`}
               sub={`${picked.eventTitle ?? ''}${picked.endDate ? ` · ends in ${ends(picked.endDate)}` : ''}. YES implied probability, hourly.`}
-              action={detail.state === 'ok' ? <InfoPopover p={detail.data.provenance} /> : undefined}
+              action={
+                <span className="flex items-center gap-2 text-[12px] font-semibold">
+                  <Link href={`/predict/${picked.id}`} className="text-brand hover:underline">Full analysis <Go /></Link>
+                  {picked.slug && <a href={polymarketMarket(picked.slug)} target="_blank" rel="noopener noreferrer" className="text-ink-2 hover:text-ink">Polymarket ↗</a>}
+                </span>
+              }
             >
               {detail.state === 'ok' ? (
                 <ProbLine d={detail.data} />

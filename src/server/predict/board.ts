@@ -55,6 +55,11 @@ export interface PmMarket {
   bid: number | null;
   ask: number | null;
   negRisk: boolean;
+  /** Polymarket URL slug: polymarket.com/market/<slug> opens the live market. */
+  slug?: string | null;
+  volumeTotal?: number | null;
+  createdAt?: string | null;
+  volumeChangePct?: number | null;
 }
 export interface PmEvent {
   id: string;
@@ -122,6 +127,10 @@ export async function predictBoard(): Promise<PredictBoard> {
         bid: n(r.best_bid),
         ask: n(r.best_ask),
         negRisk: r.neg_risk === true,
+        slug: s(r.slug),
+        volumeTotal: n(r.volume),
+        createdAt: s(r.created_at),
+        volumeChangePct: n(r.volume_change_pct),
       }));
       const events: PmEvent[] = rows(e.data).map((r) => ({
         id: String(r.event_id),

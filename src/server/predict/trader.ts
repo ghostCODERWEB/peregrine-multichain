@@ -45,7 +45,7 @@ export async function marketPositions(id: string): Promise<{ positions: PmPositi
   return callScope.run(tally, async () => {
     const r = await traced<unknown>('prediction-market/position-detail', { market_id: id, pagination: { page: 1, per_page: 100 } }, 5);
     const positions = rows(r.data).map((x) => ({
-      owner: s(x.owner_address) ?? s(x.address) ?? '', outcome: s(x.outcome), balance: n(x.balance), buyCostUsd: n(x.buy_cost_usd), sellProceedsUsd: n(x.sell_proceeds_usd),
+      owner: (s(x.owner_address)?.length ?? 0) > 4 ? s(x.owner_address)! : s(x.address) ?? '', outcome: s(x.outcome), balance: n(x.balance), buyCostUsd: n(x.buy_cost_usd), sellProceedsUsd: n(x.sell_proceeds_usd),
       avgEntry: n(x.avg_entry_price), currentPrice: n(x.current_price), unrealizedUsd: n(x.unrealized_value_usd), pnlUsd: n(x.token_pnl_usd), resolved: !!x.market_resolved,
     })).sort((a, b) => (b.unrealizedUsd ?? 0) - (a.unrealizedUsd ?? 0));
     return { positions, tally };

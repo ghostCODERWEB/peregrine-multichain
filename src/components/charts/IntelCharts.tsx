@@ -241,3 +241,58 @@ export function HistoryLines({ series, format = 'usd', height = 260, label, zero
     </div>
   );
 }
+
+// ------------------------------------------------- prediction market charts
+
+/** Probability (line, 0–100) over hourly volume (bars), sharing a zoomable time axis with a crosshair. */
+export function ProbabilityChart({ candles, height = 340 }: { candles: Array<{ t: string; close: number; volume: number }>; height?: number }) {
+  const c = useThemeColors();
+  const option = useMemo(() => {
+    if (!c) return null;
+    const pts = candles.map((x) => [Date.parse(x.t), Math.round(x.close * 1000) / 10] as [number, number]);
+    const vol = candles.map((x) => [Date.parse(x.t), Math.round(x.volume)] as [number, number]);
+    return {
+      animationDuration: 500,
+      axisPointer: { link: [{ xAxisIndex: 'all' as const }] },
+      grid: [{ left: 48, right: 16, top: 12, height: '58%' }, { left: 48, right: 16, top: '74%', bottom: 44 }],
+      tooltip: { trigger: 'axis' as const, axisPointer: { type: 'cross' as const, lineStyle: { color: c.axis } }, ...tip(c), formatter: (raw: unknown) => {
+        const ps = raw as Array<{ seriesName: string; value: [number, number] }>;
+        const t = ps[0]?.value[0]; const p = ps.find((x) => x.seriesName === 'YES'); const v = ps.find((x) => x.seriesName === 'Volume');
+        return `<b>${t ? new Date(t).toISOString().slice(5, 16).replace('T', ' ') : ''} UTC</b>${p ? `<br/>YES ${p.value[1]}%` : ''}${v ? `<br/>Volume ${usd(v.value[1])}` : ''}`;
+      } },
+      xAxis: [{ type: 'time' as const, gridIndex: 0, ...axis(c), axisLabel: { show: false }, splitLine: { show: false } }, { type: 'time' as const, gridIndex: 1, ...axis(c), splitLine: { show: false } }],
+      yAxis: [{ type: 'value' as const, gridIndex: 0, min: 0, max: 100, ...axis(c), axisLabel: { ...axis(c).axisLabel, formatter: '{value}%' } }, { type: 'value' as const, gridIndex: 1, ...axis(c), splitNumber: 2, axisLabel: { ...axis(c).axisLabel, formatter: (v: number) => usd(v) } }],
+      dataZoom: [{ type: 'inside' as const, xAxisIndex: [0, 1] }, { type: 'slider' as const, xAxisIndex: [0, 1], height: 16, bottom: 6, borderColor: c.axis, fillerColor: 'rgba(127,127,127,.15)', textStyle: { color: c['ink-muted'] } }],
+      series: [
+        { name: 'YES', type: 'line' as const, xAxisIndex: 0, yAxisIndex: 0, data: pts, showSymbol: false, smooth: 0.2, lineStyle: { width: 2, color: c.signal }, itemStyle: { color: c.signal }, areaStyle: { color: c.signal, opacity: 0.1 },
+          markLine: { silent: true, symbol: 'none', lineStyle: { color: c.axis, type: 'dashed' as const }, data: [{ yAxis: 50 }], label: { show: false } } },
+        { name: 'Volume', type: 'bar' as const, xAxisIndex: 1, yAxisIndex: 1, data: vol, barMaxWidth: 6, itemStyle: { color: c['ink-muted'], opacity: 0.6 } },
+      ],
+    };
+  }, [c, candles]);
+  if (candles.length < 2) return <p className="text-[13px] text-ink-muted">Nansen returned no price history for this market.</p>;
+  return option ? <EChart option={option} height={height} ariaLabel={`YES probability and hourly volume over ${candles.length} hours`} /> : null;
+}
+
+/** Cumulative order-book depth around the price: bids (buy YES) left, asks right. */
+export function DepthChart({ bids, asks, height = 200 }: { bids: Array<{ price: number; size: number }>; asks: Array<{ price: number; size: number }>; height?: number }) {
+  const c = useThemeColors();
+  const option = useMemo(() => {
+    if (!c) return null;
+    const cum = (xs: Array<{ price: number; size: number }>) => { let a = 0; return xs.map((x) => { a += x.price * x.size; return [Math.round(x.price * 1000) / 10, Math.round(a)] as [number, number]; }); };
+    const b = cum(bids.slice(0, 40)).reverse(), a = cum(asks.slice(0, 40));
+    return {
+      animationDuration: 400,
+      grid: { left: 52, right: 12, top: 10, bottom: 26 },
+      tooltip: { trigger: 'axis' as const, ...tip(c), valueFormatter: (v: unknown) => usd(Number(v)) },
+      xAxis: { type: 'value' as const, scale: true, ...axis(c), axisLabel: { ...axis(c).axisLabel, formatter: '{value}%' }, splitLine: { show: false } },
+      yAxis: { type: 'value' as const, ...axis(c), axisLabel: { ...axis(c).axisLabel, formatter: (v: number) => usd(v) } },
+      series: [
+        { name: 'Bids', type: 'line' as const, step: 'end' as const, data: b, showSymbol: false, lineStyle: { color: c.mint, width: 1.5 }, areaStyle: { color: c.mint, opacity: 0.15 } },
+        { name: 'Asks', type: 'line' as const, step: 'start' as const, data: a, showSymbol: false, lineStyle: { color: c.flare, width: 1.5 }, areaStyle: { color: c.flare, opacity: 0.15 } },
+      ],
+    };
+  }, [c, bids, asks]);
+  if (!bids.length && !asks.length) return <p className="text-[13px] text-ink-muted">No order book returned.</p>;
+  return option ? <EChart option={option} height={height} ariaLabel="Cumulative order book depth for YES shares" /> : null;
+}

@@ -6,6 +6,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useSite } from '@/components/SiteContext';
+import { nansenToken } from '@/config/external';
 import { Bookmark, Share2, Bell, ArrowLeftRight, ChevronRight, Check } from 'lucide-react';
 import { ChainLogo } from '@/components/Logo';
 import { chainName } from '@/lib/viz/format';
@@ -44,6 +45,7 @@ export function TokenActions({ chain, address, symbol, owner }: { chain: string;
           {watching ? <Check size={17} className="text-[var(--mint)]" aria-hidden /> : <Bookmark size={17} aria-hidden />}
         </button>
         <button type="button" onClick={share} aria-label="Share this token" className={icon}><Share2 size={17} aria-hidden /></button>
+        <a href={nansenToken(chain, address)} target="_blank" rel="noopener noreferrer" className="get-nansen inline-flex h-10 items-center gap-1.5 rounded-[12px] px-3.5 text-[13px] font-extrabold">Open in Nansen <span aria-hidden>↗</span></a>
         {owner && accounts && <a href="#alerts-tools" aria-label="Set a risk alert" className={icon}><Bell size={17} aria-hidden /></a>}
         {owner && accounts && <Link href={`/trade?chain=${chain}&token=${encodeURIComponent(address)}`} className="inline-flex h-10 items-center gap-2 rounded-[12px] px-4 text-[14px] font-extrabold text-[#040507]" style={{ background: 'var(--mint)' }}><ArrowLeftRight size={16} aria-hidden />Trade</Link>}
       </div>

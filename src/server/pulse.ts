@@ -1,6 +1,7 @@
 // Market Pulse: short, data-backed statements about the last 24 hours, derived
 // from the scanner's stored Nansen reads (no Nansen call per view). Each item
 // names its numbers, links to the records behind it and carries a small series.
+import { properAddress } from '@/server/nansen/address-case';
 import { getDb } from '@/server/nansen/db';
 import type { DisplayMode } from '@/server/mode';
 import { chainName, pct, usd } from '@/lib/viz/format';
@@ -158,7 +159,7 @@ export function marketPulse(mode: DisplayMode, now = Date.now()): PulseItem[] {
   const risk = db.prepare(`SELECT s.chain, s.token_address AS t, s.symbol, s.score, s.band FROM storm_scores s JOIN (SELECT chain, token_address, MAX(computed_at) m FROM storm_scores WHERE computed_at >= ? GROUP BY chain, token_address) x
     ON x.chain = s.chain AND x.token_address = s.token_address AND x.m = s.computed_at WHERE s.band IN ('watch', 'warning') ORDER BY s.score DESC`).all(now - 2 * D) as Array<{ chain: string; t: string; symbol: string | null; score: number; band: string }>;
   if (risk.length) out.push({
-    id: 'risk', kind: 'Risk', tone: 'alert', href: `/token/${risk[0].chain}/${encodeURIComponent(risk[0].t)}`,
+    id: 'risk', kind: 'Risk', tone: 'alert', href: `/token/${risk[0].chain}/${encodeURIComponent(properAddress(risk[0].chain, risk[0].t))}`,
     text: `${risk.length} tokens at High or Critical dump risk; ${risk[0].symbol ?? 'top'} scores ${Math.round(risk[0].score)}`,
     detail: risk.slice(1, 4).map((r) => `${r.symbol ?? '?'} ${Math.round(r.score)}`).join(' · '),
   });
