@@ -4,6 +4,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '
 import { InfoPopover } from '@/components/InfoPopover';
 import { chainName, num, shortAddress, usd, walletName } from '@/lib/viz/format';
 import type { FrontWithProvenance } from '@/server/weather/bulletin';
+import { Go } from '@/components/ui/Icons';
 
 export const frontKey = (f: { from: string; to: string; inferred?: boolean }) => `${f.inferred ? 'inferred:' : ''}${f.from}>${f.to}`;
 /** Evidence timestamps: UTC to the second, so sell/buy/funding order stays checkable. */
@@ -17,7 +18,7 @@ export function FrontsList({ fronts, onSelect }: { fronts: FrontWithProvenance[]
     return (
       <p className="text-sm text-ink-2">
         No two smart-money wallets have sold on one chain and bought on another within 12 hours in the last day. Rotations need at least two
-        wallets moving the same way — one wallet is an anecdote.
+        wallets moving the same way, one wallet is an anecdote.
       </p>
     );
   }
@@ -31,7 +32,7 @@ export function FrontsList({ fronts, onSelect }: { fronts: FrontWithProvenance[]
             className="flex min-w-0 flex-1 items-center gap-3 rounded-md text-left hover:bg-accent/60 focus-visible:ring-2 focus-visible:ring-ring"
           >
             <span className="min-w-0 flex-1 truncate text-sm text-ink">
-              {chainName(f.from)} <span className="text-ink-muted">→</span> {chainName(f.to)}
+              {chainName(f.from)} <span className="text-ink-muted"><Go /></span> {chainName(f.to)}
               {f.inferred && <span className="ml-2 text-xs text-ink-muted">Inferred</span>}
             </span>
             <span className="num text-sm text-ink">{usd(f.netUsd)}</span>
@@ -71,7 +72,7 @@ export function FrontSheet({ front, onClose }: { front: FrontWithProvenance | nu
             <SheetHeader>
               <SheetTitle className="text-ink">
                 {front.inferred ? 'Inferred: ' : ''}
-                {chainName(front.from)} → {chainName(front.to)}
+                {chainName(front.from)} <Go /> {chainName(front.to)}
               </SheetTitle>
               <SheetDescription>
                 {front.inferred ? (
@@ -92,7 +93,7 @@ export function FrontSheet({ front, onClose }: { front: FrontWithProvenance | nu
                   {front.evidence?.map((m, i) => (
                     <article key={i} className="space-y-2 rounded-xl border border-dashed border-border p-3 text-sm">
                       <p className="font-medium">
-                        {chainName(m.seller.chain)} → {chainName(m.buyer.chain)} · {usd(m.matchedUsd)} candidate
+                        {chainName(m.seller.chain)} <Go /> {chainName(m.buyer.chain)} · {usd(m.matchedUsd)} candidate
                       </p>
                       <p>
                         Sold {usd(m.soldUsd)} · <Utc ms={m.sellAt} />
@@ -147,11 +148,11 @@ export function FrontSheet({ front, onClose }: { front: FrontWithProvenance | nu
                           </td>
                           <td className="py-2 text-right">
                             <div className="num text-ink">{usd(w.soldUsd)}</div>
-                            <div className="text-[11px] text-ink-muted">{w.soldTokens.join(', ') || '—'}</div>
+                            <div className="text-[11px] text-ink-muted">{w.soldTokens.join(', ') || 'n/a'}</div>
                           </td>
                           <td className="py-2 text-right">
                             <div className="num text-ink">{usd(w.boughtUsd)}</div>
-                            <div className="text-[11px] text-ink-muted">{w.boughtTokens.join(', ') || '—'}</div>
+                            <div className="text-[11px] text-ink-muted">{w.boughtTokens.join(', ') || 'n/a'}</div>
                           </td>
                         </tr>
                       ))}

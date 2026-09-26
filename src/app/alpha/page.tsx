@@ -6,7 +6,7 @@ import { chainName } from '@/lib/viz/format';
 import { PageTitle } from '@/components/PageTitle';
 
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'Alpha — Peregrine' };
+export const metadata: Metadata = { title: 'Alpha · Peregrine' };
 
 export default async function AlphaPage() {
   const mode = await displayMode();

@@ -95,13 +95,13 @@ export async function headerWave(chain: string, token: string): Promise<Wave<Tok
     return {
       ...header,
       provenance: {
-        title: `${header.symbol ?? token} — token facts, 24h`,
+        title: `${header.symbol ?? token}, token facts, 24h`,
         formula: 'as reported by Nansen (no transformation)',
         inputs: [
           { label: 'Market cap', value: usd(header.marketCapUsd) },
           { label: 'Liquidity', value: usd(header.liquidityUsd) },
           { label: '24h volume (buy / sell)', value: `${usd(header.buyVolumeUsd)} / ${usd(header.sellVolumeUsd)}` },
-          { label: 'Holders', value: header.holders?.toLocaleString('en-US') ?? '—' },
+          { label: 'Holders', value: header.holders?.toLocaleString('en-US') ?? 'n/a' },
         ],
         calls: [info.call, ...(indOk ? [indOk.call] : [])],
       },
@@ -184,13 +184,13 @@ export async function marketWave(chain: string, token: string, smartMoneyChain: 
       const coverage = coneCoverage(closes, STEPS_PER_DAY);
       cone = { sigma4h, sigmaDaily: sigma4h * Math.sqrt(STEPS_PER_DAY), bands, lastClose: last.c, lastT: last.t, coverage };
       coneProv = {
-        title: 'Volatility cone — 80% range ahead',
+        title: 'Volatility cone, 80% range ahead',
         formula: 'σ²_t = 0.94·σ²_{t−1} + 0.06·r_t²   (r = 4h log return)\nband_h = P·exp(±1.28·σ·√h),  h = 6, 18, 42 steps (1d, 3d, 7d)\ntrack record: walk-forward, σ fit on data known at the time',
         inputs: [
           { label: 'σ per 4h · per day', value: `${pct(sigma4h)} · ${pct(cone.sigmaDaily)}` },
           { label: 'Last close', value: `$${last.c.toPrecision(4)}` },
-          { label: '1d band', value: `$${bands[0].low.toPrecision(3)} – $${bands[0].high.toPrecision(3)}` },
-          { label: '1d moves inside band (track record)', value: coverage ? `${pct(coverage.hitRate, 0)} of ${coverage.n}` : '—' },
+          { label: '1d band', value: `$${bands[0].low.toPrecision(3)}, $${bands[0].high.toPrecision(3)}` },
+          { label: '1d moves inside band (track record)', value: coverage ? `${pct(coverage.hitRate, 0)} of ${coverage.n}` : 'n/a' },
         ],
         calls: [ohlcv.call],
         notes: ['A random-walk range, not a price target. A calibrated 80% cone holds ~80% of moves; the track record says how this one has done on this token.'],
@@ -204,7 +204,7 @@ export async function marketWave(chain: string, token: string, smartMoneyChain: 
           formula: 'candles: 4h OHLC as reported\nsegment flow_day = (tokens in − tokens out) × price_day',
           inputs: [
             { label: 'Candles', value: String(candles.length) },
-            { label: 'Segment', value: segment ?? '—' },
+            { label: 'Segment', value: segment ?? 'n/a' },
             { label: 'Segment net flow, 14d', value: usd(segmentFlow.reduce((s, r) => s + r.netUsd, 0), { signed: true }) },
           ],
           calls: [ohlcv.call, ...flowCalls],
@@ -255,12 +255,12 @@ export async function windWave(chain: string, token: string): Promise<Wave<WindW
     });
     const d1 = rings['1d'];
     if (WIND_TIMEFRAMES.every((tf) => WIND_SEGMENTS.every((s) => !rings[tf][s].netUsd))) {
-      return { unavailable: 'Nansen reports no labelled-segment flow for this token in any window (1h–7d).' };
+      return { unavailable: 'Nansen reports no labelled-segment flow for this token in any window (1h to 7d).' };
     }
     return {
       rings, warnings: [...warnings],
       provenance: {
-        title: 'Cohort flows — who is moving this token',
+        title: 'Cohort flows, who is moving this token',
         formula: 'net flow per segment per window, as reported by tgm/flow-intelligence\n(one ring per window: 1h inner → 7d outer)',
         inputs: WIND_SEGMENTS.map((s) => ({ label: `${s.replace('_', ' ')} · 1d`, value: usd(d1[s].netUsd, { signed: true }) })),
         calls: results.map((r) => r.call),
@@ -336,7 +336,7 @@ export async function holdersWave(chain: string, token: string): Promise<Wave<Ho
           inputs: [
             { label: 'Top 20 bought', value: usd(bSum) },
             { label: 'Top 20 sold', value: usd(sSum) },
-            { label: 'Sell skew', value: bSum + sSum > 0 ? pct(sSum / (bSum + sSum), 0) : '—' },
+            { label: 'Sell skew', value: bSum + sSum > 0 ? pct(sSum / (bSum + sSum), 0) : 'n/a' },
           ],
           calls: [b.call, s.call],
         };
@@ -350,7 +350,7 @@ export async function holdersWave(chain: string, token: string): Promise<Wave<Ho
       holders, realShares, concentration, lorenz: lorenzCurve(realShares), excludedShare, buyers, sellers, tradersUnavailable,
       provenance: {
         holders: {
-          title: 'Concentration (C) — top 100 holders',
+          title: 'Concentration (C), top 100 holders',
           formula: 'C = 100·(0.35·HHI_n + 0.25·Gini + 0.25·T10 + 0.15·(1 − min(K,20)/20))\nshares s_i exclude exchange, bridge, pool, contract and burn labels',
           inputs: concentration ? [
             { label: 'Real holders in top 100', value: String(real.length) },
@@ -449,12 +449,12 @@ export async function forensicsWave(chain: string, token: string, holders: Holde
       deployer,
       missingFunders,
       provenance: {
-        title: 'Insider clusters (I) — top 25 holders',
+        title: 'Insider clusters (I), top 25 holders',
         formula: 'union-find: join holders with the same first funder, or linked by related-wallets\nI = 100·min(1, 1.6·max_cluster_share + 0.02·n_clustered + 0.15·deployer_linked)',
         inputs: [
           { label: 'Holders examined', value: String(top.length) },
           { label: 'Clusters of 2+', value: String(multi.length) },
-          { label: 'Largest cluster', value: biggest ? `${biggest.wallets.length} wallets · ${pct(biggest.share)}` : '—' },
+          { label: 'Largest cluster', value: biggest ? `${biggest.wallets.length} wallets · ${pct(biggest.share)}` : 'n/a' },
           { label: 'Holders clustered', value: String(res.clusteredHolderCount) },
           { label: 'Deployer', value: deployer ? `${deployer.slice(0, 8)}…${multi.some((c) => c.includesDeployer) ? ' (linked)' : ''}` : 'not found' },
         ],

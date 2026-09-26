@@ -13,7 +13,7 @@ export const ENDPOINT_GROUPS: Array<{ group: string; endpoints: Array<{ key: Cha
   { group: 'Smart Money', endpoints: [
     { key: 'smartMoneyNetflows', path: 'smart-money/netflow', label: 'netflow', usedFor: 'chain page token flows, sectors' },
     { key: 'smartMoneyDexTrades', path: 'smart-money/dex-trades', label: 'dex-trades', usedFor: 'capital rotations, trade tape, migration trails' },
-    { key: 'smartMoneyHoldings', path: 'smart-money/holdings', label: 'holdings', usedFor: '—' },
+    { key: 'smartMoneyHoldings', path: 'smart-money/holdings', label: 'holdings', usedFor: 'n/a' },
   ] },
   { group: 'Token God Mode', endpoints: [
     { key: 'tokenScreener', path: 'token-screener', label: 'screener', usedFor: 'Flow Index, risk sweep, 7-day odds' },
@@ -24,7 +24,7 @@ export const ENDPOINT_GROUPS: Array<{ group: string; endpoints: Array<{ key: Cha
     { key: 'tgmFlows', path: 'tgm/flows', label: 'flows', usedFor: 'segment flow bars' },
     { key: 'tgmHolders', path: 'tgm/holders', label: 'holders', usedFor: 'concentration, Lorenz, insider graph' },
     { key: 'tgmWhoBoughtSold', path: 'tgm/who-bought-sold', label: 'who bought/sold', usedFor: 'sell pressure, buyers vs sellers' },
-    { key: 'tgmPnlLeaderboard', path: 'tgm/pnl-leaderboard', label: 'pnl board', usedFor: '—' },
+    { key: 'tgmPnlLeaderboard', path: 'tgm/pnl-leaderboard', label: 'pnl board', usedFor: 'n/a' },
   ] },
   { group: 'Profiler', endpoints: [
     { key: 'profilerCurrentBalance', path: 'profiler/address/current-balance', label: 'balances', usedFor: 'wallet donut' },
@@ -38,8 +38,8 @@ export const ENDPOINT_GROUPS: Array<{ group: string; endpoints: Array<{ key: Cha
   ] },
   { group: 'Backtesting (beta)', endpoints: [
     { key: 'histTokenScreener', path: 'v1beta1/token-screener/historical', label: 'hist screener', usedFor: 'Backtest Lab features' },
-    { key: 'histTgmTokenOhlcv', path: 'v1beta1/tgm/historical-token-ohlcv', label: 'hist ohlcv', usedFor: '—' },
-    { key: 'histTgmTokenFlowSummary', path: 'v1beta1/tgm/historical-token-flow-summary', label: 'hist flows', usedFor: '—' },
+    { key: 'histTgmTokenOhlcv', path: 'v1beta1/tgm/historical-token-ohlcv', label: 'hist ohlcv', usedFor: 'n/a' },
+    { key: 'histTgmTokenFlowSummary', path: 'v1beta1/tgm/historical-token-flow-summary', label: 'hist flows', usedFor: 'n/a' },
   ] },
 ];
 

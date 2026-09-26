@@ -228,8 +228,8 @@ export function perpBoard(view: PressureView, now = Date.now()): PerpBoard {
         { label: 'Coins scored (OI ≥ $1M)', value: String(coins.filter((c) => c.ppi != null).length) },
         { label: 'Open interest', value: usd(oi) },
         { label: 'Hourly snapshots in 7 days', value: String(scans) },
-        { label: 'Most extreme', value: lead ? `${lead.symbol} ${num(lead.ppi, 0)}` : '—' },
-        { label: 'Median funding (annualized)', value: fundingMedianApr != null ? pct(fundingMedianApr, 1) : '—' },
+        { label: 'Most extreme', value: lead ? `${lead.symbol} ${num(lead.ppi, 0)}` : 'n/a' },
+        { label: 'Median funding (annualized)', value: fundingMedianApr != null ? pct(fundingMedianApr, 1) : 'n/a' },
       ],
       calls: [
         {

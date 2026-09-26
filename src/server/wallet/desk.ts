@@ -194,8 +194,8 @@ export async function walletDesk(address: string, chain: string, section: DeskSe
           a.position
             ? [
                 [
-                  a.position.token_symbol ?? '—',
-                  a.position.size ?? '—',
+                  a.position.token_symbol ?? 'n/a',
+                  a.position.size ?? 'n/a',
                   usd(num(a.position.position_value_usd)),
                   a.position.leverage_value ?? null,
                   usd(num(a.position.liquidation_price_usd)),
@@ -262,7 +262,7 @@ export async function walletDesk(address: string, chain: string, section: DeskSe
             usd(s.realized_pnl_usd),
             usd(s.unrealized_pnl_usd),
             s.markets_traded ?? null,
-            s.win_rate == null ? '—' : pct(s.win_rate),
+            s.win_rate == null ? 'n/a' : pct(s.win_rate),
           ]),
         },
         ...(pm
@@ -271,8 +271,8 @@ export async function walletDesk(address: string, chain: string, section: DeskSe
                 title: 'PnL by market (largest first)',
                 columns: ['Market', 'Side held', 'Total PnL', 'Resolved'],
                 rows: pm.data.data.map((x) => [
-                  x.question ?? x.market_id ?? '—',
-                  x.side_held ?? '—',
+                  x.question ?? x.market_id ?? 'n/a',
+                  x.side_held ?? 'n/a',
                   usd(x.total_pnl_usd, { signed: true }),
                   x.market_resolved ? 'yes' : 'no',
                 ]),
@@ -282,7 +282,7 @@ export async function walletDesk(address: string, chain: string, section: DeskSe
         {
           title: 'Recent market trades',
           columns: ['Market', 'Outcome', 'Taker action', 'Value'],
-          rows: t.data.data.map((x) => [x.market_question ?? x.market_id ?? '—', x.side ?? '—', x.taker_action ?? '—', usd(x.usdc_value)]),
+          rows: t.data.data.map((x) => [x.market_question ?? x.market_id ?? 'n/a', x.side ?? 'n/a', x.taker_action ?? 'n/a', usd(x.usdc_value)]),
         },
       ],
     );

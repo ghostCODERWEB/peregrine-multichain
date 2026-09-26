@@ -5,6 +5,7 @@ import { ChainLogo, TokenLogo } from '@/components/Logo';
 import type { WeatherBulletin } from '@/server/weather/bulletin';
 import { chainName, num } from '@/lib/viz/format';
 import { pressureClass, fillVar } from '@/lib/viz/scales';
+import { Go } from '@/components/ui/Icons';
 
 type Chain = WeatherBulletin['chains'][number];
 
@@ -138,11 +139,11 @@ export function PulseBand({ data }: { data: WeatherBulletin }) {
         label="Rotations · 24H"
         foot={data.mode === 'public' ? 'Available to key owner' : 'Smart money between chains'}
       >
-        <div className="num text-[26px] font-semibold leading-none text-ink">{data.mode === 'public' ? '—' : data.fronts.length}</div>
+        <div className="num text-[26px] font-semibold leading-none text-ink">{data.mode === 'public' ? 'n/a' : data.fronts.length}</div>
         {data.mode !== 'public' && data.fronts[0] && (
           <div className="mt-1.5 flex items-center gap-1 truncate text-[12px] text-ink-2">
             <ChainLogo chain={data.fronts[0].from} size={12} />
-            {chainName(data.fronts[0].from)} → <ChainLogo chain={data.fronts[0].to} size={12} />
+            {chainName(data.fronts[0].from)} <Go /> <ChainLogo chain={data.fronts[0].to} size={12} />
             {chainName(data.fronts[0].to)}
           </div>
         )}

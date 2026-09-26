@@ -8,6 +8,7 @@ import type { Position } from '@/lib/models/portfolio';
 import type { DeskData } from '@/server/wallet/desk';
 import { chainName, pct, shortAddress, usd } from '@/lib/viz/format';
 import { PageTitle } from '@/components/PageTitle';
+import { Go } from '@/components/ui/Icons';
 
 const DEMO = '0xcbb811f129782ef87e19dea9d3375045219bae00';
 const button = 'rounded-lg border border-border px-3 py-2 text-sm text-ink hover:bg-accent disabled:opacity-50';
@@ -134,8 +135,8 @@ export function PortfolioView({ demo }: { demo: boolean }) {
           <div className="grid gap-3 sm:grid-cols-3">
             {[
               ['Priced spot holdings', usd(p.exposure.total)],
-              ['Largest position', p.exposure.largestShare == null ? '—' : pct(p.exposure.largestShare)],
-              ['Effective positions', p.exposure.effectivePositions?.toFixed(1) ?? '—'],
+              ['Largest position', p.exposure.largestShare == null ? 'n/a' : pct(p.exposure.largestShare)],
+              ['Effective positions', p.exposure.effectivePositions?.toFixed(1) ?? 'n/a'],
             ].map(([label, value]) => (
               <div key={label} className="inset-well rounded-[18px] p-5">
                 <div className="text-xs text-ink-muted">{label}</div>
@@ -193,7 +194,7 @@ export function PortfolioView({ demo }: { demo: boolean }) {
               {p.wallets.map((w) => (
                 <li key={w.address} className="rounded-lg bg-accent/30 p-3 text-xs">
                   <Link href={`/wallet/${encodeURIComponent(w.address)}`} className="num hover:underline">
-                    {shortAddress(w.address)} →
+                    {shortAddress(w.address)} <Go />
                   </Link>
                   <span className="ml-3">{w.totalUsd == null ? 'Unavailable' : usd(w.totalUsd)}</span>
                   {w.error && <p className="mt-1 text-ink-muted">{w.error}</p>}
@@ -270,7 +271,7 @@ export function PortfolioView({ demo }: { demo: boolean }) {
                                       {shortAddress(v)}
                                     </Link>
                                   ) : (
-                                    (v ?? '—')
+                                    (v ?? 'n/a')
                                   )}
                                 </td>
                               ))}

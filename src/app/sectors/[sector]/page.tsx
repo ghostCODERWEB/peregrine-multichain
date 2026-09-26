@@ -10,6 +10,7 @@ import { sectorDetail, type SectorWindowReading } from '@/server/sectors/detail'
 import { displayMode, viewOf } from '@/server/mode';
 import { chainName, num, pct, usd } from '@/lib/viz/format';
 import type { SectorMover } from '@/lib/models/sector-flows';
+import { Go } from '@/components/ui/Icons';
 
 export const dynamic = 'force-dynamic';
 
@@ -17,7 +18,7 @@ const BAND = { high: 'Accumulation', neutral: 'Neutral', low: 'Distribution' } a
 const WINDOW_NAME = { '1h': 'Last hour', '24h': 'Last 24 hours', '7d': 'Last 7 days' } as const;
 
 export async function generateMetadata({ params }: { params: Promise<{ sector: string }> }): Promise<Metadata> {
-  return { title: `${decodeURIComponent((await params).sector)} — Sectors — Peregrine` };
+  return { title: `${decodeURIComponent((await params).sector)}, Sectors · Peregrine` };
 }
 
 function MoverList({ title, rows, tone }: { title: string; rows: SectorMover[]; tone: 'in' | 'out' }) {
@@ -77,7 +78,7 @@ export default async function SectorPage({ params }: { params: Promise<{ sector:
   return (
     <div className="space-y-5">
       <nav aria-label="Breadcrumb" className="text-[12.5px] text-ink-muted">
-        <Link href="/sectors" className="hover:text-ink">Sectors</Link> <span aria-hidden>›</span> <span className="text-ink-2">{name}</span>
+        <Link href="/sectors" className="hover:text-ink">Sectors</Link> <span className="text-ink-muted"><Go /></span> <span className="text-ink-2">{name}</span>
       </nav>
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div className="hero-seq">
@@ -92,9 +93,9 @@ export default async function SectorPage({ params }: { params: Promise<{ sector:
         className="rise"
         stats={[
           { label: 'Flow Index', value: `${num(r.pressure, 0)} / 100`, note: r.crossSectional ? 'vs other sectors' : 'vs its own 7 days' },
-          { label: 'Net flow, 24h', value: r.netFlow24hUsd != null ? usd(r.netFlow24hUsd, { signed: true }) : '—', tone: (r.netFlow24hUsd ?? 0) >= 0 ? 'in' : 'out' },
-          { label: 'Volume, 24h', value: r.volume24hUsd != null ? usd(r.volume24hUsd) : '—' },
-          { label: 'Net / volume', value: share != null ? pct(share, 1) : '—' },
+          { label: 'Net flow, 24h', value: r.netFlow24hUsd != null ? usd(r.netFlow24hUsd, { signed: true }) : 'n/a', tone: (r.netFlow24hUsd ?? 0) >= 0 ? 'in' : 'out' },
+          { label: 'Volume, 24h', value: r.volume24hUsd != null ? usd(r.volume24hUsd) : 'n/a' },
+          { label: 'Net / volume', value: share != null ? pct(share, 1) : 'n/a' },
           { label: 'Tokens tracked', value: members.toLocaleString('en-US'), note: `${d.membersByChain.length} chains` },
         ]}
       />

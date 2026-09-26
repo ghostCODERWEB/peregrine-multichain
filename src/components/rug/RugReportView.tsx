@@ -6,6 +6,7 @@ import { ChainLogo, TokenLogo } from '@/components/Logo';
 import { ScoreRing } from '@/components/viz/ScoreRing';
 import { chainName, shortAddress, usd } from '@/lib/viz/format';
 import type { RugReport, CheckStatus, Verdict } from '@/lib/rug';
+import { Go } from '@/components/ui/Icons';
 
 type TokenInfo = { name: string | null; symbol: string | null; logo: string | null; marketCapUsd: number | null; liquidityUsd: number | null; holders: number | null } | { unavailable: string };
 
@@ -54,7 +55,7 @@ export function RugReportView({ chain, address }: { chain: string; address: stri
               <span className="relative"><TokenLogo symbol={info?.symbol ?? '?'} logo={info?.logo} size={52} /><span className="absolute -bottom-1 -right-1"><ChainLogo chain={chain} size={20} /></span></span>
               <div className="min-w-0">
                 <div className="truncate text-[26px] font-extrabold tracking-[-0.03em]">{info?.name ?? info?.symbol ?? (token ? 'Unknown token' : 'Loading token…')}</div>
-                <div className="num truncate text-[13px] text-ink-muted">{info?.symbol ?? '—'} · {chainName(chain)} · {shortAddress(address)}</div>
+                <div className="num truncate text-[13px] text-ink-muted">{info?.symbol ?? 'n/a'} · {chainName(chain)} · {shortAddress(address)}</div>
               </div>
             </div>
             <h1 id="rug-verdict" className="mt-6 text-[clamp(30px,3vw,40px)] font-extrabold leading-[1.05] tracking-[-0.04em] text-balance">
@@ -104,7 +105,7 @@ export function RugReportView({ chain, address }: { chain: string; address: stri
         <span>Readings from Nansen data, not a guarantee. Not financial advice.{done ? ` · ${done.calls} Nansen calls, ${done.credits} credits (${done.cached} from cache)` : ''}</span>
         <span className="flex gap-4">
           <Link href="/rug" className="font-bold text-ink-2 hover:text-ink">Check another token</Link>
-          <Link href={`/token/${chain}/${encodeURIComponent(address)}`} className="font-bold text-[var(--mint)]">Full token page →</Link>
+          <Link href={`/token/${chain}/${encodeURIComponent(address)}`} className="font-bold text-[var(--mint)]">Full token page <Go /></Link>
         </span>
       </div>
       {info && <p className="text-[12px] text-ink-muted">Market cap {usd(info.marketCapUsd)} · liquidity {usd(info.liquidityUsd)} · {info.holders != null ? `${info.holders.toLocaleString('en-US')} holders` : 'holders n/a'}</p>}

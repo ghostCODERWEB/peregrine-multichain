@@ -147,7 +147,7 @@ export async function origins(address: string, mainChain: string | null): Promis
         formula: 'first funder: earliest address to send it gas, any chain\nrelated wallets: Nansen relations (funder, deployer, …) on its main chain',
         inputs: [
           // Provenance quotes addresses, never labels: it is not redacted.
-          { label: 'First funder', value: firstFunder ? `${firstFunder.address.slice(0, 10)}… on ${chainName(firstFunder.chain)}` : '—' },
+          { label: 'First funder', value: firstFunder ? `${firstFunder.address.slice(0, 10)}… on ${chainName(firstFunder.chain)}` : 'n/a' },
           { label: 'Related wallets', value: `${related.length}${chain ? ` on ${chainName(chain)}` : ''}` },
         ],
         calls,
@@ -257,9 +257,9 @@ export function migrationTrail(address: string, days = 7): { steps: TrailStep[];
   return {
     steps, chains, label: rows.find((r) => r.label)?.label ?? null,
     provenance: {
-      title: 'Migration trail — smart-money trades across chains',
+      title: 'Migration trail, smart-money trades across chains',
       formula: 'every smart-money DEX trade by this wallet the scanner recorded, oldest first\nbuy = stable/native in, risk token out; sell = the reverse',
-      inputs: [{ label: 'Trades', value: String(rows.length) }, { label: 'Chains', value: chains.map(chainName).join(' → ') || '—' }],
+      inputs: [{ label: 'Trades', value: String(rows.length) }, { label: 'Chains', value: chains.map(chainName).join(' → ') || 'n/a' }],
       calls: [{ endpoint: 'smart-money/dex-trades', body: '{"chains":["all"], …} (scanner, every scan)', credits: 5, ref: 'Peregrine scanner history, not a call at view time' }],
       notes: ['Only trades by Nansen smart-money wallets are recorded, and only since the scanner started.'],
     },
@@ -316,7 +316,7 @@ export async function holdingsTrend(subject: Subject, top: Balances['top']): Pro
         inputs: [
           { label: 'Tracked', value: tokens.map((t) => t.symbol).join(', ') },
           { label: 'Start → end', value: `${usd(first)} → ${usd(last)}` },
-          { label: 'Change', value: first > 0 ? pct(last / first - 1) : '—' },
+          { label: 'Change', value: first > 0 ? pct(last / first - 1) : 'n/a' },
         ],
         calls: [r.call],
         notes: [

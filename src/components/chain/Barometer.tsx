@@ -15,7 +15,7 @@ export function barometerTitle(w: ChainWeather): string {
   const who = w.source === 'market-flow' ? 'all traders' : 'smart money';
   const band = pressureBand(w.cpi);
   const text = band === 'neutral' ? 'neutral' : BAND_TEXT[band].replace('smart money', who);
-  return `${chainName(w.chain)} Flow Index ${num(w.cpi, 0)} — ${text}`;
+  return `${chainName(w.chain)} Flow Index ${num(w.cpi, 0)}, ${text}`;
 }
 
 export function Barometer({ w, provenance }: { w: ChainWeather; provenance: Provenance | null }) {

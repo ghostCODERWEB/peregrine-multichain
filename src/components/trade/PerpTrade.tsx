@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { usd, pct, shortAddress, num } from '@/lib/viz/format';
 import { PerpDeposit } from './PerpDeposit';
 import { perpAccountView, perpPositionView, type PerpPositionView } from '@/lib/models/perp-account';
+import { Go } from '@/components/ui/Icons';
 
 type Eth = { request: (a: { method: string; params?: unknown[] }) => Promise<unknown> };
 const eth = (): Eth | null => (typeof window !== 'undefined' ? ((window as unknown as { ethereum?: Eth }).ethereum ?? null) : null);
@@ -183,23 +184,23 @@ export function PerpTrade({ marks, initialCoin }: { marks: PerpMark[]; initialCo
               <div className="rounded-xl border border-border/70 bg-raised/50 px-3 py-2">
                 <dt className="text-[10.5px] uppercase tracking-wider text-ink-muted">Builder fee</dt>
                 <dd className="text-ink">
-                  {fee?.error ? '—' : fee?.approved ? 'approved' : `not approved (${num((fee?.required_fee ?? 0) / 10, 1)} bps)`}
+                  {fee?.error ? 'n/a' : fee?.approved ? 'approved' : `not approved (${num((fee?.required_fee ?? 0) / 10, 1)} bps)`}
                 </dd>
               </div>
               <div className="rounded-xl border border-border/70 bg-raised/50 px-3 py-2">
                 <dt className="text-[10.5px] uppercase tracking-wider text-ink-muted">Perps account value</dt>
-                <dd className="num text-ink">{acct?.error || av.accountValue == null ? '—' : usd(av.accountValue)}</dd>
+                <dd className="num text-ink">{acct?.error || av.accountValue == null ? 'n/a' : usd(av.accountValue)}</dd>
                 {av.marginUsed != null && av.marginUsed > 0 && (
                   <dd className="num text-[11px] text-ink-muted">{usd(av.marginUsed)} margin in use</dd>
                 )}
               </div>
               <div className="rounded-xl border border-border/70 bg-raised/50 px-3 py-2">
                 <dt className="text-[10.5px] uppercase tracking-wider text-ink-muted">Withdrawable</dt>
-                <dd className="num text-ink">{acct?.error || av.withdrawable == null ? '—' : usd(av.withdrawable)}</dd>
+                <dd className="num text-ink">{acct?.error || av.withdrawable == null ? 'n/a' : usd(av.withdrawable)}</dd>
               </div>
               <div className="rounded-xl border border-border/70 bg-raised/50 px-3 py-2">
                 <dt className="text-[10.5px] uppercase tracking-wider text-ink-muted">Spot USDC</dt>
-                <dd className="num text-ink">{acct?.error || av.spotUsdc == null ? '—' : usd(av.spotUsdc)}</dd>
+                <dd className="num text-ink">{acct?.error || av.spotUsdc == null ? 'n/a' : usd(av.spotUsdc)}</dd>
               </div>
             </dl>
           )}
@@ -243,7 +244,7 @@ export function PerpTrade({ marks, initialCoin }: { marks: PerpMark[]; initialCo
                   }
                   className="rounded border border-border px-3 py-1 text-[13px] text-ink hover:bg-raised disabled:opacity-45"
                 >
-                  {toPerp ? 'Spot → perps' : 'Perps → spot'}
+                  {toPerp ? 'Spot to perps' : 'Perps to spot'}
                 </button>
               ))}
             </div>
@@ -401,8 +402,8 @@ export function PerpTrade({ marks, initialCoin }: { marks: PerpMark[]; initialCo
                         <tr key={String(o.oid)} className="border-t border-border">
                           <td className="py-1.5 text-ink">{c}</td>
                           <td className="text-ink-2">{side}</td>
-                          <td className="num text-ink-2">{String(o.sz ?? '—')}</td>
-                          <td className="num text-ink-2">{String(o.limitPx ?? '—')}</td>
+                          <td className="num text-ink-2">{String(o.sz ?? 'n/a')}</td>
+                          <td className="num text-ink-2">{String(o.limitPx ?? 'n/a')}</td>
                           <td className="text-ink-muted">{type}</td>
                           <td className="text-right">
                             {spot ? (
@@ -454,7 +455,7 @@ export function PerpTrade({ marks, initialCoin }: { marks: PerpMark[]; initialCo
                         {p.leverage ? ` · ${p.leverage}` : ''}
                       </td>
                       <td className="num text-ink-2">
-                        uPnL {p.uPnl == null ? '—' : usd(p.uPnl, { signed: true })}
+                        uPnL {p.uPnl == null ? 'n/a' : usd(p.uPnl, { signed: true })}
                         {p.liquidation != null ? ` · liq ${usd(p.liquidation)}` : ''}
                       </td>
                       <td className="text-right">
@@ -480,14 +481,14 @@ export function PerpTrade({ marks, initialCoin }: { marks: PerpMark[]; initialCo
           <>
             <div className="flex justify-between">
               <span className="text-ink-2">Perp Flow</span>
-              <span className="num text-ink">{m.ppi != null ? num(m.ppi, 0) : '—'}</span>
+              <span className="num text-ink">{m.ppi != null ? num(m.ppi, 0) : 'n/a'}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-ink-2">Funding, yearly</span>
-              <span className="num text-ink">{m.fundingApr != null ? pct(m.fundingApr, 1) : '—'}</span>
+              <span className="num text-ink">{m.fundingApr != null ? pct(m.fundingApr, 1) : 'n/a'}</span>
             </div>
             <Link href="/perps" className="text-ink-2 underline-offset-2 hover:text-ink hover:underline">
-              Open the liquidation ladder on /perps →
+              Open the liquidation ladder on /perps <Go />
             </Link>
           </>
         ) : (

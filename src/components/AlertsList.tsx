@@ -84,7 +84,7 @@ export function AlertsList() {
                 <td className="py-1.5 text-ink-2">{a.timeWindow}</td>
                 <td className="py-1.5 text-ink-2">{a.channels.join(', ')}</td>
                 <td className="num py-1.5 text-right text-ink">{a.triggers}</td>
-                <td className="num py-1.5 pl-3 text-ink-muted">{a.lastTriggered ? <TimeAgo ts={Date.parse(a.lastTriggered)} /> : '—'}</td>
+                <td className="num py-1.5 pl-3 text-ink-muted">{a.lastTriggered ? <TimeAgo ts={Date.parse(a.lastTriggered)} /> : 'n/a'}</td>
                 <td className="py-1.5">
                   <button
                     role="switch"

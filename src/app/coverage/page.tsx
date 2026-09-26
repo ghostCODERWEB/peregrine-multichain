@@ -10,11 +10,11 @@ import { AdminPanels, LedgerCard } from '@/components/coverage/AdminPanels';
 import { chainName, num } from '@/lib/viz/format';
 
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'Coverage — Peregrine' };
+export const metadata: Metadata = { title: 'Coverage · Peregrine' };
 
 const CELL: Record<CellStatus, { cls: string; label: string }> = {
   documented: { cls: 'bg-ink-2', label: 'supported (Nansen docs)' },
-  'probed-ok': { cls: 'bg-ink-2 outline outline-2 outline-offset-1 outline-ink', label: 'supported (checked live — not in the docs)' },
+  'probed-ok': { cls: 'bg-ink-2 outline outline-2 outline-offset-1 outline-ink', label: 'supported (checked live, not in the docs)' },
   'probed-fail': { cls: 'border border-dashed border-axis', label: 'tried live, not served' },
   none: { cls: 'border border-border', label: 'not available on this chain' },
 };
@@ -51,9 +51,9 @@ export default async function CoveragePage() {
           // A public site shows its visitor budget, not the operator's account balance.
           publicSite()
             ? ['Live-data budget today', `${webCreditsToday().toLocaleString('en-US')} / ${webDailyCreditCap().toLocaleString('en-US')}`, 'credits used by visitors · resets 00:00 UTC']
-            : ['Credits remaining', u.creditsRemaining == null ? '—' : u.creditsRemaining.toLocaleString('en-US'), u.creditsRemainingAt ? 'from the latest Nansen response header' : 'appears after the next Nansen call'],
+            : ['Credits remaining', u.creditsRemaining == null ? 'n/a' : u.creditsRemaining.toLocaleString('en-US'), u.creditsRemainingAt ? 'from the latest Nansen response header' : 'appears after the next Nansen call'],
           ['Scanner runs', u.scans.runs.toLocaleString('en-US'), `${num(u.scans.runs ? u.scans.credits / u.scans.runs : null, 0)} credits per run`],
-          ['Counting since', u.since ? new Date(u.since).toISOString().slice(0, 10) : '—', 'first call in the ledger'],
+          ['Counting since', u.since ? new Date(u.since).toISOString().slice(0, 10) : 'n/a', 'first call in the ledger'],
         ].map(([k, v, sub]) => (
           <div key={k} className="inset-well rounded-[18px] px-4 py-3">
             <div className="text-[12.5px] font-medium text-ink-muted">{k}</div>
@@ -65,7 +65,7 @@ export default async function CoveragePage() {
 
       <LedgerCard ledger={admin?.ledger ?? ledgerCoverage()} />
 
-      <Card id="matrix" title={`What Nansen serves, chain by chain — ${rows.filter((r) => r.supported >= columns.length - 3).length} chains cover almost every endpoint, ${rows.filter((r) => r.supported <= 2).length} only the basics`}
+      <Card id="matrix" title={`What Nansen serves, chain by chain, ${rows.filter((r) => r.supported >= columns.length - 3).length} chains cover almost every endpoint, ${rows.filter((r) => r.supported <= 2).length} only the basics`}
         sub="Rows: chains by tier. Columns: the endpoints Peregrine uses, grouped by API family. Hover a column for what Peregrine uses it for.">
         <div tabIndex={0} role="region" aria-label="Coverage matrix" className="overflow-x-auto pt-6">
           <table className="table-fixed border-separate border-spacing-[3px] text-[11px]">
@@ -77,7 +77,7 @@ export default async function CoveragePage() {
               <tr>
                 <th className="pr-2 text-left font-normal text-ink-muted">chain</th>
                 {columns.map((c) => (
-                  <th key={c.path} className="relative h-24 w-5 min-w-5 max-w-5 p-0 font-normal" title={`${c.path} — ${c.usedFor} (${c.chains} chains)`}>
+                  <th key={c.path} className="relative h-24 w-5 min-w-5 max-w-5 p-0 font-normal" title={`${c.path}, ${c.usedFor} (${c.chains} chains)`}>
                     <span className="absolute bottom-1 left-2.5 origin-bottom-left -rotate-60 whitespace-nowrap text-ink-muted">{c.label}</span>
                   </th>
                 ))}
@@ -123,7 +123,7 @@ export default async function CoveragePage() {
           </ul>
           <p className="mt-2 text-[11px] text-ink-muted">Last scan <TimeAgo ts={u.scans.last} />.</p>
         </Card>
-        <Card id="endpoints" title={`${u.byEndpoint.length} endpoints called — ${u.byEndpoint[0]?.endpoint ?? '—'} the most`} sub="Live calls per endpoint, with credits.">
+        <Card id="endpoints" title={`${u.byEndpoint.length} endpoints called, ${u.byEndpoint[0]?.endpoint ?? 'n/a'} the most`} sub="Live calls per endpoint, with credits.">
           <ul tabIndex={0} aria-label="Scrollable list" className="max-h-[360px] space-y-1 overflow-y-auto">
             {u.byEndpoint.map((e) => (
               <li key={e.endpoint} className="grid grid-cols-[minmax(0,13rem)_1fr_6rem] items-center gap-2 text-[12px]">

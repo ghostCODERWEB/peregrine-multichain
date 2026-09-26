@@ -35,7 +35,7 @@ export default async function Image({ params }: { params: Promise<{ chain: strin
             <path d={arc(1)} stroke={OG.axis} strokeWidth="26" fill="none" strokeLinecap="round" />
             {r && <path d={arc(Math.max(0.01, r.score / 100))} stroke={color} strokeWidth="26" fill="none" strokeLinecap="round" />}
           </svg>
-          <div style={{ display: 'flex', marginTop: -170, fontSize: 96, fontWeight: 700 }}>{r ? Math.round(r.score) : '—'}</div>
+          <div style={{ display: 'flex', marginTop: -170, fontSize: 96, fontWeight: 700 }}>{r ? Math.round(r.score) : 'n/a'}</div>
           <div style={{ display: 'flex', marginTop: 50, padding: '8px 22px', borderRadius: 999, background: color, color: OG.onLight, fontSize: 28, fontWeight: 700 }}>{r ? STORM_LABEL[r.band] : 'Not scored yet'}</div>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', marginLeft: 40, flex: 1 }}>
@@ -54,7 +54,7 @@ export default async function Image({ params }: { params: Promise<{ chain: strin
                   <div style={{ display: 'flex', width: 380, height: 14, borderRadius: 7, background: OG.surface2 }}>
                     {v != null && <div style={{ display: 'flex', width: `${Math.max(2, v)}%`, height: 14, borderRadius: 7, background: v >= 75 ? OG['storm-3'] : v >= 50 ? OG['storm-2'] : v >= 25 ? OG['storm-1'] : OG.axis }} />}
                   </div>
-                  <div style={{ display: 'flex', width: 60, textAlign: 'right' }}>{v == null ? '—' : Math.round(v)}</div>
+                  <div style={{ display: 'flex', width: 60, textAlign: 'right' }}>{v == null ? 'n/a' : Math.round(v)}</div>
                 </div>
               );
             })}

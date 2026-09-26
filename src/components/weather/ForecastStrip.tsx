@@ -4,6 +4,7 @@ import { InfoPopover } from '@/components/InfoPopover';
 import { ChainLogo } from '@/components/Logo';
 import { chainName, num } from '@/lib/viz/format';
 import type { ForecastWithProvenance } from '@/server/weather/bulletin';
+import { Go } from '@/components/ui/Icons';
 
 const W = 220;
 const H = 84;
@@ -67,12 +68,12 @@ export function ForecastStrip({ forecasts }: { forecasts: ForecastWithProvenance
               <InfoPopover p={f.provenance} />
             </div>
             <div className="num mt-1.5 flex items-baseline gap-1.5 text-[18px] font-extrabold tracking-[-0.02em]">
-              <span className="text-ink">{now != null ? num(now, 0) : '—'}</span>
-              {end != null && <><span className="text-[13px] text-ink-muted">→</span><span style={{ color }}>{num(end, 0)}</span></>}
+              <span className="text-ink">{now != null ? num(now, 0) : 'n/a'}</span>
+              {end != null && <><span className="text-[13px] text-ink-muted"><Go /></span><span style={{ color }}>{num(end, 0)}</span></>}
             </div>
             <div className="mt-1.5"><ForecastMultiple f={f} color={color} /></div>
             <div className="num mt-1 text-[11px] text-ink-muted">
-              {f.insufficient ? `Needs 12 readings · ${f.sampleSize} so far` : `Typical error ±${f.mape == null ? '—' : num(f.mape, 0)}% · ${f.sampleSize} readings`}
+              {f.insufficient ? `Needs 12 readings · ${f.sampleSize} so far` : `Typical error ±${f.mape == null ? 'n/a' : num(f.mape, 0)}% · ${f.sampleSize} readings`}
             </div>
           </li>
         );

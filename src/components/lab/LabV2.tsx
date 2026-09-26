@@ -5,7 +5,7 @@ import { num, pct, chainName } from '@/lib/viz/format';
 import type { V2Report } from '@/server/backtest/storm-v2';
 import type { ForwardCheck, RuleResult } from '@/server/backtest/forward';
 
-const signed = (v: number | null, d = 2) => (v == null ? '—' : `${v >= 0 ? '+' : '−'}${Math.abs(v * 100).toFixed(d)}%`);
+const signed = (v: number | null, d = 2) => (v == null ? 'n/a' : `${v >= 0 ? '+' : '−'}${Math.abs(v * 100).toFixed(d)}%`);
 
 export function StormV2Section({ r }: { r: V2Report | null }) {
   if (!r) return <Unavailable text="No Dump Risk v2 run yet. `pnpm storm-v2` runs a small pilot within its credit cap." />;
@@ -58,11 +58,11 @@ export function StormV2Section({ r }: { r: V2Report | null }) {
                   <td className="num text-ink-2">{o.asOf}</td>
                   {(['concentration', 'windShear', 'exitLiquidity', 'sellPressure', 'nansenRisk'] as const).map((k) => (
                     <td key={k} className="num text-ink-2">
-                      {o.subScores[k] == null ? '—' : num(o.subScores[k], 0)}
+                      {o.subScores[k] == null ? 'n/a' : num(o.subScores[k], 0)}
                     </td>
                   ))}
-                  <td className="num text-ink">{Number.isFinite(o.storm) ? num(o.storm, 0) : '—'}</td>
-                  <td className="num text-right text-ink">{o.maxDrawdown7d == null ? '—' : `−${(o.maxDrawdown7d * 100).toFixed(1)}%`}</td>
+                  <td className="num text-ink">{Number.isFinite(o.storm) ? num(o.storm, 0) : 'n/a'}</td>
+                  <td className="num text-right text-ink">{o.maxDrawdown7d == null ? 'n/a' : `−${(o.maxDrawdown7d * 100).toFixed(1)}%`}</td>
                 </tr>
               ))}
             </tbody>
@@ -78,7 +78,7 @@ export function StormV2Section({ r }: { r: V2Report | null }) {
         id="v2-power"
         className="lg:col-span-2"
         title="Why the weights stay expert priors"
-        sub="How many observations a fit needs before its AUC could clear 0.70 with a 95% lower bound above 0.60 (Hanley–McNeil)."
+        sub="How many observations a fit needs before its AUC could clear 0.70 with a 95% lower bound above 0.60 (Hanley and McNeil)."
       >
         <table className="w-full text-left text-[12.5px]">
           <thead className="text-[11px] uppercase tracking-wider text-ink-muted">
@@ -95,9 +95,9 @@ export function StormV2Section({ r }: { r: V2Report | null }) {
                 <td className="py-1.5 pr-2 text-ink">{p.event}</td>
                 <td className="num text-ink-2">{pct(p.baseRate, 1)}</td>
                 <td className="num text-ink-2">
-                  {p.needed ? `${p.needed.n.toLocaleString('en-US')} obs · ${p.needed.events} events` : '—'}
+                  {p.needed ? `${p.needed.n.toLocaleString('en-US')} obs · ${p.needed.events} events` : 'n/a'}
                 </td>
-                <td className="num text-right text-ink">{p.credits?.toLocaleString('en-US') ?? '—'}</td>
+                <td className="num text-right text-ink">{p.credits?.toLocaleString('en-US') ?? 'n/a'}</td>
               </tr>
             ))}
           </tbody>
@@ -131,7 +131,7 @@ function ForwardTable({ f }: { f: ForwardCheck }) {
             <tr key={b.label} className={`border-t border-border ${i === f.bands.length ? 'text-ink-muted' : ''}`}>
               <td className="py-1.5 text-ink">{b.label}</td>
               <td className="num">{b.n}</td>
-              <td className="num">{b.hitRate == null ? '—' : pct(b.hitRate, 0)}</td>
+              <td className="num">{b.hitRate == null ? 'n/a' : pct(b.hitRate, 0)}</td>
               <td className="num">{signed(b.meanReturn)}</td>
               <td className="num text-right">{signed(b.medianReturn)}</td>
             </tr>
@@ -143,7 +143,7 @@ function ForwardTable({ f }: { f: ForwardCheck }) {
           ? `First result once history covers the horizon: after ${new Date(f.readyAt).toISOString().slice(0, 16).replace('T', ' ')} UTC. `
           : ''}
         {f.pairs
-          ? `${f.moments} rebuilt moments, ${f.pairs} readings; rank correlation ${f.spearman == null ? '—' : num(f.spearman, 2)}. `
+          ? `${f.moments} rebuilt moments, ${f.pairs} readings; rank correlation ${f.spearman == null ? 'n/a' : num(f.spearman, 2)}. `
           : ''}
         {early && f.pairs ? 'Too early to read: a day of moments at least before any conclusion. ' : ''}
         {f.note}
@@ -260,7 +260,7 @@ export function StrategyLab({ chains }: { chains: string[] }) {
           </div>
           {m ? (
             <div className="num mt-1 text-ink-2">
-              {m.baseline.n} picks · rose {m.baseline.hitRate == null ? '—' : pct(m.baseline.hitRate, 0)} · mean{' '}
+              {m.baseline.n} picks · rose {m.baseline.hitRate == null ? 'n/a' : pct(m.baseline.hitRate, 0)} · mean{' '}
               {signed(m.baseline.meanReturn)} · median {signed(m.baseline.medianReturn)}
             </div>
           ) : null}

@@ -72,7 +72,7 @@ const MIGRATIONS: string[] = [
   );
   CREATE INDEX idx_cps_chain_window_time ON chain_pressure_snapshots(chain, window, snapshot_at);
 
-  -- Blended CPI per chain per scan — the series the Holt forecast and the
+  -- Blended CPI per chain per scan, the series the Holt forecast and the
   -- barometer's 7-day trend line read.
   CREATE TABLE chain_cpi (
     id                   INTEGER PRIMARY KEY AUTOINCREMENT,

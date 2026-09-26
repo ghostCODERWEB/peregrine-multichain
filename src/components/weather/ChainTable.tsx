@@ -37,13 +37,13 @@ export function ChainTable({ chains }: { chains: ChainTile[] }) {
                   <Link href={`/chain/${c.chain}`} className="inline-flex items-center gap-2 text-ink hover:underline"><ChainLogo chain={c.chain} size={16} />{chainName(c.chain)}</Link>
                 </td>
                 <td className="text-ink-2">{c.tier}</td>
-                <td className="text-right text-ink">{c.cpi != null ? num(c.cpi) : '—'}</td>
-                <td className="text-right text-ink-2">{c.trend6h != null ? signed(c.trend6h) : '—'}</td>
+                <td className="text-right text-ink">{c.cpi != null ? num(c.cpi) : 'n/a'}</td>
+                <td className="text-right text-ink-2">{c.trend6h != null ? signed(c.trend6h) : 'n/a'}</td>
                 <td className="text-right text-ink-2">
-                  {['1h', '24h', '7d'].map((w) => { const x = win(c, w); return x ? num(x.cpi, 0) : '—'; }).join(' · ')}
+                  {['1h', '24h', '7d'].map((w) => { const x = win(c, w); return x ? num(x.cpi, 0) : 'n/a'; }).join(' · ')}
                 </td>
-                <td className="text-right text-ink">{d24 ? usd(d24.netFlowUsd, { signed: true }) : '—'}</td>
-                <td className="text-right text-ink-2">{d24 ? usd(d24.volumeUsd) : '—'}</td>
+                <td className="text-right text-ink">{d24 ? usd(d24.netFlowUsd, { signed: true }) : 'n/a'}</td>
+                <td className="text-right text-ink-2">{d24 ? usd(d24.volumeUsd) : 'n/a'}</td>
                 <td className="font-sans text-[12px] text-ink-muted">
                   {c.source === 'smart-money' ? 'smart money' : c.source === 'market-flow' ? 'market flow' : c.unavailable}
                 </td>

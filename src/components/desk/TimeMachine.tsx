@@ -7,6 +7,7 @@ import type { CandlePoint, ReplayAt } from '@/lib/models/replay';
 import type { CallCard, Receipt } from '@/server/desk/calls';
 import type { ReplayReading } from '@/server/desk/replay';
 import { fmtPrice, receiptProvenance, GRADE_RULES } from './receipt';
+import { Go } from '@/components/ui/Icons';
 
 interface Preview {
   id: string;
@@ -266,7 +267,7 @@ export function TimeMachine({ chain, token }: { chain: string; token: string }) 
                 tfMs={preview.horizon === '1h' ? 300_000 : preview.horizon === '24h' ? 3_600_000 : 14_400_000}
               />
               <Link href="/desk" className="text-sm underline">
-                View replay in the Desk →
+                View replay in the Desk <Go />
               </Link>
             </div>
           )}

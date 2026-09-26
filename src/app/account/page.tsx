@@ -9,7 +9,7 @@ import { McpAccess } from '@/components/account/McpAccess';
 import { accountsEnabled } from '@/server/site';
 
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'Account — Peregrine' };
+export const metadata: Metadata = { title: 'Account · Peregrine' };
 
 export default async function AccountPage() {
   // No accounts on a public site (the middleware redirects too).
@@ -37,7 +37,7 @@ export default async function AccountPage() {
           <h2 className="mb-1 font-medium text-ink">No key? Pay per call</h2>
           <p>
             Some sections offer a priced button instead: Nansen sells {resources ?? 'most of its'} endpoints per call through x402, paid in USDC on Base or
-            Monad straight from your wallet to Nansen (usually $0.01–$0.05). You see the price first, then exactly what your wallet will sign; nothing is signed
+            Monad straight from your wallet to Nansen (usually $0.01 to $0.05). You see the price first, then exactly what your wallet will sign; nothing is signed
             without your click, Peregrine never holds funds, and what you buy is shown to you only.
           </p>
         </section>

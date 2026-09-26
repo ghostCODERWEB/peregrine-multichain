@@ -3,11 +3,12 @@ import Link from 'next/link';
 import { InfoPopover } from '@/components/InfoPopover';
 import { chainName, num, pct } from '@/lib/viz/format';
 import type { ForecastWave, Odds } from '@/server/token/forecast';
+import { Go } from '@/components/ui/Icons';
 
 export function oddsTitle(f: ForecastWave): string {
   const s = f.storm.p, b = f.breakout.p;
   const vs = (p: number, base: number) => (p > base * 1.5 ? 'above' : p < base / 1.5 ? 'below' : 'near');
-  return `7-day odds: ${pct(s, s < 0.1 ? 1 : 0)} dump risk, ${pct(b, b < 0.1 ? 1 : 0)} breakout — dump risk ${vs(s, f.storm.baseRate)} the base rate`;
+  return `7-day odds: ${pct(s, s < 0.1 ? 1 : 0)} dump risk, ${pct(b, b < 0.1 ? 1 : 0)} breakout, dump risk ${vs(s, f.storm.baseRate)} the base rate`;
 }
 
 /** "About 2 in 100": probabilities read as frequencies, never as calls. */
@@ -31,7 +32,7 @@ function Row({ label, o, tone }: { label: string; o: Odds; tone: string }) {
         {inHundred(o.p)} tokens like this one did it within 7 days; base rate {pct(o.baseRate, 1)} (tick).
       </p>
       <p className="num mt-0.5 text-[11px] text-ink-muted">
-        track record: AUC {num(o.auc, 2)}{o.aucCi ? ` [${num(o.aucCi[0], 2)}–${num(o.aucCi[1], 2)}]` : ''} · {o.testN} tokens, {o.testEvents} events · tested {o.testAnchor}
+        track record: AUC {num(o.auc, 2)}{o.aucCi ? ` [${num(o.aucCi[0], 2)} to ${num(o.aucCi[1], 2)}]` : ''} · {o.testN} tokens, {o.testEvents} events · tested {o.testAnchor}
       </p>
     </div>
   );
@@ -44,8 +45,8 @@ export function OddsCard({ f }: { f: ForecastWave }) {
       <Row label="Dump: falls 50%+ from here" o={f.storm} tone="var(--storm-3)" />
       <Row label="Breakout: rises 30%+ from here" o={f.breakout} tone="var(--in-3)" />
       <p className="text-[11.5px] text-ink-muted">
-        {f.extrapolated ? `Trained on ${f.trainedOn.map(chainName).join(', ')} — on this chain the model is extrapolating. ` : ''}
-        Probabilities from logistic models fitted on Nansen point-in-time data. <Link href="/lab" className="underline underline-offset-2 hover:text-ink">How they were tested →</Link> Not financial advice.
+        {f.extrapolated ? `Trained on ${f.trainedOn.map(chainName).join(', ')}, on this chain the model is extrapolating. ` : ''}
+        Probabilities from logistic models fitted on Nansen point-in-time data. <Link href="/lab" className="underline underline-offset-2 hover:text-ink">How they were tested <Go /></Link> Not financial advice.
       </p>
     </div>
   );

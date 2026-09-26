@@ -29,7 +29,7 @@ const compact = (v: number) => Intl.NumberFormat('en-US', { notation: 'compact',
 const fmt = (m: Metric, v: number) => (m === 'dexVolumeUsd' ? usd(v) : compact(v));
 
 function Change({ v }: { v: number | null }) {
-  if (v == null) return <span className="text-ink-muted">—</span>;
+  if (v == null) return <span className="text-ink-muted">n/a</span>;
   return (
     <span className="num inline-flex items-center gap-0.5 text-ink">
       <span aria-hidden style={{ color: v >= 0 ? 'var(--in-2)' : 'var(--out-2)' }}>{v >= 0 ? '▲' : '▼'}</span>
@@ -73,11 +73,11 @@ export function ChainHero({ d, tier, title, note }: { d: ChainPageData; tier: st
           <p className="mt-2 text-[13px] text-ink-2">{note}</p>
           <dl className="stagger mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-5">
             {[
-              ['DEX volume, 7d', self ? usd(self.dexVolumeUsd) : '—', self?.dexVolumeChange ?? null],
-              ['Active addresses, 7d', self ? compact(self.activeAddresses) : '—', self?.activeAddressesChange ?? null],
-              ['Transactions, 7d', self ? compact(self.txCount) : '—', self?.txChange ?? null],
-              ['Tokens up · down, 24h', tiles.length ? `${up} · ${tiles.length - up}` : '—', null],
-              ['Median token, 24h', median != null ? `${median >= 0 ? '+' : ''}${pct(median, 1)}` : '—', null],
+              ['DEX volume, 7d', self ? usd(self.dexVolumeUsd) : 'n/a', self?.dexVolumeChange ?? null],
+              ['Active addresses, 7d', self ? compact(self.activeAddresses) : 'n/a', self?.activeAddressesChange ?? null],
+              ['Transactions, 7d', self ? compact(self.txCount) : 'n/a', self?.txChange ?? null],
+              ['Tokens up · down, 24h', tiles.length ? `${up} · ${tiles.length - up}` : 'n/a', null],
+              ['Median token, 24h', median != null ? `${median >= 0 ? '+' : ''}${pct(median, 1)}` : 'n/a', null],
             ].map(([k, v, c]) => (
               <div key={k as string} className="inset-well min-w-0 rounded-[18px] px-4 py-3">
                 <dt className="text-[12.5px] font-medium text-ink-muted">{k}</dt>

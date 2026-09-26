@@ -10,6 +10,7 @@ import type { TapeWave, RiverWave, SocialWave, DcaWave, PositionsWave, PnlBoardW
 import type { NewsItem } from '@/server/token/ondemand';
 import type { AuthorWeek } from '@/lib/models/author-week';
 import { usd, pct, num, amount, walletName } from '@/lib/viz/format';
+import { Go } from '@/components/ui/Icons';
 
 const dot = (side: 'buy' | 'sell') => (
   <span
@@ -109,7 +110,7 @@ export function TransferRiver({ r, chain }: { r: RiverWave; chain: string }) {
       >
         <span className="flex items-baseline justify-between gap-2 text-[12px]">
           <span className="min-w-0 truncate text-ink-2">
-            {walletName(x.fromLabel, x.from)} → {walletName(x.toLabel, x.to)}
+            {walletName(x.fromLabel, x.from)} <Go /> {walletName(x.toLabel, x.to)}
           </span>
           <span className="num shrink-0 text-ink">{usd(x.valueUsd)}</span>
         </span>
@@ -326,7 +327,7 @@ export function TideGauge({ p }: { p: PositionsWave }) {
             </div>
             <figcaption className="mt-1.5 text-[11.5px]">
               <span className="block text-ink">{COHORT_LABEL[c.cohort]}</span>
-              <span className="num block text-ink-2">{share == null ? '—' : `${Math.round(share * 100)}% long`}</span>
+              <span className="num block text-ink-2">{share == null ? 'n/a' : `${Math.round(share * 100)}% long`}</span>
               <span className="num block text-[10.5px] text-ink-muted">
                 {usd(c.longsUsd)} L · {usd(c.shortsUsd)} S
               </span>
@@ -362,9 +363,9 @@ export function PnlBoard({ b }: { b: PnlBoardWave }) {
                 </Link>
               </td>
               <td className="num py-1.5 text-right text-ink">{usd(r.pnlUsd, { signed: true })}</td>
-              <td className="num py-1.5 text-right text-ink-2">{r.roi != null ? pct(r.roi, 0) : '—'}</td>
+              <td className="num py-1.5 text-right text-ink-2">{r.roi != null ? pct(r.roi, 0) : 'n/a'}</td>
               <td className="num py-1.5 text-right text-ink-2">{usd(r.holdingUsd)}</td>
-              <td className="num py-1.5 text-right text-ink-muted">{r.trades ?? '—'}</td>
+              <td className="num py-1.5 text-right text-ink-muted">{r.trades ?? 'n/a'}</td>
             </tr>
           ))}
         </tbody>

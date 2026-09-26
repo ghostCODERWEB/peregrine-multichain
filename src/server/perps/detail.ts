@@ -106,8 +106,8 @@ export async function perpLeaders(): Promise<PerpLeaders> {
       rows, tally,
       provenance: {
         title: 'Hyperliquid traders: copy-trade candidate score',
-        formula: 'return = 25·tanh(ROI₃₀ ÷ 0.5)\nconsistency = +15 profitable over 7 and 30 days, −5 if the 7-day window lost\nbanked = 10·(realized share of 30-day PnL − 0.5), within ±5\nleverage = −15 × (open positions ÷ account − 3) ÷ 7, from 3× to 10×\nopen loss = −10 × losing open positions ÷ 20% of the account; small book (< $100K) −10; empty account −15\nscore = 50 + Σ, 0–100',
-        inputs: [{ label: 'Traders scored', value: String(rows.length) }, { label: 'Top candidate', value: top ? `${top.score} · ${usd(top.pnl30, { signed: true })} over 30 days` : '—' }],
+        formula: 'return = 25·tanh(ROI₃₀ ÷ 0.5)\nconsistency = +15 profitable over 7 and 30 days, −5 if the 7-day window lost\nbanked = 10·(realized share of 30-day PnL − 0.5), within ±5\nleverage = −15 × (open positions ÷ account − 3) ÷ 7, from 3× to 10×\nopen loss = −10 × losing open positions ÷ 20% of the account; small book (< $100K) −10; empty account −15\nscore = 50 + Σ, 0 to 100',
+        inputs: [{ label: 'Traders scored', value: String(rows.length) }, { label: 'Top candidate', value: top ? `${top.score} · ${usd(top.pnl30, { signed: true })} over 30 days` : 'n/a' }],
         calls: [m.call, w.call],
         notes: ['The 100 most profitable traders of the last 30 days, re-ranked by the score; a 7-day result is known only for those also in the 7-day top 100.', 'A candidate score, not a recommendation: it has no track record until the M9 backtest.'],
       },

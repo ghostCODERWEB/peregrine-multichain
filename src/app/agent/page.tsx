@@ -8,7 +8,7 @@ import { chainName } from '@/lib/viz/format';
 import { accountsEnabled } from '@/server/site';
 import { PageTitle } from '@/components/PageTitle';
 
-export const metadata: Metadata = { title: 'Ask Nansen — Peregrine' };
+export const metadata: Metadata = { title: 'Ask Nansen · Peregrine' };
 export const dynamic = 'force-dynamic';
 
 /** Starting questions from what TIDE sees right now (no Nansen call). */

@@ -13,7 +13,7 @@ export function BandBadge({ children, color = 'var(--mint)' }: { children: React
   return <span className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-bold" style={{ color, background: `color-mix(in srgb, ${color} 14%, transparent)` }}><span className="h-1.5 w-1.5 rounded-full bg-current" />{children}</span>;
 }
 export function EmptyValue({ reason }: { reason: string }) {
-  return <span className="text-ink-muted">— <span className="text-xs font-normal"><SiteReason text={reason} /></span></span>;
+  return <span className="text-ink-muted"><span className="text-xs font-normal"><SiteReason text={reason} /></span></span>;
 }
 /** The one withheld-data state. `compact` is a single row, for sections
  *  under a page that already shows the full panel. */

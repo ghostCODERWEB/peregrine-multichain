@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { Search } from 'lucide-react';
 import { ChainLogo } from '@/components/Logo';
 import { chainName } from '@/lib/viz/format';
+import { Go } from '@/components/ui/Icons';
 
 type Hit = { chain: string; title: string; subtitle: string; address: string };
 // EVM, Solana/base58, Sui/Aptos type paths, TON and other long ids.
@@ -70,7 +71,7 @@ export function RugSearch({ chains }: { chains: readonly string[] }) {
               <Link href={`/rug/${h.chain}/${encodeURIComponent(h.address)}`} className="flex items-center gap-3 px-4 py-3 hover:bg-ink/5">
                 <ChainLogo chain={h.chain} size={22} />
                 <span className="min-w-0"><span className="block truncate text-[14px] font-bold text-ink">{h.title}</span><span className="block truncate text-[12.5px] text-ink-muted">{h.subtitle}</span></span>
-                <span className="ml-auto shrink-0 text-[13px] font-bold text-[var(--mint)]">Check →</span>
+                <span className="ml-auto shrink-0 text-[13px] font-bold text-[var(--mint)]">Check <Go /></span>
               </Link>
             </li>
           ))}

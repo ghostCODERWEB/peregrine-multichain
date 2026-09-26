@@ -151,7 +151,7 @@ export function alphaForward(view: PressureView, horizonHours = 6, maxMoments = 
     moments,
     [
       ['score 70+', (s) => s >= 70],
-      ['55–69', (s) => s >= 55 && s < 70],
+      ['55 to 69', (s) => s >= 55 && s < 70],
       ['under 55', (s) => s < 55],
     ],
     'Forward return = price at the next snapshot at least the horizon later ÷ price at the reading − 1. A token counts only while it stays among its chain’s 25 busiest, so the sample leans to active tokens.',
@@ -245,13 +245,13 @@ export function alphaRule(
       if (p0 && p1) pairs.push({ score: row.score, fwd: p1 / p0 - 1 });
     }
   }
-  const label = `alpha ${rule.minScore}–${rule.maxScore}${rule.chain ? ` on ${rule.chain}` : ''}`;
+  const label = `alpha ${rule.minScore} to ${rule.maxScore}${rule.chain ? ` on ${rule.chain}` : ''}`;
   return {
     rule: label,
     horizonHours: rule.horizonHours,
     matched: pairs.length ? summarize(label, rule.horizonHours, pairs, moments, [], '', null) : null,
     note: pairs.length
-      ? `Against every token the board showed over the same moments: hit rate ${all.baseline.hitRate == null ? '—' : `${Math.round(all.baseline.hitRate * 100)}%`}, mean ${all.baseline.meanReturn == null ? '—' : `${(all.baseline.meanReturn * 100).toFixed(2)}%`}.`
+      ? `Against every token the board showed over the same moments: hit rate ${all.baseline.hitRate == null ? 'n/a' : `${Math.round(all.baseline.hitRate * 100)}%`}, mean ${all.baseline.meanReturn == null ? 'n/a' : `${(all.baseline.meanReturn * 100).toFixed(2)}%`}.`
       : 'No reading matched the rule in the stored history yet.',
   };
 }

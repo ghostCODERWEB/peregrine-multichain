@@ -6,7 +6,7 @@ import type { ChainPageData } from '@/server/weather/chain-page';
 
 export function peersTitle(chain: string, p: ChainPageData['peers']): string {
   if (!p.self || p.self.dexVolumeChange == null) return `${chainName(chain)} isn't in Nansen's chain rankings`;
-  const pc = p.growthPercentile == null ? '' : ` — ${num(p.growthPercentile * 100, 0)}th percentile of all chains`;
+  const pc = p.growthPercentile == null ? '' : `, ${num(p.growthPercentile * 100, 0)}th percentile of all chains`;
   return `${chainName(chain)} DEX volume ${p.self.dexVolumeChange >= 0 ? 'grew' : 'fell'} ${pct(Math.abs(p.self.dexVolumeChange), 0)} in 7 days${pc}`;
 }
 
@@ -60,7 +60,7 @@ export function PeersSlope({ chain, p }: { chain: string; p: ChainPageData['peer
         })}
       </svg>
       <p className="mt-1 text-[11px] text-ink-muted">
-        {f && f.chain !== chain ? `${chainName(f.chain)}: ${pct(f.dexVolumeChange)} — ` : ''}hover a line for a peer; {rows.length} chains ranked.
+        {f && f.chain !== chain ? `${chainName(f.chain)}: ${pct(f.dexVolumeChange)}, ` : ''}hover a line for a peer; {rows.length} chains ranked.
       </p>
     </div>
   );

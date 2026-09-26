@@ -29,7 +29,7 @@ export function TradeTape({ tape }: { tape: ChainPageData['tape'] }) {
                   {t.side === 'buy' ? 'Buy' : 'Sell'}
                 </span>
               </td>
-              <td className="py-1.5 text-ink">{t.symbol ?? '—'}</td>
+              <td className="py-1.5 text-ink">{t.symbol ?? 'n/a'}</td>
               <td className="num py-1.5 text-right text-ink">
                 {usd(t.usd)}
                 {t.count > 1 && <span className="ml-1 text-[11px] text-ink-muted" title={`${t.count} consecutive fills folded into one row`}>×{t.count}</span>}

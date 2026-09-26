@@ -158,7 +158,7 @@ export async function predictBoard(): Promise<PredictBoard> {
             { label: 'Categories', value: String(categories.length) },
             { label: 'Open interest', value: usd(totals.openInterest) },
             { label: '24h volume', value: usd(totals.volume24h) },
-            { label: 'Hottest (> $100K today)', value: hottest ? `${hottest.category} ${num(hottest.heat, 1)}× its pace` : '—' },
+            { label: 'Hottest (> $100K today)', value: hottest ? `${hottest.category} ${num(hottest.heat, 1)}× its pace` : 'n/a' },
           ],
           calls: [c.call, m.call, e.call],
           notes: [
@@ -315,7 +315,7 @@ export async function marketDetail(id: string): Promise<PmDetail> {
         inputs: [
           { label: "YES holders' value", value: usd(balance.yesUsd) },
           { label: "NO holders' value", value: usd(balance.noUsd) },
-          { label: 'Largest holders on YES', value: balance.yesShare != null ? pct(balance.yesShare, 0) : '—' },
+          { label: 'Largest holders on YES', value: balance.yesShare != null ? pct(balance.yesShare, 0) : 'n/a' },
         ],
         calls,
         notes: [
@@ -421,7 +421,7 @@ export async function holderRecords(id: string, price: number | null): Promise<P
         formula: `skilled = 10+ prediction markets traded, positive total PnL, 55%+ won (address-summary)\namong the ${RECORD_HOLDERS} largest holders: skilled YES share = skilled value on YES ÷ skilled value\ndivergence = skilled YES share − YES price (points)`,
         inputs: [
           { label: 'Skilled among the largest', value: `${div.skilled} of ${top.length}` },
-          { label: 'Skilled YES share', value: div.skilledYesShare != null ? pct(div.skilledYesShare, 0) : '—' },
+          { label: 'Skilled YES share', value: div.skilledYesShare != null ? pct(div.skilledYesShare, 0) : 'n/a' },
           { label: 'Market says', value: impliedPct(price) },
         ],
         calls: [

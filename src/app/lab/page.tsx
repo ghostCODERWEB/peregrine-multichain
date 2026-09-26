@@ -14,6 +14,7 @@ import path from 'node:path';
 import { StormV2Section, ForwardSection, StrategyLab } from '@/components/lab/LabV2';
 import { alphaForward, ppiForward } from '@/server/backtest/forward';
 import type { V2Report } from '@/server/backtest/storm-v2';
+import { Go } from '@/components/ui/Icons';
 
 function loadStormV2(): V2Report | null {
   try {
@@ -24,7 +25,7 @@ function loadStormV2(): V2Report | null {
 }
 
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'Backtest Lab — Peregrine' };
+export const metadata: Metadata = { title: 'Backtest Lab · Peregrine' };
 
 const FEATURE_LABEL: Record<string, string> = {
   sell_skew: 'Sell skew, 7d',
@@ -51,7 +52,7 @@ function verdict(r: ModelReport): string {
   const bar =
     a > 0.7
       ? ci && ci[0] < 0.7
-        ? `clears the 0.70 bar on the point estimate, but its 95% interval reaches down to ${num(ci[0], 2)} — ${r.test.events} events is thin evidence`
+        ? `clears the 0.70 bar on the point estimate, but its 95% interval reaches down to ${num(ci[0], 2)}, ${r.test.events} events is thin evidence`
         : 'clears the 0.70 bar'
       : 'does not clear the 0.70 bar';
   return `Out of sample, AUC ${num(a, 2)} ${bar}, and ${vsExpert}.`;
@@ -59,7 +60,7 @@ function verdict(r: ModelReport): string {
 
 function ModelSection({ id, r, title }: { id: string; r: ModelReport; title: string }) {
   const prov: Provenance = {
-    title: `${title} — backtest`,
+    title: `${title} · backtest`,
     formula:
       'L2 logistic regression (λ = 5) on standardized, ±5-clipped features\ntrain: older anchors · test: newest anchor (time split)\nAUC by Mann-Whitney; 95% CI Hanley-McNeil; Brier = mean (p − y)²',
     inputs: [
@@ -71,7 +72,7 @@ function ModelSection({ id, r, title }: { id: string; r: ModelReport; title: str
     calls: [],
   };
   const tiles: Array<[string, string, string]> = [
-    ['AUC (test)', num(r.fitted.auc, 2), r.fitted.aucCi ? `95% CI ${num(r.fitted.aucCi[0], 2)}–${num(r.fitted.aucCi[1], 2)}` : ''],
+    ['AUC (test)', num(r.fitted.auc, 2), r.fitted.aucCi ? `95% CI ${num(r.fitted.aucCi[0], 2)} to ${num(r.fitted.aucCi[1], 2)}` : ''],
     ['Brier', num(r.fitted.brier, 3), `always-base-rate ${num(r.baseRateBrier, 3)}`],
     ['Hit rate @ 50%', pct(r.fitted.hitRate, 0), `always "no" scores ${pct(1 - r.test.events / Math.max(1, r.test.n), 0)}`],
     ['Test sample', String(r.test.n), `${r.test.events} events`],
@@ -161,7 +162,7 @@ export default async function LabPage() {
         <p className="mt-1 max-w-3xl text-[13px] text-ink-2">
           {bt ? (
             <>
-              {bt.samples} token-weeks · {bt.tokens} tokens · {bt.anchors.length} anchors ({bt.anchors[0]} → {bt.anchors.at(-1)}) · Nansen
+              {bt.samples} token-weeks · {bt.tokens} tokens · {bt.anchors.length} anchors ({bt.anchors[0]} <Go /> {bt.anchors.at(-1)}) · Nansen
               point-in-time data only.
             </>
           ) : (

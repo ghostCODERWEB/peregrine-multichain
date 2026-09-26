@@ -11,7 +11,7 @@ export function forensicsTitle(f: ForensicsWave): string {
   if (!multi.length) return `No linked wallets among the top ${f.nodes.length} holders`;
   const share = multi.reduce((s, c) => s + c.share, 0);
   const dep = multi.some((c) => c.includesDeployer);
-  return `${multi.length} cluster${multi.length > 1 ? 's' : ''} of linked wallets hold ${pct(share, 1)} of supply${dep ? ' — one tied to the deployer' : ''}`;
+  return `${multi.length} cluster${multi.length > 1 ? 's' : ''} of linked wallets hold ${pct(share, 1)} of supply${dep ? ', one tied to the deployer' : ''}`;
 }
 
 /** Bubble graph of the top holders: bubble area = share of supply,
@@ -127,7 +127,7 @@ export function InsiderGraph({ f }: { f: ForensicsWave }) {
           <span className="mr-1 inline-block h-2.5 w-2.5 rounded-full align-middle" style={{ background: 'var(--mid)' }} />
           no link found
         </span>
-        <span>— same funder · - - related · click a bubble for the wallet</span>
+        <span>solid line: same funder · dashed line: related · select a bubble for the wallet</span>
       </div>
     </div>
   );

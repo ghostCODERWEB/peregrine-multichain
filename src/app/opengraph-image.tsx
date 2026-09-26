@@ -9,7 +9,7 @@ import { OG, ogInk } from '@/lib/viz/og-palette';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
-export const alt = 'Peregrine — smart-money intelligence across every chain the Nansen API lists';
+export const alt = 'Peregrine · smart-money intelligence across every chain the Nansen API lists';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
@@ -39,7 +39,7 @@ export default function Image() {
           })}
         </div>
         <div style={{ display: 'flex', marginTop: 'auto', justifyContent: 'space-between', fontSize: 22, color: OG.muted }}>
-          <div style={{ display: 'flex' }}>{storm ? `Risk alert: ${storm.symbol ?? 'token'} on ${chainName(storm.chain)} — ${Math.round(storm.score)}/100` : 'No risk alerts'}</div>
+          <div style={{ display: 'flex' }}>{storm ? `Risk alert: ${storm.symbol ?? 'token'} on ${chainName(storm.chain)}, ${Math.round(storm.score)}/100` : 'No risk alerts'}</div>
           <div style={{ display: 'flex' }}>red = smart money selling · green = buying</div>
         </div>
       </div>

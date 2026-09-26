@@ -4,11 +4,12 @@ import { useThemeColors } from '@/components/charts/useThemeColors';
 import { InfoPopover } from '@/components/InfoPopover';
 import { num, pct } from '@/lib/viz/format';
 import type { HoldersWave } from '@/server/token/waves';
+import { Go } from '@/components/ui/Icons';
 
 export function holdersTitle(h: HoldersWave): string {
   const c = h.concentration;
   if (!c) return 'No non-custodial holders among the top 100';
-  return `Top 10 real holders own ${pct(c.top10Share, 0)} of supply — concentration ${num(c.score, 0)}/100`;
+  return `Top 10 real holders own ${pct(c.top10Share, 0)} of supply, concentration ${num(c.score, 0)}/100`;
 }
 
 /** "Token Millionaire [0xe61894]" → "Token Millionaire"; a bare "[0x…]"
@@ -31,8 +32,8 @@ function Lorenz({ h }: { h: HoldersWave }) {
       <polyline points={pts} fill="none" stroke="var(--ink-1)" strokeWidth="2" strokeLinejoin="round" />
       <line x1={x(0)} y1={y(0)} x2={x(1)} y2={y(0)} stroke="var(--axis)" />
       <line x1={x(0)} y1={y(0)} x2={x(0)} y2={y(1)} stroke="var(--axis)" />
-      <text x={x(0.5)} y={H - 4} textAnchor="middle" className="fill-ink-muted text-[9px]">share of top holders, smallest first →</text>
-      <text x={8} y={y(0.5)} textAnchor="middle" transform={`rotate(-90 8 ${y(0.5)})`} className="fill-ink-muted text-[9px]">share of their supply →</text>
+      <text x={x(0.5)} y={H - 4} textAnchor="middle" className="fill-ink-muted text-[9px]">share of top holders, smallest first <Go /></text>
+      <text x={8} y={y(0.5)} textAnchor="middle" transform={`rotate(-90 8 ${y(0.5)})`} className="fill-ink-muted text-[9px]">share of their supply <Go /></text>
       <text x={x(0.6)} y={y(0.5)} className="fill-ink-muted text-[9px]">equality</text>
     </svg>
   );
@@ -84,10 +85,10 @@ export function HolderPanel({ h }: { h: HoldersWave }) {
         <Lorenz h={h} />
         <dl className="grid grid-cols-2 gap-2 text-center">
           {[
-            ['Concentration C', c ? num(c.score, 0) : '—'],
-            ['Gini (top 100)', c ? num(c.giniCoefficient, 2) : '—'],
-            ['Top-10 share', c ? pct(c.top10Share, 0) : '—'],
-            ['Nakamoto K', c ? (c.nakamoto > 20 ? '20+' : String(c.nakamoto)) : '—'],
+            ['Concentration C', c ? num(c.score, 0) : 'n/a'],
+            ['Gini (top 100)', c ? num(c.giniCoefficient, 2) : 'n/a'],
+            ['Top-10 share', c ? pct(c.top10Share, 0) : 'n/a'],
+            ['Nakamoto K', c ? (c.nakamoto > 20 ? '20+' : String(c.nakamoto)) : 'n/a'],
             ['Excluded (custody, pools)', pct(h.excludedShare, 1)],
             ['Holders shown', String(h.holders.length)],
           ].map(([k, v]) => (

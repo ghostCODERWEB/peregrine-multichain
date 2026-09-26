@@ -8,6 +8,7 @@ import { ConvictionMap } from './ConvictionMap';
 import { HoldingHistory } from './HoldingHistory';
 import type { SmDesk, SmPerps, SmDcas, SmHistory, DeskHolding, FollowedMove } from '@/server/smart-money/desk';
 import type { Provenance } from '@/lib/provenance';
+import { Go } from '@/components/ui/Icons';
 
 type Load<T> = { state: 'loading' } | { state: 'error'; message: string } | { state: 'ok'; data: T };
 type Moves = { moves: FollowedMove[]; source: 'scanner' | 'live'; provenance: Provenance };
@@ -37,7 +38,7 @@ const CHAINS = ['all', 'ethereum', 'solana', 'base', 'bnb', 'arbitrum', 'hyperev
 const HISTORY_CHAINS = new Set(['arc', 'base', 'bnb', 'ethereum', 'monad', 'robinhood', 'solana']);
 
 function Conv({ v }: { v: number | null }) {
-  if (v == null) return <span className="text-ink-muted">—</span>;
+  if (v == null) return <span className="text-ink-muted">n/a</span>;
   const w = Math.min(100, Math.abs(v)) / 2;
   return (
     <span className="inline-flex items-center gap-2">
@@ -172,7 +173,7 @@ export function SmartMoneyDesk({ mode }: { mode: 'owner' | 'member' }) {
           action={history?.state === 'ok' ? <InfoPopover p={history.data.provenance} /> : undefined}>
           {history?.state === 'ok' ? <HoldingHistory h={history.data} /> : history?.state === 'error' ? <Unavailable text={history.message} /> : <WaveLoading what="30 days of smart-money balances" height={240} />}
           <div className="mt-2 flex gap-3 text-[12px]">
-            <Link href={`/token/${picked.chain}/${picked.tokenAddress}`} className="text-ink-2 underline-offset-2 hover:text-ink hover:underline">Open {picked.symbol}&apos;s token page →</Link>
+            <Link href={`/token/${picked.chain}/${picked.tokenAddress}`} className="text-ink-2 underline-offset-2 hover:text-ink hover:underline">Open {picked.symbol}&apos;s token page <Go /></Link>
             <button onClick={() => { setPicked(null); setHistory(null); }} className="text-ink-muted hover:text-ink">Close</button>
           </div>
         </Card>
@@ -192,10 +193,10 @@ export function SmartMoneyDesk({ mode }: { mode: 'owner' | 'member' }) {
                   <tr key={h.chain + h.tokenAddress} onClick={() => pick(h)} className={`cursor-pointer border-t border-border hover:bg-raised/60 ${picked === h ? 'bg-raised' : ''}`}>
                     <td className="py-1.5"><span className="text-ink">{h.symbol}</span> <span className="text-ink-muted">{chainName(h.chain)}</span>{h.crowdedExit && <span className="ml-1.5 rounded border border-dashed px-1.5 text-[10.5px] text-ink-2" style={{ borderColor: 'var(--storm-2)' }}>crowded exit</span>}</td>
                     <td className="num text-ink">{usd(h.valueUsd)}</td>
-                    <td className="num text-ink">{h.change24h == null ? '—' : `${h.change24h >= 0 ? '+' : '−'}${pct(Math.abs(h.change24h), 1)}`}</td>
+                    <td className="num text-ink">{h.change24h == null ? 'n/a' : `${h.change24h >= 0 ? '+' : '−'}${pct(Math.abs(h.change24h), 1)}`}</td>
                     <td className="num text-ink">{h.holders}</td>
-                    <td className="num text-ink-2">{h.share != null ? pct(h.share, 1) : '—'}</td>
-                    <td className="num text-ink-2">{h.backers ? `${h.backers} (best #${h.bestRank})` : '—'}</td>
+                    <td className="num text-ink-2">{h.share != null ? pct(h.share, 1) : 'n/a'}</td>
+                    <td className="num text-ink-2">{h.backers ? `${h.backers} (best #${h.bestRank})` : 'n/a'}</td>
                     <td><Conv v={h.conviction} /></td>
                   </tr>
                 ))}
@@ -222,9 +223,9 @@ export function SmartMoneyDesk({ mode }: { mode: 'owner' | 'member' }) {
                       <td className="num py-1.5 text-ink-muted">{l.rank}</td>
                       <td className="max-w-[180px] truncate"><Link href={`/wallet/${l.address}`} className="text-ink hover:underline">{walletName(l.label, l.address)}</Link></td>
                       <td className="num text-ink">{usd(l.totalPnlUsd, { signed: true })}</td>
-                      <td className="num text-ink-2">{l.winRate != null ? pct(l.winRate, 0) : '—'}</td>
+                      <td className="num text-ink-2">{l.winRate != null ? pct(l.winRate, 0) : 'n/a'}</td>
                       <td className="num text-ink-2">{l.trades.toLocaleString('en-US')}</td>
-                      <td className="text-ink-2">{l.top5.slice(0, 3).map((t) => t.symbol).join(', ') || '—'}</td>
+                      <td className="text-ink-2">{l.top5.slice(0, 3).map((t) => t.symbol).join(', ') || 'n/a'}</td>
                       <td className="text-right">
                         {canFollow && (
                           <button onClick={() => toggleFollow(l.address, !isFollowed(l.address))} aria-pressed={isFollowed(l.address)}
@@ -276,15 +277,15 @@ export function SmartMoneyDesk({ mode }: { mode: 'owner' | 'member' }) {
             dcas.data.orders.length ? (
               <div className="max-h-[420px] overflow-auto">
                 <table className="w-full min-w-[480px] text-left text-[12.5px]">
-                  <thead className="sticky top-0 bg-surface text-[11px] uppercase tracking-wider text-ink-muted"><tr><th className="py-2 font-normal">Opened</th><th className="font-normal">Wallet</th><th className="font-normal">From → to</th><th className="font-normal">Deposit</th><th className="font-normal">Spent</th><th className="font-normal">Status</th></tr></thead>
+                  <thead className="sticky top-0 bg-surface text-[11px] uppercase tracking-wider text-ink-muted"><tr><th className="py-2 font-normal">Opened</th><th className="font-normal">Wallet</th><th className="font-normal">From <Go /> to</th><th className="font-normal">Deposit</th><th className="font-normal">Spent</th><th className="font-normal">Status</th></tr></thead>
                   <tbody>
                     {dcas.data.orders.map((o, i) => (
                       <tr key={i} className="border-t border-border">
                         <td className="num py-1.5 text-ink-muted">{ago(Date.parse(o.created))}</td>
                         <td className="max-w-[140px] truncate text-ink-2">{walletName(o.label, o.address)}</td>
-                        <td className="text-ink">{o.from} → {o.to}</td>
+                        <td className="text-ink">{o.from} <Go /> {o.to}</td>
                         <td className="num text-ink">{usd(o.depositUsd)}</td>
-                        <td className="num text-ink-2">{o.spent != null ? pct(o.spent, 0) : '—'}</td>
+                        <td className="num text-ink-2">{o.spent != null ? pct(o.spent, 0) : 'n/a'}</td>
                         <td className="text-ink-2">{o.status}</td>
                       </tr>
                     ))}

@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
 import type { ExpertReport } from '@/server/agents/expert';
 import type { AskContext, Subject } from '@/server/agents/ask';
+import { Go } from '@/components/ui/Icons';
 
 interface Turn {
   question: string;
@@ -182,7 +183,7 @@ export function AskNansenPanel({ subject, label, attachTo, open, onOpenChange }:
                     <li key={i}>
                       <span className="text-ink">{l.label}:</span> <span className="num">{l.value}</span>{' '}
                       <span className="text-ink-muted">
-                        — {l.at ? new Date(l.at).toISOString().slice(0, 16).replace('T', ' ') + ' UTC' : 'no timestamp'}, {l.source}
+                       , {l.at ? new Date(l.at).toISOString().slice(0, 16).replace('T', ' ') + ' UTC' : 'no timestamp'}, {l.source}
                       </span>
                     </li>
                   ))}
@@ -191,7 +192,7 @@ export function AskNansenPanel({ subject, label, attachTo, open, onOpenChange }:
                 <p className="mt-1 text-ink-muted">No stored readings for this page yet.</p>
               )}
               <p className="mt-2 text-ink-muted">
-                Only these stored, timestamped lines are sent — never live prices fetched after your question, and never another
+                Only these stored, timestamped lines are sent, never live prices fetched after your question, and never another
                 account&apos;s data. Follow-ups in this conversation don&apos;t resend it.
               </p>
             </details>
@@ -332,7 +333,7 @@ export function AskNansenPanel({ subject, label, attachTo, open, onOpenChange }:
             Free text from Nansen&apos;s agent: check it against the receipts elsewhere on the page. Saved to your account only, never
             published.{' '}
             <Link href="/agent" className="underline underline-offset-2">
-              Open Ask Nansen →
+              Open Ask Nansen <Go />
             </Link>{' '}
             Not financial advice.
           </p>

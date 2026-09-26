@@ -6,7 +6,7 @@ import { displayMode } from '@/server/mode';
 import { accountsEnabled } from '@/server/site';
 import { PageTitle } from '@/components/PageTitle';
 
-export const metadata: Metadata = { title: 'Alerts — Peregrine' };
+export const metadata: Metadata = { title: 'Alerts · Peregrine' };
 export const dynamic = 'force-dynamic';
 
 export default async function AlertsPage() {

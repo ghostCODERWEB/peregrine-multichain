@@ -16,7 +16,7 @@ export function HoldingHistory({ h }: { h: SmHistory }) {
       backgroundColor: c['surface-2'],
       borderColor: c.axis,
       textStyle: { color: c['ink-1'], fontSize: 12 },
-      valueFormatter: (v: unknown) => (typeof v === 'number' ? usd(v) : '—'),
+      valueFormatter: (v: unknown) => (typeof v === 'number' ? usd(v) : 'n/a'),
     },
     xAxis: {
       type: 'category' as const,

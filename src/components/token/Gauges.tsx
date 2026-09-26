@@ -68,11 +68,11 @@ export function Gauges({ inputs, ladder, sources }: { inputs: GaugeInputs; ladde
   return (
     <div className="space-y-4">
       <div className="grid gap-4 sm:grid-cols-3">
-        <GaugeBlock name="Direction" g={d} shown={d.value == null ? '—' : `${d.value > 0 ? '+' : d.value < 0 ? '−' : ''}${Math.abs(d.value)}`} color={d.value != null && d.value < 0 ? 'var(--out-2)' : 'var(--in-2)'} diverging
+        <GaugeBlock name="Direction" g={d} shown={d.value == null ? 'n/a' : `${d.value > 0 ? '+' : d.value < 0 ? '−' : ''}${Math.abs(d.value)}`} color={d.value != null && d.value < 0 ? 'var(--out-2)' : 'var(--in-2)'} diverging
           info={<InfoPopover p={pv('Direction', 'direction = 100·tanh(informed 1d net flow ÷ (5% of liquidity)); −100 selling … +100 buying\ninformed = smart traders + top-PnL wallets + whales + public figures (tgm/flow-intelligence)', d, [sources.wind, sources.header], ['The all-trader DEX split is shown next to it, not mixed in.'])} />} />
-        <GaugeBlock name="Confidence" g={c} shown={c.value == null ? '—' : String(c.value)} color="var(--ink-2)"
+        <GaugeBlock name="Confidence" g={c} shown={c.value == null ? 'n/a' : String(c.value)} color="var(--ink-2)"
           info={<InfoPopover p={pv('Confidence', 'confidence = 100 × mean(sample, agreement, depth, recency); a missing part counts as 0', c, [sources.wind, sources.header], ['Confidence is about the evidence, not about the price going anywhere.'])} />} />
-        <GaugeBlock name="Coordination risk" g={k} shown={k.value == null ? '—' : String(k.value)} color="var(--storm-3, var(--out-3))"
+        <GaugeBlock name="Coordination risk" g={k} shown={k.value == null ? 'n/a' : String(k.value)} color="var(--storm-3, var(--out-3))"
           info={<InfoPopover p={pv('Coordination risk', 'coordination = 100 × max(linked supply ÷ 20%, linked top holders ÷ compared)\nlinks: shared first funder or related wallets among the top 25 holders (profiler/address/*)', k, [sources.forensics], ['A shared funder can be an exchange or a faucet; links are evidence, not proof of one owner.'])} />} />
       </div>
       {conflicts.length > 0 && <ul className="space-y-1 rounded-lg border border-dashed border-border px-3 py-2 text-[12.5px] text-ink">{conflicts.map((x) => <li key={x}>{x}</li>)}</ul>}

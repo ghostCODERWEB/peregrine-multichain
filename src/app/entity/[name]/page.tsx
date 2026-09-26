@@ -8,6 +8,7 @@ import { resolveEntity } from '@/server/entity/entity-page';
 import { isUnavailable } from '@/server/nansen/traced';
 import { displayMode } from '@/server/mode';
 import { redacted } from '@/server/redact';
+import { Back } from '@/components/ui/Icons';
 
 export const dynamic = 'force-dynamic';
 
@@ -17,7 +18,7 @@ const decode = (raw: string) => decodeURIComponent(raw).trim().slice(0, 120);
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { name } = await params;
-  return { title: `${decode(name)} — Peregrine entity` };
+  return { title: `${decode(name)} · Peregrine entity` };
 }
 
 export default async function EntityRoute({ params }: Params) {
@@ -28,7 +29,7 @@ export default async function EntityRoute({ params }: Params) {
   if (!lookup.found) {
     return (
       <div className="mx-auto max-w-2xl space-y-4">
-        <Link href="/" className="text-[12.5px] text-ink-2 hover:text-ink">← Overview</Link>
+        <Link href="/" className="text-[12.5px] text-ink-2 hover:text-ink"><Back /> Overview</Link>
         <h1 className="t-headline text-ink">No Nansen entity named “{name}”</h1>
         {lookup.error ? <Unavailable text={lookup.error} /> : lookup.suggestions.length ? (
           <div>
@@ -54,7 +55,7 @@ export default async function EntityRoute({ params }: Params) {
   return (
     <div className="space-y-5">
       <div>
-        <Link href="/" className="text-[12.5px] text-ink-2 hover:text-ink">← Overview</Link>
+        <Link href="/" className="text-[12.5px] text-ink-2 hover:text-ink"><Back /> Overview</Link>
         <h1 className="t-headline mt-1 text-ink">{entity.name}</h1>
         <p className="mt-1 text-[12.5px] text-ink-2">
           {entity.tags.length ? `${entity.tags.join(' · ')} · ` : ''}Nansen entity: every address Nansen attributes to it, aggregated by Nansen.

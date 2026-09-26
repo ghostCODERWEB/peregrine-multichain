@@ -66,12 +66,12 @@ export async function rideQuote(chain: string, token: string, amountUsd: number,
   return {
     eligibility, quotes,
     provenance: {
-      title: 'Follow the flow — quote only',
+      title: 'Follow the flow, quote only',
       formula: `shown when chain Flow Index > ${RIDE_MIN_CPI} and Dump Risk < ${RIDE_MAX_STORM}\ncost of following = USDC in − value out (fees + price impact)`,
       inputs: [
         { label: 'Chain flow', value: num(eligibility.cpi, 0) },
         { label: 'Dump Risk', value: num(eligibility.storm, 0) },
-        { label: 'Best route out', value: quotes[0] ? `${usd(quotes[0].outUsd)} via ${quotes[0].aggregator}` : '—' },
+        { label: 'Best route out', value: quotes[0] ? `${usd(quotes[0].outUsd)} via ${quotes[0].aggregator}` : 'n/a' },
       ],
       calls: [{ endpoint: 'trade/quote', body: { ...query, wallet_address: '<public burn address: quote only>' }, ref: 'GET, live' }],
       notes: ['Peregrine never signs, prepares or executes a trade. The quote is a price, not a recommendation.'],

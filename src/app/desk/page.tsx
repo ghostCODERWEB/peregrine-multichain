@@ -6,7 +6,7 @@ import { DeskView, type DeskData } from '@/components/desk/DeskView';
 import { PageTitle } from '@/components/PageTitle';
 import { WatchlistCard } from '@/components/desk/WatchlistCard';
 
-export const metadata: Metadata = { title: 'Desk — Peregrine' };
+export const metadata: Metadata = { title: 'Desk · Peregrine' };
 export const dynamic = 'force-dynamic';
 
 export default async function DeskPage() {

@@ -68,7 +68,7 @@ export function channelOf(c: ChannelInput): AlertChannel {
   if (c.type === 'webhook') {
     if (!/^https:\/\/[^\s/]+\.[^\s/]+/.test(u)) throw new Error('A webhook must be an https URL.');
     const secret = c.secret?.trim();
-    if (secret && (secret.length < 16 || secret.length > 512)) throw new Error('A signing secret is 16–512 characters.');
+    if (secret && (secret.length < 16 || secret.length > 512)) throw new Error('A signing secret is 16 to 512 characters.');
     return AlertChannel.parse({ type: 'webhook', data: { webhookUrl: u, ...(secret ? { secret } : {}) } });
   }
   return AlertChannel.parse({ type: c.type, data: { webhookUrl: u } });

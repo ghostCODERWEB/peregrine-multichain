@@ -136,8 +136,8 @@ async function smartMoneyFlows(chain: string): Promise<FlowSection> {
       formula: 'per token: net_flow_24h_usd (Nansen smart-money labels)\nsector total = Σ token flow ÷ that token\'s sector count',
       inputs: [
         { label: 'Tokens with smart-money flow', value: String(flows.length) },
-        { label: 'Largest inflow', value: inflows[0] ? `${inflows[0].symbol} ${usd(inflows[0].netFlowUsd, { signed: true })}` : '—' },
-        { label: 'Largest outflow', value: outflows[0] ? `${outflows[0].symbol} ${usd(outflows[0].netFlowUsd, { signed: true })}` : '—' },
+        { label: 'Largest inflow', value: inflows[0] ? `${inflows[0].symbol} ${usd(inflows[0].netFlowUsd, { signed: true })}` : 'n/a' },
+        { label: 'Largest outflow', value: outflows[0] ? `${outflows[0].symbol} ${usd(outflows[0].netFlowUsd, { signed: true })}` : 'n/a' },
       ],
       calls,
       notes: ['Stablecoins and native tokens are excluded (the endpoint\'s defaults), matching the flow index.'],
@@ -266,10 +266,10 @@ async function peers(chain: string): Promise<ChainPageData['peers']> {
         inputs: self ? [
           { label: 'DEX volume, 7d', value: usd(self.dexVolumeUsd) },
           { label: 'Change vs prior 7d', value: pct(self.dexVolumeChange) },
-          { label: 'Growth percentile', value: growthPercentile == null ? '—' : `${num(growthPercentile * 100, 0)}th` },
+          { label: 'Growth percentile', value: growthPercentile == null ? 'n/a' : `${num(growthPercentile * 100, 0)}th` },
         ] : [],
         calls: [{ endpoint: 'chains/chain-rank', body, credits: 1, ref: r.meta.cacheHit ? 'served from cache (30 min TTL)' : 'live' }],
-        notes: ['Context only — chain-rank growth is shown beside the flow index, never blended into it.'],
+        notes: ['Context only, chain-rank growth is shown beside the flow index, never blended into it.'],
       },
     };
   } catch (e) {

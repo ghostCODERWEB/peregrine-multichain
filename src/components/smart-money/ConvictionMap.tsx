@@ -2,6 +2,7 @@
 import { useMemo, useState } from 'react';
 import { chainName, pct, usd } from '@/lib/viz/format';
 import type { DeskHolding } from '@/server/smart-money/desk';
+import { Go, Back, Up } from '@/components/ui/Icons';
 
 const W = 760,
   H = 420,
@@ -111,13 +112,13 @@ export function ConvictionMap({
             </g>
           ))}
           <text x={W - PAD.r} y={H - 6} textAnchor="end" className="fill-ink-2 text-[11px]">
-            adding →
+            adding <Go />
           </text>
           <text x={PAD.l} y={H - 6} className="fill-ink-2 text-[11px]">
-            ← trimming
+            <Back /> trimming
           </text>
           <text x={12} y={PAD.t + 4} className="fill-ink-2 text-[11px]" transform={`rotate(-90 12 ${PAD.t + 4})`} textAnchor="end">
-            wallets holding ↑
+            wallets holding <Up />
           </text>
           {showCrowd && (
             <line

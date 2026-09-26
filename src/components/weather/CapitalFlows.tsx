@@ -17,6 +17,7 @@ import { chainName, num, shortAddress, usd, walletName } from '@/lib/viz/format'
 import { LockedPanel } from '@/components/ui/SurfaceKit';
 import { Segmented } from '@/components/ui/Segmented';
 import type { FrontWithProvenance, ChainTile } from '@/server/weather/bulletin';
+import { Go } from '@/components/ui/Icons';
 
 const WINDOWS = [
   { h: 24, label: '24h' },
@@ -252,7 +253,7 @@ export function CapitalFlows({
                     onMouseLeave={() => setHovered(null)}
                     onClick={() => setSelected(a.key)}
                   >
-                    <title>{`${chainName(a.from)} → ${chainName(a.to)}: ${usd(a.edge.netUsd)} net, ${a.edge.walletCount} wallets`}</title>
+                    <title>{`${chainName(a.from)} to ${chainName(a.to)}: ${usd(a.edge.netUsd)} net, ${a.edge.walletCount} wallets`}</title>
                     <path
                       id={`p-${uid}-${i}`}
                       d={a.d}
@@ -345,7 +346,7 @@ export function CapitalFlows({
               </text>
             </svg>
             <p className="mt-1 text-[11px] text-ink-muted">
-              Width = net USD · particles = wallets behind the flow · flare → mint = sell side to buy side · ring = the chain&apos;s Flow
+              Width = net USD · particles = wallets behind the flow · flare to mint = sell side to buy side · ring = the chain&apos;s Flow
               Index
             </p>
             <p className="mt-2 text-xs text-ink-muted">
@@ -373,10 +374,10 @@ export function CapitalFlows({
                       className={`flex w-full items-center gap-2 px-3 py-2 text-left text-[12.5px] hover:bg-raised ${on ? 'bg-raised' : ''}`}
                     >
                       <ChainLogo chain={f.from} size={14} />
-                      <span className="text-ink-2">→</span>
+                      <span className="text-ink-2"><Go /></span>
                       <ChainLogo chain={f.to} size={14} />
                       <span className="min-w-0 flex-1 truncate text-ink">
-                        {chainName(f.from)} → {chainName(f.to)}
+                        {chainName(f.from)} <Go /> {chainName(f.to)}
                       </span>
                       <span className="num text-ink">{usd(f.netUsd)}</span>
                       <span className="num w-8 text-right text-ink-muted">{f.walletCount}w</span>
@@ -402,7 +403,7 @@ function FlowDetail({ front: f, onWallets }: { front: FrontWithProvenance; onWal
         <div className="flex items-center gap-2 text-[14px] font-semibold text-ink">
           <ChainLogo chain={f.from} size={18} />
           {chainName(f.from)}
-          <span className="text-ink-muted">→</span>
+          <span className="text-ink-muted"><Go /></span>
           <ChainLogo chain={f.to} size={18} />
           {chainName(f.to)}
         </div>
@@ -452,7 +453,7 @@ function FlowDetail({ front: f, onWallets }: { front: FrontWithProvenance; onWal
         ))}
       </ul>
       <button type="button" onClick={onWallets} className="mt-2 text-[12px] text-brand hover:underline">
-        All {f.walletCount} wallets and their trades →
+        All {f.walletCount} wallets and their trades <Go />
       </button>
     </div>
   );

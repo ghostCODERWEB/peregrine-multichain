@@ -23,9 +23,9 @@ const heatMix = (w: number | null) =>
   w == null
     ? 'var(--surface-1)'
     : `color-mix(in oklab, ${heatColor(w)} ${Math.round(8 + Math.sqrt(Math.min(1, Math.abs(w - 50) / 50)) * 60)}%, var(--surface-1))`;
-const pts = (v: number | null) => (v == null ? '—' : `${v >= 0 ? '+' : '−'}${Math.round(Math.abs(v) * 100)} pts`);
+const pts = (v: number | null) => (v == null ? 'n/a' : `${v >= 0 ? '+' : '−'}${Math.round(Math.abs(v) * 100)} pts`);
 const ends = (d: string | null) => {
-  if (!d) return '—';
+  if (!d) return 'n/a';
   const days = Math.round((Date.parse(d.endsWith('Z') ? d : `${d}Z`) - Date.now()) / 86_400_000);
   return days < 0 ? 'ended' : days === 0 ? 'today' : `${days}d`;
 };
@@ -224,13 +224,13 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
             >
               <div className="flex items-baseline justify-between gap-2">
                 <span className="truncate text-[13px] font-semibold text-ink">{c.category}</span>
-                <span className="num text-[12px] text-ink">{c.heat != null ? `${num(c.heat, 1)}×` : '—'}</span>
+                <span className="num text-[12px] text-ink">{c.heat != null ? `${num(c.heat, 1)}×` : 'n/a'}</span>
               </div>
               <div className="num mt-1 text-[11.5px] text-ink-2">
                 {usd(c.volume24h)} today · OI {usd(c.openInterest)}
               </div>
               <div className="mt-0.5 text-[11px] text-ink/80">
-                {c.weather != null ? heatLabel(c.weather) : '—'} · {(c.traders24h ?? 0).toLocaleString('en-US')} traders
+                {c.weather != null ? heatLabel(c.weather) : 'n/a'} · {(c.traders24h ?? 0).toLocaleString('en-US')} traders
               </div>
             </li>
           ))}
@@ -293,7 +293,7 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
                 <span className="min-w-0">
                   <span className="block truncate text-ink">{e.title}</span>
                   <span className="text-ink-muted">
-                    {e.markets ?? '—'} markets · {(e.traders24h ?? 0).toLocaleString('en-US')} traders
+                    {e.markets ?? 'n/a'} markets · {(e.traders24h ?? 0).toLocaleString('en-US')} traders
                   </span>
                 </span>
                 <span className="num shrink-0 text-ink">{usd(e.volume24h)}</span>
@@ -430,10 +430,10 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
                         {detail.data.trades.slice(0, 30).map((tr, i) => (
                           <tr key={i} className="border-t border-border first:border-0">
                             <td className="num py-1.5 text-ink-muted">
-                              {tr.at ? ago(Date.parse(tr.at.endsWith('Z') ? tr.at : `${tr.at}Z`)) : '—'}
+                              {tr.at ? ago(Date.parse(tr.at.endsWith('Z') ? tr.at : `${tr.at}Z`)) : 'n/a'}
                             </td>
                             <td className="text-ink">
-                              {tr.action ?? '—'}{' '}
+                              {tr.action ?? 'n/a'}{' '}
                               <span style={{ color: /yes/i.test(tr.side ?? '') ? 'var(--mint)' : 'var(--flare)' }}>{tr.side}</span>
                             </td>
                             <td className="num text-ink-2">{impliedPct(tr.price)}</td>
@@ -492,8 +492,8 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
                           </td>
                           <td style={{ color: /yes/i.test(r.side) ? 'var(--mint)' : 'var(--flare)' }}>{r.side}</td>
                           <td className="num text-ink">{usd(r.valueUsd)}</td>
-                          <td className="num text-ink-2">{r.marketsTraded ?? '—'}</td>
-                          <td className="num text-ink-2">{r.winRate != null ? `${Math.round(r.winRate * 100)}%` : '—'}</td>
+                          <td className="num text-ink-2">{r.marketsTraded ?? 'n/a'}</td>
+                          <td className="num text-ink-2">{r.winRate != null ? `${Math.round(r.winRate * 100)}%` : 'n/a'}</td>
                           <td className="num text-right text-ink">{usd(r.totalPnlUsd, { signed: true })}</td>
                         </tr>
                       ))}
@@ -545,7 +545,7 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
                   </td>
                   <td className="num text-ink">{usd(m.volume24h)}</td>
                   <td className="num text-ink-2">{usd(m.openInterest)}</td>
-                  <td className="num text-ink-2">{m.traders24h ?? '—'}</td>
+                  <td className="num text-ink-2">{m.traders24h ?? 'n/a'}</td>
                   <td className="num text-right text-ink-2" suppressHydrationWarning>
                     {ends(m.endDate)}
                   </td>

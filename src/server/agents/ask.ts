@@ -63,7 +63,7 @@ function chainLines(chain: string, view: 'public' | 'private'): ContextLine[] {
   return r
     ? [
         {
-          label: `${chainName(chain)} Flow Index (0–100, 50 = neutral)`,
+          label: `${chainName(chain)} Flow Index (0 to 100, 50 = neutral)`,
           value: String(Math.round(r.cpi)),
           at: r.snapshot_at,
           source: `Peregrine Chain Pressure Index, ${source === 'smart-money' ? 'smart-money' : 'all-trader'} flow from Nansen`,
@@ -131,7 +131,7 @@ export function buildContext(s: Subject, mode: DisplayMode): AskContext {
   ];
   if (storm)
     lines.push({
-      label: 'Dump Risk (7-day, 0–100)',
+      label: 'Dump Risk (7-day, 0 to 100)',
       value: `${Math.round(storm.score)}, ${storm.band}, confidence ${storm.confidence.toFixed(2)}`,
       at: storm.computed_at,
       source: 'Peregrine Dump Risk from Nansen holders, flows and indicators',

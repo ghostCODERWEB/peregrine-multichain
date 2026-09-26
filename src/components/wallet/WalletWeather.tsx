@@ -57,7 +57,7 @@ export async function WalletWeather({ p }: { p: Promise<Wave<WalletWeatherReadin
   return (
     <Card
       id="wallet-weather"
-      title={`${w.headline} — ${primary.toLowerCase()} pattern`}
+      title={`${w.headline}, ${primary.toLowerCase()} pattern`}
       sub="A current spot-risk profile and 30-day realized-activity pattern. Each dimension stays separate; unknown data is never scored as safe."
       action={<InfoPopover p={r.provenance} />}
     >
@@ -164,7 +164,7 @@ export async function WalletWeather({ p }: { p: Promise<Wave<WalletWeatherReadin
               </tr>
               <tr className="border-t border-border/60">
                 <td className="py-1">Risk exposure</td>
-                <td className="num py-1">{w.storm.score == null ? '—' : w.storm.score.toFixed(1)}</td>
+                <td className="num py-1">{w.storm.score == null ? 'n/a' : w.storm.score.toFixed(1)}</td>
                 <td className="py-1">Value-weighted over {usd(w.storm.coveredUsd)} fresh scored risk assets</td>
               </tr>
               <tr className="border-t border-border/60">

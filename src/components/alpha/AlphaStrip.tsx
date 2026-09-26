@@ -23,7 +23,7 @@ export function AlphaStrip({ rows }: { rows: AlphaRow[] }) {
               <ScoreRing score={r.score} size={44} stroke={4} color={r.score >= 65 ? 'var(--brand)' : 'var(--ink-2)'} label={`${r.symbol ?? 'Token'} alpha score`} />
               <span className="min-w-0 flex-1">
                 <span className="block truncate text-[13.5px] font-medium text-ink">{r.symbol ?? 'Token'}</span>
-                <span className="block truncate text-[11px] text-ink-muted">{chainName(r.chain)} · {r.flowShare != null ? `${pct(r.flowShare, 0)} net buying` : '—'}</span>
+                <span className="block truncate text-[11px] text-ink-muted">{chainName(r.chain)} · {r.flowShare != null ? `${pct(r.flowShare, 0)} net buying` : 'n/a'}</span>
                 <span className="mt-1 block"><FlowSpark values={r.hourly} width={110} height={16} label={`${r.symbol ?? 'Token'} hourly net-flow share`} /></span>
               </span>
             </Link>

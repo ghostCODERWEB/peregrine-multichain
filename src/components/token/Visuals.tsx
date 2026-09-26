@@ -13,6 +13,7 @@ import type { TokenHeader, MarketWave, WindWave } from '@/server/token/waves';
 import type { StormWave } from '@/server/token/storm';
 import type { LeverageWave } from '@/server/token/terminal';
 import type { LadderBand } from '@/lib/models/liquidation';
+import { Up, Down } from '@/components/ui/Icons';
 
 export const STORM_RING: Record<StormWave['result']['band'], string> = {
   clear: 'var(--brand)', cloudy: 'var(--storm-1)', watch: 'var(--storm-2)', warning: 'var(--storm-3)',
@@ -83,12 +84,12 @@ export function TokenHero({ chain, address, tier, h, m, storm, done, title, chil
           <div className="mt-4 flex flex-wrap items-end gap-x-5 gap-y-3">
             <div>
               <div className="sr-only">{h?.symbol ?? 'Token'} price</div>
-              <div className="num text-[48px] leading-tight tracking-[-.05em] font-extrabold text-ink sm:text-[72px]">{price != null ? (price < 1 ? `$${num(price, price < 0.01 ? 6 : 4)}` : usd(price)) : '—'}</div>
+              <div className="num text-[48px] leading-tight tracking-[-.05em] font-extrabold text-ink sm:text-[72px]">{price != null ? (price < 1 ? `$${num(price, price < 0.01 ? 6 : 4)}` : usd(price)) : 'n/a'}</div>
             </div>
             <div className="flex flex-col gap-1.5 pb-2">
               {rangeChange != null && (
                 <span className="num inline-flex w-fit items-center gap-1.5 rounded-full px-3 py-1 text-[14px] font-extrabold" style={{ color: rangeChange >= 0 ? 'var(--mint)' : 'var(--flare)', background: `color-mix(in srgb, ${rangeChange >= 0 ? 'var(--mint)' : 'var(--flare)'} 14%, transparent)` }}>
-                  <span aria-hidden>{rangeChange >= 0 ? '↑' : '↓'}</span><span className="sr-only">{rangeChange >= 0 ? 'up' : 'down'}</span>{pct(Math.abs(rangeChange), 1)} · {Math.min(days, 14)}D
+                  {rangeChange >= 0 ? <Up /> : <Down />}<span className="sr-only">{rangeChange >= 0 ? 'up' : 'down'}</span>{pct(Math.abs(rangeChange), 1)} · {Math.min(days, 14)}D
                 </span>
               )}
               <div className="flex flex-wrap gap-1.5"><Delta v={change(m, 24)} label="24h" /><Delta v={change(m, 24 * 7)} label="7d" /></div>
@@ -131,7 +132,7 @@ export function TokenHero({ chain, address, tier, h, m, storm, done, title, chil
           <dl className="stagger mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-6">
             {[
               ['Market cap', usd(h?.marketCapUsd)], ['FDV', usd(h?.fdvUsd)], ['Liquidity', usd(h?.liquidityUsd)],
-              ['24h volume', usd(h?.volume24hUsd)], ['Holders', h?.holders?.toLocaleString('en-US') ?? '—'], ['Age', age != null ? `${age.toLocaleString('en-US')} days` : '—'],
+              ['24h volume', usd(h?.volume24hUsd)], ['Holders', h?.holders?.toLocaleString('en-US') ?? 'n/a'], ['Age', age != null ? `${age.toLocaleString('en-US')} days` : 'n/a'],
             ].map(([k, v]) => (
               <div key={k} className="inset-well px-4 py-3">
                 <dt className="text-[12.5px] text-ink-muted">{k}</dt>
@@ -185,7 +186,7 @@ export function LiquidationLadder({ w }: { w: LeverageWave }) {
         <span className="relative h-[20px] rounded bg-raised">
           <span className="absolute inset-y-0 left-0 rounded-[6px]" style={{ width: `${b.usd > 0 ? Math.max(1.5, (b.usd / peak) * 100) : 0}%`, background: `linear-gradient(90deg, color-mix(in srgb, ${col} 20%, transparent), ${col})`, opacity: dense ? 1 : 0.8 }} />
         </span>
-        <span className="num text-right text-[11.5px] text-ink">{b.usd > 0 ? usd(b.usd) : <span className="text-ink-muted">—</span>}</span>
+        <span className="num text-right text-[11.5px] text-ink">{b.usd > 0 ? usd(b.usd) : <span className="text-ink-muted">n/a</span>}</span>
       </li>
     );
   };
@@ -194,7 +195,7 @@ export function LiquidationLadder({ w }: { w: LeverageWave }) {
       <dl className="grid grid-cols-2 gap-2 sm:grid-cols-4">
         {[
           ['Open longs', usd(l.longUsd), 'var(--out-2)'], ['Open shorts', usd(l.shortUsd), 'var(--in-2)'],
-          ['Within 10%', `${usd(l.near.longUsd)} · ${usd(l.near.shortUsd)}`, null], ['Avg leverage', l.avgLeverage != null ? `${num(l.avgLeverage, 1)}×` : '—', null],
+          ['Within 10%', `${usd(l.near.longUsd)} · ${usd(l.near.shortUsd)}`, null], ['Avg leverage', l.avgLeverage != null ? `${num(l.avgLeverage, 1)}×` : 'n/a', null],
         ].map(([k, v, c]) => (
           <div key={k} className="inset-well min-w-0 rounded-[18px] px-4 py-3">
             <dt className="flex items-center gap-1.5 text-[12.5px] font-medium text-ink-muted">{c && <span className="inline-block h-2 w-2 rounded-full" style={{ background: c }} />}{k}</dt>
@@ -204,7 +205,7 @@ export function LiquidationLadder({ w }: { w: LeverageWave }) {
       </dl>
       <div className="mt-3 grid gap-4 lg:grid-cols-[1fr_240px]">
         <div role="img" aria-label={`Liquidation ladder for ${w.symbol}: ${l.bands.filter((b) => b.usd > 0).map((b) => `${usd(b.usd)} of ${b.side}s at ${pct(b.outer, 0)}`).join('; ') || 'no liquidations within 100% of the mark'}`}>
-          <div className="mb-1 flex justify-between text-[10.5px] uppercase tracking-wider text-ink-muted"><span>Shorts liquidate · forced buys</span><span>price ↑</span></div>
+          <div className="mb-1 flex justify-between text-[10.5px] uppercase tracking-wider text-ink-muted"><span>Shorts liquidate · forced buys</span><span>price rises</span></div>
           <ul>{shorts.map(row)}</ul>
           <div className="my-1.5 flex items-center gap-2">
             <span className="h-px flex-1 bg-ink-2/60" />
@@ -212,7 +213,7 @@ export function LiquidationLadder({ w }: { w: LeverageWave }) {
             <span className="h-px flex-1 bg-ink-2/60" />
           </div>
           <ul>{longs.map(row)}</ul>
-          <div className="mt-1 flex justify-between text-[10.5px] uppercase tracking-wider text-ink-muted"><span>Longs liquidate · forced sells</span><span>price ↓</span></div>
+          <div className="mt-1 flex justify-between text-[10.5px] uppercase tracking-wider text-ink-muted"><span>Longs liquidate · forced sells</span><span>price falls</span></div>
         </div>
         <div className="space-y-2">
           <div className="rounded-xl border border-border/70 bg-raised/50 p-3 text-[12.5px]">

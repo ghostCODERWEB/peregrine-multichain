@@ -97,7 +97,7 @@ export async function tapeWave(chain: string, token: string): Promise<Wave<TapeW
         inputs: [
           { label: 'Bought · sold', value: `${usd(buyUsd)} · ${usd(sellUsd)}` },
           { label: 'Buyers · sellers', value: `${new Set(buys.map((t) => t.trader)).size} · ${new Set(sells.map((t) => t.trader)).size}` },
-          { label: 'Span', value: `${trades.at(-1)!.at.slice(11, 16)}–${trades[0].at.slice(11, 16)} UTC` },
+          { label: 'Span', value: `${trades.at(-1)!.at.slice(11, 16)} to ${trades[0].at.slice(11, 16)} UTC` },
         ],
         calls: [r.call],
         notes: r.data.pagination?.is_last_page === false ? ['The latest 100 trades; older ones in the day are not shown.'] : [],
@@ -218,12 +218,12 @@ export async function riverWave(chain: string, token: string, byCohort: boolean)
         title: 'Whale transfers and anomalies, 24 h',
         formula: `river = the day\u2019s largest transfers outside DEX trades, without pools, vaults and routers\nper transfer: z = robust z of log₁₀(USD) against the ${byCohort ? 'baseline transfers by its sender\u2019s cohort' : 'baseline transfers'}\nbaseline = the newest 1,000 transfers of any kind\nanomaly: z ≥ ${ANOMALY_Z} (cohorts with fewer than ${MIN_COHORT} baseline transfers are not judged)`,
         inputs: [
-          { label: 'Largest', value: candidates[0]?.valueUsd != null ? usd(candidates[0].valueUsd) : '—' },
+          { label: 'Largest', value: candidates[0]?.valueUsd != null ? usd(candidates[0].valueUsd) : 'n/a' },
           { label: 'Anomalies', value: String(anomalies.length) },
           { label: 'Pool and vault plumbing left out', value: `${plumbing} of the ${big.data.data.length} largest` },
           {
             label: 'Baseline',
-            value: `${baseline.length.toLocaleString('en-US')} transfers since ${baselineSince ? baselineSince.slice(11, 16) + ' UTC' : '—'}`,
+            value: `${baseline.length.toLocaleString('en-US')} transfers since ${baselineSince ? baselineSince.slice(11, 16) + ' UTC' : 'n/a'}`,
           },
           ...(byCohort
             ? [
@@ -386,7 +386,7 @@ export async function dcaWave(chain: string, token: string, volume24hUsd: number
           },
           {
             label: 'Left to sell · to buy',
-            value: overhang ? `${usd(overhang.sellRemainingUsd)} · ${usd(overhang.buyRemainingUsd)}` : '—',
+            value: overhang ? `${usd(overhang.sellRemainingUsd)} · ${usd(overhang.buyRemainingUsd)}` : 'n/a',
           },
           { label: 'Overhang', value: overhang ? `${pct(overhang.ratio, 1)} of a day’s volume` : 'needs 24h volume' },
         ],
@@ -578,8 +578,8 @@ export async function leverageWave(symbol: string | null): Promise<Wave<Leverage
           { label: 'Mark', value: num(mark, mark < 1 ? 5 : 2) },
           { label: 'Open long · short (top 100)', value: `${usd(ladder.longUsd)} · ${usd(ladder.shortUsd)}` },
           { label: 'Within 10% of the mark', value: `${usd(ladder.near.longUsd)} long · ${usd(ladder.near.shortUsd)} short` },
-          { label: 'Densest band', value: d && d.usd > 0 ? `${usd(d.usd)} of ${d.side}s at ${pct(d.outer, 0)}` : '—' },
-          { label: 'Average leverage', value: ladder.avgLeverage != null ? `${num(ladder.avgLeverage, 1)}×` : '—' },
+          { label: 'Densest band', value: d && d.usd > 0 ? `${usd(d.usd)} of ${d.side}s at ${pct(d.outer, 0)}` : 'n/a' },
+          { label: 'Average leverage', value: ladder.avgLeverage != null ? `${num(ladder.avgLeverage, 1)}×` : 'n/a' },
         ],
         calls: [r.call],
         notes: [

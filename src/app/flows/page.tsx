@@ -8,9 +8,10 @@ import { weatherMap } from '@/server/weather/queries';
 import { displayMode, viewOf } from '@/server/mode';
 import { chainName, usd } from '@/lib/viz/format';
 import { PageTitle } from '@/components/PageTitle';
+import { Go } from '@/components/ui/Icons';
 
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'Capital Flows — Peregrine' };
+export const metadata: Metadata = { title: 'Capital Flows · Peregrine' };
 
 // P4: Capital Flows as its own page — the animated chain-to-chain map with
 // room, a 7-day rotation timeline and a chain leaderboard. All of it is read
@@ -56,8 +57,8 @@ export default async function FlowsPage() {
                     </div>
                     <span className={`num text-[11.5px] font-bold ${last ? 'text-ink' : 'text-ink-2'}`}>{last ? 'Today' : d.day.slice(5)}</span>
                     {d.top
-                      ? <span className="flex items-center gap-0.5" title={`${chainName(d.top.from)} → ${chainName(d.top.to)}`}><ChainLogo chain={d.top.from} size={14} /><span className="text-[10px] text-ink-muted">→</span><ChainLogo chain={d.top.to} size={14} /></span>
-                      : <span className="text-[10.5px] leading-tight text-ink-muted">{d.recorded ? '—' : 'not recorded'}</span>}
+                      ? <span className="flex items-center gap-0.5" title={`${chainName(d.top.from)} to ${chainName(d.top.to)}`}><ChainLogo chain={d.top.from} size={14} /><span className="text-[10px] text-ink-muted"><Go /></span><ChainLogo chain={d.top.to} size={14} /></span>
+                      : <span className="text-[10.5px] leading-tight text-ink-muted">{d.recorded ? 'n/a' : 'not recorded'}</span>}
                   </li>
                 );
               })}

@@ -10,6 +10,7 @@ import { isUnavailable, type Wave } from '@/server/nansen/traced';
 import type { DisplayMode } from '@/server/mode';
 import { forMode } from '@/server/redact';
 import { chainName, pct, usd, walletName } from '@/lib/viz/format';
+import { Go, Back } from '@/components/ui/Icons';
 
 export async function BalancesCard({ p, what = 'Balances' }: { p: Promise<Wave<Balances>>; what?: string }) {
   const b = await p;
@@ -19,7 +20,7 @@ export async function BalancesCard({ p, what = 'Balances' }: { p: Promise<Wave<B
   // 99.6% would round to "100% on X" beside "9 chains"; say it plainly.
   const where = b.byChain.length === 1 ? `all on ${chainName(top.chain)}` : share >= 0.995 ? `nearly all on ${chainName(top.chain)}` : `${pct(share, 0)} on ${chainName(top.chain)}`;
   return (
-    <Card id="bal" title={`${usd(b.totalUsd)} across ${b.byChain.length} chain${b.byChain.length === 1 ? '' : 's'} — ${where}`}
+    <Card id="bal" title={`${usd(b.totalUsd)} across ${b.byChain.length} chain${b.byChain.length === 1 ? '' : 's'}, ${where}`}
       sub="Current token balances Nansen can price, by chain." action={<InfoPopover p={b.provenance} />}>
       <BalanceDonut byChain={b.byChain} total={b.totalUsd} />
       <ul className="mt-2 space-y-1 text-[12.5px]">
@@ -84,7 +85,7 @@ export async function CounterpartiesCard({ p, mode }: { p: Promise<Wave<Counterp
           </li>
         ))}
       </ul>
-      <div className="mt-2 flex justify-between text-[11px] text-ink-muted"><span>← sent</span><span>received →</span></div>
+      <div className="mt-2 flex justify-between text-[11px] text-ink-muted"><span><Back /> sent</span><span>received <Go /></span></div>
     </Card>
   );
 }

@@ -12,9 +12,10 @@ import { sectorWeather, MIN_HISTORY, type SectorReading } from '@/server/sectors
 import { displayMode, viewOf } from '@/server/mode';
 import { pressureClass, fillVar, onFillVar, PRESSURE_LEGEND } from '@/lib/viz/scales';
 import { chainName, num, pct, usd } from '@/lib/viz/format';
+import { Go } from '@/components/ui/Icons';
 
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'Sectors — Peregrine' };
+export const metadata: Metadata = { title: 'Sectors · Peregrine' };
 
 const BAND_WORD = { high: 'Accumulation', neutral: 'Neutral', low: 'Distribution' } as const;
 
@@ -48,7 +49,7 @@ function Tile({ s }: { s: SectorReading }) {
         </span>
       </div>
       <p className="num mt-3 text-[20px] font-bold tracking-[-0.02em]" style={{ color: (s.netFlow24hUsd ?? 0) >= 0 ? 'var(--mint)' : 'var(--flare)' }}>
-        {s.netFlow24hUsd != null ? usd(s.netFlow24hUsd, { signed: true }) : '—'}
+        {s.netFlow24hUsd != null ? usd(s.netFlow24hUsd, { signed: true }) : 'n/a'}
       </p>
       <p className="num text-[12px] text-ink-2">
         net in 24h{share != null ? ` · ${pct(share, 1)} of ${usd(s.volume24hUsd)}` : ''}{s.tokens != null ? ` · ${s.tokens} tokens` : ''}
@@ -75,7 +76,7 @@ function Tile({ s }: { s: SectorReading }) {
         </div>
         </details>
       )}
-      <Link href={sectorHref(s.sector)} className="mt-3 inline-block text-[12.5px] font-bold text-brand">Open sector <span aria-hidden>→</span></Link>
+      <Link href={sectorHref(s.sector)} className="mt-3 inline-block text-[12.5px] font-bold text-brand">Open sector <span aria-hidden><Go /></span></Link>
     </li>
   );
 }
@@ -99,8 +100,8 @@ export default async function SectorsPage() {
         <StatStrip
           className="rise"
           stats={[
-            { label: 'Top inflow', value: inflow ? usd(inflow.netFlow24hUsd, { signed: true }) : '—', note: inflow?.sector, href: inflow && sectorHref(inflow.sector), tone: 'in' },
-            { label: 'Top outflow', value: outflow ? usd(outflow.netFlow24hUsd, { signed: true }) : '—', note: outflow?.sector, href: outflow && sectorHref(outflow.sector), tone: 'out' },
+            { label: 'Top inflow', value: inflow ? usd(inflow.netFlow24hUsd, { signed: true }) : 'n/a', note: inflow?.sector, href: inflow && sectorHref(inflow.sector), tone: 'in' },
+            { label: 'Top outflow', value: outflow ? usd(outflow.netFlow24hUsd, { signed: true }) : 'n/a', note: outflow?.sector, href: outflow && sectorHref(outflow.sector), tone: 'out' },
             { label: 'Net across sectors', value: usd(net, { signed: true }), note: `${w.sectors.length} sectors`, tone: net >= 0 ? 'in' : 'out' },
             { label: 'Accumulating', value: count('high'), note: 'Flow Index 65+' },
             { label: 'Distributing', value: count('low'), note: 'Flow Index 35 or less' },

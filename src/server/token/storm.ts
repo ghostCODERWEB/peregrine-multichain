@@ -68,7 +68,7 @@ export function computeStorm(
     else {
       Wsc = windShearScore({ freshWalletNetUsd: fresh ?? 0, smartMoneyNetUsd: sm, marketCapUsd: mcap });
       prov.windShear = {
-        title: 'Cohort shear (W) — informed selling into fresh buying, 1d',
+        title: 'Cohort shear (W), informed selling into fresh buying, 1d',
         formula: 'W = 100·sigmoid(8·(fresh_in − sm_out) / mcap)\nfresh_in = max(0, fresh-wallet net)   sm_out = max(0, −(smart trader + top PnL net))',
         inputs: [
           { label: 'Fresh-wallet net, 1d', value: usd(fresh, { signed: true }) },
@@ -137,7 +137,7 @@ export function computeStorm(
     prov.nansenRisk = {
       title: 'Nansen risk indicators',
       formula: 'mean signal percentile of Nansen risk indicators\n(liquidity-risk excluded here: it already feeds L)',
-      inputs: riskInds.map((r) => ({ label: `${r.type} (${r.score ?? '—'})`, value: num(r.percentile, 0) })),
+      inputs: riskInds.map((r) => ({ label: `${r.type} (${r.score ?? 'n/a'})`, value: num(r.percentile, 0) })),
       calls: h.provenance.calls.filter((c) => c.endpoint === 'tgm/indicators'),
     };
   }
@@ -151,7 +151,7 @@ export function computeStorm(
   const result = compositeStormScore(subScores);
   const fmt = (k: StormInput, label: string) => ({ label: `${label} (β ${W[k]})`, value: subScores[k] == null ? 'missing' : num(subScores[k]) });
   prov.composite = {
-    title: 'Dump Risk — 7 days',
+    title: 'Dump Risk, 7 days',
     formula: 'Dump Risk = 100·sigmoid(Σ β_j·(s_j − 50)/25)\nmissing inputs dropped, remaining β scaled back to the full total\nbands: <25 Low · <50 Moderate · <75 High · Critical',
     inputs: [
       fmt('concentration', 'C concentration'), fmt('insider', 'I insider clusters'), fmt('windShear', 'W cohort shear'),

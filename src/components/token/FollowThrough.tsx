@@ -6,11 +6,12 @@ import { useEffect, useState } from 'react';
 import { InfoPopover } from '@/components/InfoPopover';
 import type { FollowReport } from '@/server/smart-money/follow';
 import type { Verdict } from '@/lib/models/follow';
+import { Go } from '@/components/ui/Icons';
 
 const utc = (ms: number) => `${new Date(ms).toISOString().slice(5, 16).replace('T', ' ')} UTC`;
 const usdK = (x: number) => (x >= 1e6 ? `$${(x / 1e6).toFixed(1)}M` : x >= 1e3 ? `$${(x / 1e3).toFixed(1)}K` : `$${Math.round(x)}`);
-const pctS = (x: number | null) => (x == null ? '—' : `${x >= 0 ? '+' : '−'}${Math.abs(x * 100).toFixed(1)}%`);
-const rate = (x: number | null) => (x == null ? '—' : x.toFixed(2));
+const pctS = (x: number | null) => (x == null ? 'n/a' : `${x >= 0 ? '+' : '−'}${Math.abs(x * 100).toFixed(1)}%`);
+const rate = (x: number | null) => (x == null ? 'n/a' : x.toFixed(2));
 const DOT: Record<Verdict, string> = {
   followed: 'var(--in-2)',
   ignored: 'var(--out-2)',
@@ -123,7 +124,7 @@ export function FollowThrough({
               <thead>
                 <tr className="border-b border-border text-[10.5px] uppercase tracking-wider text-ink-muted">
                   <th className="py-1.5 font-normal">Smart-money buy</th>
-                  <th className="font-normal">Buyers / min before → after</th>
+                  <th className="font-normal">Buyers / min before <Go /> after</th>
                   <th className="font-normal">Verdict</th>
                   <th className="font-normal">24h later</th>
                 </tr>
@@ -139,9 +140,9 @@ export function FollowThrough({
                       </div>
                     </td>
                     <td>
-                      {rate(x.before.perMin)} → {rate(x.after.perMin)}
+                      {rate(x.before.perMin)} <Go /> {rate(x.after.perMin)}
                       <div className="text-[11px] text-ink-muted">
-                        {x.before.buyers} → {x.after.buyers} buyers{x.after.truncated || x.before.truncated ? ' · tape cut' : ''}
+                        {x.before.buyers} <Go /> {x.after.buyers} buyers{x.after.truncated || x.before.truncated ? ' · tape cut' : ''}
                       </div>
                     </td>
                     <td>
@@ -151,7 +152,7 @@ export function FollowThrough({
                       </span>
                       {x.ratio != null && <div className="text-[11px] text-ink-muted">×{x.ratio.toFixed(1)}</div>}
                     </td>
-                    <td>{x.outcome ? pctS(x.outcome.ret) : x.outcomePending ? 'pending' : '—'}</td>
+                    <td>{x.outcome ? pctS(x.outcome.ret) : x.outcomePending ? 'pending' : 'n/a'}</td>
                   </tr>
                 ))}
               </tbody>

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { InfoPopover } from '@/components/InfoPopover';
 import { usd, num } from '@/lib/viz/format';
 import type { Provenance } from '@/lib/provenance';
+import { Go } from '@/components/ui/Icons';
 
 interface PlanSummary {
   symbol: string; storm: number; band: string; outflowThresholdUsd: number; insiderThresholdUsd: number | null;
@@ -71,7 +72,7 @@ export function StormAlertForm({ chain, address, clusterWallets }: { chain: stri
       <p className="text-[11.5px] text-ink-muted">
         Telegram: message your Nansen alerts bot to get your chat id. Alerts are created on the Nansen account behind this Peregrine&apos;s API key.
         {msg && <span className={state === 'error' ? ' text-ink' : ' text-ink-2'}> {msg}</span>}
-        {state === 'created' && <> <Link href="/alerts" className="underline underline-offset-2 hover:text-ink">Manage alerts →</Link></>}
+        {state === 'created' && <> <Link href="/alerts" className="underline underline-offset-2 hover:text-ink">Manage alerts <Go /></Link></>}
       </p>
     </div>
   );

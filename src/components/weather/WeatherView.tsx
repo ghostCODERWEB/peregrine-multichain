@@ -30,6 +30,7 @@ import type { AnchorReport } from '@/server/agents/anchor';
 import { mapHeadline } from '@/lib/insights';
 import { TimeAgo } from '@/components/TimeAgo';
 import type { WeatherBulletin } from '@/server/weather/bulletin';
+import { Go, Up, Down } from '@/components/ui/Icons';
 
 async function fetchBulletin(): Promise<WeatherBulletin> {
   const r = await fetch('/api/weather', { cache: 'no-store' });
@@ -177,7 +178,7 @@ export function WeatherView({
                 </dl>
                 <div className="seq mt-7 flex flex-wrap gap-2" style={{ '--i': 3 } as React.CSSProperties}>
                   <Link href="/flows" className="pill-button pill-primary">
-                    Open Capital Flows <span className="arrow" aria-hidden>→</span>
+                    Open Capital Flows <span className="arrow" aria-hidden><Go /></span>
                   </Link>
                 </div>
               </div>
@@ -202,7 +203,7 @@ export function WeatherView({
                           {chainName(c.chain)}
                         </Link>
                         <span className="font-semibold" style={{ color: i ? 'var(--flare)' : 'var(--mint)' }}>
-                          {i ? '↓ Top outflow' : '↑ Top inflow'}
+                          {i ? <><Down /> Top outflow</> : <><Up /> Top inflow</>}
                         </span>
                       </div>
                       <div className="my-3 flex items-baseline gap-2">
@@ -259,7 +260,7 @@ export function WeatherView({
                   className="xl:col-span-8"
                   action={
                     <Link href="/flows" className="whitespace-nowrap text-xs font-bold text-brand">
-                      See all →
+                      See all <Go />
                     </Link>
                   }
                 >
@@ -275,7 +276,7 @@ export function WeatherView({
                               <ChainLogo chain={f.to} size={26} />
                             </span>
                             <span className="min-w-0 flex-1 text-[13px] font-bold">
-                              {chainName(f.from)} → {chainName(f.to)}
+                              {chainName(f.from)} <Go /> {chainName(f.to)}
                               <span className="block text-xs font-normal text-ink-muted">{f.walletCount} wallets</span>
                             </span>
                             <span className="hidden h-1.5 w-24 rounded-full bg-raised sm:block">
@@ -381,7 +382,7 @@ function LayerOverview({
   const signed = layer.id === 'sectors';
   // One plain line per view; the formula and inputs stay in the ⓘ receipt.
   const plain = {
-    perps: 'Hyperliquid coins scored 0–100 on long/short bias. 50 is balanced.',
+    perps: 'Hyperliquid coins scored 0 to 100 on long/short bias. 50 is balanced.',
     sectors: 'Sector baskets scored against their own history. Above 50, money is coming in.',
     predictions: 'Polymarket categories by trading activity against their usual weekly pace. Not net YES/NO flow or a probability.',
   }[layer.id];
@@ -419,7 +420,7 @@ function LayerOverview({
         <div className="flex items-center justify-between gap-2 text-[13px]">
           <Link href={r.href ?? layer.href} className="truncate font-semibold text-ink-2 hover:text-ink">{r.name}</Link>
           <span className="font-semibold" style={{ color: i ? 'var(--flare)' : 'var(--mint)' }}>
-            {i ? '↓ Lowest' : '↑ Highest'}
+            {i ? <><Down /> Lowest</> : <><Up /> Highest</>}
           </span>
         </div>
         <div className="mt-4 flex items-center gap-4">
@@ -450,7 +451,7 @@ function LayerOverview({
         <p className="lede mt-4 hidden sm:block">{plain}</p>
         <div className="mt-6">
           <Link href={layer.href} className="pill-button pill-primary">
-            Open {layer.title} <span className="arrow" aria-hidden>→</span>
+            Open {layer.title} <span className="arrow" aria-hidden><Go /></span>
           </Link>
         </div>
       </section>
@@ -469,7 +470,7 @@ function LayerOverview({
             <div className="flex flex-wrap items-center gap-3">
               {tabs}
               <Link href={layer.href} className="text-[12.5px] font-bold text-brand">
-                Search all {layer.readings.length} in {layer.title} →
+                Search all {layer.readings.length} in {layer.title} <Go />
               </Link>
             </div>
           </div>

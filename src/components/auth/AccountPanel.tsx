@@ -86,7 +86,7 @@ export function AccountPanel({ user, keyInfo, vault, mode }: {
         )}
         <p className="text-[12px] text-ink-muted">
           The key is checked with Nansen (free), stored encrypted on this server, and never sent back to your browser. With it, every Nansen call you trigger
-          uses your credits and what it returns is yours to see — including smart-money data and labels, which Nansen allows only for the key owner.
+          uses your credits and what it returns is yours to see, including smart-money data and labels, which Nansen allows only for the key owner.
         </p>
         {msg && <p className="text-sm text-ink-2">{msg}</p>}
       </section>

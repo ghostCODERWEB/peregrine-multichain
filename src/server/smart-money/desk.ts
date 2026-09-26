@@ -191,7 +191,7 @@ export async function smDesk(chain: SmChain): Promise<SmDesk> {
           formula: 'wallets ranked by total PnL (realized + unrealized) over 30 days, as reported by Nansen',
           inputs: [
             { label: 'Wallets', value: String(leaders.length) },
-            { label: 'Top wallet PnL', value: leaders[0] ? usd(leaders[0].totalPnlUsd, { signed: true }) : '—' },
+            { label: 'Top wallet PnL', value: leaders[0] ? usd(leaders[0].totalPnlUsd, { signed: true }) : 'n/a' },
           ],
           calls: [l.call],
           notes: ["Each wallet's five largest balances come from the same response (top_5_balance_tokens_info)."],
@@ -202,7 +202,7 @@ export async function smDesk(chain: SmChain): Promise<SmDesk> {
           inputs: [
             {
               label: 'Highest conviction',
-              value: top ? `${top.symbol} ${top.conviction! > 0 ? '+' : ''}${top.conviction} (${top.backers} backers)` : '—',
+              value: top ? `${top.symbol} ${top.conviction! > 0 ? '+' : ''}${top.conviction} (${top.backers} backers)` : 'n/a',
             },
             { label: 'Crowded exits', value: String(holdings.filter((x) => x.crowdedExit).length) },
           ],
@@ -265,7 +265,7 @@ export async function smPerpTrades(): Promise<SmPerps> {
       formula: 'tilt per coin = Σ USD opening or adding to longs − Σ USD opening or adding to shorts\n(reductions and closes left out)',
       inputs: [
         { label: 'Trades read', value: String(trades.length) },
-        { label: 'Most tilted', value: tilt[0] ? `${tilt[0].symbol} ${usd(tilt[0].netUsd, { signed: true })}` : '—' },
+        { label: 'Most tilted', value: tilt[0] ? `${tilt[0].symbol} ${usd(tilt[0].netUsd, { signed: true })}` : 'n/a' },
       ],
       calls: [r.call],
       notes: [
@@ -365,8 +365,8 @@ export async function smHistory(chain: string, tokenAddress: string): Promise<Sm
       formula: 'daily aggregate balance and value held by Nansen smart-money wallets',
       inputs: [
         { label: 'Days', value: String(points.length) },
-        { label: 'Balance change over the window', value: first?.balance && last?.balance ? pct(last.balance / first.balance - 1) : '—' },
-        { label: 'Wallets, first → last day', value: first && last ? `${num(first.holders, 0)} → ${num(last.holders, 0)}` : '—' },
+        { label: 'Balance change over the window', value: first?.balance && last?.balance ? pct(last.balance / first.balance - 1) : 'n/a' },
+        { label: 'Wallets, first → last day', value: first && last ? `${num(first.holders, 0)} → ${num(last.holders, 0)}` : 'n/a' },
       ],
       calls: [r.call],
       notes: [

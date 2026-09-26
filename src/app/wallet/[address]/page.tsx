@@ -22,6 +22,7 @@ import { AskNansen } from '@/components/agent/AskNansen';
 import { walletWeatherReading } from '@/server/wallet/weather';
 import { walletRotations } from '@/server/weather/queries';
 import { ChainLogo } from '@/components/Logo';
+import { Go, Back } from '@/components/ui/Icons';
 
 export const dynamic = 'force-dynamic';
 
@@ -29,7 +30,7 @@ type Params = { params: Promise<{ address: string }> };
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { address } = await params;
-  return { title: `${shortAddress(decodeURIComponent(address))} — Peregrine wallet` };
+  return { title: `${shortAddress(decodeURIComponent(address))} · Peregrine wallet` };
 }
 
 // Every address family Nansen profiles is some run of letters, digits and
@@ -56,7 +57,7 @@ export default async function WalletRoute({ params }: Params) {
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div>
           <Link href="/" className="text-[12.5px] text-ink-2 hover:text-ink">
-            ← Overview
+            <Back /> Overview
           </Link>
           <h1 className="t-headline mt-1 break-all text-ink">
             {mode === 'owner' && trail.label ? walletName(trail.label, address) : shortAddress(address)}
@@ -247,8 +248,8 @@ async function TransactionsCard({ address, mode }: { address: string; mode: Disp
                   <TimeAgo ts={Date.parse(t.at)} />
                 </td>
                 <td className="py-1.5 text-ink-2">{chainName(t.chain)}</td>
-                <td className="py-1.5 text-ink">{t.sent.join(', ') || '—'}</td>
-                <td className="py-1.5 text-ink">{t.received.join(', ') || '—'}</td>
+                <td className="py-1.5 text-ink">{t.sent.join(', ') || 'n/a'}</td>
+                <td className="py-1.5 text-ink">{t.received.join(', ') || 'n/a'}</td>
                 <td className="num py-1.5 text-right text-ink">{usd(t.volumeUsd)}</td>
               </tr>
             ))}
@@ -272,7 +273,7 @@ function RotationsCard({ address, mode }: { address: string; mode: DisplayMode }
       sub="This wallet's part in chain-to-chain rotations: sold on one chain, bought on another within 12h."
       action={
         <Link href="/#fronts-title" className="text-[12px] text-brand hover:underline">
-          Capital Flows →
+          Capital Flows <Go />
         </Link>
       }
     >
@@ -285,7 +286,7 @@ function RotationsCard({ address, mode }: { address: string; mode: DisplayMode }
             <span className="flex items-center gap-1.5 font-medium text-ink">
               <ChainLogo chain={r.from} size={16} />
               {chainName(r.from)}
-              <span className="text-ink-muted">→</span>
+              <span className="text-ink-muted"><Go /></span>
               <ChainLogo chain={r.to} size={16} />
               {chainName(r.to)}
             </span>

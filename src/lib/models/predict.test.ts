@@ -51,7 +51,7 @@ describe('implied probability', () => {
     expect(impliedPct(0.004)).toBe('<1%');
     expect(impliedPct(0.35)).toBe('35%');
     expect(impliedPct(0.997)).toBe('>99%');
-    expect(impliedPct(null)).toBe('—');
+    expect(impliedPct(null)).toBe('n/a');
   });
 });
 

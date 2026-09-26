@@ -1,6 +1,7 @@
 'use client';
 import { createPortal } from 'react-dom';
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
+import { ArrowDown, ArrowUp, CornerDownLeft, Loader2, Search, X } from 'lucide-react';
 import { ChainLogo, TokenLogo } from '@/components/Logo';
 import { usePathname, useRouter } from 'next/navigation';
 import { detectAddress, FAMILY_NAMES } from '@/lib/address-family';
@@ -35,6 +36,8 @@ interface Item {
  * the one priced call only on Enter. Keyboard first: ↑/↓ move, Enter opens,
  * Esc closes.
  */
+const SUGGESTIONS = ['aero', 'Wintermute', 'base', 'AI', '/who bought $AERO last 6h'];
+
 export function Omnibox() {
   const router = useRouter();
   const path = usePathname();
@@ -244,33 +247,22 @@ export function Omnibox() {
         aria-label="Search tokens, wallets, entities, chains and sectors"
         className="liquid-chip liquid-control flex h-8 items-center gap-2 rounded-xl px-2 text-[12px] text-ink-muted hover:text-ink lg:h-9 lg:w-full lg:px-2.5"
       >
-        <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden>
-          <circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" strokeWidth="1.6" />
-          <path d="M11 11l3.5 3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-        </svg>
-        <span className="hidden lg:inline">Search token, wallet…</span>
-        <kbd className="hidden rounded border border-border px-1 text-[10px] lg:ml-auto lg:inline">⌘K</kbd>
+        <Search className="h-3.5 w-3.5" strokeWidth={2.2} aria-hidden />
+        <span className="hidden lg:inline">Search</span>
+        <kbd className="kbd hidden lg:ml-auto lg:inline-flex">⌘K</kbd>
       </button>
 
       {open &&
         createPortal(
           <div
-            className="fixed inset-0 z-50 bg-page/55 px-4 pt-[12vh] backdrop-blur-sm"
+            className="spotlight-backdrop fixed inset-0 z-50 bg-black/45 px-3 pt-[10vh] backdrop-blur-md sm:px-4 sm:pt-[14vh]"
             onMouseDown={(e) => {
               if (e.target === e.currentTarget) close();
             }}
           >
-            <div
-              role="dialog"
-              aria-modal="true"
-              aria-label="Search"
-              className="liquid-glass liquid-glass-strong liquid-dialog relative mx-auto w-full max-w-xl overflow-hidden rounded-[24px]"
-            >
-              <div className="flex items-center gap-2 border-b border-border px-3">
-                <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden className="shrink-0 text-ink-muted">
-                  <circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" strokeWidth="1.6" />
-                  <path d="M11 11l3.5 3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-                </svg>
+            <div role="dialog" aria-modal="true" aria-label="Search" className="spotlight material-strong relative mx-auto w-full max-w-[680px] overflow-hidden rounded-[22px]">
+              <div className="flex h-[62px] items-center gap-3 px-5">
+                <Search className="h-5 w-5 shrink-0 text-ink-muted" strokeWidth={2} aria-hidden />
                 <input
                   ref={input}
                   value={q}
@@ -281,21 +273,25 @@ export function Omnibox() {
                   aria-controls={listId}
                   aria-autocomplete="list"
                   aria-activedescendant={items[active] ? `${listId}-${active}` : undefined}
-                  placeholder="Token, wallet, entity, chain, sector… or / for commands"
-                  className="h-12 w-full bg-transparent text-[15px] text-ink outline-none placeholder:text-ink-muted"
+                  aria-label="Search Peregrine"
+                  placeholder="Search tokens, wallets, chains, sectors"
+                  className="h-full min-w-0 flex-1 bg-transparent text-[19px] font-medium tracking-[-0.015em] text-ink placeholder:text-ink-muted focus-visible:shadow-none focus-visible:outline-none"
                   spellCheck={false}
                   autoComplete="off"
                 />
-                {loading && (
-                  <span className="text-[11px] text-ink-muted" aria-live="polite">
-                    {answer || !commandMode ? 'searching…' : 'working…'}
-                  </span>
+                {loading ? (
+                  <Loader2 className="h-4 w-4 shrink-0 animate-spin text-ink-muted" aria-label={answer || !commandMode ? 'Searching' : 'Working'} />
+                ) : (
+                  q && (
+                    <button type="button" onClick={() => { setQ(''); input.current?.focus(); }} aria-label="Clear search" className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-ink/10 text-ink-2 transition-colors hover:bg-ink/20 hover:text-ink">
+                      <X className="h-3.5 w-3.5" strokeWidth={2.4} aria-hidden />
+                    </button>
+                  )
                 )}
               </div>
-              {families.length > 0 && (
-                <p className="border-b border-border px-3 py-1.5 text-[11.5px] text-ink-2">Looks like {families.join(' or ')} address</p>
-              )}
-              <ul id={listId} role="listbox" aria-label="Results" className="max-h-[50vh] overflow-y-auto py-1">
+              <div className="h-px bg-[var(--hair)]" />
+              {families.length > 0 && <p className="px-5 pt-3 text-[12.5px] text-ink-2">Looks like {families.join(' or ')} address</p>}
+              <ul id={listId} role="listbox" aria-label="Results" className="max-h-[min(56vh,480px)] overflow-y-auto p-2">
                 {items.map((r, i) => (
                   <li
                     key={r.key}
@@ -308,49 +304,58 @@ export function Omnibox() {
                       e.preventDefault();
                       r.pick();
                     }}
-                    className={`flex cursor-pointer items-center gap-3 px-3 py-2 ${i === active ? 'bg-accent' : ''} ${r.disabled ? 'cursor-default opacity-80' : ''}`}
+                    className={`flex min-h-[52px] cursor-pointer items-center gap-3 rounded-[12px] px-3 py-2 transition-colors duration-[var(--dur-fast)] ${i === active ? 'bg-[color-mix(in_srgb,var(--ink-1)_8%,transparent)]' : ''} ${r.disabled ? 'cursor-default opacity-70' : ''}`}
                   >
-                    <span className="flex w-14 shrink-0 items-center gap-1.5 text-[10.5px] uppercase tracking-wider text-ink-muted">
-                      {r.symbol ? <TokenLogo symbol={r.symbol} size={16} /> : r.chain ? <ChainLogo chain={r.chain} size={16} /> : null}
-                      {r.kind}
+                    <span className="grid h-8 w-8 shrink-0 place-items-center rounded-[9px] bg-[color-mix(in_srgb,var(--ink-1)_6%,transparent)]">
+                      {r.symbol ? <TokenLogo symbol={r.symbol} size={20} /> : r.chain ? <ChainLogo chain={r.chain} size={18} /> : <Search className="h-3.5 w-3.5 text-ink-muted" aria-hidden />}
                     </span>
                     <span className="min-w-0 flex-1">
-                      <span className="block truncate text-[13.5px] text-ink">{r.title}</span>
-                      <span className="block truncate text-[11.5px] text-ink-muted">{r.subtitle}</span>
+                      <span className="block truncate text-[14.5px] font-semibold text-ink">{r.title}</span>
+                      <span className="block truncate text-[12.5px] text-ink-muted">{r.subtitle}</span>
                     </span>
-                    {r.badge && (
-                      <span className="num shrink-0 rounded border border-border px-2 py-0.5 text-[10.5px] text-ink-2">{r.badge}</span>
-                    )}
+                    {r.badge && <span className="num shrink-0 text-[12px] text-ink-2">{r.badge}</span>}
+                    <span className="shrink-0 text-[11.5px] font-medium capitalize text-ink-muted">{r.kind}</span>
+                    <CornerDownLeft className={`h-3.5 w-3.5 shrink-0 text-ink-muted transition-opacity ${i === active ? 'opacity-100' : 'opacity-0'}`} aria-hidden />
                   </li>
                 ))}
                 {!commandMode && query && !loading && res && !items.length && (
-                  <li className="px-3 py-3 text-[13px] text-ink-2">{res.error ?? 'Nansen’s search found nothing for that.'}</li>
+                  <li className="px-3 py-6 text-center text-[13.5px] text-ink-2">{res.error ?? 'No matches in Nansen’s search.'}</li>
                 )}
                 {cmdError && (
-                  <li className="px-3 py-3 text-[13px] text-ink" role="alert">
+                  <li className="px-3 py-3 text-[13.5px] text-ink" role="alert">
                     {cmdError}
                   </li>
                 )}
                 {answer && (
-                  <li className="border-t border-border px-3 py-2 text-[11px] text-ink-muted">
+                  <li className="mt-1 border-t border-[var(--hair)] px-3 pt-2.5 text-[12px] text-ink-muted">
                     {answer.recordedNote ? `${answer.recordedNote} ` : ''}
-                    {answer.rows.length
-                      ? `${answer.rows.length} wallet${answer.rows.length === 1 ? '' : 's'}`
-                      : 'Nansen returned no wallets for this'}{' '}
-                    · {answer.call.endpoint} · {answer.credits} credit{answer.credits === 1 ? '' : 's'}
+                    {answer.rows.length ? `${answer.rows.length} wallet${answer.rows.length === 1 ? '' : 's'}` : 'Nansen returned no wallets for this'} · {answer.call.endpoint} ·{' '}
+                    {answer.credits} credit{answer.credits === 1 ? '' : 's'}
                     {answer.call.ref === 'cache' ? ' (cached)' : ''}. Labels appear for the key owner and members.
                   </li>
                 )}
                 {!query && (
-                  <li className="px-3 py-3 text-[12.5px] text-ink-muted">
-                    Try “aero”, “Wintermute”, “base”, “AI”, paste any address, or type <b>/</b> for commands like “who bought $AERO last
-                    6h”.
+                  <li className="px-1 pb-1">
+                    <p className="px-2 pb-1.5 pt-1 text-[12px] font-semibold text-ink-muted">Try</p>
+                    <div className="flex flex-wrap gap-1.5 px-1">
+                      {SUGGESTIONS.map((t) => (
+                        <button key={t} type="button" onClick={() => { setQ(t); input.current?.focus(); }}
+                          className="min-h-[32px] rounded-full border border-[var(--hair)] px-3 text-[13px] text-ink-2 transition-colors duration-[var(--dur-fast)] hover:border-[var(--hair-2)] hover:text-ink">
+                          {t}
+                        </button>
+                      ))}
+                    </div>
+                    <p className="px-2 pt-3 text-[12px] text-ink-muted">Paste any address, or start with <kbd className="kbd">/</kbd> for a command.</p>
                   </li>
                 )}
               </ul>
-              <div className="flex justify-between border-t border-border px-3 py-1.5 text-[10.5px] text-ink-muted">
-                <span>↑↓ move · Enter open · Esc close</span>
-                <span>{commandMode ? 'Nothing is charged until Enter' : 'Search by Nansen API'}</span>
+              <div className="flex items-center justify-between gap-3 border-t border-[var(--hair)] px-5 py-2.5 text-[12px] text-ink-muted">
+                <span className="hidden items-center gap-3 sm:flex">
+                  <span className="flex items-center gap-1.5"><kbd className="kbd"><ArrowUp className="h-3 w-3" aria-hidden /></kbd><kbd className="kbd"><ArrowDown className="h-3 w-3" aria-hidden /></kbd>Navigate</span>
+                  <span className="flex items-center gap-1.5"><kbd className="kbd"><CornerDownLeft className="h-3 w-3" aria-hidden /></kbd>Open</span>
+                  <span className="flex items-center gap-1.5"><kbd className="kbd">esc</kbd>Close</span>
+                </span>
+                <span className="ml-auto">{commandMode ? 'Nothing is charged until you press Enter' : 'Search by Nansen'}</span>
               </div>
             </div>
           </div>,

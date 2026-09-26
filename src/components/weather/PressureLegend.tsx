@@ -19,7 +19,7 @@ export function PressureLegend() {
         <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden>
           <polygon points="7,1 12.2,4 12.2,10 7,13 1.8,10 1.8,4" fill="none" stroke="var(--axis)" strokeWidth="1.25" />
         </svg>
-        <span>no reading — not neutral</span>
+        <span>no reading, not neutral</span>
       </div>
       <div className="flex items-center gap-1.5">
         <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden>

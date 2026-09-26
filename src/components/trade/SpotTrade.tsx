@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { usd, pct, shortAddress } from '@/lib/viz/format';
 import { toBaseUnits } from '@/lib/units';
+import { Go } from '@/components/ui/Icons';
 
 type Eth = { request: (a: { method: string; params?: unknown[] }) => Promise<unknown> };
 type SolanaTx = { serialize: () => Uint8Array };
@@ -380,7 +381,7 @@ export function SpotTrade({ initialToken }: { initialToken: string }) {
                       <td className="num text-ink">{usd(q.inUsd)}</td>
                       <td className="num text-ink">{usd(q.outUsd)}</td>
                       <td className="num" style={{ color: (q.priceImpactPct ?? 0) > 2 ? 'var(--storm-2)' : undefined }}>
-                        {q.priceImpactPct != null ? pct(q.priceImpactPct / 100, 2) : '—'}
+                        {q.priceImpactPct != null ? pct(q.priceImpactPct / 100, 2) : 'n/a'}
                       </td>
                       <td className="num text-ink-2">{usd((q.tradingFeeUsd ?? 0) + (q.networkFeeUsd ?? 0))}</td>
                       <td className="text-right">
@@ -405,7 +406,7 @@ export function SpotTrade({ initialToken }: { initialToken: string }) {
             <p className="mt-1 text-[12.5px] text-ink-2">
               Simulation:{' '}
               {prep.simulationPassed === true
-                ? 'passed — the swap should go through as quoted.'
+                ? 'passed, the swap should go through as quoted.'
                 : prep.simulationPassed === false
                   ? `failed${prep.error ? `: ${prep.error}` : ''}. Don’t sign this one.`
                   : 'not run.'}
@@ -488,12 +489,12 @@ export function SpotTrade({ initialToken }: { initialToken: string }) {
             <div className="flex justify-between">
               <span className="text-ink-2">{chain === 'base' ? 'Base' : 'Solana'} pressure</span>
               <span className="num text-ink">
-                {signals.chainPressure ? `${signals.chainPressure.cpi} · ${signals.chainPressure.band ?? ''}` : '—'}
+                {signals.chainPressure ? `${signals.chainPressure.cpi} · ${signals.chainPressure.band ?? ''}` : 'n/a'}
               </span>
             </div>
             <p className="text-[11.5px] text-ink-muted">{signals.trackRecord}</p>
             <Link href={`/token/${chain}/${token.trim()}`} className="text-ink-2 underline-offset-2 hover:text-ink hover:underline">
-              Open the token page →
+              Open the token page <Go />
             </Link>
           </>
         )}

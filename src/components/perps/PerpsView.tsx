@@ -10,6 +10,7 @@ import { LiquidationLadder, leverageTitle } from '@/components/token/Visuals';
 import { pct, usd, num, walletName, ago } from '@/lib/viz/format';
 import type { PerpBoard, PerpCoin } from '@/server/perps/board';
 import type { CoinDetail, PerpLeaders } from '@/server/perps/detail';
+import { Go, Back, Up } from '@/components/ui/Icons';
 
 type Load<T> = { state: 'idle' } | { state: 'loading' } | { state: 'error'; message: string } | { state: 'ok'; data: T };
 
@@ -46,7 +47,7 @@ const pressureMix = (p: number | null) => {
   return `color-mix(in oklab, ${pressureColor(p)} ${Math.round(8 + k * 62)}%, var(--surface-1))`;
 };
 const bandText = (p: number) => (p > 65 ? 'Long bias' : p < 35 ? 'Short bias' : 'Balanced');
-const signedPct = (v: number | null, d = 1) => (v == null ? '—' : `${v >= 0 ? '+' : '−'}${pct(Math.abs(v), d)}`);
+const signedPct = (v: number | null, d = 1) => (v == null ? 'n/a' : `${v >= 0 ? '+' : '−'}${pct(Math.abs(v), d)}`);
 
 // ------------------------------------------------------------------ hero
 
@@ -72,11 +73,11 @@ function Hero({ b, title, mode }: { b: PerpBoard; title: string; mode: 'owner' |
             <dl className="stagger mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
               {[
                 ['Open interest', usd(v.openInterest)],
-                ['Median funding, yearly', v.fundingMedianApr != null ? pct(v.fundingMedianApr, 1) : '—'],
-                ['Taker flow, 24h', v.takerAll != null ? `${signedPct(v.takerAll)} net buy` : '—'],
+                ['Median funding, yearly', v.fundingMedianApr != null ? pct(v.fundingMedianApr, 1) : 'n/a'],
+                ['Taker flow, 24h', v.takerAll != null ? `${signedPct(v.takerAll)} net buy` : 'n/a'],
                 mode === 'public'
                   ? ['Coins scored', String(b.coins.filter((c) => c.ppi != null).length)]
-                  : ['Smart money book', v.smSkew != null ? `${signedPct(v.smSkew, 0)} long skew` : '—'],
+                  : ['Smart money book', v.smSkew != null ? `${signedPct(v.smSkew, 0)} long skew` : 'n/a'],
               ].map(([k, val]) => (
                 <div key={k} className="inset-well min-w-0 rounded-[18px] px-4 py-3">
                   <dt className="text-[12.5px] font-medium text-ink-muted">{k}</dt>
@@ -89,7 +90,7 @@ function Hero({ b, title, mode }: { b: PerpBoard; title: string; mode: 'owner' |
         <div className="flex shrink-0 items-center gap-4 rounded-2xl border border-border/70 bg-raised/40 p-4 lg:w-[230px] lg:flex-col lg:text-center">
           {v?.ppi != null ? (
             <>
-              <ScoreRing score={v.ppi} size={112} stroke={9} color={pressureColor(v.ppi)} label="Perp Flow Index" sublabel="0–100" />
+              <ScoreRing score={v.ppi} size={112} stroke={9} color={pressureColor(v.ppi)} label="Perp Flow Index" sublabel="0 to 100" />
               <div>
                 <div className="text-[11px] uppercase tracking-wider text-ink-muted">Perp Flow Index</div>
                 <div className="text-[15px] font-semibold text-ink">{bandText(v.ppi)}</div>
@@ -243,13 +244,13 @@ function CrowdingMap({ coins, useSm, onPick }: { coins: PerpCoin[]; useSm: boole
             </g>
           ))}
           <text x={CW - CP.r} y={CH - 6} textAnchor="end" className="fill-ink-2 text-[11px]">
-            longs pay more →
+            longs pay more <Go />
           </text>
           <text x={CP.l} y={CH - 6} className="fill-ink-2 text-[11px]">
-            ← shorts pay
+            <Back /> shorts pay
           </text>
           <text x={12} y={CP.t + 4} className="fill-ink-2 text-[11px]" transform={`rotate(-90 12 ${CP.t + 4})`} textAnchor="end">
-            {useSm ? 'smart money net long ↑' : 'takers net buying ↑'}
+            {useSm ? 'smart money net long' : 'takers net buying'} <Up />
           </text>
           {x(0.1095) > CP.l && (
             <text x={x(0.1095) + 4} y={CP.t + 10} className="fill-ink-muted text-[10px]">
@@ -448,7 +449,7 @@ export function PerpsView({ board, title, mode }: { board: PerpBoard; title: str
                           {num(c.ppi, 0)}
                         </span>
                       </td>
-                      <td className="num text-ink-2">{c.fundingApr != null ? pct(c.fundingApr, 1) : '—'}</td>
+                      <td className="num text-ink-2">{c.fundingApr != null ? pct(c.fundingApr, 1) : 'n/a'}</td>
                       <td className="num text-right text-ink">{usd(c.openInterest)}</td>
                     </tr>
                   ))}
@@ -496,9 +497,9 @@ export function PerpsView({ board, title, mode }: { board: PerpBoard; title: str
               <dl className="space-y-2 text-[12.5px]">
                 {(
                   [
-                    ['taker', 'Taker flow', pickedCoin.taker != null ? `${signedPct(pickedCoin.taker)} net buy` : '—'],
-                    ['funding', 'Funding', pickedCoin.fundingApr != null ? `${pct(pickedCoin.fundingApr, 1)} a year` : '—'],
-                    ['sm', 'Smart money skew', pickedCoin.sm?.skew != null ? `${signedPct(pickedCoin.sm.skew, 0)} long` : '—'],
+                    ['taker', 'Taker flow', pickedCoin.taker != null ? `${signedPct(pickedCoin.taker)} net buy` : 'n/a'],
+                    ['funding', 'Funding', pickedCoin.fundingApr != null ? `${pct(pickedCoin.fundingApr, 1)} a year` : 'n/a'],
+                    ['sm', 'Smart money skew', pickedCoin.sm?.skew != null ? `${signedPct(pickedCoin.sm.skew, 0)} long` : 'n/a'],
                   ] as const
                 ).map(([k, label, val]) => {
                   const part = pickedCoin.parts[k];
@@ -515,10 +516,10 @@ export function PerpsView({ board, title, mode }: { board: PerpBoard; title: str
               </dl>
               <div className="mt-3 border-t border-border pt-2 text-[12px] text-ink-2">
                 <div className="num">
-                  Price {pickedCoin.markPrice != null ? usd(pickedCoin.markPrice) : '—'} · {signedPct(pickedCoin.change24h)} 24h
+                  Price {pickedCoin.markPrice != null ? usd(pickedCoin.markPrice) : 'n/a'} · {signedPct(pickedCoin.change24h)} 24h
                 </div>
                 <div className="num">
-                  Volume {usd(pickedCoin.volume)} · {pickedCoin.traders?.toLocaleString('en-US') ?? '—'} traders
+                  Volume {usd(pickedCoin.volume)} · {pickedCoin.traders?.toLocaleString('en-US') ?? 'n/a'} traders
                 </div>
                 {pickedCoin.sm && (
                   <div className="num">
@@ -609,7 +610,7 @@ export function PerpsView({ board, title, mode }: { board: PerpBoard; title: str
                                 </Link>
                               </td>
                               <td className="num text-ink">{usd(p.pnlUsd, { signed: true })}</td>
-                              <td className="num text-ink-2">{p.roi != null ? pct(p.roi, 0) : '—'}</td>
+                              <td className="num text-ink-2">{p.roi != null ? pct(p.roi, 0) : 'n/a'}</td>
                               <td className="num text-right text-ink-2">{usd(p.positionUsd)}</td>
                             </tr>
                           ))}
@@ -678,14 +679,14 @@ export function PerpsView({ board, title, mode }: { board: PerpBoard; title: str
                       </Link>
                     </td>
                     <td className="num text-ink">{usd(l.pnl30, { signed: true })}</td>
-                    <td className="num text-ink-2">{l.roi30 != null ? pct(l.roi30, 0) : '—'}</td>
-                    <td className="num text-ink-2">{l.pnl7 != null ? usd(l.pnl7, { signed: true }) : '—'}</td>
+                    <td className="num text-ink-2">{l.roi30 != null ? pct(l.roi30, 0) : 'n/a'}</td>
+                    <td className="num text-ink-2">{l.pnl7 != null ? usd(l.pnl7, { signed: true }) : 'n/a'}</td>
                     <td className="num text-ink-2">{usd(l.accountValue)}</td>
                     <td className="text-ink-2">
                       {l.positions
                         .slice(0, 3)
                         .map((p) => `${p.side === 'long' ? '▲' : '▼'} ${p.coin.replace(/^[^:]+:/, '')}`)
-                        .join('  ') || '—'}
+                        .join('  ') || 'n/a'}
                     </td>
                     <td>
                       <div className="flex flex-wrap gap-1">

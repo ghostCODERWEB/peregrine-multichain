@@ -166,7 +166,7 @@ export function netFronts(directed: DirectedFront[]): NetFront[] {
     const grossBtoA = bToA?.usd ?? 0;
     const netUsd = grossAtoB - grossBtoA;
     const winner = netUsd >= 0 ? aToB : bToA;
-    if (!winner) continue; // shouldn't happen — at least one side produced this pair
+    if (!winner) continue; // shouldn't happen, at least one side produced this pair
     results.push({
       chainA, chainB, netUsd,
       direction: netUsd >= 0 ? { from: chainA, to: chainB } : { from: chainB, to: chainA },

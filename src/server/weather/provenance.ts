@@ -11,7 +11,7 @@ export function cpiProvenance(w: ChainWeather): Provenance | null {
   const notes: string[] = [];
   if (w.anyCrossSection) {
     notes.push(
-      `z is taken against ${sm ? 'other smart-money chains' : 'other market-flow chains'} right now, not this chain's own history — the scanner keeps 8+ snapshots with some spread before switching to "unusual for this chain".`,
+      `z is taken against ${sm ? 'other smart-money chains' : 'other market-flow chains'} right now, not this chain's own history, the scanner keeps 8+ snapshots with some spread before switching to "unusual for this chain".`,
     );
   }
   if (!sm) {
@@ -20,10 +20,10 @@ export function cpiProvenance(w: ChainWeather): Provenance | null {
     );
   }
   const quiet = w.windows.filter((x) => sm && x.tokenCount === 0).map((x) => x.window);
-  if (quiet.length) notes.push(`No smart-money trades on ${w.chain} in the ${quiet.join(', ')} window — recorded as zero flow, which is a reading, not missing data.`);
+  if (quiet.length) notes.push(`No smart-money trades on ${w.chain} in the ${quiet.join(', ')} window, recorded as zero flow, which is a reading, not missing data.`);
 
   return {
-    title: `Flow Index — ${w.chain}`,
+    title: `Flow Index, ${w.chain}`,
     formula:
       'r = net_flow / max(volume, $10K)\n' +
       'z = (r − median) / (1.4826·MAD)   [history or peers]\n' +
@@ -67,7 +67,7 @@ export function frontProvenance(f: Front, hours = 24): Provenance {
 
 export function forecastProvenance(f: PressureForecast): Provenance {
   return {
-    title: `24h flow projection — ${f.chain}`,
+    title: `24h flow projection, ${f.chain}`,
     formula:
       'Holt linear smoothing on blended Flow Index snapshots\n' +
       'level_t = α·y_t + (1−α)(level + trend)\n' +
@@ -79,7 +79,7 @@ export function forecastProvenance(f: PressureForecast): Provenance {
         { label: 'α, β (grid-searched)', value: `${num(f.alpha, 2)}, ${num(f.beta, 2)}` },
         { label: 'Snapshots used', value: String(f.sampleSize) },
         { label: 'Step', value: `${f.stepMinutes} min` },
-        { label: 'In-sample MAPE', value: f.mape == null ? '—' : `${num(f.mape)}%` },
+        { label: 'In-sample MAPE', value: f.mape == null ? 'n/a' : `${num(f.mape)}%` },
       ],
     calls: [],
     notes: [

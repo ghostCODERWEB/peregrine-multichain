@@ -8,6 +8,7 @@ import { InfoPopover } from '@/components/InfoPopover';
 import { ArrowUp, ArrowDown, Minus } from 'lucide-react';
 import { SETUPS, setupLabel, type Horizon, type Setup, type Stance } from '@/lib/models/calls';
 import { receiptProvenance, fmtPrice, GRADE_RULES, type ReceiptLike } from './receipt';
+import { Go } from '@/components/ui/Icons';
 
 interface Saved {
   id: number;
@@ -91,7 +92,7 @@ export function CallForm({
         </p>
         <div className="flex gap-3">
           <Link href="/desk" className="text-ink underline underline-offset-2">
-            Open the Desk →
+            Open the Desk <Go />
           </Link>
           <button
             type="button"
@@ -212,7 +213,7 @@ export function CallForm({
         href={`/replay/${chain}/${encodeURIComponent(token)}`}
         className="inline-block text-[13px] font-semibold text-ink underline underline-offset-4"
       >
-        Practice in the Time Machine →
+        Practice in the Time Machine <Go />
       </Link>
     </div>
   );

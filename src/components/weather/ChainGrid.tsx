@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ChainLogo } from '@/components/Logo';
 import { chainName } from '@/lib/viz/format';
 import type { ChainTile } from '@/server/weather/bulletin';
+import { Up, Down } from '@/components/ui/Icons';
 
 /** Flow Index as a tile grid, strongest accumulation first: only chains with
  *  a reading (a chain Nansen can't measure has nothing to show here; the
@@ -55,7 +56,7 @@ function Tile({ c }: { c: ChainTile }) {
       <div className="mt-2 flex items-baseline justify-between gap-2">
         <span className="num text-[24px] font-extrabold leading-none tracking-[-0.03em] text-ink">{v}</span>
         {t != null && Math.abs(t) >= 1 && (
-          <span className="num text-[11.5px] font-bold" style={{ color: t >= 0 ? 'var(--mint)' : 'var(--flare)' }}>{t >= 0 ? '↑' : '↓'}{Math.abs(Math.round(t))} · 6h</span>
+          <span className="num text-[11.5px] font-bold" style={{ color: t >= 0 ? 'var(--mint)' : 'var(--flare)' }}>{t >= 0 ? <Up /> : <Down />}{Math.abs(Math.round(t))} · 6h</span>
         )}
       </div>
       <div className="relative mt-2.5 h-1 rounded-full bg-ink/10" aria-hidden>

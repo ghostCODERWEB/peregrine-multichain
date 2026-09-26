@@ -4,7 +4,7 @@ import { displayMode } from '@/server/mode';
 import { SmartMoneyDesk } from '@/components/smart-money/SmartMoneyDesk';
 import { accountsEnabled } from '@/server/site';
 
-export const metadata: Metadata = { title: 'Smart-money desk — Peregrine' };
+export const metadata: Metadata = { title: 'Smart-money desk · Peregrine' };
 export const dynamic = 'force-dynamic';
 
 const PANELS = [

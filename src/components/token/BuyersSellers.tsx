@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { InfoPopover } from '@/components/InfoPopover';
 import { usd, walletName } from '@/lib/viz/format';
 import type { HoldersWave, Trader } from '@/server/token/waves';
+import { Go, Back } from '@/components/ui/Icons';
 
 export function tradersTitle(h: HoldersWave): string {
   const b = h.buyers.reduce((s, x) => s + x.boughtUsd, 0);
@@ -51,9 +52,9 @@ export function BuyersSellers({ h, clustered }: { h: HoldersWave; clustered: Set
         })}
       </ul>
       <div className="mt-2 flex justify-between text-[11px] text-ink-muted">
-        <span>← sold</span>
+        <span><Back /> sold</span>
         {clustered.size > 0 && <span><span className="mr-1 inline-block h-2 w-2 rounded-full align-middle" style={{ background: 'var(--storm-3)' }} />insider cluster member</span>}
-        <span>bought →</span>
+        <span>bought <Go /></span>
       </div>
     </div>
   );

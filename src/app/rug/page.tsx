@@ -3,7 +3,7 @@ import { RugSearch } from '@/components/rug/RugSearch';
 import { RUG_CHAINS } from '@/lib/rug';
 import { PageTitle } from '@/components/PageTitle';
 
-export const metadata: Metadata = { title: 'Rug Checker — Peregrine' };
+export const metadata: Metadata = { title: 'Rug Checker · Peregrine' };
 
 const CHECKS = [
   ['Exit liquidity', 'Can holders sell without crashing the price'],

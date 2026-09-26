@@ -108,7 +108,7 @@ export async function forecastWave(chain: string, token: string, candles: Candle
     return {
       storm, breakout, extrapolated, trainedOn: bt.chains,
       provenance: {
-        title: '7-day odds — calibrated logistic models',
+        title: '7-day odds, calibrated logistic models',
         formula: 'P = sigmoid(b0 + Σ w_j · clip((x_j − μ_j)/σ_j, ±5))\nw, μ, σ fitted in the Backtest Lab (train: older anchors, test: newest)',
         inputs: [
           { label: 'Sell skew, 7d', value: pct(x[0], 0) },

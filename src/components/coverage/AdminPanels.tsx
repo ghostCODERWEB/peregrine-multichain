@@ -89,7 +89,7 @@ export function AdminPanels({ a }: { a: AdminView }) {
                 <Td><span className="num">{e.endpoint}</span></Td>
                 <Td right>{e.live}</Td>
                 <Td right muted={!e.errors}>{e.errors}</Td>
-                <Td right muted={!e.errors}>{e.errors ? pct(e.errorRate) : '—'}</Td>
+                <Td right muted={!e.errors}>{e.errors ? pct(e.errorRate) : 'n/a'}</Td>
                 <Td right muted title={e.lastError ?? undefined}>{e.lastError ? `${e.lastStatus ?? 'network'}: ${e.lastError.slice(0, 40)}` : ''}</Td>
               </tr>
             ))}
@@ -154,7 +154,7 @@ export function AdminPanels({ a }: { a: AdminView }) {
                 <Td right>{j.done24h}</Td>
                 <Td right muted={!j.failed24h}>{j.failed24h}</Td>
                 <Td right muted><TimeAgo ts={j.lastDoneAt} /></Td>
-                <Td right muted>{j.nextRunAt ? new Date(j.nextRunAt).toISOString().slice(11, 16) + ' UTC' : '—'}</Td>
+                <Td right muted>{j.nextRunAt ? new Date(j.nextRunAt).toISOString().slice(11, 16) + ' UTC' : 'n/a'}</Td>
               </tr>
             ))}
           </Table>
@@ -173,7 +173,7 @@ export function AdminPanels({ a }: { a: AdminView }) {
                 <Td><span className="num">{p.endpoint}</span></Td>
                 <Td muted={p.status !== 'settled'}>{p.status}</Td>
                 <Td right>{p.n}</Td>
-                <Td right>{p.status === 'settled' ? `$${p.usd.toFixed(2)}` : '—'}</Td>
+                <Td right>{p.status === 'settled' ? `$${p.usd.toFixed(2)}` : 'n/a'}</Td>
               </tr>
             ))}
           </Table>

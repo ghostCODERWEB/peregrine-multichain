@@ -58,7 +58,7 @@ function Leader({ row, rank }: { row: AlphaRow; rank: number }) {
           </span>
         </div>
         <div className="num mt-0.5 text-[12px] text-ink-2">
-          {row.flowShare != null ? `${pct(row.flowShare, 1)} net buying` : '—'} · {usd(row.volume24hUsd)} vol · {usd(row.liquidityUsd)} liq
+          {row.flowShare != null ? `${pct(row.flowShare, 1)} net buying` : 'n/a'} · {usd(row.volume24hUsd)} vol · {usd(row.liquidityUsd)} liq
         </div>
         <div className="mt-2">
           <FlowSpark values={row.hourly} width={160} height={24} label="Hourly net-flow share" />
@@ -169,12 +169,12 @@ export function AlphaView({ board }: { board: AlphaBoard }) {
                     </div>
                   </td>
                   <td className="num py-1.5 pr-2 text-right" style={{ color: (r.flowShare ?? 0) >= 0 ? 'var(--in-3)' : 'var(--out-3)' }}>
-                    {r.flowShare != null ? pct(r.flowShare, 1) : '—'}
+                    {r.flowShare != null ? pct(r.flowShare, 1) : 'n/a'}
                   </td>
                   <td className="py-1.5 pr-2">
                     <FlowSpark values={r.hourly} label={`${r.symbol ?? 'Token'} hourly net-flow share`} />
                   </td>
-                  <td className="num py-1.5 pr-2 text-right text-ink-2">{r.priceChange24h != null ? pct(r.priceChange24h, 1) : '—'}</td>
+                  <td className="num py-1.5 pr-2 text-right text-ink-2">{r.priceChange24h != null ? pct(r.priceChange24h, 1) : 'n/a'}</td>
                   <td className="num py-1.5 pr-2 text-right text-ink-2">{usd(r.liquidityUsd)}</td>
                   <td className="num py-1.5 pr-2 text-right text-ink-2">{usd(r.marketCapUsd)}</td>
                   <td className="py-1.5">

@@ -9,7 +9,7 @@ type Params = { params: Promise<{ chain: string; address: string }> };
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { chain, address } = await params;
-  return { title: `${shortAddress(decodeURIComponent(address))} on ${chainName(chain)} — Peregrine` };
+  return { title: `${shortAddress(decodeURIComponent(address))} on ${chainName(chain)} · Peregrine` };
 }
 
 // The page is a shell; every module streams in from

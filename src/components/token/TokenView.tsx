@@ -50,6 +50,7 @@ import type { GaugeInputs } from '@/lib/models/gauges';
 import { FollowThrough, followTitle } from './FollowThrough';
 import type { FollowReport } from '@/server/smart-money/follow';
 import { AskNansen } from '@/components/agent/AskNansen';
+import { Go } from '@/components/ui/Icons';
 
 interface State {
   header?: Wave<TokenHeader>;
@@ -633,14 +634,14 @@ export function TokenView({
                 href={`/alerts?template=token-flows&chain=${chain}&token=${encodeURIComponent(address)}`}
                 className="text-ink-2 underline-offset-2 hover:text-ink hover:underline"
               >
-                smart money buying {symbol ?? 'this token'} →
+                smart money buying {symbol ?? 'this token'} <Go />
               </Link>
               {ok(s.forensics) && s.forensics.deployer && /^0x[0-9a-fA-F]{40}$/.test(s.forensics.deployer) && (
                 <Link
                   href={`/alerts?template=deployer&chain=${chain}&address=${s.forensics.deployer}`}
                   className="text-ink-2 underline-offset-2 hover:text-ink hover:underline"
                 >
-                  the deployer moves again →
+                  the deployer moves again <Go />
                 </Link>
               )}
             </div>

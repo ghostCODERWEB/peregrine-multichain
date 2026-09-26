@@ -128,7 +128,7 @@ export function blendChainPressure(
 ): CpiBlendResult {
   const present = (Object.keys(WINDOW_WEIGHTS) as Window[]).filter((w) => byWindow[w] !== undefined);
   if (present.length === 0) {
-    throw new Error('blendChainPressure: no windows present — cannot compute a CPI with zero inputs');
+    throw new Error('blendChainPressure: no windows present, cannot compute a CPI with zero inputs');
   }
   const totalWeight = present.reduce((sum, w) => sum + WINDOW_WEIGHTS[w], 0);
   const cpi = present.reduce((sum, w) => sum + WINDOW_WEIGHTS[w] * byWindow[w]!.cpi, 0) / totalWeight;

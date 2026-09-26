@@ -5,6 +5,7 @@ import { flowClass, fillVar } from '@/lib/viz/scales';
 import { usd } from '@/lib/viz/format';
 import { WIND_SEGMENTS, WIND_TIMEFRAMES, type WindSegment, type WindTimeframe } from '@/lib/wind';
 import type { WindWave } from '@/server/token/waves';
+import { Go } from '@/components/ui/Icons';
 
 export const SEGMENT_LABEL: Record<WindSegment, string> = {
   smart_trader: 'Smart traders',
@@ -31,7 +32,7 @@ export function windTitle(w: WindWave): string {
   const lead = buyer.v > 0 ? buyer : seller;
   const verb = lead.v > 0 ? 'buying' : 'selling';
   if (cells.length === 1) return `Only ${SEGMENT_LABEL[lead.s].toLowerCase()} moved in the last day: ${usd(lead.v, { signed: true })}`;
-  return `Every segment with flow is net ${verb} — led by ${SEGMENT_LABEL[lead.s].toLowerCase()} (${usd(lead.v, { signed: true })}, 24h)`;
+  return `Every segment with flow is net ${verb}, led by ${SEGMENT_LABEL[lead.s].toLowerCase()} (${usd(lead.v, { signed: true })}, 24h)`;
 }
 
 const W = 440,
@@ -90,7 +91,7 @@ export function WindRose({ w }: { w: WindWave }) {
                   <td className="py-1 text-ink-2">{SEGMENT_LABEL[s]}</td>
                   {WIND_TIMEFRAMES.map((tf) => (
                     <td key={tf} className="num py-1 text-right text-ink">
-                      {w.rings[tf][s].netUsd == null ? '—' : usd(w.rings[tf][s].netUsd, { signed: true })}
+                      {w.rings[tf][s].netUsd == null ? 'n/a' : usd(w.rings[tf][s].netUsd, { signed: true })}
                     </td>
                   ))}
                 </tr>
@@ -183,7 +184,7 @@ export function WindRose({ w }: { w: WindWave }) {
           <span className="mr-1 inline-block h-2 w-2 rounded-sm border border-dashed border-axis align-middle" />
           no data for that window
         </span>
-        <span>rings: 1h (inner) → 7d (outer); shade is relative within each ring</span>
+        <span>rings: 1h (inner) <Go /> 7d (outer); shade is relative within each ring</span>
       </div>
     </div>
   );

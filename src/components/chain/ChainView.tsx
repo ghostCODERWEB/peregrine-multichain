@@ -15,6 +15,7 @@ import { chainName, num } from '@/lib/viz/format';
 import type { ChainPageData, PeerRow } from '@/server/weather/chain-page';
 import { AskNansen } from '@/components/agent/AskNansen';
 import { CapitalFlows } from '@/components/weather/CapitalFlows';
+import { Go, Back } from '@/components/ui/Icons';
 
 export interface ModuleGaps {
   /** null when available; otherwise the plain "not available" sentence. */
@@ -32,7 +33,7 @@ export function ChainView({ d, gaps }: { d: ChainPageData; gaps: ModuleGaps }) {
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <Link href="/" className="text-[12.5px] text-ink-2 hover:text-ink">← Overview</Link>
+        <Link href="/" className="text-[12.5px] text-ink-2 hover:text-ink"><Back /> Overview</Link>
         <AskNansen subject={{ kind: 'chain', chain: d.chain }} label={`the ${name} chain page`} />
       </div>
       <ChainHero d={d} tier={gaps.tier} title={barometerTitle(d.weather)} note={<>
@@ -44,7 +45,7 @@ export function ChainView({ d, gaps }: { d: ChainPageData; gaps: ModuleGaps }) {
       {d.chain === 'hyperliquid' && (
         <p className="material px-5 py-4 text-[13px] text-ink-2">
           Hyperliquid is a perp venue: its reading here is the Perp Flow Index, weighted by open interest across its coins.{' '}
-          <Link href="/perps" className="text-ink underline underline-offset-2">Open the perps terminal →</Link>
+          <Link href="/perps" className="text-ink underline underline-offset-2">Open the perps terminal <Go /></Link>
         </p>
       )}
 
@@ -59,19 +60,19 @@ export function ChainView({ d, gaps }: { d: ChainPageData; gaps: ModuleGaps }) {
       )}
 
       <div className="grid gap-4 lg:grid-cols-3">
-        <Card id="baro" title="Flow gauge" sub="0–100 · 50 neutral · above 65 accumulation · below 35 distribution">
+        <Card id="baro" title="Flow gauge" sub="0 to 100 · 50 neutral · above 65 accumulation · below 35 distribution">
           <Barometer w={d.weather} provenance={d.cpiProvenance} />
           {d.weather.cpi != null && (
             <div className="mt-4 border-t border-border pt-3">
               <div className="mb-1 flex items-start justify-between gap-2">
                 <span className="text-[12.5px] font-medium text-ink">
-                  {f.insufficient ? '24h projection' : `24h projection: ${num(d.weather.cpi, 0)} → ${num(fEnd, 0)}`}
+                  {f.insufficient ? '24h projection' : `24h projection: ${num(d.weather.cpi, 0)} to ${num(fEnd, 0)}`}
                 </span>
                 <InfoPopover p={d.forecastProvenance} />
               </div>
               {f.history.length > 0 && <ForecastMultiple f={{ ...f, provenance: d.forecastProvenance }} />}
               <p className="num mt-1 text-[11px] text-ink-muted">
-                {f.insufficient ? `unlocks at 12 snapshots · ${f.sampleSize} so far` : `80% fan · in-sample MAPE ${f.mape == null ? '—' : `${num(f.mape)}%`} · n=${f.sampleSize}`}
+                {f.insufficient ? `unlocks at 12 snapshots · ${f.sampleSize} so far` : `80% fan · in-sample MAPE ${f.mape == null ? 'n/a' : `${num(f.mape)}%`} · n=${f.sampleSize}`}
               </p>
             </div>
           )}

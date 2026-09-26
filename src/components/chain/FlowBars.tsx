@@ -4,6 +4,7 @@ import { InfoPopover } from '@/components/InfoPopover';
 import { flowClass, fillVar } from '@/lib/viz/scales';
 import { chainName, usd } from '@/lib/viz/format';
 import type { FlowSection, TokenFlow } from '@/server/weather/chain-page';
+import { Go, Back } from '@/components/ui/Icons';
 
 export function flowsTitle(chain: string, f: FlowSection): string {
   const who = f.kind === 'market-flow' ? 'all-trader' : 'smart-money';
@@ -64,8 +65,8 @@ export function FlowBars({ chain, f }: { chain: string; f: FlowSection }) {
         })}
       </ul>
       <div className="mt-2 flex justify-between text-[11px] text-ink-muted">
-        <span>← outflow</span>
-        <span>inflow →</span>
+        <span><Back /> outflow</span>
+        <span>inflow <Go /></span>
       </div>
     </div>
   );

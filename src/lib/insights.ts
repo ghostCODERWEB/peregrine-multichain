@@ -30,7 +30,7 @@ export function mapHeadline(chains: ChainLike[], fronts: FrontLike[]): string {
   const front = fronts[0];
   return front
     ? `Neutral flows; capital rotating ${chainName(front.from)} → ${chainName(front.to)}`
-    : `Neutral flows across chains — no ${sm.length ? 'smart-money' : 'all-trader'} reading above 65 or below 35`;
+    : `Neutral flows across chains, no ${sm.length ? 'smart-money' : 'all-trader'} reading above 65 or below 35`;
 }
 
 export function frontsHeadline(fronts: FrontLike[]): string {

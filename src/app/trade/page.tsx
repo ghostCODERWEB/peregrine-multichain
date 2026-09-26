@@ -9,7 +9,7 @@ import { viewOf } from '@/server/mode';
 import { accountsEnabled } from '@/server/site';
 import { PageTitle } from '@/components/PageTitle';
 
-export const metadata: Metadata = { title: 'Trade — Peregrine' };
+export const metadata: Metadata = { title: 'Trade · Peregrine' };
 export const dynamic = 'force-dynamic';
 
 export default async function TradePage({ searchParams }: { searchParams: Promise<{ token?: string; coin?: string; venue?: string }> }) {

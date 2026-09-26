@@ -2,7 +2,7 @@
 // carries meaning, and never "NaN" or "Infinity" on screen.
 
 export function usd(v: number | null | undefined, { signed = false } = {}): string {
-  if (v == null || !Number.isFinite(v)) return '—';
+  if (v == null || !Number.isFinite(v)) return 'n/a';
   const sign = v < 0 ? '−' : signed && v > 0 ? '+' : '';
   const a = Math.abs(v);
   const body = a >= 1e9 ? `${(a / 1e9).toFixed(2)}B`
@@ -13,17 +13,17 @@ export function usd(v: number | null | undefined, { signed = false } = {}): stri
 }
 
 export function num(v: number | null | undefined, digits = 1): string {
-  if (v == null || !Number.isFinite(v)) return '—';
+  if (v == null || !Number.isFinite(v)) return 'n/a';
   return v.toFixed(digits);
 }
 
 export function pct(v: number | null | undefined, digits = 1): string {
-  if (v == null || !Number.isFinite(v)) return '—';
+  if (v == null || !Number.isFinite(v)) return 'n/a';
   return `${(v * 100).toFixed(digits)}%`;
 }
 
 export function signed(v: number | null | undefined, digits = 1): string {
-  if (v == null || !Number.isFinite(v)) return '—';
+  if (v == null || !Number.isFinite(v)) return 'n/a';
   const s = v.toFixed(digits);
   return v > 0 ? `+${s}` : v < 0 ? s.replace('-', '−') : s;
 }

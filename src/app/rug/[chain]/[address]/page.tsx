@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { chain, address } = await params;
-  return { title: `Rug check: ${shortAddress(decodeURIComponent(address))} on ${chainName(chain)} — Peregrine` };
+  return { title: `Rug check: ${shortAddress(decodeURIComponent(address))} on ${chainName(chain)} · Peregrine` };
 }
 
 export default async function RugReportPage({ params }: Params) {

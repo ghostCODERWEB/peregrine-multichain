@@ -25,11 +25,11 @@ export function pressureClass(cpi: number): PressureClass {
 
 export const PRESSURE_LEGEND: Array<{ cls: PressureClass; label: string }> = [
   { cls: 'out-4', label: '<20' },
-  { cls: 'out-3', label: '20–35' },
-  { cls: 'out-1', label: '35–45' },
-  { cls: 'mid', label: '45–55' },
-  { cls: 'in-1', label: '55–65' },
-  { cls: 'in-3', label: '65–80' },
+  { cls: 'out-3', label: '20 to 35' },
+  { cls: 'out-1', label: '35 to 45' },
+  { cls: 'mid', label: '45 to 55' },
+  { cls: 'in-1', label: '55 to 65' },
+  { cls: 'in-3', label: '65 to 80' },
   { cls: 'in-4', label: '>80' },
 ];
 

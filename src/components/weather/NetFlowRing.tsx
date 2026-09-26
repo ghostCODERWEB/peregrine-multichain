@@ -9,6 +9,7 @@ import { ChainLogo, chainLogoSrc, SvgChainLogo } from '@/components/Logo';
 import { flowLayout } from '@/lib/viz/flow-layout';
 import { netFlowMap, chainNets } from '@/lib/viz/net-flow-map';
 import { chainName, num, usd } from '@/lib/viz/format';
+import { Go } from '@/components/ui/Icons';
 
 export interface NetFlowChain {
   chain: string;
@@ -223,7 +224,7 @@ export function NetFlowRing({ chains }: { chains: NetFlowChain[] }) {
               </span>
               <div className="min-w-0">
                 <div className="text-[18px] font-extrabold tracking-[-0.02em]">
-                  {chainName(selected.from)} → {chainName(selected.to)}
+                  {chainName(selected.from)} <Go /> {chainName(selected.to)}
                 </div>
                 <div className="text-[12.5px] text-ink-muted">modeled share · last 24 hours</div>
               </div>
@@ -246,7 +247,7 @@ export function NetFlowRing({ chains }: { chains: NetFlowChain[] }) {
                       {v >= 0 ? '+' : '−'}
                       {usd(Math.abs(v))}
                     </div>
-                    <div className="text-[12px] text-ink-muted">Flow Index {c != null ? num(c, 0) : '—'}</div>
+                    <div className="text-[12px] text-ink-muted">Flow Index {c != null ? num(c, 0) : 'n/a'}</div>
                   </Link>
                 );
               })}
@@ -266,10 +267,10 @@ export function NetFlowRing({ chains }: { chains: NetFlowChain[] }) {
                     className={`flex w-full items-center gap-2 rounded-lg px-2 py-2 text-left text-[13px] ${selected.key === a.key ? 'bg-ink/8 text-ink' : 'text-ink-2 hover:text-ink'}`}
                   >
                     <ChainLogo chain={a.from} size={16} />
-                    <span className="text-ink-muted">→</span>
+                    <span className="text-ink-muted"><Go /></span>
                     <ChainLogo chain={a.to} size={16} />
                     <span className="truncate">
-                      {chainName(a.from)} → {chainName(a.to)}
+                      {chainName(a.from)} <Go /> {chainName(a.to)}
                     </span>
                     <span className="num ml-auto font-bold">{usd(a.edge.netUsd)}</span>
                   </button>

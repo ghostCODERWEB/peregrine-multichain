@@ -260,7 +260,7 @@ export function CandleChart({ m, days: daysProp }: { m: MarketWave; days?: numbe
         <span>{m.segment ? `Lower panel: ${m.segment} daily net flow` : m.segmentUnavailable}</span>
         {cone && (
           <span className="num">
-            7-day range {price(cone.bands[2].low)}–{price(cone.bands[2].high)} (80%)
+            7-day range {price(cone.bands[2].low)} to {price(cone.bands[2].high)} (80%)
             {cone.coverage ? ` · held ${pct(cone.coverage.hitRate, 0)} of the time` : ''}
           </span>
         )}

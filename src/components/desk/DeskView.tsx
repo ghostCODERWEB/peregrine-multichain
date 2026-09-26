@@ -10,6 +10,7 @@ import { setupLabel, type DnaRow, type Grade } from '@/lib/models/calls';
 import type { CallCardWithNotes } from '@/server/desk/calls';
 import { receiptProvenance, fmtPrice, GRADE_RULES } from './receipt';
 import { AskNansen } from '@/components/agent/AskNansen';
+import { Go } from '@/components/ui/Icons';
 
 export interface DeskData {
   scope: string | null;
@@ -17,7 +18,7 @@ export interface DeskData {
   dna: { bySetup: DnaRow[]; byHorizon: DnaRow[]; bySource: DnaRow[] };
 }
 
-const pctS = (x: number | null) => (x == null ? '—' : `${x >= 0 ? '+' : '−'}${Math.abs(x * 100).toFixed(2)}%`);
+const pctS = (x: number | null) => (x == null ? 'n/a' : `${x >= 0 ? '+' : '−'}${Math.abs(x * 100).toFixed(2)}%`);
 const utc = (ms: number) => `${new Date(ms).toISOString().slice(0, 16).replace('T', ' ')} UTC`;
 const GRADE: Record<Grade, { label: string; dot: string }> = {
   won: { label: 'won', dot: 'var(--in-2)' },
@@ -100,8 +101,8 @@ function CallRow({ c, now, onNoteAttached }: { c: CallCardWithNotes; now: number
         {c.context?.gauges && c.context.gauges.direction != null && (
           <span>
             gauges then: direction {c.context.gauges.direction > 0 ? '+' : c.context.gauges.direction < 0 ? '−' : ''}
-            {Math.abs(c.context.gauges.direction)} · confidence {c.context.gauges.confidence ?? '—'} · coordination{' '}
-            {c.context.gauges.coordination ?? '—'}
+            {Math.abs(c.context.gauges.direction)} · confidence {c.context.gauges.confidence ?? 'n/a'} · coordination{' '}
+            {c.context.gauges.coordination ?? 'n/a'}
           </span>
         )}
       </div>
@@ -146,7 +147,7 @@ function Dna({ title, rows }: { title: string; rows: DnaRow[] }) {
               <td>{r.lost}</td>
               <td>{r.tooEarly}</td>
               <td>{r.invalidated}</td>
-              <td className="text-ink">{r.hitRate == null ? '—' : `${Math.round(r.hitRate * 100)}%`}</td>
+              <td className="text-ink">{r.hitRate == null ? 'n/a' : `${Math.round(r.hitRate * 100)}%`}</td>
               <td>{pctS(r.avgMove)}</td>
             </tr>
           ))}
@@ -203,7 +204,7 @@ export function DeskView({ initial }: { initial: DeskData }) {
           price at that moment and grades the call when the horizon passes.
         </p>
         <Link href="/alpha" className="mt-3 inline-block text-[13px] text-ink underline underline-offset-2">
-          Find a token on the Alpha board →
+          Find a token on the Alpha board <Go />
         </Link>
       </section>
     );

@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { InfoPopover } from '@/components/InfoPopover';
 import { chainName, usd } from '@/lib/viz/format';
 import type { Provenance } from '@/lib/provenance';
+import { Go } from '@/components/ui/Icons';
 
 type Template = 'follow' | 'front' | 'chain-inflow' | 'deployer' | 'token-flows' | 'wallets';
 interface Builder {
@@ -171,7 +172,7 @@ export function AlertBuilder() {
             >
               {builder.fronts.map((f, i) => (
                 <option key={i} value={i}>
-                  {chainName(f.from)} → {chainName(f.to)} · {usd(f.netUsd)} · {f.wallets} wallets
+                  {chainName(f.from)} <Go /> {chainName(f.to)} · {usd(f.netUsd)} · {f.wallets} wallets
                 </option>
               ))}
             </select>

@@ -90,7 +90,7 @@ export function HexMap({
           </text>
         ))}
 
-        {/* Layer 1: tile fills. Visual only — the click targets are layer 4. */}
+        {/* Layer 1: tile fills. Visual only, the click targets are layer 4. */}
         <g aria-hidden className="pointer-events-none">
           {layout.tiles.map((t) => {
             const w = byChain.get(t.chain);
@@ -137,7 +137,7 @@ export function HexMap({
           const selected = selectedFront === key;
           return (
             <g key={key} className="cursor-pointer" onClick={() => onSelectFront(key)}>
-              <title>{`${f.inferred ? 'Inferred candidate: ' : ''}${chainName(f.from)} → ${chainName(f.to)}: ${usd(f.netUsd)} net, ${f.walletCount} ${f.inferred ? 'groups (not ownership probability)' : 'wallets'}`}</title>
+              <title>{`${f.inferred ? 'Inferred candidate: ' : ''}${chainName(f.from)} to ${chainName(f.to)}: ${usd(f.netUsd)} net, ${f.walletCount} ${f.inferred ? 'groups (not ownership probability)' : 'wallets'}`}</title>
               {/* Surface halo keeps the arc legible where it crosses tiles. */}
               <path d={d} fill="none" stroke="var(--surface-1)" strokeWidth={width + 3} strokeLinecap="round" opacity={0.7} className="pointer-events-none" />
               <path
@@ -251,7 +251,7 @@ function TileTooltip({ w, chain, x, y, containerWidth }: {
     >
       <div className="flex items-baseline justify-between">
         <span className="flex items-center gap-1.5 font-medium text-ink"><ChainLogo chain={chain} size={16} />{chainName(chain)}</span>
-        <span className="text-ink-muted">Tier {w?.tier ?? '—'}</span>
+        <span className="text-ink-muted">Tier {w?.tier ?? 'n/a'}</span>
       </div>
       {w?.cpi != null ? (
         <>

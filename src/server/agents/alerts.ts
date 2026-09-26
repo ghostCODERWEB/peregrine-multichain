@@ -94,7 +94,7 @@ export function planStormAlerts(chain: string, token: string, clusterWallets: st
   return {
     symbol, storm: r.score, band: r.band, outflowThresholdUsd: threshold, insiderThresholdUsd: insiderThreshold, insiderWallets: wallets.length, requests,
     provenance: {
-      title: `Risk alert thresholds — ${symbol}`,
+      title: `Risk alert thresholds, ${symbol}`,
       formula: 'outflow alert: smart money sells > clamp($5K, 0.2% × mcap × (1.5 − Dump Risk/100), $5M) in 1 day\ninsider alert: a clustered wallet sells/sends > max($2K, 0.05% × mcap), realtime',
       inputs: [
         { label: 'Dump Risk', value: `${num(r.score, 0)} (${r.band})` },

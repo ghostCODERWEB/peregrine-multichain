@@ -57,7 +57,7 @@ export function skilledDivergence(holders: HolderLike[], records: Map<string, Re
 
 /** An implied probability as people read it: 0.004 → "<1%", 0.35 → "35%". */
 export function impliedPct(p: number | null): string {
-  if (p == null || !Number.isFinite(p)) return '—';
+  if (p == null || !Number.isFinite(p)) return 'n/a';
   if (p > 0 && p < 0.01) return '<1%';
   if (p < 1 && p > 0.99) return '>99%';
   return `${Math.round(p * 100)}%`;

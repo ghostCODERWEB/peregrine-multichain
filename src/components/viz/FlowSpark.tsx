@@ -1,7 +1,7 @@
 /** Per-scan flow share (net ÷ volume) as bars around zero: amber above
  *  (net buying), blue below (net selling). Plain SVG, one per table row. */
 export function FlowSpark({ values, width = 84, height = 22, label }: { values: number[]; width?: number; height?: number; label: string }) {
-  if (!values.length) return <span className="text-[11px] text-ink-muted">—</span>;
+  if (!values.length) return <span className="text-[11px] text-ink-muted">n/a</span>;
   const max = Math.max(0.02, ...values.map((v) => Math.abs(v)));
   const bw = width / values.length;
   const mid = height / 2;

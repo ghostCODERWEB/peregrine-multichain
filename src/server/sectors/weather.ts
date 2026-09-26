@@ -139,10 +139,10 @@ export function sectorWeather(view: PressureView, now = Date.now()): SectorWeath
       formula: 'per sector, per window: r = Σ net flow ÷ Σ volume over the sector’s tokens\nz = robust z of r against the sector’s last 7 days (≥ 12 snapshots), else against every sector now\npressure = 50 + 50·tanh(z/2), blended 0.2·1h + 0.5·24h + 0.3·7d',
       inputs: [
         { label: 'Sectors scored', value: String(sectors.length) },
-        { label: 'Highest', value: lead ? `${lead.sector} ${num(lead.pressure, 0)}` : '—' },
-        { label: 'Lowest', value: lag ? `${lag.sector} ${num(lag.pressure, 0)}` : '—' },
+        { label: 'Highest', value: lead ? `${lead.sector} ${num(lead.pressure, 0)}` : 'n/a' },
+        { label: 'Lowest', value: lag ? `${lag.sector} ${num(lag.pressure, 0)}` : 'n/a' },
         { label: 'Tokens with a sector', value: `${members.toLocaleString('en-US')} on ${membership.chains.join(', ')}` },
-        { label: 'Largest 24h net flow', value: lead?.netFlow24hUsd != null ? `${usd(lead.netFlow24hUsd, { signed: true })} (${pct((lead.netFlow24hUsd ?? 0) / Math.max(lead.volume24hUsd ?? 1, 1), 1)} of volume)` : '—' },
+        { label: 'Largest 24h net flow', value: lead?.netFlow24hUsd != null ? `${usd(lead.netFlow24hUsd, { signed: true })} (${pct((lead.netFlow24hUsd ?? 0) / Math.max(lead.volume24hUsd ?? 1, 1), 1)} of volume)` : 'n/a' },
       ],
       calls: [
         { endpoint: 'search/token-sectors', body: {}, ref: 'GET, daily' },

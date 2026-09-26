@@ -49,7 +49,7 @@ export async function SiteHeader() {
       <div className="flex items-center gap-1.5 lg:mt-3 lg:flex-col lg:items-stretch lg:gap-2 lg:border-t lg:border-border lg:pt-3">
         {demo && (
           <span className="liquid-chip hidden rounded-xl px-2 py-1 text-center text-[10.5px] uppercase tracking-wider text-ink-2 lg:block"
-            title={`Replaying recorded Nansen responses — no API key, no credits.${recorded ? ` Scanner history recorded live on ${recorded} UTC, replayed with its clock moved to now.` : ''}`}>
+            title={`Replaying recorded Nansen responses, no API key, no credits.${recorded ? ` Scanner history recorded live on ${recorded} UTC, replayed with its clock moved to now.` : ''}`}>
             Demo{recorded ? ` · recorded ${recorded.slice(0, 10)}` : ' mode'}
           </span>
         )}

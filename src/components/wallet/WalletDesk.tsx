@@ -131,7 +131,7 @@ export function WalletDesk({ address, initialChain, chains }: { address: string;
                           <tr key={i}>
                             {row.map((v, j) => (
                               <td key={j} className="max-w-64 break-words border-b border-border/50 p-2">
-                                {v == null ? '—' : typeof v === 'number' && t.columns[j] === 'Value USD' ? usd(v) : v}
+                                {v == null ? 'n/a' : typeof v === 'number' && t.columns[j] === 'Value USD' ? usd(v) : v}
                               </td>
                             ))}
                           </tr>

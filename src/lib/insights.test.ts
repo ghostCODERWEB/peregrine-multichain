@@ -24,7 +24,7 @@ describe('mapHeadline', () => {
   it('reads all-trader pressure when there is no smart-money reading (the public view)', () => {
     expect(mapHeadline([c('linea', 78, 'market-flow'), c('monad', 9, 'market-flow'), c('base', null)], []))
       .toBe('Inflows lead on Linea; outflows on Monad');
-    expect(mapHeadline([c('linea', 50, 'market-flow')], [])).toBe('Neutral flows across chains — no all-trader reading above 65 or below 35');
+    expect(mapHeadline([c('linea', 50, 'market-flow')], [])).toBe('Neutral flows across chains, no all-trader reading above 65 or below 35');
   });
 });
 

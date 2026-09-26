@@ -203,7 +203,7 @@ async function gatherInputs(windows: Window[], errors: string[]): Promise<{ inpu
 
     for (const chain of chains) {
       const vol = volume.get(chain);
-      if (!vol) continue; // no volume observed — no ratio, so no snapshot (never a made-up zero)
+      if (!vol) continue; // no volume observed, no ratio, so no snapshot (never a made-up zero)
       // Every chain gets an all-trader (market-flow) reading from rows the
       // scanner already paid for: it is the pressure public views may show.
       const mf = marketFlow.get(chain) ?? EMPTY;
