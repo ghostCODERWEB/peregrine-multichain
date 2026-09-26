@@ -71,7 +71,7 @@ export function TokenCheckerView({ d }: { d: CheckerData }) {
         )}
       </div>
 
-      <UniverseTable id="universe" title="Most traded tokens, 24h" sub="Screener universe · volume-to-liquidity above 5× means prices move easily" rows={d.universe} span="xl:col-span-12" />
+      <UniverseTable id="universe" title="Most traded tokens, 24h" sub="All traders, 24h · Vol / liq above 5× means thin pools" rows={d.universe} span="xl:col-span-12" />
       {d.fresh.length > 0 && <UniverseTable id="fresh" title="New tokens" sub="7 days old or younger, most traded first" rows={d.fresh} span="xl:col-span-12" />}
     </div>
   );
@@ -83,7 +83,7 @@ function UniverseTable({ id, title, sub, rows, span }: { id: string; title: stri
       <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2"><h2 id={id} className="t-section">{title} · {rows.length}</h2><span className="text-[12px] text-ink-muted">{sub}</span></div>
       <div className="overflow-x-auto" tabIndex={0} role="region" aria-label={title}>
         <table data-sortable className="w-full min-w-[980px] text-left text-[12.5px]">
-          <thead className="text-[11px] uppercase tracking-wider text-ink-muted"><tr><th className="py-2 font-normal">Token</th><th className="text-right font-normal">Price</th><th className="text-right font-normal">24h</th><th className="text-right font-normal">Volume</th><th className="text-right font-normal">Liquidity</th><th className="text-right font-normal">Vol / liq</th><th className="text-right font-normal">Market cap</th><th className="text-right font-normal">Age</th><th className="text-right font-normal">Net flow</th><th className="text-right font-normal">Score</th></tr></thead>
+          <thead className="text-[11px] uppercase tracking-wider text-ink-muted"><tr><th className="py-2 font-normal">Token</th><th className="text-right font-normal">Price</th><th className="text-right font-normal">24h</th><th className="text-right font-normal">Volume</th><th className="text-right font-normal">Liquidity</th><th className="text-right font-normal">Vol / liq</th><th className="text-right font-normal">Market cap</th><th className="text-right font-normal">Age</th><th className="text-right font-normal">Net flow</th>{rows.some((u) => u.smNetflow != null) && <th className="text-right font-normal">SM net flow</th>}<th className="text-right font-normal">Score</th></tr></thead>
           <tbody>
             {rows.map((u) => (
               <tr key={`${u.chain}:${u.address}`} className="border-t border-[var(--hair)] hover:bg-[var(--surface-2)]">
@@ -96,6 +96,7 @@ function UniverseTable({ id, title, sub, rows, span }: { id: string; title: stri
                 <td className="num text-right text-ink-2">{usd(u.marketCap)}</td>
                 <td className="num text-right text-ink-2">{u.ageDays != null ? `${Math.round(u.ageDays)}d` : 'n/a'}</td>
                 <td className="num text-right" style={tone(u.netflow)}>{u.netflow != null ? usd(u.netflow, { signed: true }) : 'n/a'}</td>
+                {rows.some((x) => x.smNetflow != null) && <td className="num text-right" style={u.smNetflow != null ? tone(u.smNetflow) : undefined}>{u.smNetflow != null ? usd(u.smNetflow, { signed: true }) : <span className="text-ink-muted">·</span>}</td>}
                 <td className="num text-right font-semibold" style={{ color: u.score == null ? 'var(--ink-muted)' : u.score > 75 ? 'var(--flare)' : u.score > 50 ? 'var(--amber)' : 'var(--mint)' }}>{u.score != null ? Math.round(u.score) : 'n/a'}</td>
               </tr>
             ))}

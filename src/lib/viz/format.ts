@@ -48,7 +48,7 @@ export function shortAddress(a: string): string {
  *  so two "High Balance" wallets stay distinguishable. Nansen's labels can
  *  start with zero-width spaces; they are trimmed too. */
 export function walletName(label: string | null | undefined, address: string): string {
-  const l = label?.replace(/[\u200B-\u200D\uFEFF]/g, '').trim();
+  const l = label?.replace(/[\u200B-\u200D\uFEFF\uFE0F]|\p{Extended_Pictographic}/gu, '').replace(/\s{2,}/g, ' ').trim();
   if (!l || /^\[(0x[0-9a-f]+|[1-9A-HJ-NP-Za-km-z]{4,12})\]$/i.test(l)) return shortAddress(address);
   const tagged = /\s*\[(0x[0-9a-f]+|[1-9A-HJ-NP-Za-km-z]{4,12})\]$/i;
   return tagged.test(l) ? `${l.replace(tagged, '')} ·${address.slice(-4)}` : l;

@@ -88,12 +88,12 @@ export default async function WalletRoute({ params }: Params) {
           <WalletPortfolio balP={balP} pnlP={pnlP} />
         </Suspense>
         {evm && <div className="xl:col-span-12"><HyperliquidWorkspace address={address} /></div>}
-        <Tile span="xl:col-span-7">
+        <Tile span="xl:col-span-12">
           <Suspense fallback={<Card id="wallet-weather-loading" title="Wallet profile"><WaveLoading what="wallet profile" height={280} /></Card>}>
             <WalletWeather p={redacted(mode, weatherP)} />
           </Suspense>
         </Tile>
-        <Tile span="xl:col-span-5">
+        <Tile span="xl:col-span-4">
           <Suspense fallback={<Card id="pnl-loading" title="PnL, 30 days"><WaveLoading what="PnL" /></Card>}>
             <PnlCard p={redacted(mode, pnlP)} mode={mode} />
           </Suspense>
@@ -108,17 +108,17 @@ export default async function WalletRoute({ params }: Params) {
             <OriginsCard address={address} mainChain={mainChainP} mode={mode} />
           </Suspense>
         </Tile>
-        <Tile span="xl:col-span-4"><WalletLabels address={address} enabled={mode !== 'public'} /></Tile>
+        <Tile span="xl:col-span-5"><WalletLabels address={address} enabled={mode !== 'public'} /></Tile>
         <Tile span="xl:col-span-7">
           <Suspense fallback={<Card id="tx-loading" title="Recent transactions"><WaveLoading what="transactions" /></Card>}>
             <TransactionsCard address={address} mode={mode} />
           </Suspense>
         </Tile>
-        <Card id="trail" className="xl:col-span-5" title={mode !== 'owner' ? 'Migration trail' : trailTitle(trail.steps, trail.chains)} sub="Smart-money DEX trades as a path over the chains, in time order" action={<InfoPopover p={trail.provenance} />}>
-          {mode !== 'owner' ? (
-            <Unavailable text="Shown only to the API key owner: the trail is built from Nansen smart-money DEX trades, which Nansen's redistribution rules keep out of public views." />
-          ) : trail.steps.length ? <TrailMap steps={trail.steps} /> : <p className="text-[12.5px] text-ink-muted">No Smart Money DEX trades by this wallet in the last 7 days.</p>}
-        </Card>
+        {mode === 'owner' && trail.steps.length > 0 && (
+          <Card id="trail" className="xl:col-span-12" title="Smart Money trail" sub={`${trailTitle(trail.steps, trail.chains)} · DEX trades as a path over the chains, in time order`} action={<InfoPopover p={trail.provenance} />}>
+            <TrailMap steps={trail.steps} />
+          </Card>
+        )}
         <div className="xl:col-span-12">
           <Suspense fallback={<WalletTimeMachine address={address} current={null} />}>
             <WalletTimeMachineNow address={address} p={balP} />
@@ -154,12 +154,11 @@ async function OriginsCard({ address, mainChain, mode }: { address: string; main
       </Card>
     );
   const f = r.firstFunder;
-  const title = f ? `First funded by ${walletName(f.funderName, f.address)} on ${chainName(f.chain)}` : 'Origins';
   return (
     <Card
       id="origins"
-      title={title}
-      sub="Who sent this wallet its first gas, and the wallets Nansen relates to it."
+      title="Origins"
+      sub={f ? `First funded by ${walletName(f.funderName, f.address)} on ${chainName(f.chain)}` : 'First funder and related wallets'}
       action={<InfoPopover p={r.provenance} />}
     >
       {f ? (
@@ -202,8 +201,8 @@ async function TransactionsCard({ address, mode }: { address: string; mode: Disp
   return (
     <Card
       id="tx"
-      title={`${r.rows.length} transactions in the last 7 days`}
-      sub="Newest first, across chains; spam tokens hidden."
+      title="Recent transactions"
+      sub={`${r.rows.length} in the last 7 days, newest first, across chains`}
       action={<InfoPopover p={r.provenance} />}
     >
       <div tabIndex={0} role="region" aria-label="Scrollable list" className="max-h-[360px] overflow-auto">
@@ -245,8 +244,8 @@ function RotationsCard({ address, mode }: { address: string; mode: DisplayMode }
   return (
     <Card
       id="rotations"
-      title={`Rotated capital across ${rows.length} chain pair${rows.length === 1 ? '' : 's'} in 7 days`}
-      sub="This wallet's part in chain-to-chain rotations: sold on one chain, bought on another within 12h."
+      title="Chain rotations"
+      sub={`${rows.length} chain pair${rows.length === 1 ? '' : 's'} in 7 days: sold on one chain, bought on another within 12h`}
       action={
         <Link href="/#fronts-title" className="text-[12px] text-brand hover:underline">
           Chain flows <Go />

@@ -57,8 +57,8 @@ export async function WalletWeather({ p }: { p: Promise<Wave<WalletWeatherReadin
   return (
     <Card
       id="wallet-weather"
-      title={`${w.headline}, ${primary.toLowerCase()} pattern`}
-      sub="A current spot-risk profile and 30-day realized-activity pattern. Each dimension stays separate; unknown data is never scored as safe."
+      title="Wallet profile"
+      sub={`${w.headline} · ${primary} pattern`}
       action={<InfoPopover p={r.provenance} />}
     >
       <div className="grid gap-5 xl:grid-cols-[minmax(0,1.25fr)_minmax(22rem,.75fr)]">
@@ -98,7 +98,7 @@ export async function WalletWeather({ p }: { p: Promise<Wave<WalletWeatherReadin
               tone="var(--brand)"
             />
             <EvidenceBar
-              label="Dump Risk"
+              label="Token Score"
               value={w.storm.score == null ? null : w.storm.score / 100}
               detail={stormDetail}
               tone="var(--storm-3)"

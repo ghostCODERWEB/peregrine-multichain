@@ -14,7 +14,7 @@ export interface ScoredToken {
 }
 export interface UniverseToken {
   chain: string; address: string; symbol: string | null; price: number | null; change: number | null; volume: number | null; liquidity: number | null;
-  marketCap: number | null; ageDays: number | null; netflow: number | null; turnover: number | null; score: number | null;
+  marketCap: number | null; ageDays: number | null; netflow: number | null; smNetflow: number | null; turnover: number | null; score: number | null;
 }
 export interface CheckerData {
   scored: ScoredToken[];
@@ -40,11 +40,16 @@ export function tokenChecker(owner: boolean, now = Date.now()): CheckerData {
   }).sort((a, b) => b.score - a.score);
   const scoreOf = new Map(scored.map((s) => [`${s.chain}:${s.address.toLowerCase()}`, s.score]));
 
-  const source = owner ? 'smart-money' : 'market-flow';
-  const last = (db.prepare(`SELECT MAX(snapshot_at) AS t FROM token_pulse WHERE window = '24h' AND source = ?`).get(source) as { t: number | null }).t;
+  // The universe is always the all-trader screener (real market volume); the smart-money
+  // screener's volume counts only Smart Money's own trades, so it only supplies the SM net flow.
+  const latest = (src: string) => (db.prepare(`SELECT MAX(snapshot_at) AS t FROM token_pulse WHERE window = '24h' AND source = ?`).get(src) as { t: number | null }).t;
+  const last = latest('market-flow');
   const uni = last ? db.prepare(`SELECT chain, token_address AS a, symbol, price_usd AS price, price_change AS change, volume, liquidity, market_cap AS mc, age_days AS age, netflow
-    FROM token_pulse WHERE window = '24h' AND source = ? AND snapshot_at = ?`).all(source, last) as Array<{ chain: string; a: string; symbol: string | null; price: number | null; change: number | null; volume: number | null; liquidity: number | null; mc: number | null; age: number | null; netflow: number | null }> : [];
+    FROM token_pulse WHERE window = '24h' AND source = 'market-flow' AND snapshot_at = ?`).all(last) as Array<{ chain: string; a: string; symbol: string | null; price: number | null; change: number | null; volume: number | null; liquidity: number | null; mc: number | null; age: number | null; netflow: number | null }> : [];
+  const smLast = owner ? latest('smart-money') : null;
+  const smFlow = new Map(smLast ? (db.prepare(`SELECT chain, lower(token_address) AS a, netflow FROM token_pulse WHERE window = '24h' AND source = 'smart-money' AND snapshot_at = ?`).all(smLast) as Array<{ chain: string; a: string; netflow: number | null }>).map((r) => [`${r.chain}:${r.a}`, r.netflow]) : []);
   const universe: UniverseToken[] = uni.map((u) => ({ chain: u.chain, address: u.a, symbol: u.symbol, price: u.price, change: u.change, volume: u.volume, liquidity: u.liquidity, marketCap: u.mc, ageDays: u.age, netflow: u.netflow,
+    smNetflow: owner ? smFlow.get(`${u.chain}:${u.a.toLowerCase()}`) ?? null : null,
     turnover: u.volume && u.liquidity ? u.volume / u.liquidity : null, score: scoreOf.get(`${u.chain}:${u.a.toLowerCase()}`) ?? null })).sort((a, b) => (b.volume ?? 0) - (a.volume ?? 0));
   const fresh = universe.filter((u) => u.ageDays != null && u.ageDays <= 7).sort((a, b) => (b.volume ?? 0) - (a.volume ?? 0));
 

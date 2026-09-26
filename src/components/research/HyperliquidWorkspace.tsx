@@ -40,7 +40,7 @@ export function HyperliquidWorkspace({ address }: { address: string }) {
   if (!d) return <section className="material space-y-3 p-4" aria-busy><div className="h-5 w-56 animate-pulse rounded bg-ink/8" /><div className="grid grid-cols-4 gap-2 lg:grid-cols-8">{Array.from({ length: 8 }, (_, i) => <div key={i} className="h-14 animate-pulse rounded bg-ink/6" />)}</div><div className="h-[320px] animate-pulse rounded bg-ink/5" /></section>;
   const P = Array.isArray(d.positions) ? d.positions : [];
   const active = !!P.length || d.events.length > 0 || (d.account?.valueUsd ?? 0) > 0;
-  if (!active) return <section className="material p-4 text-[13px] text-ink-muted">No Hyperliquid activity for this address.</section>;
+  if (!active) return null;
   const s = d.stats, x = d.exposure;
   return (
     <section aria-labelledby="hl" className="space-y-3">

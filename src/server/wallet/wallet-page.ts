@@ -212,15 +212,21 @@ export async function transactions(address: string): Promise<Wave<{ rows: Tx[]; 
     const lower = address.toLowerCase();
     let selfLabel: string | null = null;
     const fmt = (t: { token_symbol: string; token_amount: number; value_usd?: number | null }) => `${t.value_usd != null ? usd(Math.abs(t.value_usd)) : amount(t.token_amount)} ${t.token_symbol}`;
-    const rows: Tx[] = r.data.data.map((x) => {
+    // Nansen's spam flag misses airdropped scam tokens: URL-like or pictographic symbols, or unpriced inbound tokens.
+    const spam = (t: { token_symbol: string; value_usd?: number | null }, inbound: boolean) =>
+      /(www\.|https?:|\.(com|io|org|net|xyz|top|lol|site|app|cc|vip|fun)\b|claim|visit|reward)/i.test(t.token_symbol) || /\p{Extended_Pictographic}/u.test(t.token_symbol) || /[^\x20-\x7E]/.test(t.token_symbol) || (inbound && t.value_usd == null);
+    const rows: Tx[] = r.data.data.flatMap((x) => {
+      const sent = (x.tokens_sent ?? []).filter((t) => !spam(t, false));
+      const received = (x.tokens_received ?? []).filter((t) => !spam(t, true));
+      if (!sent.length && !received.length) return [];
       for (const t of [...(x.tokens_sent ?? []), ...(x.tokens_received ?? [])]) {
         if (!selfLabel && t.from_address.toLowerCase() === lower && t.from_address_label) selfLabel = t.from_address_label;
         if (!selfLabel && t.to_address.toLowerCase() === lower && t.to_address_label) selfLabel = t.to_address_label;
       }
-      return {
+      return [{
         at: x.block_timestamp, chain: x.chain, hash: x.transaction_hash, method: x.method, volumeUsd: x.volume_usd ?? null,
-        sent: (x.tokens_sent ?? []).map(fmt), received: (x.tokens_received ?? []).map(fmt),
-      };
+        sent: sent.map(fmt), received: received.map(fmt),
+      }];
     });
     if (!rows.length) return { unavailable: 'No transactions in the last 7 days in Nansen.' };
     return {

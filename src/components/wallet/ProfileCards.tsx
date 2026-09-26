@@ -1,3 +1,4 @@
+import { TokenLogo } from '@/components/Logo';
 // Profiler sections shared by the wallet page and the entity page: each
 // takes its section's promise, so the page streams them independently.
 import Link from 'next/link';
@@ -39,14 +40,14 @@ export async function PnlCard({ p, mode }: { p: Promise<Wave<PnlSummary>>; mode:
   const r = forMode(mode, await p);
   if (isUnavailable(r)) return <Card id="pnl" title="PnL, 30 days"><Unavailable text={r.unavailable} /></Card>;
   if (!r.tokens && !r.exits) return (
-    <Card id="pnl" title="No realized exits in 30 days" sub="Nansen reports no realized token activity in this window; open positions are not marked." action={<InfoPopover p={r.provenance} />}>
+    <Card id="pnl" title="Realized PnL, 30 days" sub="No realized exits in this window. Nansen reports no realized token activity in this window; open positions are not marked." action={<InfoPopover p={r.provenance} />}>
       <p className="text-[12.5px] text-ink-2">The current holdings still inform the wallet-profile concentration and stability readings.</p>
     </Card>
   );
-  const title = `${r.realizedUsd >= 0 ? 'Up' : 'Down'} ${usd(Math.abs(r.realizedUsd))} realized in 30 days, winning ${pct(r.winRate, 0)} of exits`;
+  const title = `${usd(r.realizedUsd, { signed: true })} realized, ${pct(r.winRate, 0)} of exits won · open positions not marked`;
   const max = Math.max(1, ...r.top.map((t) => Math.abs(t.pnlUsd ?? 0)));
   return (
-    <Card id="pnl" title={title} sub="Realized only, as Nansen reports it; open positions are not marked." action={<InfoPopover p={r.provenance} />}>
+    <Card id="pnl" title="Realized PnL, 30 days" sub={title} action={<InfoPopover p={r.provenance} />}>
       <dl className="grid grid-cols-3 gap-2 text-center">
         {[['Return', pct(r.realizedPct)], ['Tokens', String(r.tokens)], ['Exits', String(r.exits)]].map(([k, v]) => (
           <div key={k} className="rounded-md bg-accent/50 px-2 py-1.5"><dt className="text-[10.5px] text-ink-muted">{k}</dt><dd className="num text-sm text-ink">{v}</dd></div>
@@ -55,8 +56,8 @@ export async function PnlCard({ p, mode }: { p: Promise<Wave<PnlSummary>>; mode:
       <div className="mt-3 text-[12px] text-ink-2">Best tokens by realized PnL</div>
       <ul className="mt-1 space-y-1">
         {r.top.map((t) => (
-          <li key={`${t.chain}:${t.tokenAddress}`} className="grid grid-cols-[5rem_1fr_4.5rem] items-center gap-2 text-[12px]">
-            <Link href={`/token/${t.chain}/${encodeURIComponent(t.tokenAddress)}`} className="truncate text-ink hover:underline">{t.symbol}</Link>
+          <li key={`${t.chain}:${t.tokenAddress}`} className="grid grid-cols-[7.5rem_1fr_4.5rem] items-center gap-2 text-[12px]">
+            <Link href={`/token/${t.chain}/${encodeURIComponent(t.tokenAddress)}`} className="flex min-w-0 items-center gap-1.5 text-ink hover:underline"><TokenLogo symbol={t.symbol} chain={t.chain} address={t.tokenAddress} size={14} /><span className="truncate">{t.symbol}</span><span className="truncate text-[10.5px] text-ink-muted">{chainName(t.chain)}</span></Link>
             <span className="h-2 rounded-full bg-accent"><span className="block h-2 rounded-full" style={{ width: `${(Math.abs(t.pnlUsd ?? 0) / max) * 100}%`, background: (t.pnlUsd ?? 0) >= 0 ? 'var(--in-3)' : 'var(--out-3)' }} /></span>
             <span className="num text-right text-ink">{usd(t.pnlUsd, { signed: true })}</span>
           </li>
@@ -69,10 +70,9 @@ export async function PnlCard({ p, mode }: { p: Promise<Wave<PnlSummary>>; mode:
 export async function CounterpartiesCard({ p, mode }: { p: Promise<Wave<Counterparties>>; mode: DisplayMode }) {
   const r = forMode(mode, await p);
   if (isUnavailable(r)) return <Card id="cp" title="Counterparties"><Unavailable text={r.unavailable} /></Card>;
-  const top = r.rows[0];
   const max = Math.max(1, ...r.rows.map((x) => Math.max(x.inUsd, x.outUsd)));
   return (
-    <Card id="cp" title={`Trades most with ${walletName(top.label, top.address)} on ${chainName(r.chain)}`} sub="Top 10 counterparties by volume, 30 days: sent to this subject (right) and sent by it (left)." action={<InfoPopover p={r.provenance} />}>
+    <Card id="cp" title="Counterparties" sub={`Top 10 by volume on ${chainName(r.chain)}, 30 days · sent (left) and received (right)`} action={<InfoPopover p={r.provenance} />}>
       <ul className="space-y-1">
         {r.rows.map((x) => (
           <li key={x.address} className="grid grid-cols-[6.5rem_1fr] items-center gap-2 text-[12px]">
