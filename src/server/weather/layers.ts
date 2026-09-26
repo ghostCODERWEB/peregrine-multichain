@@ -80,7 +80,7 @@ export function weatherLayers(view: PressureView, now = Date.now()): WeatherLaye
       readings: [...perps.coins]
         .sort((a, b) => (b.openInterest ?? 0) - (a.openInterest ?? 0))
         .slice(0, 24)
-        .map((c) => ({ name: c.symbol, score: c.ppi, value: c.openInterest, href: `/perps?coin=${encodeURIComponent(c.symbol)}` })),
+        .map((c) => ({ name: c.symbol, score: c.ppi, value: c.openInterest, href: `/perps/${encodeURIComponent(c.symbol)}` })),
       unavailable: perps.unavailable,
     },
     {

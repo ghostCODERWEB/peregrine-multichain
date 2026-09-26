@@ -71,3 +71,11 @@ export function amount(v: number): string {
   if (a >= 1e3) return `${(a / 1e3).toPrecision(3)}K`;
   return a === 0 ? '0' : a.toPrecision(3);
 }
+
+/** A market price with precision that suits its size: $93,412, $2.345, $0.0004312. */
+export function price(v: number | null | undefined): string {
+  if (v == null || !Number.isFinite(v)) return 'n/a';
+  const a = Math.abs(v);
+  const digits = a >= 1000 ? 0 : a >= 100 ? 1 : a >= 1 ? 3 : Math.min(8, 2 - Math.floor(Math.log10(a || 1)) + 2);
+  return `${v < 0 ? '−' : ''}$${a.toLocaleString('en-US', { minimumFractionDigits: digits, maximumFractionDigits: digits })}`;
+}

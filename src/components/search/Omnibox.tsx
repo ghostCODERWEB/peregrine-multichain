@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { ArrowDown, ArrowUp, CornerDownLeft, Loader2, Search, X } from 'lucide-react';
 import { ChainLogo, TokenLogo } from '@/components/Logo';
+import { readRecent, type RecentItem } from '@/components/shell/recent';
 import { usePathname, useRouter } from 'next/navigation';
 import { detectAddress, FAMILY_NAMES } from '@/lib/address-family';
 import { COMMANDS, parseCommand } from '@/lib/commands';
@@ -43,6 +44,7 @@ export function Omnibox() {
   const path = usePathname();
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState('');
+  const [recent, setRecent] = useState<RecentItem[]>([]);
   const [res, setRes] = useState<SearchResponse | null>(null);
   const [preview, setPreview] = useState<CommandPreview | null>(null);
   const [answer, setAnswer] = useState<CommandAnswer | null>(null);
@@ -80,6 +82,10 @@ export function Omnibox() {
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
+  }, [open]);
+
+  useEffect(() => {
+    if (open) setRecent(readRecent());
   }, [open]);
 
   useEffect(() => {
@@ -332,6 +338,18 @@ export function Omnibox() {
                     {answer.rows.length ? `${answer.rows.length} wallet${answer.rows.length === 1 ? '' : 's'}` : 'Nansen returned no wallets for this'} · {answer.call.endpoint} ·{' '}
                     {answer.credits} credit{answer.credits === 1 ? '' : 's'}
                     {answer.call.ref === 'cache' ? ' (cached)' : ''}. Labels appear for the key owner and members.
+                  </li>
+                )}
+                {!query && recent.length > 0 && (
+                  <li className="px-1 pb-2">
+                    <p className="px-2 pb-1 pt-1 text-[12px] font-semibold text-ink-muted">Recent</p>
+                    {recent.slice(0, 5).map((r) => (
+                      <button key={r.href} type="button" onClick={() => { close(); router.push(r.href); }}
+                        className="flex min-h-[40px] w-full items-center justify-between gap-3 rounded-[10px] px-3 text-left text-[13.5px] transition-colors hover:bg-[color-mix(in_srgb,var(--ink-1)_8%,transparent)]">
+                        <span className="min-w-0 truncate font-semibold text-ink">{r.title}</span>
+                        <span className="shrink-0 text-[11.5px] text-ink-muted">{r.kind}</span>
+                      </button>
+                    ))}
                   </li>
                 )}
                 {!query && (

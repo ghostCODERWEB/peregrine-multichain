@@ -461,6 +461,12 @@ export function PerpsView({ board, title, mode }: { board: PerpBoard; title: str
 
       {pickedCoin && (
         <section id="coin" className="space-y-4" aria-label={`${pickedCoin.symbol} detail`}>
+          <div className="material flex flex-wrap items-center justify-between gap-3 px-5 py-4">
+            <p className="text-[13.5px] text-ink-2">
+              <span className="font-bold text-ink">{pickedCoin.symbol}</span> in depth: liquidation radar, who holds each band, Smart Money conviction shift, what changed, and the AI analyst.
+            </p>
+            <Link href={`/perps/${encodeURIComponent(pickedCoin.symbol)}`} className="pill-button pill-primary">Open {pickedCoin.symbol} terminal <Go /></Link>
+          </div>
           <div className="grid gap-4 lg:grid-cols-3">
             <Card
               id="coin-ladder"

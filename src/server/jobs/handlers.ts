@@ -4,6 +4,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { runScan } from '@/server/weather/scanner';
+import { snapshotScheduledCoins } from '@/server/perps/terminal';
 import { stormSweep, type SweepCandidate } from '@/server/token/sweep';
 import { runBacktest } from '@/server/backtest/run';
 import { refreshMembership } from '@/server/sectors/membership';
@@ -27,6 +28,7 @@ export const HANDLERS: Record<string, Handler> = {
       const s = await runScan({ sweep: 'defer' });
       log(`windows=${s.windows.join(',') || 'none due'} chains=${s.chainsScored} trades+=${s.tradesAdded} sectors=${s.sectorRows} credits=${s.credits} ${s.ms}ms`);
       for (const e of s.errors) log(`  ! ${e}`);
+      await snapshotScheduledCoins(log);
       if (s.sweepCandidates) {
         const q = enqueue('storm-sweep', { candidates: s.sweepCandidates }, { dedupeKey: 'storm-sweep', maxAttempts: 2 });
         log(`storm sweep due: ${q.created ? `queued job ${q.id}` : `already queued (job ${q.id})`}`);

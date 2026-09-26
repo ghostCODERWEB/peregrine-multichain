@@ -6,6 +6,8 @@ import { SiteHeader } from '@/components/SiteHeader';
 import { themeBootScript } from '@/components/ThemeToggle';
 import { TabBar } from '@/components/shell/TabBar';
 import { MotionObserver } from '@/components/MotionObserver';
+import { WorkspaceBar } from '@/components/shell/WorkspaceBar';
+import { Suspense } from 'react';
 import { publicSite } from '@/server/site';
 
 const geistSans = Manrope({ variable: '--font-geist-sans', subsets: ['latin'] });
@@ -34,7 +36,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <SiteHeader />
           <TabBar />
           <div className="pb-24 pt-16 lg:pb-0 lg:pl-[256px] lg:pt-0">
-            <main className="mx-auto max-w-[1600px] px-4 3xl:max-w-[2000px] 3xl:px-8 pb-16 pt-5 lg:px-[14px] lg:pt-6">{children}</main>
+            <main className="mx-auto max-w-[1600px] px-4 3xl:max-w-[2000px] 3xl:px-8 pb-16 pt-5 lg:px-[14px] lg:pt-3"><Suspense><div className="mb-2"><WorkspaceBar /></div></Suspense>{children}</main>
             <footer className="mx-auto max-w-[1600px] px-4 3xl:max-w-[2000px] 3xl:px-8 pb-8 text-xs text-ink-muted lg:px-7">
               <a
                 href="https://www.nansen.ai"

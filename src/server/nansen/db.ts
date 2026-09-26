@@ -389,6 +389,20 @@ const MIGRATIONS: string[] = [
   );
   CREATE INDEX idx_quick_answers_subject ON quick_answers(subject, created_at);
   `,
+  // 24 — perps terminal: each live read of a coin's observed positions
+  // (tgm/perp-positions, merged across cohorts), kept 8 days so What Changed
+  // and Conviction Shift compare real snapshots rather than guessing.
+  `
+  CREATE TABLE perp_position_snapshots (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    symbol TEXT NOT NULL,
+    at INTEGER NOT NULL,
+    cohorts TEXT NOT NULL,
+    mark REAL,
+    positions TEXT NOT NULL
+  );
+  CREATE INDEX idx_perp_position_snapshots ON perp_position_snapshots(symbol, at);
+  `,
 ];
 
 export function audit(userId: number | null, action: string, detail?: string): void {

@@ -9,6 +9,8 @@ import { TrailMap } from '@/components/wallet/TrailMap';
 import { trailTitle } from '@/lib/insights';
 import { TimeAgo } from '@/components/TimeAgo';
 import { WalletDesk } from '@/components/wallet/WalletDesk';
+import { TraderPanel } from '@/components/perps/TraderPanel';
+import { seenInSnapshots } from '@/server/perps/trader';
 import { WalletLabels } from '@/components/wallet/WalletLabels';
 import { WalletWeather } from '@/components/wallet/WalletWeather';
 import { ALL_CHAIN_IDS } from '@/lib/registry';
@@ -51,6 +53,9 @@ export default async function WalletRoute({ params }: Params) {
   const pnlP = pnl(address);
   const mainChainP = balP.then((b) => (isUnavailable(b) ? null : (b.byChain[0]?.chain ?? null)));
   const weatherP = Promise.all([balP, pnlP]).then(([b, p]) => walletWeatherReading(b, p));
+  const evm = /^0x[a-fA-F0-9]{40}$/.test(address);
+  // Owner view: a label Peregrine's own perp position reads already carry (free).
+  const perpLabel = mode === 'owner' && evm ? (seenInSnapshots(address).find((x) => x.label)?.label ?? null) : null;
 
   return (
     <div className="space-y-5">
@@ -60,12 +65,14 @@ export default async function WalletRoute({ params }: Params) {
             <Back /> Overview
           </Link>
           <h1 className="t-headline mt-1 break-all text-ink">
-            {mode === 'owner' && trail.label ? walletName(trail.label, address) : shortAddress(address)}
+            {mode === 'owner' && trail.label ? walletName(trail.label, address) : perpLabel?.replace(/\s*\[[^\]]*\]$/, '') ?? shortAddress(address)}
           </h1>
           <p className="num mt-1 break-all text-[12.5px] text-ink-2">{address}</p>
         </div>
         <AskNansen subject={{ kind: 'wallet', address, chain: null }} label={`the wallet ${shortAddress(address)}`} />
       </div>
+
+      {evm && <TraderPanel address={address} />}
 
       <div className="grid gap-4 lg:grid-cols-3">
         <Suspense
