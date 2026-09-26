@@ -107,9 +107,11 @@ export function PortfolioView({ demo, suggestions = [] }: { demo: boolean; sugge
           <button className={`${button} bg-accent`} disabled={!!busy || !input.trim()} onClick={() => run('analyze')}>
             Analyze
           </button>
-          <button className={button} disabled={!!busy || !canSave} onClick={() => run('save')}>
-            Save watch set
-          </button>
+          {accounts && (
+            <button className={button} disabled={!!busy || !canSave} onClick={() => run('save')}>
+              Save watch set
+            </button>
+          )}
           {suggestions.length > 0 && (
             <button className={button} disabled={!!busy} title={suggestions.map((w) => w.label ?? w.address).join('\n')}
               onClick={() => { setInput(suggestions.map((w) => w.address).join('\n')); setP(null); setStress(null); }}>
@@ -165,7 +167,7 @@ export function PortfolioView({ demo, suggestions = [] }: { demo: boolean; sugge
               <>
                 <AllocationMap positions={p.positions} />
                 <div className="mt-5 max-h-96 overflow-auto">
-                  <table className="w-full text-left text-xs">
+                  <table data-sortable className="w-full text-left text-xs">
                     <thead>
                       <tr className="text-ink-muted">
                         <th className="p-2">Token</th>
@@ -259,7 +261,7 @@ export function PortfolioView({ demo, suggestions = [] }: { demo: boolean; sugge
                   <div key={t.title}>
                     <h3 className="text-sm">{t.title}</h3>
                     <div className="mt-2 max-h-80 overflow-auto">
-                      <table className="w-full text-left text-xs">
+                      <table data-sortable className="w-full text-left text-xs">
                         <thead>
                           <tr>
                             {t.columns.map((c) => (
@@ -340,7 +342,7 @@ export function PortfolioView({ demo, suggestions = [] }: { demo: boolean; sugge
                       ))}
                     </div>
                     <div className="overflow-auto">
-                      <table className="w-full text-left text-xs">
+                      <table data-sortable className="w-full text-left text-xs">
                         <thead>
                           <tr>
                             {['Token', 'Down scenario', 'Now', 'Up scenario', 'Historical coverage', 'Test windows'].map((c) => (

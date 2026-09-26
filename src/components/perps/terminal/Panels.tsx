@@ -155,7 +155,7 @@ export function CohortMatrix({ positions, mark, available, active, onPick }: { p
   return (
     <div className="space-y-3">
       <div tabIndex={0} role="region" aria-label="Smart Money vs crowd" className="overflow-x-auto rounded-[10px] border border-[var(--hair)]">
-        <table className="w-full min-w-[560px] text-[12.5px]">
+        <table data-sortable className="w-full min-w-[560px] text-[12.5px]">
           <thead className="bg-[var(--surface-1)] text-[11.5px] text-ink-muted">
             <tr><th className="px-3 py-2 text-left font-semibold">Measure</th>
               {rows.map((r) => (

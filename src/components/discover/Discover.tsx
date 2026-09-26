@@ -168,7 +168,7 @@ export function Discover({ board, universe, source, divergence = [] }: { board: 
             <h2 id="sp-title" className="t-section">Spot vs perps</h2>
             <p className="text-[12px] text-ink-muted">DEX net flow share (24h, {source}) against Hyperliquid Perp Flow Index · a lean needs ±2% of volume and ±10 from 50 · descriptive, not a signal</p>
           </div>
-          <table className="w-full text-[13px]">
+          <table data-sortable className="w-full text-[13px]">
             <thead className="text-[11.5px] text-ink-muted"><tr><th className="py-1.5 text-left font-semibold">Coin</th><th className="text-left font-semibold">Observation</th><th className="text-right font-semibold">Spot net / volume</th><th className="text-right font-semibold">Perp Flow Index</th><th className="text-right font-semibold">Open interest</th></tr></thead>
             <tbody>
               {divergence.map((d) => (

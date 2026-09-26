@@ -429,7 +429,7 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
               {detail.state === 'ok' ? (
                 detail.data.trades.length ? (
                   <div tabIndex={0} role="region" aria-label="Scrollable list" className="max-h-[320px] overflow-auto">
-                    <table className="w-full min-w-[420px] text-left text-[12.5px]">
+                    <table data-sortable className="w-full min-w-[420px] text-left text-[12.5px]">
                       <tbody>
                         {detail.data.trades.slice(0, 30).map((tr, i) => (
                           <tr key={i} className="border-t border-border first:border-0">
@@ -474,7 +474,7 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
             >
               {records.state === 'ok' ? (
                 <div tabIndex={0} role="region" aria-label="Scrollable list" className="max-h-[320px] overflow-auto">
-                  <table className="w-full min-w-[460px] text-left text-[12.5px]">
+                  <table data-sortable className="w-full min-w-[460px] text-left text-[12.5px]">
                     <thead className="text-[11px] uppercase tracking-wider text-ink-muted">
                       <tr>
                         <th className="py-1.5 font-normal">Holder</th>
@@ -519,7 +519,7 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
       >
         <FilterBox target="#pm-markets" label="Filter markets" placeholder="Search markets" groups={topTags} />
         <div id="pm-markets" tabIndex={0} role="region" aria-label="Scrollable list" className="mt-3 max-h-[560px] overflow-auto">
-          <table className="w-full min-w-[760px] text-left text-[12.5px]">
+          <table data-sortable className="w-full min-w-[760px] text-left text-[12.5px]">
             <thead className="sticky top-0 bg-surface text-[11px] uppercase tracking-wider text-ink-muted">
               <tr>
                 <th className="py-2 font-normal">Market</th>

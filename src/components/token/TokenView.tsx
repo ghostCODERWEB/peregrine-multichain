@@ -1,6 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
+import { useSite } from '@/components/SiteContext';
 import { Card, WaveLoading, Unavailable } from '@/components/Card';
 import { InfoPopover } from '@/components/InfoPopover';
 import { StormDial, stormTitle } from './StormDial';
@@ -135,7 +136,7 @@ const VIEWS: Array<[View, string]> = [
 type Row = { cols: 2 | 3; items: Array<[string, number?]> };
 const LAYOUT: Record<View, Row[]> = {
   overview: [
-    { cols: 3, items: [['ask', 2], ['call']] },
+    { cols: 3, items: [['ask', 2], ['traders']] },
     { cols: 2, items: [['gauges', 2]] },
     { cols: 3, items: [['sphere', 2], ['cohorts']] },
     { cols: 3, items: [['odds'], ['leverage', 2]] },
@@ -162,7 +163,7 @@ const LAYOUT: Record<View, Row[]> = {
   ],
   all: [
     { cols: 3, items: [['storm'], ['market', 2]] },
-    { cols: 3, items: [['gauges', 2], ['call']] },
+    { cols: 3, items: [['gauges', 3]] },
     { cols: 3, items: [['sphere', 2], ['cohorts']] },
     { cols: 3, items: [['odds'], ['wind'], ['traders']] },
     { cols: 2, items: [['follow', 2]] },
@@ -210,6 +211,7 @@ export function TokenView({
   extra?: React.ReactNode;
 }) {
   const s = useTokenStream(chain, address);
+  const { accounts } = useSite();
   const [view, setView] = useView();
   const [followReport, setFollowReport] = useState<FollowReport | null>(null);
   // "/ask TOKEN" (L5) lands here with ?ask=1: open the panel once, after mount.
@@ -627,7 +629,7 @@ export function TokenView({
     ask: (cls) => (
       <div className={`flex min-w-0 flex-col gap-4 ${cls}`}>
         <TokenAskChat chain={chain} address={address} symbol={symbol} band={ok(s.storm) ? STORM_LABEL[s.storm.result.band] : null} />
-        {mode !== 'public' && ok(s.storm) && s.storm.final && (
+        {accounts && mode !== 'public' && ok(s.storm) && s.storm.final && (
           <Card
             id="alerts-tools"
             title={`Watch ${symbol ?? 'this token'} after you leave`}

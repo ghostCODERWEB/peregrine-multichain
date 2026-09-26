@@ -15,7 +15,7 @@ export function PulseBrief({ initial }: { initial: Brief | null }) {
   }, [initial]);
   if (failed) return null;
   return (
-    <div className="flex min-w-0 flex-col gap-2 rounded-[var(--r-inner)] border border-[color-mix(in_srgb,var(--signal)_30%,var(--hair))] bg-[color-mix(in_srgb,var(--signal)_6%,transparent)] p-3.5">
+    <div className="flex w-full min-w-0 flex-col gap-2 rounded-[var(--r-inner)] border border-[color-mix(in_srgb,var(--signal)_30%,var(--hair))] bg-[color-mix(in_srgb,var(--signal)_6%,transparent)] p-3.5">
       <span className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.08em] text-[var(--signal)]"><Sparkles className="h-3.5 w-3.5" aria-hidden />Nansen AI</span>
       {brief ? (
         <p className="text-[13.5px] leading-[1.55] text-ink">{brief.text}</p>

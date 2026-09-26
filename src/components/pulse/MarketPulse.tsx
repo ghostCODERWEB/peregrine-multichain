@@ -40,7 +40,7 @@ export function MarketPulse({ mode }: { mode: DisplayMode }) {
             </li>
           ))}
         </ol>
-        {mode === 'owner' && <PulseBrief initial={cachedBrief()} />}
+        {mode === 'owner' && <div className="order-first flex xl:order-none"><PulseBrief initial={cachedBrief()} /></div>}
       </div>
     </section>
   );

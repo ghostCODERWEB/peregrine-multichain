@@ -120,7 +120,7 @@ export function FollowThrough({
       {r && (
         <>
           <div tabIndex={0} role="region" aria-label="Follow-through table" className="overflow-x-auto">
-            <table className="w-full min-w-[560px] text-left text-[12.5px]">
+            <table data-sortable className="w-full min-w-[560px] text-left text-[12.5px]">
               <thead>
                 <tr className="border-b border-border text-[10.5px] uppercase tracking-wider text-ink-muted">
                   <th className="py-1.5 font-normal">Smart-money buy</th>

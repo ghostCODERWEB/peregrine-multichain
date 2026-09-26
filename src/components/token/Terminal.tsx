@@ -32,7 +32,7 @@ export function LiveTape({ t, chain }: { t: TapeWave; chain: string }) {
   return (
     <>
       <div className="max-h-[380px] overflow-auto">
-        <table className="w-full min-w-[520px] text-[12.5px]">
+        <table data-sortable className="w-full min-w-[520px] text-[12.5px]">
           <caption className="sr-only">Latest DEX trades; select a row for the transaction</caption>
           <thead className="sticky top-0 bg-surface">
             <tr className="border-b border-border text-left text-[11px] uppercase tracking-wider text-ink-muted">
@@ -346,7 +346,7 @@ export function TideGauge({ p }: { p: PositionsWave }) {
 export function PnlBoard({ b }: { b: PnlBoardWave }) {
   return (
     <div className="max-h-[360px] overflow-auto">
-      <table className="w-full min-w-[480px] text-[12.5px]">
+      <table data-sortable className="w-full min-w-[480px] text-[12.5px]">
         <thead className="sticky top-0 bg-surface">
           <tr className="border-b border-border text-left text-[11px] uppercase tracking-wider text-ink-muted">
             <th className="py-1.5 font-normal">Trader</th>

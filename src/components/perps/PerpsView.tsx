@@ -416,7 +416,7 @@ export function PerpsView({ board, title, mode }: { board: PerpBoard; title: str
         >
           <FilterBox target="#perp-coins" label="Filter coins" placeholder="Search coins" groups={['Long bias', 'Neutral', 'Short bias']} />
           <div id="perp-coins" tabIndex={0} role="region" aria-label="Scrollable list" className="mt-3 max-h-[440px] overflow-auto">
-            <table className="w-full text-left text-[12.5px]">
+            <table data-sortable className="w-full text-left text-[12.5px]">
               <thead className="sticky top-0 bg-surface text-[11px] uppercase tracking-wider text-ink-muted">
                 <tr>
                   <th className="py-2 font-normal">Coin</th>
@@ -560,7 +560,7 @@ export function PerpsView({ board, title, mode }: { board: PerpBoard; title: str
                   <Unavailable text={detail.data.tape.unavailable} />
                 ) : (
                   <div tabIndex={0} role="region" aria-label="Scrollable list" className="max-h-[360px] overflow-auto">
-                    <table className="w-full min-w-[440px] text-left text-[12.5px]">
+                    <table data-sortable className="w-full min-w-[440px] text-left text-[12.5px]">
                       <tbody>
                         {detail.data.tape.rows.map((t) => (
                           <tr key={t.tx + t.action + t.valueUsd} className="border-t border-border first:border-0">
@@ -604,7 +604,7 @@ export function PerpsView({ board, title, mode }: { board: PerpBoard; title: str
                     <Unavailable text={detail.data.pnl.unavailable} />
                   ) : (
                     <div tabIndex={0} role="region" aria-label="Scrollable list" className="max-h-[360px] overflow-auto">
-                      <table className="w-full min-w-[440px] text-left text-[12.5px]">
+                      <table data-sortable className="w-full min-w-[440px] text-left text-[12.5px]">
                         <thead className="text-[11px] uppercase tracking-wider text-ink-muted">
                           <tr>
                             <th className="py-1.5 font-normal">Trader</th>
@@ -655,7 +655,7 @@ export function PerpsView({ board, title, mode }: { board: PerpBoard; title: str
           <Unavailable text="Shown to the API key owner or a signed-in member with their own key: Nansen does not allow its perp leaderboard in public views." />
         ) : leaders.state === 'ok' ? (
           <div tabIndex={0} role="region" aria-label="Scrollable list" className="max-h-[560px] overflow-auto">
-            <table className="w-full min-w-[760px] text-left text-[12.5px]">
+            <table data-sortable className="w-full min-w-[760px] text-left text-[12.5px]">
               <thead className="sticky top-0 bg-surface text-[11px] uppercase tracking-wider text-ink-muted">
                 <tr>
                   <th className="py-2 font-normal">Score</th>

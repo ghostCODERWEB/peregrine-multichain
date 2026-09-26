@@ -40,7 +40,7 @@ export default async function HistoryPage({ searchParams }: { searchParams: Prom
     <section className="material min-w-0 p-4 sm:p-5">
       <h2 className="t-section mb-3">{title}</h2>
       {rows.length ? (
-        <table className="w-full text-[13px]">
+        <table data-sortable className="w-full text-[13px]">
           <thead className="text-[11.5px] text-ink-muted"><tr><th className="py-1.5 text-left font-semibold">{head}</th><th className="text-right font-semibold">Then</th><th className="text-right font-semibold">Now</th><th className="text-right font-semibold">Change</th></tr></thead>
           <tbody>{rows.map((r) => <tr key={r.key} className="border-t border-[var(--hair)]"><td className="py-1.5">{r.name}</td><td className="num text-right text-ink-2">{r.then}</td><td className="num text-right text-ink">{r.now}</td><td className="text-right">{r.change}</td></tr>)}</tbody>
         </table>

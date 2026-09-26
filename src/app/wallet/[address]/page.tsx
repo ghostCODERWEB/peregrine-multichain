@@ -246,7 +246,7 @@ async function TransactionsCard({ address, mode }: { address: string; mode: Disp
       action={<InfoPopover p={r.provenance} />}
     >
       <div tabIndex={0} role="region" aria-label="Scrollable list" className="max-h-[360px] overflow-auto">
-        <table className="w-full min-w-[560px] text-[12.5px]">
+        <table data-sortable className="w-full min-w-[560px] text-[12.5px]">
           <thead className="sticky top-0 bg-surface">
             <tr className="border-b border-border text-left text-[11px] uppercase tracking-wider text-ink-muted">
               <th className="py-1.5 font-normal">When</th>

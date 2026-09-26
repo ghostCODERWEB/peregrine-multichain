@@ -168,7 +168,7 @@ export function PredictMarketView({ market, detail, outcomes, owner }: { market:
         {pos && 'error' in pos && <p role="alert" className="text-[12.5px] text-[var(--flare)]">{pos.error}</p>}
         {pos && !('error' in pos) && (pos.positions.length === 0 ? <p className="text-[12.5px] text-ink-muted">Reading…</p> : (
           <div tabIndex={0} role="region" aria-label="Positions" className="max-h-[420px] overflow-auto rounded-[10px] border border-[var(--hair)]">
-            <table className="w-full min-w-[760px] text-[12.5px]">
+            <table data-sortable className="w-full min-w-[760px] text-[12.5px]">
               <thead className="sticky top-0 bg-[var(--surface-1)] text-[11.5px] text-ink-muted"><tr>{['Holder', 'Outcome', 'Avg entry', 'Buy cost', 'Sold for', 'Value now', 'PnL'].map((h, i) => <th key={h} className={`px-3 py-2 font-semibold ${i > 1 ? 'text-right' : 'text-left'}`}>{h}</th>)}</tr></thead>
               <tbody>
                 {pos.positions.map((p, i) => (

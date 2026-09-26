@@ -53,7 +53,7 @@ export function TimeMachine() {
             ))}
           </div>
           <div tabIndex={0} role="region" aria-label="Holdings change by token" className="max-h-[480px] overflow-auto rounded-[10px] border border-[var(--hair)]">
-            <table className="w-full min-w-[640px] text-[12.5px]">
+            <table data-sortable className="w-full min-w-[640px] text-[12.5px]">
               <thead className="sticky top-0 bg-[var(--surface-1)] text-[11.5px] text-ink-muted"><tr><th className="px-3 py-2 text-left font-semibold">Token</th><th className="px-3 text-right font-semibold">Then</th><th className="px-3 text-right font-semibold">Now</th><th className="px-3 text-right font-semibold">Change</th><th className="px-3 text-right font-semibold">Holders then to now</th></tr></thead>
               <tbody>
                 {res.rows.map((r) => (

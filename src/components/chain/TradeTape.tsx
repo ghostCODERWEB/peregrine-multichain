@@ -9,7 +9,7 @@ export function TradeTape({ tape }: { tape: ChainPageData['tape'] }) {
   }
   return (
     <div className="max-h-[360px] overflow-y-auto">
-      <table className="w-full text-[12.5px]">
+      <table data-sortable className="w-full text-[12.5px]">
         <thead className="sticky top-0 bg-surface">
           <tr className="border-b border-border text-left text-[11px] uppercase tracking-wider text-ink-muted">
             <th className="py-1.5 font-normal">When</th>

@@ -13,13 +13,13 @@ export function WalletLabels({ address, enabled }: { address: string; enabled: b
       .catch((e) => { if (live) setError((e as Error).message); });
     return () => { live = false; };
   }, [address, enabled]);
-  if (!enabled) return null;
+  if (!enabled || (labels && !labels.length)) return null;
   return (
     <Card id="wallet-labels" title="Nansen wallet labels">
       <div aria-live="polite">
         {error && <Unavailable text={error} />}
         {!labels && !error && <p className="text-[12.5px] text-ink-muted">Reading labels…</p>}
-        {labels && (labels.length ? <ul className="flex flex-wrap gap-1.5">{labels.map((l, i) => <li key={i} className="rounded-[6px] border border-[var(--hair)] px-2.5 py-1 text-[12px] text-ink">{l}</li>)}</ul> : <p className="text-[12.5px] text-ink-muted">Nansen has no labels for this address.</p>)}
+        {labels && (labels.length ? <ul className="flex flex-wrap gap-1.5">{labels.map((l, i) => <li key={i} className="rounded-[6px] border border-[var(--hair)] px-2.5 py-1 text-[12px] text-ink">{l}</li>)}</ul> : null)}
       </div>
     </Card>
   );

@@ -11,7 +11,7 @@ const heat = (v: number | null) => (v == null ? 'transparent' : `color-mix(in sr
 export function RiskBoard() {
   const rows = getDb().prepare(`SELECT s.chain, s.token_address AS t, s.symbol, s.score, s.band, s.sub_scores AS sub, s.market_cap_usd AS mcap, s.computed_at AS at
     FROM storm_scores s JOIN (SELECT chain, token_address, MAX(computed_at) m FROM storm_scores WHERE computed_at >= ? GROUP BY chain, token_address) x
-    ON x.chain = s.chain AND x.token_address = s.token_address AND x.m = s.computed_at AND s.symbol IS NOT NULL ORDER BY s.score DESC LIMIT 40`).all(Date.now() - 7 * 86_400_000) as Array<{ chain: string; t: string; symbol: string | null; score: number; band: string; sub: string; mcap: number | null; at: number }>;
+    ON x.chain = s.chain AND x.token_address = s.token_address AND x.m = s.computed_at AND COALESCE(s.symbol, '') <> '' ORDER BY s.score DESC LIMIT 40`).all(Date.now() - 7 * 86_400_000) as Array<{ chain: string; t: string; symbol: string | null; score: number; band: string; sub: string; mcap: number | null; at: number }>;
   if (!rows.length) return null;
   return (
     <section aria-labelledby="riskboard" className="material p-4 sm:p-5">
@@ -20,7 +20,7 @@ export function RiskBoard() {
         <span className="num text-[12px] text-ink-muted">{rows.length} tokens · {rows.filter((r) => r.band === 'warning' || r.band === 'watch').length} High or Critical</span>
       </div>
       <div className="overflow-x-auto" tabIndex={0} role="region" aria-label="Dump risk board">
-        <table className="w-full min-w-[860px] text-left text-[12.5px]">
+        <table data-sortable className="w-full min-w-[860px] text-left text-[12.5px]">
           <thead className="text-[11px] uppercase tracking-wider text-ink-muted">
             <tr><th className="py-2 font-normal">Token</th><th className="font-normal">Score</th>{COLS.map(([, l]) => <th key={l} className="text-center font-normal">{l}</th>)}<th className="text-right font-normal">Market cap</th><th className="text-right font-normal">Scored</th></tr>
           </thead>

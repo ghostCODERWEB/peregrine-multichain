@@ -183,7 +183,7 @@ export function SmartMoneyDesk({ mode }: { mode: 'owner' | 'member' }) {
         action={d ? <InfoPopover p={d.provenance.holdings} /> : undefined}>
         {d ? (
           <div className="max-h-[520px] overflow-auto">
-            <table className="w-full min-w-[720px] text-left text-[12.5px]">
+            <table data-sortable className="w-full min-w-[720px] text-left text-[12.5px]">
               <thead className="sticky top-0 bg-surface text-[11px] uppercase tracking-wider text-ink-muted">
                 <tr><th className="py-2 font-normal">Token</th><th className="font-normal">Value</th><th className="font-normal">24h</th><th className="font-normal">Wallets</th><th className="font-normal">Share</th><th className="font-normal">Backers</th><th className="font-normal">Conviction</th></tr>
               </thead>
@@ -212,7 +212,7 @@ export function SmartMoneyDesk({ mode }: { mode: 'owner' | 'member' }) {
           {followErr && <p className="mb-2 text-[12px] text-ink-2">{followErr}</p>}
           {d ? (
             <div className="max-h-[520px] overflow-auto">
-              <table className="w-full min-w-[680px] text-left text-[12.5px]">
+              <table data-sortable className="w-full min-w-[680px] text-left text-[12.5px]">
                 <thead className="sticky top-0 bg-surface text-[11px] uppercase tracking-wider text-ink-muted">
                   <tr><th className="py-2 font-normal">#</th><th className="font-normal">Wallet</th><th className="font-normal">PnL 30d</th><th className="font-normal">Win rate</th><th className="font-normal">Trades</th><th className="font-normal">Largest balances</th><th /></tr>
                 </thead>
@@ -319,7 +319,7 @@ function PerpPanel({ p }: { p: SmPerps }) {
         </ul>
       ) : <p className="text-[12.5px] text-ink-2">No new or added perp exposure from smart money in 24 hours.</p>}
       <div className="max-h-[220px] overflow-auto border-t border-border pt-2">
-        <table className="w-full min-w-[420px] text-left text-[12px]">
+        <table data-sortable className="w-full min-w-[420px] text-left text-[12px]">
           <tbody>
             {p.trades.slice(0, 40).map((t) => (
               <tr key={t.tx + t.action} className="border-t border-border first:border-0">

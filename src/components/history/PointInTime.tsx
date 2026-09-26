@@ -179,8 +179,8 @@ export function WalletTimeMachine({ address, current }: { address: string; curre
       {res && !('error' in res) && (
         <>
           <div className="grid grid-cols-3 gap-px overflow-hidden rounded-[var(--r-inner)] border border-[var(--hair)] bg-[var(--hair)]">
-            {[['Then', res.data.date, usd(res.data.totalUsd)], ['Now', 'today', current ? usd(current.totalUsd) : 'n/a'], ['Change', current && res.data.totalUsd ? pct(current.totalUsd / res.data.totalUsd - 1, 0) : '', current ? usd(current.totalUsd - res.data.totalUsd, { signed: true }) : 'n/a']].map(([k, sub, v], i) => (
-              <div key={k} className="bg-[var(--surface-1)] px-3.5 py-2.5"><span className="block text-[11.5px] font-semibold text-ink-muted">{k} · {sub}</span><span className="num block text-[18px] font-bold" style={i === 2 && current ? tone(current.totalUsd - res.data.totalUsd) : undefined}>{v}</span></div>
+            {[['Then', res.data.date, res.data.balances.length ? usd(res.data.totalUsd) : 'n/a'], ['Now', 'today', current ? usd(current.totalUsd) : 'n/a'], ['Change', current && res.data.totalUsd ? pct(current.totalUsd / res.data.totalUsd - 1, 0) : '', current && res.data.balances.length ? usd(current.totalUsd - res.data.totalUsd, { signed: true }) : 'n/a']].map(([k, sub, v], i) => (
+              <div key={k} className="bg-[var(--surface-1)] px-3.5 py-2.5"><span className="block text-[11.5px] font-semibold text-ink-muted">{k} · {sub}</span><span className="num block text-[18px] font-bold" style={i === 2 && current && res.data.balances.length ? tone(current.totalUsd - res.data.totalUsd) : undefined}>{v}</span></div>
             ))}
           </div>
           <div className="grid gap-4 lg:grid-cols-2">

@@ -130,7 +130,7 @@ export function AlphaView({ board }: { board: AlphaBoard }) {
           ))}
         </div>
         <div tabIndex={0} role="region" aria-label="Alpha board" className="overflow-x-auto">
-          <table className="w-full min-w-[760px] text-[12.5px]">
+          <table data-sortable className="w-full min-w-[760px] text-[12.5px]">
             <thead>
               <tr className="border-b border-border text-left text-[11px] uppercase tracking-wider text-ink-muted">
                 <th className="py-2 pr-2 font-normal">Score</th>
