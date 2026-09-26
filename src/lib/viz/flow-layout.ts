@@ -22,7 +22,7 @@ function spread(n: number, a: number, b: number): number[] {
 /** `ring`: the orbit radius as a share of the smaller side (narrow screens use a tighter ring).
  *  `maxPerSide`: at most this many chains on each side (the largest by net), so nodes and labels
  *  never crowd; flows touching a chain left out are not drawn. */
-export function flowLayout(edges: FlowEdge[], w: number, h: number, ring = 0.4, maxPerSide = 5): { nodes: FlowNode[]; arcs: FlowArc[]; maxUsd: number } {
+export function flowLayout(edges: FlowEdge[], w: number, h: number, ring = 0.4, maxPerSide = 5, rim = 24): { nodes: FlowNode[]; arcs: FlowArc[]; maxUsd: number } {
   const totals = new Map<string, { inUsd: number; outUsd: number }>();
   for (const e of edges) {
     const f = totals.get(e.from) ?? { inUsd: 0, outUsd: 0 };
@@ -44,17 +44,17 @@ export function flowLayout(edges: FlowEdge[], w: number, h: number, ring = 0.4, 
   const pos = new Map(nodes.map((n) => [n.chain, n]));
   const drawn = edges.filter((e) => pos.has(e.from) && pos.has(e.to));
   const maxUsd = Math.max(1, ...drawn.map((e) => e.netUsd));
-  const nodeR = 24;
   const arcs = drawn.flatMap((e): FlowArc[] => {
     const a = pos.get(e.from), b = pos.get(e.to);
     if (!a || !b) return [];
-    const dx = b.x - a.x, dy = b.y - a.y, dist = Math.hypot(dx, dy) || 1;
-    const ux = dx / dist, uy = dy / dist;
-    // Leave from and arrive at the node's rim, not its centre.
-    const x1 = a.x + ux * nodeR, y1 = a.y + uy * nodeR, x2 = b.x - ux * (nodeR + 4), y2 = b.y - uy * (nodeR + 4);
-    // Bow toward the centre, more for chords that pass near it.
-    const mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
+    // Bow toward the centre first (from node centre to node centre)...
+    const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
     const qx = mx + (cx - mx) * 0.45, qy = my + (cy - my) * 0.45;
+    // ...then start and end on each rim exactly where the curve points at the node's centre,
+    // so every line meets its circle head-on instead of grazing it off-centre.
+    const toward = (n: { x: number; y: number }) => { const dx = qx - n.x, dy = qy - n.y, d = Math.hypot(dx, dy) || 1; return [dx / d, dy / d] as const; };
+    const [ax, ay] = toward(a), [bx, by] = toward(b);
+    const x1 = a.x + ax * rim, y1 = a.y + ay * rim, x2 = b.x + bx * rim, y2 = b.y + by * rim;
     const length = Math.hypot(qx - x1, qy - y1) + Math.hypot(x2 - qx, y2 - qy);
     return [{
       key: `${e.from}>${e.to}`, from: e.from, to: e.to, edge: e, x1, y1, x2, y2, length,

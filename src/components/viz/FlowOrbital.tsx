@@ -27,7 +27,7 @@ const r1 = (n: number) => Math.round(n * 10) / 10;
 export function orbitalLayout(all: OrbitalFlow[]) {
   const edges = all.filter((f) => !f.inferred).sort((a, b) => b.netUsd - a.netUsd)
     .map((f) => ({ from: f.from, to: f.to, netUsd: f.netUsd, walletCount: f.walletCount, confidence: 1 }));
-  const full = flowLayout(edges, W, H, RING, MAX_PER_SIDE);
+  const full = flowLayout(edges, W, H, RING, MAX_PER_SIDE, NODE_R + 5); // lines meet the outer ring
   return { ...full, arcs: full.arcs.slice(0, 5) };
 }
 
