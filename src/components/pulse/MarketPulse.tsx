@@ -1,3 +1,4 @@
+import { HrefLogo, hasHrefLogo } from '@/components/HrefLogo';
 import Link from 'next/link';
 import { MiniBars, MiniLines } from '@/components/charts/Mini';
 import { marketPulse, type PulseItem } from '@/server/pulse';
@@ -42,7 +43,7 @@ export function InsightPanel({ id, title, items, briefKey, mode }: { id: string;
               <Link href={it.href} data-analyze={JSON.stringify({ kind: 'card', label: it.kind, href: it.href, signal: it.text, detail: it.detail, series: it.spark?.values })} className="group grid h-full grid-cols-[minmax(0,1fr)_84px] items-center gap-3 px-3 py-2.5 transition-colors hover:bg-[var(--surface-2)]">
                 <span className="min-w-0">
                   <span className="mb-0.5 flex items-center gap-1.5 text-[10.5px] font-bold uppercase tracking-[0.07em]" style={{ color: TONE[it.tone] }}>
-                    <span className="h-1.5 w-1.5 rounded-full" style={{ background: TONE[it.tone] }} />{it.kind}
+                    {hasHrefLogo(it.href) ? <HrefLogo href={it.href} size={14} /> : <span className="h-1.5 w-1.5 rounded-full" style={{ background: TONE[it.tone] }} />}{it.kind}
                   </span>
                   <span className="block text-[12.5px] font-semibold leading-snug text-ink group-hover:underline group-hover:decoration-[var(--hair-2)] group-hover:underline-offset-2">{it.text}</span>
                   <span className="num mt-0.5 block truncate text-[11px] text-ink-muted">{it.detail}</span>

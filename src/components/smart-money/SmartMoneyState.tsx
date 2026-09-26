@@ -43,8 +43,8 @@ export function SmartMoneyState() {
       <StatStrip className="rise" stats={[
         { label: 'Smart Money DEX net, 24h', value: usd(net, { signed: true }), tone: net >= 0 ? 'in' : 'out', note: prevNet ? `prior 24h ${usd(prevNet, { signed: true })}` : undefined },
         { label: 'Inflow / outflow', value: `${usd(cur.inflow)} / ${usd(cur.outflow)}`, note: `${cur.w} wallets${prev.w ? ` (prior ${prev.w})` : ''}` },
-        { label: 'Most accumulated', value: acc && acc.net > 0 ? `${acc.s ?? '?'} ${usd(acc.net, { signed: true })}` : 'n/a', note: acc ? `${acc.w} wallets · ${chainName(acc.chain)}` : undefined, href: acc && `/token/${acc.chain}/${encodeURIComponent(acc.t)}`, tone: 'in' },
-        { label: 'Most distributed', value: dis && dis.net < 0 ? `${dis.s ?? '?'} ${usd(dis.net, { signed: true })}` : 'n/a', note: dis ? `${dis.w} wallets · ${chainName(dis.chain)}` : undefined, href: dis && `/token/${dis.chain}/${encodeURIComponent(dis.t)}`, tone: 'out' },
+        { label: 'Most accumulated', value: acc && acc.net > 0 ? `${acc.s ?? '?'} ${usd(acc.net, { signed: true })}` : 'n/a', note: acc ? `${acc.w} wallets · ${chainName(acc.chain)}` : undefined, href: acc && `/token/${acc.chain}/${encodeURIComponent(acc.t)}`, tone: 'in', logo: acc && acc.net > 0 ? { symbol: acc.s, chain: acc.chain, address: acc.t } : undefined },
+        { label: 'Most distributed', value: dis && dis.net < 0 ? `${dis.s ?? '?'} ${usd(dis.net, { signed: true })}` : 'n/a', note: dis ? `${dis.w} wallets · ${chainName(dis.chain)}` : undefined, href: dis && `/token/${dis.chain}/${encodeURIComponent(dis.t)}`, tone: 'out', logo: dis && dis.net < 0 ? { symbol: dis.s, chain: dis.chain, address: dis.t } : undefined },
         { label: 'Most active chain', value: chains ? chainName(chains.chain) : 'n/a', note: chains ? `${usd(chains.v)} traded · ${pct(chains.v / Math.max(1, (cur.inflow ?? 0) + (cur.outflow ?? 0)), 0)} of volume` : undefined, href: chains && `/chain/${chains.chain}` },
       ]} />
       <section aria-labelledby="sm-timeline" className="material p-4 sm:p-5">

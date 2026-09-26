@@ -85,7 +85,7 @@ export function marketPulse(mode: DisplayMode, now = Date.now()): PulseItem[] {
     const big = db.prepare(`SELECT chain, token_address AS t, token_symbol AS s, wallet_label AS l, side, usd_value AS v, traded_at AS at FROM smart_money_trades WHERE traded_at >= ? ORDER BY usd_value DESC LIMIT 1`).get(now - D) as { chain: string; t: string; s: string | null; l: string | null; side: string; v: number; at: number } | undefined;
     if (big) out.push({
       id: 'big-trade', kind: 'Largest trade', tone: big.side === 'buy' ? 'up' : 'down', href: `/token/${big.chain}/${encodeURIComponent(big.t)}`,
-      text: `${(big.l ?? 'A Smart Money wallet').replace(/\s*\[.*?\]$/, '')} ${big.side === 'buy' ? 'bought' : 'sold'} ${usd(big.v)} of ${big.s ?? 'a token'}`,
+      text: `${(big.l ?? 'A Smart Money wallet').replace(/\s*\[.*?\]$/, '').replace(/\p{Extended_Pictographic}|\uFE0F/gu, '').trim()} ${big.side === 'buy' ? 'bought' : 'sold'} ${usd(big.v)} of ${big.s ?? 'a token'}`,
       detail: `${chainName(big.chain)} · ${Math.max(1, Math.round((now - big.at) / H))}h ago`,
     });
   }

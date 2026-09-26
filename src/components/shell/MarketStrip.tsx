@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { TokenLogo } from '@/components/Logo';
 import { tickerItems } from '@/server/ticker';
 import { displayMode } from '@/server/mode';
 
@@ -10,6 +11,7 @@ export async function MarketStrip() {
     <li key={`${dup ? 'b' : 'a'}-${it.key}`} aria-hidden={dup || undefined} className="shrink-0">
       <Link href={it.href} tabIndex={dup ? -1 : undefined} className="flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1 transition-colors hover:bg-ink/5">
         <span className="font-semibold text-ink-muted">{it.label}</span>
+        {it.logo && <TokenLogo symbol={it.logo.symbol} coin={it.logo.coin} chain={it.logo.chain} address={it.logo.address} size={14} />}
         <span className="num font-semibold" style={{ color: it.tone === 'in' ? 'var(--mint)' : it.tone === 'out' ? 'var(--flare)' : 'var(--ink-2)' }}>{it.value}</span>
       </Link>
     </li>

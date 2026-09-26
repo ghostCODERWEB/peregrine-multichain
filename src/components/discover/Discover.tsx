@@ -128,7 +128,7 @@ export function Discover({ board, universe, source, divergence = [] }: { board: 
       {r ? (
         <Link href={tokenHref(r)} className="block px-3.5 py-2.5 hover:bg-[var(--surface-2)]">
           <span className="block text-[11.5px] font-semibold text-ink-muted">{label}</span>
-          <span className="num block truncate text-[17px] font-bold" style={tone ? { color: tone === 'in' ? 'var(--mint)' : 'var(--flare)' } : undefined}>{r.symbol ?? 'Token'} {value(r)}</span>
+          <span className="num block truncate text-[17px] font-bold" style={tone ? { color: tone === 'in' ? 'var(--mint)' : 'var(--flare)' } : undefined}><span className="flex min-w-0 items-center gap-1.5"><TokenLogo symbol={r.symbol} chain={r.chain} address={r.tokenAddress} size={18} /><span className="truncate">{r.symbol ?? 'Token'} {value(r)}</span></span></span>
           <span className="block truncate text-[11.5px] text-ink-2">{chainName(r.chain)} · vol {usd(r.volume24hUsd)}</span>
         </Link>
       ) : <span className="block px-3.5 py-2.5 text-[12px] text-ink-muted">{label}: n/a</span>}
@@ -187,7 +187,7 @@ export function Discover({ board, universe, source, divergence = [] }: { board: 
             <tbody>
               {divergence.map((d) => (
                 <tr key={d.symbol} className="border-t border-[var(--hair)]">
-                  <td className="py-1.5"><Link href={`/perps/${encodeURIComponent(d.symbol)}`} className="font-semibold text-ink hover:underline">{d.symbol}</Link></td>
+                  <td className="py-1.5"><Link href={`/perps/${encodeURIComponent(d.symbol)}`} className="inline-flex items-center gap-1.5 font-semibold text-ink hover:underline"><TokenLogo symbol={d.symbol} coin={d.symbol} size={16} />{d.symbol}</Link></td>
                   <td className={d.kind.startsWith('spot') ? 'font-semibold text-ink' : 'text-ink-2'}>{DIVERGENCE_TEXT[d.kind]}</td>
                   <td className="num text-right" style={{ color: d.spotShare >= 0 ? 'var(--mint)' : 'var(--flare)' }}>{usd(d.spotNetUsd, { signed: true })} · {pct(d.spotShare, 1)}</td>
                   <td className="num text-right" style={{ color: d.ppi >= 50 ? 'var(--mint)' : 'var(--flare)' }}>{num(d.ppi, 0)}</td>

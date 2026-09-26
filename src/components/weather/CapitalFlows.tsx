@@ -6,6 +6,7 @@
 // from sell-side red to buy-side green. Public views get a locked panel,
 // never a mock: the data may not be redistributed.
 import Link from 'next/link';
+import { TriangleAlert } from 'lucide-react';
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { InfoPopover } from '@/components/InfoPopover';
 import { ChainLogo, TokenLogo, chainLogoSrc, SvgChainLogo } from '@/components/Logo';
@@ -456,19 +457,25 @@ function FlowDetail({ front: f, onWallets }: { front: FrontWithProvenance; onWal
 }
 
 /** symbol → token page, for tokens a flow traded on `chain`. */
-function refsOn(f: FrontWithProvenance, chain: string): Map<string, string> {
+type Ref = { href: string; chain: string; address: string };
+function refsOn(f: FrontWithProvenance, chain: string): Map<string, Ref> {
   return new Map(
-    (f.tokenRefs ?? []).filter((r) => r.chain === chain).map((r) => [r.symbol, `/token/${r.chain}/${encodeURIComponent(r.address)}`]),
+    (f.tokenRefs ?? []).filter((r) => r.chain === chain).map((r) => [r.symbol, { href: `/token/${r.chain}/${encodeURIComponent(r.address)}`, chain: r.chain, address: r.address }]),
   );
 }
 
 /** A token chip: a link to the token's page when its address is known. */
-function Chip({ t, href, children }: { t: string; href?: string; children?: React.ReactNode }) {
+function Chip({ t, r, children }: { t: string; r?: Ref; children?: React.ReactNode }) {
+  const href = r?.href;
   const cls = 'inline-flex min-h-[26px] items-center gap-1 rounded-full border border-brand/25 bg-brand/10 px-2.5 py-1 text-ink';
+  // Nansen prefixes flagged tokens with a warning emoji: show it as an icon, not raw emoji.
+  const flagged = /\u26A0/.test(t);
+  const name = t.replace(/[\u26A0\uFE0F]|\p{Extended_Pictographic}/gu, '').trim();
   const inner = (
     <>
-      <TokenLogo symbol={t} size={12} badge={false} />
-      {t}
+      <TokenLogo symbol={name} chain={r?.chain} address={r?.address} size={14} badge={false} />
+      {name}
+      {flagged && <TriangleAlert size={12} className="text-[var(--amber)]" aria-label="Flagged by Nansen" />}
       {children}
     </>
   );
@@ -481,13 +488,13 @@ function Chip({ t, href, children }: { t: string; href?: string; children?: Reac
   );
 }
 
-function TokenRow({ label, tokens, refs }: { label: string; tokens: string[]; refs: Map<string, string> }) {
+function TokenRow({ label, tokens, refs }: { label: string; tokens: string[]; refs: Map<string, Ref> }) {
   return (
     <div>
       <div className="label">{label}</div>
       <div className="mt-1 flex flex-wrap gap-1.5">
         {tokens.map((t) => (
-          <Chip key={t} t={t} href={refs.get(t)} />
+          <Chip key={t} t={t} r={refs.get(t)} />
         ))}
       </div>
     </div>
@@ -507,17 +514,17 @@ function RotatedTokens({ fronts }: { fronts: FrontWithProvenance[] }) {
     );
   if (!sold.length && !bought.length) return null;
   // First flow that sold (or bought) the symbol decides which chain's token it links to.
-  const soldRefs = new Map<string, string>(),
-    boughtRefs = new Map<string, string>();
+  const soldRefs = new Map<string, Ref>(),
+    boughtRefs = new Map<string, Ref>();
   for (const f of fronts) {
     for (const [s, h] of refsOn(f, f.from)) if (!soldRefs.has(s)) soldRefs.set(s, h);
     for (const [s, h] of refsOn(f, f.to)) if (!boughtRefs.has(s)) boughtRefs.set(s, h);
   }
-  const row = (label: string, list: Array<[string, number]>, color: string, refs: Map<string, string>) => (
+  const row = (label: string, list: Array<[string, number]>, color: string, refs: Map<string, Ref>) => (
     <div className="flex flex-wrap items-center gap-1.5 text-[12px]">
       <span className="label w-32 shrink-0">{label}</span>
       {list.map(([t, n]) => (
-        <Chip key={t} t={t} href={refs.get(t)}>
+        <Chip key={t} t={t} r={refs.get(t)}>
           <span className="num text-[10.5px]" style={{ color }} title={`${n} rotating wallet${n === 1 ? '' : 's'}`}>
             {n}
           </span>

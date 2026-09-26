@@ -48,7 +48,8 @@ export function tokenChecker(owner: boolean, now = Date.now()): CheckerData {
     FROM token_pulse WHERE window = '24h' AND source = 'market-flow' AND snapshot_at = ?`).all(last) as Array<{ chain: string; a: string; symbol: string | null; price: number | null; change: number | null; volume: number | null; liquidity: number | null; mc: number | null; age: number | null; netflow: number | null }> : [];
   const smLast = owner ? latest('smart-money') : null;
   const smFlow = new Map(smLast ? (db.prepare(`SELECT chain, lower(token_address) AS a, netflow FROM token_pulse WHERE window = '24h' AND source = 'smart-money' AND snapshot_at = ?`).all(smLast) as Array<{ chain: string; a: string; netflow: number | null }>).map((r) => [`${r.chain}:${r.a}`, r.netflow]) : []);
-  const universe: UniverseToken[] = uni.map((u) => ({ chain: u.chain, address: u.a, symbol: u.symbol, price: u.price, change: u.change, volume: u.volume, liquidity: u.liquidity, marketCap: u.mc, ageDays: u.age, netflow: u.netflow,
+  // Nansen marks new tokens with a seedling emoji; the age column already says so.
+  const universe: UniverseToken[] = uni.map((u) => ({ chain: u.chain, address: u.a, symbol: u.symbol?.replace(/\p{Extended_Pictographic}|\uFE0F/gu, '').trim() || null, price: u.price, change: u.change, volume: u.volume, liquidity: u.liquidity, marketCap: u.mc, ageDays: u.age, netflow: u.netflow,
     smNetflow: owner ? smFlow.get(`${u.chain}:${u.a.toLowerCase()}`) ?? null : null,
     turnover: u.volume && u.liquidity ? u.volume / u.liquidity : null, score: scoreOf.get(`${u.chain}:${u.a.toLowerCase()}`) ?? null })).sort((a, b) => (b.volume ?? 0) - (a.volume ?? 0));
   const fresh = universe.filter((u) => u.ageDays != null && u.ageDays <= 7).sort((a, b) => (b.volume ?? 0) - (a.volume ?? 0));

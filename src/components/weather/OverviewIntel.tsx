@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { HrefLogo } from '@/components/HrefLogo';
 import { getDb } from '@/server/nansen/db';
 import { perpBoard } from '@/server/perps/board';
 import { perpChanges } from '@/server/perps/terminal';
@@ -168,7 +169,7 @@ export function OverviewIntel({ mode }: { mode: DisplayMode }) {
               {others.map((o) => (
                 <li key={o.label}>
                   <Link href={o.href} className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 text-[12.5px] hover:underline">
-                    <span className="min-w-0 truncate"><span className="text-ink-muted">{o.kind} </span><span className="font-semibold text-ink">{o.label}</span></span>
+                    <span className="flex min-w-0 items-center gap-1.5"><HrefLogo href={o.href} size={14} /><span className="truncate"><span className="text-ink-muted">{o.kind} </span><span className="font-semibold text-ink">{o.label}</span></span></span>
                     <span className="num whitespace-nowrap font-semibold" style={tone(o.up ? 1 : -1)}>{o.value}</span>
                   </Link>
                 </li>

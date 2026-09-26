@@ -1,3 +1,4 @@
+import { TokenLogo } from '@/components/Logo';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { Card, Unavailable } from '@/components/Card';
@@ -66,8 +67,8 @@ function Tile({ s }: { s: SectorReading }) {
               <li className="text-[10.5px] uppercase tracking-wider text-ink-muted">{k}</li>
               {movers.map((m) => (
                 <li key={`${m.chain}:${m.address}`} className="flex min-w-0 justify-between gap-1">
-                  <Link href={`/token/${m.chain}/${encodeURIComponent(m.address)}`} className="truncate text-ink-2 hover:text-ink hover:underline" title={`${m.symbol ?? m.address} on ${chainName(m.chain)}`}>
-                    {m.symbol ?? '?'}{movers.filter((o) => o.symbol === m.symbol).length > 1 && <span className="text-ink-muted"> · {chainName(m.chain)}</span>}
+                  <Link href={`/token/${m.chain}/${encodeURIComponent(m.address)}`} className="flex min-w-0 items-center gap-1.5 text-ink-2 hover:text-ink hover:underline" title={`${m.symbol ?? m.address} on ${chainName(m.chain)}`}>
+                    <TokenLogo symbol={m.symbol} chain={m.chain} address={m.address} size={14} /><span className="truncate">{m.symbol ?? '?'}</span>{movers.filter((o) => o.symbol === m.symbol).length > 1 && <span className="text-ink-muted"> · {chainName(m.chain)}</span>}
                   </Link>
                   <span className="num shrink-0 text-ink-muted">{usd(m.netFlowUsd, { signed: true })}</span>
                 </li>

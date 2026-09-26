@@ -1,3 +1,4 @@
+import { TokenLogo } from '@/components/Logo';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { PageTitle } from '@/components/PageTitle';
@@ -59,7 +60,7 @@ export default async function HistoryPage({ searchParams }: { searchParams: Prom
         <div className="grid gap-4 md:grid-cols-2">
           {perps.map(({ sym, c }) => (
             <Link key={sym} href={`/perps/${sym}?tab=changes&win=${w}`} className="material block p-4 hover:border-[var(--hair-2)] sm:p-5">
-              <p className="text-[12px] font-semibold text-ink-muted">{sym} Smart Money perp positioning, {w}</p>
+              <p className="flex items-center gap-1.5 text-[12px] font-semibold text-ink-muted"><TokenLogo symbol={sym} coin={sym} size={16} />{sym} Smart Money perp positioning, {w}</p>
               {'unavailable' in c ? <p className="mt-1 text-[13px] text-ink-2">{c.unavailable}</p> : (() => { const s = c.shift.smart_money ?? c.shift.all; return (
                 <><p className="mt-1 text-[17px] font-bold text-ink">{DIRECTION_TEXT[s.direction]}</p>
                   <p className="num text-[12.5px] text-ink-2">Long {usd(s.longDeltaUsd, { signed: true })} · short {usd(s.shortDeltaUsd, { signed: true })} · {s.counts.opened} opened, {s.counts.closed} closed, {s.counts.flipped} flipped</p></>); })()}

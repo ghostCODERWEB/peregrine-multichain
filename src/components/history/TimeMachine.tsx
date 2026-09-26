@@ -1,4 +1,5 @@
 'use client';
+import { TokenLogo } from '@/components/Logo';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { Segmented } from '@/components/ui/Segmented';
@@ -58,7 +59,7 @@ export function TimeMachine() {
               <tbody>
                 {res.rows.map((r) => (
                   <tr key={`${r.chain}:${r.token}`} className="border-t border-[var(--hair)]">
-                    <td className="px-3 py-1.5"><Link href={`/token/${r.chain}/${encodeURIComponent(r.token)}`} className="font-semibold text-ink hover:underline">{r.symbol ?? r.token.slice(0, 8)}</Link> <span className="text-ink-muted">{chainName(r.chain)}</span></td>
+                    <td className="px-3 py-1.5"><Link href={`/token/${r.chain}/${encodeURIComponent(r.token)}`} className="inline-flex items-center gap-1.5 font-semibold text-ink hover:underline"><TokenLogo symbol={r.symbol} chain={r.chain} address={r.token} size={16} />{r.symbol ?? r.token.slice(0, 8)}</Link> <span className="text-ink-muted">{chainName(r.chain)}</span></td>
                     <td className="num px-3 text-right text-ink-2">{r.edge === 'entered-top' ? 'outside top 200' : usd(r.thenUsd)}</td>
                     <td className="num px-3 text-right text-ink">{r.edge === 'left-top' ? 'outside top 200' : usd(r.nowUsd)}</td>
                     <td className="num px-3 text-right font-semibold" style={r.edge ? undefined : tone(r.deltaUsd)}>{r.edge === 'left-top' ? <span className="text-ink-muted">left the top 200</span> : r.edge === 'entered-top' ? <span className="text-ink-muted">entered the top 200</span> : <>{usd(r.deltaUsd, { signed: true })}{r.deltaPct != null ? ` · ${r.deltaPct >= 0 ? '+' : ''}${pct(r.deltaPct, 0)}` : ''}</>}</td>

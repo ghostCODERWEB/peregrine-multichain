@@ -13,14 +13,14 @@ export function PerpsState({ mode }: { mode: DisplayMode }) {
   const funded = b.coins.filter((c) => c.fundingApr != null && (c.openInterest ?? 0) >= 5e6);
   const hot = [...funded].sort((a, c) => c.fundingApr! - a.fundingApr!)[0], cold = [...funded].sort((a, c) => a.fundingApr! - c.fundingApr!)[0];
   const stats: Stat[] = [];
-  if (hot) stats.push({ label: 'Highest funding', value: `${hot.symbol} ${pct(hot.fundingApr, 0)}`, note: `yearly · OI ${usd(hot.openInterest)} · longs pay`, href: `/perps/${encodeURIComponent(hot.symbol)}`, tone: 'out' });
-  if (cold) stats.push({ label: 'Lowest funding', value: `${cold.symbol} ${pct(cold.fundingApr, 0)}`, note: `yearly · OI ${usd(cold.openInterest)} · shorts pay`, href: `/perps/${encodeURIComponent(cold.symbol)}`, tone: 'in' });
+  if (hot) stats.push({ label: 'Highest funding', value: `${hot.symbol} ${pct(hot.fundingApr, 0)}`, note: `yearly · OI ${usd(hot.openInterest)} · longs pay`, href: `/perps/${encodeURIComponent(hot.symbol)}`, tone: 'out', logo: { symbol: hot.symbol, coin: hot.symbol } });
+  if (cold) stats.push({ label: 'Lowest funding', value: `${cold.symbol} ${pct(cold.fundingApr, 0)}`, note: `yearly · OI ${usd(cold.openInterest)} · shorts pay`, href: `/perps/${encodeURIComponent(cold.symbol)}`, tone: 'in', logo: { symbol: cold.symbol, coin: cold.symbol } });
   if (owner) {
     const row = getDb().prepare(`SELECT positions FROM perp_position_snapshots WHERE symbol='BTC' ORDER BY at DESC LIMIT 1`).get() as { positions: string } | undefined;
     if (row) {
       let l = 0, s = 0;
       for (const p of JSON.parse(row.positions) as Array<[string, string | null, number, number, ...unknown[]]>) if (String(p[9] ?? '').includes('smart_money')) { if (p[2]) l += p[3]; else s += p[3]; }
-      if (l + s) stats.push({ label: 'BTC Smart Money book', value: `${pct(l / (l + s), 0)} long`, note: `${usd(l)} long · ${usd(s)} short (observed)`, href: '/perps/BTC?cohort=smart_money', tone: l >= s ? 'in' : 'out' });
+      if (l + s) stats.push({ label: 'BTC Smart Money book', value: `${pct(l / (l + s), 0)} long`, note: `${usd(l)} long · ${usd(s)} short (observed)`, href: '/perps/BTC?cohort=smart_money', tone: l >= s ? 'in' : 'out', logo: { symbol: 'BTC', coin: 'BTC' } });
     }
     const big = (['BTC', 'ETH'] as const).flatMap((sym) => { const c = perpChanges(sym, 4 * 3_600_000); return 'unavailable' in c ? [] : c.changes.filter((x) => x.cohorts.includes('smart_money') && x.kind !== 'left-set').map((x) => ({ sym, x })); })
       .sort((a, z) => Math.abs(z.x.deltaUsd) - Math.abs(a.x.deltaUsd))[0];

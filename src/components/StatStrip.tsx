@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import type { ReactNode } from 'react';
+import { TokenLogo } from '@/components/Logo';
 
-export interface Stat { label: string; value: ReactNode; note?: ReactNode; href?: string; tone?: 'in' | 'out' }
+export interface Stat { label: string; value: ReactNode; note?: ReactNode; href?: string; tone?: 'in' | 'out'; logo?: { symbol: string | null; chain?: string; address?: string; coin?: string } }
 
 /** A row of key figures: label above, figure below, hairline dividers. Two
  *  per row on phones, one row from tablets up. A stat with `href` opens its detail. */
@@ -12,7 +13,7 @@ export function StatStrip({ stats, className = '' }: { stats: Stat[]; className?
         const body = (
           <>
             <span className="block text-[12px] font-semibold text-ink-muted">{s.label}</span>
-            <span className="num mt-1 block truncate text-[clamp(17px,1.35vw,24px)] font-bold tracking-[-0.02em]" style={s.tone ? { color: s.tone === 'in' ? 'var(--mint)' : 'var(--flare)' } : undefined}>{s.value}</span>
+            <span className="num mt-1 block truncate text-[clamp(17px,1.35vw,24px)] font-bold tracking-[-0.02em]" style={s.tone ? { color: s.tone === 'in' ? 'var(--mint)' : 'var(--flare)' } : undefined}>{s.logo ? <span className="flex min-w-0 items-center gap-1.5"><TokenLogo symbol={s.logo.symbol} chain={s.logo.chain} address={s.logo.address} coin={s.logo.coin} size={20} /><span className="truncate">{s.value}</span></span> : s.value}</span>
             {s.note && <span className="mt-0.5 block truncate text-[12px] text-ink-2">{s.note}</span>}
           </>
         );

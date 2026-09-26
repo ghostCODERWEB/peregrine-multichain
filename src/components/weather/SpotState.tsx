@@ -30,10 +30,10 @@ export function SpotState({ mode }: { mode: DisplayMode }) {
       { label: 'Buy / sell imbalance', value: buy + sell ? pct(buy / (buy + sell), 0) : 'n/a', note: `buys ${usd(buy)} · sells ${usd(sell)}`, tone: buy >= sell ? 'in' : 'out' },
       ...(mode === 'owner' ? [
         { label: 'Smart Money DEX net', value: usd(smNet, { signed: true }), tone: (smNet >= 0 ? 'in' : 'out') as 'in' | 'out', note: `${sm.length} tokens traded` },
-        { label: 'Most bought by SM', value: bought && bought.net > 0 ? `${bought.s ?? '?'} ${usd(bought.net, { signed: true })}` : 'n/a', note: bought ? `${bought.w} wallets · ${chainName(bought.chain)}` : undefined, href: bought && href(bought.chain, bought.t), tone: 'in' as const },
-        { label: 'Most sold by SM', value: sold && sold.net < 0 ? `${sold.s ?? '?'} ${usd(sold.net, { signed: true })}` : 'n/a', note: sold ? `${sold.w} wallets · ${chainName(sold.chain)}` : undefined, href: sold && href(sold.chain, sold.t), tone: 'out' as const },
+        { label: 'Most bought by SM', value: bought && bought.net > 0 ? `${bought.s ?? '?'} ${usd(bought.net, { signed: true })}` : 'n/a', note: bought ? `${bought.w} wallets · ${chainName(bought.chain)}` : undefined, href: bought && href(bought.chain, bought.t), tone: 'in' as const, logo: bought && bought.net > 0 ? { symbol: bought.s, chain: bought.chain, address: bought.t } : undefined },
+        { label: 'Most sold by SM', value: sold && sold.net < 0 ? `${sold.s ?? '?'} ${usd(sold.net, { signed: true })}` : 'n/a', note: sold ? `${sold.w} wallets · ${chainName(sold.chain)}` : undefined, href: sold && href(sold.chain, sold.t), tone: 'out' as const, logo: sold && sold.net < 0 ? { symbol: sold.s, chain: sold.chain, address: sold.t } : undefined },
       ] : []),
-      { label: 'Fastest volume growth', value: accel ? `${accel.r.symbol ?? '?'} ${accel.x.toFixed(1)}x` : 'n/a', note: accel ? `${usd(accel.r.volume)} vs ${usd(accel.r.volume / accel.x)} a day earlier` : 'needs a day of scans', href: accel && href(accel.r.chain, accel.r.token_address) },
+      { label: 'Fastest volume growth', value: accel ? `${accel.r.symbol ?? '?'} ${accel.x.toFixed(1)}x` : 'n/a', note: accel ? `${usd(accel.r.volume)} vs ${usd(accel.r.volume / accel.x)} a day earlier` : 'needs a day of scans', href: accel && href(accel.r.chain, accel.r.token_address), logo: accel ? { symbol: accel.r.symbol, chain: accel.r.chain, address: accel.r.token_address } : undefined },
     ]} />
   );
 }
