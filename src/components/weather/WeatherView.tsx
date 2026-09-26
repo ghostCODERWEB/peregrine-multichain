@@ -41,11 +41,12 @@ async function fetchBulletin(): Promise<WeatherBulletin> {
 export function WeatherView({
   initial,
   anchor,
-  alpha,
+  alpha, intel,
 }: {
   initial: WeatherBulletin;
   anchor: AnchorReport | null;
   alpha?: React.ReactNode;
+  intel?: React.ReactNode;
 }) {
   const { data, isFetching, refetch } = useQuery({
     queryKey: ['weather'],
@@ -220,6 +221,7 @@ export function WeatherView({
                   ),
               )}
             </div>
+            {intel}
             <section aria-labelledby="map-instrument-title" className="material min-w-0 p-5 sm:p-6 xl:col-span-12">
               <div className="mb-1 flex flex-wrap items-center justify-between gap-3">
                 <h2 id="map-instrument-title" className="t-section">

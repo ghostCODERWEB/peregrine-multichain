@@ -4,6 +4,7 @@ import { latestReport, subjectKey } from '@/server/agents/anchor';
 import { displayMode, viewOf } from '@/server/mode';
 import { alphaBoard } from '@/server/alpha/board';
 import { AlphaStrip } from '@/components/alpha/AlphaStrip';
+import { OverviewIntel } from '@/components/weather/OverviewIntel';
 
 export const dynamic = 'force-dynamic';
 
@@ -12,5 +13,5 @@ export default async function Home() {
   const mode = await displayMode();
   const bulletin = buildBulletin(viewOf(mode));
   const alpha = alphaBoard(viewOf(mode), Date.now(), 5);
-  return <WeatherView initial={bulletin} anchor={latestReport(subjectKey('bulletin', mode))} alpha={<AlphaStrip rows={alpha.rows} />} />;
+  return <WeatherView initial={bulletin} anchor={latestReport(subjectKey('bulletin', mode))} alpha={<AlphaStrip rows={alpha.rows} />} intel={<OverviewIntel mode={mode} />} />;
 }
