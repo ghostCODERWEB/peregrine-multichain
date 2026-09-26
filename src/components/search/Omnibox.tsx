@@ -255,7 +255,7 @@ export function Omnibox() {
       >
         <Search className="h-3.5 w-3.5" strokeWidth={2.2} aria-hidden />
         <span className="hidden lg:inline">Search</span>
-        <kbd className="kbd hidden lg:ml-auto lg:inline-flex">⌘K</kbd>
+        <kbd className="kbd !hidden lg:ml-auto lg:!inline-flex">⌘K</kbd>
       </button>
 
       {open &&
