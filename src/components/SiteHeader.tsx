@@ -26,10 +26,6 @@ export async function SiteHeader() {
   if (demo) {
     try { const v = getKv('demo_recorded_at'); recorded = v ? new Date(Number(v.value)).toISOString().slice(0, 16).replace('T', ' ') : null; } catch { recorded = null; }
   }
-  const modeText = mode === 'owner' ? 'Owner view' : mode === 'member' ? `Your key …${ctx.keyLast4}` : 'Public view';
-  const modeTitle = mode === 'owner' ? 'Owner view: this instance’s own Nansen key; smart-money data and labels are shown (internal use under Nansen’s rules).'
-    : mode === 'member' ? 'Your view: calls use your own Nansen key, so what they return is yours to see. The scanner’s smart-money history stays the owner’s.'
-    : 'Public view: smart-money trades, holdings and labels are withheld per Nansen’s redistribution rules.';
 
   return (
     <header className="shell-rail liquid-glass liquid-glass-strong fixed inset-x-2 top-2 z-40 flex h-12 items-center gap-2 rounded-2xl px-2.5
@@ -64,7 +60,6 @@ export async function SiteHeader() {
         </div>
         <MobileMenu>
           <GetNansen />
-          <p className="text-[12px] text-ink-2" title={modeTitle}>{modeText}</p>
           {accounts && <AccountButton signedIn={!!ctx.user} address={ctx.user?.address ?? null} />}
         </MobileMenu>
       </div>
