@@ -3,7 +3,7 @@ import { FilterBox } from '@/components/FilterBox';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { MiniLines } from '@/components/charts/Mini';
-import { MoodRing } from '@/components/viz/MoodRing';
+import { MoodRing, MoodWord } from '@/components/viz/MoodRing';
 import { Card, WaveLoading, Unavailable } from '@/components/Card';
 import { InfoPopover } from '@/components/InfoPopover';
 import { usd, num, ago, shortAddress } from '@/lib/viz/format';
@@ -183,7 +183,7 @@ export function PredictView({ board, title, analytics, series = {} }: { board: P
               ))}
             </dl>
           </div>
-          <div className="flex shrink-0 items-center justify-center gap-4 overflow-hidden rounded-2xl border border-border/70 bg-raised/40 p-5 pt-10 lg:w-[240px] lg:flex-col lg:text-center">
+          <div className="flex shrink-0 items-center justify-center gap-4 overflow-hidden rounded-2xl border border-border/70 bg-raised/40 p-5 lg:w-[240px] lg:flex-col lg:text-center">
             {overall.weather != null ? (
               <>
                 <MoodRing score={overall.weather} mood={overall.weather >= 70 ? 'hot' : overall.weather <= 30 ? 'quiet' : 'normal'} word={heatLabel(overall.weather)} label="Prediction flows"
@@ -225,7 +225,7 @@ export function PredictView({ board, title, analytics, series = {} }: { board: P
                 {usd(c.volume24h)} today · OI {usd(c.openInterest)}
               </div>
               <div className="mt-0.5 text-[11px] text-ink/80">
-                {c.weather != null ? heatLabel(c.weather) : 'n/a'} · {(c.traders24h ?? 0).toLocaleString('en-US')} traders
+                {c.weather != null ? <MoodWord mood={c.weather >= 70 ? 'hot' : c.weather <= 30 ? 'quiet' : 'normal'} word={heatLabel(c.weather)} className="text-[11.5px]" /> : 'n/a'} · {(c.traders24h ?? 0).toLocaleString('en-US')} traders
               </div>
             </li>
           ))}

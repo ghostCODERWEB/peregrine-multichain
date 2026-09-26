@@ -6,6 +6,7 @@ import { FrontsList, FrontSheet, frontKey } from './FrontsPanel';
 import Link from 'next/link';
 import { Card } from '@/components/Card';
 import { ChainBadge, ChainLogo } from '@/components/Logo';
+import { MoodWord } from '@/components/viz/MoodRing';
 import { InfoPopover } from '@/components/InfoPopover';
 import { AreaSpark } from '@/components/viz/AreaSpark';
 import { ActivityRings } from '@/components/viz/ActivityRings';
@@ -389,7 +390,7 @@ function LayerOverview({
     </>
   ) : (
     <>
-      <span className="text-accumulation">{hi.name}</span> is running hot.
+      <span className="text-accumulation">{hi.name}</span> is running <MoodWord mood="hot" word="hot." />
     </>
   );
   const empty = !hi;
