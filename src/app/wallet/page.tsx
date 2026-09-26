@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { ProfilerTabs } from '@/components/research/ProfilerTabs';
 import type { Metadata } from 'next';
 import { PageTitle } from '@/components/PageTitle';
 import { StatStrip } from '@/components/StatStrip';
@@ -56,7 +57,8 @@ export default async function ProfilerHome() {
 
   return (
     <div className="space-y-5">
-      <PageTitle title="Profiler" pill="Any wallet: holdings, PnL, perps, counterparties" action={<WalletJump />} />
+      <PageTitle title="Profiler" pill="Wallets, portfolios and Hyperliquid traders" action={<WalletJump />} />
+      <ProfilerTabs />
       {owner ? (
         <>
           <StatStrip className="rise" stats={[

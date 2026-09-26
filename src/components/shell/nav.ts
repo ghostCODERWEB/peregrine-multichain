@@ -1,6 +1,6 @@
 // The app's navigation, in the order a visitor meets the product: the
 // radar first, then what to look at, then research and the tools that act.
-export interface NavItem { href: string; label: string; icon: NavIcon; group: 'Explore' | 'Research' | 'Act'; /** Not offered on a public site: owner-only data, or a wallet or paid key action. */ ownerOnly?: true; /** Needs a sign-in or a wallet signature: hidden when accounts are off. */ signIn?: true }
+export interface NavItem { href: string; label: string; icon: NavIcon; group: 'Explore' | 'Research' | 'Act'; /** Not offered on a public site: owner-only data, or a wallet or paid key action. */ ownerOnly?: true; /** Other routes that belong to this item. */ also?: string[]; /** Needs a sign-in or a wallet signature: hidden when accounts are off. */ signIn?: true }
 
 /** Pages that need a sign-in or wallet: redirected home when accounts are off. */
 export const SIGN_IN_PATHS = ['/alerts', '/trade', '/account', '/login'];
@@ -19,8 +19,7 @@ export const NAV: NavItem[] = [
   { href: '/predict', label: 'Predictions', icon: 'target', group: 'Explore' },
   { href: '/sectors', label: 'Sectors', icon: 'layers', group: 'Explore' },
   // Research: a wallet, a basket of wallets, the past, a token's risk, a strategy.
-  { href: '/wallet', label: 'Profiler', icon: 'key', group: 'Research' },
-  { href: '/portfolio', label: 'Portfolio', icon: 'briefcase', group: 'Research' },
+  { href: '/wallet', label: 'Profiler', icon: 'key', group: 'Research', also: ['/portfolio'] },
   { href: '/history', label: 'History', icon: 'gauge', group: 'Research' },
   { href: '/rug', label: 'Rug Checker', icon: 'shield', group: 'Research' },
   { href: '/lab', label: 'Backtest Lab', icon: 'flask', group: 'Research' },

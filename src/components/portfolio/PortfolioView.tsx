@@ -1,4 +1,5 @@
 'use client';
+import { ProfilerTabs } from '@/components/research/ProfilerTabs';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { Card, Unavailable, WaveLoading } from '@/components/Card';
@@ -79,7 +80,8 @@ export function PortfolioView({ demo, suggestions = [] }: { demo: boolean; sugge
   }
   return (
     <div className="space-y-5">
-      <PageTitle title="Portfolio" pill="Up to five wallets, one view" />
+      <PageTitle title="Profiler" pill="Portfolio: up to five wallets, one view" />
+      <ProfilerTabs />
       <Card
         id="watchset"
         title="Your wallet watch set"

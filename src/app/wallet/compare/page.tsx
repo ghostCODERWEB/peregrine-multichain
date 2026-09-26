@@ -1,0 +1,17 @@
+import { Suspense } from 'react';
+import type { Metadata } from 'next';
+import { PageTitle } from '@/components/PageTitle';
+import { ProfilerTabs } from '@/components/research/ProfilerTabs';
+import { CompareView } from '@/components/research/TraderViews';
+
+export const metadata: Metadata = { title: 'Compare traders · Profiler · Peregrine' };
+
+export default function ComparePage() {
+  return (
+    <div className="space-y-4">
+      <PageTitle title="Profiler" pill="Compare Hyperliquid traders" />
+      <ProfilerTabs />
+      <Suspense><CompareView /></Suspense>
+    </div>
+  );
+}

@@ -74,9 +74,9 @@ export async function traderPerps(address: string): Promise<TraderPerps> {
     let account: TraderPerps['account'] = null;
     let pos: TraderPerps['positions'] = { unavailable: 'Positions unavailable.' };
     if (positions.status === 'fulfilled') {
-      const d = (positions.value.data as { data: Record<string, unknown> & { assetPositions?: Array<{ position?: Record<string, unknown> | null }> } }).data;
+      const d = (positions.value.data as { data: Record<string, unknown> & { asset_positions?: Array<{ position?: Record<string, unknown> | null }>; assetPositions?: Array<{ position?: Record<string, unknown> | null }> } }).data;
       account = { valueUsd: n(d.margin_summary_account_value_usd), marginUsedUsd: n(d.margin_summary_total_margin_used_usd), withdrawableUsd: n(d.withdrawable) };
-      pos = (d.assetPositions ?? []).flatMap((a) => {
+      pos = (d.asset_positions ?? d.assetPositions ?? []).flatMap((a) => {
         const p = a.position;
         if (!p) return [];
         const size = n(p.size);

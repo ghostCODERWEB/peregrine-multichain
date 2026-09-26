@@ -296,3 +296,30 @@ export function DepthChart({ bids, asks, height = 200 }: { bids: Array<{ price: 
   if (!bids.length && !asks.length) return <p className="text-[13px] text-ink-muted">No order book returned.</p>;
   return option ? <EChart option={option} height={height} ariaLabel="Cumulative order book depth for YES shares" /> : null;
 }
+
+// ------------------------------------------------------------ allocation
+
+/** Portfolio treemap: chains as groups, assets inside, area = USD value; a tile opens the token. */
+export function AllocationTreemap({ items, height = 320 }: { items: Array<{ chain: string; symbol: string; href: string; value: number; share: number }>; height?: number }) {
+  const c = useThemeColors();
+  const router = useRouter();
+  const option = useMemo(() => {
+    if (!c) return null;
+    const palette = [c.mint, c.signal, c.amber, c.violet, c.flare, c['ink-2']];
+    const chains = [...new Set(items.map((i) => i.chain))];
+    return {
+      animationDuration: 400,
+      tooltip: { ...tip(c), formatter: (raw: unknown) => { const d = (raw as { data: { name: string; value: number; share?: number; chain?: string } }).data; return `<b>${d.name}</b>${d.chain ? ` · ${chainName(d.chain)}` : ''}<br/>${usd(d.value)}${d.share != null ? ` · ${(d.share * 100).toFixed(1)}%` : ''}`; } },
+      series: [{
+        type: 'treemap', roam: false, nodeClick: false, breadcrumb: { show: false }, width: '100%', height: '100%', top: 0, left: 0,
+        levels: [{ itemStyle: { borderColor: c['surface-page'], borderWidth: 3, gapWidth: 3 } }, { itemStyle: { borderColor: c['surface-1'], borderWidth: 1, gapWidth: 1 } }],
+        upperLabel: { show: true, height: 18, color: c['ink-1'], fontSize: 11, fontWeight: 'bold' },
+        label: { show: true, formatter: (p: { data: { name: string; share?: number } }) => `${p.data.name}\n${((p.data.share ?? 0) * 100).toFixed(1)}%`, color: '#fff', fontSize: 11, fontWeight: 'bold' },
+        data: chains.map((ch, i) => ({ name: chainName(ch), value: items.filter((x) => x.chain === ch).reduce((a, x) => a + x.value, 0), itemStyle: { color: palette[i % palette.length] },
+          children: items.filter((x) => x.chain === ch).map((x) => ({ name: x.symbol, value: x.value, share: x.share, chain: ch, href: x.href, itemStyle: { color: palette[i % palette.length], opacity: 0.35 + 0.65 * Math.min(1, x.share * 4) } })) })),
+      }],
+    };
+  }, [c, items]);
+  if (!items.length) return <p className="text-[13px] text-ink-muted">No priced holdings.</p>;
+  return option ? <EChart option={option as never} height={height} ariaLabel="Portfolio allocation by chain and asset" onEvents={{ click: (e: { data?: { href?: string } }) => { if (e.data?.href) router.push(e.data.href); } }} /> : null;
+}

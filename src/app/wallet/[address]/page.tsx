@@ -1,4 +1,6 @@
 import Link from 'next/link';
+import { ProfilerTabs } from '@/components/research/ProfilerTabs';
+import { WalletPortfolio } from '@/components/research/WalletPortfolio';
 import { nansenWallet } from '@/config/external';
 import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
@@ -10,7 +12,7 @@ import { TrailMap } from '@/components/wallet/TrailMap';
 import { trailTitle } from '@/lib/insights';
 import { TimeAgo } from '@/components/TimeAgo';
 import { WalletDesk } from '@/components/wallet/WalletDesk';
-import { TraderPanel } from '@/components/perps/TraderPanel';
+import { HyperliquidWorkspace } from '@/components/research/HyperliquidWorkspace';
 import { WalletQuickRead } from '@/components/wallet/WalletQuickRead';
 import { PredictionTraderPanel } from '@/components/predict/PredictionTraderPanel';
 import { WalletTimeMachine } from '@/components/history/PointInTime';
@@ -79,8 +81,12 @@ export default async function WalletRoute({ params }: Params) {
         </span>
       </div>
 
+      <ProfilerTabs />
       {mode === 'owner' && <WalletQuickRead address={address} />}
-      {evm && <TraderPanel address={address} />}
+      <Suspense fallback={<div className="h-[420px] animate-pulse rounded-[var(--r-card)] bg-ink/5" />}>
+        <WalletPortfolio balP={balP} pnlP={pnlP} />
+      </Suspense>
+      {evm && <HyperliquidWorkspace address={address} />}
       {evm && <PredictionTraderPanel address={address} />}
       <Suspense fallback={<WalletTimeMachine address={address} current={null} />}>
         <WalletTimeMachineNow address={address} p={balP} />

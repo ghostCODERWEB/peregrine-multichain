@@ -63,7 +63,7 @@ export function NavList({ onNavigate, status = {} }: { onNavigate?: () => void; 
               .filter((n) => n.group === g)
               .map((n, i) => {
                 const Icon = ICONS[n.icon];
-                const on = active(path, n.href);
+                const on = active(path, n.href) || (n.also ?? []).some((h) => active(path, h));
                 const st = status[n.href];
                 return (
                   <li key={n.href} style={{ '--i': i } as React.CSSProperties}>
