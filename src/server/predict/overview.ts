@@ -1,6 +1,7 @@
 // Predictions overview: trending markets with their 7-day probability and
 // volume, the recent trades across the busiest markets, and derived insights.
 // Uses the same Nansen request shapes as the market page, so both share the cache.
+import { isMover } from '@/lib/models/predict';
 import { traced } from '@/server/nansen/traced';
 import { requestDay } from '@/server/nansen/demo';
 import { callScope, type CallTally } from '@/server/nansen/client';
@@ -47,7 +48,8 @@ export async function predictOverview(board: PredictBoard): Promise<PredictOverv
   return callScope.run(tally, async () => {
     const byVol = [...board.markets].filter(live).sort((a, b) => (b.volume24h ?? 0) - (a.volume24h ?? 0));
     const trending = byVol.slice(0, 8);
-    const movers = board.markets.filter((m) => live(m) && m.change1d != null && (m.volume24h ?? 0) >= 25_000).sort((a, b) => Math.abs(b.change1d!) - Math.abs(a.change1d!)).slice(0, 8);
+    // The page's repricing rule (isMover): open questions, $50K+ traded, 3% to 97%, two or more days left.
+    const movers = board.markets.filter((m) => isMover(m, board.asOf)).sort((a, b) => Math.abs(b.change1d!) - Math.abs(a.change1d!)).slice(0, 8);
     const ids = [...new Set([...trending, ...movers].map((m) => m.id))];
     const [hist, trades] = await Promise.all([Promise.all(ids.map((id) => history(id))), Promise.all(trending.slice(0, 6).map(latestTrades))]);
     const series: Record<string, MarketSeries> = {};

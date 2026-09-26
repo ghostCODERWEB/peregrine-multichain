@@ -114,7 +114,9 @@ export function Discover({ board, universe, source, divergence = [] }: { board: 
   const active = PRESETS.find((x) => x.id === preset) ?? null;
   const match = (r: AlphaRow) => !active || active.test(r, { volTop });
   const counts = useMemo(() => Object.fromEntries(PRESETS.map((x) => [x.id, rows.filter((r) => x.test(r, { volTop })).length])), [rows, volTop]);
-  const liquid = rows.filter((r) => vol(r) >= 1e5);
+  // Headline tiles need real volume: a 100% one-way flow on a thin token is not the strongest accumulation.
+  const deep = rows.filter((r) => vol(r) >= 5e5);
+  const liquid = deep.length >= 5 ? deep : rows.filter((r) => vol(r) >= 1e5);
   const topIn = [...liquid].sort((a, b) => f(b) - f(a))[0];
   const topOut = [...liquid].sort((a, b) => f(a) - f(b))[0];
   const busiest = [...rows].sort((a, b) => vol(b) - vol(a))[0];

@@ -50,14 +50,16 @@ export function perpsAnalytics(mode: DisplayMode, now = Date.now()): PerpsAnalyt
   const smBook = mode === 'owner' ? board.coins.filter((c) => c.sm && c.sm.longsUsd + c.sm.shortsUsd > 0).sort((a, b) => (b.sm!.longsUsd + b.sm!.shortsUsd) - (a.sm!.longsUsd + a.sm!.shortsUsd)).slice(0, 12).map((c) => ({ symbol: c.symbol, long: c.sm!.longsUsd, short: c.sm!.shortsUsd })) : [];
 
   const insights: PulseItem[] = [];
-  const total = coins.reduce((a, c) => a + (c.openInterest ?? 0), 0), prevTotal = [...prevOi.values()].reduce((a, v) => a + v, 0);
+  // Every coin on both sides, as the Overview pulse computes it: like against like.
+  const total = board.coins.reduce((a, c) => a + (c.openInterest ?? 0), 0), prevTotal = [...prevOi.values()].reduce((a, v) => a + v, 0);
   if (total) insights.push({ id: 'p-oi', kind: 'Open interest', tone: prevTotal && total < prevTotal ? 'down' : 'up', href: '/perps', text: `Hyperliquid open interest ${usd(board.venue?.openInterest ?? total)}${prevTotal ? `, ${signedPct(total / prevTotal - 1)} in 24h` : ''}`, detail: `${coins.length} coins over $5M OI · Perp Flow Index ${board.venue?.ppi != null ? Math.round(board.venue.ppi) : 'n/a'}`, spark: oiHistory.length > 2 ? { type: 'line', values: oiHistory.map((x) => x[1]) } : undefined });
   const up = [...oiCh].sort((a, b) => b.ch - a.ch)[0], dn = [...oiCh].sort((a, b) => a.ch - b.ch)[0];
   if (up && up.ch > 0) insights.push({ id: 'p-oiup', kind: 'Leverage building', tone: 'alert', href: href(up.c.symbol), text: `${up.c.symbol} open interest ${signedPct(up.ch)} in 24h to ${usd(up.c.openInterest)}`, detail: `Price ${up.c.change24h != null ? signedPct(up.c.change24h) : 'n/a'} · funding ${up.c.fundingApr != null ? pct(up.c.fundingApr, 0) : 'n/a'} a year` });
   if (dn && dn.ch < 0) insights.push({ id: 'p-oidn', kind: 'Deleveraging', tone: 'down', href: href(dn.c.symbol), text: `${dn.c.symbol} open interest ${signedPct(dn.ch)} in 24h`, detail: `Now ${usd(dn.c.openInterest)} · price ${dn.c.change24h != null ? signedPct(dn.c.change24h) : 'n/a'}` });
   const hi = funding[0];
   if (hi) insights.push({ id: 'p-fund', kind: 'Funding extreme', tone: hi.value > 0 ? 'up' : 'down', href: hi.href, text: `${hi.label} pays ${hi.value.toFixed(0)}% a year in funding: ${hi.value > 0 ? 'longs pay shorts' : 'shorts pay longs'}`, detail: `OI ${hi.sub} · ${coins.filter((c) => (c.fundingApr ?? 0) < 0).length} coins with negative funding` });
-  const lead = [...coins].filter((c) => c.ppi != null).sort((a, b) => Math.abs(b.ppi! - 50) - Math.abs(a.ppi! - 50))[0];
+  // Same rule as the page headline (perpTitle): coins with $10M+ open interest.
+  const lead = [...coins].filter((c) => c.ppi != null && (c.openInterest ?? 0) >= 10_000_000).sort((a, b) => Math.abs(b.ppi! - 50) - Math.abs(a.ppi! - 50))[0];
   if (lead) insights.push({ id: 'p-side', kind: 'Most one-sided', tone: lead.ppi! >= 50 ? 'up' : 'down', href: href(lead.symbol), text: `${lead.symbol} is the most one-sided market: Perp Flow Index ${Math.round(lead.ppi!)} (${lead.ppi! >= 50 ? 'long' : 'short'} bias)`, detail: `OI ${usd(lead.openInterest)} · taker flow ${lead.taker != null ? signedPct(lead.taker) : 'n/a'}` });
   const div = coins.filter((c) => c.divergence);
   if (div.length) insights.push({ id: 'p-div', kind: 'Crowd vs Smart Money', tone: 'alert', href: href(div[0].symbol), text: `${div.length} coins where funding and Smart Money lean opposite ways: ${div.slice(0, 4).map((c) => c.symbol).join(', ')}`, detail: `${div.filter((c) => c.divergence === 'crowded-long').length} crowded long, ${div.filter((c) => c.divergence === 'crowded-short').length} crowded short` });
@@ -101,7 +103,7 @@ export function sectorsAnalytics(mode: DisplayMode, now = Date.now()): SectorsAn
 
   const insights: PulseItem[] = [];
   const top = ranking[0], bottom = ranking.at(-1);
-  if (top && bottom && top !== bottom) insights.push({ id: 's-lead', kind: 'Leadership', tone: 'up', href: top.href, text: `${top.label} leads at ${usd(top.value, { signed: true })}; ${bottom.label} trails at ${usd(bottom.value, { signed: true })}`, detail: `${ranking.filter((r) => r.value > 0).length} of ${ranking.length} sectors net positive in 24h`, spark: { type: 'bars', values: ranking.map((r) => r.value) } });
+  if (top && bottom && top !== bottom) insights.push({ id: 's-lead', kind: 'Leadership', tone: 'up', href: top.href, text: `${top.label} leads at ${usd(top.value, { signed: true })}; ${bottom.label} trails at ${usd(bottom.value, { signed: true })}`, detail: `${ranking.filter((r) => r.value > 0).length} of ${ranking.length} sectors with flow were net positive in 24h`, spark: { type: 'bars', values: ranking.map((r) => r.value) } });
   const rot = change[0];
   if (rot) insights.push({ id: 's-rot', kind: 'Biggest swing', tone: rot.value >= 0 ? 'up' : 'down', href: rot.href, text: `${rot.label} flow swung ${usd(rot.value, { signed: true })} against a day ago`, detail: rot.sub ?? '' });
   const acc = w.sectors.filter((s) => s.pressure >= 65), dist = w.sectors.filter((s) => s.pressure <= 35);

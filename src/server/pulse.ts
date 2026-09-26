@@ -1,6 +1,7 @@
 // Market Pulse: short, data-backed statements about the last 24 hours, derived
 // from the scanner's stored Nansen reads (no Nansen call per view). Each item
 // names its numbers, links to the records behind it and carries a small series.
+import { smFlowSeries } from '@/server/graph/series';
 import { properAddress } from '@/server/nansen/address-case';
 import { getDb } from '@/server/nansen/db';
 import type { DisplayMode } from '@/server/mode';
@@ -28,8 +29,11 @@ export function marketPulse(mode: DisplayMode, now = Date.now()): PulseItem[] {
     // 1. Smart Money DEX flow, 24h against the prior 24h, hourly.
     const hours = db.prepare(`SELECT (traded_at / ${H}) * ${H} AS h, SUM(CASE WHEN side='buy' THEN usd_value ELSE -usd_value END) AS net, COUNT(DISTINCT wallet) AS w
       FROM smart_money_trades WHERE traded_at >= ? GROUP BY h ORDER BY h`).all(now - 48 * H) as Array<{ h: number; net: number; w: number }>;
-    const cur = hours.filter((x) => x.h >= now - 24 * H), prev = hours.filter((x) => x.h < now - 24 * H);
-    const net = cur.reduce((a, x) => a + x.net, 0), before = prev.reduce((a, x) => a + x.net, 0);
+    // The hourly series the Overview's Smart Money tile shows, so both count the same hours.
+    const cur = smFlowSeries(24, now).map((x) => ({ h: x.t, net: x.net, w: x.wallets })), prev = hours.filter((x) => x.h < now - 24 * H);
+    // Exact 24h windows (the same query the Overview module, nav and ticker use), not whole-hour buckets.
+    const win = (from: number, to: number) => (db.prepare(`SELECT COALESCE(SUM(CASE WHEN side='buy' THEN usd_value ELSE -usd_value END), 0) AS net FROM smart_money_trades WHERE traded_at >= ? AND traded_at < ?`).get(from, to) as { net: number }).net;
+    const net = win(now - D, now + 1), before = win(now - 2 * D, now - D);
     const wallets = (db.prepare('SELECT COUNT(DISTINCT wallet) AS n FROM smart_money_trades WHERE traded_at >= ?').get(now - D) as { n: number }).n;
     if (cur.length) out.push({
       id: 'sm-flow', kind: 'Smart Money', tone: net >= 0 ? 'up' : 'down', href: '/smart-money',
@@ -62,7 +66,7 @@ export function marketPulse(mode: DisplayMode, now = Date.now()): PulseItem[] {
     });
 
     // 3. Concentration: how much of the top net-bought token's flow came from one wallet.
-    const toks = db.prepare(`SELECT chain, token_address AS t, MAX(token_symbol) AS s, SUM(CASE WHEN side='buy' THEN usd_value ELSE -usd_value END) AS net, COUNT(DISTINCT wallet) AS w
+    const toks = db.prepare(`SELECT chain, token_address AS t, MAX(token_symbol) AS s, SUM(CASE WHEN side='buy' THEN usd_value ELSE -usd_value END) AS net, COUNT(DISTINCT CASE WHEN side='buy' THEN wallet END) AS w
       FROM smart_money_trades WHERE traded_at >= ? GROUP BY chain, token_address ORDER BY net DESC LIMIT 1`).get(now - D) as { chain: string; t: string; s: string | null; net: number; w: number } | undefined;
     if (toks && toks.net > 0) {
       const top = db.prepare(`SELECT wallet, SUM(CASE WHEN side='buy' THEN usd_value ELSE 0 END) AS buy, SUM(CASE WHEN side='buy' THEN usd_value ELSE -usd_value END) AS net FROM smart_money_trades
@@ -71,7 +75,7 @@ export function marketPulse(mode: DisplayMode, now = Date.now()): PulseItem[] {
       const share = gross ? top[0].buy / gross : 0;
       out.push({
         id: 'top-buy', kind: 'Accumulation', tone: 'up', href: `/token/${toks.chain}/${encodeURIComponent(toks.t)}`,
-        text: `${toks.s ?? 'Top token'} leads Smart Money buying at ${usd(toks.net, { signed: true })} from ${toks.w} wallets`,
+        text: `${toks.s ?? 'Top token'} leads Smart Money buying at ${usd(toks.net, { signed: true })} from ${toks.w} buyer${toks.w === 1 ? '' : 's'}`,
         detail: `${chainName(toks.chain)} · ${share >= 0.5 ? 'concentrated' : 'broad'}: the largest buyer is ${pct(share, 0)} of buys`,
         spark: { type: 'bars', values: top.slice(0, 12).map((x) => x.net) },
       });
@@ -97,7 +101,7 @@ export function marketPulse(mode: DisplayMode, now = Date.now()): PulseItem[] {
   if (up && down) out.push({
     id: 'rotation', kind: 'Rotation', tone: 'flat', href: '/flows',
     text: `Flow shifting toward ${chainName(up.chain)} (${Math.round(up.v)}, +${Math.round(up.d)}) and away from ${chainName(down.chain)} (${Math.round(down.v)}, −${Math.round(Math.abs(down.d))})`,
-    detail: `Flow Index, 24h change · ${moves.filter((m) => m.v >= 60).length} chains accumulating, ${moves.filter((m) => m.v <= 40).length} distributing`,
+    detail: `Flow Index, 24h change · ${((n) => `${n} chain${n === 1 ? '' : 's'}`)([...a.values()].filter((v) => v >= 65).length)} accumulating, ${[...a.values()].filter((v) => v <= 35).length} distributing`,
     spark: { type: 'line', values: cpiLine(up.chain), min: 0, max: 100, baseline: 50 },
   });
 

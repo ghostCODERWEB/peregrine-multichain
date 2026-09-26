@@ -20,7 +20,7 @@ export function navStatus(mode: DisplayMode, now = Date.now()): NavStatus {
   const owner = mode === 'owner';
   try {
     const src = owner ? 'smart-money' : 'market-flow';
-    const latest = db.prepare(`SELECT c.chain, c.cpi FROM chain_cpi c JOIN (SELECT chain, MAX(snapshot_at) t FROM chain_cpi WHERE source = ? GROUP BY chain) m ON m.chain = c.chain AND m.t = c.snapshot_at WHERE c.source = ? AND c.snapshot_at >= ?`).all(src, src, now - 6 * 3_600_000) as Array<{ chain: string; cpi: number }>;
+    const latest = db.prepare(`SELECT c.chain, c.cpi FROM chain_cpi c JOIN (SELECT chain, MAX(snapshot_at) t FROM chain_cpi WHERE source = ? GROUP BY chain) m ON m.chain = c.chain AND m.t = c.snapshot_at WHERE c.source = ?`).all(src, src) as Array<{ chain: string; cpi: number }>;
     const acc = latest.filter((r) => r.cpi >= 65).length, dist = latest.filter((r) => r.cpi <= 35).length;
     if (latest.length) out['/'] = { text: `${acc} accumulating · ${dist} distributing` };
     const lead = [...latest].sort((a, b) => b.cpi - a.cpi)[0];
@@ -51,7 +51,7 @@ export function navStatus(mode: DisplayMode, now = Date.now()): NavStatus {
     if (n && !out['/alpha']) out['/alpha'] = { text: `${n} tokens with strong one-way flow` };
   } catch { /* no pulse */ }
   try {
-    const hot = predictionReadings(readCache<unknown>('prediction-market/categories', { pagination: { page: 1, per_page: 60 } })?.value).filter((r) => r.score != null).sort((a, b) => b.score! - a.score!)[0];
+    const hot = predictionReadings(readCache<unknown>('prediction-market/categories', { pagination: { page: 1, per_page: 60 } }, null, { stale: true })?.value).filter((r) => r.score != null).sort((a, b) => b.score! - a.score!)[0];
     if (hot) out['/predict'] = { text: `${hot.name} running hot · ${usd(hot.value)} 24h`, tone: 'in' };
   } catch { /* no category cache */ }
   try {

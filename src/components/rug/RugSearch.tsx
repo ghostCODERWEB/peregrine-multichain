@@ -24,7 +24,7 @@ export function RugSearch({ chains }: { chains: readonly string[] }) {
     e.preventDefault();
     const v = q.trim();
     if (!v) return;
-    if (looksLikeAddress(v)) { router.push(`/rug/${chain}/${encodeURIComponent(v)}`); return; }
+    if (looksLikeAddress(v)) { router.push(`/token/${chain}/${encodeURIComponent(v)}`); return; }
     setBusy(true); setErr(null);
     try {
       const r = await fetch(`/api/search?q=${encodeURIComponent(v)}`);
@@ -68,7 +68,7 @@ export function RugSearch({ chains }: { chains: readonly string[] }) {
         <ul className="divide-y divide-[var(--hair)] rounded-[18px] border border-[var(--hair)]" aria-label="Matching tokens">
           {hits.slice(0, 8).map((h) => (
             <li key={`${h.chain}:${h.address}`}>
-              <Link href={`/rug/${h.chain}/${encodeURIComponent(h.address)}`} className="flex items-center gap-3 px-4 py-3 hover:bg-ink/5">
+              <Link href={`/token/${h.chain}/${encodeURIComponent(h.address)}`} className="flex items-center gap-3 px-4 py-3 hover:bg-ink/5">
                 <ChainLogo chain={h.chain} size={22} />
                 <span className="min-w-0"><span className="block truncate text-[14px] font-bold text-ink">{h.title}</span><span className="block truncate text-[12.5px] text-ink-muted">{h.subtitle}</span></span>
                 <span className="ml-auto shrink-0 text-[13px] font-bold text-[var(--mint)]">Check <Go /></span>

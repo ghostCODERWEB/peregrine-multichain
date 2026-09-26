@@ -26,7 +26,7 @@ export function SmartMoneyState() {
   for (const sym of ['BTC', 'ETH']) {
     const c = perpChanges(sym, 3_600_000);
     if ('unavailable' in c) continue;
-    for (const ch of c.changes.filter((x) => x.cohorts.includes('smart_money') && x.kind !== 'left-set').slice(0, 20)) {
+    for (const ch of c.changes.filter((x) => x.cohorts.includes('smart_money') && x.kind !== 'left-set' && Math.abs(x.deltaUsd) >= 25_000).slice(0, 20)) {
       const verb = ch.kind === 'flipped' ? `flipped to ${ch.side}` : ch.kind === 'increased' ? `added to ${ch.side}` : ch.kind === 'reduced' ? `reduced ${ch.side}` : `${ch.kind} ${ch.side}`;
       events.push({ at: c.to, kind: 'perp', wallet: ch.address, label: ch.label, verb, tone: ch.deltaUsd >= 0 === (ch.side === 'long') ? 'in' : 'out', usd: Math.abs(ch.deltaUsd),
         what: <Link href={`/perps/${sym}?tab=changes`} className="font-semibold text-ink hover:underline">{sym} perp</Link> });
@@ -49,7 +49,7 @@ export function SmartMoneyState() {
       <section aria-labelledby="sm-timeline" className="material p-4 sm:p-5">
         <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
           <h2 id="sm-timeline" className="t-section">Smart Money timeline</h2>
-          <span className="text-[12px] text-ink-muted">DEX trades ≥ $25K (24h) and perp position changes (latest hour, BTC and ETH), newest first</span>
+          <span className="text-[12px] text-ink-muted">DEX trades and perp position changes of $25K or more (24h spot, latest hour BTC and ETH perps), newest first</span>
         </div>
         <TimelineFilter>
           <ol className="max-h-[420px] divide-y divide-[var(--hair)] overflow-y-auto" tabIndex={0} aria-label="Timeline">

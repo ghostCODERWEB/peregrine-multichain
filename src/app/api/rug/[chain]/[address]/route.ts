@@ -1,4 +1,4 @@
-// GET /api/rug/[chain]/[address] → SSE. The Rug Checker's data: only the
+// GET /api/rug/[chain]/[address] → SSE. The Token Checker risk report's data: only the
 // waves its checks read (header, holders, cohort flows, then insider
 // forensics), not the whole token terminal, so a check spends a fraction of
 // a token page's credits. Events: token (name, symbol, logo), report (a

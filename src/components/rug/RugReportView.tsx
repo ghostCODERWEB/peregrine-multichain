@@ -103,7 +103,7 @@ export function RugReportView({ chain, address }: { chain: string; address: stri
       <div className="flex flex-wrap items-center justify-between gap-3 text-[12.5px] text-ink-muted">
         <span></span>
         <span className="flex gap-4">
-          <Link href="/rug" className="font-bold text-ink-2 hover:text-ink">Check another token</Link>
+          <Link href="/token" className="font-bold text-ink-2 hover:text-ink">Check another token</Link>
           <Link href={`/token/${chain}/${encodeURIComponent(address)}`} className="font-bold text-[var(--mint)]">Full token page <Go /></Link>
         </span>
       </div>

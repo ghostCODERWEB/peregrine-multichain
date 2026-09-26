@@ -40,7 +40,7 @@ export function tickerItems(mode: DisplayMode, now = Date.now()): TickerItem[] {
   }
   try {
     const r = db.prepare(`SELECT chain, token_address AS t, symbol, score FROM storm_scores WHERE computed_at >= ? AND COALESCE(symbol, '') <> '' ORDER BY score DESC LIMIT 1`).get(now - 2 * 86_400_000) as { chain: string; t: string; symbol: string; score: number } | undefined;
-    if (r) out.push({ key: 'risk', label: 'Highest dump risk', value: `${r.symbol} ${Math.round(r.score)}`, href: `/rug/${r.chain}/${encodeURIComponent(properAddress(r.chain, r.t))}`, tone: 'out' });
+    if (r) out.push({ key: 'risk', label: 'Highest dump risk', value: `${r.symbol} ${Math.round(r.score)}`, href: `/token/${r.chain}/${encodeURIComponent(properAddress(r.chain, r.t))}`, tone: 'out' });
   } catch { /* no scores */ }
   return out;
 }

@@ -57,7 +57,7 @@ export function PredictAnalytics({ board, o, mode }: { board: PredictBoard; o: P
         </ol>
       </section>
       <div className="grid gap-4 xl:grid-cols-3">
-        <Card id="pm-movers" title="Biggest probability movers" sub="1-day change in YES price, points · $25K+ traded">
+        <Card id="pm-movers" title="Biggest probability movers" sub="1-day change in YES price, points · $50K+ traded, priced 3% to 97%">
           <RankBars rows={movers} format="pts" label="Largest one-day probability changes" />
         </Card>
         <Card id="pm-largest" title="Largest markets by open interest">

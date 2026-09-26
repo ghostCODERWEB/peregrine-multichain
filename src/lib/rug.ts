@@ -1,4 +1,4 @@
-// Rug Checker: the token's Nansen data read as a short safety checklist.
+// Token Checker risk report: the token's Nansen data read as a short safety checklist.
 // Every check is one measured number against stated thresholds; the verdict
 // is the token's Dump Risk band (a 7-day probability-style score), raised to
 // at least Moderate when a check fails and at least High when two or more do. Readings, not a guarantee and not

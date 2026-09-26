@@ -119,10 +119,18 @@ export function WeatherView({
           <h1 id="map-title" className="t-title">
             Overview
           </h1>
-          <span className="flex items-center gap-2 rounded-full bg-brand/10 px-3 py-1 text-xs font-semibold text-brand">
-            <span className="live-dot" />
-            Live · {scored} of {data.chains.length} chains
-          </span>
+          {(() => {
+            // "Live" only while the newest stored reading is fresh; otherwise say how old it is.
+            const newest = Math.max(0, ...data.chains.map((c) => c.updatedAt ?? 0));
+            const age = newest ? Date.now() - newest : Infinity;
+            const fresh = age < 90 * 60_000;
+            return (
+              <span className={`flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold ${fresh ? 'bg-brand/10 text-brand' : 'bg-ink/8 text-ink-2'}`}>
+                {fresh && <span className="live-dot" />}
+                {fresh ? 'Live' : newest ? `Updated ${Math.round(age / 3_600_000)}h ago` : 'No readings yet'} · {scored} of {data.chains.length} chains
+              </span>
+            );
+          })()}
         </div>
         <Segmented
           label="Overview views"

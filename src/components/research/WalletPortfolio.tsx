@@ -50,7 +50,7 @@ export async function WalletPortfolio({ balP, pnlP }: { balP: Promise<Wave<Balan
               ))}
             </ul>
           </Card>
-      <Card id="holdings" className={attribution.length ? 'xl:col-span-7' : 'xl:col-span-12'} title={`Holdings · ${pos.length}`} sub="Sort by any column · the token opens its page, Rug Checker opens its risk view">
+      <Card id="holdings" className={attribution.length ? 'xl:col-span-7' : 'xl:col-span-12'} title={`Holdings · ${pos.length}`} sub="Sort by any column · the token opens its page, Risk report opens its risk checklist">
         <div className="max-h-[440px] overflow-auto" tabIndex={0} role="region" aria-label="Holdings">
           <table data-sortable className="w-full min-w-[640px] text-left text-[12.5px]">
             <thead className="sticky top-0 bg-[var(--surface-1)] text-[11px] uppercase tracking-wider text-ink-muted"><tr><th className="py-2 font-normal">Asset</th><th className="font-normal">Chain</th><th className="text-right font-normal">Balance</th><th className="text-right font-normal">Price</th><th className="text-right font-normal">Value</th><th className="text-right font-normal">Share</th><th className="text-right font-normal">Risk</th></tr></thead>
@@ -63,7 +63,7 @@ export async function WalletPortfolio({ balP, pnlP }: { balP: Promise<Wave<Balan
                   <td className="num text-right text-ink-2">{x.amount ? usd(x.valueUsd / x.amount) : 'n/a'}</td>
                   <td className="num text-right font-semibold text-ink">{usd(x.valueUsd)}</td>
                   <td className="num text-right text-ink-2">{pct(x.valueUsd / total, 1)}</td>
-                  <td className="text-right"><Link href={`/rug/${x.chain}/${encodeURIComponent(x.tokenAddress)}`} className="text-[11.5px] font-semibold text-ink-muted hover:text-ink" title={`Open ${x.symbol} in Rug Checker`}>Rug Checker</Link></td>
+                  <td className="text-right"><Link href={`/rug/${x.chain}/${encodeURIComponent(x.tokenAddress)}`} className="text-[11.5px] font-semibold text-ink-muted hover:text-ink" title={`${x.symbol} risk report`}>Risk report</Link></td>
                 </tr>
               ))}
             </tbody>
