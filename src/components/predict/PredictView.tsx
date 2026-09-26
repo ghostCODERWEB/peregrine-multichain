@@ -186,7 +186,7 @@ export function PredictView({ board, title, analytics, series = {} }: { board: P
               ))}
             </dl>
           </div>
-          <div className="flex shrink-0 items-center justify-center gap-4 overflow-hidden rounded-2xl border border-border/70 bg-raised/40 p-5 lg:w-[240px] lg:flex-col lg:text-center">
+          <div className="flex shrink-0 items-center justify-center gap-4 overflow-hidden rounded-2xl border border-border/70 bg-raised/40 p-3 sm:p-5 lg:w-[240px] lg:flex-col lg:text-center">
             {overall.weather != null ? (
               <>
                 <MoodRing score={overall.weather} mood={overall.weather >= 70 ? 'hot' : overall.weather <= 30 ? 'quiet' : 'normal'} word={heatLabel(overall.weather)} label="Prediction flows"

@@ -1,7 +1,7 @@
 'use client';
 import { TokenLogo } from '@/components/Logo';
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { AlphaView } from '@/components/alpha/AlphaView';
 import type { AlphaBoard, AlphaRow } from '@/server/alpha/board';
@@ -31,6 +31,9 @@ const sx = (v: number, k: number) => Math.asinh(v / k);
 
 function MarketMap({ rows, match, onPick }: { rows: AlphaRow[]; match: (r: AlphaRow) => boolean; onPick: (r: AlphaRow) => void }) {
   const [hover, setHover] = useState<AlphaRow | null>(null);
+  // Phones: smaller bubbles on a taller map, so tokens stay apart and readable.
+  const [k, setK] = useState(1);
+  useEffect(() => { const fit = () => setK(window.innerWidth < 640 ? 0.58 : 1); fit(); addEventListener('resize', fit); return () => removeEventListener('resize', fit); }, []);
   const pts = useMemo(() => {
     const kx = 0.04, ky = 0.03;
     const xs = rows.map((r) => sx(f(r), kx)), ys = rows.map((r) => sx(p(r), ky));
@@ -47,9 +50,9 @@ function MarketMap({ rows, match, onPick }: { rows: AlphaRow[]; match: (r: Alpha
     }
     return out;
   }, [rows]);
-  const quad = (t: string, cls: string) => <span className={`pointer-events-none absolute text-[11.5px] font-semibold uppercase tracking-[0.08em] ${cls}`}>{t}</span>;
+  const quad = (t: string, cls: string) => <span className={`pointer-events-none absolute text-[9.5px] sm:text-[11.5px] font-semibold uppercase tracking-[0.08em] ${cls}`}>{t}</span>;
   return (
-    <figure className="relative w-full select-none" style={{ aspectRatio: `${W} / ${H}` }} aria-label={`Market map: ${rows.length} tokens by net flow share and 24h price change`}>
+    <figure className="relative w-full select-none" style={{ aspectRatio: k < 1 ? `${W} / ${Math.round(H * 1.7)}` : `${W} / ${H}` }} aria-label={`Market map: ${rows.length} tokens by net flow share and 24h price change`}>
       <div aria-hidden className="absolute inset-0 grid grid-cols-2 grid-rows-2 overflow-hidden rounded-[12px]">
         <span className="bg-[color-mix(in_srgb,var(--amber)_5%,transparent)]" /><span className="bg-[color-mix(in_srgb,var(--mint)_7%,transparent)]" />
         <span className="bg-[color-mix(in_srgb,var(--flare)_6%,transparent)]" /><span className="bg-[color-mix(in_srgb,var(--signal)_5%,transparent)]" />
@@ -62,7 +65,7 @@ function MarketMap({ rows, match, onPick }: { rows: AlphaRow[]; match: (r: Alpha
       {pts.map(({ r, x, y, rad }) => {
         const on = match(r);
         const ring = r.score >= 65 ? 'var(--mint)' : r.score <= 35 ? 'var(--flare)' : 'var(--hair-2)';
-        const size = rad * 2;
+        const size = rad * 2 * k;
         return (
           <a key={`${r.chain}:${r.tokenAddress}`} href={`/token/${r.chain}/${encodeURIComponent(r.tokenAddress)}`}
             onClick={(e) => { e.preventDefault(); onPick(r); }} onMouseEnter={() => setHover(r)} onMouseLeave={() => setHover(null)} onFocus={() => setHover(r)} onBlur={() => setHover(null)}
@@ -71,7 +74,7 @@ function MarketMap({ rows, match, onPick }: { rows: AlphaRow[]; match: (r: Alpha
             <span className="grid place-items-center rounded-full bg-[var(--surface-1)] transition-transform" style={{ padding: 2, boxShadow: `0 0 0 2px ${ring}` }}>
               <TokenLogo symbol={r.symbol} logo={r.logo} chain={r.chain} address={r.tokenAddress} size={Math.round(size * 0.9)} />
             </span>
-            <span className="mt-0.5 whitespace-nowrap rounded bg-[color-mix(in_srgb,var(--surface-1)_80%,transparent)] px-1 text-[10px] font-bold leading-tight text-ink">{(r.symbol ?? '').replace(/^[^A-Za-z0-9$]+/, '').slice(0, 8)}</span>
+            {(k === 1 || rad >= 20) && <span className="mt-0.5 whitespace-nowrap rounded bg-[color-mix(in_srgb,var(--surface-1)_80%,transparent)] px-1 text-[9.5px] font-bold leading-tight text-ink sm:text-[10px]">{(r.symbol ?? '').replace(/^[^A-Za-z0-9$]+/, '').slice(0, 8)}</span>}
           </a>
         );
       })}
@@ -157,7 +160,7 @@ export function Discover({ board, universe, source, divergence = [] }: { board: 
         {past && <button type="button" onClick={() => loadPast('')} className="font-semibold text-brand">Back to now</button>}
       </div>
 
-      <section aria-label="Presets" className="flex flex-wrap items-center gap-1.5">
+      <section aria-label="Presets" className="chip-row flex flex-wrap items-center gap-1.5">
         <ExplainView view="discover" context={{ source, tokens: rows.length, presetCounts: counts, strongestAccumulation: topIn && { symbol: topIn.symbol, chain: topIn.chain, flowShare: topIn.flowShare, volumeUsd: topIn.volume24hUsd }, strongestDistribution: topOut && { symbol: topOut.symbol, chain: topOut.chain, flowShare: topOut.flowShare, volumeUsd: topOut.volume24hUsd }, spotVsPerps: divergence.map((d) => ({ symbol: d.symbol, observation: DIVERGENCE_TEXT[d.kind], spotNetUsd: Math.round(d.spotNetUsd), spotShare: d.spotShare, perpFlowIndex: d.ppi })) }} coins={divergence.map((d) => d.symbol)} />
         {PRESETS.map((x) => (
           <button key={x.id} type="button" aria-pressed={preset === x.id} onClick={() => setPreset(preset === x.id ? null : x.id)} title={x.rule}

@@ -34,12 +34,12 @@ export function PerpsAnalytics({ mode }: { mode: DisplayMode }) {
             <ul className="space-y-2">
               {a.smBook.map((b) => (
                 <li key={b.symbol} data-analyze={JSON.stringify({ kind: 'perp', label: `${b.symbol} Smart Money book`, href: `/perps/${b.symbol}`, longUsd: Math.round(b.long), shortUsd: Math.round(b.short) })}>
-                  <Link href={`/perps/${encodeURIComponent(b.symbol)}`} className="group grid grid-cols-[92px_minmax(0,1fr)_92px] items-center gap-2 text-[12px]">
+                  <Link href={`/perps/${encodeURIComponent(b.symbol)}`} className="group grid grid-cols-[84px_minmax(0,1fr)_auto] items-center gap-2 text-[12px]">
                     <span className="flex min-w-0 items-center gap-1.5 font-semibold text-ink group-hover:underline"><TokenLogo symbol={b.symbol} coin={b.symbol} size={16} /><span className="truncate">{b.symbol}</span></span>
                     <span className="flex h-2.5 overflow-hidden rounded-full bg-[var(--hair)]" style={{ width: `${Math.max(8, ((b.long + b.short) / maxBook) * 100)}%` }}>
                       <span style={{ width: `${(b.long / (b.long + b.short)) * 100}%`, background: 'var(--mint)' }} /><span className="flex-1" style={{ background: 'var(--flare)' }} />
                     </span>
-                    <span className="num text-right text-ink-2">{Math.round((b.long / (b.long + b.short)) * 100)}% L · {usd(b.long + b.short)}</span>
+                    <span className="num whitespace-nowrap text-right text-[11.5px] text-ink-2">{Math.round((b.long / (b.long + b.short)) * 100)}% L · {usd(b.long + b.short)}</span>
                   </Link>
                 </li>
               ))}

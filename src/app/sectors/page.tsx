@@ -98,7 +98,10 @@ export default async function SectorsPage() {
   return (
     <div className="space-y-5">
       <PageTitle title="Sectors" pill={<>{w.source === 'smart-money' ? 'Smart money' : 'All traders'} · 24h{w.at ? <> · <TimeAgo ts={w.at} /></> : null}</>} />
-      {w.sectors.length > 0 && (
+      {w.sectors.length > 0 && !w.sectors.some((x) => x.netFlow24hUsd != null) && (
+        <p className="material p-4 text-[13px] text-ink-2">Collecting sector flow: the first 24-hour readings arrive after the scanner's next pass. Sector membership and pressure are shown below.</p>
+      )}
+      {w.sectors.some((x) => x.netFlow24hUsd != null) && (
         <StatStrip
           className="rise"
           stats={[

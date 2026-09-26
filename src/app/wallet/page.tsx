@@ -50,7 +50,7 @@ export default async function ProfilerHome() {
   const sellers = [...active].filter((a) => a.net < 0).sort((a, b) => a.net - b.net).slice(0, 8);
   const totals = owner ? (db.prepare(`SELECT COUNT(DISTINCT wallet) AS n, SUM(CASE WHEN side='buy' THEN usd_value ELSE -usd_value END) AS net FROM smart_money_trades WHERE traded_at >= ?`).get(since) as { n: number; net: number | null }) : { n: 0, net: 0 };
   const net = totals.net ?? 0;
-  const clean = (l: string | null | undefined, w?: string) => (l ?? '').replace(/\s*\[[^\]]*\]\s*$/, '').trim() || (w ? `${w.slice(0, 6)}…${w.slice(-4)}` : undefined);
+  const clean = (l: string | null | undefined, w?: string) => (l ?? '').replace(/\s*\[[^\]]*\]\s*$/, '').replace(/\p{Extended_Pictographic}|️|‍/gu, '').replace(/\s{2,}/g, ' ').trim() || (w ? `${w.slice(0, 6)}…${w.slice(-4)}` : undefined);
 
   const list = (rows: Active[], tone: 'in' | 'out') => (
     <ol className="divide-y divide-[var(--hair)]">

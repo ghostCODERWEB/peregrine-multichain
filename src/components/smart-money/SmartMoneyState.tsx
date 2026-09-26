@@ -55,10 +55,10 @@ export function SmartMoneyState() {
         <TimelineFilter>
           <ol className="max-h-[420px] divide-y divide-[var(--hair)] overflow-y-auto" tabIndex={0} aria-label="Timeline">
             {events.slice(0, 80).map((e, i) => (
-              <li key={i} data-kind={e.kind} className="flex items-center gap-3 py-1.5 text-[12.5px]">
-                <span className="num w-[86px] shrink-0 text-ink-muted">{new Date(e.at).toISOString().slice(5, 16).replace('T', ' ')}</span>
+              <li key={i} data-kind={e.kind} className="flex items-center gap-2 py-1.5 text-[12px] sm:gap-3 sm:text-[12.5px]">
+                <span className="num w-[38px] shrink-0 text-ink-muted sm:w-[86px]"><span className="hidden sm:inline">{new Date(e.at).toISOString().slice(5, 10)} </span>{new Date(e.at).toISOString().slice(11, 16)}</span>
                 <span className={`w-11 shrink-0 rounded-[5px] px-1.5 text-center text-[10.5px] font-bold ${e.kind === 'perp' ? 'bg-[color-mix(in_srgb,var(--signal)_16%,transparent)] text-[var(--signal)]' : 'bg-ink/10 text-ink-2'}`}>{e.kind === 'perp' ? 'PERP' : 'SPOT'}</span>
-                <span className="flex min-w-0 flex-1 items-center gap-1.5 truncate"><AddressLink address={e.wallet} label={e.label} compact /> <span className="text-ink-2">{e.verb}</span> {e.what}</span>
+                <span className="flex min-w-0 flex-1 items-center gap-1.5 truncate"><span className="hidden sm:inline"><AddressLink address={e.wallet} label={e.label} compact /></span> <span className="text-ink-2">{e.verb}</span> {e.what}</span>
                 <span className="num shrink-0 font-semibold" style={{ color: e.tone === 'in' ? 'var(--mint)' : 'var(--flare)' }}>{usd(e.usd)}</span>
               </li>
             ))}

@@ -202,14 +202,14 @@ export function WeatherView({
                 )}
               </div>
             </section>
-            <div className="grid gap-4 sm:grid-cols-2 xl:col-span-4 xl:grid-cols-1">
+            <div className="grid grid-cols-2 gap-4 xl:col-span-4 xl:grid-cols-1">
               {[top, bottom].map(
                 (c, i) =>
                   c && (
                     <section key={i} className="material rise p-6" style={{ animationDelay: `${300 + i * 90}ms` }} aria-label={i ? 'Top outflow' : 'Top inflow'}>
-                      <div className="flex items-center justify-between gap-2 text-[13px]">
-                        <Link href={`/chain/${c.chain}`} className="flex items-center gap-2 font-semibold text-ink-2">
-                          <ChainLogo chain={c.chain} size={24} />
+                      <div className="flex flex-col-reverse items-start gap-1 text-[12px] sm:flex-row sm:items-center sm:justify-between sm:gap-2 sm:text-[13px]">
+                        <Link href={`/chain/${c.chain}`} className="flex min-w-0 items-center gap-2 font-semibold text-ink-2">
+                          <ChainLogo chain={c.chain} size={20} />
                           {chainName(c.chain)}
                         </Link>
                         <span className="font-semibold" style={{ color: i ? 'var(--flare)' : 'var(--mint)' }}>
@@ -217,15 +217,15 @@ export function WeatherView({
                         </span>
                       </div>
                       <div className="my-3 flex items-baseline gap-2">
-                        <span className="num text-[44px] font-extrabold leading-none">{Math.round(c.cpi!)}</span>
-                        <span className="text-xs text-ink-muted">Flow Index</span>
+                        <span className="num text-[30px] font-extrabold leading-none sm:text-[44px]">{Math.round(c.cpi!)}</span>
+                        <span className="hidden text-xs text-ink-muted sm:inline">Flow Index</span>
                         {c.provenance && <InfoPopover p={c.provenance} />}
                       </div>
-                      <AreaSpark
+                      <div className="overflow-hidden [&_svg]:max-h-[56px] sm:[&_svg]:max-h-none"><AreaSpark
                         values={c.series.map((v) => ({ t: v.t, value: v.cpi }))}
                         color={i ? 'var(--flare)' : 'var(--mint)'}
                         label={`${chainName(c.chain)} seven-day Flow Index`}
-                      />
+                      /></div>
                     </section>
                   ),
               )}
@@ -445,7 +445,7 @@ function LayerOverview({
         </div>
       </section>
       {!empty && (
-        <div className="grid gap-4 sm:grid-cols-2 xl:col-span-4 xl:grid-cols-1">
+        <div className="grid grid-cols-2 gap-4 xl:col-span-4 xl:grid-cols-1">
           {card(hi, 0)}
           {card(lo, 1)}
         </div>

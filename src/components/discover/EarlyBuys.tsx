@@ -33,8 +33,8 @@ export function EarlyBuys({ rows: all }: { rows: EarlyBuy[] }) {
         <h2 id="early" className="t-section">Early alpha buys</h2>
         <span className="text-[12px] text-ink-muted">First Smart Money buys in the last 72 hours · {filtered.length} of {all.length} shown by filters</span>
       </div>
-      <div className="mb-3 flex flex-wrap items-center gap-2">
-        <span className="inline-flex flex-wrap rounded-[9px] border border-[var(--hair)] p-0.5"><button type="button" onClick={() => setChain('all')} className={chip(chain === 'all')}>All chains</button>{chains.map((c) => <button key={c} type="button" onClick={() => setChain(c)} className={chip(chain === c)}>{chainName(c)}</button>)}</span>
+      <div className="chip-row mb-3 flex flex-wrap items-center gap-2">
+        <span className="inline-flex rounded-[9px] border border-[var(--hair)] p-0.5"><button type="button" onClick={() => setChain('all')} className={chip(chain === 'all')}>All chains</button>{chains.map((c) => <button key={c} type="button" onClick={() => setChain(c)} className={chip(chain === c)}>{chainName(c)}</button>)}</span>
         <span className="inline-flex rounded-[9px] border border-[var(--hair)] p-0.5">{[2, 5, 10, 20].map((n) => <button key={n} type="button" onClick={() => setMinBuyers(n)} className={chip(minBuyers === n)}>{n}+ buyers</button>)}</span>
         <button type="button" aria-pressed={rising} onClick={() => setRising((v) => !v)} className={`rounded-[9px] border border-[var(--hair)] ${chip(rising)}`}>Rising since first buy</button>
         <span className="ml-auto inline-flex items-center gap-1 text-[11.5px] text-ink-muted">Sort<span className="inline-flex rounded-[9px] border border-[var(--hair)] p-0.5">{SORTS.map(([k, l]) => <button key={k} type="button" onClick={() => setSort(k)} className={chip(sort === k)}>{l}</button>)}</span></span>

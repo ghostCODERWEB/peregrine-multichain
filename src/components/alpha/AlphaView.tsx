@@ -48,7 +48,7 @@ function Leader({ row, rank }: { row: AlphaRow; rank: number }) {
       />
       <div className="min-w-0 flex-1">
         <div className="flex items-baseline justify-between gap-2">
-          <div className="flex items-center gap-2 truncate text-[17px] font-semibold text-ink group-hover:underline">
+          <div className="flex items-center gap-2 truncate text-[15px] font-semibold sm:text-[17px] text-ink group-hover:underline">
             <TokenLogo symbol={row.symbol} logo={row.logo} chain={row.chain} address={row.tokenAddress} size={20} />
             {row.symbol ?? 'Token'}
           </div>
@@ -60,10 +60,12 @@ function Leader({ row, rank }: { row: AlphaRow; rank: number }) {
         <div className="num mt-0.5 text-[12px] text-ink-2">
           {row.flowShare != null ? `${pct(row.flowShare, 1)} net buying` : 'n/a'} · {usd(row.volume24hUsd)} vol · {usd(row.liquidityUsd)} liq
         </div>
-        <div className="mt-2">
-          <FlowSpark values={row.hourly} width={160} height={24} label="Hourly net-flow share" />
-        </div>
-        <ul className="mt-2 space-y-0.5 text-[12px] text-ink-2">
+        {row.hourly.filter((v) => v != null).length > 1 && (
+          <div className="mt-2">
+            <FlowSpark values={row.hourly} width={160} height={24} label="Hourly net-flow share" />
+          </div>
+        )}
+        <ul className="mt-2 hidden space-y-0.5 text-[12px] text-ink-2 sm:block">
           {row.parts.slice(0, 3).map((p) => (
             <li key={p.id}>
               <span className={`num ${p.points >= 0 ? 'text-brand' : 'text-out-3'}`}>
@@ -108,7 +110,7 @@ export function AlphaView({ board }: { board: AlphaBoard }) {
         }
         action={board.provenance ? <InfoPopover p={board.provenance} /> : undefined}
       >
-        <div className="-mx-1 mb-3 flex flex-wrap gap-1.5" role="tablist" aria-label="Filter by chain">
+        <div className="chip-row -mx-1 mb-3 flex flex-wrap gap-1.5" role="tablist" aria-label="Filter by chain">
           {[['all', board.rows.length] as const, ...counts].map(([c, n]) => (
             <button
               key={c}

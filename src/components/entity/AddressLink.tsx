@@ -17,7 +17,7 @@ export function AddressLink({ address, label, compact = false, className = '' }:
     try { await navigator.clipboard.writeText(address); setCopied(true); setTimeout(() => setCopied(false), 1200); } catch { /* clipboard blocked */ }
   };
   // Nansen appends an address stub ("[0x5b5d51]"); a label that is only the stub is no label.
-  const clean = label ? label.replace(/\s*\[[^\]]*\]\s*$/, '').trim() || null : null;
+  const clean = label ? label.replace(/\s*\[[^\]]*\]\s*$/, '').replace(/\p{Extended_Pictographic}|️|‍/gu, '').replace(/\s{2,}/g, ' ').trim() || null : null;
   const icon = iconOk ? entityLogo(clean) : null;
   return (
     <span className={`group/addr inline-flex min-w-0 max-w-full items-center gap-1 ${className}`}>

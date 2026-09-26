@@ -144,7 +144,7 @@ export function OverviewIntel({ mode }: { mode: DisplayMode }) {
           <p className="mt-2 text-[11.5px] font-semibold text-ink-muted">Largest net sellers</p>
           <ol>{topSellers.map(walletRow)}</ol>
           {bigPerp && (
-            <p className="mt-2 flex items-center gap-1.5 text-[12.5px] text-ink-2">Largest SM perp: <AddressLink address={bigPerp.address} label={bigPerp.label} compact /> <span className="num whitespace-nowrap font-semibold" style={{ color: bigPerp.side === 'long' ? 'var(--mint)' : 'var(--flare)' }}>{bigPerp.side} BTC {usd(bigPerp.value)}</span></p>
+            <p className="mt-2 grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 text-[12.5px] text-ink-2"><span className="whitespace-nowrap text-ink-muted">Largest SM perp</span><span className="min-w-0 truncate"><AddressLink address={bigPerp.address} label={bigPerp.label} compact /></span><span className="num whitespace-nowrap font-semibold" style={{ color: bigPerp.side === 'long' ? 'var(--mint)' : 'var(--flare)' }}>{bigPerp.side} BTC {usd(bigPerp.value)}</span></p>
           )}
         </Module>
       )}

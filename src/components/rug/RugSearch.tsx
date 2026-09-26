@@ -50,7 +50,7 @@ export function RugSearch({ chains }: { chains: readonly string[] }) {
         <label className="inset-well flex h-12 items-center gap-3 rounded-full px-4 transition-shadow focus-within:shadow-[0_0_0_2px_rgba(31,224,163,.5),0_0_24px_-6px_rgba(31,224,163,.45)]">
           {busy ? <Loader2 size={18} className="shrink-0 animate-spin text-[var(--mint)]" aria-hidden /> : <Search size={18} className="shrink-0 text-ink-muted" aria-hidden />}
           <span className="sr-only">Token name, symbol or address</span>
-          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={`Search any token on ${chains.length} networks by name, symbol or contract address`} autoFocus
+          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={`Token name, symbol or address · ${chains.length} networks`} autoFocus
             className="bare-input min-w-0 flex-1 bg-transparent text-[15px] text-ink outline-none placeholder:text-ink-muted" autoComplete="off" spellCheck={false} />
         </label>
       </form>

@@ -138,6 +138,7 @@ export function WalletGraph({ nodes, links }: { nodes: GraphNode[]; links: Graph
   const router = useRouter();
   const byId = useMemo(() => new Map(nodes.map((n) => [n.id, n])), [nodes]);
   const option = useMemo(() => {
+    const W = typeof window !== 'undefined' ? Math.min(600, window.innerWidth - 56) : 600, H = W < 500 ? 340 : 440;
     if (!c) return null;
     const maxV = Math.max(1, ...nodes.map((n) => n.value));
     const col = { wallet: c['ink-2'], perp: c.signal, token: c.amber };
@@ -150,15 +151,15 @@ export function WalletGraph({ nodes, links }: { nodes: GraphNode[]; links: Graph
       } },
       series: [{
         type: 'graph' as const, layout: 'force' as const, roam: true, draggable: true,
-        force: { repulsion: 220, edgeLength: [50, 150], gravity: 0.05, layoutAnimation: true },
+        force: { repulsion: W < 500 ? 120 : 220, edgeLength: W < 500 ? [30, 90] : [50, 150], gravity: W < 500 ? 0.12 : 0.05, layoutAnimation: true },
         label: { show: true, position: 'right' as const, color: c['ink-2'], fontSize: 10, formatter: (raw: unknown) => { const p = raw as { data: { kind: string; name: string } }; return p.data.kind === 'wallet' ? '' : p.data.name; } },
         emphasis: { focus: 'adjacency' as const, label: { show: true, formatter: '{b}' } },
         data: nodes.map((n) => {
-          // Markets start spread on a ring so their wallet clusters separate instead of stacking in the centre.
+          // Markets start spread on a ring sized to the screen so their wallet clusters separate instead of stacking in the centre.
           const mi = markets.indexOf(n.id), ang = (2 * Math.PI * mi) / Math.max(1, markets.length);
           return {
           id: n.id, name: n.name, kind: n.kind, value: n.value,
-          ...(mi >= 0 ? { x: 300 + 160 * Math.cos(ang), y: 220 + 120 * Math.sin(ang), fixed: markets.length > 1 } : {}),
+          ...(mi >= 0 ? { x: W / 2 + W * 0.27 * Math.cos(ang), y: H / 2 + H * 0.27 * Math.sin(ang), fixed: markets.length > 1 } : {}),
           symbolSize: n.kind === 'wallet' ? 6 + 14 * Math.sqrt(n.value / maxV) : 16 + 20 * Math.sqrt(n.value / maxV),
           itemStyle: { color: col[n.kind], borderColor: n.sm ? c.signal : 'transparent', borderWidth: n.sm ? 2 : 0 },
         }; }),
