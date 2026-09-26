@@ -50,7 +50,7 @@ export async function ensNames(addresses: string[]): Promise<Record<string, stri
 export async function ensAddress(name: string): Promise<string | null> {
   if (!ENS_NAME_RE.test(name)) return null;
   let norm: string;
-  try { norm = normalize(name); } catch { return null; }
+  try { norm = normalize(name); } catch (e) { console.warn(`[ens] normalize ${name}: ${(e as Error).message.slice(0, 120)}`); norm = name.toLowerCase(); }
   const key = `ens3:addr:${norm}`;
   const hit = getKv(key);
   if (hit && Date.now() - hit.updatedAt < (hit.value ? DAY : NEG)) return hit.value || null;
