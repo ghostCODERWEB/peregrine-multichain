@@ -80,7 +80,8 @@ export interface InsiderResult {
 export function insiderScore(input: InsiderInputs): InsiderResult {
   const maxClusterShare = input.clusters.reduce((max, c) => Math.max(max, c.share), 0);
   const deployerLinked = input.clusters.some((c) => c.includesDeployer);
-  const raw = 1.6 * maxClusterShare + 0.02 * input.clusteredHolderCount + 0.15 * (deployerLinked ? 1 : 0);
+  // Holder count is capped: big tokens always have many linked holders (exchanges, custody), so it can add at most 0.3.
+  const raw = 1.6 * maxClusterShare + Math.min(0.3, 0.004 * input.clusteredHolderCount) + 0.15 * (deployerLinked ? 1 : 0);
   return { score: 100 * Math.min(1, raw), maxClusterShare, deployerLinked };
 }
 
@@ -153,9 +154,11 @@ export interface ExitLiquidityResult {
  */
 export function exitLiquidityScore(input: ExitLiquidityInputs): ExitLiquidityResult {
   const liquidityToMcap = input.liquidityUsd > 0 ? input.liquidityUsd / Math.max(input.marketCapUsd, 1) : 0;
-  // Inverted and squashed: liquidity/mcap of 0.3+ is healthy (score -> 0),
-  // under 0.02 is thin (score -> close to 100).
-  const liquidityRisk = 100 * clamp(1 - liquidityToMcap / 0.3, 0, 1);
+  // Thin only if BOTH relative and absolute depth are thin: liquidity/mcap of 5%+ is healthy,
+  // and so is $100M+ of pool depth whatever the cap (ETH, USDC trade mostly off-DEX).
+  const ratioRisk = clamp(1 - liquidityToMcap / 0.05, 0, 1);
+  const absRisk = input.liquidityUsd > 0 ? clamp(1 - Math.log10(input.liquidityUsd / 1e5) / 3, 0, 1) : 1;
+  const liquidityRisk = 100 * Math.min(ratioRisk, absRisk);
 
   const clusterToLiquidityRatio = input.liquidityUsd > 0
     ? (input.maxClusterShare * input.marketCapUsd) / input.liquidityUsd
@@ -166,9 +169,7 @@ export function exitLiquidityScore(input: ExitLiquidityInputs): ExitLiquidityRes
     { weight: 0.4, value: liquidityRisk },
     { weight: 0.3, value: clusterRisk },
   ];
-  if (input.nansenLiquidityRiskPercentile != null) {
-    parts.push({ weight: 0.3, value: clamp(input.nansenLiquidityRiskPercentile, 0, 100) });
-  }
+  // Nansen's liquidity-risk level feeds the Nansen half of the Token Score, not this one.
   const totalWeight = parts.reduce((s, p) => s + p.weight, 0);
   const score = parts.reduce((s, p) => s + p.weight * p.value, 0) / totalWeight;
 
@@ -326,13 +327,43 @@ export interface TokenScore extends StormScoreResult {
  * remaining inputs. When one half is missing, the other stands alone and the
  * confidence says so.
  */
-export function tokenScore(subScores: StormSubScores): TokenScore {
-  const n = subScores.nansenRisk != null && Number.isFinite(subScores.nansenRisk) ? subScores.nansenRisk : null;
-  const others = { ...subScores, nansenRisk: null } as unknown as StormSubScores;
-  const hasOthers = STORM_INPUTS.some((k) => k !== 'nansenRisk' && others[k] != null && Number.isFinite(others[k] as number));
-  const own = hasOthers ? compositeStormScore(others, { ...EXPERT_PRIOR_WEIGHTS, nansenRisk: 0 }) : null;
-  const peregrine = own?.score ?? null;
-  const score = n != null && peregrine != null ? 0.5 * n + 0.5 * peregrine : (n ?? peregrine ?? 50);
-  const confidence = (n != null ? 0.5 : 0) + (own ? 0.5 * own.confidence : 0);
+/** Nansen's own risk level per indicator, weighted by how much it says about a token's safety. */
+const LEVEL: Record<string, number> = { low: 10, medium: 45, high: 80 };
+const IND_WEIGHT: Record<string, number> = { 'liquidity-risk': 1, 'token-supply-inflation': 0.8, 'cex-flows': 0.6, 'btc-reflexivity': 0.25 };
+
+export function nansenIndicatorRisk(indicators: Array<{ type: string; score: string | null }>, isStablecoin: boolean): number | null {
+  let w = 0, sum = 0;
+  for (const r of indicators) {
+    const v = r.score ? LEVEL[r.score.toLowerCase()] : undefined;
+    if (v == null) continue;
+    // A stablecoin's supply moves with mints and redemptions; that is not dilution.
+    const wt = isStablecoin && r.type === 'token-supply-inflation' ? 0 : IND_WEIGHT[r.type] ?? 0.5;
+    w += wt; sum += wt * v;
+  }
+  return w > 0 ? sum / w : null;
+}
+
+/** Established assets carry less dump risk than the same on-chain pattern on a small cap. */
+export function sizeFactor(marketCapUsd: number | null | undefined, isStablecoin = false): number {
+  if (isStablecoin) return 0.35;
+  const m = marketCapUsd ?? 0;
+  return m >= 1e10 ? 0.45 : m >= 1e9 ? 0.7 : m >= 1e8 ? 0.9 : 1;
+}
+
+/**
+ * Token Score: 50% Nansen's risk indicators, 50% Peregrine's weighted mean of the
+ * on-chain sub-scores, then scaled by market-cap tier (a stablecoin or a $10B+ asset
+ * cannot read Critical from DEX-side patterns alone).
+ */
+export function tokenScore(subScores: StormSubScores, ctx: { marketCapUsd?: number | null; isStablecoin?: boolean } = {}): TokenScore {
+  const ok = (v: unknown): v is number => typeof v === 'number' && Number.isFinite(v);
+  const n = ok(subScores.nansenRisk) ? subScores.nansenRisk : null;
+  const own = STORM_INPUTS.filter((k) => k !== 'nansenRisk' && ok(subScores[k]));
+  const ownW = own.reduce((s, k) => s + EXPERT_PRIOR_WEIGHTS[k], 0);
+  const peregrine = own.length ? own.reduce((s, k) => s + EXPERT_PRIOR_WEIGHTS[k] * (subScores[k] as number), 0) / ownW : null;
+  const raw = n != null && peregrine != null ? 0.5 * n + 0.5 * peregrine : (n ?? peregrine ?? 50);
+  const score = raw * sizeFactor(ctx.marketCapUsd, ctx.isStablecoin);
+  const allW = STORM_INPUTS.filter((k) => k !== 'nansenRisk').reduce((s, k) => s + EXPERT_PRIOR_WEIGHTS[k], 0);
+  const confidence = (n != null ? 0.5 : 0) + 0.5 * (ownW / allW);
   return { score, band: stormBand(score), confidence, subScores, missing: STORM_INPUTS.filter((k) => subScores[k] == null), nansen: n, peregrine };
 }

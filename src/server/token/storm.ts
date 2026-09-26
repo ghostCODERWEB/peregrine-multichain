@@ -4,7 +4,7 @@
 // up. Only the final score is stored for the home ticker.
 import { getDb } from '@/server/nansen/db';
 import {
-  tokenScore, insiderScore, windShearScore, exitLiquidityScore, sellPressureScore,
+  tokenScore, nansenIndicatorRisk, insiderScore, windShearScore, exitLiquidityScore, sellPressureScore,
   EXPERT_PRIOR_WEIGHTS, type StormScoreResult, type StormInput,
 } from '@/lib/models/storm-score';
 import type { Provenance } from '@/lib/provenance';
@@ -127,17 +127,17 @@ export function computeStorm(
     };
   }
 
-  // Nansen's own risk indicators, minus liquidity-risk (already inside L).
+  // Nansen's own risk levels (low / medium / high), weighted by indicator.
   let R: number | null = null;
-  const riskInds = h?.risk.filter((r) => r.type !== 'liquidity-risk' && r.percentile != null) ?? [];
+  const riskInds = h?.risk.filter((r) => r.score != null) ?? [];
   if (!h) why.nansenRisk = 'Header missing.';
   else if (!riskInds.length) why.nansenRisk = h.indicatorsUnavailable ?? 'Nansen has not scored this token’s risk indicators.';
   else {
-    R = riskInds.reduce((s, r) => s + r.percentile!, 0) / riskInds.length;
+    R = nansenIndicatorRisk(riskInds, !!h.isStablecoin);
     prov.nansenRisk = {
       title: 'Nansen risk indicators',
-      formula: 'mean signal percentile of Nansen risk indicators\n(liquidity-risk excluded here: it already feeds L)',
-      inputs: riskInds.map((r) => ({ label: `${r.type} (${r.score ?? 'n/a'})`, value: num(r.percentile, 0) })),
+      formula: 'weighted mean of Nansen risk levels (low 10 · medium 45 · high 80)\nweights: liquidity 1 · supply inflation 0.8 (0 for stablecoins) · CEX flows 0.6 · BTC reflexivity 0.25',
+      inputs: riskInds.map((r) => ({ label: r.type, value: r.score ?? 'n/a' })),
       calls: h.provenance.calls.filter((c) => c.endpoint === 'tgm/indicators'),
     };
   }
@@ -149,16 +149,17 @@ export function computeStorm(
     return { unavailable: budget ?? 'Nansen returned none of the inputs the Dump Risk needs for this token.' };
   }
   // Token Score: half Nansen's risk indicator, half Peregrine's model on the other inputs.
-  const result = tokenScore(subScores);
+  const result = tokenScore(subScores, { marketCapUsd: mcap, isStablecoin: !!h?.isStablecoin });
+  (subScores as Record<string, unknown>).v = 2; (subScores as Record<string, unknown>).stable = !!h?.isStablecoin;
   const fmt = (k: StormInput, label: string) => ({ label: `${label} (β ${W[k]})`, value: subScores[k] == null ? 'missing' : num(subScores[k]) });
   prov.composite = {
-    title: 'Dump Risk, 7 days',
-    formula: 'Token Score = 50% Nansen risk indicator + 50% Peregrine model\nPeregrine model = 100·sigmoid(Σ β_j·(s_j − 50)/25) over concentration, insiders, cohort shear, exit liquidity, sell pressure\nbands: <25 Low · <50 Moderate · <75 High · Critical',
+    title: 'Token Score',
+    formula: 'Token Score = 50% Nansen risk indicator + 50% Peregrine model\nPeregrine model = weighted mean of concentration, insiders, cohort shear, exit liquidity, sell pressure\n× size factor: stablecoin 0.35 · $10B+ 0.45 · $1B+ 0.7 · $100M+ 0.9\nbands: <25 Low · <50 Moderate · <75 High · Critical',
     inputs: [
       fmt('concentration', 'C concentration'), fmt('insider', 'I insider clusters'), fmt('windShear', 'W cohort shear'),
       fmt('exitLiquidity', 'L exit liquidity'), fmt('sellPressure', 'P sell pressure'), fmt('nansenRisk', 'Nansen risk'),
       { label: 'Confidence', value: pct(result.confidence, 0) },
-      { label: 'Dump Risk', value: num(result.score) },
+      { label: 'Token Score', value: num(result.score) },
     ],
     calls: [],
     notes: ['Weights are expert priors. The Backtest Lab replaces them with fitted weights only if the backtest AUC clears 0.70.'],

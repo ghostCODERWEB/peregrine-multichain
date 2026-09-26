@@ -55,12 +55,13 @@ describe('Dump Risk wave assembly (no network)', () => {
     expect(s.provenance.composite?.notes?.[0]).toContain('expert priors');
   });
 
-  it('excludes liquidity risk from the general risk mean and keeps all receipts', () => {
-    const risk = [90, 20, 40].map((percentile, i) => ({
-      type: i === 0 ? 'liquidity-risk' : `risk-${i}`, percentile, signal: null, score: null, lastTrigger: null,
+  it('scores Nansen risk from its low/medium/high levels and keeps all receipts', () => {
+    const risk = [['liquidity-risk', 'high'], ['btc-reflexivity', 'high'], ['token-supply-inflation', 'low']].map(([type, level]) => ({
+      type, percentile: 99, signal: null, score: level, lastTrigger: null,
     }));
     const s = score(computeStorm(header({ risk }), wind(), holders(), forensics, true));
-    expect(s.result.subScores.nansenRisk).toBe(30);
+    // (1·80 + 0.25·80 + 0.8·10) / 2.05
+    expect(s.result.subScores.nansenRisk).toBeCloseTo(108 / 2.05, 5);
     expect(s.result.confidence).toBe(1);
     expect(s.result.subScores.sellPressure).toBe(75); // half sells, all sales from the cluster
     expect(s.result.score).toBeGreaterThanOrEqual(0);

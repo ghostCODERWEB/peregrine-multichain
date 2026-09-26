@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { TokenLogo } from '@/components/Logo';
-import { StatStrip } from '@/components/StatStrip';
 import type { CheckerData, ScoredToken, UniverseToken } from '@/server/token/checker';
 import { chainName, pct, usd } from '@/lib/viz/format';
 
@@ -25,19 +24,9 @@ export function TokenCheckerView({ d }: { d: CheckerData }) {
   const maxB = Math.max(1, ...bands.map((x) => x.n));
   return (
     <div className="grid grid-cols-1 gap-4 xl:grid-cols-12 [&>*]:min-w-0">
-      <StatStrip className="xl:col-span-12" stats={[
-        { label: 'Tokens scored, 7d', value: String(d.stats.scored), note: 'Token Score = 50% Nansen + 50% Peregrine' },
-        { label: 'High or Critical', value: String(d.stats.high), note: 'score above 50', tone: d.stats.high ? 'out' : undefined },
-        { label: 'Average score', value: d.stats.avg != null ? String(Math.round(d.stats.avg)) : 'n/a', note: 'of scored tokens' },
-        { label: 'Tokens tracked', value: String(d.stats.tracked), note: 'traded in the latest screener read' },
-        { label: 'New tokens', value: String(d.stats.newTokens), note: '7 days old or younger' },
-        { label: 'Thin books', value: String(d.stats.thin), note: '24h volume over 5× liquidity' },
-      ]} />
-
       <section aria-labelledby="scored" className="material p-4 sm:p-5 xl:col-span-9">
         <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
           <h2 id="scored" className="t-section">Token Scores, last 7 days</h2>
-          <span className="text-[12px] text-ink-muted">50% Nansen risk indicator · 50% Peregrine model (concentration, exit liquidity, sell pressure, insiders, momentum)</span>
         </div>
         <div className="overflow-x-auto" tabIndex={0} role="region" aria-label="Token scores">
           <table data-sortable className="w-full min-w-[980px] text-left text-[12.5px]">

@@ -31,9 +31,11 @@ export function tokenChecker(owner: boolean, now = Date.now()): CheckerData {
     JOIN (SELECT chain, token_address, MAX(computed_at) m FROM storm_scores WHERE computed_at >= ? GROUP BY chain, token_address) x ON x.chain = s.chain AND x.token_address = s.token_address AND x.m = s.computed_at
     WHERE COALESCE(s.symbol, '') <> ''`).all(now - 7 * D) as Array<{ chain: string; t: string; symbol: string; sub: string; mc: number | null; at: number }>;
   // Recomputed from the stored inputs, so older rows use the current 50/50 Token Score too.
-  const scored: ScoredToken[] = rows.map((r) => {
-    const sub = JSON.parse(r.sub) as Record<string, number | null>;
-    const ts = tokenScore(sub as unknown as StormSubScores);
+  // Only rows scored by the current model (v2): the old Nansen term read signal percentiles as risk.
+  const scored: ScoredToken[] = rows.filter((r) => (JSON.parse(r.sub) as { v?: number }).v === 2).map((r) => {
+    const { v: _v, stable: _s, ...sub } = JSON.parse(r.sub) as Record<string, number | null>;
+    void _v;
+    const ts = tokenScore(sub as unknown as StormSubScores, { marketCapUsd: r.mc, isStablecoin: (_s as unknown) === true });
     return { chain: r.chain, address: properAddress(r.chain, r.t), symbol: r.symbol, score: ts.score, band: ts.band, nansen: ts.nansen, peregrine: ts.peregrine, confidence: ts.confidence, sub, marketCap: r.mc, at: r.at };
   }).sort((a, b) => b.score - a.score);
   const scoreOf = new Map(scored.map((s) => [`${s.chain}:${s.address.toLowerCase()}`, s.score]));

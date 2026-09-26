@@ -64,6 +64,6 @@ describe('clusterHolders', () => {
     const multi = r.clusters.filter((c) => c.wallets.length >= 2);
     const I = insiderScore({ clusters: multi, clusteredHolderCount: r.clusteredHolderCount });
     expect(I.maxClusterShare).toBeCloseTo(0.3); // the A+B cluster, not the 0.3 singleton C
-    expect(I.score).toBeCloseTo(100 * (1.6 * 0.3 + 0.02 * 2));
+    expect(I.score).toBeCloseTo(100 * (1.6 * 0.3 + 0.004 * 2));
   });
 });
