@@ -94,7 +94,7 @@ export function TokenTimeMachine({ chain, address, owner }: { chain: string; add
         </div>
       ))}
       {traders && ('error' in traders ? err(traders) : (
-        <div className="grid gap-4 lg:grid-cols-2">
+        <div className="grid gap-4 lg:grid-cols-2 [&>*]:min-w-0">
           {(['buy', 'sell'] as const).map((side) => {
             const list = [...traders.data.rows].map((r) => ({ ...r, net: (r.boughtUsd ?? 0) - (r.soldUsd ?? 0) })).filter((r) => (side === 'buy' ? r.net > 0 : r.net < 0)).sort((a, b) => (side === 'buy' ? b.net - a.net : a.net - b.net)).slice(0, 8);
             return (
@@ -184,7 +184,7 @@ export function WalletTimeMachine({ address, current }: { address: string; curre
               <div key={k} className="bg-[var(--surface-1)] px-3.5 py-2.5"><span className="block text-[11.5px] font-semibold text-ink-muted">{k} · {sub}</span><span className="num block text-[18px] font-bold" style={i === 2 && current && res.data.balances.length ? tone(current.totalUsd - res.data.totalUsd) : undefined}>{v}</span></div>
             ))}
           </div>
-          <div className="grid gap-4 lg:grid-cols-2">
+          <div className="grid gap-4 lg:grid-cols-2 [&>*]:min-w-0">
             <div>
               <h3 className="mb-1 text-[12.5px] font-semibold text-ink-muted">Largest holdings then, and now</h3>
               <ol className="max-h-[300px] divide-y divide-[var(--hair)] overflow-auto" tabIndex={0} aria-label="Holdings then and now">
@@ -207,7 +207,7 @@ export function WalletTimeMachine({ address, current }: { address: string; curre
                 {res.data.transactions.map((t, i) => (
                   <li key={`${t.hash}:${i}`} className="flex items-center gap-2 py-1.5 text-[12.5px]">
                     <span className="num w-[86px] shrink-0 text-ink-muted">{t.at?.slice(5, 16).replace('T', ' ')}</span>
-                    <span className="min-w-0 flex-1 truncate text-ink">{t.method ?? 'transfer'} <span className="text-ink-muted">· {t.sent} out, {t.received} in</span></span>
+                    <span className="min-w-0 flex-1 truncate text-ink" title={t.method ?? undefined}>{(t.method ?? "transfer").replace(/\(.*$/, "")} <span className="text-ink-muted">· {t.sent} out, {t.received} in</span></span>
                     <span className="num text-ink-2">{usd(t.volumeUsd)}</span>
                     {t.hash && <TxAsOf chain={t.chain} hash={t.hash} at={t.at} compact />}
                   </li>

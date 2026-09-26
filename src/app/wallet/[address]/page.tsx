@@ -8,7 +8,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { Card, WaveLoading, Unavailable } from '@/components/Card';
 import { InfoPopover } from '@/components/InfoPopover';
-import { BalancesCard, PnlCard, CounterpartiesCard } from '@/components/wallet/ProfileCards';
+import { PnlCard, CounterpartiesCard } from '@/components/wallet/ProfileCards';
 import { TrailMap } from '@/components/wallet/TrailMap';
 import { trailTitle } from '@/lib/insights';
 import { TimeAgo } from '@/components/TimeAgo';
@@ -83,112 +83,64 @@ export default async function WalletRoute({ params }: Params) {
       </div>
 
       <ProfilerTabs />
-      {mode === 'owner' && <WalletQuickRead address={address} />}
-      <Suspense fallback={<div className="h-[420px] animate-pulse rounded-[var(--r-card)] bg-ink/5" />}>
-        <WalletPortfolio balP={balP} pnlP={pnlP} />
-      </Suspense>
-      {evm && <HyperliquidWorkspace address={address} />}
-      {evm && <PredictionTraderPanel address={address} />}
-      <Suspense fallback={<WalletTimeMachine address={address} current={null} />}>
-        <WalletTimeMachineNow address={address} p={balP} />
-      </Suspense>
-
-      <div className="grid gap-4 lg:grid-cols-3">
-        <Suspense
-          fallback={
-            <Card id="bal-loading" title="Balances">
-              <WaveLoading what="balances" height={300} />
-            </Card>
-          }
-        >
-          <BalancesCard p={redacted(mode, balP)} />
+      {/* One tile grid, ordered like a research session: who and what it holds, how it trades, who it deals with, then its history. */}
+      <div className="grid grid-cols-1 gap-4 xl:grid-cols-12 [&>*]:min-w-0">
+        {mode === 'owner' && <div className="xl:col-span-12"><WalletQuickRead address={address} /></div>}
+        <Suspense fallback={<div className="h-[420px] animate-pulse rounded-[var(--r-card)] bg-ink/5 xl:col-span-12" />}>
+          <WalletPortfolio balP={balP} pnlP={pnlP} />
         </Suspense>
-        <Card
-          id="trail"
-          className="lg:col-span-2"
-          title={mode !== 'owner' ? 'Migration trail' : trailTitle(trail.steps, trail.chains)}
-          sub="This wallet's smart-money DEX trades from Peregrine's scanner record, as a path over the radar (numbered in time order)."
-          action={<InfoPopover p={trail.provenance} />}
-        >
+        {evm && <div className="xl:col-span-12"><HyperliquidWorkspace address={address} /></div>}
+        <Tile span="xl:col-span-7">
+          <Suspense fallback={<Card id="wallet-weather-loading" title="Wallet profile"><WaveLoading what="wallet profile" height={280} /></Card>}>
+            <WalletWeather p={redacted(mode, weatherP)} />
+          </Suspense>
+        </Tile>
+        <Tile span="xl:col-span-5">
+          <Suspense fallback={<Card id="pnl-loading" title="PnL, 30 days"><WaveLoading what="PnL" /></Card>}>
+            <PnlCard p={redacted(mode, pnlP)} mode={mode} />
+          </Suspense>
+        </Tile>
+        <Tile span="xl:col-span-4">
+          <Suspense fallback={<Card id="cp-loading" title="Counterparties"><WaveLoading what="counterparties" /></Card>}>
+            <CounterpartiesCard p={redacted(mode, mainChainP.then((c) => counterparties(address, c)))} mode={mode} />
+          </Suspense>
+        </Tile>
+        <Tile span="xl:col-span-4">
+          <Suspense fallback={<Card id="origins-loading" title="Origins"><WaveLoading what="first funder and related wallets" /></Card>}>
+            <OriginsCard address={address} mainChain={mainChainP} mode={mode} />
+          </Suspense>
+        </Tile>
+        <Tile span="xl:col-span-4"><WalletLabels address={address} enabled={mode !== 'public'} /></Tile>
+        <Tile span="xl:col-span-7">
+          <Suspense fallback={<Card id="tx-loading" title="Recent transactions"><WaveLoading what="transactions" /></Card>}>
+            <TransactionsCard address={address} mode={mode} />
+          </Suspense>
+        </Tile>
+        <Card id="trail" className="xl:col-span-5" title={mode !== 'owner' ? 'Migration trail' : trailTitle(trail.steps, trail.chains)} sub="Smart-money DEX trades as a path over the chains, in time order" action={<InfoPopover p={trail.provenance} />}>
           {mode !== 'owner' ? (
             <Unavailable text="Shown only to the API key owner: the trail is built from Nansen smart-money DEX trades, which Nansen's redistribution rules keep out of public views." />
-          ) : trail.steps.length ? (
-            <TrailMap steps={trail.steps} />
-          ) : (
-            <Unavailable text="The scanner has not recorded a smart-money DEX trade by this wallet in the last 7 days. Only Nansen smart-money wallets appear in that feed." />
-          )}
+          ) : trail.steps.length ? <TrailMap steps={trail.steps} /> : <p className="text-[12.5px] text-ink-muted">No Smart Money DEX trades by this wallet in the last 7 days.</p>}
         </Card>
+        <div className="xl:col-span-12">
+          <Suspense fallback={<WalletTimeMachine address={address} current={null} />}>
+            <WalletTimeMachineNow address={address} p={balP} />
+          </Suspense>
+        </div>
+        <Tile span="xl:col-span-6"><RotationsCard address={address} mode={mode} /></Tile>
+        {evm && <Tile span="xl:col-span-6"><PredictionTraderPanel address={address} /></Tile>}
+        <div className="xl:col-span-12">
+          <Suspense fallback={<Card id="wallet-desk-loading" title="Wallet desk"><WaveLoading what="wallet chain" /></Card>}>
+            <Desk address={address} mainChain={mainChainP} />
+          </Suspense>
+        </div>
       </div>
-
-      <RotationsCard address={address} mode={mode} />
-
-      <Suspense
-        fallback={
-          <Card id="wallet-weather-loading" title="Wallet profile">
-            <WaveLoading what="wallet profile" height={280} />
-          </Card>
-        }
-      >
-        <WalletWeather p={redacted(mode, weatherP)} />
-      </Suspense>
-
-      <div className="grid gap-4 lg:grid-cols-3">
-        <Suspense
-          fallback={
-            <Card id="pnl-loading" title="PnL, 30 days">
-              <WaveLoading what="PnL" />
-            </Card>
-          }
-        >
-          <PnlCard p={redacted(mode, pnlP)} mode={mode} />
-        </Suspense>
-        <Suspense
-          fallback={
-            <Card id="origins-loading" title="Origins">
-              <WaveLoading what="first funder and related wallets" />
-            </Card>
-          }
-        >
-          <OriginsCard address={address} mainChain={mainChainP} mode={mode} />
-        </Suspense>
-        <Suspense
-          fallback={
-            <Card id="cp-loading" title="Counterparties">
-              <WaveLoading what="counterparties" />
-            </Card>
-          }
-        >
-          <CounterpartiesCard
-            p={redacted(
-              mode,
-              mainChainP.then((c) => counterparties(address, c)),
-            )}
-            mode={mode}
-          />
-        </Suspense>
-      </div>
-
-      <Suspense
-        fallback={
-          <Card id="tx-loading" title="Recent transactions">
-            <WaveLoading what="transactions" />
-          </Card>
-        }
-      >
-        <TransactionsCard address={address} mode={mode} />
-      </Suspense>
-      <Suspense
-        fallback={
-          <Card id="wallet-desk-loading" title="Wallet desk">
-            <WaveLoading what="wallet chain" />
-          </Card>
-        }
-      >
-        <Desk address={address} mainChain={mainChainP} />
-      </Suspense>
-      <WalletLabels address={address} enabled={mode !== 'public'} />
     </div>
   );
+}
+
+/** A grid tile whose card fills the tile height, so tiles in one row line up. */
+function Tile({ span, children }: { span: string; children: React.ReactNode }) {
+  return <div className={`${span} min-w-0 [&>*]:h-full`}>{children}</div>;
 }
 
 async function Desk({ address, mainChain }: { address: string; mainChain: Promise<string | null> }) {

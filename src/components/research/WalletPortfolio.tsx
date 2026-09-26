@@ -12,7 +12,7 @@ const ok = <T,>(w: Wave<T> | null): w is T => !!w && !('unavailable' in (w as ob
 /** The wallet's portfolio inside the Profiler: value, concentration, stablecoin share, allocation by chain and asset, every holding, and where realized PnL came from. */
 export async function WalletPortfolio({ balP, pnlP }: { balP: Promise<Wave<Balances>>; pnlP: Promise<Wave<PnlSummary>> }) {
   const [b, p] = await Promise.all([balP.catch(() => null), pnlP.catch(() => null)]);
-  if (!ok(b)) return <section className="material p-4 text-[13px] text-ink-muted">{b && 'unavailable' in b ? b.unavailable : 'Balances unavailable.'}</section>;
+  if (!ok(b)) return <section className="material p-4 text-[13px] text-ink-muted xl:col-span-12">{b && 'unavailable' in b ? b.unavailable : 'Balances unavailable.'}</section>;
   const total = b.totalUsd || 1;
   const pos = [...b.positions].sort((x, y) => y.valueUsd - x.valueUsd);
   const stable = pos.filter((x) => STABLES.has(x.symbol.toUpperCase())).reduce((a, x) => a + x.valueUsd, 0);
@@ -32,19 +32,16 @@ export async function WalletPortfolio({ balP, pnlP }: { balP: Promise<Wave<Balan
   ];
   const attribution = ok(p) ? p.top.map((t) => ({ label: t.symbol, value: t.pnlUsd ?? 0, href: `/token/${t.chain}/${encodeURIComponent(t.tokenAddress)}`, sub: `ROI ${pct(t.roi, 0)} · ${chainName(t.chain)}` })) : [];
   return (
-    <section aria-labelledby="portfolio" className="space-y-3">
-      <h2 id="portfolio" className="t-section">Portfolio</h2>
-      <ul className="grid grid-cols-2 gap-px overflow-hidden rounded-[var(--r-inner)] border border-[var(--hair)] bg-[var(--hair)] sm:grid-cols-4 xl:grid-cols-8">
+    <>
+      <ul aria-label="Portfolio" className="grid grid-cols-2 gap-px overflow-hidden rounded-[var(--r-inner)] border border-[var(--hair)] bg-[var(--hair)] sm:grid-cols-4 xl:col-span-12 xl:grid-cols-8">
         {tiles.map(([k, v, note, color]) => <li key={k} className="min-w-0 bg-[var(--surface-1)] px-3 py-2"><span className="block truncate text-[11px] font-semibold text-ink-muted">{k}</span><span className="num block truncate text-[16px] font-bold text-ink" style={color ? { color } : undefined}>{v}</span>{note && <span className="block truncate text-[10.5px] text-ink-2">{note}</span>}</li>)}
       </ul>
-      <div className="grid gap-3 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
-        <Card id="allocation" title="Allocation" sub="Chains, then assets · area is USD value · select a tile for the token">
+        <Card id="allocation" className="xl:col-span-7" title="Allocation" sub="Chains, then assets · area is USD value · select a tile for the token">
           <AllocationTreemap items={pos.slice(0, 60).map((x) => ({ chain: x.chain, symbol: x.symbol, href: href(x), value: x.valueUsd, share: x.valueUsd / total }))} />
         </Card>
-        <div className="space-y-3">
-          <Card id="chain-allocation" title="By chain">
+          <Card id="chain-allocation" className="xl:col-span-5" title={`By chain · ${b.byChain.length}`}>
             <ul className="space-y-1.5">
-              {b.byChain.slice(0, 10).map((ch) => (
+              {b.byChain.slice(0, 14).map((ch) => (
                 <li key={ch.chain} className="grid grid-cols-[minmax(0,1fr)_90px_64px] items-center gap-2 text-[12px]">
                   <Link href={`/chain/${ch.chain}`} className="flex min-w-0 items-center gap-1.5 truncate font-semibold text-ink hover:underline"><ChainLogo chain={ch.chain} size={14} />{chainName(ch.chain)}<span className="font-normal text-ink-muted">{ch.tokens}</span></Link>
                   <span className="h-1.5 overflow-hidden rounded-full bg-[var(--hair)]"><span className="block h-full rounded-full bg-[var(--signal)]" style={{ width: `${(ch.valueUsd / total) * 100}%` }} /></span>
@@ -53,10 +50,7 @@ export async function WalletPortfolio({ balP, pnlP }: { balP: Promise<Wave<Balan
               ))}
             </ul>
           </Card>
-          {attribution.length > 0 && <Card id="pnl-attribution" title="Where realized PnL came from" sub="Top tokens by realized PnL (Nansen)"><RankBars rows={attribution} label="Realized PnL by token" /></Card>}
-        </div>
-      </div>
-      <Card id="holdings" title={`Holdings · ${pos.length}`} sub="Sort by any column · the token opens its page, Rug Checker opens its risk view">
+      <Card id="holdings" className={attribution.length ? 'xl:col-span-7' : 'xl:col-span-12'} title={`Holdings · ${pos.length}`} sub="Sort by any column · the token opens its page, Rug Checker opens its risk view">
         <div className="max-h-[440px] overflow-auto" tabIndex={0} role="region" aria-label="Holdings">
           <table data-sortable className="w-full min-w-[640px] text-left text-[12.5px]">
             <thead className="sticky top-0 bg-[var(--surface-1)] text-[11px] uppercase tracking-wider text-ink-muted"><tr><th className="py-2 font-normal">Asset</th><th className="font-normal">Chain</th><th className="text-right font-normal">Balance</th><th className="text-right font-normal">Price</th><th className="text-right font-normal">Value</th><th className="text-right font-normal">Share</th><th className="text-right font-normal">Risk</th></tr></thead>
@@ -76,6 +70,7 @@ export async function WalletPortfolio({ balP, pnlP }: { balP: Promise<Wave<Balan
           </table>
         </div>
       </Card>
-    </section>
+      {attribution.length > 0 && <Card id="pnl-attribution" className="xl:col-span-5" title="Where realized PnL came from" sub="Top tokens by realized PnL (Nansen)"><RankBars rows={attribution} label="Realized PnL by token" /></Card>}
+    </>
   );
 }
