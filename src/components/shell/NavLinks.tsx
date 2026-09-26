@@ -175,6 +175,7 @@ export function MobileMenu({ children }: { children?: React.ReactNode }) {
               <NavList onNavigate={() => setOpen(false)} />
               <div className="my-4 flex gap-4 text-sm">
                 <Link href="/coverage">Data coverage</Link>
+                <Link href="/proof">Proof</Link>
               </div>
               {children && <div className="mt-auto space-y-2 border-t border-border pt-3">{children}</div>}
             </div>

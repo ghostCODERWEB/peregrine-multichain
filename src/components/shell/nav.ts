@@ -23,8 +23,6 @@ export const NAV: NavItem[] = [
   { href: '/wallet', label: 'Profiler', icon: 'key', group: 'Research', also: ['/portfolio'] },
   { href: '/history', label: 'History', icon: 'gauge', group: 'Research' },
   { href: '/token', label: 'Token Checker', icon: 'shield', group: 'Research', also: ['/rug'] },
-  { href: '/lab', label: 'Backtest Lab', icon: 'flask', group: 'Research' },
-  { href: '/proof', label: 'Proof', icon: 'badge', group: 'Research' },
   { href: '/agent', label: 'Ask Nansen', icon: 'bot', group: 'Act', ownerOnly: true },
   { href: '/alerts', label: 'Alerts', icon: 'bell', group: 'Act', ownerOnly: true, signIn: true },
   { href: '/trade', label: 'Trade', icon: 'swap', group: 'Act', ownerOnly: true, signIn: true },

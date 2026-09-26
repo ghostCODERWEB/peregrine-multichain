@@ -22,7 +22,6 @@ const SHORTCUTS = [
   { href: '/sectors', label: 'Sectors', Icon: Layers, tint: '#5ef0c0' },
   { href: '/agent', label: 'Ask Nansen', Icon: MessageCircle, tint: '#9bd5ff' },
   { href: '/history', label: 'History', Icon: History, tint: '#ffb86b' },
-  { href: '/proof', label: 'Proof', Icon: BadgeCheck, tint: '#1fe0a3' },
 ];
 const pulseIcon = (tone: string) => (tone === 'up' ? <TrendingUp size={16} /> : tone === 'down' ? <TrendingDown size={16} /> : tone === 'alert' ? <Zap size={16} /> : <Activity size={16} />);
 const pulseTint = (tone: string) => (tone === 'up' ? 'var(--mint)' : tone === 'down' ? 'var(--flare)' : tone === 'alert' ? 'var(--amber)' : 'var(--signal)');

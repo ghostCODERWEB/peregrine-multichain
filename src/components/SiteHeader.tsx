@@ -55,6 +55,7 @@ export async function SiteHeader() {
           <ThemeToggle />
           <span className="hidden items-center gap-3 lg:flex">
             <Link href="/coverage" className="text-[11.5px] font-medium text-ink-muted transition-colors hover:text-ink">Data coverage</Link>
+            <Link href="/proof" className="text-[11.5px] font-medium text-ink-muted transition-colors hover:text-ink">Proof</Link>
             {accounts && <Link href="/account" className="text-[11.5px] font-medium text-ink-muted transition-colors hover:text-ink">Account</Link>}
           </span>
         </div>
