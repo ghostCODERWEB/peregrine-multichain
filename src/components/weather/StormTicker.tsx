@@ -1,7 +1,6 @@
 'use client';
 import Link from 'next/link';
 import { ChainLogo, TokenLogo } from '@/components/Logo';
-import { STORM_CLASS, STORM_LABEL } from '@/lib/viz/scales';
 import { chainName, num } from '@/lib/viz/format';
 import { TimeAgo } from '@/components/TimeAgo';
 import type { StormTick } from '@/server/weather/queries';
@@ -20,7 +19,6 @@ export function StormTicker({ storms }: { storms: StormTick[] }) {
   return (
     <ul className="stagger grid grid-cols-[repeat(auto-fill,minmax(210px,1fr))] gap-2" aria-label="Highest Token Score, last 48 hours">
       {storms.slice(0, 8).map((s) => {
-        const cls = STORM_CLASS[s.band];
         return (
           <li key={`${s.chain}:${s.tokenAddress}`}>
             <Link href={`/token/${s.chain}/${encodeURIComponent(s.tokenAddress)}`} className="inset-well flex items-center gap-3 rounded-[14px] px-3 py-2 sm:px-3.5 sm:py-3 hover:border-[var(--hair-2)]">
@@ -31,7 +29,7 @@ export function StormTicker({ storms }: { storms: StormTick[] }) {
               </span>
               <span className="flex flex-col items-end gap-1">
                 <span className="num text-[18px] font-extrabold leading-none text-ink">{num(s.score, 0)}</span>
-                <span className="rounded-full px-2 py-px text-[10.5px] font-bold" style={{ background: `var(--${cls})`, color: `var(--on-${cls})` }}>{STORM_LABEL[s.band]}</span>
+                <span className="rounded-full px-2 py-px text-[10.5px] font-bold" style={{ color: s.score >= 55 ? 'var(--flare)' : s.score >= 35 ? 'var(--amber)' : 'var(--mint)', background: `color-mix(in srgb, ${s.score >= 55 ? 'var(--flare)' : s.score >= 35 ? 'var(--amber)' : 'var(--mint)'} 14%, transparent)` }}>{s.score >= 55 ? 'Danger' : s.score >= 35 ? 'Watch' : 'Low'}</span>
               </span>
             </Link>
           </li>

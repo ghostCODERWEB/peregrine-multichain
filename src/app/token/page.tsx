@@ -15,8 +15,8 @@ export default async function TokenCheckerPage() {
   const d = tokenChecker((await displayMode()) === 'owner');
   return (
     <>
-      <div className="sm:hidden"><MobileTokens d={d} /></div>
-      <div className="space-y-5 max-sm:hidden">
+      <div className="lg:hidden"><MobileTokens d={d} /></div>
+      <div className="space-y-5 max-lg:hidden">
         <PageTitle title="Token Checker" pill={`${RUG_CHAINS.length} networks · Nansen data`} />
         <section aria-label="Check a token" className="material p-5 sm:p-7">
           <RugSearch chains={RUG_CHAINS} />

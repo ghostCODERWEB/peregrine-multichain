@@ -3,7 +3,9 @@ import { TokenLogo } from '@/components/Logo';
 import type { CheckerData, ScoredToken, UniverseToken } from '@/server/token/checker';
 import { chainName, pct, usd } from '@/lib/viz/format';
 
-const BAND: Record<string, [string, string]> = { warning: ['Critical', 'var(--flare)'], watch: ['High', 'var(--amber)'], cloudy: ['Moderate', 'var(--signal)'], clear: ['Low', 'var(--mint)'] };
+// One wording everywhere (table, verdict, phone): Danger 55+, Watch 35+, Low below.
+const LEVELS = [['danger', 'Danger', 'var(--flare)'], ['watch', 'Watch', 'var(--amber)'], ['low', 'Low', 'var(--mint)']] as const;
+const levelOf = (score: number) => (score >= 55 ? LEVELS[0] : score >= 35 ? LEVELS[1] : LEVELS[2]);
 const COLS: Array<[string, string]> = [['concentration', 'Top-10'], ['exitLiquidity', 'Exit liq.'], ['sellPressure', 'Sell pressure'], ['insider', 'Insiders'], ['windShear', 'Momentum']];
 const heat = (v: number | null) => (v == null ? 'transparent' : `color-mix(in srgb, ${v >= 70 ? 'var(--flare)' : v >= 50 ? 'var(--amber)' : 'var(--mint)'} ${Math.round(12 + (Math.abs(v - 50) / 50) * 38)}%, transparent)`);
 const href = (t: { chain: string; address: string }) => `/token/${t.chain}/${encodeURIComponent(t.address)}`;
@@ -14,13 +16,13 @@ function Tok({ t, sym }: { t: { chain: string; address: string }; sym: string | 
   return <Link href={href(t)} className="flex items-center gap-2 font-semibold text-ink hover:underline"><TokenLogo symbol={sym} chain={t.chain} address={t.address} size={18} />{sym ?? t.address.slice(0, 6)}<span className="font-normal text-ink-muted">{chainName(t.chain)}</span></Link>;
 }
 function ScoreCell({ s }: { s: ScoredToken }) {
-  const [band, color] = BAND[s.band] ?? [s.band, 'var(--ink-2)'];
+  const [, band, color] = levelOf(s.score);
   return <span className="flex items-center gap-2"><span className="num w-6 font-bold text-ink">{Math.round(s.score)}</span><span className="h-1.5 w-14 overflow-hidden rounded-full bg-[var(--hair)]"><span className="block h-full rounded-full" style={{ width: `${s.score}%`, background: color }} /></span><span className="text-[11px] font-semibold" style={{ color }}>{band}</span></span>;
 }
 
 /** Token Checker: every scored token, the traded universe, new tokens, and Smart Money buying into risk. */
 export function TokenCheckerView({ d }: { d: CheckerData }) {
-  const bands = ['clear', 'cloudy', 'watch', 'warning'].map((b) => ({ b, n: d.scored.filter((s) => s.band === b).length }));
+  const bands = [...LEVELS].reverse().map(([b, label, color]) => ({ b, label, color, n: d.scored.filter((s) => levelOf(s.score)[0] === b).length }));
   const maxB = Math.max(1, ...bands.map((x) => x.n));
   return (
     <div className="grid grid-cols-1 gap-4 xl:grid-cols-12 [&>*]:min-w-0">
@@ -53,7 +55,7 @@ export function TokenCheckerView({ d }: { d: CheckerData }) {
         <section className="material p-4 sm:p-5">
           <h2 className="t-section mb-3">Score distribution</h2>
           <ul className="space-y-2">
-            {bands.map(({ b, n }) => { const [label, color] = BAND[b]; return (
+            {bands.map(({ b, n, label, color }) => { return (
               <li key={b} className="grid grid-cols-[72px_minmax(0,1fr)_28px] items-center gap-2 text-[12px]"><span className="font-semibold" style={{ color }}>{label}</span><span className="h-2 overflow-hidden rounded-full bg-[var(--hair)]"><span className="block h-full rounded-full" style={{ width: `${(n / maxB) * 100}%`, background: color }} /></span><span className="num text-right text-ink-2">{n}</span></li>
             ); })}
           </ul>

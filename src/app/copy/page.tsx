@@ -35,8 +35,8 @@ export default async function CopyLabPage() {
 
   return (
     <>
-    <div className="sm:hidden"><MobileCopyLab lab={lab} /></div>
-    <div className="space-y-5 max-sm:hidden">
+    <div className="lg:hidden"><MobileCopyLab lab={lab} /></div>
+    <div className="space-y-5 max-lg:hidden">
       <PageTitle title="Copy Lab" pill="Can you copy Smart Money when you see the trade late?" />
       <div className="grid grid-cols-1 gap-4 xl:grid-cols-12 [&>*]:min-w-0">
         <StatStrip className="xl:col-span-12" stats={[

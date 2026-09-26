@@ -6,7 +6,7 @@ import { chainName, usd } from '@/lib/viz/format';
 import type { DisplayMode } from '@/server/mode';
 
 const SITE = 'https://peregrine-nansen.up.railway.app';
-const band = (s: number) => (s >= 55 ? { word: 'Danger', color: 'var(--flare)' } : { word: 'High', color: 'var(--amber)' });
+const band = (s: number) => (s >= 55 ? { word: 'Danger', color: 'var(--flare)' } : { word: 'Watch', color: 'var(--amber)' });
 
 /** Risk Radar: Smart Money net buying, in the last 24h, into tokens whose Token Score reads 50 or more.
  *  The product's lead signal, one tap from each token's verdict and one tap from a share. */

@@ -67,8 +67,8 @@ export default async function ProfilerHome() {
 
   return (
     <>
-    <div className="sm:hidden"><MobileWallets buyers={buyers} sellers={sellers} perp={perp} owner={owner} /></div>
-    <div className="space-y-5 max-sm:hidden">
+    <div className="lg:hidden"><MobileWallets buyers={buyers} sellers={sellers} perp={perp} owner={owner} /></div>
+    <div className="space-y-5 max-lg:hidden">
       <PageTitle title="Profiler" pill="Wallets, portfolios and Hyperliquid traders" action={<WalletJump />} />
       {/* One page in research order: the market's wallets now, your traders, comparison, then a basket of wallets. */}
       <div className="grid grid-cols-1 gap-4 xl:grid-cols-12 [&>*]:min-w-0">
