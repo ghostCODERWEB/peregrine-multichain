@@ -6,6 +6,7 @@ import { alphaBoard } from '@/server/alpha/board';
 import { AlphaStrip } from '@/components/alpha/AlphaStrip';
 import { OverviewIntel } from '@/components/weather/OverviewIntel';
 import { RiskRadar } from '@/components/weather/RiskRadar';
+import { MobileHome } from '@/components/mobile/MobileHome';
 
 export const dynamic = 'force-dynamic';
 
@@ -14,5 +15,11 @@ export default async function Home() {
   const mode = await displayMode();
   const bulletin = buildBulletin(viewOf(mode));
   const alpha = alphaBoard(viewOf(mode), Date.now(), 5);
-  return <WeatherView initial={bulletin} anchor={latestReport(subjectKey('bulletin', mode))} alpha={<AlphaStrip rows={alpha.rows} />} intel={<><RiskRadar mode={mode} /><OverviewIntel mode={mode} /></>} />;
+  // Phones get their own Today screen; tablets and desktops the full overview.
+  return (
+    <>
+      <div className="sm:hidden"><MobileHome mode={mode} chains={bulletin.chains} /></div>
+      <div className="max-sm:hidden"><WeatherView initial={bulletin} anchor={latestReport(subjectKey('bulletin', mode))} alpha={<AlphaStrip rows={alpha.rows} />} intel={<><RiskRadar mode={mode} /><OverviewIntel mode={mode} /></>} /></div>
+    </>
+  );
 }

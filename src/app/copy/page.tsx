@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { PageTitle } from '@/components/PageTitle';
+import { MobileCopyLab } from '@/components/mobile/MobileCopyLab';
 import { StatStrip } from '@/components/StatStrip';
 import { AddressLink } from '@/components/entity/AddressLink';
 import { TokenLogo } from '@/components/Logo';
@@ -33,7 +34,9 @@ export default async function CopyLabPage() {
   const fresh = followable.flatMap((w) => w.recent.map((r) => ({ ...r, w }))).sort((a, b) => b.at - a.at).slice(0, 12);
 
   return (
-    <div className="space-y-5">
+    <>
+    <div className="sm:hidden"><MobileCopyLab lab={lab} /></div>
+    <div className="space-y-5 max-sm:hidden">
       <PageTitle title="Copy Lab" pill="Can you copy Smart Money when you see the trade late?" />
       <div className="grid grid-cols-1 gap-4 xl:grid-cols-12 [&>*]:min-w-0">
         <StatStrip className="xl:col-span-12" stats={[
@@ -111,5 +114,6 @@ export default async function CopyLabPage() {
         </section>
       </div>
     </div>
+    </>
   );
 }

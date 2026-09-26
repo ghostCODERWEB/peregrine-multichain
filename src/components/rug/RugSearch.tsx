@@ -12,7 +12,7 @@ type Hit = { chain: string; title: string; subtitle: string; address: string };
 const looksLikeAddress = (s: string) => /^0x[0-9a-fA-F]{40}$/.test(s) || /^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(s) || /^[A-Za-z0-9:._-]{40,160}$/.test(s);
 
 /** One box across every network: results appear as you type; the network is only asked for an address search can't place. */
-export function RugSearch({ chains }: { chains: readonly string[] }) {
+export function RugSearch({ chains, autoFocus = true, placeholder }: { chains: readonly string[]; autoFocus?: boolean; placeholder?: string }) {
   const router = useRouter();
   const [q, setQ] = useState('');
   const [hits, setHits] = useState<Hit[] | null>(null);
@@ -50,7 +50,7 @@ export function RugSearch({ chains }: { chains: readonly string[] }) {
         <label className="inset-well flex h-12 items-center gap-3 rounded-full px-4 transition-shadow focus-within:shadow-[0_0_0_2px_rgba(31,224,163,.5),0_0_24px_-6px_rgba(31,224,163,.45)]">
           {busy ? <Loader2 size={18} className="shrink-0 animate-spin text-[var(--mint)]" aria-hidden /> : <Search size={18} className="shrink-0 text-ink-muted" aria-hidden />}
           <span className="sr-only">Token name, symbol or address</span>
-          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={`Token name, symbol or address · ${chains.length} networks`} autoFocus
+          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={placeholder ?? `Token name, symbol or address · ${chains.length} networks`} autoFocus={autoFocus}
             className="bare-input min-w-0 flex-1 bg-transparent text-[15px] text-ink outline-none placeholder:text-ink-muted" autoComplete="off" spellCheck={false} />
         </label>
       </form>

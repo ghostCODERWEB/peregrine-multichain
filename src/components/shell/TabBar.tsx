@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-import { Radar, Shuffle, MessageCircle, Search, Activity, Target } from 'lucide-react';
+import { Radar, Shuffle, Search, Activity, Target, ShieldCheck, CopyCheck, Wallet } from 'lucide-react';
 import { useSite } from '@/components/SiteContext';
 
 /** Phones: a Liquid Glass tab bar. A capsule floating above content (inset from the edges), a glass lens under
@@ -14,9 +14,10 @@ export function TabBar() {
   const [min, setMin] = useState(false);
   const last = useRef(0);
   // A public site has no Ask Nansen (paid agent runs).
+  // The product's story as top-level tabs: today's read, token risk, who to copy, wallets. The rest lives in Today's Explore grid.
   const tabs = publicSite
-    ? [['/', 'Overview', Radar], ['/flows', 'Flows', Shuffle], ['/perps', 'Perps', Activity], ['/predict', 'Markets', Target]] as const
-    : [['/', 'Overview', Radar], ['/flows', 'Flows', Shuffle], ['/perps', 'Perps', Activity], ['/agent', 'Ask', MessageCircle]] as const;
+    ? [['/', 'Today', Radar], ['/token', 'Tokens', ShieldCheck], ['/flows', 'Flows', Shuffle], ['/perps', 'Perps', Activity], ['/predict', 'Markets', Target]] as const
+    : [['/', 'Today', Radar], ['/token', 'Tokens', ShieldCheck], ['/copy', 'Copy', CopyCheck], ['/wallet', 'Wallets', Wallet]] as const;
   const current = tabs.findIndex(([href]) => (href === '/' ? path === '/' : path.startsWith(String(href))));
 
   useEffect(() => {
