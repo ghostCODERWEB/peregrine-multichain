@@ -537,7 +537,7 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
                   className={`cursor-pointer border-t border-border hover:bg-raised/60 ${picked?.id === m.id ? 'bg-raised' : ''}`}
                 >
                   <td className="max-w-[360px] truncate py-1.5 text-ink" title={m.question}>
-                    {m.question}
+                    <Link href={`/predict/${encodeURIComponent(m.id)}`} onClick={(e) => e.stopPropagation()} className="hover:underline hover:underline-offset-2">{m.question}</Link>
                   </td>
                   <td className="num text-ink">{impliedPct(m.price)}</td>
                   <td className="num" style={{ color: m.change1d ? (m.change1d > 0 ? 'var(--mint)' : 'var(--flare)') : undefined }}>

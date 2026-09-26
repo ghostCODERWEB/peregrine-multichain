@@ -11,6 +11,7 @@ import { TimeAgo } from '@/components/TimeAgo';
 import { WalletDesk } from '@/components/wallet/WalletDesk';
 import { TraderPanel } from '@/components/perps/TraderPanel';
 import { WalletQuickRead } from '@/components/wallet/WalletQuickRead';
+import { PredictionTraderPanel } from '@/components/predict/PredictionTraderPanel';
 import { seenInSnapshots } from '@/server/perps/trader';
 import { WalletLabels } from '@/components/wallet/WalletLabels';
 import { WalletWeather } from '@/components/wallet/WalletWeather';
@@ -75,6 +76,7 @@ export default async function WalletRoute({ params }: Params) {
 
       {mode === 'owner' && <WalletQuickRead address={address} />}
       {evm && <TraderPanel address={address} />}
+      {evm && <PredictionTraderPanel address={address} />}
 
       <div className="grid gap-4 lg:grid-cols-3">
         <Suspense

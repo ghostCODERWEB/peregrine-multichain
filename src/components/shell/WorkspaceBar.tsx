@@ -2,8 +2,8 @@
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { ChevronLeft, ChevronRight, Clock } from 'lucide-react';
-import { readRecent, remember, type RecentItem } from './recent';
+import { Bookmark, BookmarkCheck, ChevronLeft, ChevronRight, Clock } from 'lucide-react';
+import { readRecent, readSaved, remember, toggleSaved, type RecentItem } from './recent';
 
 type Nav = { canGoBack?: boolean; canGoForward?: boolean; addEventListener?: (t: string, f: () => void) => void; removeEventListener?: (t: string, f: () => void) => void };
 
@@ -16,6 +16,7 @@ export function WorkspaceBar() {
   const params = useSearchParams();
   const [can, setCan] = useState({ back: true, forward: true });
   const [recent, setRecent] = useState<RecentItem[]>([]);
+  const [saved, setSaved] = useState<RecentItem[]>([]);
   const [open, setOpen] = useState(false);
   const menu = useRef<HTMLDivElement>(null);
 
@@ -38,7 +39,7 @@ export function WorkspaceBar() {
   }, [pathname, params]);
 
   useEffect(() => {
-    const load = () => setRecent(readRecent());
+    const load = () => { setRecent(readRecent()); setSaved(readSaved()); };
     load();
     window.addEventListener('peregrine:recent', load);
     return () => window.removeEventListener('peregrine:recent', load);
@@ -58,10 +59,27 @@ export function WorkspaceBar() {
     <div className="hidden items-center gap-1 lg:flex" aria-label="Investigation navigation">
       <button type="button" className={btn} onClick={() => router.back()} disabled={!can.back} aria-label="Back" title="Back (⌘[)"><ChevronLeft className="h-4 w-4" strokeWidth={2.25} aria-hidden /></button>
       <button type="button" className={btn} onClick={() => router.forward()} disabled={!can.forward} aria-label="Forward" title="Forward (⌘])"><ChevronRight className="h-4 w-4" strokeWidth={2.25} aria-hidden /></button>
+      {(() => {
+        const href = `${pathname}${params.toString() ? `?${params}` : ''}`;
+        const on = saved.some((r) => r.href === href);
+        const Icon = on ? BookmarkCheck : Bookmark;
+        return <button type="button" className={btn} onClick={() => toggleSaved(href, document.title)} aria-pressed={on} aria-label={on ? 'Remove saved view' : 'Save this view'} title={on ? 'Saved view (select to remove)' : 'Save this exact view'}><Icon className={`h-4 w-4 ${on ? 'text-brand' : ''}`} aria-hidden /></button>;
+      })()}
       <div ref={menu} className="relative">
-        <button type="button" className={btn} onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-haspopup="menu" aria-label="Recently viewed" title="Recently viewed"><Clock className="h-4 w-4" aria-hidden /></button>
+        <button type="button" className={btn} onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-haspopup="menu" aria-label="Saved and recently viewed" title="Saved and recently viewed"><Clock className="h-4 w-4" aria-hidden /></button>
         {open && (
           <div role="menu" className="spotlight material-strong absolute left-0 top-10 z-40 w-[320px] rounded-[14px] p-1.5">
+            {saved.length > 0 && (
+              <>
+                <p className="px-2.5 pb-1 pt-1.5 text-[11.5px] font-semibold text-ink-muted">Saved views</p>
+                {saved.slice(0, 8).map((r) => (
+                  <Link key={`s:${r.href}`} role="menuitem" href={r.href} onClick={() => setOpen(false)} className="flex items-center justify-between gap-3 rounded-[9px] px-2.5 py-2 text-[13px] hover:bg-ink/8">
+                    <span className="min-w-0 truncate font-semibold text-ink">{r.title}</span>
+                    <span className="shrink-0 truncate text-[11px] text-ink-muted">{r.href.includes('?') ? 'with filters' : r.kind}</span>
+                  </Link>
+                ))}
+              </>
+            )}
             <p className="px-2.5 pb-1 pt-1.5 text-[11.5px] font-semibold text-ink-muted">Recently viewed</p>
             {recent.length ? recent.map((r) => (
               <Link key={r.href} role="menuitem" href={r.href} onClick={() => setOpen(false)} className="flex items-center justify-between gap-3 rounded-[9px] px-2.5 py-2 text-[13px] hover:bg-ink/8">

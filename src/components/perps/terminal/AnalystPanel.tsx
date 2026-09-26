@@ -3,9 +3,10 @@ import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { Loader2, Sparkles, Square } from 'lucide-react';
 import { AddressLink } from '@/components/entity/AddressLink';
+import { parseAction, type ParsedAction } from '@/lib/perps/actions';
 import { Segmented } from '@/components/ui/Segmented';
 
-type Turn = { q: string; text: string; tools: string[]; error?: string; credits?: number; depth: 'quick' | 'deep'; at?: number };
+type Turn = { command?: boolean; q: string; text: string; tools: string[]; error?: string; credits?: number; depth: 'quick' | 'deep'; at?: number };
 
 const ADDR = /0x[a-fA-F0-9]{40}/;
 const RANGE = /\$([\d,]+(?:\.\d+)?)\s+to\s+\$([\d,]+(?:\.\d+)?)/;
@@ -40,8 +41,8 @@ export function Line({ text, coins, onRange }: { text: string; coins: Set<string
   return <>{plain.split('**').map((seg, i) => (i % 2 ? <strong key={i} className="font-semibold text-ink"><Linked text={seg} coins={coins} onRange={onRange} /></strong> : <Linked key={i} text={seg} coins={coins} onRange={onRange} />))}</>;
 }
 
-export function AnalystPanel({ symbol, available, suggestions, buildContext, coins, onRange }: {
-  symbol: string; available: boolean; suggestions: string[]; buildContext: () => unknown; coins: string[]; onRange: (lo: number, hi: number) => void;
+export function AnalystPanel({ symbol, available, suggestions, buildContext, coins, onRange, onAction }: {
+  symbol: string; available: boolean; suggestions: string[]; buildContext: () => unknown; coins: string[]; onRange: (lo: number, hi: number) => void; onAction?: (a: ParsedAction) => void;
 }) {
   const [turns, setTurns] = useState<Turn[]>([]);
   const [q, setQ] = useState('');
@@ -62,6 +63,14 @@ export function AnalystPanel({ symbol, available, suggestions, buildContext, coi
 
   const ask = async (question: string) => {
     if (!question.trim() || busy) return;
+    // Imperative commands change the view directly: explicit, free, no agent call.
+    const action = onAction ? parseAction(question, coins) : null;
+    if (action) {
+      onAction!(action);
+      setTurns((t) => [...t, { command: true, q: question.trim(), text: `Applied: ${action.applied.join(' · ')}`, tools: [], depth: 'quick' }]);
+      setQ('');
+      return;
+    }
     if (depth === 'deep' && !ack) return;
     const turn: Turn = { q: question.trim(), text: '', tools: [], depth };
     setTurns((t) => [...t, turn]);
@@ -125,7 +134,7 @@ export function AnalystPanel({ symbol, available, suggestions, buildContext, coi
             )}
             {t.text && (
               <div className="rounded-[10px] border border-[var(--hair)] bg-[color-mix(in_srgb,var(--ink-1)_3%,transparent)] p-3 text-[13px] leading-relaxed text-ink-2">
-                <span className="mb-1.5 inline-block rounded-[5px] bg-[color-mix(in_srgb,var(--signal)_16%,transparent)] px-1.5 py-px text-[10.5px] font-bold text-[var(--signal)]">AI analysis</span>
+                {t.command ? <span className="mb-1.5 inline-block rounded-[5px] bg-ink/10 px-1.5 py-px text-[10.5px] font-bold text-ink-2">Command · no credits</span> : <span className="mb-1.5 inline-block rounded-[5px] bg-[color-mix(in_srgb,var(--signal)_16%,transparent)] px-1.5 py-px text-[10.5px] font-bold text-[var(--signal)]">AI analysis</span>}
                 {t.text.split('\n').filter(Boolean).map((line, j) => (
                   <p key={j} className={`mt-1 whitespace-pre-wrap ${/^evidence:/i.test(line.trim()) ? 'border-t border-[var(--hair)] pt-1.5 text-[12px] text-ink-muted' : ''}`}>
                     <Line text={line} coins={coinSet} onRange={onRange} />

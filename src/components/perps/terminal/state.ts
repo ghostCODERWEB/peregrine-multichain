@@ -7,10 +7,11 @@ import { useCallback, useMemo } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import type { Cohort, Side } from '@/lib/perps/positions';
 
-export type Tab = 'leaders' | 'positions' | 'proximity' | 'leverage' | 'entries' | 'trades' | 'changes' | 'cohorts';
+export type Tab = 'consensus' | 'leaders' | 'positions' | 'proximity' | 'leverage' | 'entries' | 'trades' | 'changes' | 'cohorts';
 export const TABS: Array<{ key: Tab; label: string }> = [
   { key: 'positions', label: 'Positions' },
   { key: 'proximity', label: 'Near liquidation' },
+  { key: 'consensus', label: 'Trader map' },
   { key: 'changes', label: 'What changed' },
   { key: 'cohorts', label: 'Smart Money vs crowd' },
   { key: 'leverage', label: 'Leverage' },
@@ -33,6 +34,8 @@ export interface TerminalState {
   entry: { lo: number; hi: number } | null;
   tab: Tab;
   win: WindowKey;
+  /** Position Replay: a stored snapshot time (ms), or null for live. */
+  at: number | null;
 }
 
 const range = (v: string | null) => {
@@ -56,11 +59,12 @@ export function useTerminalState() {
     entry: range(params.get('entry')),
     tab: (TABS.some((t) => t.key === params.get('tab')) ? params.get('tab') : 'positions') as Tab,
     win: (WINDOWS.includes(params.get('win') as WindowKey) ? params.get('win') : '1h') as WindowKey,
+    at: Number(params.get('at')) > 0 ? Number(params.get('at')) : null,
   }), [params]);
 
   const set = useCallback((patch: Partial<Record<keyof TerminalState, string | number | { lo: number; hi: number } | null>>, push = false) => {
     const next = new URLSearchParams(params.toString());
-    const key: Record<string, string> = { range: 'range', cohort: 'cohort', side: 'side', bandPct: 'bw', minLeverage: 'lev', minUsd: 'min', band: 'band', entry: 'entry', tab: 'tab', win: 'win' };
+    const key: Record<string, string> = { at: 'at', range: 'range', cohort: 'cohort', side: 'side', bandPct: 'bw', minLeverage: 'lev', minUsd: 'min', band: 'band', entry: 'entry', tab: 'tab', win: 'win' };
     const defaults: Record<string, string> = { range: '0.1', cohort: 'all', side: 'both', bw: '0.005', lev: '1', min: '0', tab: 'positions', win: '1h' };
     for (const [k, v] of Object.entries(patch)) {
       const name = key[k];

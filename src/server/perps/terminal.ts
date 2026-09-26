@@ -194,3 +194,15 @@ export async function perpPnlLeaders(symbol: string): Promise<PnlLeader[]> {
     return bad ? { ...l, suspect: true, pnlUsd: null, realizedUsd: null, unrealizedUsd: null, roi: null } : l;
   });
 }
+
+/** Position Replay: the stored snapshot closest to `at`, shaped like live terminal data (no trades; no Nansen call). */
+export function perpSnapshotAt(symbol: string, at: number): TerminalData | { unavailable: string } {
+  const row = getDb().prepare('SELECT at, cohorts, mark, positions FROM perp_position_snapshots WHERE symbol = ? ORDER BY ABS(at - ?) LIMIT 1').get(symbol, at) as Parameters<typeof readSnapshot>[0] | undefined;
+  if (!row) return { unavailable: `No stored ${symbol} snapshots to replay yet.` };
+  const snap = readSnapshot(row);
+  return {
+    symbol, at: snap.at, mark: snap.mark, positions: snap.positions, cohorts: snap.cohorts, observedEdgeUsd: observedEdge(snap.positions),
+    trades: { unavailable: 'Trades are not stored with snapshots; return to live for trades.' }, smTrades: null,
+    snapshots: snapshotTimes(symbol), calls: [], tally: { calls: 0, credits: 0, cached: 0 }, errors: [],
+  };
+}

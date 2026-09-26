@@ -14,11 +14,12 @@ import type { Provenance } from '@/lib/provenance';
 import { AnalystPanel } from './AnalystPanel';
 import { ChangesPanel, ShiftCard, useChanges } from './ChangesPanel';
 import { LiquidationRadar } from './LiquidationRadar';
-import { BandInspector, CohortMatrix, DataTable, EntryChart, LeverageChart, PnlLeaders, ProximityTable, TradesTable, positionCols } from './Panels';
+import { BandInspector, CohortMatrix, ConsensusMap, DataTable, EntryChart, LeverageChart, PnlLeaders, ProximityTable, TradesTable, positionCols } from './Panels';
+import { MarketBrief } from './MarketBrief';
 import { TABS, useTerminalState, type Tab } from './state';
 
 
-function useTerminalData(symbol: string) {
+function useTerminalData(symbol: string, at: number | null) {
   const [data, setData] = useState<TerminalData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -26,13 +27,13 @@ function useTerminalData(symbol: string) {
   useEffect(() => {
     const ac = new AbortController();
     setLoading(true);
-    fetch(`/api/perps/terminal?symbol=${encodeURIComponent(symbol)}`, { signal: ac.signal })
-      .then(async (r) => { const d = await r.json(); if (!r.ok) throw new Error(d.error ?? `Nansen request failed (${r.status})`); return d as TerminalData; })
+    fetch(`/api/perps/terminal?symbol=${encodeURIComponent(symbol)}${at ? `&at=${at}` : ''}`, { signal: ac.signal })
+      .then(async (r) => { const d = await r.json(); if (!r.ok || d.unavailable) throw new Error(d.error ?? d.unavailable ?? `Nansen request failed (${r.status})`); return d as TerminalData; })
       .then((d) => { setData(d); setError(null); })
       .catch((e) => { if ((e as Error).name !== 'AbortError') setError((e as Error).message); })
       .finally(() => setLoading(false));
     return () => ac.abort();
-  }, [symbol, tick]);
+  }, [symbol, tick, at]);
   return { data, error, loading, refresh: () => setTick((t) => t + 1), tick };
 }
 
@@ -44,10 +45,25 @@ const METHOD: Provenance = {
   notes: ['Observed exposure only: positions outside what Nansen returns are not counted.', 'A concentration shows where observed positions would be force-closed, not that price will reach it.'],
 };
 
+/** Position Replay: step through stored position snapshots; the whole workspace follows. */
+function ReplayBar({ times, at, shownAt, onChange }: { times: number[]; at: number | null; shownAt: number; onChange: (t: number | null) => void }) {
+  const idx = at ? times.reduce((best, t, i) => (Math.abs(t - at) < Math.abs(times[best] - at) ? i : best), 0) : times.length - 1;
+  const fmt = (t: number) => new Date(t).toISOString().slice(5, 16).replace('T', ' ');
+  return (
+    <div className={`flex flex-wrap items-center gap-3 rounded-[var(--r-inner)] border px-3.5 py-2 text-[12.5px] ${at ? 'border-[color-mix(in_srgb,var(--signal)_45%,transparent)] bg-[color-mix(in_srgb,var(--signal)_8%,transparent)]' : 'border-[var(--hair)]'}`}>
+      <span className="font-semibold text-ink">{at ? 'Replay' : 'Position Replay'}</span>
+      <input type="range" min={0} max={times.length - 1} value={idx} aria-label="Snapshot time" className="min-w-[160px] flex-1"
+        onChange={(e) => { const i = Number(e.target.value); onChange(i === times.length - 1 ? null : times[i]); }} />
+      <span className="num text-ink-2">{at ? `Showing the stored snapshot of ${fmt(shownAt)} UTC` : `${times.length} stored snapshots since ${fmt(times[0])} UTC · drag to replay`}</span>
+      {at && <button type="button" onClick={() => onChange(null)} className="font-semibold text-brand">Back to live</button>}
+    </div>
+  );
+}
+
 export function PerpsTerminal({ symbol, coins, owner }: { symbol: string; coins: string[]; owner: boolean }) {
   const router = useRouter();
   const { state, set } = useTerminalState();
-  const { data, error, loading, refresh, tick } = useTerminalData(symbol);
+  const { data, error, loading, refresh, tick } = useTerminalData(symbol, state.at);
   const changes = useChanges(symbol, state.win, tick);
   const [hoverLiq, setHoverLiq] = useState<number | null>(null);
   const tabsRef = useRef<HTMLDivElement>(null);
@@ -134,9 +150,14 @@ export function PerpsTerminal({ symbol, coins, owner }: { symbol: string; coins:
             <span className={`h-1.5 w-1.5 rounded-full ${loading ? 'animate-pulse bg-ink-muted' : 'bg-[var(--mint)]'}`} />{loading ? 'Refreshing' : freshness ? `Positions ${freshness}` : ''}
           </span>
           <button type="button" onClick={refresh} disabled={loading} aria-label="Refresh" className="pill-button pill-secondary min-h-[34px] px-3"><RefreshCw className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`} aria-hidden /></button>
+          <Link href={`/perps/compare?a=${encodeURIComponent(symbol)}&b=${symbol === 'BTC' ? 'ETH' : 'BTC'}`} className="pill-button pill-secondary min-h-[34px] px-3.5 text-[12.5px]">Compare</Link>
           <button type="button" onClick={() => goTab('changes')} className="pill-button pill-secondary min-h-[34px] px-3.5 text-[12.5px]"><History className="h-3.5 w-3.5" aria-hidden />What changed?</button>
         </div>
       </header>
+
+      {data && data.snapshots.length > 1 && (
+        <ReplayBar times={data.snapshots} at={state.at} shownAt={data.at} onChange={(t) => set({ at: t })} />
+      )}
 
       {error && !data && <p role="alert" className="rounded-[12px] border border-[var(--hair-2)] p-4 text-[13px] text-ink-2">{error} <button type="button" onClick={refresh} className="ml-2 font-semibold text-brand">Retry</button></p>}
 
@@ -175,6 +196,10 @@ export function PerpsTerminal({ symbol, coins, owner }: { symbol: string; coins:
           </span>
         )}
       </div>
+
+      {data && mark && (
+        <MarketBrief data={data} mark={mark} changes={changes} available={available} onBand={(b) => selectBand(b)} onTab={goTab} onCohort={(c) => set({ cohort: c })} />
+      )}
 
       {/* ---------------------------------------------------------- workspace */}
       <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_420px] 3xl:grid-cols-[minmax(0,1fr)_520px]">
@@ -217,7 +242,8 @@ export function PerpsTerminal({ symbol, coins, owner }: { symbol: string; coins:
             )}
           </section>
           <section className="material p-4 sm:p-5">
-            <AnalystPanel symbol={symbol} available={owner} suggestions={suggestions} buildContext={buildContext} coins={coins} onRange={selectRange} />
+            <AnalystPanel symbol={symbol} available={owner} suggestions={suggestions} buildContext={buildContext} coins={coins} onRange={selectRange}
+              onAction={(a) => { if (a.navigate) router.push(a.navigate); else { set(a.patch as never); if (a.patch.tab) goTab(a.patch.tab); } }} />
           </section>
         </aside>
       </div>
@@ -239,6 +265,7 @@ export function PerpsTerminal({ symbol, coins, owner }: { symbol: string; coins:
               <DataTable rows={inBand} cols={cols} rowKey={(p) => `${p.address}:${p.side}`} initialSort={{ key: 'value', dir: -1 }} onRowHover={(p) => setHoverLiq(p?.liq ?? null)}
                 label="Observed positions" empty={<>No positions match these filters. {activeChips.length > 0 && <button type="button" className="font-semibold text-brand" onClick={() => set({ cohort: 'all', side: 'both', minLeverage: 1, minUsd: 0, band: null, entry: null })}>Clear filters</button>}</>} />
             )}
+            {state.tab === 'consensus' && <ConsensusMap positions={inBand} mark={mark} />}
             {state.tab === 'leaders' && (owner ? <PnlLeaders symbol={symbol} /> : <p className="text-[13px] text-ink-muted">Nansen allows the PnL leaderboard only in the key owner&apos;s view.</p>)}
             {state.tab === 'proximity' && <ProximityTable positions={inEntry} mark={mark} onHover={setHoverLiq} />}
             {state.tab === 'changes' && <ChangesPanel data={changes} win={state.win} onWin={(w) => set({ win: w })} cohort={filters.cohort} />}

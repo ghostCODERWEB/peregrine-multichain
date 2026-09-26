@@ -128,6 +128,7 @@ export function BandInspector({ band, positions, mark, onClear, onHover }: { ban
           ))}
         </ol>
       </div>
+      <RawPositions positions={traders} />
       <p className="text-[11px] text-ink-muted">Mark {price(mark)}. Exposure is where these observed positions would be force-closed; it does not say price will get there.</p>
     </section>
   );
@@ -270,4 +271,64 @@ export function PnlLeaders({ symbol }: { symbol: string }) {
     { key: 'trades', label: 'Trades', right: true, sort: (t) => t.trades, cell: (t) => t.trades ?? 'n/a' },
   ];
   return <DataTable rows={rows} cols={cols} rowKey={(t) => t.address} initialSort={{ key: 'pnl', dir: -1 }} label="PnL leaders" empty="Nansen returned no PnL leaders for this coin." />;
+}
+
+/** Trader Consensus Map: every observed trader by distance to liquidation (x) and position size (y).
+ *  Mint = long, flare = short, blue ring = Smart Money, dot size = leverage. Select a dot for the Profiler. */
+export function ConsensusMap({ positions, mark }: { positions: Position[]; mark: number }) {
+  const [hover, setHover] = useState<Position | null>(null);
+  const W = 900, H = 340, P = 44;
+  const pts = positions.map((p) => ({ p, d: liquidationDistance(p, mark) })).filter((x): x is { p: Position; d: number } => x.d != null && x.d >= 0 && x.d <= 0.6);
+  if (!pts.length) return <p className="py-6 text-center text-[13px] text-ink-muted">No positions with a liquidation price match these filters.</p>;
+  const vmin = Math.log10(Math.max(1, Math.min(...pts.map((x) => x.p.valueUsd)))), vmax = Math.log10(Math.max(...pts.map((x) => x.p.valueUsd)));
+  const x = (d: number) => P + Math.sqrt(d / 0.6) * (W - 2 * P);
+  const y = (v: number) => H - P - ((Math.log10(Math.max(1, v)) - vmin) / Math.max(0.1, vmax - vmin)) * (H - 2 * P);
+  const side = (s: 'long' | 'short') => pts.filter((q) => q.p.side === s);
+  const sum = (xs: typeof pts) => xs.reduce((a, q) => a + q.p.valueUsd, 0);
+  const sm = (xs: typeof pts) => xs.filter((q) => q.p.cohorts.includes('smart_money')).length;
+  return (
+    <div className="space-y-2">
+      <p className="text-[12.5px] text-ink-2">
+        <span className="font-semibold text-[var(--mint)]">Long</span> {side('long').length} traders · {usd(sum(side('long')))} · {sm(side('long'))} Smart Money
+        <span className="mx-2 text-ink-muted">|</span>
+        <span className="font-semibold text-[var(--flare)]">Short</span> {side('short').length} traders · {usd(sum(side('short')))} · {sm(side('short'))} Smart Money
+      </p>
+      <figure className="relative">
+        <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="group" aria-label={`Trader consensus map: ${pts.length} positions by distance to liquidation and size`}>
+          {[0.01, 0.05, 0.1, 0.25, 0.5].map((d) => <g key={d}><line x1={x(d)} x2={x(d)} y1={P / 2} y2={H - P} stroke="var(--hair)" /><text x={x(d)} y={H - P + 16} textAnchor="middle" className="fill-ink-muted text-[10.5px]">{pct(d, 0)}</text></g>)}
+          <text x={W / 2} y={H - 8} textAnchor="middle" className="fill-ink-muted text-[11px]">adverse move to liquidation (closer to the left = nearer liquidation)</text>
+          <text x={12} y={H / 2} transform={`rotate(-90 12 ${H / 2})`} textAnchor="middle" className="fill-ink-muted text-[11px]">position value (log)</text>
+          {pts.map(({ p, d }) => {
+            const smRing = p.cohorts.includes('smart_money');
+            return (
+              <a key={`${p.address}:${p.side}`} href={`/wallet/${p.address}`} onMouseEnter={() => setHover(p)} onMouseLeave={() => setHover(null)} onFocus={() => setHover(p)} onBlur={() => setHover(null)}
+                aria-label={`${p.label ?? p.address}: ${p.side} ${usd(p.valueUsd)}, ${pct(d, 1)} from liquidation`}>
+                <circle cx={x(d)} cy={y(p.valueUsd)} r={2.5 + Math.min(6, (p.leverage ?? 1) / 5)} fill={p.side === 'long' ? 'var(--mint)' : 'var(--flare)'} fillOpacity={0.55}
+                  stroke={smRing ? 'var(--signal)' : 'none'} strokeWidth={smRing ? 2 : 0} className="cursor-pointer" />
+              </a>
+            );
+          })}
+        </svg>
+        {hover && (
+          <figcaption className="pointer-events-none absolute right-2 top-2 rounded-[10px] border border-[var(--hair-2)] bg-[var(--surface-1)] px-3 py-2 text-[12px] shadow-lg">
+            <p className="font-bold text-ink">{(hover.label ?? '').replace(/\s*\[[^\]]*\]$/, '') || `${hover.address.slice(0, 10)}…`}</p>
+            <p className="num text-ink-2">{hover.side} {usd(hover.valueUsd)} · {hover.leverage ? `${num(hover.leverage, 0)}x` : 'n/a'} · entry {price(hover.entry)} · liq {price(hover.liq)}</p>
+            <p className="num text-ink-2">unrealized {usd(hover.upnlUsd, { signed: true })}</p>
+          </figcaption>
+        )}
+      </figure>
+    </div>
+  );
+}
+
+/** Raw data: the Nansen fields behind a set of positions, copyable. */
+export function RawPositions({ positions }: { positions: Position[] }) {
+  const json = JSON.stringify(positions.slice(0, 50), null, 2);
+  return (
+    <details className="mt-2">
+      <summary className="text-[12px] font-semibold text-ink-muted">Raw data ({Math.min(50, positions.length)} records, tgm/perp-positions fields)</summary>
+      <div className="mt-2 flex justify-end"><button type="button" onClick={() => navigator.clipboard?.writeText(json)} className="text-[12px] font-semibold text-brand">Copy JSON</button></div>
+      <pre className="mt-1 max-h-[260px] overflow-auto rounded-[8px] bg-ink/5 p-3 font-mono text-[11px] text-ink-2">{json}</pre>
+    </details>
+  );
 }

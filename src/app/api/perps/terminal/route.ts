@@ -3,7 +3,7 @@ import { contextFromRequest, contextScope } from '@/server/context';
 import { allow, clientId } from '@/server/rate';
 import { forMode } from '@/server/redact';
 import { SYMBOL_RE } from '@/server/perps/detail';
-import { perpChanges, perpPnlLeaders, perpTerminal } from '@/server/perps/terminal';
+import { perpChanges, perpPnlLeaders, perpSnapshotAt, perpTerminal } from '@/server/perps/terminal';
 
 export const dynamic = 'force-dynamic';
 
@@ -25,6 +25,8 @@ export async function GET(req: Request) {
     if (!ms) return fail(`Window must be one of ${Object.keys(WINDOWS).join(', ')}.`);
     return Response.json(forMode(ctx.mode, perpChanges(symbol, ms)), { headers });
   }
+  const at = Number(url.searchParams.get('at'));
+  if (at > 0) return Response.json(forMode(ctx.mode, perpSnapshotAt(symbol, at)), { headers });
   if (url.searchParams.get('leaders')) {
     if (!priv) return fail('Nansen allows the PnL leaderboard only in the key owner\'s view.', 403);
     try { return Response.json({ leaders: await contextScope.run(ctx, () => perpPnlLeaders(symbol)) }, { headers }); } catch (e) { return fail((e as Error).message.slice(0, 200), 502); }

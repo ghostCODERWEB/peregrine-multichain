@@ -30,3 +30,19 @@ export function remember(href: string, title: string) {
     window.dispatchEvent(new Event('peregrine:recent'));
   } catch { /* storage unavailable */ }
 }
+
+const SAVED = 'peregrine:saved';
+/** Saved views: exact URLs (filters, band, tab, replay time included) the user chose to keep. */
+export function readSaved(): RecentItem[] {
+  try { return JSON.parse(localStorage.getItem(SAVED) ?? '[]') as RecentItem[]; } catch { return []; }
+}
+export function toggleSaved(href: string, title: string): boolean {
+  try {
+    const list = readSaved();
+    const has = list.some((r) => r.href === href);
+    const next = has ? list.filter((r) => r.href !== href) : [{ href, title: title.replace(/\s*·\s*Peregrine.*$/, '').trim() || href, kind: recentKind(href.split('?')[0]) ?? 'View', at: Date.now() }, ...list].slice(0, 30);
+    localStorage.setItem(SAVED, JSON.stringify(next));
+    window.dispatchEvent(new Event('peregrine:recent'));
+    return !has;
+  } catch { return false; }
+}
