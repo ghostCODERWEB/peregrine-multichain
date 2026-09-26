@@ -30,8 +30,8 @@ export async function SiteHeader() {
   return (
     <header className="shell-rail liquid-glass liquid-glass-strong fixed inset-x-2 top-2 z-40 flex h-12 items-center gap-2 rounded-2xl px-2.5
       lg:inset-y-[14px] lg:left-[14px] lg:right-auto lg:top-[14px] lg:h-auto lg:w-[236px] lg:flex-col lg:items-stretch lg:gap-0 lg:rounded-[22px] lg:p-3">
-      <Link href="/" className="brand-lockup flex items-center gap-2.5 lg:border-b lg:border-[var(--liquid-separator)] lg:px-1 lg:pb-4 lg:pt-1" aria-label="Peregrine home">
-        <span className="brand-tile grid h-9 w-9 place-items-center rounded-[10px]"><BrandMark size={36} /></span>
+      <Link href="/" className="brand-lockup flex items-center gap-2.5 lg:px-1 lg:pb-3.5 lg:pt-1" aria-label="Peregrine home">
+        <BrandMark size={38} />
         <span className="leading-tight">
           <span className="block text-[17px] font-extrabold tracking-[-0.02em] text-ink">Peregrine</span>
           <span className="hidden text-[10.5px] font-semibold uppercase tracking-[0.12em] text-ink-muted lg:block">Onchain intelligence</span>
