@@ -61,7 +61,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ name:
           <StatStrip className="xl:col-span-12" stats={[
             { label: 'Volume, 24h', value: usd(c?.volume24h ?? vol), note: c?.heat != null ? `${num(c.heat, 1)}× its daily pace this week` : undefined },
             { label: 'Open interest', value: usd(c?.openInterest ?? oi), note: 'across the category' },
-            { label: 'Active markets', value: String(c?.activeMarkets ?? markets.length), note: `${markets.length} listed here` },
+            { label: 'Active markets', value: (c?.activeMarkets ?? markets.length).toLocaleString('en-US'), note: `${markets.length} listed here` },
             { label: 'Traders, 24h', value: (c?.traders24h ?? 0).toLocaleString('en-US'), note: 'unique wallets' },
             { label: 'Busiest market', value: top ? usd(top.volume24h) : 'n/a', note: top?.question, href: top && `/predict/${encodeURIComponent(top.id)}` },
           ]} />
