@@ -13,7 +13,7 @@ const TICKER = /\b[A-Z]{2,6}\b/;
 
 /** An answer with its entities made actionable: wallets open the Profiler,
  *  price ranges select the band on the radar, known coins open their terminal. */
-function Linked({ text, coins, onRange }: { text: string; coins: Set<string>; onRange: (lo: number, hi: number) => void }) {
+export function Linked({ text, coins, onRange }: { text: string; coins: Set<string>; onRange: (lo: number, hi: number) => void }) {
   const parts: React.ReactNode[] = [];
   let rest = text;
   let key = 0;
@@ -35,7 +35,7 @@ function Linked({ text, coins, onRange }: { text: string; coins: Set<string>; on
 /** The agent writes light Markdown: **bold** and [text](url). Links to
  *  Nansen pages keep only their text (the entity inside it is linked to the
  *  matching page here); bold stays bold. */
-function Line({ text, coins, onRange }: { text: string; coins: Set<string>; onRange: (lo: number, hi: number) => void }) {
+export function Line({ text, coins, onRange }: { text: string; coins: Set<string>; onRange: (lo: number, hi: number) => void }) {
   const plain = text.replace(/\[([^\]]+)\]\((https?:[^)]+)\)/g, '$1').replace(/^#+\s*/, '').replace(/^[-*]\s+/, '· ');
   return <>{plain.split('**').map((seg, i) => (i % 2 ? <strong key={i} className="font-semibold text-ink"><Linked text={seg} coins={coins} onRange={onRange} /></strong> : <Linked key={i} text={seg} coins={coins} onRange={onRange} />))}</>;
 }

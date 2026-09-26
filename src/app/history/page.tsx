@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { PageTitle } from '@/components/PageTitle';
+import { TimeMachine } from '@/components/history/TimeMachine';
 import { ChainLogo } from '@/components/Logo';
 import { getDb } from '@/server/nansen/db';
 import { displayMode } from '@/server/mode';
@@ -68,6 +69,7 @@ export default async function HistoryPage({ searchParams }: { searchParams: Prom
         {table(`Largest Flow Index moves, ${w}`, 'Chain', chains.map((c) => ({ key: c.chain, name: <Link href={`/chain/${c.chain}`} className="flex items-center gap-2 font-semibold text-ink hover:underline"><ChainLogo chain={c.chain} size={16} />{chainName(c.chain)}</Link>, then: num(c.then, 0), now: num(c.now, 0), change: delta(c.d, (x) => `${x >= 0 ? '+' : '−'}${num(Math.abs(x), 0)}`) })), `History starts ${first ? new Date(first).toISOString().slice(0, 10) : 'with the first scan'}; ${w} comparisons appear once it is that old.`)}
         {table(`Largest sector net-flow changes, ${w}`, 'Sector', sectors.map((s) => ({ key: s.sector, name: <Link href={`/sectors/${encodeURIComponent(s.sector)}`} className="font-semibold text-ink hover:underline">{s.sector}</Link>, then: usd(s.then, { signed: true }), now: usd(s.now, { signed: true }), change: delta(s.d, (x) => usd(x, { signed: true })) })), 'Not enough sector history for this window yet.')}
       </div>
+      {owner && <TimeMachine />}
       <p className="text-[11.5px] text-ink-muted">Then is the latest stored snapshot at or before {w} ago; now is the latest snapshot. For a token&apos;s own history, open it and use Time Machine.</p>
     </div>
   );

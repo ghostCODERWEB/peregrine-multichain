@@ -111,3 +111,28 @@ export function savedAnswers(symbol: string, limit = 8): SavedAnswer[] {
     .map((r) => ({ question: r.question, text: r.text, tools: JSON.parse(r.tool_calls) as string[], credits: r.credits, depth: 'quick' as const, createdAt: r.created_at, conversationId: null }));
   return [...deep, ...quick].sort((a, b) => b.createdAt - a.createdAt).slice(0, limit);
 }
+
+/** "Explain this view" for any page module: the module's own data in, a short
+ *  evidence-led explanation out (agent/fast, 200 credits, owner and members). */
+export async function* explainView(ctx: RequestContext, view: string, context: unknown): AsyncGenerator<AnalystEvent> {
+  if (ctx.mode === 'public') { yield { type: 'error', message: 'Explanations use wallet labels and Smart Money data, which Nansen allows only in the key owner\'s view.' }; return; }
+  const json = JSON.stringify(context);
+  const text = `You are Peregrine's analyst, explaining one view of a Nansen-powered intelligence app. View: ${view}. ${RULES} Structure: what changed, which wallets or tokens drove it, which metrics support that, and the timeframe. Use only the data below unless a Nansen tool is needed to verify.\n\nData on screen (JSON):\n${json.length > MAX_CONTEXT_CHARS ? `${json.slice(0, MAX_CONTEXT_CHARS)}…(truncated)` : json}`;
+  let answer = '';
+  const tools: string[] = [];
+  try {
+    for await (const e of streamNansen('agent/fast', { text }, { record: false })) {
+      if (e.type === 'delta') { answer += e.text; yield { type: 'delta', text: e.text }; }
+      else if (e.type === 'tool_call' && !tools.includes(e.name)) { tools.push(e.name); yield { type: 'tool', name: e.name }; }
+      else if (e.type === 'error') { yield { type: 'error', message: `Nansen agent: ${e.error}` }; return; }
+    }
+  } catch (err) {
+    yield { type: 'error', message: `Nansen agent call failed: ${(err as Error).message.slice(0, 160)}` };
+    return;
+  }
+  if (!answer.trim()) return;
+  getDb().prepare('INSERT INTO quick_answers (subject, question_norm, question, text, tool_calls, credits, public, created_at) VALUES (?, ?, ?, ?, ?, ?, 0, ?)')
+    .run(`explain:${view}`, 'explain this view', 'Explain this view', answer.trim(), JSON.stringify(tools), QUICK_CREDITS, Date.now());
+  audit(ctx.user?.id ?? null, 'explain.view', view);
+  yield { type: 'done', conversationId: null, credits: QUICK_CREDITS, tools };
+}

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { AddressLink } from '@/components/entity/AddressLink';
 import { StatStrip } from '@/components/StatStrip';
 import { TimelineFilter } from './TimelineFilter';
+import { ExplainView } from '@/components/ExplainView';
 import { getDb } from '@/server/nansen/db';
 import { perpChanges } from '@/server/perps/terminal';
 import { chainName, pct, usd } from '@/lib/viz/format';
@@ -33,8 +34,11 @@ export function SmartMoneyState() {
   }
   events.sort((a, b) => b.at - a.at);
 
+  const context = { window: '24h', netUsd: net, prior24hNetUsd: prevNet, inflowUsd: cur.inflow, outflowUsd: cur.outflow, wallets: cur.w, priorWallets: prev.w, mostAccumulated: acc && { symbol: acc.s, chain: acc.chain, netUsd: Math.round(acc.net), wallets: acc.w }, mostDistributed: dis && { symbol: dis.s, chain: dis.chain, netUsd: Math.round(dis.net), wallets: dis.w }, mostActiveChain: chains?.chain,
+    recentEvents: events.slice(0, 25).map((e) => ({ at: new Date(e.at).toISOString(), type: e.kind, wallet: e.wallet, label: e.label, action: e.verb, usd: Math.round(e.usd) })) };
   return (
     <div className="space-y-4">
+      <div className="flex justify-end"><ExplainView view="smart-money" context={context} /></div>
       <StatStrip className="rise" stats={[
         { label: 'Smart Money DEX net, 24h', value: usd(net, { signed: true }), tone: net >= 0 ? 'in' : 'out', note: prevNet ? `prior 24h ${usd(prevNet, { signed: true })}` : undefined },
         { label: 'Inflow / outflow', value: `${usd(cur.inflow)} / ${usd(cur.outflow)}`, note: `${cur.w} wallets${prev.w ? ` (prior ${prev.w})` : ''}` },

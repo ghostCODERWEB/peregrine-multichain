@@ -16,8 +16,11 @@ export const metadata: Metadata = { title: 'Capital Flows · Peregrine' };
 // P4: Capital Flows as its own page — the animated chain-to-chain map with
 // room, a 7-day rotation timeline and a chain leaderboard. All of it is read
 // from the owner's stored smart-money trades: no Nansen call, owner view only.
+import { SpotState } from '@/components/weather/SpotState';
+
 export default async function FlowsPage() {
-  const view = viewOf(await displayMode());
+  const mode = await displayMode();
+  const view = viewOf(mode);
   const now = Date.now();
   const flows = capitalFlows(view, 24, now);
   const history = flowHistory(view, 7, now);
@@ -31,7 +34,8 @@ export default async function FlowsPage() {
 
   return (
     <div className="space-y-5">
-      <PageTitle title="Capital Flows" pill={flows ? 'Owner view · wallet rotations' : 'All traders · last 24 hours'} />
+      <PageTitle title="Spot flows" pill={flows ? 'Owner view · wallet rotations' : 'All traders · last 24 hours'} />
+      <SpotState mode={mode} />
 
       <FlowsView initial={{fronts:flows?.fronts ?? [],chains,withheld:flows == null ? ['fronts'] : []}} netChains={netChains} />
 

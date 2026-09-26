@@ -198,12 +198,14 @@ export function TokenView({
   tier,
   mode,
   quickRead,
+  smEvents,
 }: {
   chain: string;
   address: string;
   tier: string;
   mode: 'owner' | 'member' | 'public';
   quickRead?: React.ReactNode;
+  smEvents?: import('./CandleChart').SmEvent[];
 }) {
   const s = useTokenStream(chain, address);
   const [view, setView] = useView();
@@ -668,6 +670,7 @@ export function TokenView({
         m={ok(s.market) ? s.market : null}
         storm={ok(s.storm) ? s.storm : null}
         done={s.done}
+        events={smEvents}
       >
         {cards.storm('')}
       </TokenHero>

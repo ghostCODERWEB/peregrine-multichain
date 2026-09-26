@@ -19,7 +19,7 @@
 
 export type RedistributionClass = 'free' | 'attribution' | 'restricted' | 'prohibited' | 'account';
 export type ModuleId =
-  | 'weather' | 'chain' | 'token' | 'wallet' | 'lab' | 'anchor' | 'alerts' | 'ride' | 'coverage'
+  | 'weather' | 'chain' | 'token' | 'wallet' | 'lab' | 'anchor' | 'alerts' | 'ride' | 'coverage' | 'history'
   | 'M1' | 'M2' | 'M3' | 'M4' | 'M5' | 'M6' | 'M7' | 'M8' | 'M9' | 'M10';
 
 export interface LedgerEntry {
@@ -125,7 +125,7 @@ export const LEDGER: LedgerEntry[] = [
   e('POST /api/v1beta1/profiler/address/historical-token-balances', 'free', { skipped: 'wallet balances at a past date: no Peregrine score is rebuilt per wallet; the live net-worth chart uses profiler/address/historical-balances' }),
   e('POST /api/v1beta1/profiler/address/historical-transactions', 'attribution', { skipped: 'per-wallet transaction history at a date: no Dump Risk input or forward check needs it' }),
   e('POST /api/v1beta1/profiler/historical-transaction-lookup', 'attribution', { skipped: 'the transaction drawer uses transaction-with-token-transfer-lookup, which resolves a hash without a block timestamp' }),
-  e('POST /api/v1beta1/smart-money/historical-token-balances', 'prohibited', { skipped: 'Dump Risk has no smart-money balance input; the conviction history uses smart-money/historical-holdings' }),
+  e('POST /api/v1beta1/smart-money/historical-token-balances', 'prohibited', { usedBy: ['history'], note: 'Time Machine on /history: Smart Money holdings then vs now (25 credits a date, cached 7 days; owner view only)' }),
   e('POST /api/v1beta1/tgm/historical-dex-trades', 'attribution', { skipped: 'Dump Risk v2 reads sell pressure from historical who-bought-sold; per-trade history adds cost without a new input' }),
   e('POST /api/v1beta1/tgm/historical-pnl-leaderboard', 'prohibited', { skipped: '25 credits a token-date for an input the Dump Risk model does not have; the fit is budget-bound already (see the Lab)' }),
   e('POST /api/v1beta1/tgm/historical-token-flow-summary', 'attribution', { usedBy: ['M9'], note: 'Dump Risk v2: cohort shear as of a date' }),

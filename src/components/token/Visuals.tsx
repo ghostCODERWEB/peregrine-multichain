@@ -46,8 +46,8 @@ function Delta({ v, label }: { v: number | null; label: string }) {
  * buy/sell split of the day, and the Storm Score as a ring. Every number is
  * from Nansen; anything it did not return reads "—".
  */
-export function TokenHero({ chain, address, tier, h, m, storm, done, title, children }: {
-  chain: string; address: string; tier: string; title: string;
+export function TokenHero({ chain, address, tier, h, m, storm, done, title, children, events }: {
+  chain: string; address: string; tier: string; title: string; events?: import('./CandleChart').SmEvent[];
   h: TokenHeader | null; m: MarketWave | null; storm: StormWave | null;
   done?: { calls: number; credits: number; cached: number };
   children?: React.ReactNode;
@@ -84,7 +84,7 @@ export function TokenHero({ chain, address, tier, h, m, storm, done, title, chil
           <div className="mt-4 flex flex-wrap items-end gap-x-5 gap-y-3">
             <div>
               <div className="sr-only">{h?.symbol ?? 'Token'} price</div>
-              <div className="num text-[48px] leading-tight tracking-[-.05em] font-extrabold text-ink sm:text-[72px]">{price != null ? (price < 1 ? `$${num(price, price < 0.01 ? 6 : 4)}` : usd(price)) : 'n/a'}</div>
+              <div className="num text-[32px] leading-tight tracking-[-.04em] font-extrabold text-ink sm:text-[40px]">{price == null && !done ? <span className="inline-block h-9 w-40 animate-pulse rounded-lg bg-ink/10 align-middle" aria-label="Loading price" /> : price != null ? (price < 1 ? `$${num(price, price < 0.01 ? 6 : 4)}` : usd(price)) : 'n/a'}</div>
             </div>
             <div className="flex flex-col gap-1.5 pb-2">
               {rangeChange != null && (
@@ -96,7 +96,7 @@ export function TokenHero({ chain, address, tier, h, m, storm, done, title, chil
             </div>
             
           </div>
-          {m && <div className="mt-6"><CandleChart m={m} days={days} /></div>}
+          {m && <div className="mt-6"><CandleChart m={m} days={days} events={events} /></div>}
 
         </div>
         <div className="min-w-0 space-y-4">
@@ -136,7 +136,7 @@ export function TokenHero({ chain, address, tier, h, m, storm, done, title, chil
             ].map(([k, v]) => (
               <div key={k} className="inset-well px-4 py-3">
                 <dt className="text-[12.5px] text-ink-muted">{k}</dt>
-                <dd className="num mt-0.5 text-[22px] font-extrabold text-ink">{v}</dd>
+                <dd className="num mt-0.5 text-[22px] font-extrabold text-ink">{!h && !done ? <span className="inline-block h-6 w-20 animate-pulse rounded bg-ink/10 align-middle" aria-label="Loading" /> : v}</dd>
               </div>
             ))}
           </dl>

@@ -178,7 +178,7 @@ async function raw<T>(endpoint: string, body: unknown, method: HttpMethod, apiKe
         apikey: apiKey,
         'content-type': 'application/json',
       },
-      body: sendsBody ? JSON.stringify(body ?? {}) : undefined,
+      body: sendsBody ? JSON.stringify(wireBody(endpoint, body ?? {})) : undefined,
       signal: AbortSignal.timeout(45_000),
       cache: 'no-store',
     });
@@ -233,6 +233,16 @@ async function raw<T>(endpoint: string, body: unknown, method: HttpMethod, apiKe
       },
     };
   }
+}
+
+/** Nansen renamed a request field (changelog 24-09-2026: `address` → `wallet_address`
+ *  on these endpoints; `address` accepted until at least 2026-12-23). Translated on the
+ *  wire only, so cache keys and recorded fixtures stay stable. */
+const WALLET_ADDRESS_ENDPOINTS = new Set(['profiler/address/pnl-summary', 'profiler/address/related-wallets']);
+export function wireBody(endpoint: string, body: unknown): unknown {
+  if (!WALLET_ADDRESS_ENDPOINTS.has(endpoint) || !body || typeof body !== 'object' || !('address' in body)) return body;
+  const { address, ...rest } = body as Record<string, unknown>;
+  return { ...rest, wallet_address: address };
 }
 
 export interface CallOptions {

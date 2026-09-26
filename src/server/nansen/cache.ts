@@ -64,6 +64,8 @@ const TTL_MS: Record<string, number> = {
   'tgm/jup-dca': 10 * 60_000,
   'tgm/position-intelligence': 10 * 60_000,
   'tgm/perp-positions': 5 * 60_000,
+  // Point-in-time history does not change once settled.
+  'v1beta1/smart-money/historical-token-balances': 7 * 24 * 60 * 60_000,
   'transaction-with-token-transfer-lookup': 7 * 24 * 60 * 60_000,
   'profiler/address/historical-balances': 60 * 60_000,
   'smart-alert/list': 30_000,

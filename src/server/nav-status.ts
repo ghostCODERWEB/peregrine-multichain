@@ -41,6 +41,14 @@ export function navStatus(mode: DisplayMode, now = Date.now()): NavStatus {
     const lead = w.sectors.filter((s) => (s.netFlow24hUsd ?? 0) > 0 && (s.tokens ?? 0) >= 5).sort((a, b) => b.pressure - a.pressure)[0];
     if (lead) out['/sectors'] = { text: `${lead.sector} ${usd(lead.netFlow24hUsd, { signed: true })}`, tone: 'in' };
   } catch { /* no sector snapshot */ }
+  try {
+    const n = (db.prepare(`SELECT COUNT(*) AS n FROM (SELECT p.netflow, p.volume FROM token_pulse p JOIN (SELECT chain, token_address, MAX(snapshot_at) t FROM token_pulse WHERE window='24h' AND source=? AND snapshot_at >= ? GROUP BY chain, token_address) m ON m.chain = p.chain AND m.token_address = p.token_address AND m.t = p.snapshot_at WHERE p.window='24h' AND p.source=? AND p.volume >= 100000 AND ABS(p.netflow) >= 0.05 * p.volume)`).get(owner ? 'smart-money' : 'market-flow', now - 36 * 3_600_000, owner ? 'smart-money' : 'market-flow') as { n: number }).n;
+    if (n) out['/alpha'] = { text: `${n} tokens with strong one-way flow` };
+  } catch { /* no pulse */ }
+  try {
+    const first = (db.prepare('SELECT MIN(snapshot_at) AS t FROM chain_cpi').get() as { t: number | null }).t;
+    if (first) out['/history'] = { text: `Now vs 24h · history from ${new Date(first).toISOString().slice(5, 10)}` };
+  } catch { /* none */ }
   memo = { at: now, mode, value: out };
   return out;
 }

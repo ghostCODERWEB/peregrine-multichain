@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Segmented } from '@/components/ui/Segmented';
 import { EChart } from '@/components/charts/EChart';
 import { useThemeColors } from '@/components/charts/useThemeColors';
@@ -24,8 +25,12 @@ export function marketTitle(symbol: string | null, m: MarketWave): string {
  *  each with its own single y-axis: never two scales on one plot. */
 /** `days` set: the range is chosen outside (the token hero's picker) and this
  *  chart shows no range control of its own. */
-export function CandleChart({ m, days: daysProp }: { m: MarketWave; days?: number }) {
+/** A Smart Money DEX trade in this token (Peregrine's scanner record). */
+export interface SmEvent { t: number; side: 'buy' | 'sell'; usd: number; wallet: string; label: string | null }
+
+export function CandleChart({ m, days: daysProp, events = [] }: { m: MarketWave; days?: number; events?: SmEvent[] }) {
   const c = useThemeColors();
+  const router = useRouter();
   const [daysState, setDays] = useState(14);
   const days = daysProp ?? daysState;
   const [style, setStyle] = useState('line');
@@ -56,6 +61,9 @@ export function CandleChart({ m, days: daysProp }: { m: MarketWave; days?: numbe
           splitNumber: 4,
         }
       : null;
+  const closeAt = (t: number) => { let best = m.candles[0]; for (const k of m.candles) { if (Math.abs(k.t - t) < Math.abs(best.t - t)) best = k; } return best.c; };
+  const evs = events.filter((e) => e.t >= xMin);
+  const maxEv = Math.max(1, ...evs.map((e) => e.usd));
   // No segment flow on this token: price takes the whole plot.
   const flowPanel = m.segmentFlow.length > 0;
   const option = c && {
@@ -118,6 +126,10 @@ export function CandleChart({ m, days: daysProp }: { m: MarketWave; days?: numbe
         if (k && style === 'line') lines.push(`<b>${price(k.value[1])}</b> close`);
         if (k && style === 'candles')
           lines.push(`<b>${price(k.value[2])}</b> close<br/>O ${price(k.value[1])} · H ${price(k.value[4])} · L ${price(k.value[3])}`);
+        for (const e of ps.filter((p) => p.seriesName === 'Smart Money')) {
+          const d = (e as unknown as { data: { ev: SmEvent } }).data.ev;
+          lines.push(`<span style="color:${d.side === 'buy' ? c['in-4'] : c['out-4']}">Smart Money ${d.side} ${usd(d.usd)}</span> · ${(d.label ?? '').replace(/\s*\[[^\]]*\]$/, '') || d.wallet.slice(0, 10)}`);
+        }
         const f = ps.find((p) => p.seriesName === 'Flow');
         if (f) lines.push(`<b>${usd(f.value[1], { signed: true })}</b> ${m.segment} net flow that day`);
         const t = ps[0]?.axisValue;
@@ -193,6 +205,24 @@ export function CandleChart({ m, days: daysProp }: { m: MarketWave; days?: numbe
             },
           ]
         : []),
+      ...(evs.length
+        ? [{
+            name: 'Smart Money',
+            type: 'scatter' as const,
+            xAxisIndex: 0,
+            yAxisIndex: 0,
+            z: 5,
+            data: evs.map((e) => ({
+              value: [e.t, closeAt(e.t)],
+              ev: e,
+              symbol: 'triangle',
+              symbolRotate: e.side === 'buy' ? 0 : 180,
+              symbolSize: 7 + 11 * Math.sqrt(e.usd / maxEv),
+              symbolOffset: [0, e.side === 'buy' ? 10 : -10],
+              itemStyle: { color: e.side === 'buy' ? c['in-4'] : c['out-4'], opacity: 0.9 },
+            })),
+          }]
+        : []),
       {
         name: 'Flow',
         type: 'bar' as const,
@@ -250,6 +280,7 @@ export function CandleChart({ m, days: daysProp }: { m: MarketWave; days?: numbe
       {option ? (
         <EChart
           option={option}
+          onEvents={{ click: (p: { seriesName?: string; data?: { ev?: SmEvent } }) => { if (p.seriesName === 'Smart Money' && p.data?.ev) router.push(`/wallet/${p.data.ev.wallet}`); } }}
           height={flowPanel ? 390 : 350}
           ariaLabel="4-hour price candles with volatility cone, and daily holder-segment net flow"
         />
@@ -257,7 +288,7 @@ export function CandleChart({ m, days: daysProp }: { m: MarketWave; days?: numbe
         <div style={{ height: 340 }} />
       )}
       <div className="mt-1 flex flex-wrap justify-between gap-x-4 gap-y-1 text-[11px] text-ink-muted">
-        <span>{m.segment ? `Lower panel: ${m.segment} daily net flow` : m.segmentUnavailable}</span>
+        <span>{m.segment ? `Lower panel: ${m.segment} daily net flow` : m.segmentUnavailable}{evs.length ? ` · ▲▼ ${evs.length} Smart Money DEX trades (select one for the wallet)` : ''}</span>
         {cone && (
           <span className="num">
             7-day range {price(cone.bands[2].low)} to {price(cone.bands[2].high)} (80%)

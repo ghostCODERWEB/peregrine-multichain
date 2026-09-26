@@ -9,7 +9,7 @@ const dir = await vi.hoisted(async () => {
 });
 
 import { getDb } from './db';
-import { callNansen, NansenApiError, callScope, lastKnownCreditsRemaining, streamNansen, callNansenPoints, callNansenPointsPage } from './client';
+import { wireBody, callNansen, NansenApiError, callScope, lastKnownCreditsRemaining, streamNansen, callNansenPoints, callNansenPointsPage } from './client';
 
 const ENV = { ...process.env };
 afterAll(() => fs.rmSync(dir, { recursive: true, force: true }));
@@ -103,5 +103,13 @@ describe('points (keyless)', () => {
     await expect(callNansenPointsPage(0)).rejects.toThrow(/out of range/);
     vi.stubGlobal('fetch', vi.fn(async () => res(200, { total: 5, results: [{ points: 10, rank: 1001, tier: 'green', is_eligible: true }] })));
     expect(await callNansenPointsPage(1)).toEqual({ total: 5, rows: [{ points: 10, rank: 1001, tier: 'green', eligible: true }] });
+  });
+});
+
+describe('wire-level field renames', () => {
+  it('sends wallet_address where Nansen renamed it, and leaves other endpoints alone', () => {
+    expect(wireBody('profiler/address/pnl-summary', { address: '0xa', chain: 'all' })).toEqual({ wallet_address: '0xa', chain: 'all' });
+    expect(wireBody('profiler/address/related-wallets', { address: '0xa' })).toEqual({ wallet_address: '0xa' });
+    expect(wireBody('profiler/address/transactions', { address: '0xa' })).toEqual({ address: '0xa' });
   });
 });

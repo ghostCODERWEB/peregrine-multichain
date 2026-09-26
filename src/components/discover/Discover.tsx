@@ -6,6 +6,7 @@ import { AlphaView } from '@/components/alpha/AlphaView';
 import type { AlphaBoard, AlphaRow } from '@/server/alpha/board';
 import { chainName, num, pct, usd } from '@/lib/viz/format';
 import { DIVERGENCE_TEXT, type Divergence } from '@/lib/models/spot-perp';
+import { ExplainView } from '@/components/ExplainView';
 
 type Preset = { id: string; label: string; rule: string; test: (r: AlphaRow, ctx: { volTop: number }) => boolean };
 
@@ -115,6 +116,7 @@ export function Discover({ board, universe, source, divergence = [] }: { board: 
       </ul>
 
       <section aria-label="Presets" className="flex flex-wrap items-center gap-1.5">
+        <ExplainView view="discover" context={{ source, tokens: rows.length, presetCounts: counts, strongestAccumulation: topIn && { symbol: topIn.symbol, chain: topIn.chain, flowShare: topIn.flowShare, volumeUsd: topIn.volume24hUsd }, strongestDistribution: topOut && { symbol: topOut.symbol, chain: topOut.chain, flowShare: topOut.flowShare, volumeUsd: topOut.volume24hUsd }, spotVsPerps: divergence.map((d) => ({ symbol: d.symbol, observation: DIVERGENCE_TEXT[d.kind], spotNetUsd: Math.round(d.spotNetUsd), spotShare: d.spotShare, perpFlowIndex: d.ppi })) }} coins={divergence.map((d) => d.symbol)} />
         {PRESETS.map((x) => (
           <button key={x.id} type="button" aria-pressed={preset === x.id} onClick={() => setPreset(preset === x.id ? null : x.id)} title={x.rule}
             className={`rounded-full border px-3 py-1.5 text-[12.5px] font-semibold transition-colors ${preset === x.id ? 'border-transparent bg-ink/15 text-ink' : 'border-[var(--hair)] text-ink-2 hover:border-[var(--hair-2)] hover:text-ink'}`}>

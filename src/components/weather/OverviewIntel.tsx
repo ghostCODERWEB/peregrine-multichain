@@ -6,6 +6,8 @@ import type { DisplayMode } from '@/server/mode';
 import { DIRECTION_TEXT } from '@/lib/perps/changes';
 import { chainName, num, pct, usd } from '@/lib/viz/format';
 import { Go } from '@/components/ui/Icons';
+import { AddressLink } from '@/components/entity/AddressLink';
+import { ExplainView } from '@/components/ExplainView';
 
 type Tok = { chain: string; token: string; sym: string | null; net: number; wallets: number };
 
@@ -42,6 +44,18 @@ export function OverviewIntel({ mode }: { mode: DisplayMode }) {
   const a = cpi(now), b = cpi(now - day);
   const moves = [...a].filter(([k]) => b.has(k)).map(([k, v]) => ({ chain: k, d: v - b.get(k)!, v })).sort((x, y) => Math.abs(y.d) - Math.abs(x.d)).slice(0, 4);
 
+  const wallets = owner ? (db.prepare(`SELECT wallet, MAX(wallet_label) AS label, SUM(CASE WHEN side='buy' THEN usd_value ELSE -usd_value END) AS net, COUNT(*) AS n FROM smart_money_trades WHERE traded_at >= ? GROUP BY wallet`).all(now - day) as Array<{ wallet: string; label: string | null; net: number; n: number }>) : [];
+  const topBuyers = [...wallets].sort((a, b) => b.net - a.net).filter((w) => w.net > 0).slice(0, 2);
+  const topSellers = [...wallets].sort((a, b) => a.net - b.net).filter((w) => w.net < 0).slice(0, 2);
+  let bigPerp: { address: string; label: string | null; side: string; value: number } | null = null;
+  if (latest) for (const p of JSON.parse(latest.positions) as Array<[string, string | null, number, number, ...unknown[]]>) if (String(p[9] ?? '').includes('smart_money') && (!bigPerp || p[3] > bigPerp.value)) bigPerp = { address: p[0], label: p[1], side: p[2] ? 'long' : 'short', value: p[3] };
+  const walletRow = (w: { wallet: string; label: string | null; net: number; n: number }) => (
+    <li key={w.wallet} className="flex items-center justify-between gap-2 py-1 text-[12.5px]">
+      <span className="min-w-0 truncate"><AddressLink address={w.wallet} label={w.label} compact /></span>
+      <span className="num shrink-0 whitespace-nowrap font-semibold" style={tone(w.net)}>{usd(w.net, { signed: true })}</span>
+    </li>
+  );
+
   const tokRow = (t: Tok) => (
     <li key={`${t.chain}:${t.token}`} className="flex items-center justify-between gap-2 py-1 text-[12.5px]">
       <Link href={`/token/${t.chain}/${encodeURIComponent(t.token)}`} className="min-w-0 truncate font-semibold text-ink hover:underline">{t.sym ?? t.token.slice(0, 6)} <span className="font-normal text-ink-muted">{chainName(t.chain)} · {t.wallets} wallet{t.wallets === 1 ? '' : 's'}</span></Link>
@@ -49,8 +63,17 @@ export function OverviewIntel({ mode }: { mode: DisplayMode }) {
     </li>
   );
 
+  const context = {
+    window: 'last 24h',
+    smartMoneyDex: cur && { netUsd: cur.net, wallets: cur.w, prior24hNetUsd: prev?.net, bought: buys.map((t) => ({ symbol: t.sym, chain: t.chain, netUsd: Math.round(t.net), wallets: t.wallets })), sold: sells.map((t) => ({ symbol: t.sym, chain: t.chain, netUsd: Math.round(t.net), wallets: t.wallets })) },
+    perps: { openInterestUsd: board.venue?.openInterest, perpFlowIndex: board.venue?.ppi, btcSmartMoneyLongUsd: Math.round(smLong), btcSmartMoneyShortUsd: Math.round(smShort) },
+    walletsThatMatter: [...topBuyers, ...topSellers].map((w) => ({ address: w.wallet, label: w.label, netUsd: Math.round(w.net) })),
+    flowIndexMoves24h: moves.map((m) => ({ chain: m.chain, now: Math.round(m.v), change: Math.round(m.d) })),
+  };
   return (
-    <div className="stagger grid gap-4 lg:grid-cols-3 xl:col-span-12">
+    <div className="xl:col-span-12">
+    {owner && <div className="mb-2 flex justify-end"><ExplainView view="overview" context={context} coins={['BTC', 'ETH', 'SOL']} /></div>}
+    <div className="stagger grid gap-4 md:grid-cols-2 2xl:grid-cols-4">
       {owner && cur && (
         <Module title="Smart Money on DEXs, 24h" href="/smart-money">
           <p className="num text-[22px] font-bold tracking-[-0.02em]" style={tone(cur.net ?? 0)}>{usd(cur.net, { signed: true })}</p>
@@ -73,6 +96,17 @@ export function OverviewIntel({ mode }: { mode: DisplayMode }) {
           </div>
         )}
       </Module>
+      {owner && (topBuyers.length > 0 || bigPerp) && (
+        <Module title="Wallets that matter, 24h" href="/wallet">
+          <p className="text-[11.5px] font-semibold text-ink-muted">Largest Smart Money net buyers</p>
+          <ol>{topBuyers.map(walletRow)}</ol>
+          <p className="mt-2 text-[11.5px] font-semibold text-ink-muted">Largest net sellers</p>
+          <ol>{topSellers.map(walletRow)}</ol>
+          {bigPerp && (
+            <p className="mt-2 flex items-center gap-1.5 text-[12.5px] text-ink-2">Largest SM perp: <AddressLink address={bigPerp.address} label={bigPerp.label} compact /> <span className="num whitespace-nowrap font-semibold" style={{ color: bigPerp.side === 'long' ? 'var(--mint)' : 'var(--flare)' }}>{bigPerp.side} BTC {usd(bigPerp.value)}</span></p>
+          )}
+        </Module>
+      )}
       <Module title="What changed, 24h" href="/history">
         <ol className="space-y-1">
           {moves.map((m) => (
@@ -84,6 +118,7 @@ export function OverviewIntel({ mode }: { mode: DisplayMode }) {
           {!moves.length && <li className="text-[12.5px] text-ink-muted">Comparisons appear once the scanner has a day of history.</li>}
         </ol>
       </Module>
+    </div>
     </div>
   );
 }
