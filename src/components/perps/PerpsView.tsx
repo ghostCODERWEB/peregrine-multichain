@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { TokenLogo } from '@/components/Logo';
 import { useEffect, useMemo, useState } from 'react';
 import { Card, WaveLoading, Unavailable } from '@/components/Card';
+import { MiniLines } from '@/components/charts/Mini';
 import { InfoPopover } from '@/components/InfoPopover';
 import { ScoreRing } from '@/components/viz/ScoreRing';
 import { LiquidationLadder, leverageTitle } from '@/components/token/Visuals';
@@ -421,6 +422,7 @@ export function PerpsView({ board, title, mode }: { board: PerpBoard; title: str
                   <th className="py-2 font-normal">Coin</th>
                   <th className="font-normal">Perp flow</th>
                   <th className="font-normal">Funding</th>
+                  <th className="font-normal">Price, 24h</th>
                   <th className="text-right font-normal">OI</th>
                 </tr>
               </thead>
@@ -448,6 +450,12 @@ export function PerpsView({ board, title, mode }: { board: PerpBoard; title: str
                         </span>
                       </td>
                       <td className="num text-ink-2">{c.fundingApr != null ? pct(c.fundingApr, 1) : 'n/a'}</td>
+                      <td className="w-[92px] pr-2">
+                        <span className="flex items-center gap-1.5">
+                          <span className="w-[48px]"><MiniLines height={16} label={`${c.symbol} price trend`} series={[{ values: c.trend.price, color: (c.change24h ?? 0) >= 0 ? 'var(--mint)' : 'var(--flare)' }]} /></span>
+                          <span className="num text-[11px]" style={{ color: (c.change24h ?? 0) >= 0 ? 'var(--mint)' : 'var(--flare)' }}>{c.change24h != null ? `${c.change24h >= 0 ? '+' : '−'}${Math.abs(c.change24h * 100).toFixed(1)}%` : ''}</span>
+                        </span>
+                      </td>
                       <td className="num text-right text-ink">{usd(c.openInterest)}</td>
                     </tr>
                   ))}

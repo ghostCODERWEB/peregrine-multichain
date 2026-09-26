@@ -138,7 +138,7 @@ export function Discover({ board, universe, source, divergence = [] }: { board: 
         <span className="font-semibold text-ink">As of</span>
         <input type="date" value={asOf} max={new Date(Date.now() - 86_400_000).toISOString().slice(0, 10)} onChange={(e) => loadPast(e.target.value)} aria-label="Discover as of a past date" className="inset-well h-8 rounded-[8px] px-2 text-ink" />
         <span className="text-ink-2">
-          {loadingPast ? 'Reading Nansen Token Screener history…' : past && 'error' in past ? past.error : past ? `Showing the market on ${past.date} (Nansen historical screener, ${past.credits} credits, all traders). Alpha list below stays live.` : 'Now (scanner). Pick a past date to see the market as it was (5 credits).'}
+          {loadingPast ? 'Reading Nansen Token Screener history…' : past && 'error' in past ? past.error : past ? `Showing the market on ${past.date} (Nansen historical screener, all traders). Alpha list below stays live.` : 'Live. Pick a past date to see the market as it was.'}
         </span>
         {past && <button type="button" onClick={() => loadPast('')} className="font-semibold text-brand">Back to now</button>}
       </div>

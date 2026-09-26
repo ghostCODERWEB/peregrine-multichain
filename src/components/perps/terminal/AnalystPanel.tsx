@@ -47,7 +47,6 @@ export function AnalystPanel({ symbol, available, suggestions, buildContext, coi
   const [turns, setTurns] = useState<Turn[]>([]);
   const [q, setQ] = useState('');
   const [depth, setDepth] = useState<'quick' | 'deep'>('quick');
-  const [ack, setAck] = useState(false);
   const [busy, setBusy] = useState(false);
   const conversation = useRef<string | null>(null);
   const abort = useRef<AbortController | null>(null);
@@ -71,7 +70,6 @@ export function AnalystPanel({ symbol, available, suggestions, buildContext, coi
       setQ('');
       return;
     }
-    if (depth === 'deep' && !ack) return;
     const turn: Turn = { q: question.trim(), text: '', tools: [], depth };
     setTurns((t) => [...t, turn]);
     setQ('');
@@ -164,13 +162,11 @@ export function AnalystPanel({ symbol, available, suggestions, buildContext, coi
           {busy ? (
             <button type="button" onClick={() => abort.current?.abort()} aria-label="Stop" className="grid h-7 w-7 place-items-center rounded-full bg-ink/10 text-ink"><Square className="h-3 w-3" aria-hidden /></button>
           ) : (
-            <button type="submit" disabled={!q.trim() || (depth === 'deep' && !ack)} className="pill-button pill-primary min-h-0 px-3 py-1 text-[12px]">Ask</button>
+            <button type="submit" disabled={!q.trim()} className="pill-button pill-primary min-h-0 px-3 py-1 text-[12px]">Ask</button>
           )}
         </div>
         <p className="text-[11px] text-ink-muted">
-          {depth === 'quick' ? 'Quick uses agent/fast: 200 credits per question, reads what is on screen.' : (
-            <label className="flex items-center gap-1.5"><input type="checkbox" checked={ack} onChange={(e) => setAck(e.target.checked)} /> Deep uses agent/expert: 750 credits per question, multi-step research. I accept the cost.</label>
-          )}
+          {depth === 'quick' ? 'Quick: reads what is on screen.' : 'Deep: multi-step research with Nansen’s tools.'}
         </p>
       </form>
     </section>

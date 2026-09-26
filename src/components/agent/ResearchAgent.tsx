@@ -168,7 +168,7 @@ export function ResearchAgent({ suggestions }: { suggestions: string[] }) {
             {!confirming ? (
               <button
                 disabled={busy || !question.trim() || !info || left === 0}
-                onClick={() => setConfirming(true)}
+                onClick={ask}
                 className="rounded bg-brand/15 px-3.5 py-1.5 text-[13px] text-ink ring-1 ring-brand/40 hover:bg-brand/25 disabled:opacity-45"
               >
                 Ask

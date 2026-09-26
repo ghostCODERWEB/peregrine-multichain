@@ -104,7 +104,7 @@ export function TokenLogo({
   const remote = logo && /^https:\/\//.test(logo) ? logo : null;
   const [failed, setFailed] = useState<string[]>([]);
   const ref = useRef<HTMLImageElement>(null);
-  const lookup = coin ? `/api/logo?coin=${encodeURIComponent(coin)}` : chain && address ? `/api/logo?chain=${encodeURIComponent(chain)}&address=${encodeURIComponent(address)}` : null;
+  const lookup = coin ? `/api/logo?coin=${encodeURIComponent(coin)}&s=${encodeURIComponent(sym)}` : chain && address ? `/api/logo?chain=${encodeURIComponent(chain)}&address=${encodeURIComponent(address)}&s=${encodeURIComponent(sym)}` : null;
   const src = [remote, local, lookup].find((u) => u && !failed.includes(u));
   // An image that failed before hydration never fires onError: check once mounted.
   useEffect(() => { const el = ref.current; if (el && src && el.complete && el.naturalWidth === 0) setFailed((f) => (f.includes(src) ? f : [...f, src])); }, [src]);

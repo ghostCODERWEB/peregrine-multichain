@@ -61,6 +61,7 @@ function deskTitle(d: SmDesk): string {
   return `Highest conviction${where}: ${top.symbol}, smart money added ${pct(top.change24h!, 1)} in 24h${back}${tail}`;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- the page passes the view; the desk reads everything it needs from its APIs
 export function SmartMoneyDesk({ mode }: { mode: 'owner' | 'member' }) {
   const [chain, setChain] = useState('all');
   const [desk] = useLoad<SmDesk>({ action: 'desk', chain }, `desk:${chain}`);
@@ -103,7 +104,6 @@ export function SmartMoneyDesk({ mode }: { mode: 'owner' | 'member' }) {
       <section aria-labelledby="sm-title" className="material rise relative overflow-hidden p-5 sm:p-7">
         <div className="relative">
           <div className="flex flex-wrap items-center gap-2 text-[12px]">
-            <span className="rounded bg-brand/12 px-2 py-0.5 text-ink">Private · {mode === 'owner' ? 'key owner' : 'your Nansen key'}</span>
             <span className="text-ink-muted">Smart-money desk</span>
           </div>
           <h1 id="sm-title" className="t-headline mt-2 text-ink">
@@ -206,8 +206,8 @@ export function SmartMoneyDesk({ mode }: { mode: 'owner' | 'member' }) {
       </Card>
 
       <div className="grid gap-4 lg:grid-cols-3">
-        <Card id="leaders" className="lg:col-span-2" title={d?.leaders[0] ? `Top smart-money wallet made ${usd(d.leaders[0].totalPnlUsd)} in 30 days` : 'Smart-money PnL leaderboard'}
-          sub="The best smart-money wallets over 30 days, with their five largest balances. Follow a wallet to track its moves."
+        <Card id="leaders" className={canFollow && follows.length > 0 ? "lg:col-span-2" : "lg:col-span-3"} title={d?.leaders[0] ? `Top smart-money wallet made ${usd(d.leaders[0].totalPnlUsd)} in 30 days` : 'Smart-money PnL leaderboard'}
+          sub="The best smart-money wallets over 30 days, with their five largest balances"
           action={d ? <InfoPopover p={d.provenance.leaders} /> : undefined}>
           {followErr && <p className="mb-2 text-[12px] text-ink-2">{followErr}</p>}
           {d ? (
@@ -240,8 +240,8 @@ export function SmartMoneyDesk({ mode }: { mode: 'owner' | 'member' }) {
             </div>
           ) : desk.state === 'loading' ? <WaveLoading what="the PnL leaderboard" height={320} /> : null}
         </Card>
-        <Card id="follows" title={follows.length ? `Following ${follows.length} wallet${follows.length === 1 ? '' : 's'}` : 'Follow list'}
-          sub={moves.state === 'ok' && moves.data.source === 'scanner' ? 'Their latest smart-money trades, as the scanner recorded them.' : 'Their latest smart-money trades, fetched with your key (5 credits).'}
+        {canFollow && follows.length > 0 && <Card id="follows" title={follows.length ? `Following ${follows.length} wallet${follows.length === 1 ? '' : 's'}` : 'Follow list'}
+          sub={moves.state === 'ok' && moves.data.source === 'scanner' ? 'Their latest smart-money trades, as the scanner recorded them.' : 'Their latest smart-money trades, from Nansen.'}
           action={moves.state === 'ok' ? <InfoPopover p={moves.data.provenance} /> : undefined}>
           {!canFollow ? <Unavailable text="Keeping a follow list needs a signed-in account." />
             : !follows.length ? <p className="text-[12.5px] text-ink-2">Follow wallets from the leaderboard to collect their trades here.</p>
@@ -260,16 +260,16 @@ export function SmartMoneyDesk({ mode }: { mode: 'owner' | 'member' }) {
                 </ul>
               ) : <p className="text-[12.5px] text-ink-2">No recorded trades from the wallets you follow yet.</p>
             ) : moves.state === 'error' ? <Unavailable text={moves.message} /> : <WaveLoading what="followed wallets' trades" height={200} />}
-        </Card>
+        </Card>}
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-2">
+      <div className={`grid gap-4 ${dcas.state === 'ok' && !dcas.data.orders.length ? '' : 'lg:grid-cols-2'}`}>
         <Card id="sm-perps" title={perps.state === 'ok' && perps.data.tilt[0] ? `Smart money's biggest new perp bet: ${perps.data.tilt[0].netUsd >= 0 ? 'long' : 'short'} ${perps.data.tilt[0].symbol}, ${usd(Math.abs(perps.data.tilt[0].netUsd))} net in 24h` : 'Smart-money perp positions'}
           sub="New Hyperliquid positions smart money opened in 24 hours: net exposure per coin (green long, red short), then the largest trades."
           action={perps.state === 'ok' ? <InfoPopover p={perps.data.provenance} /> : undefined}>
           {perps.state === 'ok' ? <PerpPanel p={perps.data} /> : perps.state === 'error' ? <Unavailable text={perps.message} /> : <WaveLoading what="smart-money perp trades" height={320} />}
         </Card>
-        <Card id="sm-dcas" title={dcas.state === 'ok' ? `${dcas.data.orders.length} recent smart-money DCA order${dcas.data.orders.length === 1 ? '' : 's'} on Jupiter` : 'Smart-money DCAs'}
+        {!(dcas.state === 'ok' && !dcas.data.orders.length) && <Card id="sm-dcas" title={dcas.state === 'ok' ? `${dcas.data.orders.length} recent smart-money DCA order${dcas.data.orders.length === 1 ? '' : 's'} on Jupiter` : 'Smart-money DCAs'}
           sub="Jupiter DCA orders opened by Smart Money, newest first"
           action={dcas.state === 'ok' ? <InfoPopover p={dcas.data.provenance} /> : undefined}>
           {dcas.state === 'ok' ? (
@@ -293,9 +293,8 @@ export function SmartMoneyDesk({ mode }: { mode: 'owner' | 'member' }) {
               </div>
             ) : <p className="text-[12.5px] text-ink-2">Nansen returned no smart-money DCA orders.</p>
           ) : dcas.state === 'error' ? <Unavailable text={dcas.message} /> : <WaveLoading what="smart-money DCAs" height={320} />}
-        </Card>
+        </Card>}
       </div>
-      <p className="text-[11.5px] text-ink-muted">Nothing on this page is shown to public visitors.</p>
     </div>
   );
 }

@@ -273,7 +273,7 @@ export function AskNansenPanel({ subject, label, attachTo, open, onOpenChange }:
                 <button
                   type="button"
                   disabled={busy || !question.trim() || !info || left === 0 || info.demo}
-                  onClick={() => setConfirming(true)}
+                  onClick={ask}
                   className="rounded bg-brand/15 px-3 py-1.5 text-[12.5px] text-ink ring-1 ring-brand/40 hover:bg-brand/25 disabled:opacity-45"
                 >
                   Ask

@@ -129,7 +129,7 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
   };
   // The most-traded market opens with the page.
   // eslint-disable-next-line react-hooks/exhaustive-deps -- once on open
-  useEffect(() => { if (board.markets[0]) pick(board.markets[0], false); }, []);
+  useEffect(() => { const m = board.markets.find((x) => x.price != null && x.price > 0.05 && x.price < 0.95) ?? board.markets[0]; if (m) pick(m, false); }, []);
   const checkRecords = () => {
     if (!picked) return;
     setRecords({ state: 'loading' });
@@ -505,7 +505,7 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
                   </table>
                 </div>
               ) : (
-                <p className="text-[12.5px] text-ink-2">Run the records check above to see each large holder&apos;s record.</p>
+                <p className="text-[12.5px] text-ink-2">Reading each large holder&apos;s record…</p>
               )}
             </Card>
           </div>

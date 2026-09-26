@@ -60,6 +60,8 @@ export interface PerpCoin {
     shorts: number | null;
   } | null;
   divergence: 'crowded-long' | 'crowded-short' | null;
+  /** Mark price and open interest at the stored snapshots, oldest first (up to 24). */
+  trend: { price: number[]; oi: number[] };
 }
 
 export interface PerpBoard {
@@ -194,6 +196,7 @@ export function perpBoard(view: PressureView, now = Date.now()): PerpBoard {
               }
             : null,
         divergence: crowdingDivergence(res?.parts.funding?.z, skew),
+        trend: { price: e.all.slice(-24).map((h) => h.mark_price ?? 0).filter((v) => v > 0), oi: e.all.slice(-24).map((h) => h.open_interest ?? 0) },
       };
     })
     .sort((x, y) => (y.openInterest ?? 0) - (x.openInterest ?? 0));

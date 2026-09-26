@@ -3,12 +3,14 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { Check, Copy } from 'lucide-react';
 import { shortAddress } from '@/lib/viz/format';
+import { entityLogo } from '@/lib/entity-logo';
 
 /** A wallet, shown by its Nansen label when it has one, always with the
  *  address beneath or beside it. Opens the Profiler; the copy action copies
  *  the full address. Never invents a label: none means the address alone. */
 export function AddressLink({ address, label, compact = false, className = '' }: { address: string; label?: string | null; compact?: boolean; className?: string }) {
   const [copied, setCopied] = useState(false);
+  const [iconOk, setIconOk] = useState(true);
   const copy = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -16,8 +18,11 @@ export function AddressLink({ address, label, compact = false, className = '' }:
   };
   // Nansen appends an address stub ("[0x5b5d51]"); a label that is only the stub is no label.
   const clean = label ? label.replace(/\s*\[[^\]]*\]\s*$/, '').trim() || null : null;
+  const icon = iconOk ? entityLogo(clean) : null;
   return (
     <span className={`group/addr inline-flex min-w-0 max-w-full items-center gap-1 ${className}`}>
+      {/* eslint-disable-next-line @next/next/no-img-element -- DefiLlama's public icon CDN; no optimizer proxy */}
+      {icon && <img src={icon} alt="" width={14} height={14} loading="lazy" referrerPolicy="no-referrer" onError={() => setIconOk(false)} className="h-3.5 w-3.5 shrink-0 rounded-full bg-raised object-cover" />}
       <Link href={`/wallet/${encodeURIComponent(address)}`} title={`${clean ? `${clean}\n` : ''}${address}\nOpen in Profiler`} onClick={(e) => e.stopPropagation()}
         className="min-w-0 truncate rounded-[4px] hover:text-ink hover:underline hover:underline-offset-2">
         {clean ? (
