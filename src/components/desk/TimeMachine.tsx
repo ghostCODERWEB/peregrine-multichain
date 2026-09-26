@@ -273,7 +273,7 @@ export function TimeMachine({ chain, token }: { chain: string; token: string }) 
           )}
           <details className="text-xs text-ink-muted">
             <summary>Fixed grading rules</summary>
-            <p className="mt-2">{GRADE_RULES} Replays are separate from live calls in Trader DNA. Not financial advice.</p>
+            <p className="mt-2">{GRADE_RULES} Replays are separate from live calls in Trader DNA.</p>
           </details>
         </section>
       )}

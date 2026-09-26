@@ -52,7 +52,7 @@ export function RugReportView({ chain, address }: { chain: string; address: stri
         <div className="grid items-center gap-6 lg:grid-cols-[minmax(0,1fr)_auto]">
           <div className="hero-seq min-w-0">
             <div className="flex items-center gap-3">
-              <span className="relative"><TokenLogo symbol={info?.symbol ?? '?'} logo={info?.logo} size={52} /><span className="absolute -bottom-1 -right-1"><ChainLogo chain={chain} size={20} /></span></span>
+              <span className="relative"><TokenLogo symbol={info?.symbol ?? '?'} logo={info?.logo} chain={chain} address={address} size={52} /><span className="absolute -bottom-1 -right-1"><ChainLogo chain={chain} size={20} /></span></span>
               <div className="min-w-0">
                 <div className="truncate text-[26px] font-extrabold tracking-[-0.03em]">{info?.name ?? info?.symbol ?? (token ? 'Unknown token' : 'Loading token…')}</div>
                 <div className="num truncate text-[13px] text-ink-muted">{info?.symbol ?? 'n/a'} · {chainName(chain)} · {shortAddress(address)}</div>
@@ -102,7 +102,7 @@ export function RugReportView({ chain, address }: { chain: string; address: stri
       </div>
 
       <div className="flex flex-wrap items-center justify-between gap-3 text-[12.5px] text-ink-muted">
-        <span>Readings from Nansen data, not a guarantee. Not financial advice.{done ? ` · ${done.calls} Nansen calls, ${done.credits} credits (${done.cached} from cache)` : ''}</span>
+        <span>{done ? `${done.calls} Nansen calls, ${done.credits} credits (${done.cached} from cache)` : ''}</span>
         <span className="flex gap-4">
           <Link href="/rug" className="font-bold text-ink-2 hover:text-ink">Check another token</Link>
           <Link href={`/token/${chain}/${encodeURIComponent(address)}`} className="font-bold text-[var(--mint)]">Full token page <Go /></Link>

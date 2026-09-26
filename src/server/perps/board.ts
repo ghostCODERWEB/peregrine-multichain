@@ -247,7 +247,7 @@ export function perpBoard(view: PressureView, now = Date.now()): PerpBoard {
               `Scored against the other coins until each has ${MIN_HISTORY} hourly readings of its own (the scanner started snapshotting perps with M5).`,
             ]
           : []),
-        'A reading of positioning, not a prediction; its track record comes with the M9 backtest.',
+        'Its track record comes with the M9 backtest.',
       ],
     },
   };

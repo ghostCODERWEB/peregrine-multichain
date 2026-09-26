@@ -186,7 +186,7 @@ export function PerpDeposit({ wallet, onFunded }: { wallet: string; onFunded: ()
             <div role="alertdialog" aria-label="Confirm deposit" className="space-y-2 pt-1">
               <p className="text-ink-muted">
                 Real funds. Your wallet sends each transaction on {chainName}; Peregrine never signs or sends. The quote expires two minutes
-                after it was made. Not financial advice.
+                after it was made.
               </p>
               <div className="flex gap-2">
                 <button onClick={send} className="rounded bg-brand/20 px-3 py-1 text-ink ring-1 ring-brand/50">

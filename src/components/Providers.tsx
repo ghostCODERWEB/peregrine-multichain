@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { SiteProvider } from '@/components/SiteContext';
 
-export function Providers({ children, publicSite = false }: { children: React.ReactNode; publicSite?: boolean }) {
+export function Providers({ children, publicSite = false, accounts = true }: { children: React.ReactNode; publicSite?: boolean; accounts?: boolean }) {
   const [client] = useState(() => new QueryClient({
     defaultOptions: {
       queries: {
@@ -17,7 +17,7 @@ export function Providers({ children, publicSite = false }: { children: React.Re
   }));
   return (
     <QueryClientProvider client={client}>
-      <SiteProvider publicSite={publicSite}><TooltipProvider>{children}</TooltipProvider></SiteProvider>
+      <SiteProvider publicSite={publicSite} accounts={accounts}><TooltipProvider>{children}</TooltipProvider></SiteProvider>
     </QueryClientProvider>
   );
 }

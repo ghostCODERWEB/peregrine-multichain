@@ -51,7 +51,7 @@ export function RideCard({ chain, address, symbol }: { chain: string; address: s
       )}
       {quotes && !quotes.length && <p className="text-ink-2">Nansen found no route for this pair right now.</p>}
       {err && <p className="text-ink-2">{err}</p>}
-      <p className="text-[11.5px] text-ink-muted">Quote only. Peregrine never signs or executes trades. Not financial advice.</p>
+      <p className="text-[11.5px] text-ink-muted">Quote only. Peregrine never signs or executes trades.</p>
     </div>
   );
 }

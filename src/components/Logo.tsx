@@ -79,15 +79,22 @@ export function ChainLogo({ chain, size = 16, labelled = false }: { chain: strin
   );
 }
 
-/** A token's logo: Nansen's logo URL, else a bundled major-token icon, else a letter badge. */
+/** A token's logo: Nansen's logo URL, else a bundled major-token icon, else a free public source
+ *  (/api/logo: DexScreener, Jupiter, Hyperliquid coin icons), else a letter badge. */
 export function TokenLogo({
   symbol,
   logo,
+  chain,
+  address,
+  coin,
   size = 20,
   badge = true,
 }: {
   symbol: string | null | undefined;
   logo?: string | null;
+  /** With address: look the token up in free public sources when Nansen has no logo. */ chain?: string | null;
+  address?: string | null;
+  /** A Hyperliquid perp coin: its public coin icon. */ coin?: string | null;
   size?: number;
   /** false: render nothing when there is no real logo (dense chips) */ badge?: boolean;
 }) {
@@ -96,7 +103,8 @@ export function TokenLogo({
   const localLight = LIGHT_TOKENS.has(sym) ? `/logos/tokens/${sym}.light.svg` : null;
   const remote = logo && /^https:\/\//.test(logo) ? logo : null;
   const [failed, setFailed] = useState<string[]>([]);
-  const src = [remote, local].find((u) => u && !failed.includes(u));
+  const lookup = coin ? `/api/logo?coin=${encodeURIComponent(coin)}` : chain && address ? `/api/logo?chain=${encodeURIComponent(chain)}&address=${encodeURIComponent(address)}` : null;
+  const src = [remote, local, lookup].find((u) => u && !failed.includes(u));
   if (!src) return badge ? <Badge text={sym || '?'} size={size} round /> : null;
   if (src === local && localLight)
     return <Themed src={local} light={localLight} width={size} height={size} alt="" className="shrink-0 rounded-full object-cover" />;
@@ -107,7 +115,7 @@ export function TokenLogo({
       width={size}
       height={size}
       alt=""
-      referrerPolicy="no-referrer"
+      referrerPolicy={src === lookup ? undefined : 'no-referrer'}
       loading="lazy"
       decoding="async"
       className="shrink-0 rounded-full bg-raised object-cover"

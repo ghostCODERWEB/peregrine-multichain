@@ -159,5 +159,5 @@ export function scoresOnly(facts: unknown): string {
   const band = f.band
     ? (({ clear: 'Low', cloudy: 'Moderate', watch: 'High', warning: 'Critical' } as Record<string, string>)[f.band] ?? f.band)
     : null;
-  return `Nansen's full answer drew on wallet-level data that its rules keep out of public pages, so here is what Peregrine's own scores say. ${name}'s 7-day Dump Risk is ${f.storm_score ?? 'unscored'}${band ? ` (${band})` : ''}${subs.length ? `, led by ${subs.join(', ')} out of 100` : ''}. Readings, not financial advice.`;
+  return `Nansen's full answer drew on wallet-level data that its rules keep out of public pages, so here is what Peregrine's own scores say. ${name}'s 7-day Dump Risk is ${f.storm_score ?? 'unscored'}${band ? ` (${band})` : ''}${subs.length ? `, led by ${subs.join(', ')} out of 100` : ''}.`;
 }

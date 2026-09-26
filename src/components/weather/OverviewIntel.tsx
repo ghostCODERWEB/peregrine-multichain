@@ -7,7 +7,10 @@ import { DIRECTION_TEXT } from '@/lib/perps/changes';
 import { chainName, num, pct, usd } from '@/lib/viz/format';
 import { Go } from '@/components/ui/Icons';
 import { AddressLink } from '@/components/entity/AddressLink';
+import { TokenLogo } from '@/components/Logo';
 import { ExplainView } from '@/components/ExplainView';
+import { MiniBars, MiniLines, RowBar } from '@/components/charts/Mini';
+import { positioningSeries, smFlowSeries } from '@/server/graph/series';
 
 type Tok = { chain: string; token: string; sym: string | null; net: number; wallets: number };
 
@@ -40,26 +43,38 @@ export function OverviewIntel({ mode }: { mode: DisplayMode }) {
   const latest = owner ? (db.prepare(`SELECT positions FROM perp_position_snapshots WHERE symbol = 'BTC' ORDER BY at DESC LIMIT 1`).get() as { positions: string } | undefined) : undefined;
   let smLong = 0, smShort = 0;
   if (latest) for (const p of JSON.parse(latest.positions) as Array<[string, string | null, number, number, ...unknown[]]>) if (String(p[9] ?? '').includes('smart_money')) { if (p[2]) smLong += p[3]; else smShort += p[3]; }
-  const cpi = (t: number) => new Map((db.prepare(`SELECT c.chain AS k, c.cpi AS v FROM chain_cpi c JOIN (SELECT chain, MAX(snapshot_at) s FROM chain_cpi WHERE snapshot_at <= ? GROUP BY chain) m ON m.chain = c.chain AND m.s = c.snapshot_at`).all(t) as Array<{ k: string; v: number }>).map((r) => [r.k, r.v]));
+  const source = owner ? 'smart-money' : 'market-flow';
+  const cpi = (t: number) => new Map((db.prepare(`SELECT c.chain AS k, c.cpi AS v FROM chain_cpi c JOIN (SELECT chain, MAX(snapshot_at) s FROM chain_cpi WHERE source = ? AND snapshot_at <= ? GROUP BY chain) m ON m.chain = c.chain AND m.s = c.snapshot_at WHERE c.source = ?`).all(source, t, source) as Array<{ k: string; v: number }>).map((r) => [r.k, r.v]));
   const a = cpi(now), b = cpi(now - day);
-  const moves = [...a].filter(([k]) => b.has(k)).map(([k, v]) => ({ chain: k, d: v - b.get(k)!, v })).sort((x, y) => Math.abs(y.d) - Math.abs(x.d)).slice(0, 4);
+  const moves = [...a].filter(([k]) => b.has(k)).map(([k, v]) => ({ chain: k, d: v - b.get(k)!, v })).sort((x, y) => Math.abs(y.d) - Math.abs(x.d)).slice(0, 6);
+  const cpiLine = (chain: string) => (db.prepare('SELECT cpi FROM chain_cpi WHERE chain = ? AND source = ? AND snapshot_at >= ? ORDER BY snapshot_at').all(chain, source, now - day) as Array<{ cpi: number }>).map((r) => r.cpi);
+  const hourly = owner ? smFlowSeries(24, now) : [];
+  const posh = owner ? positioningSeries('BTC').slice(-48) : [];
+  const tokMax = Math.max(0, ...[...buys, ...sells].map((t) => Math.abs(t.net)));
 
   const wallets = owner ? (db.prepare(`SELECT wallet, MAX(wallet_label) AS label, SUM(CASE WHEN side='buy' THEN usd_value ELSE -usd_value END) AS net, COUNT(*) AS n FROM smart_money_trades WHERE traded_at >= ? GROUP BY wallet`).all(now - day) as Array<{ wallet: string; label: string | null; net: number; n: number }>) : [];
   const topBuyers = [...wallets].sort((a, b) => b.net - a.net).filter((w) => w.net > 0).slice(0, 2);
   const topSellers = [...wallets].sort((a, b) => a.net - b.net).filter((w) => w.net < 0).slice(0, 2);
+  const walletMax = Math.max(0, ...[...topBuyers, ...topSellers].map((w) => Math.abs(w.net)));
   let bigPerp: { address: string; label: string | null; side: string; value: number } | null = null;
   if (latest) for (const p of JSON.parse(latest.positions) as Array<[string, string | null, number, number, ...unknown[]]>) if (String(p[9] ?? '').includes('smart_money') && (!bigPerp || p[3] > bigPerp.value)) bigPerp = { address: p[0], label: p[1], side: p[2] ? 'long' : 'short', value: p[3] };
   const walletRow = (w: { wallet: string; label: string | null; net: number; n: number }) => (
-    <li key={w.wallet} className="flex items-center justify-between gap-2 py-1 text-[12.5px]">
-      <span className="min-w-0 truncate"><AddressLink address={w.wallet} label={w.label} compact /></span>
-      <span className="num shrink-0 whitespace-nowrap font-semibold" style={tone(w.net)}>{usd(w.net, { signed: true })}</span>
+    <li key={w.wallet} className="py-1 text-[12.5px]">
+      <span className="flex items-center justify-between gap-2">
+        <span className="min-w-0 truncate"><AddressLink address={w.wallet} label={w.label} compact /></span>
+        <span className="num shrink-0 whitespace-nowrap font-semibold" style={tone(w.net)}>{usd(w.net, { signed: true })} <span className="font-normal text-ink-muted">· {w.n} trades</span></span>
+      </span>
+      <RowBar value={w.net} max={walletMax} />
     </li>
   );
 
   const tokRow = (t: Tok) => (
-    <li key={`${t.chain}:${t.token}`} className="flex items-center justify-between gap-2 py-1 text-[12.5px]">
-      <Link href={`/token/${t.chain}/${encodeURIComponent(t.token)}`} className="min-w-0 truncate font-semibold text-ink hover:underline">{t.sym ?? t.token.slice(0, 6)} <span className="font-normal text-ink-muted">{chainName(t.chain)} · {t.wallets} wallet{t.wallets === 1 ? '' : 's'}</span></Link>
-      <span className="num shrink-0 whitespace-nowrap font-semibold" style={tone(t.net)}>{usd(t.net, { signed: true })}</span>
+    <li key={`${t.chain}:${t.token}`} className="py-1 text-[12.5px]">
+      <span className="flex items-center justify-between gap-2">
+        <Link href={`/token/${t.chain}/${encodeURIComponent(t.token)}`} className="flex min-w-0 items-center gap-1.5 truncate font-semibold text-ink hover:underline"><TokenLogo symbol={t.sym} chain={t.chain} address={t.token} size={16} />{t.sym ?? t.token.slice(0, 6)} <span className="font-normal text-ink-muted">{chainName(t.chain)} · {t.wallets} wallet{t.wallets === 1 ? '' : 's'}</span></Link>
+        <span className="num shrink-0 whitespace-nowrap font-semibold" style={tone(t.net)}>{usd(t.net, { signed: true })}</span>
+      </span>
+      <RowBar value={t.net} max={tokMax} />
     </li>
   );
 
@@ -78,6 +93,12 @@ export function OverviewIntel({ mode }: { mode: DisplayMode }) {
         <Module title="Smart Money on DEXs, 24h" href="/smart-money">
           <p className="num text-[22px] font-bold tracking-[-0.02em]" style={tone(cur.net ?? 0)}>{usd(cur.net, { signed: true })}</p>
           <p className="text-[12px] text-ink-2">{cur.w} wallets{prev?.net ? ` · prior 24h ${usd(prev.net, { signed: true })}` : ''}</p>
+          {hourly.length > 1 && (
+            <div className="mt-2">
+              <MiniBars values={hourly.map((h) => h.net)} label="Smart Money net DEX flow per hour, last 24 hours" title={(i) => `${new Date(hourly[i].t).toISOString().slice(11, 13)}:00 UTC · ${usd(hourly[i].net, { signed: true })} · ${hourly[i].wallets} wallets`} />
+              <p className="mt-0.5 flex justify-between text-[10.5px] text-ink-muted"><span>net per hour</span><span>{hourly.filter((h) => h.net > 0).length} of {hourly.length} hours net buying</span></p>
+            </div>
+          )}
           <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
             <div><p className="text-[11.5px] font-semibold text-ink-muted">Bought most</p><ol>{buys.map(tokRow)}</ol></div>
             <div><p className="text-[11.5px] font-semibold text-ink-muted">Sold most</p><ol>{sells.map(tokRow)}</ol></div>
@@ -93,6 +114,12 @@ export function OverviewIntel({ mode }: { mode: DisplayMode }) {
             <div className="flex h-2 overflow-hidden rounded-full"><span style={{ width: `${(smLong / (smLong + smShort)) * 100}%`, background: 'var(--mint)' }} /><span className="flex-1" style={{ background: 'var(--flare)' }} /></div>
             <p className="num text-ink-2">{usd(smLong)} long · {usd(smShort)} short · {pct(smLong / (smLong + smShort), 0)} long</p>
             {shift && !('unavailable' in shift) && <p className="text-ink-2">4h: <span className="font-semibold text-ink">{DIRECTION_TEXT[(shift.shift.smart_money ?? shift.shift.all).direction]}</span></p>}
+            {posh.length > 2 && (
+              <div className="pt-1">
+                <MiniLines label="BTC Smart Money long and short exposure across stored snapshots" series={[{ values: posh.map((p) => p.smLong), color: 'var(--mint)', area: true }, { values: posh.map((p) => p.smShort), color: 'var(--flare)', area: true }]} />
+                <p className="mt-0.5 flex justify-between text-[10.5px] text-ink-muted"><span><span style={{ color: 'var(--mint)' }}>long</span> vs <span style={{ color: 'var(--flare)' }}>short</span>, {posh.length} snapshots</span><span>since {new Date(posh[0].at).toISOString().slice(5, 10)}</span></p>
+              </div>
+            )}
           </div>
         )}
       </Module>
@@ -110,9 +137,10 @@ export function OverviewIntel({ mode }: { mode: DisplayMode }) {
       <Module title="What changed, 24h" href="/history">
         <ol className="space-y-1">
           {moves.map((m) => (
-            <li key={m.chain} className="flex items-center justify-between gap-2 text-[12.5px]">
-              <Link href={`/chain/${m.chain}`} className="font-semibold text-ink hover:underline">{chainName(m.chain)} Flow Index</Link>
-              <span className="num"><span className="text-ink-2">now {num(m.v, 0)}</span> <span className="font-semibold" style={tone(m.d)}>{m.d >= 0 ? '+' : '−'}{num(Math.abs(m.d), 0)}</span></span>
+            <li key={m.chain} className="grid grid-cols-[minmax(0,1fr)_72px_auto] items-center gap-2 text-[12.5px]">
+              <Link href={`/chain/${m.chain}`} className="truncate font-semibold text-ink hover:underline">{chainName(m.chain)} Flow Index</Link>
+              <MiniLines height={18} min={0} max={100} baseline={50} label={`${chainName(m.chain)} Flow Index, last 24 hours`} series={[{ values: cpiLine(m.chain), color: m.d >= 0 ? 'var(--mint)' : 'var(--flare)' }]} />
+              <span className="num whitespace-nowrap"><span className="text-ink-2">{num(m.v, 0)}</span> <span className="font-semibold" style={tone(m.d)}>{m.d >= 0 ? '+' : '−'}{num(Math.abs(m.d), 0)}</span></span>
             </li>
           ))}
           {!moves.length && <li className="text-[12.5px] text-ink-muted">Comparisons appear once the scanner has a day of history.</li>}

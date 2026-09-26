@@ -67,7 +67,7 @@ export function TokenHero({ chain, address, tier, h, m, storm, done, title, chil
         <div className="hero-seq material min-w-0 p-5 sm:p-7">
           <div className="flex flex-wrap items-center gap-3">
             <div className="relative shrink-0">
-              <TokenLogo symbol={h?.symbol ?? initials} logo={h?.logo} size={64} />
+              <TokenLogo symbol={h?.symbol ?? initials} logo={h?.logo} chain={chain} address={address} size={64} />
               <span className="absolute -bottom-1 -right-1 rounded-md bg-surface p-0.5 ring-1 ring-border"><ChainLogo chain={chain} size={16} /></span>
             </div>
             <div className="min-w-0 flex-1">
@@ -144,7 +144,6 @@ export function TokenHero({ chain, address, tier, h, m, storm, done, title, chil
         {h?.deployedAt && <span>Deployed {h.deployedAt.slice(0, 10)}</span>}
         {done && <span className="num">This page: {done.calls} Nansen calls, {done.credits} credits ({done.cached} from cache)</span>}
         {h && <InfoPopover p={h.provenance} />}
-        <span className="ml-auto">Probabilities, not predictions · not financial advice</span>
       </div>
     </section>
   );

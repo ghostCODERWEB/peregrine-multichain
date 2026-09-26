@@ -444,8 +444,7 @@ export function SpotTrade({ initialToken }: { initialToken: string }) {
                     {usd((picked.tradingFeeUsd ?? 0) + (picked.networkFeeUsd ?? 0))}.
                   </div>
                   <div className="text-ink-muted">
-                    This is a real trade with your funds. Your wallet shows the final details; nothing happens unless you approve there. Not
-                    financial advice.
+                    This is a real trade with your funds. Your wallet shows the final details; nothing happens unless you approve there.
                   </div>
                   <div className="flex gap-2">
                     <button onClick={swap} className="rounded bg-brand/20 px-3 py-1 text-ink ring-1 ring-brand/50">

@@ -122,7 +122,7 @@ export function alphaBoard(view: PressureView, now = Date.now(), limit = 60): Al
       ],
       calls: [{ endpoint: 'token-screener', body: { note: 'the scanner’s own flow rows: the busiest 25 tokens per chain, kept each scan' }, ref: 'every scan, no extra credits' }],
       notes: [
-        'A shortlist of what to look at, not a prediction or advice. Its hit rate is measured in the Backtest Lab as history accumulates.',
+        'A shortlist of what to look at. Its hit rate is measured in the Backtest Lab as history accumulates.',
         ...(view === 'public' ? ['Public view: scored on all-trader flow; the smart-money component is shown to the API key owner only.'] : []),
       ],
     },

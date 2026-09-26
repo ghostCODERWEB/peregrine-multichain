@@ -46,7 +46,7 @@ function CallRow({ c, now, onNoteAttached }: { c: CallCardWithNotes; now: number
             href={`/token/${c.chain}/${encodeURIComponent(c.token)}`}
             className="inline-flex items-center gap-1.5 align-middle underline-offset-2 hover:underline"
           >
-            <TokenLogo symbol={c.symbol} logo={c.logo} size={16} />
+            <TokenLogo symbol={c.symbol} logo={c.logo} chain={c.chain} address={c.token} size={16} />
             {name}
           </Link>
           <span className="text-ink-muted">
@@ -259,7 +259,7 @@ export function DeskView({ initial }: { initial: DeskData }) {
           <p className="mt-2 text-[13px] text-ink-2">Calls are graded once their horizon passes.</p>
         )}
         <p className="mt-3 border-t border-border pt-2 text-[11.5px] text-ink-muted">
-          {GRADE_RULES} Calls can’t be edited or deleted. Not financial advice.
+          {GRADE_RULES} Calls can’t be edited or deleted.
         </p>
       </section>
     </div>

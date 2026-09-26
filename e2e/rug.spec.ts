@@ -15,7 +15,6 @@ test('rug checker: in the nav, lists eligible networks, and grades a token with 
   const checks = page.getByRole('region', { name: /^(Exit liquidity|Top-10 holders|Insider clusters|Token age|Sell pressure|Nansen risk indicators): / });
   await expect(checks).toHaveCount(6);
   await expect(page.getByText(/\d+ Nansen calls, \d+ credits/)).toBeVisible({ timeout: 60_000 });
-  await expect(page.getByText('Not financial advice.', { exact: false }).first()).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
   expect(errors).toEqual([]);
 });

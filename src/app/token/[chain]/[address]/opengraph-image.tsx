@@ -59,7 +59,7 @@ export default async function Image({ params }: { params: Promise<{ chain: strin
               );
             })}
           </div>
-          <div style={{ display: 'flex', marginTop: 'auto', fontSize: 20, color: OG.muted }}>Computed from Nansen API data · probabilistic, not financial advice</div>
+          <div style={{ display: 'flex', marginTop: 'auto', fontSize: 20, color: OG.muted }}>Computed from Nansen API data</div>
         </div>
       </div>
     ),

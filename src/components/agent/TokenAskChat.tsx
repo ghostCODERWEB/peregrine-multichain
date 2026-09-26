@@ -190,7 +190,7 @@ export function TokenAskChat({
         </label>
       </form>
       <p className="mt-2 text-[11.5px] text-ink-muted">
-        Answers come from Nansen’s agent reading Peregrine’s scores. Probabilistic, not financial advice.
+        Answers come from Nansen’s agent reading Peregrine’s scores.
       </p>
     </section>
   );

@@ -344,7 +344,7 @@ export function PerpTrade({ marks, initialCoin }: { marks: PerpMark[]; initialCo
           <div role="alertdialog" aria-label="Confirm" className="space-y-2 rounded-xl border border-border bg-raised/60 p-3 text-[12.5px]">
             <div className="text-ink">{prep.summary}</div>
             <div className="text-ink-muted">
-              Real funds on Hyperliquid. Your wallet shows the typed data it signs; this expires in 45 seconds. Not financial advice.
+              Real funds on Hyperliquid. Your wallet shows the typed data it signs; this expires in 45 seconds.
             </div>
             <div className="flex gap-2">
               <button onClick={signAndSend} className="rounded bg-brand/20 px-3 py-1 text-ink ring-1 ring-brand/50">

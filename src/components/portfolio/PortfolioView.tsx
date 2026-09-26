@@ -9,11 +9,13 @@ import type { DeskData } from '@/server/wallet/desk';
 import { chainName, pct, shortAddress, usd } from '@/lib/viz/format';
 import { PageTitle } from '@/components/PageTitle';
 import { Go } from '@/components/ui/Icons';
+import { useSite } from '@/components/SiteContext';
 
 const DEMO = '0xcbb811f129782ef87e19dea9d3375045219bae00';
 const button = 'rounded-lg border border-border px-3 py-2 text-sm text-ink hover:bg-accent disabled:opacity-50';
 
 export function PortfolioView({ demo, suggestions = [] }: { demo: boolean; suggestions?: Array<{ address: string; label: string | null }> }) {
+  const { accounts } = useSite();
   const [input, setInput] = useState(''),
     [canSave, setCanSave] = useState(false);
   const [p, setP] = useState<Portfolio | null>(null),
@@ -124,7 +126,7 @@ export function PortfolioView({ demo, suggestions = [] }: { demo: boolean; sugge
             </button>
           )}
         </div>
-        {!canSave && (
+        {!canSave && accounts && (
           <p className="needs-account mt-2 text-xs text-ink-muted">
             Sign in to save a private watch set. Analysis does not require a wallet connection.
           </p>
@@ -215,7 +217,7 @@ export function PortfolioView({ demo, suggestions = [] }: { demo: boolean; sugge
           <Card
             id="portfolio-storm"
             title="How much of the portfolio has a Dump Risk reading?"
-            sub="Value-weighted local readings from the last 24 hours. A heuristic risk indicator, not a prediction probability."
+            sub="Value-weighted local readings from the last 24 hours."
             action={<InfoPopover p={p.provenance} />}
           >
             <p className="num text-2xl">{p.storm.score == null ? 'No recent reading' : `${p.storm.score.toFixed(0)} / 100`}</p>

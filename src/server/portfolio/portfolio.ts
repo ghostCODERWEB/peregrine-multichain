@@ -102,7 +102,7 @@ export async function portfolio(addresses: string[]) {
         calls,
         notes: [
           'Up to 200 positions per wallet. Unpriced tokens, NFTs, DeFi positions and perp collateral are not included in the spot total. A missing wallet is not valued at zero. Identical symbols on different chains or contracts stay separate.',
-          'Risk exposure uses local Peregrine scores from the last 24 hours with at least 50% input confidence, value-weighted over covered positions only. It is a heuristic, not a prediction probability; unscored tokens remain unknown.',
+          'Risk exposure uses local Peregrine scores from the last 24 hours with at least 50% input confidence, value-weighted over covered positions only; unscored tokens remain unknown.',
         ],
       } satisfies Provenance,
     };

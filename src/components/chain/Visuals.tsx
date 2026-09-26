@@ -102,7 +102,6 @@ export function ChainHero({ d, tier, title, note }: { d: ChainPageData; tier: st
       <div className="relative mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-border/60 pt-3 text-[11.5px] text-ink-muted">
         {w.updatedAt && <span>Flow updated {new Date(w.updatedAt).toISOString().slice(11, 16)} UTC</span>}
         {d.peers.provenance && <InfoPopover p={d.peers.provenance} />}
-        <span className="ml-auto">Probabilities, not predictions · not financial advice</span>
       </div>
     </section>
   );

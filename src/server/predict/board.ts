@@ -435,7 +435,7 @@ export async function holderRecords(id: string, price: number | null): Promise<P
           ...(p ? [p.call] : []),
         ],
         notes: [
-          'A reading of positioning, not a prediction. Its calibration against resolved markets comes with the M9 backtest; until then it has no track record.',
+          'Calibration against resolved markets comes with the M9 backtest.',
           'Needs at least two skilled holders among the largest, or it reports nothing.',
         ],
       },

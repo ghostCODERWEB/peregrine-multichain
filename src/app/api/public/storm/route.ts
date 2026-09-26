@@ -54,7 +54,7 @@ export async function GET(req: Request) {
       computed_at: r.computed_at,
       computed_by: r.source,
       page: `/token/${chain}/${token}`,
-      note: 'Probabilistic dump-risk score, 0-100. Not financial advice.',
+      note: 'Dump-risk score, 0-100.',
     },
     { headers: cors },
   );

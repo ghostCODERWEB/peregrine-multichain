@@ -3,10 +3,10 @@ import { createContext, useContext } from 'react';
 import { publicReason } from '@/lib/site-text';
 
 /** Instance facts the browser needs; set once by the root layout. */
-const SiteCtx = createContext({ publicSite: false });
+const SiteCtx = createContext({ publicSite: false, accounts: true });
 
-export function SiteProvider({ publicSite, children }: { publicSite: boolean; children: React.ReactNode }) {
-  return <SiteCtx.Provider value={{ publicSite }}>{children}</SiteCtx.Provider>;
+export function SiteProvider({ publicSite, accounts = true, children }: { publicSite: boolean; accounts?: boolean; children: React.ReactNode }) {
+  return <SiteCtx.Provider value={{ publicSite, accounts }}>{children}</SiteCtx.Provider>;
 }
 
 export const useSite = () => useContext(SiteCtx);

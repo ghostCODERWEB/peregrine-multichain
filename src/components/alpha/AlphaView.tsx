@@ -49,7 +49,7 @@ function Leader({ row, rank }: { row: AlphaRow; rank: number }) {
       <div className="min-w-0 flex-1">
         <div className="flex items-baseline justify-between gap-2">
           <div className="flex items-center gap-2 truncate text-[17px] font-semibold text-ink group-hover:underline">
-            <TokenLogo symbol={row.symbol} logo={row.logo} size={20} />
+            <TokenLogo symbol={row.symbol} logo={row.logo} chain={row.chain} address={row.tokenAddress} size={20} />
             {row.symbol ?? 'Token'}
           </div>
           <span className="inline-flex items-center gap-1 text-[11px] text-ink-muted">
@@ -160,7 +160,7 @@ export function AlphaView({ board }: { board: AlphaBoard }) {
                       href={`/token/${r.chain}/${encodeURIComponent(r.tokenAddress)}`}
                       className="inline-flex items-center gap-1.5 font-medium text-ink hover:underline"
                     >
-                      <TokenLogo symbol={r.symbol} logo={r.logo} size={16} />
+                      <TokenLogo symbol={r.symbol} logo={r.logo} chain={r.chain} address={r.tokenAddress} size={16} />
                       {r.symbol ?? 'Token'}
                     </Link>
                     <div className="flex items-center gap-1 text-[11px] text-ink-muted">

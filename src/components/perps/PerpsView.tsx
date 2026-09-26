@@ -28,7 +28,7 @@ export function Sym({ s, className = '' }: { s: string; className?: string }) {
   if (i < 0)
     return (
       <span className={`inline-flex min-w-0 items-center gap-1.5 ${className}`}>
-        <TokenLogo symbol={s} size={14} />
+        <TokenLogo symbol={s} coin={s} size={14} />
         {s}
       </span>
     );
@@ -105,7 +105,6 @@ function Hero({ b, title, mode }: { b: PerpBoard; title: string; mode: 'owner' |
       <div className="relative mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-border/60 pt-3 text-[11.5px] text-ink-muted">
         {b.provenance && <InfoPopover p={b.provenance} />}
         <span>Built from Peregrine&apos;s hourly perp snapshots: this page makes no Nansen call until you open a coin.</span>
-        <span className="ml-auto">Readings, not predictions · not financial advice</span>
       </div>
     </section>
   );
@@ -715,10 +714,6 @@ export function PerpsView({ board, title, mode }: { board: PerpBoard; title: str
           <WaveLoading what="the Hyperliquid leaderboard" height={320} />
         )}
       </Card>
-      <p className="text-[11.5px] text-ink-muted">
-        Perp flow and copy-trade scores are readings of positioning, not predictions, and have no track record until the M9 backtest.
-        Peregrine never places or signs a trade. Not financial advice.
-      </p>
     </div>
   );
 }

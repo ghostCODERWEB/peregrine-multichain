@@ -2,6 +2,8 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import { PageTitle } from '@/components/PageTitle';
 import { TimeMachine } from '@/components/history/TimeMachine';
+import { FlowIndexHistory } from '@/components/charts/IntelCharts';
+import { flowIndexHistory } from '@/server/graph/series';
 import { ChainLogo } from '@/components/Logo';
 import { getDb } from '@/server/nansen/db';
 import { displayMode } from '@/server/mode';
@@ -23,10 +25,10 @@ export default async function HistoryPage({ searchParams }: { searchParams: Prom
   const now = Date.now();
   const db = getDb();
   const owner = (await displayMode()) === 'owner';
-  const snap = (t: number) => toMap(db.prepare(`SELECT c.chain AS k, c.cpi AS v FROM chain_cpi c JOIN (SELECT chain, MAX(snapshot_at) s FROM chain_cpi WHERE snapshot_at <= ? GROUP BY chain) m ON m.chain = c.chain AND m.s = c.snapshot_at`).all(t) as Array<{ k: string; v: number }>);
+  const source = owner ? 'smart-money' : 'market-flow';
+  const snap = (t: number) => toMap(db.prepare(`SELECT c.chain AS k, c.cpi AS v FROM chain_cpi c JOIN (SELECT chain, MAX(snapshot_at) s FROM chain_cpi WHERE source = ? AND snapshot_at <= ? GROUP BY chain) m ON m.chain = c.chain AND m.s = c.snapshot_at WHERE c.source = ?`).all(source, t, source) as Array<{ k: string; v: number }>);
   const chainsNow = snap(now), chainsThen = snap(now - ms);
   const chains = [...chainsNow].filter(([k]) => chainsThen.has(k)).map(([k, v]) => ({ chain: k, then: chainsThen.get(k)!, now: v, d: v - chainsThen.get(k)! })).sort((a, b) => Math.abs(b.d) - Math.abs(a.d)).slice(0, 12);
-  const source = owner ? 'smart-money' : 'market-flow';
   const sec = (t: number) => toMap(db.prepare(`SELECT s.sector AS k, s.net_flow_usd AS v FROM sector_snapshots s JOIN (SELECT sector, MAX(snapshot_at) x FROM sector_snapshots WHERE window='24h' AND source=? AND snapshot_at <= ? GROUP BY sector) m ON m.sector = s.sector AND m.x = s.snapshot_at WHERE s.window='24h' AND s.source=?`).all(source, t, source) as Array<{ k: string; v: number }>);
   const sNow = sec(now), sThen = sec(now - ms);
   const sectors = [...sNow].filter(([k]) => sThen.has(k)).map(([k, v]) => ({ sector: k, then: sThen.get(k)!, now: v, d: v - sThen.get(k)! })).sort((a, b) => Math.abs(b.d) - Math.abs(a.d)).slice(0, 12);
@@ -65,6 +67,13 @@ export default async function HistoryPage({ searchParams }: { searchParams: Prom
           ))}
         </div>
       )}
+      <section aria-labelledby="fih" className="material p-4 sm:p-5">
+        <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
+          <h2 id="fih" className="t-section">Flow Index, the chains that moved most</h2>
+          <span className="text-[12px] text-ink-muted">{w === '7d' ? '7 days' : '24 hours'} · 50 is neutral · select a chain</span>
+        </div>
+        <FlowIndexHistory series={flowIndexHistory(w === '7d' ? 7 : 1, 6, source)} />
+      </section>
       <div className="grid gap-4 xl:grid-cols-2">
         {table(`Largest Flow Index moves, ${w}`, 'Chain', chains.map((c) => ({ key: c.chain, name: <Link href={`/chain/${c.chain}`} className="flex items-center gap-2 font-semibold text-ink hover:underline"><ChainLogo chain={c.chain} size={16} />{chainName(c.chain)}</Link>, then: num(c.then, 0), now: num(c.now, 0), change: delta(c.d, (x) => `${x >= 0 ? '+' : '−'}${num(Math.abs(x), 0)}`) })), `History starts ${first ? new Date(first).toISOString().slice(0, 10) : 'with the first scan'}; ${w} comparisons appear once it is that old.`)}
         {table(`Largest sector net-flow changes, ${w}`, 'Sector', sectors.map((s) => ({ key: s.sector, name: <Link href={`/sectors/${encodeURIComponent(s.sector)}`} className="font-semibold text-ink hover:underline">{s.sector}</Link>, then: usd(s.then, { signed: true }), now: usd(s.now, { signed: true }), change: delta(s.d, (x) => usd(x, { signed: true })) })), 'Not enough sector history for this window yet.')}

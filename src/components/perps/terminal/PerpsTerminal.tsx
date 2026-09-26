@@ -16,6 +16,7 @@ import { ChangesPanel, ShiftCard, useChanges } from './ChangesPanel';
 import { LiquidationRadar } from './LiquidationRadar';
 import { BandInspector, CohortMatrix, ConsensusMap, DataTable, EntryChart, LeverageChart, PnlLeaders, ProximityTable, TradesTable, positionCols } from './Panels';
 import { MarketBrief } from './MarketBrief';
+import { PositioningHistory, type PositionPoint } from '@/components/charts/IntelCharts';
 import { TABS, useTerminalState, type Tab } from './state';
 
 
@@ -60,7 +61,7 @@ function ReplayBar({ times, at, shownAt, onChange }: { times: number[]; at: numb
   );
 }
 
-export function PerpsTerminal({ symbol, coins, owner }: { symbol: string; coins: string[]; owner: boolean }) {
+export function PerpsTerminal({ symbol, coins, owner, positioning = [] }: { symbol: string; coins: string[]; owner: boolean; positioning?: PositionPoint[] }) {
   const router = useRouter();
   const { state, set } = useTerminalState();
   const { data, error, loading, refresh, tick } = useTerminalData(symbol, state.at);
@@ -197,9 +198,20 @@ export function PerpsTerminal({ symbol, coins, owner }: { symbol: string; coins:
         )}
       </div>
 
-      {data && mark && (
-        <MarketBrief data={data} mark={mark} changes={changes} available={available} onBand={(b) => selectBand(b)} onTab={goTab} onCohort={(c) => set({ cohort: c })} />
-      )}
+      <div className={`grid gap-4 ${positioning.length > 1 ? 'xl:grid-cols-2' : ''}`}>
+        {data && mark && (
+          <MarketBrief data={data} mark={mark} changes={changes} available={available} onBand={(b) => selectBand(b)} onTab={goTab} onCohort={(c) => set({ cohort: c })} />
+        )}
+        {positioning.length > 1 && (
+          <section aria-labelledby="posh-title" className="material min-w-0 p-4 sm:p-5">
+            <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
+              <h2 id="posh-title" className="text-[13.5px] font-bold text-ink">Positioning history</h2>
+              <span className="text-[11.5px] text-ink-muted">{positioning.length} stored snapshots · select a point to replay it</span>
+            </div>
+            <PositioningHistory points={positioning} onReplay={(t) => set({ at: t })} />
+          </section>
+        )}
+      </div>
 
       {/* ---------------------------------------------------------- workspace */}
       <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_420px] 3xl:grid-cols-[minmax(0,1fr)_520px]">
@@ -291,7 +303,7 @@ export function PerpsTerminal({ symbol, coins, owner }: { symbol: string; coins:
       </section>
 
       <p className="text-[11.5px] text-ink-muted">
-        Nansen data via your API key: {data ? `${data.tally.calls} calls, ${data.tally.credits} credits (${data.tally.cached} cached) for this view` : 'loading'}. Positions are the largest Nansen returns per cohort (up to {num(1000, 0)} each), refreshed at most every 5 minutes. Research, not financial advice.
+        Nansen data via your API key: {data ? `${data.tally.calls} calls, ${data.tally.credits} credits (${data.tally.cached} cached) for this view` : 'loading'}. Positions are the largest Nansen returns per cohort (up to {num(1000, 0)} each), refreshed at most every 5 minutes.
       </p>
     </div>
   );

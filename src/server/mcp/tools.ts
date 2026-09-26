@@ -279,7 +279,7 @@ export async function callTool(ctx: RequestContext, name: string, args: Record<s
   if (!t) return { isError: true, content: [{ type: 'text', text: `Unknown tool "${name}".` }] };
   try {
     const out = forMode(ctx.mode, await t.run(ctx, args));
-    const body = { source: 'Nansen API, via Peregrine', view: ctx.mode, note: 'Readings, not predictions or advice.', result: out };
+    const body = { source: 'Nansen API, via Peregrine', view: ctx.mode, result: out };
     return { content: [{ type: 'text', text: JSON.stringify(body) }], structuredContent: body };
   } catch (e) {
     return { isError: true, content: [{ type: 'text', text: (e as Error).message.slice(0, 300) }] };

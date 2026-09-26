@@ -296,7 +296,7 @@ export function SmartMoneyDesk({ mode }: { mode: 'owner' | 'member' }) {
           ) : dcas.state === 'error' ? <Unavailable text={dcas.message} /> : <WaveLoading what="smart-money DCAs" height={320} />}
         </Card>
       </div>
-      <p className="text-[11.5px] text-ink-muted">Readings of positioning from Nansen smart-money data, not predictions and not financial advice. Nothing on this page is shown to public visitors.</p>
+      <p className="text-[11.5px] text-ink-muted">Nothing on this page is shown to public visitors.</p>
     </div>
   );
 }

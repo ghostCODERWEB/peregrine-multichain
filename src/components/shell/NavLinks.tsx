@@ -50,8 +50,8 @@ const active = (path: string, href: string) => (href === '/' ? path === '/' : pa
 /** The grouped nav list: the sidebar on large screens, the drawer on phones. */
 export function NavList({ onNavigate, status = {} }: { onNavigate?: () => void; status?: Record<string, { text: string; tone?: 'in' | 'out' }> }) {
   const path = usePathname() ?? '/';
-  const { publicSite } = useSite();
-  const items = publicSite ? NAV.filter((n) => !n.ownerOnly) : NAV;
+  const { publicSite, accounts } = useSite();
+  const items = NAV.filter((n) => !(publicSite && n.ownerOnly) && !(!accounts && n.signIn));
   const groups = [...new Set(items.map((n) => n.group))];
   return (
     <nav aria-label="Primary" className="space-y-4">

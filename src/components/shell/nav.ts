@@ -1,7 +1,9 @@
 // The app's navigation, in the order a visitor meets the product: the
 // radar first, then what to look at, then research and the tools that act.
-export interface NavItem { href: string; label: string; icon: NavIcon; group: 'Explore' | 'Research' | 'Act'; /** Not offered on a public site: owner-only data, or a wallet or paid key action. */ ownerOnly?: true }
+export interface NavItem { href: string; label: string; icon: NavIcon; group: 'Explore' | 'Research' | 'Act'; /** Not offered on a public site: owner-only data, or a wallet or paid key action. */ ownerOnly?: true; /** Needs a sign-in or a wallet signature: hidden when accounts are off. */ signIn?: true }
 
+/** Pages that need a sign-in or wallet: redirected home when accounts are off. */
+export const SIGN_IN_PATHS = ['/alerts', '/trade', '/account', '/login'];
 /** Pages a public site redirects home (src/middleware.ts). */
 export const OWNER_ONLY_PATHS = ['/smart-money', '/agent', '/alerts', '/trade'];
 export type NavIcon = 'shield' | 'map' | 'flows' | 'sparkles' | 'layers' | 'activity' | 'target' | 'bot' | 'swap' | 'brain' | 'briefcase' | 'flask' | 'gauge' | 'bell' | 'key' | 'notebook';
@@ -23,7 +25,7 @@ export const NAV: NavItem[] = [
   { href: '/lab', label: 'Backtest Lab', icon: 'flask', group: 'Research' },
   { href: '/desk', label: 'Desk', icon: 'notebook', group: 'Research' },
   { href: '/agent', label: 'Ask Nansen', icon: 'bot', group: 'Act', ownerOnly: true },
-  { href: '/alerts', label: 'Alerts', icon: 'bell', group: 'Act', ownerOnly: true },
-  { href: '/trade', label: 'Trade', icon: 'swap', group: 'Act', ownerOnly: true },
+  { href: '/alerts', label: 'Alerts', icon: 'bell', group: 'Act', ownerOnly: true, signIn: true },
+  { href: '/trade', label: 'Trade', icon: 'swap', group: 'Act', ownerOnly: true, signIn: true },
   { href: '/coverage', label: 'Data coverage', icon: 'flask', group: 'Act' },
 ];

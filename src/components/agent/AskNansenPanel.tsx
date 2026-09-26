@@ -334,8 +334,7 @@ export function AskNansenPanel({ subject, label, attachTo, open, onOpenChange }:
             published.{' '}
             <Link href="/agent" className="underline underline-offset-2">
               Open Ask Nansen <Go />
-            </Link>{' '}
-            Not financial advice.
+            </Link>
           </p>
         </div>
       </SheetContent>

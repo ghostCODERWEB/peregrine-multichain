@@ -316,7 +316,7 @@ export function TokenView({
         id="storm"
         className={cls}
         title={ok(s.storm) ? `Dump Risk: ${Math.round(s.storm.result.score)} of 100` : 'Dump Risk'}
-        sub="Probability-style dump-risk score from six Nansen-derived inputs. Not financial advice."
+        sub="Probability-style dump-risk score from six Nansen-derived inputs."
       >
         {ok(s.storm) ? (
           <StormDial s={s.storm} indicators={[...(h?.risk ?? []), ...(h?.reward ?? [])]} />

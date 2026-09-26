@@ -178,7 +178,7 @@ export function FollowThrough({
           </p>
         </>
       )}
-      <p className="text-[11px] text-ink-muted">Who bought after smart money, not whether they were right to. Not financial advice.</p>
+      <p className="text-[11px] text-ink-muted">Who bought after smart money, not whether they were right to.</p>
     </div>
   );
 }

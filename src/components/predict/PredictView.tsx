@@ -201,7 +201,6 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
         </div>
         <div className="relative mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-border/60 pt-3 text-[11.5px] text-ink-muted">
           <InfoPopover p={board.provenance} />
-          <span>Prices are implied probabilities, not predictions from Peregrine · not financial advice</span>
         </div>
       </section>
 
@@ -555,10 +554,6 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
           </table>
         </div>
       </Card>
-      <p className="text-[11.5px] text-ink-muted">
-        Market prices are the crowd&apos;s implied probabilities. Peregrine&apos;s readings on top of them (heat, skilled money vs price)
-        have no track record until the M9 backtest. Not financial advice.
-      </p>
     </div>
   );
 }

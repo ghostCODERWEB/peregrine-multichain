@@ -17,7 +17,7 @@
 // caller is (3) plus the daily credit budget enforced in callNansen, and
 // the key itself never leaves the server.
 import { NextResponse, type NextRequest } from 'next/server';
-import { OWNER_ONLY_PATHS } from '@/components/shell/nav';
+import { OWNER_ONLY_PATHS, SIGN_IN_PATHS } from '@/components/shell/nav';
 
 export const config = {
   runtime: 'nodejs',
@@ -95,12 +95,16 @@ const deny = (status: number, error: string, extra: Record<string, string> = {})
   secure(NextResponse.json({ error }, { status, headers: { 'Cache-Control': 'no-store', ...extra } }));
 
 export function middleware(req: NextRequest) {
+  // Accounts off (TIDE_ACCOUNTS=off): a sign-in-free demo on the instance key; pages that need a sign-in or a wallet go home.
+  if (process.env.TIDE_ACCOUNTS === 'off' && SIGN_IN_PATHS.some((p) => req.nextUrl.pathname === p || req.nextUrl.pathname.startsWith(`${p}/`))) return NextResponse.redirect(new URL('/', req.url));
   if (process.env.TIDE_PUBLIC_SITE !== '1') return NextResponse.next();
   const path = req.nextUrl.pathname;
 
   if (path.startsWith('/api/')) {
     if (CLOSED.some((r) => r.test(path))) return deny(404, 'Not available on this site.');
     if (!sameOrigin(req)) return deny(403, 'This API serves the Peregrine website only.');
+    // Logo redirects spend no Nansen credits and are cached per token: outside the API bucket.
+    if (path === '/api/logo') return secure(NextResponse.next());
     // Reports from Nansen's agent cost 200 credits a run: read-only here.
     if (path === '/api/anchor' && req.method !== 'GET') return deny(403, 'Market briefs are read-only on this site.');
     if (!allow(`api:${visitor(req)}`, LIMITS.api.max, LIMITS.api.windowMs)) return deny(429, 'Too many requests. Try again in a minute.', { 'Retry-After': '60' });

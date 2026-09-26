@@ -5,6 +5,7 @@ import { PerpsTerminal } from '@/components/perps/terminal/PerpsTerminal';
 import { SYMBOL_RE } from '@/server/perps/detail';
 import { perpBoard } from '@/server/perps/board';
 import { displayMode, viewOf } from '@/server/mode';
+import { positioningSeries } from '@/server/graph/series';
 
 export const dynamic = 'force-dynamic';
 
@@ -20,7 +21,7 @@ export default async function PerpTerminalPage({ params }: { params: Promise<{ s
   const coins = [...perpBoard(viewOf(mode)).coins].sort((a, b) => (b.openInterest ?? 0) - (a.openInterest ?? 0)).slice(0, 60).map((c) => c.symbol);
   return (
     <Suspense>
-      <PerpsTerminal symbol={symbol} coins={coins.length ? coins : ['BTC', 'ETH', 'SOL', 'HYPE']} owner={mode !== 'public'} />
+      <PerpsTerminal symbol={symbol} coins={coins.length ? coins : ['BTC', 'ETH', 'SOL', 'HYPE']} owner={mode !== 'public'} positioning={mode !== 'public' ? positioningSeries(symbol) : []} />
     </Suspense>
   );
 }

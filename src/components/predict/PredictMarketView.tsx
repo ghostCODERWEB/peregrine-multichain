@@ -202,7 +202,7 @@ export function PredictMarketView({ market, detail, outcomes, owner }: { market:
         </ol>
       </section>
       {detail.errors.length > 0 && <p className="text-[11.5px] text-ink-muted">Partial data: {detail.errors.join(' · ')}</p>}
-      <p className="text-[11.5px] text-ink-muted">Nansen: {detail.tally.calls} calls, {detail.tally.credits} credits ({detail.tally.cached} cached). Prices are the crowd&apos;s implied probabilities; not financial advice.{owner ? '' : ' Holder labels are shown in the key owner’s view.'}</p>
+      <p className="text-[11.5px] text-ink-muted">Nansen: {detail.tally.calls} calls, {detail.tally.credits} credits ({detail.tally.cached} cached). Prices are the crowd&apos;s implied probabilities.{owner ? '' : ' Holder labels are shown in the key owner’s view.'}</p>
     </div>
   );
 }

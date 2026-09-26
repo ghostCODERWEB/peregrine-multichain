@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { displayMode } from '@/server/mode';
 import { SmartMoneyDesk } from '@/components/smart-money/SmartMoneyDesk';
 import { SmartMoneyState } from '@/components/smart-money/SmartMoneyState';
+import { WalletOverlaps } from '@/components/smart-money/WalletOverlaps';
+import { SmartMoneyCharts } from '@/components/smart-money/SmartMoneyCharts';
 import { accountsEnabled } from '@/server/site';
 
 export const metadata: Metadata = { title: 'Smart-money desk · Peregrine' };
@@ -57,6 +59,8 @@ export default async function SmartMoneyPage() {
   return (
     <div className="space-y-5">
       {mode === 'owner' && <SmartMoneyState />}
+      {mode === 'owner' && <SmartMoneyCharts />}
+      {mode === 'owner' && <WalletOverlaps />}
       <SmartMoneyDesk mode={mode} />
     </div>
   );

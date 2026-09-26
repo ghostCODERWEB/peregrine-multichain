@@ -6,6 +6,7 @@ const TOKENS = [
   'out-1', 'out-2', 'out-3', 'out-4', 'in-1', 'in-2', 'in-3', 'in-4',
   'storm-1', 'storm-2', 'storm-3', 'storm-4',
   'on-out-4', 'on-out-3', 'on-out-1', 'on-mid', 'on-in-1', 'on-in-3', 'on-in-4',
+  'mint', 'flare', 'signal', 'amber', 'violet',
 ] as const;
 
 export type ThemeColors = Record<(typeof TOKENS)[number], string>;

@@ -264,7 +264,7 @@ export function StrategyLab({ chains }: { chains: string[] }) {
               {signed(m.baseline.meanReturn)} · median {signed(m.baseline.medianReturn)}
             </div>
           ) : null}
-          <div className="mt-1 text-ink-muted">{res.note} Past moves say little about the next ones; not financial advice.</div>
+          <div className="mt-1 text-ink-muted">{res.note} Past moves say little about the next ones.</div>
         </div>
       )}
     </Card>

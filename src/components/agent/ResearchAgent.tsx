@@ -204,7 +204,7 @@ export function ResearchAgent({ suggestions }: { suggestions: string[] }) {
         </div>
         <p className="text-[11.5px] text-ink-muted">
           Answers come from Nansen&apos;s agent in expert mode, which calls Nansen&apos;s own data tools. They are saved to this account
-          only and never published. Not financial advice.
+          only and never published.
         </p>
       </div>
       <aside className="material h-fit p-5">
