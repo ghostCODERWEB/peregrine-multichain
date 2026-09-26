@@ -194,7 +194,7 @@ export function WeatherView({
                   </Link>
                 </div>
               </div>
-              <div className="seq-visual mx-auto w-full min-w-0 max-w-[380px] sm:max-w-[460px] xl:max-w-none" style={{ '--i': 3 } as React.CSSProperties}>
+              <div className="seq-visual mx-auto w-full min-w-0 max-w-[300px] sm:max-w-[460px] xl:max-w-none" style={{ '--i': 3 } as React.CSSProperties}>
                 {netMap.edges.length ? (
                   <FlowOrbital fronts={netMap.edges} modeled nets={nets} />
                 ) : (

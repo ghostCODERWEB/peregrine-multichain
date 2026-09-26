@@ -19,17 +19,17 @@ function MarketCard({ m, o }: { m: PmMarket; o: PredictOverview }) {
   return (
     <li className="bg-[var(--surface-1)]">
       <Link href={`/predict/${m.id}`} data-analyze={JSON.stringify({ kind: 'market', label: m.question.slice(0, 50), href: `/predict/${m.id}`, market: { question: m.question, event: m.eventTitle, probability: m.price, change1dPts: m.change1d != null ? Math.round(m.change1d * 100) : null, volume24h: m.volume24h, volume1w: m.volume1w, openInterest: m.openInterest, liquidity: m.liquidity, traders24h: m.traders24h, endDate: m.endDate, tags: m.tags }, probability7dHourly: s?.prob.filter((_, i) => i % 3 === 0), volume7dHourly: s?.volume.filter((_, i) => i % 3 === 0) })}
-        className="group flex h-full flex-col gap-2 p-3.5 transition-colors hover:bg-[var(--surface-2)]">
+        className="group flex h-full flex-col gap-1.5 p-2.5 transition-colors sm:gap-2 sm:p-3.5 hover:bg-[var(--surface-2)]">
         <span className="flex items-center justify-between gap-2 text-[10.5px] font-bold uppercase tracking-[0.07em] text-ink-muted"><span className="truncate">{m.tags[0] ?? m.eventTitle ?? 'Market'}</span>{m.endDate && <span className="num shrink-0 font-semibold normal-case tracking-normal">ends {m.endDate.slice(5, 10)}</span>}</span>
         <span className="line-clamp-2 min-h-[2.6em] text-[12.5px] font-semibold leading-snug text-ink group-hover:underline group-hover:decoration-[var(--hair-2)] group-hover:underline-offset-2">{m.question}</span>
-        <span className="flex items-baseline gap-2"><span className="num text-[22px] font-bold tracking-[-0.02em] text-ink">{prob(m.price)}</span><span className="num text-[12px] font-semibold" style={{ color: up ? 'var(--mint)' : 'var(--flare)' }}>{pts(m.change1d)}</span><span className="text-[11px] text-ink-muted">YES</span></span>
+        <span className="flex items-baseline gap-2"><span className="num text-[18px] font-bold tracking-[-0.02em] text-ink sm:text-[22px]">{prob(m.price)}</span><span className="num text-[12px] font-semibold" style={{ color: up ? 'var(--mint)' : 'var(--flare)' }}>{pts(m.change1d)}</span><span className="text-[11px] text-ink-muted">YES</span></span>
         {s ? (
-          <span className="block space-y-0.5">
+          <span className="hidden space-y-0.5 sm:block">
             <MiniLines height={34} min={0} max={100} baseline={50} label={`${m.question}: probability over 7 days`} series={[{ values: s.prob.map((x) => x * 100), color: up ? 'var(--mint)' : 'var(--flare)', area: true }]} />
             <MiniBars height={16} values={s.volume.map((v) => v)} label={`${m.question}: hourly volume over 7 days`} />
           </span>
         ) : null}
-        <span className="num mt-auto grid grid-cols-3 gap-1 border-t border-[var(--hair)] pt-2 text-[11px]">
+        <span className="num mt-auto hidden grid-cols-3 gap-1 border-t sm:grid border-[var(--hair)] pt-2 text-[11px]">
           <span><span className="block text-ink-muted">Vol 24h</span><span className="font-semibold text-ink">{usd(m.volume24h)}</span></span>
           <span><span className="block text-ink-muted">Liquidity</span><span className="font-semibold text-ink">{usd(m.liquidity)}</span></span>
           <span><span className="block text-ink-muted">Traders</span><span className="font-semibold text-ink">{m.traders24h?.toLocaleString('en-US') ?? 'n/a'}</span></span>
@@ -52,7 +52,7 @@ export function PredictAnalytics({ board, o, mode }: { board: PredictBoard; o: P
           <h2 id="trending" className="t-section">Trending markets</h2>
           <span className="text-[11.5px] text-ink-muted">Most traded in 24h · 7-day probability and hourly volume · select for detail</span>
         </div>
-        <ol className="stagger grid gap-px overflow-hidden rounded-[var(--r-inner)] border border-[var(--hair)] bg-[var(--hair)] sm:grid-cols-2 xl:grid-cols-4">
+        <ol className="stagger grid gap-px overflow-hidden rounded-[var(--r-inner)] border border-[var(--hair)] bg-[var(--hair)] grid-cols-2 xl:grid-cols-4">
           {o.trending.map((m) => <MarketCard key={m.id} m={m} o={o} />)}
         </ol>
       </section>

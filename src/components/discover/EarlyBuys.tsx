@@ -66,7 +66,7 @@ export function EarlyBuys({ rows: all }: { rows: EarlyBuy[] }) {
                   <span><span className="block text-ink-muted">Net bought</span><span className="text-[14px] font-bold" style={{ color: 'var(--mint)' }}>{usd(net)}</span></span>
                   <span><span className="block text-ink-muted">Market cap</span><span className="text-[14px] font-bold text-ink">{usd(r.marketCap)}</span></span>
                 </div>
-                {r.topBuyer && <p className="mt-auto flex items-center gap-1.5 border-t border-[var(--hair)] pt-2 text-[11.5px] text-ink-2"><span className="text-ink-muted">Largest buyer</span><AddressLink address={r.topBuyer.wallet} label={r.topBuyer.label} compact /><span className="num ml-auto font-semibold text-ink">{usd(r.topBuyer.usd)}</span></p>}
+                {r.topBuyer && <p className="mt-auto hidden items-center sm:flex gap-1.5 border-t border-[var(--hair)] pt-2 text-[11.5px] text-ink-2"><span className="text-ink-muted">Largest buyer</span><AddressLink address={r.topBuyer.wallet} label={r.topBuyer.label} compact /><span className="num ml-auto font-semibold text-ink">{usd(r.topBuyer.usd)}</span></p>}
               </div>
             </li>
           );

@@ -42,7 +42,7 @@ function Tile({ s }: { s: SectorReading }) {
       data-search={[s.sector, BAND_WORD[s.band], ...s.top.inflows.map((m) => m.symbol ?? ''), ...s.top.outflows.map((m) => m.symbol ?? '')].join(' ')}
       className="scroll-mt-20 material p-4 target:ring-2 target:ring-ring">
       <div className="flex items-start justify-between gap-3">
-        <h3 className="min-w-0 text-[14px] font-bold leading-snug text-ink">
+        <h3 className="min-w-0 text-[12.5px] font-bold leading-snug text-ink sm:text-[14px]">
           <Link href={sectorHref(s.sector)} className="hover:underline hover:underline-offset-2">{s.sector}</Link>
         </h3>
         <span className="num shrink-0 rounded-md px-1.5 py-0.5 text-[13px] font-bold" style={{ background: fillVar(cls), color: onFillVar(cls) }}
@@ -50,15 +50,15 @@ function Tile({ s }: { s: SectorReading }) {
           {num(s.pressure, 0)}
         </span>
       </div>
-      <p className="num mt-3 text-[20px] font-bold tracking-[-0.02em]" style={{ color: (s.netFlow24hUsd ?? 0) >= 0 ? 'var(--mint)' : 'var(--flare)' }}>
+      <p className="num mt-2 text-[16px] font-bold tracking-[-0.02em] sm:mt-3 sm:text-[20px]" style={{ color: (s.netFlow24hUsd ?? 0) >= 0 ? 'var(--mint)' : 'var(--flare)' }}>
         {s.netFlow24hUsd != null ? usd(s.netFlow24hUsd, { signed: true }) : 'n/a'}
       </p>
-      <p className="num text-[12px] text-ink-2">
+      <p className="num text-[11px] text-ink-2 sm:text-[12px]">
         net in 24h{share != null ? ` · ${pct(share, 1)} of ${usd(s.volume24hUsd)}` : ''}{s.tokens != null ? ` · ${s.tokens} tokens` : ''}
       </p>
       <SectorSpark points={s.spark} label={`${s.sector}: 24h net flow as a share of volume over time`} />
       {(s.top.inflows.length > 0 || s.top.outflows.length > 0) && (
-        <details className="mt-2 text-[11.5px]">
+        <details className="mt-2 hidden text-[11.5px] sm:block">
           <summary className="cursor-pointer font-bold text-brand">Top tokens in and out ({s.top.inflows.length + s.top.outflows.length})</summary>
           {s.tokens != null && <p className="mt-1 text-ink-muted">{s.tokens} tokens tracked in this sector</p>}
         <div className="mt-2 grid grid-cols-2 gap-2">
@@ -78,7 +78,7 @@ function Tile({ s }: { s: SectorReading }) {
         </div>
         </details>
       )}
-      <Link href={sectorHref(s.sector)} className="mt-3 inline-block text-[12.5px] font-bold text-brand">Open sector <span aria-hidden><Go /></span></Link>
+      <Link href={sectorHref(s.sector)} className="mt-3 hidden text-[12.5px] font-bold text-brand sm:inline-block">Open sector <span aria-hidden><Go /></span></Link>
     </li>
   );
 }
@@ -128,7 +128,7 @@ export default async function SectorsPage() {
                 return list.length > 0 && (
                   <details key={band} open data-filter-group className="group">
                     <summary className="mb-3 cursor-pointer text-[14px] font-bold text-ink">{BAND_WORD[band]} <span className="font-normal text-ink-muted">· {list.length}</span></summary>
-                    <ul className="stagger grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 3xl:grid-cols-5 4xl:grid-cols-6">
+                    <ul className="stagger grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-3 xl:grid-cols-4 3xl:grid-cols-5 4xl:grid-cols-6">
                       {list.map((s) => <Tile key={s.sector} s={s} />)}
                     </ul>
                   </details>

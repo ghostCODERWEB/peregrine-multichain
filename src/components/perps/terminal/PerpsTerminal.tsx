@@ -148,7 +148,7 @@ export function PerpsTerminal({ symbol, coins, owner, positioning = [] }: { symb
             <span className="text-[12.5px] text-ink-muted">Hyperliquid perp · mark{data?.meta?.maxLeverage ? ` · max ${data.meta.maxLeverage}x` : ''}</span>
           </div>
         </div>
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="-mx-1 flex items-center gap-2 overflow-x-auto px-1 pb-1 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0 [&>*]:shrink-0">
           <span className="flex items-center gap-1.5 text-[12px] text-ink-muted" title={data ? new Date(data.at).toISOString() : undefined}>
             <span className={`h-1.5 w-1.5 rounded-full ${loading ? 'animate-pulse bg-ink-muted' : 'bg-[var(--mint)]'}`} />{loading ? 'Refreshing' : freshness ? `Positions ${freshness}` : ''}
           </span>

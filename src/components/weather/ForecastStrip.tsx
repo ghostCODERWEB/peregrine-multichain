@@ -55,23 +55,23 @@ export function ForecastMultiple({ f, color = 'var(--ink-1)' }: { f: ForecastWit
 export function ForecastStrip({ forecasts }: { forecasts: ForecastWithProvenance[] }) {
   if (!forecasts.length) return <p className="text-sm text-ink-2">No chain has a flow reading yet.</p>;
   return (
-    <ul className="stagger grid grid-cols-1 gap-3 min-[420px]:grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
+    <ul className="stagger grid grid-cols-2 gap-2 sm:gap-3 md:grid-cols-3 xl:grid-cols-5">
       {forecasts.map((f) => {
         const now = f.history.at(-1)?.cpi ?? null;
         const end = f.points.at(-1)?.forecast ?? null;
         const up = now != null && end != null ? end >= now : null;
         const color = up == null ? 'var(--ink-2)' : up ? 'var(--mint)' : 'var(--flare)';
         return (
-          <li key={f.chain} className="inset-well rounded-[16px] p-3">
+          <li key={f.chain} className="inset-well rounded-[14px] p-2.5 sm:rounded-[16px] sm:p-3">
             <div className="flex items-center justify-between gap-2">
-              <Link href={`/chain/${f.chain}`} className="flex min-w-0 items-center gap-2 truncate text-[13.5px] font-bold text-ink hover:underline"><ChainLogo chain={f.chain} size={18} />{chainName(f.chain)}</Link>
+              <Link href={`/chain/${f.chain}`} className="flex min-w-0 items-center gap-1.5 truncate text-[12.5px] font-bold sm:gap-2 sm:text-[13.5px] text-ink hover:underline"><ChainLogo chain={f.chain} size={18} />{chainName(f.chain)}</Link>
               <InfoPopover p={f.provenance} />
             </div>
             <div className="num mt-1.5 flex items-baseline gap-1.5 text-[18px] font-extrabold tracking-[-0.02em]">
               <span className="text-ink">{now != null ? num(now, 0) : 'n/a'}</span>
               {end != null && <><span className="text-[13px] text-ink-muted"><Go /></span><span style={{ color }}>{num(end, 0)}</span></>}
             </div>
-            <div className="mt-1.5"><ForecastMultiple f={f} color={color} /></div>
+            <div className="mt-1.5 overflow-hidden [&_svg]:max-h-[64px] sm:[&_svg]:max-h-none"><ForecastMultiple f={f} color={color} /></div>
             <div className="num mt-1 text-[11px] text-ink-muted">
               {f.insufficient ? `Needs 12 readings · ${f.sampleSize} so far` : `Typical error ±${f.mape == null ? 'n/a' : num(f.mape, 0)}% · ${f.sampleSize} readings`}
             </div>

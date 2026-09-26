@@ -13,8 +13,8 @@ function apply(table: HTMLTableElement): boolean {
   if (!hydrated(table)) return false;
   const rows = [...body.rows];
   let bar = table.nextElementSibling?.classList.contains('table-pager') ? (table.nextElementSibling as HTMLElement) : (table.parentElement?.nextElementSibling?.classList.contains('table-pager') ? (table.parentElement.nextElementSibling as HTMLElement) : null);
-  const size = state.get(table) ?? Number(table.dataset.page || 15);
-  if (rows.length <= 15) { rows.forEach((r) => { r.hidden = false; }); bar?.remove(); return true; }
+  const size = state.get(table) ?? Number(table.dataset.page || (window.innerWidth < 640 ? 8 : 15));
+  if (rows.length <= (window.innerWidth < 640 ? 8 : 15)) { rows.forEach((r) => { r.hidden = false; }); bar?.remove(); return true; }
   const limit = size || rows.length;
   rows.forEach((r, i) => { r.hidden = i >= limit; });
   if (!bar) {
@@ -29,7 +29,7 @@ function apply(table: HTMLTableElement): boolean {
   bar.onclick = (e) => {
     const b = (e.target as HTMLElement).closest('button');
     if (!b) return;
-    const cur = state.get(table) ?? Number(table.dataset.page || 15);
+    const cur = state.get(table) ?? Number(table.dataset.page || (window.innerWidth < 640 ? 8 : 15));
     state.set(table, b.dataset.more ? Math.min(rows.length, (cur || rows.length) + (cur || 15)) : Number(b.dataset.size));
     apply(table);
   };

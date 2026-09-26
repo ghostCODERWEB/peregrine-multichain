@@ -16,7 +16,7 @@ export function MoodRing({ score, mood, word, detail, label, size = 124 }: { sco
   const grad = `mood-${mood}`;
   return (
     <div className={`mood mood-${mood} relative flex flex-col items-center text-center`}>
-      <div className="relative" style={{ width: size, height: size }} role="img" aria-label={`${label}: ${v} of 100, ${word}`}>
+      <div className="mood-ring-box relative" style={{ width: size, height: size }} role="img" aria-label={`${label}: ${v} of 100, ${word}`}>
         <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="relative -rotate-90" aria-hidden>
           <defs>
             <linearGradient id={grad} x1="0" y1="0" x2="1" y2="1">

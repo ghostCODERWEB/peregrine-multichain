@@ -26,7 +26,7 @@ export function ChainGrid({ chains, brief = 0 }: { chains: ChainTile[]; /** show
   const shown = cut ? [...tiles.slice(0, brief), ...tiles.slice(-brief)] : tiles;
   return (
     <>
-      <ul className="stagger grid grid-cols-2 gap-2 min-[520px]:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 3xl:grid-cols-9 4xl:grid-cols-10" aria-label="Chains by Flow Index">
+      <ul className="stagger grid grid-cols-3 gap-1.5 sm:gap-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 3xl:grid-cols-9 4xl:grid-cols-10" aria-label="Chains by Flow Index">
         {shown.map((c) => <li key={c.chain}><Tile c={c} /></li>)}
       </ul>
       {brief > 0 && tiles.length > brief * 2 && (
@@ -47,14 +47,14 @@ function Tile({ c }: { c: ChainTile }) {
   const t = c.trend6h;
   return (
     <Link href={`/chain/${c.chain}`} aria-label={`${chainName(c.chain)}: Flow Index ${v}, ${band.toLowerCase()}${t != null ? `, ${t >= 0 ? 'up' : 'down'} ${Math.abs(Math.round(t))} in 6 hours` : ''}`}
-      className="group block rounded-[var(--r-inner)] border border-[var(--hair)] p-3.5 transition-[border-color,transform] duration-[var(--dur-fast)] ease-[var(--ease-out)] hover:-translate-y-px hover:border-[var(--hair-2)]"
+      className="group block rounded-[var(--r-inner)] border border-[var(--hair)] p-2.5 sm:p-3.5 transition-[border-color,transform] duration-[var(--dur-fast)] ease-[var(--ease-out)] hover:-translate-y-px hover:border-[var(--hair-2)]"
       style={{ background: tint ? `linear-gradient(160deg, color-mix(in srgb, ${color} ${Math.round(tint * 100)}%, transparent), color-mix(in srgb, ${color} ${Math.round(tint * 30)}%, transparent))` : 'color-mix(in srgb, var(--ink-1) 3%, transparent)' }}>
       <div className="flex items-center gap-2">
         <ChainLogo chain={c.chain} size={18} />
-        <span className="min-w-0 truncate text-[13px] font-bold text-ink">{chainName(c.chain)}</span>
+        <span className="min-w-0 truncate text-[12px] font-bold text-ink sm:text-[13px]">{chainName(c.chain)}</span>
       </div>
       <div className="mt-2 flex items-baseline justify-between gap-2">
-        <span className="num text-[24px] font-extrabold leading-none tracking-[-0.03em] text-ink">{v}</span>
+        <span className="num text-[20px] sm:text-[24px] font-extrabold leading-none tracking-[-0.03em] text-ink">{v}</span>
         {t != null && Math.abs(t) >= 1 && (
           <span className="num text-[11.5px] font-bold" style={{ color: t >= 0 ? 'var(--mint)' : 'var(--flare)' }}>{t >= 0 ? <Up /> : <Down />}{Math.abs(Math.round(t))} · 6h</span>
         )}

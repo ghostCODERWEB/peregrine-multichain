@@ -18,7 +18,7 @@ export function PulseBrief({ initial, briefKey = 'pulse' }: { initial: Brief | n
     <div className="flex w-full min-w-0 flex-col gap-2 rounded-[var(--r-inner)] border border-[color-mix(in_srgb,var(--signal)_30%,var(--hair))] bg-[color-mix(in_srgb,var(--signal)_6%,transparent)] p-3.5">
       <span className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.08em] text-[var(--signal)]"><Sparkles className="h-3.5 w-3.5" aria-hidden />Nansen AI</span>
       {brief ? (
-        <p className="text-[13.5px] leading-[1.55] text-ink">{brief.text.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')}</p>
+        <p className="line-clamp-6 text-[13px] leading-[1.5] text-ink sm:line-clamp-none sm:text-[13.5px] sm:leading-[1.55]">{brief.text.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')}</p>
       ) : (
         <div className="space-y-2" aria-label="Writing the brief">
           <span className="block h-3 w-full animate-pulse rounded bg-ink/10" /><span className="block h-3 w-11/12 animate-pulse rounded bg-ink/10" /><span className="block h-3 w-3/4 animate-pulse rounded bg-ink/10" />
