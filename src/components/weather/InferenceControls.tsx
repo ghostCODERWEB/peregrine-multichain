@@ -11,11 +11,11 @@ export function InferenceControls({ maxCredits, onUpdated }: { maxCredits: numbe
         const r = await fetch('/api/weather/inferred', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ confirmCredits: maxCredits }) });
         const result = await r.json();
         if (!r.ok) throw new Error(result.error ?? 'Relationship check failed.');
-        setMessage(`Checked ${result.checked} wallets; ${result.calls} calls, ${result.credits} credits, ${result.failures} unavailable responses.`);
+        setMessage(`Checked ${result.checked} wallets.`);
         await onUpdated();
       } catch (e) { setMessage((e as Error).message); }
       finally { setBusy(false); }
-    }}>{busy ? 'Checking evidence…' : `Check funding evidence · up to ${maxCredits} credits`}</button>
+    }}>{busy ? 'Checking evidence…' : 'Check funding evidence'}</button>
     <p className="text-xs text-ink-muted">Explicit lookup of at most six recent high-volume wallets, page one only. At most once per hour. No paid labels, trades or alerts.</p>
     {message && <p className="text-sm text-ink-2" role="status">{message}</p>}
   </div>;

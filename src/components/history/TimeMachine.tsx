@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Segmented } from '@/components/ui/Segmented';
 import { chainName, pct, usd } from '@/lib/viz/format';
 import type { TmResult } from '@/server/history/time-machine';
@@ -22,21 +22,23 @@ export function TimeMachine() {
       setRes(r.ok ? d : { error: d.error ?? 'Unavailable.' });
     } catch { setRes({ error: 'Could not reach the server.' }); } finally { setBusy(false); }
   };
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- compare whenever the date changes
+  useEffect(() => { void run(); }, [then]);
   const tone = (v: number) => ({ color: v >= 0 ? 'var(--mint)' : 'var(--flare)' });
   return (
     <section aria-labelledby="tm-title" className="material p-4 sm:p-5">
       <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
         <div>
           <h2 id="tm-title" className="t-section">Time Machine: Smart Money holdings</h2>
-          <p className="text-[12px] text-ink-muted">Nansen point-in-time snapshots (end of day UTC; the latest is yesterday) · 25 credits per date, then cached</p>
+          <p className="text-[12px] text-ink-muted">Nansen point-in-time snapshots (end of day UTC; the latest is yesterday)</p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <Segmented label="Compare with" value={back} options={[{ value: 7, label: '7d ago' }, { value: 30, label: '30d ago' }, { value: 90, label: '90d ago' }]} onChange={(v) => { setBack(v); setCustom(''); }} />
           <input type="date" value={custom} max={day(2)} onChange={(e) => setCustom(e.target.value)} aria-label="Custom past date" className="inset-well h-8 rounded-[8px] px-2 text-[12.5px] text-ink" />
-          <button type="button" onClick={run} disabled={busy} className="pill-button pill-primary min-h-8 px-3.5 py-1 text-[12.5px]">{busy ? 'Comparing…' : `Compare ${then} with ${now}`}</button>
+          <span className="num text-[12px] text-ink-muted">{busy ? 'Comparing…' : `${then} vs ${now}`}</span>
         </div>
       </div>
-      {!res && <p className="text-[13px] text-ink-2">Pick how far back to look and run the comparison: total Smart Money holdings and every token&apos;s value, then, now and the change.</p>}
+      {!res && <p className="text-[13px] text-ink-muted">Reading snapshots…</p>}
       {res && 'error' in res && <p role="alert" className="text-[13px] text-[var(--flare)]">{res.error}</p>}
       {res && !('error' in res) && (
         <div className="space-y-3">
@@ -66,7 +68,7 @@ export function TimeMachine() {
               </tbody>
             </table>
           </div>
-          <p className="text-[11px] text-ink-muted">Nansen: {res.tally.calls} calls, {res.tally.credits} credits ({res.tally.cached} cached). Beta endpoint; restatements possible.</p>
+          <p className="text-[11px] text-ink-muted">Nansen point-in-time balances.</p>
         </div>
       )}
     </section>

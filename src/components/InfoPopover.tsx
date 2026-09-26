@@ -34,7 +34,7 @@ export function InfoPopover({ p, className = '' }: { p: Provenance; className?: 
               <div key={i} className="rounded-md border border-border px-2.5 py-2 text-[11.5px]">
                 <div className="flex items-baseline justify-between gap-2">
                   <span className="num text-ink">POST /api/v1/{c.endpoint}</span>
-                  {c.credits != null && <span className="text-ink-muted num">{c.credits} cr</span>}
+                  
                 </div>
                 {c.body !== undefined && (
                   <pre className="mt-1 max-h-32 overflow-auto whitespace-pre-wrap break-all text-[11px] text-ink-2 font-mono">

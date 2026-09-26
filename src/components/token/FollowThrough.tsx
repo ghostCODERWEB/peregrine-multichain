@@ -109,7 +109,7 @@ export function FollowThrough({
             onClick={run}
             className="rounded border border-border px-3 py-1 text-ink hover:bg-raised disabled:opacity-45"
           >
-            {busy ? 'Reading the tape around each buy…' : `${r ? 'Run again' : 'Check follow-through'} · up to ${state.maxCredits} credits`}
+            {busy ? 'Reading the tape around each buy…' : r ? 'Run again' : 'Check follow-through'}
           </button>
           <span className="text-[11.5px] text-ink-muted">
             Two 10-minute windows of the DEX tape per event (at most two pages each) and hourly candles. Cached an hour.

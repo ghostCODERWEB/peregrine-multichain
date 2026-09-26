@@ -8,7 +8,7 @@ import { InfoPopover } from '@/components/InfoPopover';
 import { Go } from '@/components/ui/Icons';
 import { applyFilters, cohortMatrix, crowding, liquidationBands, positionsInBand, totalUsd, type Band } from '@/lib/perps/liquidation';
 import { COHORT_NAME, type Cohort } from '@/lib/perps/positions';
-import { ago, num, pct, price, usd } from '@/lib/viz/format';
+import { ago, pct, price, usd } from '@/lib/viz/format';
 import type { TerminalData } from '@/server/perps/terminal';
 import type { Provenance } from '@/lib/provenance';
 import { AnalystPanel } from './AnalystPanel';
@@ -301,10 +301,6 @@ export function PerpsTerminal({ symbol, coins, owner, positioning = [] }: { symb
           </div>
         )}
       </section>
-
-      <p className="text-[11.5px] text-ink-muted">
-        Nansen data via your API key: {data ? `${data.tally.calls} calls, ${data.tally.credits} credits (${data.tally.cached} cached) for this view` : 'loading'}. Positions are the largest Nansen returns per cohort (up to {num(1000, 0)} each), refreshed at most every 5 minutes.
-      </p>
     </div>
   );
 }

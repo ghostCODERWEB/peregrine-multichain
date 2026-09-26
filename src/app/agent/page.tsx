@@ -26,7 +26,7 @@ export default async function AgentPage() {
   const mode = await displayMode();
   return (
     <div className="space-y-4">
-      <PageTitle id="agent-title" title="Ask Nansen" pill="750 credits a question, confirmed first" />
+      <PageTitle id="agent-title" title="Ask Nansen" pill="Nansen agent, expert mode" />
       {mode === 'public'
         ? <p className="material p-5 text-sm text-ink-2">Ask Nansen runs on a Nansen key: this instance&apos;s owner&apos;s{accountsEnabled() ? <>, or yours once you <Link href="/account" className="text-ink underline underline-offset-2">sign in with it</Link></> : null}. The market brief on the home page uses Nansen&apos;s fast agent and is free to read.</p>
         : <ResearchAgent suggestions={suggestions(viewOf(mode))} />}

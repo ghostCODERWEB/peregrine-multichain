@@ -200,8 +200,7 @@ export function DeskView({ initial }: { initial: DeskData }) {
       <section className={card}>
         <h2 className="text-[15px] font-semibold text-ink">No calls yet</h2>
         <p className="mt-2 text-[13px] text-ink-2">
-          Open any token and use <b>Make a call</b>: bull, bear or pass, a horizon, and what would prove you wrong. Peregrine saves Nansen’s
-          price at that moment and grades the call when the horizon passes.
+          Open any token and use <b>Make a call</b>.
         </p>
         <Link href="/alpha" className="mt-3 inline-block text-[13px] text-ink underline underline-offset-2">
           Find a token on the Alpha board <Go />

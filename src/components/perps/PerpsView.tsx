@@ -104,7 +104,6 @@ function Hero({ b, title, mode }: { b: PerpBoard; title: string; mode: 'owner' |
       </div>
       <div className="relative mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-border/60 pt-3 text-[11.5px] text-ink-muted">
         {b.provenance && <InfoPopover p={b.provenance} />}
-        <span>Built from Peregrine&apos;s hourly perp snapshots: this page makes no Nansen call until you open a coin.</span>
       </div>
     </section>
   );
@@ -155,7 +154,7 @@ function PressureGrid({ coins, onPick, picked }: { coins: PerpCoin[]; onPick: (c
           />
           <span className="num">100</span>
         </span>
-        <span>red: short bias · green: long bias · number: Perp Flow Index · bar: open interest · select a coin</span>
+        <span>red: short bias · green: long bias · number: Perp Flow Index · bar: open interest</span>
       </div>
     </div>
   );
@@ -412,7 +411,7 @@ export function PerpsView({ board, title, mode }: { board: PerpBoard; title: str
         <Card
           id="coins"
           title={`${board.coins.filter((c) => c.ppi != null).length} coins scored`}
-          sub="Largest open interest first. Search, filter by bias, and select a row for its liquidation ladder and trades."
+          sub="By open interest"
         >
           <FilterBox target="#perp-coins" label="Filter coins" placeholder="Search coins" groups={['Long bias', 'Neutral', 'Short bias']} />
           <div id="perp-coins" tabIndex={0} role="region" aria-label="Scrollable list" className="mt-3 max-h-[440px] overflow-auto">
@@ -631,11 +630,6 @@ export function PerpsView({ board, title, mode }: { board: PerpBoard; title: str
               </Card>
             )}
           </div>
-          {detail.state === 'ok' && (
-            <p className="num text-[11.5px] text-ink-muted">
-              This coin: {detail.data.tally.calls} Nansen calls, {detail.data.tally.credits} credits ({detail.data.tally.cached} from cache)
-            </p>
-          )}
         </section>
       )}
 

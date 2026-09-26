@@ -45,7 +45,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
     ['Densest long liquidation band', (x) => (x.below ? <Link href={`/perps/${x.sym}?band=${x.below.lo}_${x.below.hi}`} className="hover:underline">{usd(totalUsd(x.below))} at {price(x.below.lo)} ({pct(Math.abs(x.below.distance), 1)} below)</Link> : 'n/a')],
     ['Densest short liquidation band', (x) => (x.above ? <Link href={`/perps/${x.sym}?band=${x.above.lo}_${x.above.hi}`} className="hover:underline">{usd(totalUsd(x.above))} at {price(x.above.lo)} ({pct(x.above.distance, 1)} above)</Link> : 'n/a')],
     ['Smart Money shift, 4h', (x) => (x.shift ? DIRECTION_TEXT[x.shift.direction] : 'needs history')],
-    ['Data', (x) => `${new Date(x.d.at).toISOString().slice(11, 16)} UTC · ${x.d.tally.credits} credits (${x.d.tally.cached} cached calls)`],
+    ['Data', (x) => `${new Date(x.d.at).toISOString().slice(11, 16)} UTC`],
   ];
   return (
     <div className="space-y-4">

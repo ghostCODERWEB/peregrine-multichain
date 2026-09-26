@@ -1,7 +1,7 @@
 'use client';
 import { FilterBox } from '@/components/FilterBox';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Card, WaveLoading, Unavailable } from '@/components/Card';
 import { InfoPopover } from '@/components/InfoPopover';
 import { ScoreRing } from '@/components/viz/ScoreRing';
@@ -115,15 +115,21 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
   const [picked, setPicked] = useState<PmMarket | null>(null);
   const [detail, setDetail] = useState<Load<PmDetail>>({ state: 'idle' });
   const [records, setRecords] = useState<Load<PmRecords>>({ state: 'idle' });
-  const pick = (m: PmMarket) => {
+  const pick = (m: PmMarket, scroll = true) => {
     setPicked(m);
-    setRecords({ state: 'idle' });
     setDetail({ state: 'loading' });
+    setRecords({ state: 'loading' });
     post<PmDetail>({ action: 'market', id: m.id })
       .then((data) => setDetail({ state: 'ok', data }))
       .catch((e) => setDetail({ state: 'error', message: (e as Error).message }));
-    requestAnimationFrame(() => document.getElementById('market')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+    post<PmRecords>({ action: 'records', id: m.id, price: m.price })
+      .then((data) => setRecords({ state: 'ok', data }))
+      .catch((e) => setRecords({ state: 'error', message: (e as Error).message }));
+    if (scroll) requestAnimationFrame(() => document.getElementById('market')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
   };
+  // The most-traded market opens with the page.
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- once on open
+  useEffect(() => { if (board.markets[0]) pick(board.markets[0], false); }, []);
   const checkRecords = () => {
     if (!picked) return;
     setRecords({ state: 'loading' });
@@ -157,7 +163,6 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
             <div className="flex flex-wrap items-center gap-2 text-[12px] text-ink-2">
               <span className="rounded border border-border px-2 py-0.5">Polymarket via Nansen</span>
               <span className="num text-ink-muted">
-                This view: {board.tally.calls} Nansen calls, {board.tally.credits} credits ({board.tally.cached} from cache)
               </span>
             </div>
             <h1 id="pm-title" className="t-headline mt-1.5 text-ink">
@@ -391,7 +396,7 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
                           </div>
                         )}
                         <div className="num mt-1 text-[11px] text-ink-muted">
-                          {records.data.tally.calls} calls, {records.data.tally.credits} credits · no track record yet
+                          
                         </div>
                       </>
                     ) : records.state === 'loading' ? (
@@ -403,7 +408,7 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
                         onClick={checkRecords}
                         className="w-full rounded-lg bg-brand/15 px-3 py-2 text-left text-[12.5px] text-ink ring-1 ring-brand/40 hover:bg-brand/25"
                       >
-                        Check the 10 largest holders&apos; prediction records <span className="num text-ink-muted">(≈15 credits)</span>
+                        Check the 10 largest holders&apos; prediction records
                       </button>
                     )}
                   </div>
@@ -510,7 +515,7 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
       <Card
         id="markets"
         title={`${board.markets.length} most-traded active markets`}
-        sub="Implied probability (YES price), today's change, and depth. Search, filter by category, and select a market for its price, order book and holders."
+        sub="Implied probability, 24h change and depth"
       >
         <FilterBox target="#pm-markets" label="Filter markets" placeholder="Search markets" groups={topTags} />
         <div id="pm-markets" tabIndex={0} role="region" aria-label="Scrollable list" className="mt-3 max-h-[560px] overflow-auto">

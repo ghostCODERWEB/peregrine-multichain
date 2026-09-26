@@ -171,7 +171,7 @@ export function ResearchAgent({ suggestions }: { suggestions: string[] }) {
                 onClick={() => setConfirming(true)}
                 className="rounded bg-brand/15 px-3.5 py-1.5 text-[13px] text-ink ring-1 ring-brand/40 hover:bg-brand/25 disabled:opacity-45"
               >
-                Ask ({info?.price ?? 750} credits)
+                Ask
               </button>
             ) : (
               <div
@@ -202,10 +202,6 @@ export function ResearchAgent({ suggestions }: { suggestions: string[] }) {
             <span className="num ml-auto text-[11.5px] text-ink-muted">{info ? `${left} of ${info.cap} questions left today` : ''}</span>
           </div>
         </div>
-        <p className="text-[11.5px] text-ink-muted">
-          Answers come from Nansen&apos;s agent in expert mode, which calls Nansen&apos;s own data tools. They are saved to this account
-          only and never published.
-        </p>
       </div>
       <aside className="material h-fit p-5">
         <h2 className="text-[13px] font-semibold text-ink">Saved answers</h2>

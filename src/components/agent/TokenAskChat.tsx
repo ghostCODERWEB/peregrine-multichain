@@ -189,9 +189,6 @@ export function TokenAskChat({
           </button>
         </label>
       </form>
-      <p className="mt-2 text-[11.5px] text-ink-muted">
-        Answers come from Nansen’s agent reading Peregrine’s scores.
-      </p>
     </section>
   );
 }

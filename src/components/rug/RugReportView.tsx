@@ -29,15 +29,14 @@ export function RugReportView({ chain, address }: { chain: string; address: stri
   const [token, setToken] = useState<TokenInfo | null>(null);
   const [report, setReport] = useState<RugReport | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [done, setDone] = useState<{ calls: number; credits: number; cached: number } | null>(null);
 
   useEffect(() => {
-    setToken(null); setReport(null); setError(null); setDone(null);
+    setToken(null); setReport(null); setError(null);
     const es = new EventSource(`/api/rug/${chain}/${encodeURIComponent(address)}`);
     es.addEventListener('token', (e) => setToken(JSON.parse((e as MessageEvent).data)));
     es.addEventListener('report', (e) => setReport(JSON.parse((e as MessageEvent).data)));
     es.addEventListener('error', (e) => { const d = (e as MessageEvent).data; if (d) setError(JSON.parse(d).message); });
-    es.addEventListener('done', (e) => { setDone(JSON.parse((e as MessageEvent).data)); es.close(); });
+    es.addEventListener('done', () => es.close());
     es.onerror = () => { es.close(); setError((prev) => prev ?? 'The check was interrupted. Reload to try again.'); };
     return () => es.close();
   }, [chain, address]);
@@ -102,7 +101,7 @@ export function RugReportView({ chain, address }: { chain: string; address: stri
       </div>
 
       <div className="flex flex-wrap items-center justify-between gap-3 text-[12.5px] text-ink-muted">
-        <span>{done ? `${done.calls} Nansen calls, ${done.credits} credits (${done.cached} from cache)` : ''}</span>
+        <span></span>
         <span className="flex gap-4">
           <Link href="/rug" className="font-bold text-ink-2 hover:text-ink">Check another token</Link>
           <Link href={`/token/${chain}/${encodeURIComponent(address)}`} className="font-bold text-[var(--mint)]">Full token page <Go /></Link>

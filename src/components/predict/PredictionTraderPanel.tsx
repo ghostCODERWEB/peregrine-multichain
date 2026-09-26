@@ -44,7 +44,7 @@ export function PredictionTraderPanel({ address }: { address: string }) {
           </ol>
         </details>
       )}
-      <p className="text-[11px] text-ink-muted">Nansen prediction-market endpoints: {d.tally.calls} calls, {d.tally.credits} credits ({d.tally.cached} cached).{d.errors.length ? ` Partial: ${d.errors.join(' · ')}` : ''}</p>
+      <p className="text-[11px] text-ink-muted">{d.errors.length ? ` Partial: ${d.errors.join(' · ')}` : ''}</p>
     </section>
   );
 }

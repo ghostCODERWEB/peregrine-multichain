@@ -33,10 +33,6 @@ export default function RugPage() {
             </li>
           ))}
         </ul>
-        <p className="mt-4 text-[12.5px] text-ink-muted">
-          Verdict: the token&apos;s Dump Risk band, raised to at least Moderate when a check fails and at least High when two or more do.
-         
-        </p>
       </section>
     </div>
   );

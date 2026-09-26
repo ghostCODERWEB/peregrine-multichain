@@ -8,6 +8,7 @@ import { chainName, num, pct, usd } from '@/lib/viz/format';
 import { Go } from '@/components/ui/Icons';
 import { AddressLink } from '@/components/entity/AddressLink';
 import { TokenLogo } from '@/components/Logo';
+import { MarketPulse } from '@/components/pulse/MarketPulse';
 import { ExplainView } from '@/components/ExplainView';
 import { MiniBars, MiniLines, RowBar } from '@/components/charts/Mini';
 import { positioningSeries, smFlowSeries } from '@/server/graph/series';
@@ -87,6 +88,7 @@ export function OverviewIntel({ mode }: { mode: DisplayMode }) {
   };
   return (
     <div className="xl:col-span-12">
+    <div className="mb-4"><MarketPulse mode={mode} /></div>
     {owner && <div className="mb-2 flex justify-end"><ExplainView view="overview" context={context} coins={['BTC', 'ETH', 'SOL']} /></div>}
     <div className="stagger grid gap-4 md:grid-cols-2 2xl:grid-cols-4">
       {owner && cur && (

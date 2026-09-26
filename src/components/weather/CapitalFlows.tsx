@@ -349,10 +349,6 @@ export function CapitalFlows({
               Width = net USD · particles = wallets behind the flow · flare to mint = sell side to buy side · ring = the chain&apos;s Flow
               Index
             </p>
-            <p className="mt-2 text-xs text-ink-muted">
-              Flow Index is market-wide net flow against each chain’s own history; rotations track the same wallets moving between chains.
-              They can disagree.
-            </p>
             <RotatedTokens fronts={observed} />
           </div>
 

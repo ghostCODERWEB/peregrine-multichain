@@ -115,7 +115,6 @@ export function SmartMoneyDesk({ mode }: { mode: 'owner' | 'member' }) {
               className="rounded-lg border border-border bg-raised px-2.5 py-1 text-[13px] text-ink">
               {CHAINS.map((c) => <option key={c} value={c}>{c === 'all' ? 'All chains' : chainName(c)}</option>)}
             </select>
-            {d && <span className="num text-[11.5px] text-ink-muted">This view: {d.tally.calls} Nansen calls, {d.tally.credits} credits ({d.tally.cached} from cache)</span>}
           </div>
           {d && (
             <dl className="stagger mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-5">
@@ -169,7 +168,7 @@ export function SmartMoneyDesk({ mode }: { mode: 'owner' | 'member' }) {
 
       {picked && (
         <Card id="history" title={history?.state === 'ok' ? `${picked.symbol}: smart-money value, 30 days` : `${picked.symbol} history`}
-          sub={`Daily value held by Nansen smart money in ${picked.symbol} on ${chainName(picked.chain)}. 1 credit.`}
+          sub={`Daily value held by Nansen smart money in ${picked.symbol} on ${chainName(picked.chain)}..`}
           action={history?.state === 'ok' ? <InfoPopover p={history.data.provenance} /> : undefined}>
           {history?.state === 'ok' ? <HoldingHistory h={history.data} /> : history?.state === 'error' ? <Unavailable text={history.message} /> : <WaveLoading what="30 days of smart-money balances" height={240} />}
           <div className="mt-2 flex gap-3 text-[12px]">
@@ -242,7 +241,7 @@ export function SmartMoneyDesk({ mode }: { mode: 'owner' | 'member' }) {
           ) : desk.state === 'loading' ? <WaveLoading what="the PnL leaderboard" height={320} /> : null}
         </Card>
         <Card id="follows" title={follows.length ? `Following ${follows.length} wallet${follows.length === 1 ? '' : 's'}` : 'Follow list'}
-          sub={moves.state === 'ok' && moves.data.source === 'scanner' ? 'Their latest smart-money trades, as the scanner recorded them (free).' : 'Their latest smart-money trades, fetched with your key (5 credits).'}
+          sub={moves.state === 'ok' && moves.data.source === 'scanner' ? 'Their latest smart-money trades, as the scanner recorded them.' : 'Their latest smart-money trades, fetched with your key (5 credits).'}
           action={moves.state === 'ok' ? <InfoPopover p={moves.data.provenance} /> : undefined}>
           {!canFollow ? <Unavailable text="Keeping a follow list needs a signed-in account." />
             : !follows.length ? <p className="text-[12.5px] text-ink-2">Follow wallets from the leaderboard to collect their trades here.</p>
@@ -271,7 +270,7 @@ export function SmartMoneyDesk({ mode }: { mode: 'owner' | 'member' }) {
           {perps.state === 'ok' ? <PerpPanel p={perps.data} /> : perps.state === 'error' ? <Unavailable text={perps.message} /> : <WaveLoading what="smart-money perp trades" height={320} />}
         </Card>
         <Card id="sm-dcas" title={dcas.state === 'ok' ? `${dcas.data.orders.length} recent smart-money DCA order${dcas.data.orders.length === 1 ? '' : 's'} on Jupiter` : 'Smart-money DCAs'}
-          sub="Dollar-cost-averaging orders smart money opened on Jupiter (Solana), newest first: what they are selling into what."
+          sub="Jupiter DCA orders opened by Smart Money, newest first"
           action={dcas.state === 'ok' ? <InfoPopover p={dcas.data.provenance} /> : undefined}>
           {dcas.state === 'ok' ? (
             dcas.data.orders.length ? (

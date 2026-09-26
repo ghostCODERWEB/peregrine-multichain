@@ -147,7 +147,7 @@ export function TimeMachine({ chain, token }: { chain: string; token: string }) 
             onClick={prepare}
             className="rounded bg-brand/15 px-4 py-2 text-sm ring-1 ring-brand/40 disabled:opacity-40"
           >
-            {busy ? 'Working…' : 'Load historical evidence · up to 1 credit'}
+            {busy ? 'Working…' : 'Load historical evidence'}
           </button>
         </div>
         <p className="mt-2 text-xs text-ink-muted">

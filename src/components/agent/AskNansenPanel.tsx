@@ -161,7 +161,7 @@ export function AskNansenPanel({ subject, label, attachTo, open, onOpenChange }:
         <SheetHeader>
           <SheetTitle className="text-ink">Ask Nansen</SheetTitle>
           <SheetDescription>
-            On {label}. Answers come from Nansen&apos;s own agent, in expert mode, on the asking account&apos;s Nansen key.
+            On {label}
           </SheetDescription>
         </SheetHeader>
         <div className="min-w-0 flex-1 space-y-3 px-4 pb-6">
@@ -276,7 +276,7 @@ export function AskNansenPanel({ subject, label, attachTo, open, onOpenChange }:
                   onClick={() => setConfirming(true)}
                   className="rounded bg-brand/15 px-3 py-1.5 text-[12.5px] text-ink ring-1 ring-brand/40 hover:bg-brand/25 disabled:opacity-45"
                 >
-                  Ask ({info?.price ?? 750} credits)
+                  Ask
                 </button>
               ) : (
                 <div

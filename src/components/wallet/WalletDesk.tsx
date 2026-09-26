@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Card, Unavailable, WaveLoading } from '@/components/Card';
 import { InfoPopover } from '@/components/InfoPopover';
 import type { DeskData, DeskSection } from '@/server/wallet/desk';
@@ -43,11 +43,14 @@ export function WalletDesk({ address, initialChain, chains }: { address: string;
       setBusy(false);
     }
   }
+  // Each section loads as soon as it is picked (and on open).
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- load reads the current section and chain
+  useEffect(() => { void load(); }, [section, chain]);
   return (
     <Card
       id="wallet-desk"
       title="Follow the wallet beyond its balance"
-      sub="Explore trading, protocol positions and account history. Each section loads only when requested."
+      sub="Trading, protocol positions and account history"
     >
       <div className="flex flex-wrap gap-2">
         <label className="text-xs text-ink-2">
@@ -95,7 +98,7 @@ export function WalletDesk({ address, initialChain, chains }: { address: string;
           disabled={busy}
           className="rounded-md border border-border bg-accent px-3 py-2 text-xs text-ink disabled:opacity-50"
         >
-          {busy ? 'Loading…' : `Load ${selected.label} · ${selected.credits} credits if uncached`}
+          {busy ? 'Loading…' : 'Refresh'}
         </button>
       </div>
       <div aria-live="polite" className="mt-4">
@@ -149,9 +152,6 @@ export function WalletDesk({ address, initialChain, chains }: { address: string;
                 {n}
               </p>
             ))}
-            <p className="num text-xs text-ink-muted">
-              {result.tally.calls} Nansen calls · {result.tally.credits} credits · {result.tally.cached} cached
-            </p>
           </div>
         )}
       </div>

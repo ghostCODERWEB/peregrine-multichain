@@ -34,7 +34,10 @@ export function PortfolioView({ demo, suggestions = [] }: { demo: boolean; sugge
       .then((d) => {
         if (mounted) {
           setCanSave(d.canSave);
-          setInput((cur) => (cur.trim() ? cur : d.addresses.join('\n')));
+          // Open on data: the saved set, else the largest Smart Money wallets, analyzed straight away.
+          const start: string[] = d.addresses?.length ? d.addresses : suggestions.map((w) => w.address);
+          setInput((cur) => (cur.trim() ? cur : start.join('\n')));
+          if (start.length) void (async () => { await run('analyze', start); await run('stress', start); await run('counterparties', start); })();
         }
       })
       .catch(() => {
@@ -43,8 +46,9 @@ export function PortfolioView({ demo, suggestions = [] }: { demo: boolean; sugge
     return () => {
       mounted = false;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- runs once on open
   }, []);
-  async function run(action: 'analyze' | 'stress' | 'save' | 'counterparties') {
+  async function run(action: 'analyze' | 'stress' | 'save' | 'counterparties', list?: string[]) {
     setBusy(action);
     setError('');
     setMessage('');
@@ -55,7 +59,7 @@ export function PortfolioView({ demo, suggestions = [] }: { demo: boolean; sugge
     }
     if (action === 'stress') setStress(null);
     try {
-      const addresses = input.split(/[\s,]+/).filter(Boolean);
+      const addresses = list ?? input.split(/[\s,]+/).filter(Boolean);
       const r = await fetch('/api/portfolio', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
@@ -79,7 +83,7 @@ export function PortfolioView({ demo, suggestions = [] }: { demo: boolean; sugge
       <Card
         id="watchset"
         title="Your wallet watch set"
-        sub="One address per line. EVM addresses are deduplicated regardless of case; Solana and other case-sensitive addresses keep their identity."
+        sub="One address per line"
       >
         <label htmlFor="portfolio-addresses" className="mb-2 block text-xs text-ink-2">
           Wallet addresses
@@ -101,7 +105,7 @@ export function PortfolioView({ demo, suggestions = [] }: { demo: boolean; sugge
         />
         <div className="mt-3 flex flex-wrap gap-2">
           <button className={`${button} bg-accent`} disabled={!!busy || !input.trim()} onClick={() => run('analyze')}>
-            Analyze · up to 5 credits
+            Analyze
           </button>
           <button className={button} disabled={!!busy || !canSave} onClick={() => run('save')}>
             Save watch set
@@ -131,7 +135,6 @@ export function PortfolioView({ demo, suggestions = [] }: { demo: boolean; sugge
             Sign in to save a private watch set. Analysis does not require a wallet connection.
           </p>
         )}
-        <p className="mt-2 text-xs text-ink-muted">Prices are maximum uncached API credits; cached responses and demo replay use zero.</p>
         <div aria-live="polite" className="mt-3">
           {error && <Unavailable text={error} />}
           {message && <p className="text-sm">{message}</p>}
@@ -210,9 +213,6 @@ export function PortfolioView({ demo, suggestions = [] }: { demo: boolean; sugge
                 </li>
               ))}
             </ul>
-            <p className="num mt-3 text-xs text-ink-muted">
-              {p.tally.calls} Nansen calls · {p.tally.credits} credits · {p.tally.cached} cached
-            </p>
           </Card>
           <Card
             id="portfolio-storm"
@@ -246,7 +246,7 @@ export function PortfolioView({ demo, suggestions = [] }: { demo: boolean; sugge
             sub="Inspect transfer counterparties across EVM or Solana wallets, with separate coverage for each ecosystem."
           >
             <button className={button} disabled={!!busy} onClick={() => run('counterparties')}>
-              Load counterparties · estimated up to 25 credits
+              Load counterparties
             </button>
             {busy === 'counterparties' && <WaveLoading what="counterparty connections" height={120} />}
             {connections && (
@@ -305,7 +305,7 @@ export function PortfolioView({ demo, suggestions = [] }: { demo: boolean; sugge
             sub="A seven-day sensitivity scenario for up to eight positions, using their own daily volatility and historical cone coverage."
           >
             <button className={button} disabled={!!busy || !p.positions.length} onClick={() => run('stress')}>
-              Run stress scenario · up to 13 credits
+              Run stress scenario
             </button>
             {busy === 'stress' && (
               <div className="mt-3">
@@ -378,9 +378,6 @@ export function PortfolioView({ demo, suggestions = [] }: { demo: boolean; sugge
                     {m}
                   </p>
                 ))}
-                <p className="num text-xs text-ink-muted">
-                  {stress.tally.calls} Nansen calls · {stress.tally.credits} credits · {stress.tally.cached} cached
-                </p>
               </div>
             )}
           </Card>

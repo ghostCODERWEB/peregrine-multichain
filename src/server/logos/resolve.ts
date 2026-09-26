@@ -12,7 +12,7 @@ const inflight = new Map<string, Promise<string | null>>();
 export const ADDRESS_RE = /^(0x[0-9a-fA-F]{40}|[1-9A-HJ-NP-Za-km-z]{32,44}|[0-9a-zA-Z:_-]{3,90})$/;
 export const COIN_RE = /^[A-Za-z0-9]{1,15}$/;
 
-export const perpIcon = (coin: string) => `https://app.hyperliquid.xyz/coins/${encodeURIComponent(coin.toUpperCase())}.svg`;
+export const perpIcon = (coin: string) => `https://app.hyperliquid.xyz/coins/${encodeURIComponent(coin)}.svg`;
 
 async function json(url: string): Promise<unknown> {
   const r = await fetch(url, { signal: AbortSignal.timeout(6000), headers: { accept: 'application/json' } });

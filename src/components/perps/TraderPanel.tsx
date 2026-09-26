@@ -102,7 +102,6 @@ export function TraderPanel({ address }: { address: string }) {
             : <DataTable rows={fills} cols={fillCols} rowKey={(f) => `${f.tx}:${f.at}:${f.valueUsd}`} initialSort={{ key: 'at', dir: -1 }} label="Recent fills" empty="No fills in 30 days." pageSize={25} />}
         </div>
       </details>
-      <p className="text-[11px] text-ink-muted">Nansen profiler (Hyperliquid): {d.tally.calls} calls, {d.tally.credits} credits ({d.tally.cached} cached).</p>
     </section>
   );
 }

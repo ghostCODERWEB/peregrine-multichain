@@ -2,7 +2,6 @@ import Link from 'next/link';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { getKv } from '@/server/nansen/db';
 import { NANSEN_REF_URL } from '@/config/referral';
-import { accountStatus } from '@/server/nansen/account';
 import { requestContext } from '@/server/context';
 import { AccountButton } from '@/components/auth/AccountButton';
 import { Omnibox } from '@/components/search/Omnibox';
@@ -23,8 +22,6 @@ export async function SiteHeader() {
   const ctx = await requestContext();
   const mode = ctx.mode;
   const status = navStatus(mode);
-  // Balances are private: the owner sees the instance's, a member their own.
-  const acct = demo || mode === 'public' ? null : await accountStatus(mode === 'member' ? `u${ctx.user?.id}` : 'instance');
   let recorded: string | null = null;
   if (demo) {
     try { const v = getKv('demo_recorded_at'); recorded = v ? new Date(Number(v.value)).toISOString().slice(0, 16).replace('T', ' ') : null; } catch { recorded = null; }
@@ -56,24 +53,14 @@ export async function SiteHeader() {
             Demo{recorded ? ` · recorded ${recorded.slice(0, 10)}` : ' mode'}
           </span>
         )}
-        <div className="hidden items-center justify-between gap-2 lg:flex">
-          <span className={`liquid-chip inline-flex items-center gap-1.5 rounded-xl px-2 py-1 text-[11px] ${mode !== 'public' ? 'text-ink-2' : 'text-ink-muted'}`} title={modeTitle}>
-            <span className="h-5 w-5 rounded-full" style={{ background: mode === 'public' ? 'var(--ink-muted)' : 'radial-gradient(circle at 30% 20%, #c0ffe8, #00c987 65%)' }} aria-hidden />{modeText}
-          </span>
-          {acct?.creditsRemaining != null && (
-            <span className="num text-[11px] text-ink-2" title={`Nansen credits remaining${acct.plan ? ` · ${acct.plan} plan` : ''} (${acct.source === 'account' ? 'live from /api/v1/account' : 'last response header'})`}>
-              {acct.creditsRemaining.toLocaleString('en-US')} cr
-            </span>
-          )}
-        </div>
         <div className="flex items-center gap-1.5 lg:justify-between">
           {accounts && <span className="hidden lg:inline"><AccountButton signedIn={!!ctx.user} address={ctx.user?.address ?? null} /></span>}
-          <a href={NANSEN_REF_URL} target="_blank" rel="noopener" className="pill-button pill-primary min-h-[32px] flex-1 justify-center px-3 text-[12.5px] font-bold lg:flex-none">Get Nansen</a>
+          <a href={NANSEN_REF_URL} target="_blank" rel="noopener noreferrer" className="pill-button pill-primary min-h-[32px] flex-1 justify-center px-3 text-[12.5px] font-bold lg:flex-none">Get Nansen</a>
           <ThemeToggle />
         </div>
         <div className="hidden items-center justify-between gap-2 px-1 lg:flex"><Link href="/coverage" className="text-[10.5px] text-ink-muted">Coverage</Link>{accounts && <Link href="/account" className="text-[10.5px] text-ink-muted">Account</Link>}</div>
         <MobileMenu>
-          <p className="text-[12px] text-ink-2" title={modeTitle}>{modeText}{acct?.creditsRemaining != null ? ` · ${acct.creditsRemaining.toLocaleString('en-US')} cr` : ''}</p>
+          <p className="text-[12px] text-ink-2" title={modeTitle}>{modeText}</p>
           {accounts && <AccountButton signedIn={!!ctx.user} address={ctx.user?.address ?? null} />}
         </MobileMenu>
       </div>

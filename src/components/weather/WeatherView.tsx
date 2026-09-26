@@ -24,8 +24,6 @@ import { ForecastStrip } from './ForecastStrip';
 import { ChainTable } from './ChainTable';
 import { StormTicker } from './StormTicker';
 import { LayerPanel } from './LayerPanel';
-import { InferenceControls } from './InferenceControls';
-import { AnchorCard } from '@/components/AnchorCard';
 import type { AnchorReport } from '@/server/agents/anchor';
 import { mapHeadline } from '@/lib/insights';
 import { TimeAgo } from '@/components/TimeAgo';
@@ -40,11 +38,10 @@ async function fetchBulletin(): Promise<WeatherBulletin> {
 
 export function WeatherView({
   initial,
-  anchor,
   alpha, intel,
 }: {
   initial: WeatherBulletin;
-  anchor: AnchorReport | null;
+  anchor?: AnchorReport | null;
   alpha?: React.ReactNode;
   intel?: React.ReactNode;
 }) {
@@ -301,33 +298,14 @@ export function WeatherView({
                 </Card>
               </>
             )}
-            {(!publicSite || anchor) && (
-              <Card id="anchor-title" title="Ask Nansen" sub="Nansen’s latest market brief" className="xl:col-span-12">
-                <AnchorCard query="kind=bulletin" initial={anchor} label="Nansen’s market brief from available observations." />
-                <div className="owner-action mt-4 flex flex-wrap gap-2">
-                  {['What is accumulating?', 'Where are wallets rotating?', 'What is driving risk?'].map((q) => (
-                    <Link
-                      key={q}
-                      href={`/agent?q=${encodeURIComponent(q)}`}
-                      className="rounded-full border border-border px-3 py-2 text-xs"
-                    >
-                      {q}
-                    </Link>
-                  ))}
-                </div>
-              </Card>
-            )}
           </div>
           {alpha}
           {!(publicSite && withheld) && riskAlerts('')}
-          {data.inference && (
-            <section aria-labelledby="inferred-title" className="material border-dashed p-5 sm:p-6">
+          {data.inference && inferred.length > 0 && (
+            <section aria-labelledby="inferred-title" className="material p-5 sm:p-6">
               <h2 id="inferred-title" className="t-section text-ink">
                 Inferred rotations
               </h2>
-              <p className="mt-1 text-[13.5px] text-ink-muted">
-                Shared first funders plus a sell-then-buy within 12h. Evidence, not proof of common control.
-              </p>
               <p className="mt-2 text-xs text-ink-muted">
                 Checked <TimeAgo ts={data.inference.at} /> · {data.inference.checked} wallets
                 {data.inference.stale ? ' · evidence over 24h old, candidates withheld' : ''}
@@ -348,10 +326,7 @@ export function WeatherView({
                   </label>
                   <FrontsList fronts={inferred} onSelect={setSelected} />
                 </>
-              ) : (
-                <p className="mt-3 text-sm text-ink-2">No inferred rotation in the current evidence.</p>
-              )}
-              <InferenceControls maxCredits={data.inference.maxCredits} onUpdated={refetch} />
+              ) : null}
             </section>
           )}
           <Card id="forecast-title" title="24h projections" sub="Chains furthest from neutral · shaded: 80% range">

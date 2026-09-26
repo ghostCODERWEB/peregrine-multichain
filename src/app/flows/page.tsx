@@ -42,7 +42,7 @@ export default async function FlowsPage() {
       {history && (
         <div className="grid gap-4 lg:grid-cols-2">
           <Card id="flow-days" title={weekTotal ? `${usd(weekTotal)} rotated between chains in 7 days` : 'No capital rotations in 7 days'}
-            sub="Each UTC day's own rotations, net USD; the label is that day's largest flow.">
+            sub="Net USD per UTC day">
             {/* One column per UTC day. Days before the scanner's first trade are
                 hatched and say so: missing is never drawn as zero. */}
             <ol className="flex items-end gap-1.5 sm:gap-2" aria-label="Rotations by day">

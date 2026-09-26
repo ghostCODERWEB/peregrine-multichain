@@ -13,7 +13,7 @@ export function WalletOverlaps() {
     <section aria-labelledby="overlaps" className="material p-4 sm:p-5">
       <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
         <h2 id="overlaps" className="t-section">Wallets that keep appearing</h2>
-        <span className="text-[12px] text-ink-muted">Across {sources.join(', ')} · stored reads, no extra credits</span>
+        <span className="text-[12px] text-ink-muted">Across {sources.join(', ')}</span>
       </div>
       <p className="mb-3 text-[12.5px] text-ink-2">
         <span className="font-semibold text-ink">{multi.length}</span> wallets hold positions in more than one perp; <span className="font-semibold text-ink">{both.length}</span> Smart Money wallets traded spot in the last 24h and also hold an observed perp position.

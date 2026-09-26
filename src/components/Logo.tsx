@@ -6,7 +6,7 @@
 // (never fetched by the server) with no referrer; when there is none, or it
 // fails, a letter badge stands in. A shared symbol never borrows another
 // project's logo: symbol icons are an allowlist, not a lookup.
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import manifest from '../../public/logos/manifest.json';
 import { chainName } from '@/lib/viz/format';
 
@@ -103,14 +103,18 @@ export function TokenLogo({
   const localLight = LIGHT_TOKENS.has(sym) ? `/logos/tokens/${sym}.light.svg` : null;
   const remote = logo && /^https:\/\//.test(logo) ? logo : null;
   const [failed, setFailed] = useState<string[]>([]);
+  const ref = useRef<HTMLImageElement>(null);
   const lookup = coin ? `/api/logo?coin=${encodeURIComponent(coin)}` : chain && address ? `/api/logo?chain=${encodeURIComponent(chain)}&address=${encodeURIComponent(address)}` : null;
   const src = [remote, local, lookup].find((u) => u && !failed.includes(u));
+  // An image that failed before hydration never fires onError: check once mounted.
+  useEffect(() => { const el = ref.current; if (el && src && el.complete && el.naturalWidth === 0) setFailed((f) => (f.includes(src) ? f : [...f, src])); }, [src]);
   if (!src) return badge ? <Badge text={sym || '?'} size={size} round /> : null;
   if (src === local && localLight)
     return <Themed src={local} light={localLight} width={size} height={size} alt="" className="shrink-0 rounded-full object-cover" />;
   return (
     // eslint-disable-next-line @next/next/no-img-element -- remote logos are Nansen-supplied URLs on arbitrary hosts; no image optimizer proxies them
     <img
+      ref={ref}
       src={src}
       width={size}
       height={size}

@@ -196,7 +196,7 @@ export function StrategyLab({ chains }: { chains: string[] }) {
     <Card
       id="strategy"
       title="Strategy lab: test a rule on Peregrine's own history"
-      sub="Pick alpha scores to act on and a horizon; see how those picks did afterwards, against every token the board showed at the same moments. Free: no Nansen call."
+      sub="Picked alpha scores against every token on the board at the same moments"
     >
       <div className="flex flex-wrap items-end gap-3 text-[12.5px]">
         <label className="text-ink-2">

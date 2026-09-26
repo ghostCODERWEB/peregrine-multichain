@@ -2,7 +2,7 @@
 // The token terminal's sections (M2). Each takes its wave's data; the
 // TokenView decides loading and unavailable states.
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TimeAgo } from '@/components/TimeAgo';
 import { TxDrawer, type TxRef } from './TxDrawer';
 import { COHORT_NAMES } from '@/lib/models/terminal';
@@ -212,7 +212,7 @@ export function SocialPulse({ s }: { s: SocialWave }) {
 
 type AuthorState = { k: 'idle' } | { k: 'loading' } | { k: 'ok'; w: AuthorWeek } | { k: 'error'; text: string };
 
-/** On demand: the account's week from Nansen (5 credits, cached an hour). */
+/** The account's week from Nansen (cached an hour). */
 function AuthorWeekButton({ username, symbol }: { username: string; symbol: string }) {
   const [st, setSt] = useState<AuthorState>({ k: 'idle' });
   async function load() {
@@ -222,10 +222,12 @@ function AuthorWeekButton({ username, symbol }: { username: string; symbol: stri
       .catch(() => ({ unavailable: 'Network error.' }))) as Partial<AuthorWeek> & { unavailable?: string; error?: string };
     setSt(d.posts != null ? { k: 'ok', w: d as AuthorWeek } : { k: 'error', text: d.unavailable ?? d.error ?? 'No posts.' });
   }
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- once per account
+  useEffect(() => { void load(); }, [username]);
   if (st.k === 'idle')
     return (
       <button type="button" onClick={load} className="text-[11px] text-ink-muted hover:text-ink hover:underline">
-        @{username}&apos;s week · 5 credits
+        @{username}&apos;s week
       </button>
     );
   if (st.k === 'loading') return <span className="animate-pulse text-[11px] text-ink-muted">Reading @{username}…</span>;
@@ -393,6 +395,8 @@ export function NewsCards({ name, symbol, canSummarize }: { name: string | null;
       .catch(() => ({ unavailable: 'Network error.' }))) as { items?: NewsItem[]; query?: string; unavailable?: string; error?: string };
     setS(d.items ? { k: 'ok', items: d.items, query: d.query ?? '' } : { k: 'error', text: d.unavailable ?? d.error ?? 'No results.' });
   }
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- once per token
+  useEffect(() => { void load(); }, [name, symbol]);
 
   async function summarize(url: string) {
     setSummaries((m) => ({ ...m, [url]: '…' }));
@@ -416,7 +420,6 @@ export function NewsCards({ name, symbol, canSummarize }: { name: string | null;
         >
           Search the web for {symbol ?? name ?? 'this token'}
         </button>
-        <p className="text-[11px] text-ink-muted">Nansen&apos;s hosted web search, 5 credits, reused for six hours. Only when you ask.</p>
       </div>
     );
   }
@@ -443,7 +446,7 @@ export function NewsCards({ name, symbol, canSummarize }: { name: string | null;
                 onClick={() => summarize(n.url)}
                 className="mt-0.5 text-[11px] text-ink-muted hover:text-ink hover:underline"
               >
-                Summarize with Nansen (20 credits)
+                Summarize with Nansen
               </button>
             ))}
         </li>

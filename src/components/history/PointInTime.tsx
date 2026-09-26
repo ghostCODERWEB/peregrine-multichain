@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AddressLink } from '@/components/entity/AddressLink';
 import { CohortBadges } from '@/components/entity/CohortBadges';
 import { Segmented } from '@/components/ui/Segmented';
@@ -31,7 +31,6 @@ function DatePick({ date, setDate }: { date: string; setDate: (d: string) => voi
   );
 }
 
-const Foot = ({ t }: { t?: Tally }) => (t ? <p className="mt-1 text-[11px] text-ink-muted">Nansen point-in-time: {t.calls} call{t.calls === 1 ? '' : 's'}, {t.credits} credits ({t.cached} cached). Cached permanently.</p> : null);
 
 // -------------------------------------------------------------- tokens
 
@@ -44,7 +43,7 @@ type Leader = { address: string; label: string | null; pnlUsd: number | null; re
 /** Token Time Machine: who moved this token on a past day, from Nansen's point-in-time endpoints. */
 export function TokenTimeMachine({ chain, address, owner }: { chain: string; address: string; owner: boolean }) {
   const [date, setDate] = useState(ago(30));
-  const [busy, setBusy] = useState<string | null>(null);
+  const [, setBusy] = useState<string | null>(null);
   const [flows, setFlows] = useState<Loaded<{ flows: Flow[] }> | null>(null);
   const [traders, setTraders] = useState<Loaded<{ rows: Trader[] }> | null>(null);
   const [trades, setTrades] = useState<Loaded<{ rows: Trade[] }> | null>(null);
@@ -62,6 +61,11 @@ export function TokenTimeMachine({ chain, address, owner }: { chain: string; add
     setBusy(null);
   };
   const changeDate = (d: string) => { setDate(d); setFlows(null); setTraders(null); setTrades(null); setHolders(null); setPnl(null); };
+  // Every part of the day loads as soon as a date is set (point-in-time reads are cached permanently).
+  useEffect(() => {
+    void loadCore(); void loadOne('holders'); if (owner) void loadOne('pnl');
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- reload per date
+  }, [date]);
   const err = (x: { error: string }) => <p role="alert" className="text-[12.5px] text-[var(--flare)]">{x.error}</p>;
 
   return (
@@ -73,7 +77,7 @@ export function TokenTimeMachine({ chain, address, owner }: { chain: string; add
         </div>
         <DatePick date={date} setDate={changeDate} />
       </div>
-      {!flows && <button type="button" onClick={loadCore} disabled={!!busy} className="pill-button pill-primary min-h-9 px-4 py-1.5 text-[12.5px]">{busy === 'core' ? 'Reading history…' : `Read ${date}: cohort flows, buyers and sellers, trades (15 credits)`}</button>}
+      {!flows && <p className="text-[12.5px] text-ink-muted">Reading {date}…</p>}
       {flows && ('error' in flows ? err(flows) : (
         <div>
           <h3 className="mb-1.5 text-[12.5px] font-semibold text-ink-muted">Net flow by Nansen cohort on {date}</h3>
@@ -86,7 +90,6 @@ export function TokenTimeMachine({ chain, address, owner }: { chain: string; add
               </div>
             ))}
           </div>
-          <Foot t={flows.tally} />
         </div>
       ))}
       {traders && ('error' in traders ? err(traders) : (
@@ -122,19 +125,12 @@ export function TokenTimeMachine({ chain, address, owner }: { chain: string; add
           </ol>
         </details>
       ))}
-      {flows && !('error' in flows) && (
-        <div className="flex flex-wrap gap-2">
-          {!holders && <button type="button" onClick={() => loadOne('holders')} disabled={!!busy} className="pill-button pill-secondary min-h-8 px-3.5 py-1 text-[12.5px]">{busy === 'holders' ? 'Reading…' : `Top holders on ${date} (25 credits)`}</button>}
-          {!pnl && owner && <button type="button" onClick={() => loadOne('pnl')} disabled={!!busy} className="pill-button pill-secondary min-h-8 px-3.5 py-1 text-[12.5px]">{busy === 'pnl' ? 'Reading…' : `PnL leaders, 30 days to ${date} (25 credits)`}</button>}
-        </div>
-      )}
       {holders && ('error' in holders ? err(holders) : (
         <div>
           <h3 className="mb-1 text-[12.5px] font-semibold text-ink-muted">Top holders on {date}</h3>
           <ol className="max-h-[320px] divide-y divide-[var(--hair)] overflow-auto" tabIndex={0} aria-label="Historical holders">
             {holders.data.rows.map((h) => <li key={h.address} className="flex items-center gap-2 py-1.5 text-[12.5px]"><span className="min-w-0 flex-1"><AddressLink address={h.address} label={h.label} /></span><span className="num text-ink-2">{h.ownership != null ? pct(h.ownership > 1 ? h.ownership / 100 : h.ownership, 2) : 'n/a'}</span><span className="num w-20 text-right text-ink">{usd(h.valueUsd)}</span><span className="num w-24 text-right" style={tone(h.change30d)}>30d {h.change30d != null ? `${h.change30d >= 0 ? '+' : ''}${Math.round(h.change30d).toLocaleString('en-US')}` : 'n/a'}</span></li>)}
           </ol>
-          <Foot t={holders.tally} />
         </div>
       ))}
       {pnl && ('error' in pnl ? err(pnl) : (
@@ -143,7 +139,6 @@ export function TokenTimeMachine({ chain, address, owner }: { chain: string; add
           <ol className="max-h-[320px] divide-y divide-[var(--hair)] overflow-auto" tabIndex={0} aria-label="Historical PnL leaders">
             {pnl.data.rows.map((l) => <li key={l.address} className="flex items-center gap-2 py-1.5 text-[12.5px]"><span className="min-w-0 flex-1"><AddressLink address={l.address} label={l.label} /></span><span className="num text-ink-2">{l.trades ?? 'n/a'} trades · ROI {l.roi != null ? `${Math.round(l.roi)}%` : 'n/a'}</span><span className="num w-24 text-right font-semibold" style={tone(l.pnlUsd)}>{usd(l.pnlUsd, { signed: true })}</span></li>)}
           </ol>
-          <Foot t={pnl.tally} />
         </div>
       ))}
     </section>
@@ -162,6 +157,8 @@ export function WalletTimeMachine({ address, current }: { address: string; curre
   const [res, setRes] = useState<Loaded<WalletThen> | null>(null);
   const [busy, setBusy] = useState(false);
   const run = async () => { setBusy(true); setRes(await get<WalletThen>(`kind=wallet&address=${encodeURIComponent(address)}&chain=${chain}&date=${date}`)); setBusy(false); };
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- reload per date and chain
+  useEffect(() => { void run(); }, [date, chain]);
   const now = new Map((current?.positions ?? []).map((p) => [`${p.chain}:${p.tokenAddress.toLowerCase()}`, p]));
   return (
     <section aria-labelledby="wal-tm" className="material space-y-3 p-4 sm:p-5">
@@ -175,7 +172,7 @@ export function WalletTimeMachine({ address, current }: { address: string; curre
           <select value={chain} onChange={(e) => { setChain(e.target.value); setRes(null); }} aria-label="Chain" className="inset-well h-8 rounded-[8px] px-2 text-[12.5px] text-ink">
             {['all', 'ethereum', 'base', 'bnb', 'solana', 'mantra'].map((c) => <option key={c} value={c}>{c === 'all' ? 'All supported chains' : chainName(c)}</option>)}
           </select>
-          <button type="button" onClick={run} disabled={busy} className="pill-button pill-primary min-h-8 px-3.5 py-1 text-[12.5px]">{busy ? 'Reading…' : 'Read (10 credits)'}</button>
+          {busy && <span className="text-[12px] text-ink-muted">Reading…</span>}
         </div>
       </div>
       {res && 'error' in res && <p role="alert" className="text-[12.5px] text-[var(--flare)]">{res.error}</p>}
@@ -219,7 +216,6 @@ export function WalletTimeMachine({ address, current }: { address: string; curre
             </div>
           </div>
           {res.data.errors.length > 0 && <p className="text-[11.5px] text-ink-muted">Partial: {res.data.errors.join(' · ')}</p>}
-          <Foot t={res.tally} />
         </>
       )}
     </section>
@@ -238,7 +234,7 @@ export function TxAsOf({ chain, hash, at, compact = false }: { chain: string; ha
   const run = async () => { setOpen(true); if (!res) setRes(await get<TxThen>(`kind=tx&chain=${chain}&hash=${hash}${at ? `&at=${encodeURIComponent(at)}` : ''}`)); };
   return (
     <span className="relative">
-      <button type="button" onClick={run} title="Labels and value at the time of the transaction (5 credits)" className={`rounded px-1.5 text-[11px] font-semibold text-brand hover:bg-ink/8 ${compact ? '' : 'py-0.5'}`}>At the time</button>
+      <button type="button" onClick={run} title="Labels and value at the time of the transaction" className={`rounded px-1.5 text-[11px] font-semibold text-brand hover:bg-ink/8 ${compact ? '' : 'py-0.5'}`}>At the time</button>
       {open && (
         <span role="dialog" aria-label="Transaction at the time" className="spotlight material-strong absolute right-0 top-6 z-30 block w-[340px] rounded-[12px] p-3 text-[12px] text-ink-2">
           <span className="mb-1 flex justify-between"><span className="font-bold text-ink">Transaction at the time</span><button type="button" onClick={() => setOpen(false)} aria-label="Close" className="text-ink-muted hover:text-ink">✕</button></span>
@@ -251,7 +247,7 @@ export function TxAsOf({ chain, hash, at, compact = false }: { chain: string; ha
               <span className="flex items-center gap-1">To {res.data.to && <AddressLink address={res.data.to} label={res.data.toLabel} compact />}</span>
               {res.data.nativeValue ? <span className="block num">{res.data.nativeValue} native · {usd(res.data.valueUsdThen)} then at {price(res.data.priceThen)}</span> : null}
               {res.data.transfers.slice(0, 5).map((t, i) => <span key={i} className="block num">{t.amount?.toLocaleString('en-US', { maximumFractionDigits: 4 })} {t.symbol} · {usd(t.valueUsd)}</span>)}
-              <span className="block text-[11px] text-ink-muted">Labels resolved as of that day (Nansen). {res.tally.credits} credits.</span>
+              <span className="block text-[11px] text-ink-muted">Labels resolved as of that day (Nansen).</span>
             </span>
           )}
         </span>

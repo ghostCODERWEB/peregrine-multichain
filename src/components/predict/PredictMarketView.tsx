@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AddressLink } from '@/components/entity/AddressLink';
 import { ExplainView } from '@/components/ExplainView';
 import { AreaSpark } from '@/components/viz/AreaSpark';
@@ -16,7 +16,7 @@ const prob = (v: number | null | undefined) => (v == null ? 'n/a' : `${(v * 100)
 
 export function PredictMarketView({ market, detail, outcomes, owner }: { market: PmMarket | null; detail: PmDetail; outcomes: OutcomeBoard; owner: boolean }) {
   const [rec, setRec] = useState<PmRecords | { error: string } | null>(null);
-  const [busy, setBusy] = useState(false);
+  const [, setBusy] = useState(false);
   const [pos, setPos] = useState<{ positions: PmPosition[]; tally: { credits: number } } | { error: string } | null>(null);
   const loadPositions = async () => {
     setPos({ positions: [], tally: { credits: 0 } });
@@ -37,6 +37,9 @@ export function PredictMarketView({ market, detail, outcomes, owner }: { market:
       const d = await r.json(); setRec(r.ok ? d : { error: d.error });
     } catch { setRec({ error: 'Could not reach the server.' }); } finally { setBusy(false); }
   };
+  // Holder records and every position load with the page.
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- once per market
+  useEffect(() => { void runRecords(); void loadPositions(); }, [detail.id]);
   return (
     <div className="space-y-4">
       <nav aria-label="Breadcrumb" className="flex items-center gap-1 text-[12.5px] text-ink-muted"><Link href="/predict" className="hover:text-ink">Predictions</Link><Go /><span className="truncate text-ink-2">{market?.eventTitle ?? 'Market'}</span></nav>
@@ -131,8 +134,8 @@ export function PredictMarketView({ market, detail, outcomes, owner }: { market:
         </section>
         <section aria-labelledby="skilled" className="material min-w-0 p-4 sm:p-5">
           <h2 id="skilled" className="t-section mb-1">Skilled holders vs the price</h2>
-          <p className="text-[12.5px] text-ink-2">Reads the prediction-market record of the largest holders (Nansen address-summary). Skilled = 10+ markets traded, positive total PnL, 55%+ won. Compares where skilled value sits with the market price. About 15 credits.</p>
-          {!rec && <button type="button" onClick={runRecords} disabled={busy} className="pill-button pill-primary mt-3 min-h-9 px-4 py-1.5 text-[12.5px]">{busy ? 'Reading records…' : 'Check the holders’ records'}</button>}
+          <p className="text-[12.5px] text-ink-2">Reads the prediction-market record of the largest holders (Nansen address-summary). Skilled = 10+ markets traded, positive total PnL, 55%+ won. Compares where skilled value sits with the market price.</p>
+          {!rec && <p className="mt-3 text-[12.5px] text-ink-muted">Reading the holders’ records…</p>}
           {rec && 'error' in rec && <p role="alert" className="mt-2 text-[12.5px] text-[var(--flare)]">{rec.error}</p>}
           {rec && !('error' in rec) && (
             <div className="mt-3 space-y-2 text-[12.5px]">
@@ -160,7 +163,6 @@ export function PredictMarketView({ market, detail, outcomes, owner }: { market:
       <section aria-labelledby="positions" className="material p-4 sm:p-5">
         <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
           <h2 id="positions" className="t-section">Positions with cost basis</h2>
-          {!pos && <button type="button" onClick={loadPositions} className="pill-button pill-secondary min-h-8 px-3.5 py-1 text-[12.5px]">Load every position (5 credits)</button>}
         </div>
         {!pos && <p className="text-[12.5px] text-ink-2">Each holder&apos;s buy cost, sale proceeds, average entry, current value and PnL in this market (Nansen position-detail).</p>}
         {pos && 'error' in pos && <p role="alert" className="text-[12.5px] text-[var(--flare)]">{pos.error}</p>}
@@ -202,7 +204,7 @@ export function PredictMarketView({ market, detail, outcomes, owner }: { market:
         </ol>
       </section>
       {detail.errors.length > 0 && <p className="text-[11.5px] text-ink-muted">Partial data: {detail.errors.join(' · ')}</p>}
-      <p className="text-[11.5px] text-ink-muted">Nansen: {detail.tally.calls} calls, {detail.tally.credits} credits ({detail.tally.cached} cached). Prices are the crowd&apos;s implied probabilities.{owner ? '' : ' Holder labels are shown in the key owner’s view.'}</p>
+      <p className="text-[11.5px] text-ink-muted">Prices are the crowd&apos;s implied probabilities.{owner ? '' : ' Holder labels are shown in the key owner’s view.'}</p>
     </div>
   );
 }

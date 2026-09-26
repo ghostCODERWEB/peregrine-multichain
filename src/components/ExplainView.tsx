@@ -52,7 +52,7 @@ export function ExplainView({ view, context, coins = [] }: { view: string; conte
           </div>
           {busy && <p className="mt-2 flex items-center gap-1.5 text-[12px] text-ink-muted"><Loader2 className="h-3 w-3 animate-spin" aria-hidden />{text ? 'Writing' : 'Reading the view'}</p>}
           {err && <p role="alert" className="mt-2 text-[12.5px] text-[var(--flare)]">{err}</p>}
-          {!busy && text && <p className="mt-2 text-[11px] text-ink-muted">Quick analysis · 200 credits · based on the data shown</p>}
+          {!busy && text && <p className="mt-2 text-[11px] text-ink-muted">Based on the data shown</p>}
         </div>
       )}
     </>

@@ -142,7 +142,6 @@ export function TokenHero({ chain, address, tier, h, m, storm, done, title, chil
           </dl>
       <div className="relative mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-border/60 pt-3 text-[11.5px] text-ink-muted">
         {h?.deployedAt && <span>Deployed {h.deployedAt.slice(0, 10)}</span>}
-        {done && <span className="num">This page: {done.calls} Nansen calls, {done.credits} credits ({done.cached} from cache)</span>}
         {h && <InfoPopover p={h.provenance} />}
       </div>
     </section>
