@@ -4,7 +4,7 @@
 // up. Only the final score is stored for the home ticker.
 import { getDb } from '@/server/nansen/db';
 import {
-  compositeStormScore, insiderScore, windShearScore, exitLiquidityScore, sellPressureScore,
+  tokenScore, insiderScore, windShearScore, exitLiquidityScore, sellPressureScore,
   EXPERT_PRIOR_WEIGHTS, type StormScoreResult, type StormInput,
 } from '@/lib/models/storm-score';
 import type { Provenance } from '@/lib/provenance';
@@ -148,11 +148,12 @@ export function computeStorm(
     const budget = Object.values(why).find((r) => isBudgetMessage(r));
     return { unavailable: budget ?? 'Nansen returned none of the inputs the Dump Risk needs for this token.' };
   }
-  const result = compositeStormScore(subScores);
+  // Token Score: half Nansen's risk indicator, half Peregrine's model on the other inputs.
+  const result = tokenScore(subScores);
   const fmt = (k: StormInput, label: string) => ({ label: `${label} (β ${W[k]})`, value: subScores[k] == null ? 'missing' : num(subScores[k]) });
   prov.composite = {
     title: 'Dump Risk, 7 days',
-    formula: 'Dump Risk = 100·sigmoid(Σ β_j·(s_j − 50)/25)\nmissing inputs dropped, remaining β scaled back to the full total\nbands: <25 Low · <50 Moderate · <75 High · Critical',
+    formula: 'Token Score = 50% Nansen risk indicator + 50% Peregrine model\nPeregrine model = 100·sigmoid(Σ β_j·(s_j − 50)/25) over concentration, insiders, cohort shear, exit liquidity, sell pressure\nbands: <25 Low · <50 Moderate · <75 High · Critical',
     inputs: [
       fmt('concentration', 'C concentration'), fmt('insider', 'I insider clusters'), fmt('windShear', 'W cohort shear'),
       fmt('exitLiquidity', 'L exit liquidity'), fmt('sellPressure', 'P sell pressure'), fmt('nansenRisk', 'Nansen risk'),

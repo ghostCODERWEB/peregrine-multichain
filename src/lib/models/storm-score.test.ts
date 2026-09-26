@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import {
-  sigmoid, concentrationScore, insiderScore, windShearScore, exitLiquidityScore, sellPressureScore,
+  sigmoid, tokenScore, concentrationScore, insiderScore, windShearScore, exitLiquidityScore, sellPressureScore,
   compositeStormScore, stormBand, EXPERT_PRIOR_WEIGHTS, type HolderCluster,
 } from './storm-score';
 
@@ -266,5 +266,24 @@ describe('compositeStormScore', () => {
       concentration: 90, insider: 50, windShear: 50, exitLiquidity: 50, sellPressure: 50, nansenRisk: 50,
     });
     expect(withCustom.score).toBeGreaterThan(withDefault.score);
+  });
+});
+
+describe('tokenScore', () => {
+  const base = { concentration: 80, insider: 70, windShear: 60, exitLiquidity: 75, sellPressure: 65, nansenRisk: 20 };
+  it('weights Nansen and Peregrine equally', () => {
+    const t = tokenScore(base as never);
+    expect(t.nansen).toBe(20);
+    expect(t.peregrine).toBeGreaterThan(70);
+    expect(t.score).toBeCloseTo(0.5 * 20 + 0.5 * t.peregrine!, 6);
+  });
+  it('does not count Nansen twice in the Peregrine half', () => {
+    expect(tokenScore(base as never).peregrine).toBeCloseTo(tokenScore({ ...base, nansenRisk: 95 } as never).peregrine!, 6);
+  });
+  it('falls back to whichever half exists', () => {
+    expect(tokenScore({ nansenRisk: 40 } as never).score).toBe(40);
+    const t = tokenScore({ ...base, nansenRisk: null } as never);
+    expect(t.score).toBe(t.peregrine);
+    expect(t.confidence).toBeLessThanOrEqual(0.5);
   });
 });

@@ -313,3 +313,26 @@ export function compositeStormScore(
 function clamp(v: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, v));
 }
+
+export interface TokenScore extends StormScoreResult {
+  /** Nansen's own risk indicator for the token (0-100), or null. */
+  nansen: number | null;
+  /** Peregrine's model on the other five inputs (Nansen's excluded, so it is not counted twice), or null. */
+  peregrine: number | null;
+}
+
+/**
+ * Token Score: 50% Nansen's risk indicator, 50% Peregrine's model on the
+ * remaining inputs. When one half is missing, the other stands alone and the
+ * confidence says so.
+ */
+export function tokenScore(subScores: StormSubScores): TokenScore {
+  const n = subScores.nansenRisk != null && Number.isFinite(subScores.nansenRisk) ? subScores.nansenRisk : null;
+  const others = { ...subScores, nansenRisk: null } as unknown as StormSubScores;
+  const hasOthers = STORM_INPUTS.some((k) => k !== 'nansenRisk' && others[k] != null && Number.isFinite(others[k] as number));
+  const own = hasOthers ? compositeStormScore(others, { ...EXPERT_PRIOR_WEIGHTS, nansenRisk: 0 }) : null;
+  const peregrine = own?.score ?? null;
+  const score = n != null && peregrine != null ? 0.5 * n + 0.5 * peregrine : (n ?? peregrine ?? 50);
+  const confidence = (n != null ? 0.5 : 0) + (own ? 0.5 * own.confidence : 0);
+  return { score, band: stormBand(score), confidence, subScores, missing: STORM_INPUTS.filter((k) => subScores[k] == null), nansen: n, peregrine };
+}

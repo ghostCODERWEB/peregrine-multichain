@@ -11,6 +11,7 @@ import { MarketStrip } from '@/components/shell/MarketStrip';
 import { Suspense } from 'react';
 import { accountsEnabled, publicSite } from '@/server/site';
 import { TableSort } from '@/components/TableSort';
+import { TablePager } from '@/components/TablePager';
 import { AnalyzeDock } from '@/components/analyze/AnalyzeDock';
 
 const geistSans = Manrope({ variable: '--font-geist-sans', subsets: ['latin'] });
@@ -36,6 +37,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className="min-h-screen antialiased">
         <Providers publicSite={publicSite()} accounts={accountsEnabled()}>
           <TableSort />
+          <TablePager />
           <AnalyzeDock />
           <MotionObserver />
           <SiteHeader />

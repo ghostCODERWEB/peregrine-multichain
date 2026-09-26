@@ -381,3 +381,15 @@ tr[data-analyze-selected] { background: color-mix(in srgb, var(--signal) 10%, tr
 @keyframes nf-glitch { 0%, 92%, 100% { transform: none; } 93% { transform: translate(-3px, 1px) skewX(-6deg); } 95% { transform: translate(3px, -1px) skewX(4deg); } 97% { transform: translate(-1px, 0); } }
 .map-bubble:hover > span:first-child, .map-bubble:focus-visible > span:first-child { transform: scale(1.12); }
 .map-bubble { transition: opacity var(--dur-fast); }
+
+/* Table pager (TablePager): a compact footer under long tables. */
+.table-pager { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding-top: 8px; font-size: 11.5px; color: var(--ink-muted); }
+.table-pager-sizes { display: inline-flex; border: 1px solid var(--hair); border-radius: 9px; padding: 2px; }
+.table-pager-sizes button { border-radius: 7px; padding: 2px 8px; font-weight: 600; color: var(--ink-muted); }
+.table-pager-sizes button[aria-pressed="true"] { background: color-mix(in srgb, var(--ink-1) 12%, transparent); color: var(--ink-1); }
+.table-pager-more { margin-left: auto; border: 1px solid var(--hair); border-radius: 999px; padding: 3px 12px; font-weight: 600; color: var(--ink-2); }
+.table-pager-more:hover, .table-pager-sizes button:hover { color: var(--ink-1); }
+/* Inputs inside a styled search bar: the bar shows focus, the input itself shows none. */
+.bare-input, .bare-input:focus, .bare-input:focus-visible { outline: none !important; box-shadow: none !important; border: 0 !important; background: transparent !important; }
+.inset-well input:focus-visible, .inset-well textarea:focus-visible { outline: none; box-shadow: none; }
+.inset-well:focus-within { box-shadow: 0 0 0 2px rgba(31,224,163,.45); }
