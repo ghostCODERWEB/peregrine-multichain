@@ -1,4 +1,4 @@
-// Personal MCP tokens: an MCP client (AI assistant, an IDE, an agent) acts as the
+// Personal MCP tokens: an MCP client (an AI assistant, an IDE, an agent) acts as the
 // account that created the token. Stored hashed; shown once; revocable.
 import crypto from 'node:crypto';
 import { getDb, audit } from '@/server/nansen/db';

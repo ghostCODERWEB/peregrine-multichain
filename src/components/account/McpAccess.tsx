@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 
-/** Personal MCP access: connect AI assistant, an IDE or an agent to TIDE's signals as this account. */
+/** Personal MCP access: connect an AI assistant, an IDE or an agent to TIDE's signals as this account. */
 export function McpAccess() {
   const [info, setInfo] = useState<{ canCreate: boolean; token: { createdAt: number; lastUsedAt: number | null } | null } | null>(null);
   const [fresh, setFresh] = useState<string | null>(null);
@@ -35,7 +35,7 @@ export function McpAccess() {
     setFresh(null);
     void load();
   }
-  const cmd = `mcp add --transport http tide ${url}${fresh ? ` --header "Authorization: Bearer ${fresh}"` : ''}`;
+  const cmd = `mcp add --transport http peregrine ${url}${fresh ? ` --header "Authorization: Bearer ${fresh}"` : ''}`;
   const copy = async () => {
     try {
       await navigator.clipboard.writeText(cmd);
@@ -49,7 +49,7 @@ export function McpAccess() {
   return (
     <div className="space-y-3 text-[13px] text-ink-2">
       <p>
-        Peregrine is also an MCP server. Point AI assistant, an IDE or your own agent at it and ask for chain flow, dump-risk scores, alpha, perp
+        Peregrine is also an MCP server. Point an AI assistant, an IDE or your own agent at it and ask for chain flow, dump-risk scores, alpha, perp
         flow, prediction weather, sectors and (with a token) your private smart-money views.
       </p>
       <div>
