@@ -36,3 +36,18 @@ export async function pmTrader(address: string): Promise<PmTrader> {
     return { summary, markets, trades, errors, tally };
   });
 }
+
+export interface PmPosition { owner: string; outcome: string | null; balance: number | null; buyCostUsd: number | null; sellProceedsUsd: number | null; avgEntry: number | null; currentPrice: number | null; unrealizedUsd: number | null; pnlUsd: number | null; resolved: boolean }
+
+/** Every holder's position in one market, with cost basis and PnL (prediction-market/position-detail, 5 credits). */
+export async function marketPositions(id: string): Promise<{ positions: PmPosition[]; tally: CallTally }> {
+  const tally: CallTally = { calls: 0, credits: 0, cached: 0 };
+  return callScope.run(tally, async () => {
+    const r = await traced<unknown>('prediction-market/position-detail', { market_id: id, pagination: { page: 1, per_page: 100 } }, 5);
+    const positions = rows(r.data).map((x) => ({
+      owner: s(x.owner_address) ?? s(x.address) ?? '', outcome: s(x.outcome), balance: n(x.balance), buyCostUsd: n(x.buy_cost_usd), sellProceedsUsd: n(x.sell_proceeds_usd),
+      avgEntry: n(x.avg_entry_price), currentPrice: n(x.current_price), unrealizedUsd: n(x.unrealized_value_usd), pnlUsd: n(x.token_pnl_usd), resolved: !!x.market_resolved,
+    })).sort((a, b) => (b.unrealizedUsd ?? 0) - (a.unrealizedUsd ?? 0));
+    return { positions, tally };
+  });
+}

@@ -4,12 +4,14 @@ import { contextFromRequest, contextScope } from '@/server/context';
 import { allow, clientId } from '@/server/rate';
 import { forMode } from '@/server/redact';
 import { marketDetail, holderRecords, MARKET_ID_RE } from '@/server/predict/board';
+import { marketPositions } from '@/server/predict/trader';
 
 export const dynamic = 'force-dynamic';
 
 const input = z.discriminatedUnion('action', [
   z.object({ action: z.literal('market'), id: z.string().regex(MARKET_ID_RE) }),
   z.object({ action: z.literal('records'), id: z.string().regex(MARKET_ID_RE), price: z.number().min(0).max(1).nullable() }),
+  z.object({ action: z.literal('positions'), id: z.string().regex(MARKET_ID_RE) }),
 ]);
 
 export async function POST(req: Request) {
@@ -22,7 +24,7 @@ export async function POST(req: Request) {
   // The records check spends ~15 credits: fewer per minute than a market.
   if (!allow(`predict-${a.action}`, who, a.action === 'market' ? 10 : 3)) return fail('Please wait a minute before running this again.', 429);
   try {
-    const data = await contextScope.run(ctx, () => (a.action === 'market' ? marketDetail(a.id) : holderRecords(a.id, a.price)));
+    const data = await contextScope.run(ctx, () => (a.action === 'market' ? marketDetail(a.id) : a.action === 'positions' ? marketPositions(a.id) : holderRecords(a.id, a.price)));
     return Response.json(forMode(ctx.mode, data), { headers: { 'Cache-Control': 'private, no-store' } });
   } catch (e) { return fail((e as Error).message.slice(0, 200)); }
 }

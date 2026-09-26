@@ -45,7 +45,7 @@ const PM_USE: Record<string, Omit<LedgerEntry, 'key' | 'class'>> = {
   'top-holders': { usedBy: ['M6'], note: 'market detail: who holds each side' },
   'trades-by-market': { usedBy: ['M6'], note: 'market detail: largest trades (sorted by Peregrine; the endpoint sorts only by time)' },
   'pnl-by-market': { usedBy: ['M6'], note: 'records check: who is winning in the market' },
-  'position-detail': { skipped: 'for these views it repeats top-holders (sizes, entries) plus pnl-by-market (profit), at 5 credits more per market' },
+  'position-detail': { usedBy: ['M6'], note: 'market page: every position with buy cost, sale proceeds, average entry, value and PnL (on request, 5 credits)' },
 };
 
 export const LEDGER: LedgerEntry[] = [
@@ -117,23 +117,23 @@ export const LEDGER: LedgerEntry[] = [
   e('POST /api/v1/tgm/who-bought-sold', 'attribution', { usedBy: ['token'] }),
   e('POST /api/v1/token-screener', 'attribution', { usedBy: ['weather', 'chain', 'token', 'M1'], note: 'restricted with trader_type=sm (the CPI smart-money numerator); sectors filter builds sector membership' }),
   // Trading (the key owner's own account; user-signed only)
-  e('GET /api/v1/trade/bridge-status', 'account', { skipped: 'tracks cross-chain spot routes, and Peregrine\'s spot trading is same-chain on Base: nothing it offers creates one. It also rejects hyperliquid as to_chain, so Hyperliquid deposits use perp/bridge/status instead', note: 'still wired in /api/trade (action "bridge") for a future cross-chain spot route' }),
+  e('GET /api/v1/trade/bridge-status', 'account', { usedBy: ['M8'], note: '/trade: read-only lookup of any cross-chain route by its source transaction' }),
   e('POST /api/v1/trade/execute', 'account', { usedBy: ['M8'], note: 'broadcasts a swap the user signed in their own wallet (wallets that sign without sending); Peregrine never signs' }),
   e('POST /api/v1/trade/prepare', 'account', { usedBy: ['M8'], note: 'builds and simulates the swap; nothing is broadcast' }),
   e('GET /api/v1/trade/quote', 'account', { usedBy: ['ride', 'M8'] }),
   // Backtesting (v1beta1)
-  e('POST /api/v1beta1/profiler/address/historical-token-balances', 'free', { skipped: 'wallet balances at a past date: no Peregrine score is rebuilt per wallet; the live net-worth chart uses profiler/address/historical-balances' }),
-  e('POST /api/v1beta1/profiler/address/historical-transactions', 'attribution', { skipped: 'per-wallet transaction history at a date: no Dump Risk input or forward check needs it' }),
-  e('POST /api/v1beta1/profiler/historical-transaction-lookup', 'attribution', { skipped: 'the transaction drawer uses transaction-with-token-transfer-lookup, which resolves a hash without a block timestamp' }),
+  e('POST /api/v1beta1/profiler/address/historical-token-balances', 'free', { usedBy: ['wallet'], note: 'Wallet Time Machine: holdings on a past date against today' }),
+  e('POST /api/v1beta1/profiler/address/historical-transactions', 'attribution', { usedBy: ['wallet'], note: 'Wallet Time Machine: transactions up to a past date, labels as of that date' }),
+  e('POST /api/v1beta1/profiler/historical-transaction-lookup', 'attribution', { usedBy: ['wallet', 'token'], note: '"At the time" on historical transactions: labels and USD value as of the transaction day' }),
   e('POST /api/v1beta1/smart-money/historical-token-balances', 'prohibited', { usedBy: ['history'], note: 'Time Machine on /history: Smart Money holdings then vs now (25 credits a date, cached 7 days; owner view only)' }),
-  e('POST /api/v1beta1/tgm/historical-dex-trades', 'attribution', { skipped: 'Dump Risk v2 reads sell pressure from historical who-bought-sold; per-trade history adds cost without a new input' }),
-  e('POST /api/v1beta1/tgm/historical-pnl-leaderboard', 'prohibited', { skipped: '25 credits a token-date for an input the Dump Risk model does not have; the fit is budget-bound already (see the Lab)' }),
-  e('POST /api/v1beta1/tgm/historical-token-flow-summary', 'attribution', { usedBy: ['M9'], note: 'Dump Risk v2: cohort shear as of a date' }),
+  e('POST /api/v1beta1/tgm/historical-dex-trades', 'attribution', { usedBy: ['token'], note: 'Token Time Machine: largest DEX trades on a past day' }),
+  e('POST /api/v1beta1/tgm/historical-pnl-leaderboard', 'prohibited', { usedBy: ['token'], note: 'Token Time Machine: PnL leaders over the 30 days to a past date (owner view, 25 credits, on request)' }),
+  e('POST /api/v1beta1/tgm/historical-token-flow-summary', 'attribution', { usedBy: ['M9', 'token'], note: 'Dump Risk v2: cohort shear as of a date; Token Time Machine: net flow per Nansen cohort that day' }),
   e('POST /api/v1beta1/tgm/historical-token-ohlcv', 'attribution', { usedBy: ['M9'], note: 'Dump Risk v2: the 7 days after each date (labels)' }),
   e('POST /api/v1beta1/tgm/historical-token-quant-scores', 'attribution', { usedBy: ['M9'], note: 'Dump Risk v2: Nansen risk and liquidity-risk percentiles as of a date (empty for unscored tokens)' }),
-  e('POST /api/v1beta1/tgm/historical-top-holders', 'attribution', { usedBy: ['M9'], note: 'Dump Risk v2: concentration as of a date' }),
-  e('POST /api/v1beta1/tgm/historical-who-bought-sold', 'attribution', { usedBy: ['M9'], note: 'Dump Risk v2: sell pressure over the 7 days before a date' }),
-  e('POST /api/v1beta1/token-screener/historical', 'attribution', { usedBy: ['lab'] }),
+  e('POST /api/v1beta1/tgm/historical-top-holders', 'attribution', { usedBy: ['M9', 'token'], note: 'Dump Risk v2: concentration as of a date; Token Time Machine: top holders on a past date' }),
+  e('POST /api/v1beta1/tgm/historical-who-bought-sold', 'attribution', { usedBy: ['M9', 'token'], note: 'Dump Risk v2: sell pressure before a date; Token Time Machine: net buyers and sellers that day' }),
+  e('POST /api/v1beta1/token-screener/historical', 'attribution', { usedBy: ['lab', 'weather'], note: 'Backtest Lab; Discover as of a past date (market map, presets)' }),
 ];
 
 /** Documented operations that ship without an embedded OpenAPI schema. */
@@ -154,7 +154,7 @@ export const EXTRA_ENDPOINTS: ExtraEndpoint[] = [
   { key: 'GET /api/v1/perp/account', class: 'account', credits: 1, usedBy: ['M8'], notes: 'perps margin and spot USDC for the connected wallet' },
   { key: 'GET /api/v1/perp/positions', class: 'account', credits: 1, usedBy: ['M8'], notes: 'open positions for the connected wallet; source of truth for closing' },
   { key: 'GET /api/v1/perp/orders', class: 'account', credits: 1, usedBy: ['M8'], notes: '/trade resting orders with cancel (perp coins only; spot orders like "@156" share the list); header reported 0 credits live' },
-  { key: 'GET /api/v1/perp/meta', class: 'account', credits: 1, skipped: 'Peregrine uses its own perp-screener snapshots for symbols and marks; prepare echoes the rounded size and price', notes: 'symbols, size precision, max leverage' },
+  { key: 'GET /api/v1/perp/meta', class: 'account', credits: 1, usedBy: ['M5'], notes: 'symbols, size precision, max leverage' },
   { key: 'POST /api/v1/perp/leverage', class: 'account', credits: 0, usedBy: ['M8'], notes: '/trade: body {wallet_address, coin, leverage 1-200, is_cross}; applies to positions opened afterwards' },
   { key: 'POST /api/v1/perp/cancel', class: 'account', credits: 0, usedBy: ['M8'], notes: '/trade: body {wallet_address, coin, order_id}; one order per call' },
   { key: 'POST /api/v1/perp/transfer', class: 'account', credits: 0, usedBy: ['M8'], notes: '/trade: body {wallet_address, amount, to_perp}; wallet-signed domain HyperliquidSignTransaction, chainId 421614' },

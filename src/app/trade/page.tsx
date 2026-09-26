@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { BridgeStatusLookup } from '@/components/trade/BridgeStatusLookup';
 import { displayMode } from '@/server/mode';
 import { tradingEnabled } from '@/server/trade/spot';
 import { SpotTrade } from '@/components/trade/SpotTrade';
@@ -29,7 +30,7 @@ export default async function TradePage({ searchParams }: { searchParams: Promis
             <Link href="/trade" aria-current={venue === 'spot' ? 'page' : undefined} className={`rounded px-3.5 py-1.5 text-[13px] ${venue === 'spot' ? 'bg-brand/15 font-medium text-ink ring-1 ring-brand/40' : 'text-ink-2'}`}>Spot · Base + Solana</Link>
             <Link href="/trade?venue=perps" aria-current={venue === 'perps' ? 'page' : undefined} className={`rounded px-3.5 py-1.5 text-[13px] ${venue === 'perps' ? 'bg-brand/15 font-medium text-ink ring-1 ring-brand/40' : 'text-ink-2'}`}>Perps · Hyperliquid</Link>
           </nav>
-          {venue === 'spot' ? <SpotTrade initialToken={token} /> : (
+          {venue === 'spot' ? <><SpotTrade initialToken={token} /><BridgeStatusLookup /></> : (
             <PerpTrade initialCoin={sp.coin ?? ''} marks={perpBoard(viewOf(mode)).coins.slice(0, 150).map((c) => ({ symbol: c.symbol, mark: c.markPrice, ppi: c.ppi, fundingApr: c.fundingApr }))} />
           )}
         </>

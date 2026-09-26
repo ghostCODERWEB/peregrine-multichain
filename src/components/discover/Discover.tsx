@@ -77,8 +77,27 @@ function MarketMap({ rows, match, onPick }: { rows: AlphaRow[]; match: (r: Alpha
 export function Discover({ board, universe, source, divergence = [] }: { board: AlphaBoard; universe: AlphaRow[]; source: string; divergence?: Divergence[] }) {
   const router = useRouter();
   const [preset, setPreset] = useState<string | null>(null);
+  // Discover as of a past date: Nansen's historical Token Screener replaces the live universe.
+  const [asOf, setAsOf] = useState('');
+  const [past, setPast] = useState<{ date: string; rows: AlphaRow[]; credits: number } | { error: string } | null>(null);
+  const [loadingPast, setLoadingPast] = useState(false);
+  const loadPast = async (date: string) => {
+    setAsOf(date);
+    if (!date) { setPast(null); return; }
+    setLoadingPast(true);
+    try {
+      const chains = (board.chains.length ? board.chains : ['ethereum', 'solana', 'base', 'bnb']).slice(0, 8).join(',');
+      const r = await fetch(`/api/history?kind=screener&date=${date}&chains=${chains}&days=1`);
+      const j = await r.json();
+      if (!r.ok) { setPast({ error: j.error ?? 'Unavailable.' }); return; }
+      const rows: AlphaRow[] = (j.data as Array<{ chain: string; token: string; symbol: string | null; priceUsd: number | null; priceChange: number | null; volume: number | null; netflow: number | null; liquidity: number | null; marketCap: number | null }>)
+        .filter((x) => (x.volume ?? 0) > 0 && x.netflow != null)
+        .map((x) => ({ chain: x.chain, tokenAddress: x.token, symbol: x.symbol, logo: null, score: 50, parts: [], hourly: [], flowShare: x.netflow! / x.volume!, volume24hUsd: x.volume, liquidityUsd: x.liquidity, marketCapUsd: x.marketCap, priceChange24h: x.priceChange, priceUsd: x.priceUsd }));
+      setPast({ date, rows, credits: j.tally.credits });
+    } catch { setPast({ error: 'Could not reach the server.' }); } finally { setLoadingPast(false); }
+  };
   // Map, summary and presets use the whole traded universe; the ranked list below is the alpha board.
-  const rows = universe.length ? universe : board.rows;
+  const rows = past && !('error' in past) ? past.rows : universe.length ? universe : board.rows;
   const volTop = useMemo(() => [...rows].map(vol).sort((a, b) => b - a)[9] ?? Infinity, [rows]);
   const active = PRESETS.find((x) => x.id === preset) ?? null;
   const match = (r: AlphaRow) => !active || active.test(r, { volTop });
@@ -114,6 +133,15 @@ export function Discover({ board, universe, source, divergence = [] }: { board: 
           <span className="block truncate text-[11.5px] text-ink-2">{counts['dip-buying']} bought while falling · {counts['selling-strength']} sold while rising</span>
         </li>
       </ul>
+
+      <div className={`flex flex-wrap items-center gap-2 rounded-[var(--r-inner)] border px-3.5 py-2 text-[12.5px] ${past && !('error' in past) ? 'border-[color-mix(in_srgb,var(--signal)_45%,transparent)] bg-[color-mix(in_srgb,var(--signal)_8%,transparent)]' : 'border-[var(--hair)]'}`}>
+        <span className="font-semibold text-ink">As of</span>
+        <input type="date" value={asOf} max={new Date(Date.now() - 86_400_000).toISOString().slice(0, 10)} onChange={(e) => loadPast(e.target.value)} aria-label="Discover as of a past date" className="inset-well h-8 rounded-[8px] px-2 text-ink" />
+        <span className="text-ink-2">
+          {loadingPast ? 'Reading Nansen Token Screener history…' : past && 'error' in past ? past.error : past ? `Showing the market on ${past.date} (Nansen historical screener, ${past.credits} credits, all traders). Alpha list below stays live.` : 'Now (scanner). Pick a past date to see the market as it was (5 credits).'}
+        </span>
+        {past && <button type="button" onClick={() => loadPast('')} className="font-semibold text-brand">Back to now</button>}
+      </div>
 
       <section aria-label="Presets" className="flex flex-wrap items-center gap-1.5">
         <ExplainView view="discover" context={{ source, tokens: rows.length, presetCounts: counts, strongestAccumulation: topIn && { symbol: topIn.symbol, chain: topIn.chain, flowShare: topIn.flowShare, volumeUsd: topIn.volume24hUsd }, strongestDistribution: topOut && { symbol: topOut.symbol, chain: topOut.chain, flowShare: topOut.flowShare, volumeUsd: topOut.volume24hUsd }, spotVsPerps: divergence.map((d) => ({ symbol: d.symbol, observation: DIVERGENCE_TEXT[d.kind], spotNetUsd: Math.round(d.spotNetUsd), spotShare: d.spotShare, perpFlowIndex: d.ppi })) }} coins={divergence.map((d) => d.symbol)} />

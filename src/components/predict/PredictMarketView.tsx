@@ -9,6 +9,7 @@ import { Go } from '@/components/ui/Icons';
 import { pct, usd } from '@/lib/viz/format';
 import type { OutcomeBoard } from '@/lib/models/outcomes';
 import type { PmDetail, PmMarket, PmRecords } from '@/server/predict/board';
+import type { PmPosition } from '@/server/predict/trader';
 
 const pts = (v: number | null | undefined) => (v == null ? 'n/a' : `${v > 0 ? '+' : v < 0 ? '−' : ''}${Math.abs(Math.round(v * 100))} pts`);
 const prob = (v: number | null | undefined) => (v == null ? 'n/a' : `${(v * 100).toFixed(v < 0.1 ? 1 : 0)}%`);
@@ -16,6 +17,14 @@ const prob = (v: number | null | undefined) => (v == null ? 'n/a' : `${(v * 100)
 export function PredictMarketView({ market, detail, outcomes, owner }: { market: PmMarket | null; detail: PmDetail; outcomes: OutcomeBoard; owner: boolean }) {
   const [rec, setRec] = useState<PmRecords | { error: string } | null>(null);
   const [busy, setBusy] = useState(false);
+  const [pos, setPos] = useState<{ positions: PmPosition[]; tally: { credits: number } } | { error: string } | null>(null);
+  const loadPositions = async () => {
+    setPos({ positions: [], tally: { credits: 0 } });
+    try {
+      const r = await fetch('/api/predict', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ action: 'positions', id: detail.id }) });
+      const d = await r.json(); setPos(r.ok ? d : { error: d.error });
+    } catch { setPos({ error: 'Could not reach the server.' }); }
+  };
   const last = detail.candles.at(-1)?.close ?? market?.price ?? null;
   const bal = detail.balance;
   const bestBid = detail.book?.bids[0]?.price ?? market?.bid ?? null, bestAsk = detail.book?.asks[0]?.price ?? market?.ask ?? null;
@@ -147,6 +156,35 @@ export function PredictMarketView({ market, detail, outcomes, owner }: { market:
           )}
         </section>
       </div>
+
+      <section aria-labelledby="positions" className="material p-4 sm:p-5">
+        <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
+          <h2 id="positions" className="t-section">Positions with cost basis</h2>
+          {!pos && <button type="button" onClick={loadPositions} className="pill-button pill-secondary min-h-8 px-3.5 py-1 text-[12.5px]">Load every position (5 credits)</button>}
+        </div>
+        {!pos && <p className="text-[12.5px] text-ink-2">Each holder&apos;s buy cost, sale proceeds, average entry, current value and PnL in this market (Nansen position-detail).</p>}
+        {pos && 'error' in pos && <p role="alert" className="text-[12.5px] text-[var(--flare)]">{pos.error}</p>}
+        {pos && !('error' in pos) && (pos.positions.length === 0 ? <p className="text-[12.5px] text-ink-muted">Reading…</p> : (
+          <div tabIndex={0} role="region" aria-label="Positions" className="max-h-[420px] overflow-auto rounded-[10px] border border-[var(--hair)]">
+            <table className="w-full min-w-[760px] text-[12.5px]">
+              <thead className="sticky top-0 bg-[var(--surface-1)] text-[11.5px] text-ink-muted"><tr>{['Holder', 'Outcome', 'Avg entry', 'Buy cost', 'Sold for', 'Value now', 'PnL'].map((h, i) => <th key={h} className={`px-3 py-2 font-semibold ${i > 1 ? 'text-right' : 'text-left'}`}>{h}</th>)}</tr></thead>
+              <tbody>
+                {pos.positions.map((p, i) => (
+                  <tr key={`${p.owner}:${p.outcome}:${i}`} className="border-t border-[var(--hair)]">
+                    <td className="px-3 py-1.5"><AddressLink address={p.owner} /></td>
+                    <td className="px-3 font-semibold" style={{ color: /^yes$/i.test(p.outcome ?? '') ? 'var(--mint)' : 'var(--flare)' }}>{p.outcome ?? 'n/a'}</td>
+                    <td className="num px-3 text-right text-ink-2">{prob(p.avgEntry)}</td>
+                    <td className="num px-3 text-right text-ink-2">{usd(p.buyCostUsd)}</td>
+                    <td className="num px-3 text-right text-ink-2">{usd(p.sellProceedsUsd)}</td>
+                    <td className="num px-3 text-right text-ink">{usd(p.unrealizedUsd)}</td>
+                    <td className="num px-3 text-right font-semibold" style={{ color: (p.pnlUsd ?? 0) >= 0 ? 'var(--mint)' : 'var(--flare)' }}>{usd(p.pnlUsd, { signed: true })}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ))}
+      </section>
 
       <section aria-labelledby="trades" className="material p-4 sm:p-5">
         <h2 id="trades" className="t-section mb-2">Recent trades</h2>

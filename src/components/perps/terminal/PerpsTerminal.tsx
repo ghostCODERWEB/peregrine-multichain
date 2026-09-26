@@ -142,7 +142,7 @@ export function PerpsTerminal({ symbol, coins, owner }: { symbol: string; coins:
               <span aria-hidden className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 text-ink-muted">▾</span>
             </label>
             <span className="num text-[22px] font-bold tracking-[-0.02em] text-ink">{price(mark)}</span>
-            <span className="text-[12.5px] text-ink-muted">Hyperliquid perp · mark</span>
+            <span className="text-[12.5px] text-ink-muted">Hyperliquid perp · mark{data?.meta?.maxLeverage ? ` · max ${data.meta.maxLeverage}x` : ''}</span>
           </div>
         </div>
         <div className="flex flex-wrap items-center gap-2">

@@ -67,6 +67,11 @@ export function MarketBrief({ data, mark, changes, available, onBand, onTab, onC
         <li className={item}>
           <button type="button" className={link} onClick={() => onTab('proximity')}>{b.near.length} positions ({usd(b.near.reduce((a, p) => a + p.valueUsd, 0))})</button> sit within 5% of their liquidation price.
         </li>
+        {data.meta?.maxLeverage ? (
+          <li className={item}>
+            Hyperliquid allows up to {data.meta.maxLeverage}x on this coin; <button type="button" className={link} onClick={() => onTab('leverage')}>{data.positions.filter((p) => (p.leverage ?? 0) >= data.meta!.maxLeverage! * 0.8).length} observed positions</button> run at 80% of that cap or more.
+          </li>
+        ) : null}
         {b.largest && (
           <li className={item}>
             Largest position: <AddressLink address={b.largest.address} label={b.largest.label} compact /> {b.largest.side} {usd(b.largest.valueUsd)}, entry {price(b.largest.entry)}, liquidation {price(b.largest.liq)}.

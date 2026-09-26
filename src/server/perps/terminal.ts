@@ -9,7 +9,7 @@
 //   tgm/perp-trades     24h, largest 200             1
 //   + owner view: smart-money/perp-trades 24h        1
 import { traced, errText } from '@/server/nansen/traced';
-import { callScope, type CallTally } from '@/server/nansen/client';
+import { callNansen, callScope, type CallTally } from '@/server/nansen/client';
 import { getDb } from '@/server/nansen/db';
 import { requestDay } from '@/server/nansen/demo';
 import type { NansenCallRef } from '@/lib/provenance';
@@ -47,6 +47,8 @@ export interface TerminalData {
   calls: NansenCallRef[];
   tally: CallTally;
   errors: string[];
+  /** Hyperliquid's own contract metadata (perp/meta): max leverage and size precision. */
+  meta?: { maxLeverage: number | null; szDecimals: number | null } | null;
 }
 
 const s = (v: unknown) => (typeof v === 'string' && v ? v : null);
@@ -97,6 +99,9 @@ export async function perpTerminal(symbol: string, priv: boolean): Promise<Termi
     const errors: string[] = [];
     const cohorts = priv ? COHORTS : [];
     const tradeBody = { token_symbol: symbol, date: { from: requestDay(1), to: requestDay(0) }, pagination: { page: 1, per_page: 200 }, order_by: [{ field: 'value_usd', direction: 'DESC' }] };
+    const metaP = callNansen<{ assets?: Array<{ name?: string; max_leverage?: number; sz_decimals?: number }> }>('perp/meta', {}, { method: 'GET', record: false })
+      .then((r) => { const a = (r.data.assets ?? []).find((x) => x.name?.toUpperCase() === symbol); return a ? { maxLeverage: a.max_leverage ?? null, szDecimals: a.sz_decimals ?? null } : null; })
+      .catch(() => null);
     const [all, byCohort, trades, smTrades] = await Promise.all([
       positionsPage(symbol, 'all_traders'),
       Promise.all(cohorts.map((c) => positionsPage(symbol, c).then((r) => [c, r] as const).catch((e) => { errors.push(`${c}: ${errText(e)}`); return null; }))),
@@ -121,7 +126,7 @@ export async function perpTerminal(symbol: string, priv: boolean): Promise<Termi
       trades, smTrades,
       snapshots: snapshotTimes(symbol),
       calls: [all.call, ...byCohort.flatMap((x) => (x ? [x[1].call] : []))],
-      tally, errors,
+      tally, errors, meta: await metaP,
     };
   });
 }

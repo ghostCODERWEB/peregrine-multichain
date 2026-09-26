@@ -12,6 +12,7 @@ import { WalletDesk } from '@/components/wallet/WalletDesk';
 import { TraderPanel } from '@/components/perps/TraderPanel';
 import { WalletQuickRead } from '@/components/wallet/WalletQuickRead';
 import { PredictionTraderPanel } from '@/components/predict/PredictionTraderPanel';
+import { WalletTimeMachine } from '@/components/history/PointInTime';
 import { seenInSnapshots } from '@/server/perps/trader';
 import { WalletLabels } from '@/components/wallet/WalletLabels';
 import { WalletWeather } from '@/components/wallet/WalletWeather';
@@ -77,6 +78,9 @@ export default async function WalletRoute({ params }: Params) {
       {mode === 'owner' && <WalletQuickRead address={address} />}
       {evm && <TraderPanel address={address} />}
       {evm && <PredictionTraderPanel address={address} />}
+      <Suspense fallback={<WalletTimeMachine address={address} current={null} />}>
+        <WalletTimeMachineNow address={address} p={balP} />
+      </Suspense>
 
       <div className="grid gap-4 lg:grid-cols-3">
         <Suspense
@@ -321,4 +325,11 @@ function RotationsCard({ address, mode }: { address: string; mode: DisplayMode }
       </ul>
     </Card>
   );
+}
+
+/** Today's balances (already loaded for this page) as the NOW side of the Time Machine. */
+async function WalletTimeMachineNow({ address, p }: { address: string; p: ReturnType<typeof balances> }) {
+  const b = await p.catch(() => null);
+  const current = b && !isUnavailable(b) ? { totalUsd: b.totalUsd, positions: b.positions.slice(0, 200).map((x) => ({ chain: x.chain, symbol: x.symbol ?? null, tokenAddress: x.tokenAddress, valueUsd: x.valueUsd })) } : null;
+  return <WalletTimeMachine address={address} current={current} />;
 }

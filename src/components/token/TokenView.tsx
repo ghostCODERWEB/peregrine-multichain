@@ -199,6 +199,7 @@ export function TokenView({
   mode,
   quickRead,
   smEvents,
+  extra,
 }: {
   chain: string;
   address: string;
@@ -206,6 +207,7 @@ export function TokenView({
   mode: 'owner' | 'member' | 'public';
   quickRead?: React.ReactNode;
   smEvents?: import('./CandleChart').SmEvent[];
+  extra?: React.ReactNode;
 }) {
   const s = useTokenStream(chain, address);
   const [view, setView] = useView();
@@ -721,6 +723,7 @@ export function TokenView({
           );
         })}
       </div>
+      {extra}
     </div>
   );
 }
