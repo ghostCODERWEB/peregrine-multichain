@@ -48,7 +48,7 @@ const ICONS: Record<NavIcon, typeof Map> = {
 const active = (path: string, href: string) => (href === '/' ? path === '/' : path === href || path.startsWith(`${href}/`));
 
 /** The grouped nav list: the sidebar on large screens, the drawer on phones. */
-export function NavList({ onNavigate }: { onNavigate?: () => void }) {
+export function NavList({ onNavigate, status = {} }: { onNavigate?: () => void; status?: Record<string, { text: string; tone?: 'in' | 'out' }> }) {
   const path = usePathname() ?? '/';
   const { publicSite } = useSite();
   const items = publicSite ? NAV.filter((n) => !n.ownerOnly) : NAV;
@@ -73,7 +73,14 @@ export function NavList({ onNavigate }: { onNavigate?: () => void }) {
                       className={`nav-item liquid-control group flex items-center gap-2.5 rounded-xl px-2.5 py-2 text-[13px] ${on ? 'is-active text-ink' : 'text-ink-2 hover:text-ink'}`}
                     >
                       <Icon className={`h-4 w-4 shrink-0 ${on ? 'text-brand' : 'text-ink-muted group-hover:text-ink-2'}`} aria-hidden />
-                      <span>{n.label}</span>
+                      <span className="min-w-0">
+                        <span className="block">{n.label}</span>
+                        {status[n.href] && (
+                          <span className="num block truncate text-[11px] font-medium leading-tight" style={{ color: status[n.href].tone === 'in' ? 'var(--mint)' : status[n.href].tone === 'out' ? 'var(--flare)' : 'var(--ink-muted)' }}>
+                            {status[n.href].text}
+                          </span>
+                        )}
+                      </span>
                     </Link>
                   </li>
                 );

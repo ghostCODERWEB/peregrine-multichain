@@ -7,6 +7,7 @@ import { AccountButton } from '@/components/auth/AccountButton';
 import { Omnibox } from '@/components/search/Omnibox';
 import { BrandMark } from '@/components/shell/BrandMark';
 import { NavList, MobileMenu } from '@/components/shell/NavLinks';
+import { navStatus } from '@/server/nav-status';
 import { accountsEnabled } from '@/server/site';
 
 /**
@@ -20,6 +21,7 @@ export async function SiteHeader() {
   const accounts = !demo && accountsEnabled();
   const ctx = await requestContext();
   const mode = ctx.mode;
+  const status = navStatus(mode);
   // Balances are private: the owner sees the instance's, a member their own.
   const acct = demo || mode === 'public' ? null : await accountStatus(mode === 'member' ? `u${ctx.user?.id}` : 'instance');
   let recorded: string | null = null;
@@ -44,7 +46,7 @@ export async function SiteHeader() {
 
       <div className="ml-auto lg:ml-0 lg:mb-4"><Omnibox /></div>
 
-      <div className="hidden min-h-0 flex-1 overflow-y-auto lg:block"><NavList /></div>
+      <div className="hidden min-h-0 flex-1 overflow-y-auto lg:block"><NavList status={status} /></div>
 
       <div className="flex items-center gap-1.5 lg:mt-3 lg:flex-col lg:items-stretch lg:gap-2 lg:border-t lg:border-border lg:pt-3">
         {demo && (

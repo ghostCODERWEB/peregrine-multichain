@@ -14,7 +14,8 @@ export function AddressLink({ address, label, compact = false, className = '' }:
     e.stopPropagation();
     try { await navigator.clipboard.writeText(address); setCopied(true); setTimeout(() => setCopied(false), 1200); } catch { /* clipboard blocked */ }
   };
-  const clean = label && !/^\[.*\]$/.test(label.trim()) ? label.trim() : null;
+  // Nansen appends an address stub ("[0x5b5d51]"); a label that is only the stub is no label.
+  const clean = label ? label.replace(/\s*\[[^\]]*\]\s*$/, '').trim() || null : null;
   return (
     <span className={`group/addr inline-flex min-w-0 max-w-full items-center gap-1 ${className}`}>
       <Link href={`/wallet/${encodeURIComponent(address)}`} title={`${clean ? `${clean}\n` : ''}${address}\nOpen in Profiler`} onClick={(e) => e.stopPropagation()}
