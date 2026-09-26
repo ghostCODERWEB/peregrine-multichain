@@ -17,6 +17,7 @@ export const metadata: Metadata = { title: 'Chain flows · Peregrine' };
 // room, a 7-day rotation timeline and a chain leaderboard. All of it is read
 // from the owner's stored smart-money trades: no Nansen call, owner view only.
 import { SpotState } from '@/components/weather/SpotState';
+import { FlowsAnalytics } from '@/components/weather/FlowsAnalytics';
 
 export default async function FlowsPage() {
   const mode = await displayMode();
@@ -36,6 +37,7 @@ export default async function FlowsPage() {
     <div className="space-y-5">
       <PageTitle title="Chain flows" pill={flows ? 'Wallet rotations and net flow · 24h' : 'All traders · last 24 hours'} />
       <SpotState mode={mode} />
+      <FlowsAnalytics mode={mode} />
 
       <FlowsView initial={{fronts:flows?.fronts ?? [],chains,withheld:flows == null ? ['fronts'] : []}} netChains={netChains} />
 

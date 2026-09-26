@@ -13,6 +13,7 @@ import { displayMode, viewOf } from '@/server/mode';
 import { pressureClass, fillVar, onFillVar, PRESSURE_LEGEND } from '@/lib/viz/scales';
 import { chainName, num, pct, usd } from '@/lib/viz/format';
 import { Go } from '@/components/ui/Icons';
+import { SectorsAnalytics } from '@/components/sectors/SectorsAnalytics';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = { title: 'Sectors · Peregrine' };
@@ -108,6 +109,8 @@ export default async function SectorsPage() {
           ]}
         />
       )}
+
+      {w.sectors.length > 0 && <SectorsAnalytics mode={mode} />}
 
       <Card id="sectors" title="All sectors"
         sub={`Highest Flow Index first · ${w.membership.tokens.toLocaleString('en-US')} tokens on ${w.membership.chains.length} chains · Flow Index 50 is neutral`}

@@ -181,3 +181,63 @@ export function WalletGraph({ nodes, links }: { nodes: GraphNode[]; links: Graph
     </div>
   );
 }
+
+// ------------------------------------------------------------ ranked bars
+
+export type RankRow = { label: string; value: number; href: string; sub?: string };
+const fmtBy = { usd: (v: number) => usd(v, { signed: true }), abs: (v: number) => usd(v), pct: (v: number) => `${v >= 0 ? '+' : '−'}${Math.abs(v).toFixed(Math.abs(v) < 10 ? 1 : 0)}%`, pts: (v: number) => `${v >= 0 ? '+' : '−'}${Math.abs(Math.round(v))}` };
+
+/** Horizontal bars, largest first, signed colours; each bar opens its page. */
+export function RankBars({ rows, format = 'usd', height, label }: { rows: RankRow[]; format?: keyof typeof fmtBy; height?: number; label: string }) {
+  const c = useThemeColors();
+  const router = useRouter();
+  const fmt = fmtBy[format];
+  const shown = rows.slice(0, 16);
+  const option = useMemo(() => c && {
+    animationDuration: 500,
+    grid: { left: 8, right: 64, top: 6, bottom: 6, containLabel: true },
+    tooltip: { trigger: 'item' as const, ...tip(c), formatter: (raw: unknown) => { const i = (raw as { dataIndex: number }).dataIndex; const r = [...shown].reverse()[i]; return `<b>${r.label}</b><br/>${fmt(r.value)}${r.sub ? `<br/><span style="opacity:.7">${r.sub}</span>` : ''}<br/><span style="opacity:.6">Select to open</span>`; } },
+    xAxis: { type: 'value' as const, ...axis(c), axisLabel: { show: false }, splitLine: { lineStyle: { color: c.grid } } },
+    yAxis: { type: 'category' as const, data: [...shown].reverse().map((r) => r.label), axisLabel: { color: c['ink-2'], fontSize: 11, width: 130, overflow: 'truncate' as const }, axisLine: { show: false }, axisTick: { show: false } },
+    series: [{ type: 'bar' as const, barMaxWidth: 12, data: [...shown].reverse().map((r) => ({ value: r.value, itemStyle: { color: r.value >= 0 ? c.mint : c.flare, borderRadius: r.value >= 0 ? [0, 3, 3, 0] : [3, 0, 0, 3] } })),
+      label: { show: true, position: 'right' as const, color: c['ink-2'], fontSize: 10.5, formatter: (raw: unknown) => fmt(Number((raw as { value: number }).value)) } }],
+  }, [c, shown, fmt]);
+  if (!shown.length) return <p className="text-[13px] text-ink-muted">No readings yet.</p>;
+  return option ? <EChart option={option} height={height ?? Math.max(160, shown.length * 24 + 16)} ariaLabel={label} onEvents={{ click: (e: { dataIndex: number }) => { const r = [...shown].reverse()[e.dataIndex]; if (r) router.push(r.href); } }} /> : null;
+}
+
+// ----------------------------------------------------------- history lines
+
+/** Lines over time on one scale, with crosshair tooltip; a legend below. */
+export function HistoryLines({ series, format = 'usd', height = 260, label, zeroLine = false }: { series: Array<{ name: string; points: Array<[number, number]>; href?: string }>; format?: keyof typeof fmtBy; height?: number; label: string; zeroLine?: boolean }) {
+  const c = useThemeColors();
+  const router = useRouter();
+  const palette = c ? [c.mint, c.signal, c.amber, c.violet, c.flare, c['ink-2']] : [];
+  const fmt = format === 'usd' ? (v: number) => usd(v, { signed: zeroLine }) : fmtBy[format];
+  const option = useMemo(() => c && {
+    animationDuration: 500,
+    grid: { left: 64, right: 16, top: 12, bottom: 28 },
+    tooltip: { trigger: 'axis' as const, axisPointer: { type: 'cross' as const, lineStyle: { color: c.axis } }, ...tip(c), valueFormatter: (v: unknown) => fmt(Number(v)) },
+    xAxis: { type: 'time' as const, ...axis(c), splitLine: { show: false } },
+    yAxis: { type: 'value' as const, scale: !zeroLine, ...axis(c), axisLabel: { ...axis(c).axisLabel, formatter: (v: number) => (format === 'usd' ? usd(v) : String(v)) } },
+    dataZoom: [{ type: 'inside' as const }],
+    series: series.map((s, i) => ({ name: s.name, type: 'line' as const, data: s.points, showSymbol: false, smooth: 0.25, lineStyle: { width: 1.8, color: palette[i % palette.length] }, itemStyle: { color: palette[i % palette.length] }, emphasis: { focus: 'series' as const },
+      ...(series.length === 1 ? { areaStyle: { color: palette[0], opacity: 0.08 } } : {}),
+      ...(i === 0 && zeroLine ? { markLine: { silent: true, symbol: 'none', lineStyle: { color: c.axis, type: 'dashed' as const }, data: [{ yAxis: 0 }], label: { show: false } } } : {}) })),
+  }, [c, series, format, zeroLine]); // eslint-disable-line react-hooks/exhaustive-deps
+  if (!series.some((s) => s.points.length > 1)) return <p className="text-[13px] text-ink-muted">History builds with each scan.</p>;
+  return (
+    <div>
+      {option && <EChart option={option} height={height} ariaLabel={label} onEvents={{ click: (e: { seriesIndex: number }) => { const h = series[e.seriesIndex]?.href; if (h) router.push(h); } }} />}
+      {series.length > 1 && (
+        <div className="mt-1 flex flex-wrap gap-3 text-[11.5px] text-ink-2">
+          {series.map((s, i) => {
+            const last = s.points.at(-1)?.[1];
+            const body = <><span className="h-0.5 w-3" style={{ background: palette[i % palette.length] }} />{s.name}{last != null ? <span className="num text-ink-muted">{fmt(last)}</span> : null}</>;
+            return s.href ? <button key={s.name} type="button" onClick={() => router.push(s.href!)} className="flex items-center gap-1 hover:text-ink">{body}</button> : <span key={s.name} className="flex items-center gap-1">{body}</span>;
+          })}
+        </div>
+      )}
+    </div>
+  );
+}

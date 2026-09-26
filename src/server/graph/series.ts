@@ -37,7 +37,7 @@ export function positioningSeries(symbol: string) {
 
 /** Flow Index history per chain (chain_cpi), for the chains that moved most over the window. */
 export function flowIndexHistory(days = 7, chains = 6, source = 'smart-money', now = Date.now()) {
-  const rows = getDb().prepare('SELECT chain, cpi, snapshot_at AS t FROM chain_cpi WHERE source = ? AND snapshot_at >= ? ORDER BY snapshot_at').all(source, now - days * 86_400_000) as Array<{ chain: string; cpi: number; t: number }>;
+  const rows = getDb().prepare('SELECT chain, cpi, snapshot_at AS t FROM chain_cpi WHERE source = ? AND snapshot_at >= ? AND cpi != 50 ORDER BY snapshot_at').all(source, now - days * 86_400_000) as Array<{ chain: string; cpi: number; t: number }>;
   const by = new Map<string, Array<[number, number]>>();
   for (const r of rows) by.set(r.chain, [...(by.get(r.chain) ?? []), [r.t, r.cpi]]);
   const range = (xs: Array<[number, number]>) => Math.max(...xs.map((x) => x[1])) - Math.min(...xs.map((x) => x[1]));

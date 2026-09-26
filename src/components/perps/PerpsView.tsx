@@ -331,7 +331,7 @@ function CrowdingMap({ coins, useSm, onPick }: { coins: PerpCoin[]; useSm: boole
 
 // --------------------------------------------------------------- the view
 
-export function PerpsView({ board, title, mode }: { board: PerpBoard; title: string; mode: 'owner' | 'member' | 'public' }) {
+export function PerpsView({ board, title, mode, analytics }: { board: PerpBoard; title: string; mode: 'owner' | 'member' | 'public'; analytics?: React.ReactNode }) {
   const [picked, setPicked] = useState<string | null>(null);
   const [detail, setDetail] = useState<Load<CoinDetail>>({ state: 'idle' });
   const [leaders, setLeaders] = useState<Load<PerpLeaders>>({ state: mode === 'public' ? 'idle' : 'loading' });
@@ -377,6 +377,7 @@ export function PerpsView({ board, title, mode }: { board: PerpBoard; title: str
   return (
     <div className="space-y-4">
       <Hero b={board} title={title} mode={mode} />
+      {analytics}
 
       <Card
         id="pressure"

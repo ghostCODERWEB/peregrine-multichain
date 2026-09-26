@@ -9,14 +9,18 @@ const TONE: Record<PulseItem['tone'], string> = { up: 'var(--mint)', down: 'var(
 
 /** Market Pulse: what is happening now, as short derived statements, each with its series and a link to the records. */
 export function MarketPulse({ mode }: { mode: DisplayMode }) {
-  const items = marketPulse(mode);
+  return <InsightPanel id="pulse-title" title="Market Pulse" items={marketPulse(mode)} briefKey="pulse" mode={mode} />;
+}
+
+/** Derived insights for a page, each with its series and a link, beside a shared Nansen AI brief. */
+export function InsightPanel({ id, title, items, briefKey, mode }: { id: string; title: string; items: PulseItem[]; briefKey: string; mode: DisplayMode }) {
   if (!items.length) return null;
   return (
-    <section aria-labelledby="pulse-title" className="material p-3.5 sm:p-4 xl:col-span-12">
+    <section aria-labelledby={id} className="material p-3.5 sm:p-4 xl:col-span-12">
       <div className="mb-2.5 flex flex-wrap items-baseline justify-between gap-2">
-        <h2 id="pulse-title" className="flex items-center gap-2 text-[13.5px] font-bold text-ink">
+        <h2 id={id} className="flex items-center gap-2 text-[13.5px] font-bold text-ink">
           <span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--mint)] opacity-60" /><span className="relative inline-flex h-2 w-2 rounded-full bg-[var(--mint)]" /></span>
-          Market Pulse
+          {title}
         </h2>
         <span className="num text-[11px] text-ink-muted">Last 24h · {items.length} signals</span>
       </div>
@@ -40,7 +44,7 @@ export function MarketPulse({ mode }: { mode: DisplayMode }) {
             </li>
           ))}
         </ol>
-        {mode === 'owner' && <div className="order-first flex xl:order-none"><PulseBrief initial={cachedBrief()} /></div>}
+        {mode === 'owner' && <div className="order-first flex xl:order-none"><PulseBrief initial={cachedBrief(briefKey)} briefKey={briefKey} /></div>}
       </div>
     </section>
   );

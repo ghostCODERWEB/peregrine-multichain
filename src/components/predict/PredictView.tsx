@@ -2,6 +2,7 @@
 import { FilterBox } from '@/components/FilterBox';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { MiniLines } from '@/components/charts/Mini';
 import { Card, WaveLoading, Unavailable } from '@/components/Card';
 import { InfoPopover } from '@/components/InfoPopover';
 import { ScoreRing } from '@/components/viz/ScoreRing';
@@ -111,7 +112,7 @@ function Depth({ book }: { book: NonNullable<PmDetail['book']> }) {
 
 // ----------------------------------------------------------------- view
 
-export function PredictView({ board, title }: { board: PredictBoard; title: string }) {
+export function PredictView({ board, title, analytics, series = {} }: { board: PredictBoard; title: string; analytics?: React.ReactNode; series?: Record<string, number[]> }) {
   const [picked, setPicked] = useState<PmMarket | null>(null);
   const [detail, setDetail] = useState<Load<PmDetail>>({ state: 'idle' });
   const [records, setRecords] = useState<Load<PmRecords>>({ state: 'idle' });
@@ -208,6 +209,7 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
           <InfoPopover p={board.provenance} />
         </div>
       </section>
+      {analytics}
 
       <Card
         id="weather"
@@ -250,7 +252,7 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
               ? `Biggest repricing today: ${movers[0].question.slice(0, 60)}${movers[0].question.length > 60 ? '…' : ''} ${pts(movers[0].change1d)}`
               : 'Repricing'
           }
-          sub="Open questions whose YES price moved most in a day, in probability points: $50K+ traded today, priced between 3% and 97%, two or more days left (a settling market jumps because the outcome is known). Select one for its detail."
+          sub="1-day change in YES price · $50K+ traded today, priced 3% to 97%, two or more days left · select for detail"
         >
           {movers.length ? (
             <ul className="space-y-1.5" aria-label="Markets by 1-day change in implied probability">
@@ -258,9 +260,10 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
                 <li key={m.id}>
                   <button
                     onClick={() => pick(m)}
-                    className="grid w-full grid-cols-[1fr_120px_58px] items-center gap-2 rounded-md px-1 py-0.5 text-left text-[12.5px] hover:bg-raised"
+                    className="grid w-full grid-cols-[1fr_64px_120px_58px] items-center gap-2 rounded-md px-1 py-0.5 text-left text-[12.5px] hover:bg-raised"
                   >
                     <span className="truncate text-ink">{m.question}</span>
+                    <span>{series[m.id] ? <MiniLines height={16} min={0} max={100} label={`${m.question} probability, 7 days`} series={[{ values: series[m.id], color: m.change1d! >= 0 ? 'var(--mint)' : 'var(--flare)' }]} /> : null}</span>
                     <span className="relative h-[14px]">
                       <span className="absolute inset-y-0 left-1/2 w-px bg-axis" />
                       <span
@@ -281,9 +284,7 @@ export function PredictView({ board, title }: { board: PredictBoard; title: stri
           ) : (
             <p className="text-[12.5px] text-ink-2">No market with $50K+ volume moved today.</p>
           )}
-          <p className="mt-2 text-[11px] text-ink-muted">
-            Bar: 1-day change in YES price (green up, red down) · right: implied probability now
-          </p>
+          <p className="mt-2 text-[11px] text-ink-muted">Line: 7-day probability · bar: 1-day change · right: probability now</p>
         </Card>
         <Card
           id="events"
