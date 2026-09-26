@@ -612,3 +612,6 @@ a.m-row:active { background-color: color-mix(in srgb, var(--ink-1) 7%, transpare
 }
 /* Search inside phone screens: flat iOS search field look for the Token Checker box. */
 @media (max-width: 639px) { .m-search-wrap .inset-well { height: 42px; border-radius: 12px; } .m-search-wrap input { font-size: 15px; } }
+/* Round brand badge: hairline rim and a specular top edge, matching the glass controls. */
+.brand-mark { box-shadow: inset 0 0 0 1px rgba(255,255,255,.12), inset 0 1px 0 rgba(255,255,255,.22), 0 4px 14px -6px rgba(31,224,163,.55); }
+.brand-mark::after { content: ''; position: absolute; inset: 0; border-radius: inherit; box-shadow: inherit; pointer-events: none; }
