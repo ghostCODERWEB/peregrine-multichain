@@ -179,7 +179,7 @@ export default async function LabPage() {
 
       <section aria-labelledby="v2" className="space-y-3">
         <h2 id="v2" className="text-[13px] font-medium uppercase tracking-wider text-ink-muted">
-          Dump Risk v2: can its weights be fitted?
+          Token Score v2: can its weights be fitted?
         </h2>
         <StormV2Section r={loadStormV2()} />
       </section>
@@ -274,7 +274,7 @@ export default async function LabPage() {
               <li key={n}>{n}</li>
             ))}
             <li>
-              The Dump Risk on token pages keeps its expert-prior weights. Dump Risk v2 below rebuilds five of its six inputs point in time;
+              The Token Score on token pages keeps its expert-prior weights. Token Score v2 below rebuilds five of its six inputs point in time;
               the insider input has no point-in-time source, and a fit that could clear the bar needs far more observations than the credit
               budget buys. The fitted screener model instead powers the separate 7-day odds, with this record next to them.
             </li>

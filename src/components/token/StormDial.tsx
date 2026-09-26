@@ -26,7 +26,7 @@ export function stormTitle(symbol: string | null, s: StormWave): string {
   const name = lead && (lead[0] === 'nansenRisk' ? 'Nansen risk' : INPUT_LABEL[lead[0]][1].toLowerCase());
   const storm = r.band === 'watch' || r.band === 'warning';
   const tail = !lead ? '' : ` · ${storm ? 'driven by' : 'top driver:'} ${name} ${num(lead[1], 0)}`;
-  return `${symbol ?? 'This token'} · Dump Risk ${num(r.score, 0)}, ${STORM_LABEL[r.band]}${tail}`;
+  return `${symbol ?? 'This token'} · Token Score ${num(r.score, 0)}, ${STORM_LABEL[r.band]}${tail}`;
 }
 
 function Radar({ indicators }: { indicators: Indicator[] }) {
@@ -103,7 +103,7 @@ export function StormDial({ s, indicators }: { s: StormWave; indicators: Indicat
       />
       <details className="mt-4">
         <summary className="cursor-pointer text-xs font-semibold text-ink-2">All inputs and Nansen indicators</summary>
-        <ul className="mt-3 grid grid-cols-2 gap-1.5" aria-label="Dump Risk inputs">
+        <ul className="mt-3 grid grid-cols-2 gap-1.5" aria-label="Token Score inputs">
           {(Object.keys(INPUT_LABEL) as StormInput[]).map((k) => {
             const v = r.subScores[k];
             const cls = v == null ? null : STORM_CLASS[stormBand(v)];

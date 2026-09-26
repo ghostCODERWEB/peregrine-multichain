@@ -219,7 +219,7 @@ export function PortfolioView({ demo, suggestions = [], embedded = false }: { de
           </Card>
           <Card
             id="portfolio-storm"
-            title="How much of the portfolio has a Dump Risk reading?"
+            title="How much of the portfolio has a Token Score reading?"
             sub="Value-weighted local readings from the last 24 hours."
             action={<InfoPopover p={p.provenance} />}
           >

@@ -8,7 +8,7 @@ import type { ForwardCheck, RuleResult } from '@/server/backtest/forward';
 const signed = (v: number | null, d = 2) => (v == null ? 'n/a' : `${v >= 0 ? '+' : '−'}${Math.abs(v * 100).toFixed(d)}%`);
 
 export function StormV2Section({ r }: { r: V2Report | null }) {
-  if (!r) return <Unavailable text="No Dump Risk v2 run yet. `pnpm storm-v2` runs a small pilot within its credit cap." />;
+  if (!r) return <Unavailable text="No Token Score v2 run yet. `pnpm storm-v2` runs a small pilot within its credit cap." />;
   const inputs: Array<[keyof V2Report['coverage'], string]> = [
     ['concentration', 'C concentration'],
     ['windShear', 'W cohort shear'],
@@ -23,7 +23,7 @@ export function StormV2Section({ r }: { r: V2Report | null }) {
       <Card
         id="v2-pilot"
         className="lg:col-span-3"
-        title={`Dump Risk rebuilt point in time: ${n} pilot observations, ${r.creditsNominal} credits against an empty cache`}
+        title={`Token Score rebuilt point in time: ${n} pilot observations, ${r.creditsNominal} credits against an empty cache`}
         sub="The live formulas applied to Nansen's historical endpoints as of each date, then the next 7 days of price. Insider clusters can't be rebuilt at a past date, so that input is dropped."
       >
         <div className="flex flex-wrap gap-1.5">
@@ -45,7 +45,7 @@ export function StormV2Section({ r }: { r: V2Report | null }) {
                 <th className="font-normal">L</th>
                 <th className="font-normal">P</th>
                 <th className="font-normal">R</th>
-                <th className="font-normal">Dump Risk</th>
+                <th className="font-normal">Token Score</th>
                 <th className="text-right font-normal">Worst 7 days</th>
               </tr>
             </thead>

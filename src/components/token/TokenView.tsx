@@ -317,7 +317,7 @@ export function TokenView({
       <Card
         id="storm"
         className={cls}
-        title={ok(s.storm) ? `Dump Risk: ${Math.round(s.storm.result.score)} of 100` : 'Dump Risk'}
+        title={ok(s.storm) ? `Token Score: ${Math.round(s.storm.result.score)} of 100` : 'Token Score'}
         sub="Probability-style dump-risk score from six Nansen-derived inputs."
       >
         {ok(s.storm) ? (
@@ -325,11 +325,11 @@ export function TokenView({
         ) : gone(s.storm) ? (
           <Unavailable text={s.storm.unavailable} />
         ) : pending(s.storm) ? (
-          <WaveLoading what="the Dump Risk inputs" height={420} />
+          <WaveLoading what="the Token Score inputs" height={420} />
         ) : null}
         {s.candidates && (
           <div className="mt-3 border-t border-border pt-2">
-            <div className="text-[11px] text-ink-muted">Dump Risk v2 candidates · not yet in the score</div>
+            <div className="text-[11px] text-ink-muted">Token Score v2 candidates · not yet in the score</div>
             <ul className="mt-1 flex flex-wrap gap-2">
               {s.candidates.map((c) => (
                 <li
@@ -707,7 +707,7 @@ export function TokenView({
 
       <div role="tabpanel" aria-label={VIEWS.find(([k]) => k === view)![1]} className="space-y-4">
         {LAYOUT[view].map((row, i) => {
-          // Dump Risk lives in the hero on every view; rendering it again here
+          // Token Score lives in the hero on every view; rendering it again here
           // would duplicate its section and its #storm anchor.
           const items = row.items
             .filter(([key]) => key !== 'storm')

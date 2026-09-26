@@ -96,7 +96,7 @@ export function TokenAskChat({
   const suggestions = [
     `Who is buying ${sym} this week?`,
     `Is there enough liquidity to exit ${sym}?`,
-    band ? `Why is the Dump Risk ${band.toLowerCase()}?` : `What are the main risks for ${sym}?`,
+    band ? `Why is the Token Score ${band.toLowerCase()}?` : `What are the main risks for ${sym}?`,
   ];
   const out = meta?.left === 0;
   return (

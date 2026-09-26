@@ -83,7 +83,7 @@ export function WeatherView({
   ].filter(Boolean) as Array<{ label: string; chain: string; value: string; tone: string }>;
   const nets = useMemo(() => new Map([...netMap.sellers, ...netMap.buyers].map((n) => [n.chain, n.net])), [netMap]);
   const riskAlerts = (cls: string) => (
-    <Card id="risk-alerts" title="Risk alerts" sub="Highest Dump Risk across chains, last 48 hours" className={cls}>
+    <Card id="risk-alerts" title="Risk alerts" sub="Highest Token Score across chains, last 48 hours" className={cls}>
       <StormTicker storms={data.storms} />
     </Card>
   );

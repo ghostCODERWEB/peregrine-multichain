@@ -194,7 +194,7 @@ export function TimeMachine({ chain, token }: { chain: string; token: string }) 
           <p className="text-xs text-ink-muted">
             {preview.readings.length
               ? 'Only locally stored observations timestamped at or before the cutoff are shown; check their ages.'
-              : 'No local model observations existed at this cutoff. Candle history is available; Dump Risk and flow readings are unavailable, not zero.'}{' '}
+              : 'No local model observations existed at this cutoff. Candle history is available; Token Score and flow readings are unavailable, not zero.'}{' '}
             Current gauges are not substituted for historical ones.
           </p>
           {!result ? (
