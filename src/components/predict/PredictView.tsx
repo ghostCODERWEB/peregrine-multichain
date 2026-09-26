@@ -3,9 +3,9 @@ import { FilterBox } from '@/components/FilterBox';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { MiniLines } from '@/components/charts/Mini';
+import { MoodRing } from '@/components/viz/MoodRing';
 import { Card, WaveLoading, Unavailable } from '@/components/Card';
 import { InfoPopover } from '@/components/InfoPopover';
-import { ScoreRing } from '@/components/viz/ScoreRing';
 import { usd, num, ago, shortAddress } from '@/lib/viz/format';
 import { heatLabel, impliedPct, categoryHeat, isMover } from '@/lib/models/predict';
 import type { PredictBoard, PmMarket, PmDetail, PmRecords } from '@/server/predict/board';
@@ -183,22 +183,11 @@ export function PredictView({ board, title, analytics, series = {} }: { board: P
               ))}
             </dl>
           </div>
-          <div className="flex shrink-0 items-center gap-4 rounded-2xl border border-border/70 bg-raised/40 p-4 lg:w-[230px] lg:flex-col lg:text-center">
+          <div className="flex shrink-0 items-center justify-center gap-4 overflow-hidden rounded-2xl border border-border/70 bg-raised/40 p-5 pt-10 lg:w-[240px] lg:flex-col lg:text-center">
             {overall.weather != null ? (
               <>
-                <ScoreRing
-                  score={overall.weather}
-                  size={112}
-                  stroke={9}
-                  color={heatColor(overall.weather)}
-                  label="Prediction flows"
-                  sublabel="heat"
-                />
-                <div>
-                  <div className="text-[11px] uppercase tracking-wider text-ink-muted">Prediction flows</div>
-                  <div className="text-[15px] font-semibold text-ink">{heatLabel(overall.weather)}</div>
-                  <div className="num text-[11.5px] text-ink-2">{num(overall.heat, 2)}× the week&apos;s daily pace (categories summed)</div>
-                </div>
+                <MoodRing score={overall.weather} mood={overall.weather >= 70 ? 'hot' : overall.weather <= 30 ? 'quiet' : 'normal'} word={heatLabel(overall.weather)} label="Prediction flows"
+                  detail={<>{num(overall.heat, 2)}× the week&apos;s daily pace</>} />
               </>
             ) : (
               <div className="py-6 text-[12.5px] text-ink-2">No weekly volume to compare with.</div>

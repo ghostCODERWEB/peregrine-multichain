@@ -3,7 +3,11 @@ import { Info } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import type { Provenance } from '@/lib/provenance';
 
+/** How a number is computed. Hidden for now at the owner's request: the ⓘ icons are off everywhere (Analyze with Nansen explains any element instead). */
+const SHOW_RECEIPTS = false;
+
 export function InfoPopover({ p, className = '' }: { p: Provenance; className?: string }) {
+  if (!SHOW_RECEIPTS) return null;
   return (
     <Popover>
       <PopoverTrigger

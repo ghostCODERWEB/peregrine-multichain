@@ -1,0 +1,47 @@
+import { Flame, Snowflake, Activity } from 'lucide-react';
+
+export type Mood = 'hot' | 'normal' | 'quiet';
+const EMBERS = [8, 22, 34, 47, 58, 69, 81, 92];
+
+/** A 0–100 reading as a ring whose motion says what the word says: flames when hot, a calm pulse at normal pace, frost when quiet. */
+export function MoodRing({ score, mood, word, detail, label, size = 124 }: { score: number; mood: Mood; word: string; detail?: React.ReactNode; label: string; size?: number }) {
+  const stroke = 9;
+  const r = (size - stroke) / 2, c = 2 * Math.PI * r;
+  const v = Math.round(Math.max(0, Math.min(100, score)));
+  const Icon = mood === 'hot' ? Flame : mood === 'quiet' ? Snowflake : Activity;
+  const grad = `mood-${mood}`;
+  return (
+    <div className={`mood mood-${mood} relative flex flex-col items-center text-center`}>
+      <div className="relative" style={{ width: size, height: size }} role="img" aria-label={`${label}: ${v} of 100, ${word}`}>
+        {mood === 'hot' && (
+          <span aria-hidden className="mood-flames pointer-events-none absolute">
+            <span /><span /><span /><span /><span />
+          </span>
+        )}
+        {mood !== 'normal' && (
+          <span aria-hidden className="mood-particles pointer-events-none absolute -inset-3">
+            {EMBERS.map((x, i) => <i key={x} style={{ left: `${x}%`, animationDelay: `${(i * 0.37) % 2.4}s` }} />)}
+          </span>
+        )}
+        <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="relative -rotate-90" aria-hidden>
+          <defs>
+            <linearGradient id={grad} x1="0" y1="0" x2="1" y2="1">
+              {mood === 'hot' ? (<><stop offset="0%" stopColor="#ffd84d" /><stop offset="45%" stopColor="#ff7a1a" /><stop offset="100%" stopColor="#ff2d55" /></>)
+                : mood === 'quiet' ? (<><stop offset="0%" stopColor="#e3f6ff" /><stop offset="55%" stopColor="#7cc8ff" /><stop offset="100%" stopColor="#3b82f6" /></>)
+                : (<><stop offset="0%" stopColor="#5ef0c0" /><stop offset="100%" stopColor="#1fb58a" /></>)}
+            </linearGradient>
+          </defs>
+          <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="var(--grid)" strokeWidth={stroke} />
+          <circle className="mood-arc" cx={size / 2} cy={size / 2} r={r} fill="none" stroke={`url(#${grad})`} strokeWidth={stroke} strokeLinecap="round" strokeDasharray={`${((v / 100) * c).toFixed(2)} ${c.toFixed(2)}`} />
+        </svg>
+        <span className="absolute inset-0 flex flex-col items-center justify-center leading-none">
+          <span className="mood-num num font-bold" style={{ fontSize: size * 0.3 }}>{v}</span>
+          <span className="mt-1 text-[11px] text-ink-muted">heat</span>
+        </span>
+      </div>
+      <span className="mt-3 text-[11px] uppercase tracking-[0.08em] text-ink-muted">{label}</span>
+      <span className="mood-word mt-0.5 inline-flex items-center gap-1.5 text-[20px] font-extrabold tracking-[-0.01em]"><Icon className="mood-icon h-5 w-5" aria-hidden />{word}</span>
+      {detail && <span className="num mt-1 text-[11.5px] text-ink-2">{detail}</span>}
+    </div>
+  );
+}

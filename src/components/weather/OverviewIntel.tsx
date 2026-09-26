@@ -9,6 +9,8 @@ import { Go } from '@/components/ui/Icons';
 import { AddressLink } from '@/components/entity/AddressLink';
 import { TokenLogo } from '@/components/Logo';
 import { MarketPulse } from '@/components/pulse/MarketPulse';
+import { perpsAnalytics, sectorsAnalytics } from '@/server/insights';
+import { ChainLogo } from '@/components/Logo';
 import { ExplainView } from '@/components/ExplainView';
 import { MiniBars, MiniLines, RowBar } from '@/components/charts/Mini';
 import { positioningSeries, smFlowSeries } from '@/server/graph/series';
@@ -48,6 +50,15 @@ export function OverviewIntel({ mode }: { mode: DisplayMode }) {
   const cpi = (t: number) => new Map((db.prepare(`SELECT c.chain AS k, c.cpi AS v FROM chain_cpi c JOIN (SELECT chain, MAX(snapshot_at) s FROM chain_cpi WHERE source = ? AND snapshot_at <= ? GROUP BY chain) m ON m.chain = c.chain AND m.s = c.snapshot_at WHERE c.source = ?`).all(source, t, source) as Array<{ k: string; v: number }>).map((r) => [r.k, r.v]));
   const a = cpi(now), b = cpi(now - day);
   const moves = [...a].filter(([k]) => b.has(k)).map(([k, v]) => ({ chain: k, d: v - b.get(k)!, v })).sort((x, y) => Math.abs(y.d) - Math.abs(x.d)).slice(0, 6);
+  // The day's other large changes, each linking to its page.
+  const sec = sectorsAnalytics(mode).change[0];
+  const pa = perpsAnalytics(mode);
+  const others = [
+    owner && cur && prev?.net != null ? { kind: 'Smart Money DEX', label: 'net vs prior day', value: usd((cur.net ?? 0) - prev.net, { signed: true }), up: (cur.net ?? 0) >= prev.net, href: '/smart-money' } : null,
+    sec ? { kind: 'Sector', label: sec.label, value: usd(sec.value, { signed: true }), up: sec.value >= 0, href: sec.href } : null,
+    pa.oiMovers[0] ? { kind: 'Perp OI', label: pa.oiMovers[0].label, value: `${pa.oiMovers[0].value >= 0 ? '+' : '−'}${Math.abs(pa.oiMovers[0].value).toFixed(0)}%`, up: pa.oiMovers[0].value >= 0, href: pa.oiMovers[0].href } : null,
+    pa.priceMovers[0] ? { kind: 'Perp price', label: pa.priceMovers[0].label, value: `${pa.priceMovers[0].value >= 0 ? '+' : '−'}${Math.abs(pa.priceMovers[0].value).toFixed(1)}%`, up: pa.priceMovers[0].value >= 0, href: pa.priceMovers[0].href } : null,
+  ].filter((x): x is { kind: string; label: string; value: string; up: boolean; href: string } => !!x);
   const cpiLine = (chain: string) => (db.prepare('SELECT cpi FROM chain_cpi WHERE chain = ? AND source = ? AND snapshot_at >= ? ORDER BY snapshot_at').all(chain, source, now - day) as Array<{ cpi: number }>).map((r) => r.cpi);
   const hourly = owner ? smFlowSeries(24, now) : [];
   const posh = owner ? positioningSeries('BTC').slice(-48) : [];
@@ -137,16 +148,34 @@ export function OverviewIntel({ mode }: { mode: DisplayMode }) {
         </Module>
       )}
       <Module title="What changed, 24h" href="/history">
+        <p className="num mb-2 text-[11.5px] text-ink-muted">
+          Flow Index · <span style={{ color: 'var(--mint)' }}>{moves.filter((m) => m.d > 0).length} up</span> · <span style={{ color: 'var(--flare)' }}>{moves.filter((m) => m.d < 0).length} down</span>
+        </p>
         <ol className="space-y-1">
           {moves.map((m) => (
-            <li key={m.chain} className="grid grid-cols-[minmax(0,1fr)_72px_auto] items-center gap-2 text-[12.5px]">
-              <Link href={`/chain/${m.chain}`} className="truncate font-semibold text-ink hover:underline">{chainName(m.chain)} Flow Index</Link>
+            <li key={m.chain} className="grid grid-cols-[minmax(0,1fr)_64px_auto] items-center gap-2 text-[12.5px]">
+              <Link href={`/chain/${m.chain}`} className="flex min-w-0 items-center gap-1.5 truncate font-semibold text-ink hover:underline"><ChainLogo chain={m.chain} size={14} />{chainName(m.chain)}</Link>
               <MiniLines height={18} min={0} max={100} baseline={50} label={`${chainName(m.chain)} Flow Index, last 24 hours`} series={[{ values: cpiLine(m.chain), color: m.d >= 0 ? 'var(--mint)' : 'var(--flare)' }]} />
               <span className="num whitespace-nowrap"><span className="text-ink-2">{num(m.v, 0)}</span> <span className="font-semibold" style={tone(m.d)}>{m.d >= 0 ? '+' : '−'}{num(Math.abs(m.d), 0)}</span></span>
             </li>
           ))}
           {!moves.length && <li className="text-[12.5px] text-ink-muted">Comparisons appear once the scanner has a day of history.</li>}
         </ol>
+        {others.length > 0 && (
+          <>
+            <p className="mb-1 mt-3 border-t border-[var(--hair)] pt-2.5 text-[11.5px] font-semibold text-ink-muted">Also moved</p>
+            <ol className="space-y-1">
+              {others.map((o) => (
+                <li key={o.label}>
+                  <Link href={o.href} className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 text-[12.5px] hover:underline">
+                    <span className="min-w-0 truncate"><span className="text-ink-muted">{o.kind} </span><span className="font-semibold text-ink">{o.label}</span></span>
+                    <span className="num whitespace-nowrap font-semibold" style={tone(o.up ? 1 : -1)}>{o.value}</span>
+                  </Link>
+                </li>
+              ))}
+            </ol>
+          </>
+        )}
       </Module>
     </div>
     </div>
