@@ -66,9 +66,9 @@ export default async function ProfilerHome() {
             { label: 'Largest SM perp position', value: perp[0] ? usd(perp[0].value) : 'n/a', note: perp[0] ? `${perp[0].side} ${perp[0].symbol}` : undefined, href: perp[0] && `/wallet/${perp[0].address}` },
           ]} />
           <div className="grid gap-4 xl:grid-cols-3">
-            <section className="material p-4 sm:p-5"><h2 className="t-section mb-2">Top Smart Money buyers, 24h</h2>{list(buyers, 'in')}</section>
-            <section className="material p-4 sm:p-5"><h2 className="t-section mb-2">Top Smart Money sellers, 24h</h2>{list(sellers, 'out')}</section>
-            <section className="material p-4 sm:p-5">
+            <section className="material min-w-0 p-4 sm:p-5"><h2 className="t-section mb-2">Top Smart Money buyers, 24h</h2>{list(buyers, 'in')}</section>
+            <section className="material min-w-0 p-4 sm:p-5"><h2 className="t-section mb-2">Top Smart Money sellers, 24h</h2>{list(sellers, 'out')}</section>
+            <section className="material min-w-0 p-4 sm:p-5">
               <h2 className="t-section mb-2">Largest Smart Money perp positions</h2>
               <ol className="divide-y divide-[var(--hair)]">
                 {perp.slice(0, 8).map((p) => (

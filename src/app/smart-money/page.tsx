@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { displayMode } from '@/server/mode';
 import { SmartMoneyDesk } from '@/components/smart-money/SmartMoneyDesk';
+import { SmartMoneyState } from '@/components/smart-money/SmartMoneyState';
 import { accountsEnabled } from '@/server/site';
 
 export const metadata: Metadata = { title: 'Smart-money desk · Peregrine' };
@@ -53,5 +54,10 @@ export default async function SmartMoneyPage() {
       </div>
     );
   }
-  return <SmartMoneyDesk mode={mode} />;
+  return (
+    <div className="space-y-5">
+      {mode === 'owner' && <SmartMoneyState />}
+      <SmartMoneyDesk mode={mode} />
+    </div>
+  );
 }

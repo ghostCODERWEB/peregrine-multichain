@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { TokenView } from '@/components/token/TokenView';
+import { QuickRead } from '@/components/token/QuickRead';
 import { ALL_CHAIN_IDS, chainCapability } from '@/lib/registry';
 import { chainName, shortAddress } from '@/lib/viz/format';
 import { displayMode } from '@/server/mode';
@@ -20,5 +21,6 @@ export const dynamic = 'force-dynamic';
 export default async function TokenRoute({ params }: Params) {
   const { chain, address } = await params;
   if (!ALL_CHAIN_IDS.includes(chain)) notFound();
-  return <TokenView chain={chain} address={decodeURIComponent(address)} tier={chainCapability(chain)!.tier} mode={await displayMode()} />;
+  const mode = await displayMode();
+  return <TokenView chain={chain} address={decodeURIComponent(address)} tier={chainCapability(chain)!.tier} mode={mode} quickRead={<QuickRead chain={chain} address={decodeURIComponent(address)} mode={mode} />} />;
 }

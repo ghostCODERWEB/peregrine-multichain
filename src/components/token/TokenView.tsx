@@ -197,11 +197,13 @@ export function TokenView({
   address,
   tier,
   mode,
+  quickRead,
 }: {
   chain: string;
   address: string;
   tier: string;
   mode: 'owner' | 'member' | 'public';
+  quickRead?: React.ReactNode;
 }) {
   const s = useTokenStream(chain, address);
   const [view, setView] = useView();
@@ -669,6 +671,7 @@ export function TokenView({
       >
         {cards.storm('')}
       </TokenHero>
+      {quickRead}
       {s.fatal && <p className="rounded-md border border-border px-3 py-2 text-sm text-ink-2">{s.fatal}</p>}
       {gone(s.header) && <Unavailable text={s.header.unavailable} />}
       {h?.isStablecoin && (
