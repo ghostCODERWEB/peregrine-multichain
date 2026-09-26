@@ -11,6 +11,11 @@ export async function GET(req: Request) {
     url = await tokenLogo(chain, address);
     if (!url && chain === 'robinhood' && q.get('s')) url = await stockLogo(q.get('s')!);
   }
+  if (!url && q.get('s')) {
+    // Wrapped or bridged versions of a major asset (WBTC, SCBTC, cbETH, USDC.e) wear the parent's logo.
+    const base = baseAsset(q.get('s')!);
+    if (base) url = await coinLogo(base);
+  }
   if (!url) {
     // No logo anywhere: a neutral monogram, so the page never shows a broken image.
     const letters = (q.get('s') ?? coin ?? '?').replace(/[^A-Za-z0-9]/g, '').slice(0, 3).toUpperCase() || '?';
@@ -18,4 +23,26 @@ export async function GET(req: Request) {
     return new NextResponse(svg, { headers: { 'content-type': 'image/svg+xml', 'cache-control': 'public, max-age=86400' } });
   }
   return NextResponse.redirect(url, { status: 302, headers: { 'cache-control': 'public, max-age=604800' } });
+}
+
+const BASES: Array<[RegExp, string]> = [
+  [/BTC/, 'BTC'],
+  [/^(W|CB|ST|WST|R|WE|M|SW|OS|EZ|RS|W?BE|AAVE|A|AARB)?ETH(ER)?$|^WEETH$|^ETH[.-]/, 'ETH'],
+  [/^(A|AARB|W|B|S)?USDC(\.E)?$|^USDC[.-]/, 'USDC'],
+  [/^(A|W|B|S)?USDT0?(\.E)?$|^USD₮0?$/, 'USDT'],
+  [/^(W|J|M|B|JITO|INF)SOL$/, 'SOL'],
+  [/^W?BNB$/, 'BNB'],
+  [/^W?AVAX$/, 'AVAX'],
+  [/^W?HYPE$/, 'HYPE'],
+  [/^W?POL$|^W?MATIC$/, 'POL'],
+  [/^W?S$/, 'S'],
+  [/^W?MNT$/, 'MNT'],
+  [/^W?MON$/, 'MON'],
+  [/^DAI$|^SDAI$/, 'DAI'],
+];
+
+function baseAsset(symbol: string): string | null {
+  const s = symbol.toUpperCase().replace(/[^A-Z0-9.₮-]/g, '');
+  for (const [re, base] of BASES) if (re.test(s)) return base;
+  return null;
 }

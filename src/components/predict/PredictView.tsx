@@ -210,14 +210,15 @@ export function PredictView({ board, title, analytics, series = {} }: { board: P
             ? `${cats.filter((c) => (c.weather ?? 0) >= 70).length} categories running hot, ${cats.filter((c) => c.weather != null && c.weather <= 30).length} quiet`
             : 'Category activity'
         }
-        sub="Each category's 24h volume against its daily pace over the last week: green is busier than usual, red quieter. Hover for its busiest market."
+        sub="Each category's 24h volume against its daily pace over the last week: green is busier than usual, red quieter. Open a category for its markets."
       >
         <ul className="stagger grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-2" aria-label="Prediction categories by heat">
           {cats.map((c) => (
-            <li
-              key={c.category}
-              title={c.topQuestion ?? undefined}
-              className="rounded-xl border border-border/40 p-2.5"
+            <li key={c.category}>
+              <Link
+              href={`/predict/category/${encodeURIComponent(c.category)}`}
+              title={c.topQuestion ? `Busiest: ${c.topQuestion}` : undefined}
+              className="block h-full rounded-xl border border-border/40 p-2.5 transition-[border-color,transform] hover:-translate-y-px hover:border-[var(--mint)]"
               style={{ background: heatMix(c.weather) }}
             >
               <div className="flex items-baseline justify-between gap-2">
@@ -230,6 +231,7 @@ export function PredictView({ board, title, analytics, series = {} }: { board: P
               <div className="mt-0.5 text-[11px] text-ink/80">
                 {c.weather != null ? <MoodWord mood={c.weather >= 70 ? 'hot' : c.weather <= 30 ? 'quiet' : 'normal'} word={heatLabel(c.weather)} className="text-[11.5px]" /> : 'n/a'} · {(c.traders24h ?? 0).toLocaleString('en-US')} traders
               </div>
+            </Link>
             </li>
           ))}
         </ul>

@@ -420,52 +420,32 @@ function AllocationMap({ positions }: { positions: Position[] }) {
   }
   if (items.length) split(items, 0, 0, 960, 340);
   return (
-    <svg viewBox="0 0 960 340" role="img" aria-label="Portfolio allocation map; block area equals USD value" className="w-full rounded-xl">
+    <div role="img" aria-label="Portfolio allocation map; block area equals USD value" className="relative w-full" style={{ aspectRatio: '960 / 340' }}>
       {tiles.map(({ p, x, y, w, h }, i) => {
-        const content = (
+        // Tiles are laid out on a 960×340 grid; show as much as the block has room for.
+        const big = w > 150 && h > 90, mid = w > 70 && h > 44, tiny = w > 20 && h > 20;
+        const logo = Math.round(big ? 28 : mid ? 18 : Math.min(16, w - 6, h - 6));
+        const body = (
           <>
-            <title>
-              {p.symbol} · {chainName(p.chain)} · {usd(p.valueUsd)}
-            </title>
-            <rect
-              x={x + 1}
-              y={y + 1}
-              width={Math.max(0, w - 2)}
-              height={Math.max(0, h - 2)}
-              rx="5"
-              fill={`var(--${i % 2 ? 'out' : 'in'}-1)`}
-              fillOpacity=".16"
-              stroke="var(--border)"
-            />
-            {w > 80 && h > 48 && (
-              <>
-                <text x={x + 12} y={y + 26} fill="var(--ink-1)" fontSize={w > 180 ? 20 : 13}>
-                  {p.symbol.slice(0, Math.floor(w / 12))}
-                </text>
-                <text x={x + 12} y={y + 45} fill="var(--ink-2)" fontSize="12">
-                  {usd(p.valueUsd)}
-                </text>
-                {h > 80 && (
-                  <text x={x + 12} y={y + h - 14} fill="var(--ink-muted)" fontSize="11">
-                    {chainName(p.chain)}
-                  </text>
-                )}
-              </>
+            {tiny && (
+              <span className={big || mid ? 'flex min-w-0 items-center gap-1.5' : 'grid h-full place-items-center'}>
+                <TokenLogo symbol={p.symbol} chain={p.chain} address={p.tokenAddress ?? undefined} size={logo} />
+                {mid && <span className={`truncate font-semibold text-ink ${big ? 'text-[18px]' : 'text-[12.5px]'}`}>{p.symbol}</span>}
+              </span>
             )}
+            {mid && <span className={`num mt-0.5 block truncate text-ink-2 ${big ? 'text-[13px]' : 'text-[11px]'}`}>{usd(p.valueUsd)}</span>}
+            {big && <span className="absolute bottom-2 left-3 truncate text-[11.5px] text-ink-muted">{chainName(p.chain)}</span>}
           </>
         );
+        const style = { background: `color-mix(in srgb, var(--mint) ${Math.max(4, Math.round(16 - i * 0.6))}%, var(--surface-1))`, left: `${(x / 960) * 100}%`, top: `${(y / 340) * 100}%`, width: `${(w / 960) * 100}%`, height: `${(h / 340) * 100}%` };
+        const cls = `absolute overflow-hidden rounded-[6px] border border-[var(--hair)] ${mid ? 'p-2.5' : 'p-0.5'} outline-offset-[-2px] transition-colors hover:border-[var(--mint)]`;
+        const title = `${p.symbol} · ${chainName(p.chain)} · ${usd(p.valueUsd)}`;
         return p.tokenAddress ? (
-          <a
-            key={i}
-            href={`/token/${p.chain}/${encodeURIComponent(p.tokenAddress)}`}
-            aria-label={`${p.symbol} on ${chainName(p.chain)}, ${usd(p.valueUsd)}`}
-          >
-            {content}
-          </a>
+          <a key={i} href={`/token/${p.chain}/${encodeURIComponent(p.tokenAddress)}`} title={title} aria-label={`${p.symbol} on ${chainName(p.chain)}, ${usd(p.valueUsd)}`} className={cls} style={style}>{body}</a>
         ) : (
-          <g key={i}>{content}</g>
+          <div key={i} title={title} className={cls} style={style}>{body}</div>
         );
       })}
-    </svg>
+    </div>
   );
 }

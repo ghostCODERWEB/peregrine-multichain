@@ -55,14 +55,14 @@ export function TimeMachine() {
           </div>
           <div tabIndex={0} role="region" aria-label="Holdings change by token" className="max-h-[480px] overflow-auto rounded-[10px] border border-[var(--hair)]">
             <table data-sortable className="w-full min-w-[640px] text-[12.5px]">
-              <thead className="sticky top-0 bg-[var(--surface-1)] text-[11.5px] text-ink-muted"><tr><th className="px-3 py-2 text-left font-semibold">Token</th><th className="px-3 text-right font-semibold">Then</th><th className="px-3 text-right font-semibold">Now</th><th className="px-3 text-right font-semibold">Change</th><th className="px-3 text-right font-semibold">Holders then to now</th></tr></thead>
+              <thead className="sticky top-0 bg-[var(--surface-1)] text-[11.5px] text-ink-muted"><tr><th className="px-3 py-2 text-left font-semibold">Token</th><th className="w-[14%] px-3 text-right font-semibold">Then</th><th className="w-[14%] px-3 text-right font-semibold">Now</th><th className="w-[22%] px-3 text-right font-semibold">Change</th><th className="w-[16%] px-3 text-right font-semibold">Holders, then to now</th></tr></thead>
               <tbody>
                 {res.rows.map((r) => (
                   <tr key={`${r.chain}:${r.token}`} className="border-t border-[var(--hair)]">
-                    <td className="px-3 py-1.5"><Link href={`/token/${r.chain}/${encodeURIComponent(r.token)}`} className="inline-flex items-center gap-1.5 font-semibold text-ink hover:underline"><TokenLogo symbol={r.symbol} chain={r.chain} address={r.token} size={16} />{r.symbol ?? r.token.slice(0, 8)}</Link> <span className="text-ink-muted">{chainName(r.chain)}</span></td>
+                    <td className="px-3 py-2"><Link href={`/token/${r.chain}/${encodeURIComponent(r.token)}`} className="flex items-center gap-2 hover:underline"><TokenLogo symbol={r.symbol} chain={r.chain} address={r.token} size={20} /><span className="font-semibold text-ink">{r.symbol ?? r.token.slice(0, 8)}</span><span className="text-[11.5px] text-ink-muted">{chainName(r.chain)}</span></Link></td>
                     <td className="num px-3 text-right text-ink-2">{r.edge === 'entered-top' ? 'outside top 200' : usd(r.thenUsd)}</td>
                     <td className="num px-3 text-right text-ink">{r.edge === 'left-top' ? 'outside top 200' : usd(r.nowUsd)}</td>
-                    <td className="num px-3 text-right font-semibold" style={r.edge ? undefined : tone(r.deltaUsd)}>{r.edge === 'left-top' ? <span className="text-ink-muted">left the top 200</span> : r.edge === 'entered-top' ? <span className="text-ink-muted">entered the top 200</span> : <>{usd(r.deltaUsd, { signed: true })}{r.deltaPct != null ? ` · ${r.deltaPct >= 0 ? '+' : ''}${pct(r.deltaPct, 0)}` : ''}</>}</td>
+                    <td className="num px-3 text-right font-semibold" style={r.edge ? undefined : tone(r.deltaUsd)}>{r.edge === 'left-top' ? <span className="text-ink-muted">left the top 200</span> : r.edge === 'entered-top' ? <span className="text-ink-muted">entered the top 200</span> : <>{usd(r.deltaUsd, { signed: true })}{r.deltaPct != null ? (r.thenUsd < 50_000 && r.deltaPct > 10 ? ' · new position' : ` · ${r.deltaPct >= 0 ? '+' : ''}${pct(r.deltaPct, 0)}`) : ''}</>}</td>
                     <td className="num px-3 text-right text-ink-2">{r.thenHolders ?? 'n/a'} to {r.nowHolders ?? 'n/a'}</td>
                   </tr>
                 ))}

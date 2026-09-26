@@ -111,27 +111,7 @@ export async function predictBoard(): Promise<PredictBoard> {
         })
         .filter((x) => (x.volume24h ?? 0) > 0)
         .sort((a, b) => (b.volume24h ?? 0) - (a.volume24h ?? 0));
-      const markets: PmMarket[] = rows(m.data).map((r) => ({
-        id: String(r.market_id),
-        question: s(r.question) ?? '?',
-        eventTitle: s(r.event_title),
-        endDate: s(r.end_date),
-        tags: Array.isArray(r.tags) ? (r.tags as unknown[]).filter((t): t is string => typeof t === 'string') : [],
-        price: n(r.last_trade_price),
-        change1d: n(r.one_day_price_change),
-        volume24h: n(r.volume_24hr),
-        volume1w: n(r.volume_1wk),
-        openInterest: n(r.open_interest),
-        liquidity: n(r.liquidity),
-        traders24h: n(r.unique_traders_24h),
-        bid: n(r.best_bid),
-        ask: n(r.best_ask),
-        negRisk: r.neg_risk === true,
-        slug: s(r.slug),
-        volumeTotal: n(r.volume),
-        createdAt: s(r.created_at),
-        volumeChangePct: n(r.volume_change_pct),
-      }));
+      const markets: PmMarket[] = rows(m.data).map(toMarket);
       const events: PmEvent[] = rows(e.data).map((r) => ({
         id: String(r.event_id),
         title: s(r.event_title) ?? '?',
@@ -453,3 +433,44 @@ export async function holderRecords(id: string, price: number | null): Promise<P
 }
 
 export { heatLabel };
+
+function toMarket(r: Row): PmMarket {
+  return {
+    id: String(r.market_id),
+    question: s(r.question) ?? '?',
+    eventTitle: s(r.event_title),
+    endDate: s(r.end_date),
+    tags: Array.isArray(r.tags) ? (r.tags as unknown[]).filter((t): t is string => typeof t === 'string') : [],
+    price: n(r.last_trade_price),
+    change1d: n(r.one_day_price_change),
+    volume24h: n(r.volume_24hr),
+    volume1w: n(r.volume_1wk),
+    openInterest: n(r.open_interest),
+    liquidity: n(r.liquidity),
+    traders24h: n(r.unique_traders_24h),
+    bid: n(r.best_bid),
+    ask: n(r.best_ask),
+    negRisk: r.neg_risk === true,
+    slug: s(r.slug),
+    volumeTotal: n(r.volume),
+    createdAt: s(r.created_at),
+    volumeChangePct: n(r.volume_change_pct),
+  };
+}
+
+export interface CategoryPage { category: PmCategory | null; markets: PmMarket[]; unavailable: string | null; provenance: Provenance }
+
+/** One category's active markets (Nansen market screener filtered by tag), busiest first. */
+export async function categoryMarkets(category: string): Promise<CategoryPage> {
+  const board = await predictBoard();
+  const cat = board.categories.find((c) => c.category.toLowerCase() === category.toLowerCase()) ?? null;
+  const body = { status: 'active', tags: [cat?.category ?? category], order_by: [{ field: 'volume_24hr', direction: 'DESC' }], pagination: { page: 1, per_page: 200 } };
+  const provenance: Provenance = { title: `${cat?.category ?? category} markets`, formula: 'Nansen prediction-market/market-screener, active markets tagged with this category, by 24h volume', inputs: [], calls: [] };
+  try {
+    const r = await traced<unknown>('prediction-market/market-screener', body, 1);
+    const markets = rows(r.data).map(toMarket).filter((x) => x.question !== '?');
+    return { category: cat, markets, unavailable: markets.length ? null : 'Nansen lists no active markets in this category right now.', provenance: { ...provenance, inputs: [{ label: 'Markets', value: String(markets.length) }], calls: [r.call] } };
+  } catch (e) {
+    return { category: cat, markets: [], unavailable: errText(e), provenance };
+  }
+}
