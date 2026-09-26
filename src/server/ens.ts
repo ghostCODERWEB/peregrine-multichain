@@ -57,9 +57,10 @@ export async function ensAddress(name: string): Promise<string | null> {
   // RPC first; if it fails or finds nothing, a free public ENS API as a second opinion.
   const viaRpc = await client.getEnsAddress({ name: norm }).catch((e: Error) => { console.warn(`[ens] rpc ${norm}: ${e.message.split('\n')[0].slice(0, 160)}`); return undefined; });
   const a = viaRpc ?? (await fetch(`https://api.ensideas.com/ens/resolve/${encodeURIComponent(norm)}`, { signal: AbortSignal.timeout(6_000) })
-    .then((r) => (r.ok ? (r.json() as Promise<{ address?: string | null }>) : null))
+    .then((r) => { if (!r.ok) console.warn(`[ens] api ${norm}: HTTP ${r.status}`); return r.ok ? (r.json() as Promise<{ address?: string | null }>) : null; })
     .then((j) => (j?.address && isAddress(j.address) ? getAddress(j.address) : null))
     .catch((e: Error) => { console.warn(`[ens] api ${norm}: ${e.message.slice(0, 160)}`); return undefined; }));
+  if (!a) console.warn(`[ens] ${norm}: rpc=${String(viaRpc)} final=${String(a)}`);
   if (a === undefined) return hit ? hit.value || null : null; // both failed: keep what we had
   setKv(key, a ?? '');
   // A forward record can point at any wallet. Never promote it to a primary
