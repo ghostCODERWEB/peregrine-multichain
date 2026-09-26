@@ -53,15 +53,18 @@ export async function ensAddress(name: string): Promise<string | null> {
   try { norm = normalize(name); } catch (e) { console.warn(`[ens] normalize ${name}: ${(e as Error).message.slice(0, 120)}`); norm = name.toLowerCase(); }
   const key = `ens3:addr:${norm}`;
   const hit = getKv(key);
-  if (hit && Date.now() - hit.updatedAt < (hit.value ? DAY : NEG)) return hit.value || null;
+  if (hit?.value && Date.now() - hit.updatedAt < DAY) return hit.value;
   // RPC first; if it fails or finds nothing, a free public ENS API as a second opinion.
-  const viaRpc = await client.getEnsAddress({ name: norm }).catch((e: Error) => { console.warn(`[ens] rpc ${norm}: ${e.message.split('\n')[0].slice(0, 160)}`); return undefined; });
+  const rpcOnce = () => client.getEnsAddress({ name: norm });
+  // Right after a cold start the first call can come back empty; one retry settles it.
+  const viaRpc = await rpcOnce().then((x) => x ?? rpcOnce()).catch((e: Error) => { console.warn(`[ens] rpc ${norm}: ${e.message.split('\n')[0].slice(0, 160)}`); return undefined; });
   const a = viaRpc ?? (await fetch(`https://api.ensideas.com/ens/resolve/${encodeURIComponent(norm)}`, { signal: AbortSignal.timeout(6_000) })
     .then((r) => { if (!r.ok) console.warn(`[ens] api ${norm}: HTTP ${r.status}`); return r.ok ? (r.json() as Promise<{ address?: string | null }>) : null; })
     .then((j) => (j?.address && isAddress(j.address) ? getAddress(j.address) : null))
     .catch((e: Error) => { console.warn(`[ens] api ${norm}: ${e.message.slice(0, 160)}`); return undefined; }));
-  if (a === undefined) return hit ? hit.value || null : null; // both failed: keep what we had
-  setKv(key, a ?? '');
+  if (a === undefined) return null; // both failed
+  // Only positive answers are cached: a transient empty answer must not hide a real name for half an hour.
+  if (a) setKv(key, a);
   // A forward record can point at any wallet. Never promote it to a primary
   // name: ensName must independently resolve and verify the reverse record.
   return a ?? null;
