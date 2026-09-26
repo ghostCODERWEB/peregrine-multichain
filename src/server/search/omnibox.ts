@@ -3,6 +3,7 @@
 // the pages it can open. Text goes to Nansen's search/general (free);
 // addresses are recognized locally (src/lib/address-family.ts) and also
 // looked up, since a contract address resolves to its token.
+import { ensAddress, ensName, ENS_NAME_RE } from '@/server/ens';
 import { callNansen } from '@/server/nansen/client';
 import { errText } from '@/server/nansen/traced';
 import { detectAddress, FAMILY_NAMES } from '@/lib/address-family';
@@ -106,6 +107,16 @@ export async function omnibox(raw: string): Promise<SearchResponse> {
   const query = raw.trim().slice(0, MAX_QUERY);
   const families = [...new Set(detectAddress(query).map((f) => FAMILY_NAMES[f.family]))];
   if (!query) return { query, families, results: [], error: null };
+  // An ENS name opens the wallet it points to.
+  if (ENS_NAME_RE.test(query)) {
+    const addr = await ensAddress(query).catch(() => null);
+    return {
+      query, families: ['Ethereum name'], error: null,
+      results: addr
+        ? [{ kind: 'wallet', title: query.toLowerCase(), subtitle: `${shortAddress(addr)} · ENS name · balances, PnL, counterparties across every chain`, href: `/wallet/${addr}` }]
+        : [{ kind: 'note', title: query.toLowerCase(), subtitle: 'This ENS name does not point to an address.', href: null }],
+    };
+  }
 
   const isAddress = families.length > 0;
   const [search, sectors] = await Promise.all([
@@ -115,8 +126,10 @@ export async function omnibox(raw: string): Promise<SearchResponse> {
   ]);
   const found = search.found;
 
+  // An EVM address shows its ENS name when it has one.
+  const ens = /^0x[0-9a-fA-F]{40}$/.test(query) ? await Promise.race([ensName(query), new Promise<null>((r) => setTimeout(() => r(null), 2000))]) : null;
   const results: SearchResult[] = isAddress
-    ? [...tokenResults(found), ...addressResults(query)]
+    ? [...tokenResults(found), ...addressResults(query).map((r) => (ens && r.kind === 'wallet' ? { ...r, title: `${ens} · ${shortAddress(query)}` } : r))]
     : [...matchChains(query), ...tokenResults(found), ...entityResults(found), ...matchSectors(query, sectors)];
 
   return { query, families, results: results.slice(0, 12), error: search.error };

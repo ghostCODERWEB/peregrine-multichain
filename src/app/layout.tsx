@@ -12,6 +12,8 @@ import { Suspense } from 'react';
 import { accountsEnabled, publicSite } from '@/server/site';
 import { TableSort } from '@/components/TableSort';
 import { TablePager } from '@/components/TablePager';
+import { SectionRail } from '@/components/SectionRail';
+import { MobileClamp } from '@/components/MobileClamp';
 import { AnalyzeDock } from '@/components/analyze/AnalyzeDock';
 
 const geistSans = Manrope({ variable: '--font-geist-sans', subsets: ['latin'] });
@@ -38,6 +40,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <Providers publicSite={publicSite()} accounts={accountsEnabled()}>
           <TableSort />
           <TablePager />
+          <SectionRail />
+          <MobileClamp />
           <AnalyzeDock />
           <MotionObserver />
           <SiteHeader />

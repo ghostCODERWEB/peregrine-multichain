@@ -3,7 +3,8 @@ import Link from 'next/link';
 import { WalletPortfolio } from '@/components/research/WalletPortfolio';
 import { nansenWallet } from '@/config/external';
 import { Suspense } from 'react';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
+import { ensAddress, ensName, ENS_NAME_RE } from '@/server/ens';
 import type { Metadata } from 'next';
 import { Card, WaveLoading, Unavailable } from '@/components/Card';
 import { InfoPopover } from '@/components/InfoPopover';
@@ -47,7 +48,14 @@ const ADDRESS = /^[A-Za-z0-9:._-]{20,120}$/;
 
 export default async function WalletRoute({ params }: Params) {
   const { address: raw } = await params;
-  const address = decodeURIComponent(raw).trim();
+  const input = decodeURIComponent(raw).trim();
+  // /wallet/vitalik.eth opens the address the name points to.
+  if (ENS_NAME_RE.test(input)) {
+    const resolved = await ensAddress(input);
+    if (!resolved) notFound();
+    redirect(`/wallet/${resolved}`);
+  }
+  const address = input;
   if (!ADDRESS.test(address) && !detectAddress(address).some((m) => m.profiled && !m.tokenOnly)) notFound();
 
   const mode = await displayMode();
@@ -62,6 +70,8 @@ export default async function WalletRoute({ params }: Params) {
   const evm = /^0x[a-fA-F0-9]{40}$/.test(address);
   // Owner view: a label Peregrine's own perp position reads already carry (free).
   const perpLabel = mode === 'owner' && evm ? (seenInSnapshots(address).find((x) => x.label)?.label ?? null) : null;
+  // The wallet's ENS name, if it has one (bounded wait so a slow RPC never holds the page).
+  const ens = evm ? await Promise.race([ensName(address), new Promise<null>((r) => setTimeout(() => r(null), 2500))]) : null;
 
   return (
     <div className="space-y-5">
@@ -71,9 +81,9 @@ export default async function WalletRoute({ params }: Params) {
             <Back /> Overview
           </Link>
           <h1 className="t-headline mt-1 break-all text-ink">
-            {mode === 'owner' && trail.label ? walletName(trail.label, address) : perpLabel?.replace(/\s*\[[^\]]*\]$/, '') ?? shortAddress(address)}
+            {mode === 'owner' && trail.label ? walletName(trail.label, address) : perpLabel?.replace(/\s*\[[^\]]*\]$/, '') ?? ens ?? shortAddress(address)}
           </h1>
-          <p className="num mt-1 break-all text-[12.5px] text-ink-2">{address}</p>
+          <p className="num mt-1 break-all text-[12.5px] text-ink-2">{ens && <span className="mr-2 font-sans font-semibold text-[var(--mint)]">{ens}</span>}{address}</p>
         </div>
         <span className="flex items-center gap-2">
           <NansenButton href={nansenWallet(address)} label="Open in Nansen Profiler" size="sm" logo={false} />
