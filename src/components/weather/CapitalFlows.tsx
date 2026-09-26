@@ -262,7 +262,7 @@ export function CapitalFlows({
                       stroke={`url(#g-${uid}-${i})`}
                       strokeWidth={a.width + 6}
                       strokeOpacity={0.12}
-                      strokeLinecap="round"
+                      strokeLinecap="butt"
                     />
                     <path
                       d={a.d}
@@ -270,7 +270,7 @@ export function CapitalFlows({
                       stroke={`url(#g-${uid}-${i})`}
                       strokeWidth={a.width}
                       strokeOpacity={on ? 0.95 : 0.6}
-                      strokeLinecap="round"
+                      strokeLinecap="butt"
                       markerEnd={reduce ? `url(#head-${uid})` : undefined}
                     />
                     {!reduce &&

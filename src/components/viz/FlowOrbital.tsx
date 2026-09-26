@@ -62,7 +62,7 @@ export function FlowOrbital({ fronts, modeled = false, nets }: { fronts: Orbital
         return (
           <g key={a.key}>
             {lead && <path d={a.d} pathLength={1} className="arc-draw" style={draw} fill="none" stroke={`url(#${id}-g${i})`} strokeWidth={w + 6} strokeOpacity={0.3} filter={`url(#${id}-blur)`} />}
-            <path id={`${id}-p${i}`} d={a.d} pathLength={1} className="arc-draw" style={draw} fill="none" stroke={`url(#${id}-g${i})`} strokeWidth={w} strokeLinecap="round" strokeOpacity={lead ? 0.95 : 0.4} />
+            <path id={`${id}-p${i}`} d={a.d} pathLength={1} className="arc-draw" style={draw} fill="none" stroke={`url(#${id}-g${i})`} strokeWidth={w} strokeLinecap="butt" strokeOpacity={lead ? 0.95 : 0.4} />
             {Array.from({ length: n }, (_, j) => (
               <circle key={j} r={lead ? 2.5 : 1.9} fill="#EFFFF8" fillOpacity={lead ? 1 : 0.75} className="flow-particle">
                 <animateMotion dur={`${dur}s`} begin={`${(-(j / n) * Number(dur)).toFixed(2)}s`} repeatCount="indefinite"><mpath href={`#${id}-p${i}`} /></animateMotion>
