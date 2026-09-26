@@ -56,7 +56,6 @@ test.use({ baseURL: BASE });
 test('public header: public view, attribution, no credit balance', async ({ page }) => {
   await page.goto('/');
   await expect(page.getByText('Public view').first()).toBeVisible();
-  await expect(page.getByRole('link', { name: 'Data from Nansen' }).first()).toBeVisible();
   await expect(page.locator('text=/\\d[\\d,]* cr$/')).toHaveCount(0);
 });
 

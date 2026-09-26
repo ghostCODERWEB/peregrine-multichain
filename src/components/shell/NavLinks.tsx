@@ -54,30 +54,31 @@ export function NavList({ onNavigate, status = {} }: { onNavigate?: () => void; 
   const items = NAV.filter((n) => !(publicSite && n.ownerOnly) && !(!accounts && n.signIn));
   const groups = [...new Set(items.map((n) => n.group))];
   return (
-    <nav aria-label="Primary" className="space-y-4">
+    <nav aria-label="Primary" className="nav-list space-y-3">
       {groups.map((g) => (
         <div key={g}>
-          {g !== 'Explore' && <div className="label px-2 pb-2">{g === 'Research' ? 'Research' : 'AI'}</div>}
+          {g !== 'Explore' && <div className="px-3 pb-1.5 pt-1 text-[10.5px] font-bold uppercase tracking-[0.1em] text-ink-muted">{g === 'Research' ? 'Research' : 'AI'}</div>}
           <ul className="space-y-0.5">
             {items
               .filter((n) => n.group === g)
-              .map((n) => {
+              .map((n, i) => {
                 const Icon = ICONS[n.icon];
                 const on = active(path, n.href);
+                const st = status[n.href];
                 return (
-                  <li key={n.href}>
+                  <li key={n.href} style={{ '--i': i } as React.CSSProperties}>
                     <Link
                       href={n.href}
                       onClick={onNavigate}
                       aria-current={on ? 'page' : undefined}
-                      className={`nav-item liquid-control group flex items-center gap-2.5 rounded-xl px-2.5 py-2 text-[13px] ${on ? 'is-active text-ink' : 'text-ink-2 hover:text-ink'}`}
+                      className={`nav-row group relative flex min-h-[40px] items-start gap-2.5 rounded-[12px] px-3 py-2 text-[13px] font-medium ${on ? 'is-on text-ink' : 'text-ink-2 hover:text-ink'}`}
                     >
-                      <Icon className={`h-4 w-4 shrink-0 ${on ? 'text-brand' : 'text-ink-muted group-hover:text-ink-2'}`} aria-hidden />
-                      <span className="min-w-0">
-                        <span className="block">{n.label}</span>
-                        {status[n.href] && (
-                          <span className="num block truncate text-[11px] font-medium leading-tight" style={{ color: status[n.href].tone === 'in' ? 'var(--mint)' : status[n.href].tone === 'out' ? 'var(--flare)' : 'var(--ink-muted)' }}>
-                            {status[n.href].text}
+                      <Icon className={`mt-[1px] h-4 w-4 shrink-0 transition-colors ${on ? 'text-[#1fe0a3]' : 'text-ink-muted group-hover:text-ink-2'}`} aria-hidden />
+                      <span className="min-w-0 flex-1 leading-[18px]">
+                        <span className="block truncate">{n.label}</span>
+                        {st && (
+                          <span className="num block truncate text-[11px] font-medium leading-[15px]" style={{ color: st.tone === 'in' ? 'var(--mint)' : st.tone === 'out' ? 'var(--flare)' : 'var(--ink-muted)' }}>
+                            {st.text}
                           </span>
                         )}
                       </span>

@@ -1,7 +1,6 @@
 'use client';
-import { CandleChart } from './CandleChart';
-import { Segmented } from '@/components/ui/Segmented';
-import { useState } from 'react';
+import { TokenPriceChart } from './TokenPriceChart';
+import { useCallback, useState } from 'react';
 import { ScoreRing } from '@/components/viz/ScoreRing';
 import { InfoPopover } from '@/components/InfoPopover';
 import { STORM_LABEL } from '@/lib/viz/scales';
@@ -59,8 +58,9 @@ export function TokenHero({ chain, address, tier, h, m, storm, done, title, chil
   const initials = (h?.symbol ?? '?').replace(/[^A-Za-z0-9]/g, '').slice(0, 3).toUpperCase() || '?';
   // The range picker lives in the hero (as in the design) and drives both
   // the chart and the headline change pill.
-  const [days, setDays] = useState(14);
-  const rangeChange = change(m, Math.min(days, 14) * 24);
+  const [move, setMove] = useState<{ change: number | null; range: string }>({ change: change(m, 14 * 24), range: '14D' });
+  const onRange = useCallback((c: number | null, r: string) => setMove((cur) => (cur.change === c && cur.range === r ? cur : { change: c, range: r })), []);
+  const rangeChange = move.change;
   return (
     <section aria-labelledby="token-title" className="rise relative">
       <div className="relative grid gap-4 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
@@ -79,7 +79,6 @@ export function TokenHero({ chain, address, tier, h, m, storm, done, title, chil
                 <span aria-hidden>·</span><span className="num" title={`Tier ${tier}${h?.marketCapGroup ? ` · ${h.marketCapGroup.replace(/_/g, ' ')}` : ''}`}>{shortAddress(address)}</span>
               </div>
             </div>
-            {m && <div className="ml-auto"><Segmented label="Price range" value={days} options={[{ value: 1, label: '1D' }, { value: 7, label: '7D' }, { value: 14, label: '14D' }, { value: 30, label: '30D' }]} onChange={setDays} /></div>}
           </div>
           <div className="mt-4 flex flex-wrap items-end gap-x-5 gap-y-3">
             <div>
@@ -89,14 +88,14 @@ export function TokenHero({ chain, address, tier, h, m, storm, done, title, chil
             <div className="flex flex-col gap-1.5 pb-2">
               {rangeChange != null && (
                 <span className="num inline-flex w-fit items-center gap-1.5 rounded-full px-3 py-1 text-[14px] font-extrabold" style={{ color: rangeChange >= 0 ? 'var(--mint)' : 'var(--flare)', background: `color-mix(in srgb, ${rangeChange >= 0 ? 'var(--mint)' : 'var(--flare)'} 14%, transparent)` }}>
-                  {rangeChange >= 0 ? <Up /> : <Down />}<span className="sr-only">{rangeChange >= 0 ? 'up' : 'down'}</span>{pct(Math.abs(rangeChange), 1)} · {Math.min(days, 14)}D
+                  {rangeChange >= 0 ? <Up /> : <Down />}<span className="sr-only">{rangeChange >= 0 ? 'up' : 'down'}</span>{pct(Math.abs(rangeChange), 1)} · {move.range}
                 </span>
               )}
               <div className="flex flex-wrap gap-1.5"><Delta v={change(m, 24)} label="24h" /><Delta v={change(m, 24 * 7)} label="7d" /></div>
             </div>
             
           </div>
-          {m && <div className="mt-6"><CandleChart m={m} days={days} events={events} /></div>}
+          {m && <div className="mt-6"><TokenPriceChart chain={chain} address={address} initial={m.candles} events={events} onChange={onRange} /></div>}
 
         </div>
         <div className="min-w-0 space-y-4">

@@ -7,7 +7,7 @@
 //
 // Classes:
 //   free        — may be shown publicly, no conditions
-//   attribution — public only with a visible Nansen attribution link ("Data from Nansen")
+//   attribution — public only with a visible Nansen attribution (on a public deployment, restore one; the owner removed the footer link)
 //   restricted  — smart-money data: public only with Nansen's approval AND
 //                 significant modification combined with an independent
 //                 source (which a Nansen-only app can't provide) — so, in

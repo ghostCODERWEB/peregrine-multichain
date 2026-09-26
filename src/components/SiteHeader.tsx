@@ -35,10 +35,10 @@ export async function SiteHeader() {
     <header className="shell-rail liquid-glass liquid-glass-strong fixed inset-x-2 top-2 z-40 flex h-12 items-center gap-2 rounded-2xl px-2.5
       lg:inset-y-[14px] lg:left-[14px] lg:right-auto lg:top-[14px] lg:h-auto lg:w-[236px] lg:flex-col lg:items-stretch lg:gap-0 lg:rounded-[22px] lg:p-3">
       <Link href="/" className="brand-lockup flex items-center gap-2.5 lg:border-b lg:border-[var(--liquid-separator)] lg:px-1 lg:pb-4 lg:pt-1" aria-label="Peregrine home">
-        <span className="liquid-symbol grid h-8 w-8 place-items-center rounded-[11px]"><BrandMark size={19} /></span>
+        <span className="brand-tile grid h-9 w-9 place-items-center rounded-[11px]"><BrandMark size={22} /></span>
         <span className="leading-tight">
           <span className="block text-[17px] font-extrabold tracking-[-0.02em] text-ink">Peregrine</span>
-          
+          <span className="hidden text-[10.5px] font-semibold uppercase tracking-[0.12em] text-ink-muted lg:block">Onchain intelligence</span>
         </span>
       </Link>
 
@@ -54,11 +54,14 @@ export async function SiteHeader() {
           </span>
         )}
         <GetNansen className="hidden lg:flex" />
-        <div className="flex items-center gap-1.5 lg:justify-between">
+        <div className="flex items-center gap-1.5 lg:justify-between lg:px-1">
           {accounts && <span className="hidden lg:inline"><AccountButton signedIn={!!ctx.user} address={ctx.user?.address ?? null} /></span>}
           <ThemeToggle />
+          <span className="hidden items-center gap-3 lg:flex">
+            <Link href="/coverage" className="text-[11.5px] font-medium text-ink-muted transition-colors hover:text-ink">Data coverage</Link>
+            {accounts && <Link href="/account" className="text-[11.5px] font-medium text-ink-muted transition-colors hover:text-ink">Account</Link>}
+          </span>
         </div>
-        <div className="hidden items-center justify-between gap-2 px-1 lg:flex"><Link href="/coverage" className="text-[10.5px] text-ink-muted">Coverage</Link>{accounts && <Link href="/account" className="text-[10.5px] text-ink-muted">Account</Link>}</div>
         <MobileMenu>
           <GetNansen />
           <p className="text-[12px] text-ink-2" title={modeTitle}>{modeText}</p>

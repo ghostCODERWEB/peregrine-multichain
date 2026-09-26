@@ -10,7 +10,6 @@ import { WorkspaceBar } from '@/components/shell/WorkspaceBar';
 import { MarketStrip } from '@/components/shell/MarketStrip';
 import { Suspense } from 'react';
 import { accountsEnabled, publicSite } from '@/server/site';
-import { NANSEN_REF_URL } from '@/config/referral';
 import { TableSort } from '@/components/TableSort';
 import { AnalyzeDock } from '@/components/analyze/AnalyzeDock';
 
@@ -43,9 +42,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <TabBar />
           <div className="pb-24 pt-16 lg:pb-0 lg:pl-[256px] lg:pt-0">
             <main className="mx-auto max-w-[1600px] px-4 3xl:max-w-[2000px] 3xl:px-8 pb-16 pt-5 lg:px-[14px] lg:pt-3"><div className="mb-2 flex items-center gap-4"><Suspense><WorkspaceBar /></Suspense><Suspense><MarketStrip /></Suspense></div>{children}</main>
-            <footer className="mx-auto max-w-[1600px] px-4 3xl:max-w-[2000px] 3xl:px-8 pb-8 text-xs text-ink-muted lg:px-7">
-              <a href={NANSEN_REF_URL} target="_blank" rel="noopener noreferrer" className="hover:text-ink">Data from Nansen</a>
-            </footer>
           </div>
         </Providers>
       </body>

@@ -334,3 +334,49 @@ tr[data-analyze-selected] { background: color-mix(in srgb, var(--signal) 10%, tr
 .get-nansen::after { content: ''; position: absolute; inset: 0; background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,.45) 50%, transparent 70%); transform: translateX(-120%); pointer-events: none; }
 @media (prefers-reduced-motion: no-preference) { .get-nansen::after { animation: nansen-sheen 4.5s ease-in-out infinite; } }
 @keyframes nansen-sheen { 0%, 70% { transform: translateX(-120%); } 100% { transform: translateX(120%); } }
+
+/* Sidebar nav: one row height, an accent bar on the active item, a small slide on hover, staggered entrance. */
+.nav-row { transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out); }
+.nav-row:hover { background: color-mix(in srgb, var(--ink-1) 5%, transparent); }
+.nav-row.is-on { background: linear-gradient(90deg, color-mix(in srgb, #1fe0a3 14%, transparent), color-mix(in srgb, var(--ink-1) 4%, transparent) 70%); box-shadow: inset 0 0 0 1px color-mix(in srgb, #1fe0a3 22%, transparent); }
+.nav-row::before { content: ''; position: absolute; left: 0; top: 9px; bottom: 9px; width: 3px; border-radius: 0 3px 3px 0; background: #1fe0a3; transform: scaleY(0); transition: transform var(--dur-normal) var(--ease-out); }
+.nav-row.is-on::before { transform: scaleY(1); }
+.nav-row:focus-visible { outline: 2px solid #1fe0a3; outline-offset: 1px; }
+@media (prefers-reduced-motion: no-preference) {
+  .nav-row:hover:not(.is-on) { transform: translateX(2px); }
+  .nav-list li { animation: nav-in var(--dur-reveal) var(--ease-out) both; animation-delay: calc(var(--i, 0) * 28ms); }
+}
+@keyframes nav-in { from { opacity: 0; transform: translateX(-6px); } }
+.brand-tile { background: linear-gradient(145deg, #13201c, #0a100e); box-shadow: inset 0 0 0 1px rgba(127,247,212,.18), 0 6px 18px -8px rgba(31,224,163,.55); transition: transform var(--dur-normal) var(--ease-out); }
+.brand-lockup:hover .brand-tile { transform: rotate(-6deg) scale(1.04); }
+
+/* Top-bar ticker: two copies of the row scroll left forever; hover pauses; edges fade. */
+.ticker { -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent); mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent); }
+@media (prefers-reduced-motion: no-preference) {
+  .ticker-track { animation: ticker 70s linear infinite; }
+  .ticker:hover .ticker-track, .ticker:focus-within .ticker-track { animation-play-state: paused; }
+}
+@media (prefers-reduced-motion: reduce) { .ticker { overflow-x: auto; } }
+@keyframes ticker { to { transform: translateX(calc(-50% - 6px)); } }
+
+/* 404: radar sweep, blips, a diving falcon and a glowing code. */
+.nf-radar { width: min(300px, 70vw); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, rgba(31,224,163,.10), rgba(31,224,163,.02) 60%, transparent 70%); }
+.nf-ring { position: absolute; left: 50%; top: 50%; width: var(--r); height: var(--r); transform: translate(-50%, -50%); border-radius: 50%; border: 1px solid rgba(127,247,212,.18); }
+.nf-cross { position: absolute; inset: 0; background: linear-gradient(90deg, transparent calc(50% - .5px), rgba(127,247,212,.14) 50%, transparent calc(50% + .5px)), linear-gradient(0deg, transparent calc(50% - .5px), rgba(127,247,212,.14) 50%, transparent calc(50% + .5px)); border-radius: 50%; }
+.nf-sweep { position: absolute; inset: 0; border-radius: 50%; background: conic-gradient(from 0deg, rgba(31,224,163,.45), rgba(31,224,163,0) 70deg, transparent 360deg); }
+.nf-blip { position: absolute; left: var(--x); top: var(--y); width: 8px; height: 8px; margin: -4px; border-radius: 50%; background: #7ff7d4; box-shadow: 0 0 12px #1fe0a3; opacity: .2; }
+.nf-blip-lost { background: #ff7a59; box-shadow: 0 0 12px #ff5b3a; }
+.nf-falcon { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); filter: drop-shadow(0 6px 16px rgba(31,224,163,.55)); }
+.nf-code { background: linear-gradient(120deg, #7ff7d4, #1fe0a3 40%, #0aa58f 60%, #7ff7d4); background-size: 220% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: 0 0 40px rgba(31,224,163,.25); }
+@media (prefers-reduced-motion: no-preference) {
+  .nf-sweep { animation: nf-spin 3.2s linear infinite; }
+  .nf-blip { animation: nf-blip 3.2s ease-out infinite; animation-delay: var(--d); }
+  .nf-falcon { animation: nf-dive 3.6s var(--ease-in-out) infinite; }
+  .nf-code { animation: nf-shine 5s linear infinite, nf-glitch 6s steps(1) infinite; }
+  .nf-link { animation: rise-sm var(--dur-reveal) var(--ease-out) both; animation-delay: calc(300ms + var(--i) * 70ms); }
+}
+@keyframes nf-spin { to { transform: rotate(360deg); } }
+@keyframes nf-blip { 0% { opacity: 1; transform: scale(1.6); } 60%, 100% { opacity: .15; transform: scale(1); } }
+@keyframes nf-dive { 0% { transform: translate(-50%, -140%) scale(.7) rotate(-8deg); opacity: 0; } 25% { opacity: 1; } 55% { transform: translate(-50%, -50%) scale(1) rotate(0); } 80% { transform: translate(-50%, -50%) scale(1) rotate(0); opacity: 1; } 100% { transform: translate(-50%, 60%) scale(.6) rotate(6deg); opacity: 0; } }
+@keyframes nf-shine { to { background-position: -220% 0; } }
+@keyframes nf-glitch { 0%, 92%, 100% { transform: none; } 93% { transform: translate(-3px, 1px) skewX(-6deg); } 95% { transform: translate(3px, -1px) skewX(4deg); } 97% { transform: translate(-1px, 0); } }
