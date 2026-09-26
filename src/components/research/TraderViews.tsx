@@ -7,6 +7,7 @@ import { EChart } from '@/components/charts/EChart';
 import { useThemeColors } from '@/components/charts/useThemeColors';
 import { MiniLines } from '@/components/charts/Mini';
 import { AddressLink } from '@/components/entity/AddressLink';
+import { TokenLogo } from '@/components/Logo';
 import { pct, usd } from '@/lib/viz/format';
 import type { TraderWorkspace } from '@/server/research/hyperliquid';
 import { toggleWatch, watched, type Watched } from './watchlist';
@@ -73,9 +74,9 @@ export function WatchlistView() {
                     <td className="num text-right" style={tone(ok ? change(hist(d, 'day')?.pnl) : 0)}>{ok ? sgn(change(hist(d, 'day')?.pnl)) : ''}</td>
                     <td className="num text-right" style={tone(ok ? change(hist(d, 'month')?.pnl) : 0)}>{ok ? sgn(change(hist(d, 'month')?.pnl)) : ''}</td>
                     <td className="num text-right text-ink-2">{ok ? P(d).length : ''}</td>
-                    <td className="text-ink-2">{ok && P(d)[0] ? <span><b className="text-ink">{P(d)[0].coin}</b> <span style={{ color: P(d)[0].side === 'long' ? 'var(--mint)' : 'var(--flare)' }}>{P(d)[0].side}</span> {usd(P(d)[0].valueUsd)}</span> : ''}</td>
+                    <td className="text-ink-2">{ok && P(d)[0] ? <span className="inline-flex items-center gap-1"><TokenLogo symbol={P(d)[0].coin} coin={P(d)[0].coin} size={14} /><b className="text-ink">{P(d)[0].coin}</b> <span style={{ color: P(d)[0].side === 'long' ? 'var(--mint)' : 'var(--flare)' }}>{P(d)[0].side}</span> {usd(P(d)[0].valueUsd)}</span> : ''}</td>
                     <td className="num text-right" style={tone(ok ? d.exposure.netUsd : 0)}>{ok ? sgn(d.exposure.netUsd) : ''}</td>
-                    <td className="text-ink-2">{last ? <span className={fresh ? 'rounded bg-[color-mix(in_srgb,var(--amber)_16%,transparent)] px-1.5 py-0.5 font-semibold text-ink' : ''}>{last.kind} {last.coin} {usd(last.notional)} · {Math.max(1, Math.round((Date.now() - last.t) / 3.6e6))}h ago</span> : ''}</td>
+                    <td className="text-ink-2">{last ? <span className={fresh ? 'rounded bg-[color-mix(in_srgb,var(--amber)_16%,transparent)] px-1.5 py-0.5 font-semibold text-ink' : ''}>{last.kind} <TokenLogo symbol={last.coin} coin={last.coin} size={12} /> {last.coin} {usd(last.notional)} · {Math.max(1, Math.round((Date.now() - last.t) / 3.6e6))}h ago</span> : ''}</td>
                     <td className="text-right"><button type="button" aria-label={`Stop watching ${w.address}`} onClick={() => { toggleWatch(w.address, null); setList(watched()); }} className="grid h-6 w-6 place-items-center rounded hover:bg-ink/10"><X className="h-3.5 w-3.5" aria-hidden /></button></td>
                   </tr>
                 );

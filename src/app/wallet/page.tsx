@@ -35,7 +35,7 @@ export default async function ProfilerHome() {
     SELECT wallet, MAX(wallet_label) AS label, COUNT(*) AS trades,
       SUM(CASE WHEN side='buy' THEN usd_value ELSE -usd_value END) AS net,
       SUM(CASE WHEN side='buy' THEN usd_value ELSE 0 END) AS bought, SUM(CASE WHEN side='sell' THEN usd_value ELSE 0 END) AS sold,
-      (SELECT token_symbol FROM smart_money_trades t2 WHERE t2.wallet = t.wallet AND t2.traded_at >= ? GROUP BY token_symbol ORDER BY SUM(usd_value) DESC LIMIT 1) AS top
+      (SELECT token_symbol || '|' || chain || '|' || token_address FROM smart_money_trades t2 WHERE t2.wallet = t.wallet AND t2.traded_at >= ? GROUP BY chain, token_address ORDER BY SUM(usd_value) DESC LIMIT 1) AS top
     FROM smart_money_trades t WHERE traded_at >= ? GROUP BY wallet ORDER BY bought + sold DESC LIMIT 60`).all(since, since) as Active[]) : [];
   const perp: Array<{ symbol: string; address: string; label: string | null; side: string; value: number; cohorts: Cohort[] }> = [];
   if (owner) {
@@ -56,7 +56,7 @@ export default async function ProfilerHome() {
     <ol className="divide-y divide-[var(--hair)]">
       {rows.map((r) => (
         <li key={r.wallet} className="flex items-center gap-3 py-2 text-[13px]">
-          <span className="min-w-0 flex-1"><AddressLink address={r.wallet} label={r.label} /><span className="block text-[11.5px] text-ink-muted">{r.trades} trades · mostly {r.top ?? 'n/a'}</span></span>
+          <span className="min-w-0 flex-1"><AddressLink address={r.wallet} label={r.label} /><span className="flex items-center gap-1 text-[11.5px] text-ink-muted">{r.trades} trades · mostly {(() => { const [sym, ch, addr] = (r.top ?? '').split('|'); return sym ? <Link href={`/token/${ch}/${encodeURIComponent(addr)}`} className="inline-flex items-center gap-1 font-semibold text-ink-2 hover:text-ink hover:underline"><TokenLogo symbol={sym} chain={ch} address={addr} size={14} />{sym}</Link> : 'n/a'; })()}</span></span>
           <span className="num font-semibold" style={{ color: tone === 'in' ? 'var(--mint)' : 'var(--flare)' }}>{usd(r.net, { signed: true })}</span>
         </li>
       ))}

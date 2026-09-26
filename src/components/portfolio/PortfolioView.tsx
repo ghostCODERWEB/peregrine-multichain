@@ -9,6 +9,7 @@ import type { DeskData } from '@/server/wallet/desk';
 import { chainName, pct, shortAddress, usd } from '@/lib/viz/format';
 import { PageTitle } from '@/components/PageTitle';
 import { Go } from '@/components/ui/Icons';
+import { TokenLogo } from '@/components/Logo';
 import { useSite } from '@/components/SiteContext';
 
 const DEMO = '0xcbb811f129782ef87e19dea9d3375045219bae00';
@@ -181,8 +182,8 @@ export function PortfolioView({ demo, suggestions = [], embedded = false }: { de
                       {p.positions.map((x) => (
                         <tr key={`${x.chain}:${x.tokenAddress}`} className="border-t border-border/50">
                           <td className="p-2">
-                            <Link className="hover:underline" href={`/token/${x.chain}/${encodeURIComponent(x.tokenAddress)}`}>
-                              {x.symbol}
+                            <Link className="inline-flex items-center gap-1.5 font-semibold hover:underline" href={`/token/${x.chain}/${encodeURIComponent(x.tokenAddress)}`}>
+                              <TokenLogo symbol={x.symbol} chain={x.chain} address={x.tokenAddress} size={16} />{x.symbol}
                             </Link>
                           </td>
                           <td className="p-2">{chainName(x.chain)}</td>
@@ -229,8 +230,8 @@ export function PortfolioView({ demo, suggestions = [], embedded = false }: { de
             <ul className="mt-3 space-y-2">
               {p.storm.rows.map((s) => (
                 <li key={`${s.chain}:${s.tokenAddress}`} className="flex items-center gap-3 text-xs">
-                  <Link className="w-24 truncate hover:underline" href={`/token/${s.chain}/${encodeURIComponent(s.tokenAddress)}`}>
-                    {s.symbol}
+                  <Link className="inline-flex w-24 items-center gap-1 truncate hover:underline" href={`/token/${s.chain}/${encodeURIComponent(s.tokenAddress)}`}>
+                    <TokenLogo symbol={s.symbol} chain={s.chain} address={s.tokenAddress} size={14} />{s.symbol}
                   </Link>
                   <span className="h-2 flex-1 rounded bg-accent">
                     <span className="block h-2 rounded bg-storm-3" style={{ width: `${s.score}%` }} />
@@ -356,7 +357,7 @@ export function PortfolioView({ demo, suggestions = [], embedded = false }: { de
                           {stress.rows.map((r) => (
                             <tr className="border-t border-border" key={`${r.chain}:${r.tokenAddress}`}>
                               <td className="p-2">
-                                {r.symbol} · {chainName(r.chain)}
+                                <span className="inline-flex items-center gap-1.5"><TokenLogo symbol={r.symbol} chain={r.chain} address={r.tokenAddress} size={16} />{r.symbol} · {chainName(r.chain)}</span>
                               </td>
                               <td className="num p-2">{usd(r.low)}</td>
                               <td className="num p-2">{usd(r.valueUsd)}</td>
