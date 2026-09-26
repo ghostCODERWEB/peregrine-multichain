@@ -8,13 +8,14 @@ type Mark = { el: HTMLElement; title: string };
 const HEADINGS = 'main h2';
 const clean = (t: string) => t.replace(/\p{Extended_Pictographic}|\uFE0F|\u200D/gu, '').replace(/\s+/g, ' ').trim().slice(0, 60);
 
-/** Phones: a compact fast-scroll rail on the right edge. One tick per section, the current one longest;
+/** A compact fast-scroll rail (phones: drag to scrub; desktop: hover to preview, click to jump) on the right edge. One tick per section, the current one longest;
  *  drag or tap to jump, with the section's name floating beside the finger. Fades out when idle. */
 export function SectionRail() {
   const path = usePathname();
   const [marks, setMarks] = useState<Mark[]>([]);
   const [active, setActive] = useState(0);
   const [dragging, setDragging] = useState<number | null>(null);
+  const [hover, setHover] = useState<number | null>(null);
   const [awake, setAwake] = useState(false);
   const rail = useRef<HTMLDivElement>(null);
   const sleep = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
@@ -68,19 +69,22 @@ export function SectionRail() {
   }, [marks]);
 
   if (marks.length < 3) return null;
-  const shown = dragging ?? active;
+  const shown = dragging ?? hover ?? active;
+  const labelAt = dragging ?? hover;
   const onPointer = (e: React.PointerEvent) => {
     const i = indexAt(e.clientY);
+    // Mouse: hovering previews the section name; a click jumps (see the tick's onClick). Touch: drag to scrub.
+    if (e.pointerType === 'mouse') { if (e.type === 'pointermove') setHover(i); return; }
     if (e.type === 'pointerdown') { (e.target as HTMLElement).setPointerCapture?.(e.pointerId); setDragging(i); go(i, false); navigator.vibrate?.(5); }
     else if (dragging != null && i !== dragging) { setDragging(i); go(i, false); navigator.vibrate?.(3); }
   };
   const end = (e: React.PointerEvent) => { if (dragging == null) return; go(indexAt(e.clientY), true); setDragging(null); };
 
   return (
-    <nav aria-label="Jump to section" className={`section-rail ${awake || dragging != null ? 'is-awake' : ''} ${dragging != null ? 'is-dragging' : ''}`}>
-      {dragging != null && (
-        <div className="section-rail-label" style={{ top: `${((dragging + 0.5) / marks.length) * 100}%` }} role="status">
-          <span className="section-rail-count">{dragging + 1}/{marks.length}</span>{marks[dragging].title}
+    <nav aria-label="Jump to section" onPointerLeave={() => setHover(null)} className={`section-rail ${awake || dragging != null || hover != null ? 'is-awake' : ''} ${dragging != null || hover != null ? 'is-dragging' : ''}`}>
+      {labelAt != null && (
+        <div key={dragging != null ? 'drag' : 'hover'} className="section-rail-label" style={{ top: `${((labelAt + 0.5) / marks.length) * 100}%` }} role="status">
+          <span className="section-rail-count">{labelAt + 1}/{marks.length}</span>{marks[labelAt].title}
         </div>
       )}
       <div ref={rail} className="section-rail-track" onPointerDown={onPointer} onPointerMove={onPointer} onPointerUp={end} onPointerCancel={end}>

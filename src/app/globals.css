@@ -176,7 +176,7 @@ a.inset-well:hover,.inset-well:is(a,button):hover { border-color:var(--hair-2); 
 .dark .text-distribution { background:linear-gradient(100deg,#ff8a5c,#ff5e2b);background-clip:text;-webkit-text-fill-color:transparent; }
 @media(max-width:1023px) {
  .material-strong,.liquid-glass { backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%); }
- .radar-headline { font-size:clamp(28px,8vw,34px); }
+ .radar-headline { font-size:clamp(22px,6.4vw,34px); letter-spacing:-.035em; }
 }
 @media(prefers-reduced-motion:reduce) {
  *,*::before,*::after { animation:none!important;transition:none!important;scroll-behavior:auto!important; }
@@ -429,7 +429,7 @@ tr[data-analyze-selected] { background: color-mix(in srgb, var(--signal) 10%, tr
 
 /* Phone fast-scroll rail: one tick per section on the right edge; wakes while scrolling, drag to jump. */
 .section-rail { display: none; }
-@media (max-width: 1023px) and (pointer: coarse), (max-width: 639px) {
+@media all {
   .section-rail { display: block; position: fixed; right: 0; top: 50%; transform: translateY(-50%); z-index: 45; padding: 10px 4px 10px 18px; opacity: .28; transition: opacity .35s ease; touch-action: none; }
   .section-rail.is-awake, .section-rail.is-dragging { opacity: 1; }
   .section-rail-track { display: flex; flex-direction: column; align-items: flex-end; gap: 7px; max-height: 54vh; justify-content: space-between; padding: 6px 6px 6px 14px; }
@@ -492,3 +492,57 @@ html:not(.dark) .glass-lens { background: rgba(0,0,0,.06); }
   html:not(.dark) header.shell-rail { background: color-mix(in srgb, #ffffff 62%, transparent); border-color: rgba(0,0,0,.08); }
   @media (prefers-reduced-transparency: reduce) { header.shell-rail { background: var(--surface-2); backdrop-filter: none; -webkit-backdrop-filter: none; } }
 }
+
+/* Desktop: the rail sits quietly at the right edge and opens on hover; the label glides between ticks. */
+@media (hover: hover) and (pointer: fine) {
+  .section-rail { right: 6px; opacity: .22; }
+  .section-rail:hover { opacity: 1; }
+  .section-rail-track { gap: 9px; max-height: 60vh; }
+  .section-rail-tick { cursor: pointer; }
+  .section-rail-label { right: 46px; font-size: 13px; animation: rail-in .18s cubic-bezier(.2,.8,.2,1); transition: top .16s cubic-bezier(.2,.8,.2,1); }
+}
+@keyframes rail-in { from { opacity: 0; transform: translate(6px, -50%) scale(.97); } to { opacity: 1; transform: translate(0, -50%) scale(1); } }
+@media (max-width: 1023px) and (hover: none) { .section-rail-label { animation: rail-in .14s ease-out; } }
+
+@media (max-width: 639px) {
+  .radar-headline { font-size: 23px; line-height: 1.08; }
+  main .t-headline { font-size: 16px; line-height: 1.28; }
+  main h1.t-title, main .t-title { font-size: 21px; }
+}
+
+/* ===== Liquid Glass across the app =====
+   Apple: glass is the functional layer (navigation, controls, menus, popovers) floating above solid content.
+   One recipe everywhere: translucent tint, blur + saturation + a slight luminosity lift, a hairline specular top edge. */
+:root {
+  --lg-tint: color-mix(in srgb, #0e1714 56%, transparent);
+  --lg-filter: blur(20px) saturate(185%) brightness(1.08);
+  --lg-edge: inset 0 1px 0 rgba(255,255,255,.15), inset 0 -1px 0 rgba(255,255,255,.035);
+  --lg-border: rgba(255,255,255,.10);
+  --lg-lens: rgba(255,255,255,.11);
+}
+html:not(.dark) { --lg-tint: color-mix(in srgb, #ffffff 64%, transparent); --lg-edge: inset 0 1px 0 rgba(255,255,255,.95); --lg-border: rgba(0,0,0,.08); --lg-lens: rgba(0,0,0,.065); }
+
+/* Navigation surfaces: desktop sidebar/header, menus, sheets, popovers, the command palette. */
+.liquid-glass, .material-strong, .glass-strong {
+  background: var(--lg-tint); backdrop-filter: var(--lg-filter); -webkit-backdrop-filter: var(--lg-filter);
+  border: 1px solid var(--lg-border); box-shadow: var(--lg-edge), 0 18px 50px -20px rgba(0,0,0,.7);
+}
+/* Segmented controls: a glass track with a lens that glides to the selection. */
+.segmented { background: var(--lg-tint); backdrop-filter: var(--lg-filter); -webkit-backdrop-filter: var(--lg-filter); border: 1px solid var(--lg-border); box-shadow: var(--lg-edge); border-radius: 999px; }
+.segmented-thumb { border-radius: 999px; background: var(--lg-lens) !important; box-shadow: inset 0 1px 0 rgba(255,255,255,.2), inset 0 0 0 1px rgba(255,255,255,.05), 0 2px 8px -2px rgba(0,0,0,.4) !important; transition: transform .42s cubic-bezier(.3,1.25,.4,1) !important; }
+/* Secondary buttons and icon controls: small glass capsules. */
+.pill-secondary, .liquid-control { background: var(--lg-tint); backdrop-filter: blur(14px) saturate(170%); -webkit-backdrop-filter: blur(14px) saturate(170%); border: 1px solid var(--lg-border); box-shadow: var(--lg-edge); }
+.pill-secondary:hover:not(:disabled), .liquid-control:hover { background: color-mix(in srgb, var(--ink-1) 9%, var(--lg-tint)); }
+.liquid-control.is-active { background: var(--lg-lens); }
+/* Table pager: a floating glass control under long tables. */
+.table-pager-sizes { background: var(--lg-tint); backdrop-filter: blur(14px) saturate(170%); -webkit-backdrop-filter: blur(14px) saturate(170%); border: 1px solid var(--lg-border) !important; box-shadow: var(--lg-edge); border-radius: 999px !important; padding: 2px; }
+.table-pager-sizes button { border-radius: 999px !important; }
+.table-pager-sizes button[aria-pressed="true"] { background: var(--lg-lens) !important; box-shadow: inset 0 1px 0 rgba(255,255,255,.18); }
+.table-pager-more { border-radius: 999px !important; background: var(--lg-tint); backdrop-filter: blur(14px) saturate(170%); -webkit-backdrop-filter: blur(14px) saturate(170%); border: 1px solid var(--lg-border) !important; box-shadow: var(--lg-edge); }
+/* Expand buttons over previews and the Analyze button float as glass too. */
+[data-clamp] > .clamp-toggle, [data-analyze-dock] { background: var(--lg-tint) !important; backdrop-filter: var(--lg-filter); -webkit-backdrop-filter: var(--lg-filter); border-color: var(--lg-border) !important; box-shadow: var(--lg-edge), 0 10px 28px -10px rgba(0,0,0,.7) !important; }
+/* Accessibility: reduce transparency gives every glass surface a solid fill. */
+@media (prefers-reduced-transparency: reduce) {
+  .liquid-glass, .material-strong, .glass-strong, .segmented, .pill-secondary, .liquid-control, .table-pager-sizes, .table-pager-more, [data-clamp] > .clamp-toggle, [data-analyze-dock] { background: var(--surface-2) !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+}
+@media (max-width: 639px) { main .pill-button { min-height: 36px; padding: 7px 15px; font-size: 13px; } }
