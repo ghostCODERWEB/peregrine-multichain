@@ -24,7 +24,9 @@ const inflight = new Map<string, Promise<string | null>>();
 /** The address's primary ENS name (reverse record, forward-verified by viem), or null. */
 export async function ensName(address: string): Promise<string | null> {
   if (!isAddress(address)) return null;
-  const key = `ens2:name:${address.toLowerCase()}`;
+  // Older cache entries could be seeded by forward lookups, which do not
+  // establish the wallet's primary name. Only reverse-verified reads belong here.
+  const key = `ens3:name:${address.toLowerCase()}`;
   const hit = getKv(key);
   if (hit && Date.now() - hit.updatedAt < (hit.value ? DAY : NEG)) return hit.value || null;
   const running = inflight.get(key);
@@ -49,7 +51,7 @@ export async function ensAddress(name: string): Promise<string | null> {
   if (!ENS_NAME_RE.test(name)) return null;
   let norm: string;
   try { norm = normalize(name); } catch { return null; }
-  const key = `ens2:addr:${norm}`;
+  const key = `ens3:addr:${norm}`;
   const hit = getKv(key);
   if (hit && Date.now() - hit.updatedAt < (hit.value ? DAY : NEG)) return hit.value || null;
   // RPC first; if it fails or finds nothing, a free public ENS API as a second opinion.
@@ -60,6 +62,7 @@ export async function ensAddress(name: string): Promise<string | null> {
     .catch(() => undefined));
   if (a === undefined) return hit ? hit.value || null : null; // both failed: keep what we had
   setKv(key, a ?? '');
-  if (a) setKv(`ens2:name:${a.toLowerCase()}`, norm);
+  // A forward record can point at any wallet. Never promote it to a primary
+  // name: ensName must independently resolve and verify the reverse record.
   return a ?? null;
 }
