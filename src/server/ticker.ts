@@ -9,7 +9,7 @@ import { price, usd } from '@/lib/viz/format';
 
 export interface TickerItem { key: string; label: string; value: string; href: string; tone?: 'in' | 'out' }
 
-const NAMES: Array<[string, string]> = [['/smart-money', 'Smart Money'], ['/flows', 'Chain flows'], ['/perps', 'Perps'], ['/predict', 'Predictions'], ['/sectors', 'Sectors'], ['/', 'Chains'], ['/alpha', 'Discover']];
+const NAMES: Array<[string, string]> = [['/smart-money', 'Smart Money'], ['/flows', 'Chain flows'], ['/perps', 'Perps'], ['/predict', 'Predictions'], ['/sectors', 'Sectors'], ['/', 'Chains'], ['/alpha', 'Alpha']];
 const chg = (v: number) => `${v >= 0 ? '▲' : '▼'} ${Math.abs(v * 100).toFixed(2)}%`;
 
 export function tickerItems(mode: DisplayMode, now = Date.now()): TickerItem[] {

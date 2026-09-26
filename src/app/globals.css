@@ -380,3 +380,5 @@ tr[data-analyze-selected] { background: color-mix(in srgb, var(--signal) 10%, tr
 @keyframes nf-dive { 0% { transform: translate(-50%, -140%) scale(.7) rotate(-8deg); opacity: 0; } 25% { opacity: 1; } 55% { transform: translate(-50%, -50%) scale(1) rotate(0); } 80% { transform: translate(-50%, -50%) scale(1) rotate(0); opacity: 1; } 100% { transform: translate(-50%, 60%) scale(.6) rotate(6deg); opacity: 0; } }
 @keyframes nf-shine { to { background-position: -220% 0; } }
 @keyframes nf-glitch { 0%, 92%, 100% { transform: none; } 93% { transform: translate(-3px, 1px) skewX(-6deg); } 95% { transform: translate(3px, -1px) skewX(4deg); } 97% { transform: translate(-1px, 0); } }
+.map-bubble:hover > span:first-child, .map-bubble:focus-visible > span:first-child { transform: scale(1.12); }
+.map-bubble { transition: opacity var(--dur-fast); }

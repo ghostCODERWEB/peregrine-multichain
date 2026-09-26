@@ -12,7 +12,7 @@ export const NAV: NavItem[] = [
   // Markets, in a trader's reading order: the whole picture, what to look at, who is moving,
   // where money goes between chains, leverage, event odds, then sector baskets.
   { href: '/', label: 'Overview', icon: 'map', group: 'Explore' },
-  { href: '/alpha', label: 'Discover', icon: 'sparkles', group: 'Explore' },
+  { href: '/alpha', label: 'Alpha', icon: 'sparkles', group: 'Explore' },
   { href: '/smart-money', label: 'Smart Money', icon: 'brain', group: 'Explore', ownerOnly: true },
   { href: '/flows', label: 'Chain flows', icon: 'flows', group: 'Explore' },
   { href: '/perps', label: 'Perps', icon: 'activity', group: 'Explore' },

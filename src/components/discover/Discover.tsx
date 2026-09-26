@@ -1,4 +1,5 @@
 'use client';
+import { TokenLogo } from '@/components/Logo';
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -24,48 +25,59 @@ const PRESETS: Preset[] = [
   { id: 'liquid', label: 'Deep liquidity', rule: 'liquidity ≥ $1M', test: (r) => (r.liquidityUsd ?? 0) >= 1e6 },
 ];
 
-const W = 900, H = 360, PAD = 44;
-const clamp = (v: number, m: number) => Math.max(-m, Math.min(m, v));
+const W = 1000, H = 440, PAD = 40;
+// asinh spreads the crowded middle and keeps outliers on the plot.
+const sx = (v: number, k: number) => Math.asinh(v / k);
 
 function MarketMap({ rows, match, onPick }: { rows: AlphaRow[]; match: (r: AlphaRow) => boolean; onPick: (r: AlphaRow) => void }) {
   const [hover, setHover] = useState<AlphaRow | null>(null);
-  // Axes span the 90th percentile, so one outlier cannot flatten the rest (outliers sit on the edge).
-  const p90 = (xs: number[]) => { const s = xs.map(Math.abs).sort((a, b) => a - b); return s[Math.floor(s.length * 0.9)] ?? 0; };
-  const fx = Math.max(0.05, p90(rows.map(f)) * 1.1);
-  const fy = Math.max(0.05, p90(rows.map(p)) * 1.1);
-  const maxV = Math.max(1, ...rows.map(vol));
-  const x = (v: number) => PAD + ((clamp(v, fx) + fx) / (2 * fx)) * (W - 2 * PAD);
-  const y = (v: number) => H - PAD - ((clamp(v, fy) + fy) / (2 * fy)) * (H - 2 * PAD);
-  const q = (t: string, tx: number, ty: number, anchor: 'start' | 'end') => <text x={tx} y={ty} textAnchor={anchor} className="fill-ink-muted text-[11px] font-semibold">{t}</text>;
+  const pts = useMemo(() => {
+    const kx = 0.04, ky = 0.03;
+    const xs = rows.map((r) => sx(f(r), kx)), ys = rows.map((r) => sx(p(r), ky));
+    const mx = Math.max(0.5, ...xs.map(Math.abs)) * 1.08, my = Math.max(0.5, ...ys.map(Math.abs)) * 1.12;
+    const maxV = Math.max(1, ...rows.map(vol));
+    const out = rows.map((r, i) => ({ r, x: W / 2 + (xs[i] / mx) * (W / 2 - PAD), y: H / 2 - (ys[i] / my) * (H / 2 - PAD), rad: 13 + 17 * Math.sqrt(vol(r) / maxV) }));
+    // Nudge overlapping bubbles apart (a few relaxation passes), staying inside the plot.
+    for (let it = 0; it < 60; it++) {
+      for (let i = 0; i < out.length; i++) for (let j = i + 1; j < out.length; j++) {
+        const a = out[i], b = out[j], dx = b.x - a.x, dy = b.y - a.y, d = Math.hypot(dx, dy) || 0.01, min = a.rad + b.rad + 3;
+        if (d < min) { const push = (min - d) / 2, ux = dx / d, uy = dy / d; a.x -= ux * push; a.y -= uy * push; b.x += ux * push; b.y += uy * push; }
+      }
+      for (const o of out) { o.x = Math.max(PAD / 2 + o.rad, Math.min(W - PAD / 2 - o.rad, o.x)); o.y = Math.max(PAD / 2 + o.rad, Math.min(H - PAD - o.rad, o.y)); }
+    }
+    return out;
+  }, [rows]);
+  const quad = (t: string, cls: string) => <span className={`pointer-events-none absolute text-[11.5px] font-semibold uppercase tracking-[0.08em] ${cls}`}>{t}</span>;
   return (
-    <figure className="relative">
-      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="group" aria-label={`Market map: ${rows.length} tokens by net flow share and 24h price change`}>
-        <line x1={x(0)} x2={x(0)} y1={PAD / 2} y2={H - PAD} stroke="var(--hair-2)" />
-        <line x1={PAD} x2={W - PAD / 2} y1={y(0)} y2={y(0)} stroke="var(--hair-2)" />
-        {q('Bought and rising', W - PAD / 2, PAD / 2 + 10, 'end')}
-        {q('Sold while rising', PAD, PAD / 2 + 10, 'start')}
-        {q('Bought while falling', W - PAD / 2, H - PAD - 6, 'end')}
-        {q('Sold and falling', PAD, H - PAD - 6, 'start')}
-        <text x={W / 2} y={H - 10} textAnchor="middle" className="fill-ink-muted text-[11px]">net flow as a share of 24h volume</text>
-        <text x={12} y={H / 2} transform={`rotate(-90 12 ${H / 2})`} textAnchor="middle" className="fill-ink-muted text-[11px]">24h price change</text>
-        {[...rows].sort((a, b) => vol(b) - vol(a)).map((r) => {
-          const on = match(r);
-          const rad = 4 + 18 * Math.sqrt(vol(r) / maxV);
-          const color = r.score >= 65 ? 'var(--mint)' : r.score <= 35 ? 'var(--flare)' : 'var(--ink-2)';
-          return (
-            <a key={`${r.chain}:${r.tokenAddress}`} href={`/token/${r.chain}/${encodeURIComponent(r.tokenAddress)}`}
-              onClick={(e) => { e.preventDefault(); onPick(r); }} onMouseEnter={() => setHover(r)} onMouseLeave={() => setHover(null)}
-              onFocus={() => setHover(r)} onBlur={() => setHover(null)}
-              aria-label={`${r.symbol ?? 'Token'} on ${chainName(r.chain)}: net flow ${pct(r.flowShare, 1)} of volume, price ${pct(r.priceChange24h, 1)}, volume ${usd(r.volume24hUsd)}, alpha ${r.score}`}>
-              <circle cx={x(f(r))} cy={y(p(r))} r={rad} fill={color} fillOpacity={on ? 0.32 : 0.06} stroke={color} strokeOpacity={on ? 0.9 : 0.2} strokeWidth={hover === r ? 2.5 : 1.2} className="cursor-pointer" />
-              {on && rad > 13 && <text x={x(f(r))} y={y(p(r)) + 3.5} textAnchor="middle" className="pointer-events-none fill-ink text-[10px] font-bold">{(r.symbol ?? '').slice(0, 6)}</text>}
-            </a>
-          );
-        })}
-      </svg>
+    <figure className="relative w-full select-none" style={{ aspectRatio: `${W} / ${H}` }} aria-label={`Market map: ${rows.length} tokens by net flow share and 24h price change`}>
+      <div aria-hidden className="absolute inset-0 grid grid-cols-2 grid-rows-2 overflow-hidden rounded-[12px]">
+        <span className="bg-[color-mix(in_srgb,var(--amber)_5%,transparent)]" /><span className="bg-[color-mix(in_srgb,var(--mint)_7%,transparent)]" />
+        <span className="bg-[color-mix(in_srgb,var(--flare)_6%,transparent)]" /><span className="bg-[color-mix(in_srgb,var(--signal)_5%,transparent)]" />
+      </div>
+      <span aria-hidden className="absolute bottom-[9%] top-[4%] w-px bg-[var(--hair-2)]" style={{ left: '50%' }} />
+      <span aria-hidden className="absolute left-[2%] right-[2%] h-px bg-[var(--hair-2)]" style={{ top: '50%' }} />
+      {quad('Bought and rising', 'right-3 top-2 text-[var(--mint)]')}{quad('Sold while rising', 'left-3 top-2 text-[var(--amber)]')}
+      {quad('Bought while falling', 'bottom-9 right-3 text-[var(--signal)]')}{quad('Sold and falling', 'bottom-9 left-3 text-[var(--flare)]')}
+      <span className="pointer-events-none absolute bottom-1 left-1/2 -translate-x-1/2 text-[11px] text-ink-muted">net flow as a share of 24h volume →</span>
+      {pts.map(({ r, x, y, rad }) => {
+        const on = match(r);
+        const ring = r.score >= 65 ? 'var(--mint)' : r.score <= 35 ? 'var(--flare)' : 'var(--hair-2)';
+        const size = rad * 2;
+        return (
+          <a key={`${r.chain}:${r.tokenAddress}`} href={`/token/${r.chain}/${encodeURIComponent(r.tokenAddress)}`}
+            onClick={(e) => { e.preventDefault(); onPick(r); }} onMouseEnter={() => setHover(r)} onMouseLeave={() => setHover(null)} onFocus={() => setHover(r)} onBlur={() => setHover(null)}
+            aria-label={`${r.symbol ?? 'Token'} on ${chainName(r.chain)}: net flow ${pct(r.flowShare, 1)} of volume, price ${pct(r.priceChange24h, 1)}, volume ${usd(r.volume24hUsd)}, alpha ${r.score}`}
+            className="map-bubble absolute flex flex-col items-center" style={{ left: `${(x / W) * 100}%`, top: `${(y / H) * 100}%`, transform: 'translate(-50%, -50%)', opacity: on ? 1 : 0.25, zIndex: hover === r ? 5 : Math.round(rad) }}>
+            <span className="grid place-items-center rounded-full bg-[var(--surface-1)] transition-transform" style={{ padding: 2, boxShadow: `0 0 0 2px ${ring}` }}>
+              <TokenLogo symbol={r.symbol} logo={r.logo} chain={r.chain} address={r.tokenAddress} size={Math.round(size * 0.9)} />
+            </span>
+            <span className="mt-0.5 whitespace-nowrap rounded bg-[color-mix(in_srgb,var(--surface-1)_80%,transparent)] px-1 text-[10px] font-bold leading-tight text-ink">{(r.symbol ?? '').replace(/^[^A-Za-z0-9$]+/, '').slice(0, 8)}</span>
+          </a>
+        );
+      })}
       {hover && (
-        <figcaption className="pointer-events-none absolute right-2 top-2 rounded-[10px] border border-[var(--hair-2)] bg-[var(--surface-1)] px-3 py-2 text-[12px] shadow-lg">
-          <p className="font-bold text-ink">{hover.symbol ?? 'Token'} <span className="font-normal text-ink-muted">{chainName(hover.chain)}</span></p>
+        <figcaption className="pointer-events-none absolute right-2 top-8 z-10 rounded-[10px] border border-[var(--hair-2)] bg-[var(--surface-1)] px-3 py-2 text-[12px] shadow-lg">
+          <p className="flex items-center gap-1.5 font-bold text-ink"><TokenLogo symbol={hover.symbol} logo={hover.logo} chain={hover.chain} address={hover.tokenAddress} size={16} />{hover.symbol ?? 'Token'} <span className="font-normal text-ink-muted">{chainName(hover.chain)}</span></p>
           <p className="num text-ink-2">Flow {pct(hover.flowShare, 1)} of vol · price {pct(hover.priceChange24h, 1)}</p>
           <p className="num text-ink-2">Vol {usd(hover.volume24hUsd)} · liq {usd(hover.liquidityUsd)} · alpha {hover.score}</p>
         </figcaption>

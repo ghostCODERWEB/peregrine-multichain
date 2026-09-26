@@ -6,9 +6,11 @@ import { alphaBoard } from '@/server/alpha/board';
 import { displayMode, viewOf } from '@/server/mode';
 import { chainName } from '@/lib/viz/format';
 import { PageTitle } from '@/components/PageTitle';
+import { EarlyBuys } from '@/components/discover/EarlyBuys';
+import { earlyAlphaBuys } from '@/server/alpha/early';
 
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'Discover · Peregrine' };
+export const metadata: Metadata = { title: 'Alpha · Peregrine' };
 
 export default async function AlphaPage() {
   const mode = await displayMode();
@@ -16,7 +18,8 @@ export default async function AlphaPage() {
   const lead = board.rows[0];
   return (
     <div className="space-y-5">
-      <PageTitle title="Discover" pill={lead ? `Top alpha: ${lead.symbol ?? 'a token'} on ${chainName(lead.chain)}` : 'What to look at, across every chain'} />
+      <PageTitle title="Alpha" pill={lead ? `Top alpha: ${lead.symbol ?? 'a token'} on ${chainName(lead.chain)}` : 'What to look at, across every chain'} />
+      <EarlyBuys rows={earlyAlphaBuys(mode === 'owner')} />
       <Discover board={board} universe={discoverUniverse(viewOf(mode), new Map(board.rows.map((r) => [`${r.chain}:${r.tokenAddress.toLowerCase()}`, r])))} source={mode === 'owner' ? 'smart-money flow' : 'all-trader flow'} divergence={spotPerpBoard(viewOf(mode)).slice(0, 10)} />
     </div>
   );
