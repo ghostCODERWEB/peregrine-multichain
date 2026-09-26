@@ -19,7 +19,7 @@ export default async function AlphaPage() {
   return (
     <div className="space-y-5">
       <PageTitle title="Alpha" pill={lead ? `Top alpha: ${lead.symbol ?? 'a token'} on ${chainName(lead.chain)}` : 'What to look at, across every chain'} />
-      <EarlyBuys rows={earlyAlphaBuys(mode === 'owner')} />
+      <EarlyBuys rows={earlyAlphaBuys(mode === 'owner', Date.now(), 80)} />
       <Discover board={board} universe={discoverUniverse(viewOf(mode), new Map(board.rows.map((r) => [`${r.chain}:${r.tokenAddress.toLowerCase()}`, r])))} source={mode === 'owner' ? 'smart-money flow' : 'all-trader flow'} divergence={spotPerpBoard(viewOf(mode)).slice(0, 10)} />
     </div>
   );

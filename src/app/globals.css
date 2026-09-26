@@ -347,7 +347,7 @@ tr[data-analyze-selected] { background: color-mix(in srgb, var(--signal) 10%, tr
   .nav-list li { animation: nav-in var(--dur-reveal) var(--ease-out) both; animation-delay: calc(var(--i, 0) * 28ms); }
 }
 @keyframes nav-in { from { opacity: 0; transform: translateX(-6px); } }
-.brand-tile { background: linear-gradient(145deg, #13201c, #0a100e); box-shadow: inset 0 0 0 1px rgba(127,247,212,.18), 0 6px 18px -8px rgba(31,224,163,.55); transition: transform var(--dur-normal) var(--ease-out); }
+.brand-tile { box-shadow: 0 6px 20px -8px rgba(31,224,163,.6); transition: transform var(--dur-normal) var(--ease-out); }
 .brand-lockup:hover .brand-tile { transform: rotate(-6deg) scale(1.04); }
 
 /* Top-bar ticker: two copies of the row scroll left forever; hover pauses; edges fade. */

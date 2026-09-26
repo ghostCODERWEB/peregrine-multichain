@@ -10,7 +10,7 @@ const DS_CHAIN: Record<string, string> = { bnb: 'bsc', avalanche: 'avalanche', h
 const inflight = new Map<string, Promise<string | null>>();
 
 export const ADDRESS_RE = /^(0x[0-9a-fA-F]{40}|[1-9A-HJ-NP-Za-km-z]{32,44}|[0-9a-zA-Z:_-]{3,90})$/;
-export const COIN_RE = /^[A-Za-z0-9]{1,15}$/;
+export const COIN_RE = /^[A-Za-z0-9:]{1,24}$/;
 
 export const perpIcon = (coin: string) => `https://app.hyperliquid.xyz/coins/${encodeURIComponent(coin)}.svg`;
 
@@ -51,4 +51,26 @@ export async function tokenLogo(chain: string, address: string): Promise<string 
   })().finally(() => inflight.delete(key));
   inflight.set(key, job);
   return job;
+}
+
+/** A URL that answers 200 with an image, checked once and cached in kv like token logos. */
+async function imageOk(url: string, key: string): Promise<string | null> {
+  const hit = getKv(key);
+  if (hit && Date.now() - hit.updatedAt < (hit.value ? HIT_TTL : MISS_TTL)) return hit.value || null;
+  let good: string | null = null;
+  try { const r = await fetch(url, { method: 'HEAD', signal: AbortSignal.timeout(5000) }); if (r.ok && (r.headers.get('content-type') ?? '').startsWith('image/')) good = url; } catch { /* treat as a miss */ }
+  setKv(key, good ?? '');
+  return good;
+}
+
+/** Perp coins: CoinCap's icon by symbol (bright on dark), then Hyperliquid's own. */
+export async function coinLogo(coin: string): Promise<string> {
+  const sym = coin.replace(/^[a-z]+:/, '').replace(/^k(?=[A-Z])/, '').toLowerCase();
+  return (await imageOk(`https://assets.coincap.io/assets/icons/${encodeURIComponent(sym)}@2x.png`, `logo:coincap:${sym}`)) ?? perpIcon(coin);
+}
+
+/** Tokenized stocks on Robinhood chain: the company logo by ticker. */
+export async function stockLogo(symbol: string): Promise<string | null> {
+  const t = symbol.toUpperCase().replace(/[^A-Z.]/g, '');
+  return t ? imageOk(`https://financialmodelingprep.com/image-stock/${encodeURIComponent(t)}.png`, `logo:stock:${t}`) : null;
 }

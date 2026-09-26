@@ -25,7 +25,7 @@ export default function NotFound() {
         <span className="nf-blip" style={{ '--x': '74%', '--y': '24%', '--d': '1.1s' } as React.CSSProperties} />
         <span className="nf-blip" style={{ '--x': '66%', '--y': '72%', '--d': '2.2s' } as React.CSSProperties} />
         <span className="nf-blip nf-blip-lost" style={{ '--x': '30%', '--y': '76%', '--d': '0.6s' } as React.CSSProperties} />
-        <span className="nf-falcon"><BrandMark size={44} /></span>
+        <span className="nf-falcon"><BrandMark size={56} /></span>
       </div>
       <h1 className="nf-code mt-8 text-[88px] font-black leading-none tracking-[-0.05em] sm:text-[120px]">404</h1>
       <p className="mt-2 text-[20px] font-bold text-ink">This page flew off the radar</p>

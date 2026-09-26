@@ -148,8 +148,8 @@ export function AnalyzeDock() {
 
       {!open && (
         <button type="button" data-analyze-dock onClick={() => setOpen(true)} aria-label="Analyze with Nansen (⌘J)"
-          className="fixed bottom-[100px] right-4 z-50 inline-flex items-center gap-2 rounded-full border border-[color-mix(in_srgb,var(--signal)_45%,var(--hair))] bg-[var(--surface-2)] px-4 py-2.5 text-[13px] font-bold text-ink shadow-[0_10px_40px_-10px_color-mix(in_srgb,var(--signal)_60%,transparent)] transition-transform hover:-translate-y-0.5 lg:bottom-6 lg:right-6">
-          <Sparkles className="h-4 w-4 text-[var(--signal)]" aria-hidden />Analyze with Nansen
+          className="fixed bottom-[100px] right-4 z-50 inline-flex items-center gap-2 rounded-full border border-[color-mix(in_srgb,#1fe0a3_45%,var(--hair))] bg-[var(--surface-2)] px-4 py-2.5 text-[13px] font-bold text-ink shadow-[0_10px_40px_-10px_rgba(31,224,163,.6)] transition-transform hover:-translate-y-0.5 lg:bottom-6 lg:right-6">
+          <Sparkles className="h-4 w-4 text-[#1fe0a3]" aria-hidden />Analyze with Nansen
           <span className="kbd hidden lg:inline">⌘J</span>
         </button>
       )}
@@ -158,7 +158,7 @@ export function AnalyzeDock() {
         <div ref={panel} data-analyze-dock role="dialog" aria-label="Analyze with Nansen"
           className={`fixed inset-x-2 bottom-2 z-50 flex max-h-[82vh] flex-col overflow-hidden rounded-[16px] border border-[var(--hair-2)] bg-[var(--surface-1)] shadow-2xl transition-opacity lg:inset-x-auto lg:bottom-4 lg:right-4 lg:top-4 lg:max-h-none lg:w-[420px] ${picking ? 'pointer-events-none opacity-40' : ''}`}>
           <div className="flex items-center justify-between border-b border-[var(--hair)] px-4 py-3">
-            <span className="flex items-center gap-2 text-[14px] font-bold text-ink"><Sparkles className="h-4 w-4 text-[var(--signal)]" aria-hidden />Analyze with Nansen</span>
+            <span className="flex items-center gap-2 text-[14px] font-bold text-ink"><Sparkles className="h-4 w-4 text-[#1fe0a3]" aria-hidden />Analyze with Nansen</span>
             <button type="button" onClick={() => setOpen(false)} aria-label="Close" className="grid h-7 w-7 place-items-center rounded-full hover:bg-ink/10"><X className="h-4 w-4" aria-hidden /></button>
           </div>
 

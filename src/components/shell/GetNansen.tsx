@@ -16,7 +16,7 @@ export function GetNansen({ className = '' }: { className?: string }) {
           <img src={NANSEN_ICON} alt="" width={32} height={32} referrerPolicy="no-referrer" onError={() => setIconOk(false)} className="h-full w-full object-cover" />
         ) : <span className="text-[15px] font-black text-[#5ff5c8]">N</span>}
       </span>
-      <span className="min-w-0 flex-1 leading-tight">Get Nansen<span className="block text-[10.5px] font-semibold opacity-70">Onchain AI analytics</span></span>
+      <span className="min-w-0 flex-1 leading-tight">Get Nansen</span>
       <span aria-hidden className="text-[18px] leading-none transition-transform group-hover:translate-x-0.5">›</span>
     </a>
   );
