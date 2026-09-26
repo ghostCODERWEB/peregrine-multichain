@@ -62,9 +62,12 @@ export function WeatherView({
 
   const scored = data.chains.filter((c) => c.cpi != null).length;
 
+  // Lead with dollars: the chains with the largest measured net inflow and outflow, not the highest ratio on a thin chain.
+  const netsSorted = chainNets(data.chains).sort((x, y) => y.net - x.net);
   const ranked = data.chains.filter((c) => c.cpi != null).sort((a, b) => b.cpi! - a.cpi!);
-  const top = ranked[0],
-    bottom = ranked.at(-1);
+  const byChain = new Map(data.chains.map((c) => [c.chain, c]));
+  const top = (netsSorted[0]?.net ?? 0) > 0 ? byChain.get(netsSorted[0].chain) : ranked[0],
+    bottom = (netsSorted.at(-1)?.net ?? 0) < 0 ? byChain.get(netsSorted.at(-1)!.chain) : ranked.at(-1);
   const withheld = data.withheld.includes('fronts');
   // On a public site the Capital Flows card is left out (it can never unlock).
   const { publicSite } = useSite();
@@ -191,10 +194,8 @@ export function WeatherView({
                   </Link>
                 </div>
               </div>
-              <div className="seq-visual min-w-0" style={{ '--i': 3 } as React.CSSProperties}>
-                {!withheld ? (
-                  <FlowOrbital fronts={data.fronts} />
-                ) : netMap.edges.length ? (
+              <div className="seq-visual mx-auto w-full min-w-0 max-w-[380px] sm:max-w-[460px] xl:max-w-none" style={{ '--i': 3 } as React.CSSProperties}>
+                {netMap.edges.length ? (
                   <FlowOrbital fronts={netMap.edges} modeled nets={nets} />
                 ) : (
                   <FlowMovers chains={data.chains} />
