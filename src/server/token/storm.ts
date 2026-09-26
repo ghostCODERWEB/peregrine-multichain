@@ -149,7 +149,7 @@ export function computeStorm(
     return { unavailable: budget ?? 'Nansen returned none of the inputs the Dump Risk needs for this token.' };
   }
   // Token Score: half Nansen's risk indicator, half Peregrine's model on the other inputs.
-  const result = tokenScore(subScores, { marketCapUsd: mcap, isStablecoin: !!h?.isStablecoin });
+  const result = tokenScore(subScores, { marketCapUsd: mcap, isStablecoin: !!h?.isStablecoin, symbol: h?.symbol });
   (subScores as Record<string, unknown>).v = 2; (subScores as Record<string, unknown>).stable = !!h?.isStablecoin;
   const fmt = (k: StormInput, label: string) => ({ label: `${label} (β ${W[k]})`, value: subScores[k] == null ? 'missing' : num(subScores[k]) });
   prov.composite = {

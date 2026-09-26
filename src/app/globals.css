@@ -546,3 +546,9 @@ html:not(.dark) { --lg-tint: color-mix(in srgb, #ffffff 64%, transparent); --lg-
   .liquid-glass, .material-strong, .glass-strong, .segmented, .pill-secondary, .liquid-control, .table-pager-sizes, .table-pager-more, [data-clamp] > .clamp-toggle, [data-analyze-dock] { background: var(--surface-2) !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
 }
 @media (max-width: 639px) { main .pill-button { min-height: 36px; padding: 7px 15px; font-size: 13px; } }
+
+/* Guided tour card: a floating glass panel, bottom-left on desktop, above the tab bar on phones. */
+.tour-card { position: fixed; z-index: 60; left: 24px; bottom: 24px; width: min(360px, calc(100vw - 24px)); padding: 14px 16px 14px; border-radius: 22px; animation: tour-in .35s cubic-bezier(.2,.8,.2,1); }
+@media (min-width: 1024px) { .tour-card { left: 270px; } }
+@media (max-width: 1023px) { .tour-card { left: 12px; right: 12px; width: auto; bottom: calc(env(safe-area-inset-bottom, 0px) + 84px); } }
+@keyframes tour-in { from { opacity: 0; transform: translateY(10px) scale(.98); } to { opacity: 1; transform: none; } }

@@ -344,8 +344,12 @@ export function nansenIndicatorRisk(indicators: Array<{ type: string; score: str
 }
 
 /** Established assets carry less dump risk than the same on-chain pattern on a small cap. */
-export function sizeFactor(marketCapUsd: number | null | undefined, isStablecoin = false): number {
+/** Wrapped and staked versions of the largest assets: their per-chain cap understates what they are. */
+export const MAJOR_WRAPPED = /^(W?ETH|CBETH|R?ETH|STETH|WSTETH|WEETH|EZETH|W?BTC|CBBTC|BTC\.B|TBTC|LBTC|SOLVBTC|W?BNB|W?AVAX|W?SOL|JITOSOL|MSOL|W?HYPE|W?POL|W?MATIC)$/i;
+
+export function sizeFactor(marketCapUsd: number | null | undefined, isStablecoin = false, symbol?: string | null): number {
   if (isStablecoin) return 0.35;
+  if (symbol && MAJOR_WRAPPED.test(symbol.replace(/[^A-Za-z0-9.]/g, ''))) return 0.45;
   const m = marketCapUsd ?? 0;
   return m >= 1e10 ? 0.45 : m >= 1e9 ? 0.7 : m >= 1e8 ? 0.9 : 1;
 }
@@ -355,14 +359,14 @@ export function sizeFactor(marketCapUsd: number | null | undefined, isStablecoin
  * on-chain sub-scores, then scaled by market-cap tier (a stablecoin or a $10B+ asset
  * cannot read Critical from DEX-side patterns alone).
  */
-export function tokenScore(subScores: StormSubScores, ctx: { marketCapUsd?: number | null; isStablecoin?: boolean } = {}): TokenScore {
+export function tokenScore(subScores: StormSubScores, ctx: { marketCapUsd?: number | null; isStablecoin?: boolean; symbol?: string | null } = {}): TokenScore {
   const ok = (v: unknown): v is number => typeof v === 'number' && Number.isFinite(v);
   const n = ok(subScores.nansenRisk) ? subScores.nansenRisk : null;
   const own = STORM_INPUTS.filter((k) => k !== 'nansenRisk' && ok(subScores[k]));
   const ownW = own.reduce((s, k) => s + EXPERT_PRIOR_WEIGHTS[k], 0);
   const peregrine = own.length ? own.reduce((s, k) => s + EXPERT_PRIOR_WEIGHTS[k] * (subScores[k] as number), 0) / ownW : null;
   const raw = n != null && peregrine != null ? 0.5 * n + 0.5 * peregrine : (n ?? peregrine ?? 50);
-  const score = raw * sizeFactor(ctx.marketCapUsd, ctx.isStablecoin);
+  const score = raw * sizeFactor(ctx.marketCapUsd, ctx.isStablecoin, ctx.symbol);
   const allW = STORM_INPUTS.filter((k) => k !== 'nansenRisk').reduce((s, k) => s + EXPERT_PRIOR_WEIGHTS[k], 0);
   const confidence = (n != null ? 0.5 : 0) + 0.5 * (ownW / allW);
   return { score, band: stormBand(score), confidence, subScores, missing: STORM_INPUTS.filter((k) => subScores[k] == null), nansen: n, peregrine };

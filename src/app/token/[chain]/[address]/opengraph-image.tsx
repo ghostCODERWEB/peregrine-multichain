@@ -1,11 +1,12 @@
-// Share card for a token: its Storm Score dial, band, confidence and the
-// six sub-scores — from the latest score TIDE stored for it.
+// Share card for a token: its verdict (Low risk / Watch / Danger), Token Score dial with the
+// Nansen and Peregrine halves, and the sub-scores, from the latest stored score.
 import { ImageResponse } from 'next/og';
 import { getDb } from '@/server/nansen/db';
 import { STORM_CLASS, STORM_LABEL } from '@/lib/viz/scales';
 import { chainName, shortAddress } from '@/lib/viz/format';
 import { OG } from '@/lib/viz/og-palette';
 import type { StormScoreResult } from '@/lib/models/storm-score';
+import { tokenVerdict } from '@/server/token/verdict';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -20,8 +21,12 @@ export default async function Image({ params }: { params: Promise<{ chain: strin
   const token = decodeURIComponent(address);
   const r = getDb().prepare('SELECT symbol, score, band, confidence, sub_scores FROM storm_scores WHERE chain = ? AND token_address = ? ORDER BY id DESC LIMIT 1')
     .get(chain, token.toLowerCase()) as { symbol: string | null; score: number; band: StormScoreResult['band']; confidence: number; sub_scores: string } | undefined;
+  // The verdict drives the headline, colour and score, so the card matches the page.
+  const v = tokenVerdict(chain, token);
+  const verdict = v.pending ? null : v;
   const cls = r ? STORM_CLASS[r.band] : 'mid';
-  const color = cls === 'mid' ? OG.axis : OG[cls as keyof typeof OG];
+  const color = verdict ? (verdict.level === 'danger' ? OG['out-3'] : verdict.level === 'watch' ? OG['storm-2'] : OG['in-3']) : cls === 'mid' ? OG.axis : OG[cls as keyof typeof OG];
+  const score = verdict ? verdict.score : r?.score ?? null;
   // Dial: a 240° arc, filled to the score.
   const R = 150, cx = 180, cy = 190, a0 = (210 * Math.PI) / 180, span = (240 * Math.PI) / 180;
   const pt = (t: number) => `${cx + R * Math.cos(a0 - span * t)},${cy - R * Math.sin(a0 - span * t)}`;
@@ -33,18 +38,18 @@ export default async function Image({ params }: { params: Promise<{ chain: strin
         <div style={{ display: 'flex', flexDirection: 'column', width: 380, alignItems: 'center' }}>
           <svg width="360" height="300" viewBox="0 0 360 300">
             <path d={arc(1)} stroke={OG.axis} strokeWidth="26" fill="none" strokeLinecap="round" />
-            {r && <path d={arc(Math.max(0.01, r.score / 100))} stroke={color} strokeWidth="26" fill="none" strokeLinecap="round" />}
+            {score != null && <path d={arc(Math.max(0.01, score / 100))} stroke={color} strokeWidth="26" fill="none" strokeLinecap="round" />}
           </svg>
-          <div style={{ display: 'flex', marginTop: -170, fontSize: 96, fontWeight: 700 }}>{r ? Math.round(r.score) : 'n/a'}</div>
-          <div style={{ display: 'flex', marginTop: 50, padding: '8px 22px', borderRadius: 999, background: color, color: OG.onLight, fontSize: 28, fontWeight: 700 }}>{r ? STORM_LABEL[r.band] : 'Not scored yet'}</div>
+          <div style={{ display: 'flex', marginTop: -170, fontSize: 96, fontWeight: 700 }}>{score != null ? Math.round(score) : 'n/a'}</div>
+          <div style={{ display: 'flex', marginTop: 50, padding: '8px 22px', borderRadius: 999, background: color, color: OG.onLight, fontSize: 28, fontWeight: 700 }}>{verdict ? (verdict.level === 'danger' ? 'Danger' : verdict.level === 'watch' ? 'Watch' : 'Low risk') : r ? STORM_LABEL[r.band] : 'Not scored yet'}</div>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', marginLeft: 40, flex: 1 }}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 16 }}>
             <div style={{ display: 'flex', fontSize: 30, fontWeight: 700, letterSpacing: -0.5 }}>Peregrine</div>
-            <div style={{ display: 'flex', fontSize: 22, color: OG.muted }}>Token Score · 7 days</div>
+            <div style={{ display: 'flex', fontSize: 22, color: OG.muted }}>Token Score · 50% Nansen, 50% Peregrine</div>
           </div>
           <div style={{ display: 'flex', fontSize: 60, fontWeight: 700, marginTop: 18 }}>{r?.symbol ?? shortAddress(token)}</div>
-          <div style={{ display: 'flex', fontSize: 26, color: OG.ink2 }}>{chainName(chain)}{r ? ` · confidence ${Math.round(r.confidence * 100)}%` : ''}</div>
+          <div style={{ display: 'flex', fontSize: 26, color: OG.ink2 }}>{chainName(chain)}{verdict ? ` · Nansen ${verdict.nansen != null ? Math.round(verdict.nansen) : 'n/a'} · Peregrine ${verdict.peregrine != null ? Math.round(verdict.peregrine) : 'n/a'}` : ''}</div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginTop: 30 }}>
             {Object.entries(LABELS).map(([k, label]) => {
               const v = sub[k];
@@ -59,7 +64,7 @@ export default async function Image({ params }: { params: Promise<{ chain: strin
               );
             })}
           </div>
-          <div style={{ display: 'flex', marginTop: 'auto', fontSize: 20, color: OG.muted }}>Computed from Nansen API data</div>
+          <div style={{ display: 'flex', marginTop: 'auto', fontSize: 20, color: OG.muted }}>{verdict?.sm ? `Smart Money ${verdict.sm.net24h >= 0 ? 'net bought' : 'net sold'} $${Math.round(Math.abs(verdict.sm.net24h)).toLocaleString('en-US')} in 24h · ` : ''}Built on Nansen data</div>
         </div>
       </div>
     ),

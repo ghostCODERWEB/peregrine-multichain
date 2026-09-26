@@ -6,7 +6,7 @@ export interface NavItem { href: string; label: string; icon: NavIcon; group: 'E
 export const SIGN_IN_PATHS = ['/alerts', '/trade', '/account', '/login'];
 /** Pages a public site redirects home (src/middleware.ts). */
 export const OWNER_ONLY_PATHS = ['/smart-money', '/agent', '/alerts', '/trade'];
-export type NavIcon = 'shield' | 'map' | 'flows' | 'sparkles' | 'layers' | 'activity' | 'target' | 'bot' | 'swap' | 'brain' | 'briefcase' | 'flask' | 'gauge' | 'bell' | 'key' | 'notebook';
+export type NavIcon = 'badge' | 'shield' | 'map' | 'flows' | 'sparkles' | 'layers' | 'activity' | 'target' | 'bot' | 'swap' | 'brain' | 'briefcase' | 'flask' | 'gauge' | 'bell' | 'key' | 'notebook';
 
 export const NAV: NavItem[] = [
   // Markets, in a trader's reading order: the whole picture, what to look at, who is moving,
@@ -23,6 +23,7 @@ export const NAV: NavItem[] = [
   { href: '/history', label: 'History', icon: 'gauge', group: 'Research' },
   { href: '/token', label: 'Token Checker', icon: 'shield', group: 'Research', also: ['/rug'] },
   { href: '/lab', label: 'Backtest Lab', icon: 'flask', group: 'Research' },
+  { href: '/proof', label: 'Proof', icon: 'badge', group: 'Research' },
   { href: '/agent', label: 'Ask Nansen', icon: 'bot', group: 'Act', ownerOnly: true },
   { href: '/alerts', label: 'Alerts', icon: 'bell', group: 'Act', ownerOnly: true, signIn: true },
   { href: '/trade', label: 'Trade', icon: 'swap', group: 'Act', ownerOnly: true, signIn: true },

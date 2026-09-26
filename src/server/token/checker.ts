@@ -35,7 +35,7 @@ export function tokenChecker(owner: boolean, now = Date.now()): CheckerData {
   const scored: ScoredToken[] = rows.filter((r) => (JSON.parse(r.sub) as { v?: number }).v === 2).map((r) => {
     const { v: _v, stable: _s, ...sub } = JSON.parse(r.sub) as Record<string, number | null>;
     void _v;
-    const ts = tokenScore(sub as unknown as StormSubScores, { marketCapUsd: r.mc, isStablecoin: (_s as unknown) === true });
+    const ts = tokenScore(sub as unknown as StormSubScores, { marketCapUsd: r.mc, isStablecoin: (_s as unknown) === true, symbol: r.symbol });
     return { chain: r.chain, address: properAddress(r.chain, r.t), symbol: r.symbol, score: ts.score, band: ts.band, nansen: ts.nansen, peregrine: ts.peregrine, confidence: ts.confidence, sub, marketCap: r.mc, at: r.at };
   }).sort((a, b) => b.score - a.score);
   const scoreOf = new Map(scored.map((s) => [`${s.chain}:${s.address.toLowerCase()}`, s.score]));

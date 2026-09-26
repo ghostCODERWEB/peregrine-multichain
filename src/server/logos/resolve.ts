@@ -5,12 +5,17 @@
 // looked up at most once a week.
 import { getKv, setKv } from '@/server/nansen/db';
 
-const HIT_TTL = 7 * 86_400_000, MISS_TTL = 86_400_000;
+const HIT_TTL = 7 * 86_400_000,
+  MISS_TTL = 86_400_000;
 const DS_CHAIN: Record<string, string> = { bnb: 'bsc', avalanche: 'avalanche', hyperevm: 'hyperevm', zksync: 'zksync' };
 const inflight = new Map<string, Promise<string | null>>();
 
 export const ADDRESS_RE = /^(0x[0-9a-fA-F]{40}|[1-9A-HJ-NP-Za-km-z]{32,44}|[0-9a-zA-Z:_-]{3,90})$/;
 export const COIN_RE = /^[A-Za-z0-9:]{1,24}$/;
+
+// Fold only EVM addresses; base58 token identities are case-sensitive.
+const addressKey = (address: string) => (/^0x[\da-f]{40}$/i.test(address) ? address.toLowerCase() : address);
+const httpsImage = (value: unknown): value is string => typeof value === 'string' && value.startsWith('https://');
 
 export const perpIcon = (coin: string) => `https://app.hyperliquid.xyz/coins/${encodeURIComponent(coin)}.svg`;
 
@@ -21,20 +26,27 @@ async function json(url: string): Promise<unknown> {
 }
 
 async function dexscreener(chain: string, address: string): Promise<string | null> {
-  const pairs = (await json(`https://api.dexscreener.com/tokens/v1/${DS_CHAIN[chain] ?? chain}/${address}`)) as Array<{ baseToken?: { address?: string }; info?: { imageUrl?: string } }>;
+  const pairs = (await json(`https://api.dexscreener.com/tokens/v1/${DS_CHAIN[chain] ?? chain}/${address}`)) as Array<{
+    baseToken?: { address?: string };
+    info?: { imageUrl?: string };
+  }>;
   if (!Array.isArray(pairs)) return null;
-  const own = pairs.find((p) => p.baseToken?.address?.toLowerCase() === address.toLowerCase() && p.info?.imageUrl);
+  const own = pairs.find(
+    (p) =>
+      typeof p?.baseToken?.address === 'string' && addressKey(p.baseToken.address) === addressKey(address) && httpsImage(p.info?.imageUrl),
+  );
   return own?.info?.imageUrl ?? null;
 }
 
 async function jupiter(address: string): Promise<string | null> {
   const list = (await json(`https://lite-api.jup.ag/tokens/v2/search?query=${address}`)) as Array<{ id?: string; icon?: string }>;
-  return Array.isArray(list) ? list.find((t) => t.id === address && t.icon?.startsWith('https://'))?.icon ?? null : null;
+  return Array.isArray(list) ? (list.find((t) => t?.id === address && httpsImage(t.icon))?.icon ?? null) : null;
 }
 
 /** An https image URL for the token, or null when no free source has one. */
 export async function tokenLogo(chain: string, address: string): Promise<string | null> {
-  const key = `logo:${chain}:${chain === 'solana' ? address : address.toLowerCase()}`;
+  // Version the cache so previously misidentified images are not reused.
+  const key = `logo:v2:${chain}:${addressKey(address)}`;
   const hit = getKv(key);
   if (hit && Date.now() - hit.updatedAt < (hit.value ? HIT_TTL : MISS_TTL)) return hit.value || null;
   const running = inflight.get(key);
@@ -58,15 +70,25 @@ async function imageOk(url: string, key: string): Promise<string | null> {
   const hit = getKv(key);
   if (hit && Date.now() - hit.updatedAt < (hit.value ? HIT_TTL : MISS_TTL)) return hit.value || null;
   let good: string | null = null;
-  try { const r = await fetch(url, { method: 'HEAD', signal: AbortSignal.timeout(5000) }); if (r.ok && (r.headers.get('content-type') ?? '').startsWith('image/')) good = url; } catch { /* treat as a miss */ }
+  try {
+    const r = await fetch(url, { method: 'HEAD', signal: AbortSignal.timeout(5000) });
+    if (r.ok && (r.headers.get('content-type') ?? '').startsWith('image/')) good = url;
+  } catch {
+    /* treat as a miss */
+  }
   setKv(key, good ?? '');
   return good;
 }
 
 /** Perp coins: CoinCap's icon by symbol (bright on dark), then Hyperliquid's own. */
 export async function coinLogo(coin: string): Promise<string> {
-  const sym = coin.replace(/^[a-z]+:/, '').replace(/^k(?=[A-Z])/, '').toLowerCase();
-  return (await imageOk(`https://assets.coincap.io/assets/icons/${encodeURIComponent(sym)}@2x.png`, `logo:coincap:${sym}`)) ?? perpIcon(coin);
+  const sym = coin
+    .replace(/^[a-z]+:/, '')
+    .replace(/^k(?=[A-Z])/, '')
+    .toLowerCase();
+  return (
+    (await imageOk(`https://assets.coincap.io/assets/icons/${encodeURIComponent(sym)}@2x.png`, `logo:coincap:${sym}`)) ?? perpIcon(coin)
+  );
 }
 
 /** Tokenized stocks on Robinhood chain: the company logo by ticker. */

@@ -1,4 +1,5 @@
 'use client';
+import { VerdictCard } from '@/components/token/VerdictCard';
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import { useSite } from '@/components/SiteContext';
@@ -678,6 +679,7 @@ export function TokenView({
       >
         {cards.storm('')}
       </TokenHero>
+      <VerdictCard chain={chain} address={address} ready={ok(s.storm)} />
       {quickRead}
       {s.fatal && <p className="rounded-md border border-border px-3 py-2 text-sm text-ink-2">{s.fatal}</p>}
       {gone(s.header) && <Unavailable text={s.header.unavailable} />}

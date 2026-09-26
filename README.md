@@ -1,5 +1,21 @@
 # Peregrine
 
+**Peregrine scores every token's dump risk (50% Nansen, 50% our own model), shows that the score holds up on weeks it never saw, and flags when Smart Money buys into danger.**
+
+**Live:** https://peregrine-nansen.up.railway.app · **Proof:** [/proof](https://peregrine-nansen.up.railway.app/proof)
+
+| | |
+|---|---|
+| **7,903** real Nansen API calls during the buildathon | **82** endpoints across 19 Nansen API families |
+| **0.84 AUC** for the dump-risk score on unseen test weeks | **25** networks in one token search, with ENS names for wallets |
+
+## The story in four taps
+
+1. **Token Verdict:** open any token and get *Low risk / Watch / Danger*, the Token Score with its Nansen and Peregrine halves, reasons that each cite a number, and one sentence from Nansen's AI agent.
+2. **Risk Radar:** the Overview leads with Smart Money wallets buying tokens that score High or Critical, each one tap from its verdict and a share to X.
+3. **The wallet behind the move:** one-page wallet profile with holdings, realized PnL, counterparties, first funder, ENS name and Hyperliquid positions.
+4. **Proof:** every Nansen endpoint used and how often, plus the score's ROC curve and calibration on unseen data, with its limits stated.
+
 An onchain intelligence terminal built on the [Nansen API](https://nansen.ai/api). Peregrine stores Nansen data continuously, adds its own models on top, and turns it into one fast research surface: where Smart Money is moving, which tokens are risky, and which wallets are worth following.
 
 ## What it does

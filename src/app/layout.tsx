@@ -14,6 +14,7 @@ import { TableSort } from '@/components/TableSort';
 import { TablePager } from '@/components/TablePager';
 import { SectionRail } from '@/components/SectionRail';
 import { MobileClamp } from '@/components/MobileClamp';
+import { GuidedTour } from '@/components/GuidedTour';
 import { AnalyzeDock } from '@/components/analyze/AnalyzeDock';
 
 const geistSans = Manrope({ variable: '--font-geist-sans', subsets: ['latin'] });
@@ -42,6 +43,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <TablePager />
           <SectionRail />
           <MobileClamp />
+          <GuidedTour />
           <AnalyzeDock />
           <MotionObserver />
           <SiteHeader />

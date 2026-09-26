@@ -59,7 +59,7 @@ export function TokenCheckerView({ d }: { d: CheckerData }) {
           </ul>
         </section>
         {d.smIntoRisk.length > 0 && (
-          <section className="material p-4 sm:p-5">
+          <section id="sm-risk" className="material scroll-mt-20 p-4 sm:p-5">
             <h2 className="t-section mb-1">Smart Money buying risk</h2>
             <p className="mb-2 text-[11.5px] text-ink-muted">Net Smart Money buys, 24h, into tokens scoring 50 or more</p>
             <ol className="space-y-1.5">
