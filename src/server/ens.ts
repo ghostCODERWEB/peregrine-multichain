@@ -67,3 +67,15 @@ export async function ensAddress(name: string): Promise<string | null> {
   // name: ensName must independently resolve and verify the reverse record.
   return a ?? null;
 }
+
+/** Diagnostics for one name: each source's raw answer, uncached. */
+export async function ensDebug(name: string) {
+  const out: Record<string, unknown> = { name };
+  try { out.norm = normalize(name); } catch (e) { out.normErr = (e as Error).message.slice(0, 160); }
+  const norm = (out.norm as string) ?? name.toLowerCase();
+  out.rpc = await client.getEnsAddress({ name: norm }).then((a) => a ?? null, (e: Error) => `ERR ${e.message.split('\n')[0].slice(0, 200)}`);
+  out.api = await fetch(`https://api.ensideas.com/ens/resolve/${encodeURIComponent(norm)}`, { signal: AbortSignal.timeout(6_000) })
+    .then(async (r) => `${r.status} ${(await r.text()).slice(0, 160)}`, (e: Error) => `ERR ${e.message.slice(0, 160)}`);
+  out.cached = getKv(`ens3:addr:${norm}`);
+  return out;
+}
