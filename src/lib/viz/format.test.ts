@@ -9,7 +9,7 @@ describe('walletName', () => {
     const sol = 'FUmuuKhXaT7w2mbM2Xm5kNnDYFwH3ZExfjrztFmbbZVb';
     expect(walletName('[FUmuuKhX]', sol)).toBe('FUmuuK…bZVb');
     expect(walletName('High Balance [3LzmBquL]', sol)).toBe('High Balance ·bZVb');
-    expect(walletName('\u200b\u200b🏦 OKX: Hot Wallet [8wM44Ryv]', sol)).toBe('🏦 OKX: Hot Wallet ·bZVb');
+    expect(walletName('\u200b\u200b🏦 OKX: Hot Wallet [8wM44Ryv]', sol)).toBe('OKX: Hot Wallet ·bZVb');
     expect(walletName(null, a)).toBe('0x93ab…7890');
   });
   it('keeps named entities as they are', () => {
