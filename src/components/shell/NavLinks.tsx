@@ -23,6 +23,7 @@ import {
   X,
   NotebookPen,
   BadgeCheck,
+  CopyCheck,
 } from 'lucide-react';
 import { NAV, type NavIcon } from './nav';
 import { useSite } from '@/components/SiteContext';
@@ -41,6 +42,7 @@ const ICONS: Record<NavIcon, typeof Map> = {
   briefcase: Briefcase,
   flask: FlaskConical,
   badge: BadgeCheck,
+  copy: CopyCheck,
   gauge: Gauge,
   bell: Bell,
   key: KeyRound,

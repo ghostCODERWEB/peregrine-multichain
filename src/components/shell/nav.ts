@@ -6,7 +6,7 @@ export interface NavItem { href: string; label: string; icon: NavIcon; group: 'E
 export const SIGN_IN_PATHS = ['/alerts', '/trade', '/account', '/login'];
 /** Pages a public site redirects home (src/middleware.ts). */
 export const OWNER_ONLY_PATHS = ['/smart-money', '/agent', '/alerts', '/trade'];
-export type NavIcon = 'badge' | 'shield' | 'map' | 'flows' | 'sparkles' | 'layers' | 'activity' | 'target' | 'bot' | 'swap' | 'brain' | 'briefcase' | 'flask' | 'gauge' | 'bell' | 'key' | 'notebook';
+export type NavIcon = 'copy' | 'badge' | 'shield' | 'map' | 'flows' | 'sparkles' | 'layers' | 'activity' | 'target' | 'bot' | 'swap' | 'brain' | 'briefcase' | 'flask' | 'gauge' | 'bell' | 'key' | 'notebook';
 
 export const NAV: NavItem[] = [
   // Markets, in a trader's reading order: the whole picture, what to look at, who is moving,
@@ -14,6 +14,7 @@ export const NAV: NavItem[] = [
   { href: '/', label: 'Overview', icon: 'map', group: 'Explore' },
   { href: '/alpha', label: 'Alpha', icon: 'sparkles', group: 'Explore' },
   { href: '/smart-money', label: 'Smart Money', icon: 'brain', group: 'Explore', ownerOnly: true },
+  { href: '/copy', label: 'Copy Lab', icon: 'copy', group: 'Explore', ownerOnly: true },
   { href: '/flows', label: 'Chain flows', icon: 'flows', group: 'Explore' },
   { href: '/perps', label: 'Perps', icon: 'activity', group: 'Explore' },
   { href: '/predict', label: 'Predictions', icon: 'target', group: 'Explore' },
