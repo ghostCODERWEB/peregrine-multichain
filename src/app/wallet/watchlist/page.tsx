@@ -1,16 +1,6 @@
-import type { Metadata } from 'next';
-import { PageTitle } from '@/components/PageTitle';
-import { ProfilerTabs } from '@/components/research/ProfilerTabs';
-import { WatchlistView } from '@/components/research/TraderViews';
+import { redirect } from 'next/navigation';
 
-export const metadata: Metadata = { title: 'Watchlist · Profiler · Peregrine' };
-
+/** The watchlist is a section of the Profiler page. */
 export default function WatchlistPage() {
-  return (
-    <div className="space-y-4">
-      <PageTitle title="Profiler" pill="Watched Hyperliquid traders" />
-      <ProfilerTabs />
-      <WatchlistView />
-    </div>
-  );
+  redirect('/wallet#watchlist');
 }

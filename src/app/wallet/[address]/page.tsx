@@ -1,6 +1,5 @@
 import { NansenButton } from '@/components/shell/GetNansen';
 import Link from 'next/link';
-import { ProfilerTabs } from '@/components/research/ProfilerTabs';
 import { WalletPortfolio } from '@/components/research/WalletPortfolio';
 import { nansenWallet } from '@/config/external';
 import { Suspense } from 'react';
@@ -82,7 +81,6 @@ export default async function WalletRoute({ params }: Params) {
         </span>
       </div>
 
-      <ProfilerTabs />
       {/* One tile grid, ordered like a research session: who and what it holds, how it trades, who it deals with, then its history. */}
       <div className="grid grid-cols-1 gap-4 xl:grid-cols-12 [&>*]:min-w-0">
         {mode === 'owner' && <div className="xl:col-span-12"><WalletQuickRead address={address} /></div>}

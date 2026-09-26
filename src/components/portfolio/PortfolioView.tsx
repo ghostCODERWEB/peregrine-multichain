@@ -1,5 +1,4 @@
 'use client';
-import { ProfilerTabs } from '@/components/research/ProfilerTabs';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { Card, Unavailable, WaveLoading } from '@/components/Card';
@@ -15,7 +14,7 @@ import { useSite } from '@/components/SiteContext';
 const DEMO = '0xcbb811f129782ef87e19dea9d3375045219bae00';
 const button = 'rounded-lg border border-border px-3 py-2 text-sm text-ink hover:bg-accent disabled:opacity-50';
 
-export function PortfolioView({ demo, suggestions = [] }: { demo: boolean; suggestions?: Array<{ address: string; label: string | null }> }) {
+export function PortfolioView({ demo, suggestions = [], embedded = false }: { demo: boolean; suggestions?: Array<{ address: string; label: string | null }>; embedded?: boolean }) {
   const { accounts } = useSite();
   const [input, setInput] = useState(''),
     [canSave, setCanSave] = useState(false);
@@ -80,11 +79,10 @@ export function PortfolioView({ demo, suggestions = [] }: { demo: boolean; sugge
   }
   return (
     <div className="space-y-5">
-      <PageTitle title="Profiler" pill="Portfolio: up to five wallets, one view" />
-      <ProfilerTabs />
+      {!embedded && <PageTitle title="Profiler" pill="Portfolio: up to five wallets, one view" />}
       <Card
         id="watchset"
-        title="Your wallet watch set"
+        title="Portfolio of up to five wallets"
         sub="One address per line"
       >
         <label htmlFor="portfolio-addresses" className="mb-2 block text-xs text-ink-2">

@@ -50,7 +50,7 @@ export function HyperliquidWorkspace({ address }: { address: string }) {
         <span className="num text-[11px] text-ink-muted">positions and labels: Nansen · history and fills: Hyperliquid · updated {ago(d.at)}</span>
         <span className="ml-auto flex items-center gap-2">
           <button type="button" onClick={() => setWatch(toggleWatch(address, d.label))} aria-pressed={watch} className="pill-button pill-secondary min-h-8 px-3 text-[12px]">{watch ? <EyeOff className="h-3.5 w-3.5" aria-hidden /> : <Eye className="h-3.5 w-3.5" aria-hidden />}{watch ? 'Watching' : 'Watch trader'}</button>
-          <Link href={`/wallet/compare?a=${address}`} className="pill-button pill-secondary min-h-8 px-3 text-[12px]"><GitCompare className="h-3.5 w-3.5" aria-hidden />Compare</Link>
+          <Link href={`/wallet?a=${address}#compare`} className="pill-button pill-secondary min-h-8 px-3 text-[12px]"><GitCompare className="h-3.5 w-3.5" aria-hidden />Compare</Link>
         </span>
       </div>
 

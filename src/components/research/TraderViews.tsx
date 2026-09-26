@@ -50,13 +50,13 @@ export function WatchlistView() {
   const data = useTraders(list.map((w) => w.address));
   return (
     <div className="space-y-3">
-      <div className="material flex flex-wrap items-center gap-3 p-3.5">
+      <div className="flex flex-wrap items-center gap-3">
         <p className="text-[12.5px] text-ink-2">{list.length} watched trader{list.length === 1 ? '' : 's'} · saved in this browser · positions refresh on open</p>
         <div className="ml-auto w-full max-w-[520px]"><AddBox label="Watch" onAdd={(a) => { toggleWatch(a, null); setList(watched()); }} /></div>
       </div>
-      {!list.length && <p className="material p-4 text-[13px] text-ink-muted">No watched traders yet. Add an address above, or use Watch trader on any Profiler page.</p>}
+      {!list.length && <p className="py-3 text-[13px] text-ink-muted">No watched traders yet. Add an address above, or use Watch trader on any Profiler page.</p>}
       {list.length > 0 && (
-        <div className="material overflow-x-auto p-3.5">
+        <div className="overflow-x-auto">
           <table className="w-full min-w-[980px] text-[12.5px]">
             <thead className="text-[10.5px] uppercase tracking-wider text-ink-muted"><tr><th className="py-2 text-left font-normal">Trader</th><th className="text-left font-normal">Equity, 7D</th><th className="text-right font-normal">Equity</th><th className="text-right font-normal">24H PnL</th><th className="text-right font-normal">30D PnL</th><th className="text-right font-normal">Open</th><th className="text-left font-normal">Largest position</th><th className="text-right font-normal">Net exposure</th><th className="text-left font-normal">Latest change</th><th /></tr></thead>
             <tbody>
@@ -95,7 +95,10 @@ export function CompareView() {
   const c = useThemeColors();
   const addrs = useMemo(() => ['a', 'b', 'c', 'd'].map((k) => params.get(k) ?? '').filter((a) => ADDR.test(a)), [params]);
   const data = useTraders(addrs);
-  const set = (next: string[]) => router.replace(`/wallet/compare?${next.slice(0, 4).map((a, i) => `${'abcd'[i]}=${a}`).join('&')}`);
+  // The watchlist lives in this browser: read it after mount so the server render matches.
+  const [watch, setWatch] = useState<Watched[]>([]);
+  useEffect(() => { setWatch(watched()); }, []);
+  const set = (next: string[]) => router.replace(`/wallet?${next.slice(0, 4).map((a, i) => `${'abcd'[i]}=${a}`).join('&')}#compare`, { scroll: false });
   const loaded = addrs.map((a) => ({ a, d: data[a] })).filter((x): x is { a: string; d: TraderWorkspace } => !!x.d && !('error' in x.d));
   const palette = c ? [c.mint, c.signal, c.amber, c.violet] : [];
   const equity = c && loaded.length ? {
@@ -125,12 +128,12 @@ export function CompareView() {
   ];
   return (
     <div className="space-y-3">
-      <div className="material flex flex-wrap items-center gap-2 p-3.5">
+      <div className="flex flex-wrap items-center gap-2">
         {addrs.map((a, i) => <span key={a} className="inline-flex items-center gap-1.5 rounded-full border border-[var(--hair)] py-0.5 pl-2 pr-1 text-[12px]"><span className="h-2 w-2 rounded-full" style={{ background: palette[i] }} /><AddressLink address={a} label={data[a] && !('error' in data[a]) ? (data[a] as TraderWorkspace).label : null} compact /><button type="button" aria-label="Remove" onClick={() => set(addrs.filter((x) => x !== a))} className="grid h-5 w-5 place-items-center rounded hover:bg-ink/10"><X className="h-3 w-3" aria-hidden /></button></span>)}
         {addrs.length < 4 && <div className="ml-auto w-full max-w-[460px]"><AddBox label="Add trader" onAdd={(a) => set([...addrs, a])} /></div>}
-        {!addrs.length && watched().length > 1 && <button type="button" onClick={() => set(watched().slice(0, 4).map((w) => w.address))} className="text-[12.5px] font-semibold text-brand">Compare my watchlist</button>}
+        {!addrs.length && watch.length > 1 && <button type="button" onClick={() => set(watch.slice(0, 4).map((w) => w.address))} className="text-[12.5px] font-semibold text-brand">Compare my watchlist</button>}
       </div>
-      {addrs.length < 2 && <p className="material p-4 text-[13px] text-ink-muted">Add at least two Hyperliquid addresses to compare.</p>}
+      {addrs.length < 2 && <p className="py-2 text-[13px] text-ink-muted">Add at least two Hyperliquid addresses to compare.</p>}
       {addrs.length > 0 && loaded.length < addrs.length && <div className="h-40 animate-pulse rounded-[var(--r-card)] bg-ink/5" />}
       {loaded.length > 1 && (
         <>
