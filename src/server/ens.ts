@@ -50,7 +50,8 @@ export async function ensNames(addresses: string[]): Promise<Record<string, stri
 export async function ensAddress(name: string): Promise<string | null> {
   if (!ENS_NAME_RE.test(name)) return null;
   let norm: string;
-  try { norm = normalize(name); } catch (e) { console.warn(`[ens] normalize ${name}: ${(e as Error).message.slice(0, 120)}`); norm = name.toLowerCase(); }
+  // The normalizer can come back empty in production bundles; ENS_NAME_RE already limits names to plain a-z0-9-.
+  try { norm = normalize(name) || name.toLowerCase(); } catch { norm = name.toLowerCase(); }
   const key = `ens3:addr:${norm}`;
   const hit = getKv(key);
   if (hit?.value && Date.now() - hit.updatedAt < DAY) return hit.value;
