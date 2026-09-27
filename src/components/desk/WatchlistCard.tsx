@@ -24,10 +24,10 @@ export function WatchlistCard() {
       <ul className="mt-3 flex flex-wrap gap-2">
         {list.map((w) => (
           <li key={`${w.chain}:${w.address}`} className="inline-flex items-center gap-1 rounded-full border border-[var(--hair)] bg-ink/5 py-1 pl-1.5 pr-1">
-            <Link href={`/token/${w.chain}/${encodeURIComponent(w.address)}`} className="inline-flex items-center gap-2 px-1 text-[13px] font-bold text-ink hover:underline">
+            <Link prefetch={false} href={`/token/${w.chain}/${encodeURIComponent(w.address)}`} className="inline-flex items-center gap-2 px-1 text-[13px] font-bold text-ink hover:underline">
               <TokenLogo symbol={w.symbol ?? '?'} chain={w.chain} address={w.address} size={20} /><span>{w.symbol ?? shortAddress(w.address)}</span><ChainLogo chain={w.chain} size={13} /><span className="sr-only">on {chainName(w.chain)}</span>
             </Link>
-            <Link href={`/rug/${w.chain}/${encodeURIComponent(w.address)}`} className="rounded-full px-2 py-0.5 text-[11.5px] font-semibold text-ink-muted hover:text-ink">Rug check</Link>
+            <Link prefetch={false} href={`/rug/${w.chain}/${encodeURIComponent(w.address)}`} className="rounded-full px-2 py-0.5 text-[11.5px] font-semibold text-ink-muted hover:text-ink">Rug check</Link>
             <button type="button" aria-label={`Stop watching ${w.symbol ?? w.address}`} onClick={() => toggleWatch(w)} className="grid h-6 w-6 place-items-center rounded-full text-ink-muted hover:bg-ink/10 hover:text-ink"><X size={13} aria-hidden /></button>
           </li>
         ))}

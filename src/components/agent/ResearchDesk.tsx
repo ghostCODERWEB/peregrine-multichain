@@ -153,7 +153,7 @@ export function ResearchDesk({ initialReports }: { initialReports: Report[] }) {
                       <p className="mt-1 text-[12px] text-ink-muted">{e.title}</p>
                       <p className="text-[15px] font-bold leading-snug" style={{ color: toneColor(e.tone) }}>{e.value}</p>
                       <p className="mt-0.5 text-[12px] leading-snug text-ink-2">{e.detail}</p>
-                      {e.href && <Link href={e.href} className="mt-1.5 inline-flex items-center gap-1 text-[11.5px] font-semibold text-ink-muted hover:text-ink">Open <ArrowRight size={12} /></Link>}
+                      {e.href && <Link prefetch={false} href={e.href} className="mt-1.5 inline-flex items-center gap-1 text-[11.5px] font-semibold text-ink-muted hover:text-ink">Open <ArrowRight size={12} /></Link>}
                     </article>
                   ))}
                 </section>

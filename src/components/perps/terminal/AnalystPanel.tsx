@@ -28,7 +28,7 @@ export function Linked({ text, coins, onRange }: { text: string; coins: Set<stri
     else if (t.startsWith('$')) {
       const lo = Number(m[1].replace(/,/g, '')), hi = Number(m[2].replace(/,/g, ''));
       parts.push(<button key={key++} type="button" onClick={() => onRange(Math.min(lo, hi), Math.max(lo, hi))} className="num rounded-[4px] font-semibold text-brand underline decoration-dotted underline-offset-2 hover:decoration-solid" title="Select this range on the radar">{t}</button>);
-    } else parts.push(<Link key={key++} href={`/perps/${encodeURIComponent(t)}`} className="font-semibold text-ink underline decoration-dotted underline-offset-2">{t}</Link>);
+    } else parts.push(<Link prefetch={false} key={key++} href={`/perps/${encodeURIComponent(t)}`} className="font-semibold text-ink underline decoration-dotted underline-offset-2">{t}</Link>);
     rest = rest.slice(m.index + t.length);
   }
   return <>{parts}</>;

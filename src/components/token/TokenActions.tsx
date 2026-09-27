@@ -33,9 +33,9 @@ export function TokenActions({ chain, address, symbol, owner }: { chain: string;
   return (
     <div className="flex flex-wrap items-center justify-between gap-3">
       <nav aria-label="Breadcrumb" className="flex min-w-0 items-center gap-1.5 text-[13px] font-semibold text-ink-muted">
-        <Link href="/" className="hover:text-ink">Overview</Link>
+        <Link prefetch={false} href="/" className="hover:text-ink">Overview</Link>
         <ChevronRight size={13} aria-hidden />
-        <Link href={`/chain/${chain}`} className="flex items-center gap-1.5 hover:text-ink"><ChainLogo chain={chain} size={15} />{chainName(chain)}</Link>
+        <Link prefetch={false} href={`/chain/${chain}`} className="flex items-center gap-1.5 hover:text-ink"><ChainLogo chain={chain} size={15} />{chainName(chain)}</Link>
         <ChevronRight size={13} aria-hidden />
         <span className="truncate text-ink" aria-current="page">{symbol ?? 'Token'}</span>
       </nav>
@@ -48,7 +48,7 @@ export function TokenActions({ chain, address, symbol, owner }: { chain: string;
         <button type="button" onClick={share} aria-label="Share this token" className={icon}><Share2 size={17} aria-hidden /></button>
         <NansenButton href={nansenToken(chain, address)} label="Open in Nansen" size="sm" logo={false} />
         {owner && accounts && <a href="#alerts-tools" aria-label="Set a risk alert" className={icon}><Bell size={17} aria-hidden /></a>}
-        {owner && accounts && <Link href={`/trade?chain=${chain}&token=${encodeURIComponent(address)}`} className="inline-flex h-10 items-center gap-2 rounded-[12px] px-4 text-[14px] font-extrabold text-[#040507]" style={{ background: 'var(--mint)' }}><ArrowLeftRight size={16} aria-hidden />Trade</Link>}
+        {owner && accounts && <Link prefetch={false} href={`/trade?chain=${chain}&token=${encodeURIComponent(address)}`} className="inline-flex h-10 items-center gap-2 rounded-[12px] px-4 text-[14px] font-extrabold text-[#040507]" style={{ background: 'var(--mint)' }}><ArrowLeftRight size={16} aria-hidden />Trade</Link>}
       </div>
     </div>
   );

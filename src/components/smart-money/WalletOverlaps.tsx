@@ -28,7 +28,7 @@ export function WalletOverlaps() {
                 const href = p.kind === 'perp' ? `/perps/${p.key}` : `/token/${chain}/${encodeURIComponent(token)}`;
                 const tone = p.side === 'long' || p.side === 'bought' ? 'var(--mint)' : 'var(--flare)';
                 return (
-                  <Link key={i} href={href} className="rounded-full border border-[var(--hair)] px-2 py-0.5 hover:border-[var(--hair-2)]">
+                  <Link prefetch={false} key={i} href={href} className="rounded-full border border-[var(--hair)] px-2 py-0.5 hover:border-[var(--hair-2)]">
                     <span className="text-ink-muted">{p.kind === 'perp' ? 'perp' : 'spot'}</span> <span className="font-semibold text-ink">{p.kind === 'perp' ? p.key : sym}</span> <span style={{ color: tone }}>{p.side}</span> <span className="num text-ink-2">{usd(p.usd)}</span>
                   </Link>
                 );

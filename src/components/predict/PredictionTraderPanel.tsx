@@ -17,7 +17,7 @@ export function PredictionTraderPanel({ address }: { address: string }) {
   if (!d || (!d.summary?.marketsTraded && !d.markets.length && !d.trades.length)) return null;
   const best = d.markets.filter((m) => (m.pnlUsd ?? 0) > 0).slice(0, 5);
   const worst = [...d.markets].filter((m) => (m.pnlUsd ?? 0) < 0).sort((a, b) => (a.pnlUsd ?? 0) - (b.pnlUsd ?? 0)).slice(0, 5);
-  const mk = (m: { id: string | null; question: string }) => (m.id ? <Link href={`/predict/${encodeURIComponent(m.id)}`} className="truncate text-ink hover:underline">{m.question}</Link> : <span className="truncate text-ink">{m.question}</span>);
+  const mk = (m: { id: string | null; question: string }) => (m.id ? <Link prefetch={false} href={`/predict/${encodeURIComponent(m.id)}`} className="truncate text-ink hover:underline">{m.question}</Link> : <span className="truncate text-ink">{m.question}</span>);
   const list = (xs: typeof best) => (
     <ol className="divide-y divide-[var(--hair)]">
       {xs.map((m, i) => <li key={`${m.id}:${i}`} className="flex items-center gap-2 py-1.5 text-[12.5px]"><span className="min-w-0 flex-1 truncate">{mk(m)}</span><span className="text-ink-muted">{m.side ?? ''}{m.resolved ? ' · resolved' : ''}</span><span className="num w-20 text-right font-semibold" style={tone(m.pnlUsd)}>{usd(m.pnlUsd, { signed: true })}</span></li>)}

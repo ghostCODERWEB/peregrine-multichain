@@ -23,7 +23,8 @@ export async function aiBrief(key: string, items: PulseItem[], subject = 'the cr
   if (prev && (prev.sig === sig || Date.now() - prev.at < TTL)) return { text: prev.text, at: prev.at };
   if (!items.length) return prev;
   const running = inflight.get(key);
-  if (running) return running;
+  // Stale-while-revalidate: a page never waits for a rewrite when an older brief exists.
+  if (running) return prev ? { text: prev.text, at: prev.at } : running;
   const job = (async () => {
     const facts = items.map((i) => `- ${i.kind}: ${i.text}. ${i.detail}`).join('\n');
     const text = `You write the one-paragraph brief on ${subject} for a crypto intelligence terminal. In at most three short sentences (under 70 words total), say what matters most right now and how the signals relate. Use only these facts and their exact numbers; no advice, no hedging boilerplate, no headings or lists.\n\n${facts}`;
@@ -41,7 +42,7 @@ export async function aiBrief(key: string, items: PulseItem[], subject = 'the cr
     return { text: brief.text, at: brief.at };
   })().finally(() => inflight.delete(key));
   inflight.set(key, job);
-  return job;
+  return prev ? { text: prev.text, at: prev.at } : job;
 }
 
 export const pulseBrief = (items: PulseItem[]) => aiBrief('pulse', items);

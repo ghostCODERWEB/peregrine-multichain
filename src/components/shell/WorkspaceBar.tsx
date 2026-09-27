@@ -73,7 +73,7 @@ export function WorkspaceBar() {
               <>
                 <p className="px-2.5 pb-1 pt-1.5 text-[11.5px] font-semibold text-ink-muted">Saved views</p>
                 {saved.slice(0, 8).map((r) => (
-                  <Link key={`s:${r.href}`} role="menuitem" href={r.href} onClick={() => setOpen(false)} className="flex items-center justify-between gap-3 rounded-[9px] px-2.5 py-2 text-[13px] hover:bg-ink/8">
+                  <Link prefetch={false} key={`s:${r.href}`} role="menuitem" href={r.href} onClick={() => setOpen(false)} className="flex items-center justify-between gap-3 rounded-[9px] px-2.5 py-2 text-[13px] hover:bg-ink/8">
                     <span className="min-w-0 truncate font-semibold text-ink">{r.title}</span>
                     <span className="shrink-0 truncate text-[11px] text-ink-muted">{r.href.includes('?') ? 'with filters' : r.kind}</span>
                   </Link>
@@ -82,7 +82,7 @@ export function WorkspaceBar() {
             )}
             <p className="px-2.5 pb-1 pt-1.5 text-[11.5px] font-semibold text-ink-muted">Recently viewed</p>
             {recent.length ? recent.map((r) => (
-              <Link key={r.href} role="menuitem" href={r.href} onClick={() => setOpen(false)} className="flex items-center justify-between gap-3 rounded-[9px] px-2.5 py-2 text-[13px] hover:bg-ink/8">
+              <Link prefetch={false} key={r.href} role="menuitem" href={r.href} onClick={() => setOpen(false)} className="flex items-center justify-between gap-3 rounded-[9px] px-2.5 py-2 text-[13px] hover:bg-ink/8">
                 <span className="min-w-0 truncate font-semibold text-ink">{r.title}</span>
                 <span className="shrink-0 text-[11.5px] text-ink-muted">{r.kind}</span>
               </Link>

@@ -43,8 +43,8 @@ export function TxDrawer({ tx, onClose }: { tx: TxRef; onClose: () => void }) {
           <div className="mt-3 space-y-3 text-[12.5px]">
             <p className="text-ink-2">
               {s.tx.ok ? 'Succeeded' : 'Failed'} · {s.tx.at.replace('T', ' ').slice(0, 19)} UTC · from{' '}
-              <Link href={`/wallet/${s.tx.from}`} className="text-ink hover:underline">{walletName(s.tx.fromLabel, s.tx.from)}</Link> to{' '}
-              <Link href={`/wallet/${s.tx.to}`} className="text-ink hover:underline">{walletName(s.tx.toLabel, s.tx.to)}</Link>
+              <Link prefetch={false} href={`/wallet/${s.tx.from}`} className="text-ink hover:underline">{walletName(s.tx.fromLabel, s.tx.from)}</Link> to{' '}
+              <Link prefetch={false} href={`/wallet/${s.tx.to}`} className="text-ink hover:underline">{walletName(s.tx.toLabel, s.tx.to)}</Link>
               {s.tx.nativeValue > 0 && <> · {amount(s.tx.nativeValue)} native{s.tx.nativeUsd != null ? ` (${usd(s.tx.nativeUsd)})` : ''}</>}
             </p>
             <div className="max-h-[50vh] overflow-auto">
@@ -58,8 +58,8 @@ export function TxDrawer({ tx, onClose }: { tx: TxRef; onClose: () => void }) {
                   {s.tx.transfers.map((t, i) => (
                     <tr key={i} className="border-b border-border/50 align-top">
                       <td className="py-1.5 text-ink">{t.symbol}</td>
-                      <td className="py-1.5"><Link href={`/wallet/${t.from}`} className="text-ink-2 hover:text-ink hover:underline">{walletName(t.fromLabel, t.from)}</Link></td>
-                      <td className="py-1.5"><Link href={`/wallet/${t.to}`} className="text-ink-2 hover:text-ink hover:underline">{walletName(t.toLabel, t.to)}</Link></td>
+                      <td className="py-1.5"><Link prefetch={false} href={`/wallet/${t.from}`} className="text-ink-2 hover:text-ink hover:underline">{walletName(t.fromLabel, t.from)}</Link></td>
+                      <td className="py-1.5"><Link prefetch={false} href={`/wallet/${t.to}`} className="text-ink-2 hover:text-ink hover:underline">{walletName(t.toLabel, t.to)}</Link></td>
                       <td className="num py-1.5 text-right text-ink">{amount(t.amount)}{t.valueUsd != null && <span className="text-ink-muted"> · {usd(t.valueUsd)}</span>}</td>
                     </tr>
                   ))}

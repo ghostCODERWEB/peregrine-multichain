@@ -18,7 +18,7 @@ function MarketCard({ m, o }: { m: PmMarket; o: PredictOverview }) {
   const up = (m.change1d ?? 0) >= 0;
   return (
     <li className="bg-[var(--surface-1)]">
-      <Link href={`/predict/${m.id}`} data-analyze={JSON.stringify({ kind: 'market', label: m.question.slice(0, 50), href: `/predict/${m.id}`, market: { question: m.question, event: m.eventTitle, probability: m.price, change1dPts: m.change1d != null ? Math.round(m.change1d * 100) : null, volume24h: m.volume24h, volume1w: m.volume1w, openInterest: m.openInterest, liquidity: m.liquidity, traders24h: m.traders24h, endDate: m.endDate, tags: m.tags }, probability7dHourly: s?.prob.filter((_, i) => i % 3 === 0), volume7dHourly: s?.volume.filter((_, i) => i % 3 === 0) })}
+      <Link prefetch={false} href={`/predict/${m.id}`} data-analyze={JSON.stringify({ kind: 'market', label: m.question.slice(0, 50), href: `/predict/${m.id}`, market: { question: m.question, event: m.eventTitle, probability: m.price, change1dPts: m.change1d != null ? Math.round(m.change1d * 100) : null, volume24h: m.volume24h, volume1w: m.volume1w, openInterest: m.openInterest, liquidity: m.liquidity, traders24h: m.traders24h, endDate: m.endDate, tags: m.tags }, probability7dHourly: s?.prob.filter((_, i) => i % 3 === 0), volume7dHourly: s?.volume.filter((_, i) => i % 3 === 0) })}
         className="group flex h-full flex-col gap-1.5 p-2.5 transition-colors sm:gap-2 sm:p-3.5 hover:bg-[var(--surface-2)]">
         <span className="flex items-center justify-between gap-2 text-[10.5px] font-bold uppercase tracking-[0.07em] text-ink-muted"><span className="truncate">{m.tags[0] ?? m.eventTitle ?? 'Market'}</span>{m.endDate && <span className="num shrink-0 font-semibold normal-case tracking-normal">ends {m.endDate.slice(5, 10)}</span>}</span>
         <span className="line-clamp-2 min-h-[2.6em] text-[12.5px] font-semibold leading-snug text-ink group-hover:underline group-hover:decoration-[var(--hair-2)] group-hover:underline-offset-2">{m.question}</span>
@@ -78,7 +78,7 @@ export function PredictAnalytics({ board, o, mode }: { board: PredictBoard; o: P
                 {o.recent.map((t, i) => (
                   <tr key={i} className="border-t border-[var(--hair)] hover:bg-[var(--surface-2)]">
                     <td className="num py-1.5 text-ink-muted">{ago(t.at)}</td>
-                    <td className="max-w-[360px] truncate"><Link href={`/predict/${t.marketId}`} className="text-ink hover:underline">{t.question}</Link></td>
+                    <td className="max-w-[360px] truncate"><Link prefetch={false} href={`/predict/${t.marketId}`} className="text-ink hover:underline">{t.question}</Link></td>
                     <td className="font-semibold" style={{ color: t.action === 'sell' ? 'var(--flare)' : 'var(--mint)' }}>{t.action ?? 'trade'} {t.side ?? ''}</td>
                     <td className="num text-ink-2">{t.price != null ? `${Math.round(t.price * 100)}¢` : 'n/a'}</td>
                     <td>{t.trader ? <AddressLink address={t.trader} compact /> : <span className="text-ink-muted">n/a</span>}</td>

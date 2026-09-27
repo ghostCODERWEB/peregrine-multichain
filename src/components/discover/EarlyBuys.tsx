@@ -51,7 +51,7 @@ export function EarlyBuys({ rows: all }: { rows: EarlyBuy[] }) {
                 <div className="flex items-center gap-2.5">
                   <span className="num w-5 text-[11px] font-bold text-ink-muted">{i + 1}</span>
                   <span className="relative shrink-0"><TokenLogo symbol={r.symbol} chain={r.chain} address={r.token} size={34} /><span className="absolute -bottom-0.5 -right-0.5 rounded bg-[var(--surface-1)] p-px"><ChainLogo chain={r.chain} size={12} /></span></span>
-                  <Link href={`/token/${r.chain}/${encodeURIComponent(r.token)}`} className="min-w-0 flex-1">
+                  <Link prefetch={false} href={`/token/${r.chain}/${encodeURIComponent(r.token)}`} className="min-w-0 flex-1">
                     <span className="block truncate text-[14px] font-bold text-ink hover:underline">{r.symbol ?? r.token.slice(0, 6)}</span>
                     <span className="block text-[11px] text-ink-muted">{chainName(r.chain)} · first SM buy {ago(r.firstAt)}{r.ageDays != null ? ` · ${Math.round(r.ageDays)}d old` : ''}</span>
                   </Link>

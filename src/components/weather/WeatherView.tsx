@@ -173,7 +173,7 @@ export function WeatherView({
                     <div key={f.label} className="min-w-0">
                       <dt className="text-[11.5px] font-semibold text-ink-muted">{f.label}</dt>
                       <dd className="mt-1">
-                        <Link href={`/chain/${f.chain}`} className="group block min-w-0">
+                        <Link prefetch={false} href={`/chain/${f.chain}`} className="group block min-w-0">
                           <span className="num block truncate text-[clamp(15px,1.25vw,21px)] font-bold tracking-[-0.02em]" style={{ color: f.tone }}>{f.value}</span>
                           <span className="block truncate text-[12.5px] text-ink-2 group-hover:text-ink">{chainName(f.chain)}</span>
                         </Link>
@@ -189,7 +189,7 @@ export function WeatherView({
                   </div>
                 </dl>
                 <div className="seq mt-7 flex flex-wrap gap-2" style={{ '--i': 3 } as React.CSSProperties}>
-                  <Link href="/flows" className="pill-button pill-primary">
+                  <Link prefetch={false} href="/flows" className="pill-button pill-primary">
                     Open Chain flows <span className="arrow" aria-hidden><Go /></span>
                   </Link>
                 </div>
@@ -208,7 +208,7 @@ export function WeatherView({
                   c && (
                     <section key={i} className="material rise p-6" style={{ animationDelay: `${300 + i * 90}ms` }} aria-label={i ? 'Top outflow' : 'Top inflow'}>
                       <div className="flex flex-col-reverse items-start gap-1 text-[12px] sm:flex-row sm:items-center sm:justify-between sm:gap-2 sm:text-[13px]">
-                        <Link href={`/chain/${c.chain}`} className="flex min-w-0 items-center gap-2 font-semibold text-ink-2">
+                        <Link prefetch={false} href={`/chain/${c.chain}`} className="flex min-w-0 items-center gap-2 font-semibold text-ink-2">
                           <ChainLogo chain={c.chain} size={20} />
                           {chainName(c.chain)}
                         </Link>
@@ -270,7 +270,7 @@ export function WeatherView({
                   sub="Same wallets moving between chains within 12 hours"
                   className="xl:col-span-8"
                   action={
-                    <Link href="/flows" className="whitespace-nowrap text-xs font-bold text-brand">
+                    <Link prefetch={false} href="/flows" className="whitespace-nowrap text-xs font-bold text-brand">
                       See all <Go />
                     </Link>
                   }
@@ -281,7 +281,7 @@ export function WeatherView({
                     <ul className="divide-y divide-border">
                       {flows.map((f) => (
                         <li key={frontKey(f)}>
-                          <Link href="/flows" className="flex items-center gap-3 py-4">
+                          <Link prefetch={false} href="/flows" className="flex items-center gap-3 py-4">
                             <span className="min-w-0 flex-1">
                               <span className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[13px] font-bold">
                                 <span className="inline-flex items-center gap-1.5"><ChainBadge chain={f.from} size={24} />{chainName(f.from)}</span>
@@ -407,7 +407,7 @@ function LayerOverview({
     r && (
       <section key={i} className="material p-6" aria-label={i ? 'Lowest reading' : 'Highest reading'}>
         <div className="flex items-center justify-between gap-2 text-[13px]">
-          <Link href={r.href ?? layer.href} className="truncate font-semibold text-ink-2 hover:text-ink">{r.name}</Link>
+          <Link prefetch={false} href={r.href ?? layer.href} className="truncate font-semibold text-ink-2 hover:text-ink">{r.name}</Link>
           <span className="font-semibold" style={{ color: i ? 'var(--flare)' : 'var(--mint)' }}>
             {i ? <><Down /> Lowest</> : <><Up /> Highest</>}
           </span>
@@ -439,7 +439,7 @@ function LayerOverview({
         <h2 className="radar-headline">{empty ? `No fresh ${layer.title.toLowerCase()} yet` : headline}</h2>
         <p className="lede mt-4 hidden sm:block">{plain}</p>
         <div className="mt-6">
-          <Link href={layer.href} className="pill-button pill-primary">
+          <Link prefetch={false} href={layer.href} className="pill-button pill-primary">
             Open {layer.title} <span className="arrow" aria-hidden><Go /></span>
           </Link>
         </div>
@@ -458,7 +458,7 @@ function LayerOverview({
             </h2>
             <div className="flex flex-wrap items-center gap-3">
               {tabs}
-              <Link href={layer.href} className="text-[12.5px] font-bold text-brand">
+              <Link prefetch={false} href={layer.href} className="text-[12.5px] font-bold text-brand">
                 Search all {layer.readings.length} in {layer.title} <Go />
               </Link>
             </div>

@@ -3,8 +3,8 @@ import { useEffect, useRef, useState } from 'react';
 import { ChevronRight } from 'lucide-react';
 import { NANSEN_REF_URL } from '@/config/referral';
 
-// Nansen's own icon, served from the host nansen.ai uses for it (its apple-touch-icon).
-const NANSEN_ICON = 'https://framerusercontent.com/images/NKwtRwJIxYWpzW6NWnqma6yeJ0.png';
+// Nansen's official mark (brand assets), green on the dark logo tile.
+const NANSEN_ICON = '/brand/nansen/icon-green.svg';
 
 /** Nansen's icon, falling back to an "N" when it cannot load, including when it failed before hydration (onError then never fires). */
 function useIcon() {
@@ -23,7 +23,7 @@ export function NansenButton({ href, label, size = 'md', logo = true, className 
       {logo && <span className={`grid shrink-0 place-items-center overflow-hidden bg-[#0b1a17] shadow-[inset_0_0_0_1px_rgba(255,255,255,.12)] ${sm ? 'h-7 w-7 rounded-[8px]' : 'h-8 w-8 rounded-[9px]'}`}>
         {icon.ok ? (
           // eslint-disable-next-line @next/next/no-img-element -- Nansen's own hosted icon; no optimizer proxy
-          <img ref={icon.ref} src={NANSEN_ICON} alt="" width={32} height={32} referrerPolicy="no-referrer" onError={icon.fail} className="h-full w-full object-cover" />
+          <img ref={icon.ref} src={NANSEN_ICON} alt="" width={32} height={32} onError={icon.fail} className="h-[78%] w-[78%] object-contain" />
         ) : <span className="text-[15px] font-black text-[#5ff5c8]">N</span>}
       </span>}
       <span className="min-w-0 flex-1 whitespace-nowrap leading-tight">{label}</span>
@@ -41,7 +41,7 @@ export function GetNansen({ className = '', variant = 'button' }: { className?: 
       <span className="nansen-card-logo grid h-9 w-9 shrink-0 place-items-center overflow-hidden rounded-[10px]">
         {icon.ok ? (
           // eslint-disable-next-line @next/next/no-img-element -- Nansen's own hosted icon; no optimizer proxy
-          <img ref={icon.ref} src={NANSEN_ICON} alt="" width={36} height={36} referrerPolicy="no-referrer" onError={icon.fail} className="h-full w-full object-cover" />
+          <img ref={icon.ref} src={NANSEN_ICON} alt="" width={36} height={36} onError={icon.fail} className="h-[78%] w-[78%] object-contain" />
         ) : <span className="text-[16px] font-black text-[#5ff5c8]">N</span>}
       </span>
       <span className="min-w-0 flex-1 leading-tight">

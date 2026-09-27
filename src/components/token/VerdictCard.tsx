@@ -61,7 +61,7 @@ export function VerdictCard({ chain, address, ready }: { chain: string; address:
         <Sparkles size={14} className="mt-0.5 shrink-0 text-[var(--signal)]" aria-hidden />
         {v.ai ? <span>{v.ai.text}</span> : aiLoading ? <span className="text-ink-muted">Nansen agent is reading the signals…</span> : <span className="text-ink-muted">agent note unavailable right now.</span>}
       </div>
-      <p className="mt-2 text-[11px] text-ink-muted">Rule: 55+ Danger, 35+ Watch, else Low risk. <Link href="/proof" className="font-semibold text-ink-2 hover:text-ink">How well the score works</Link></p>
+      <p className="mt-2 text-[11px] text-ink-muted">Rule: 55+ Danger, 35+ Watch, else Low risk. <Link prefetch={false} href="/proof" className="font-semibold text-ink-2 hover:text-ink">How well the score works</Link></p>
     </section>
   );
 }

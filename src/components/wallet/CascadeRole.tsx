@@ -20,7 +20,7 @@ export function CascadeRole({ address }: { address: string }) {
         <h2 id="cascade-role" className="t-section" style={{ color }}>{text}</h2>
         <p className="num text-[12.5px] text-ink-2">{s.episodes} episodes · first in {s.firsts} · typically {s.medianLeadMin != null ? `${fmtMin(Math.abs(s.medianLeadMin))} ${s.medianLeadMin >= 0 ? 'ahead of' : 'behind'}` : 'level with'} the median Smart Money entrant · p {s.p < 0.001 ? s.p.toExponential(1) : s.p.toFixed(3)}{leads || follows ? ` · leads ${leads}, follows ${follows} wallets` : ''}</p>
       </div>
-      <Link href="/cascade" className="text-[12.5px] font-semibold text-[var(--mint)] hover:underline">Cascades</Link>
+      <Link prefetch={false} href="/cascade" className="text-[12.5px] font-semibold text-[var(--mint)] hover:underline">Cascades</Link>
     </section>
   );
 }

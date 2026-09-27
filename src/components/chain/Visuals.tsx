@@ -162,7 +162,7 @@ export function MarketGrid({ chain, tiles }: { chain: string; tiles: GridTile[] 
           const col = v == null ? 'var(--surface-2)' : v >= 0 ? 'var(--in-2)' : 'var(--out-2)';
           return (
             <li key={t.address} className={i >= PHONE_TILES && !all ? 'hidden sm:block' : undefined}>
-              <Link href={`/token/${chain}/${t.address}`} onPointerEnter={() => setHover(t)} onFocus={() => setHover(t)}
+              <Link prefetch={false} href={`/token/${chain}/${t.address}`} onPointerEnter={() => setHover(t)} onFocus={() => setHover(t)}
                 className="group flex h-[60px] flex-col justify-between overflow-hidden rounded-lg border border-border/40 px-2 py-1.5 transition-transform hover:scale-[1.04] hover:border-ink-2/60 focus-visible:scale-[1.04]"
                 style={{ background: `color-mix(in oklab, ${col} ${Math.round(8 + k * 62)}%, var(--surface-1))` }}
                 aria-label={`${t.symbol}: ${t.priceChange >= 0 ? 'up' : 'down'} ${pct(Math.abs(t.priceChange), 1)} in 24h, ${usd(t.volumeUsd)} volume`}>
@@ -235,7 +235,7 @@ export function ChainRank({ chain, rows }: { chain: string; rows: PeerRow[] }) {
           return (
             <li key={r.chain} className={`grid grid-cols-[26px_92px_1fr_70px_48px] items-center gap-2 rounded-md px-1 py-[3px] text-[12px] ${me ? 'bg-brand/12 ring-1 ring-brand/40' : ''} ${i === 12 ? 'mt-2 border-t border-dashed border-border pt-2' : ''}`}>
               <span className="num text-right text-ink-muted">{place}</span>
-              <Link href={`/chain/${r.chain}`} className={`truncate ${me ? 'font-semibold text-ink' : 'text-ink-2 hover:text-ink'}`}>{chainName(r.chain)}</Link>
+              <Link prefetch={false} href={`/chain/${r.chain}`} className={`truncate ${me ? 'font-semibold text-ink' : 'text-ink-2 hover:text-ink'}`}>{chainName(r.chain)}</Link>
               <span className="relative h-[12px]">
                 <span className="absolute inset-y-0 left-0 rounded-r-[4px]" style={{ width: `${Math.max(0.8, (r[metric] / peak) * 100)}%`, background: me ? 'var(--brand)' : 'var(--axis)' }} />
               </span>

@@ -81,7 +81,7 @@ export default async function FlowsPage() {
                 {history.chains.map((c, i) => (
                   <li key={c.chain} className="grid h-12 grid-cols-[18px_minmax(0,130px)_minmax(0,1fr)_84px] items-center gap-3 text-[14px]">
                     <span className="num text-[12.5px] font-bold text-ink-muted">{i + 1}</span>
-                    <Link href={`/chain/${c.chain}`} className="flex min-w-0 items-center gap-2.5 truncate font-bold text-ink hover:underline"><ChainLogo chain={c.chain} size={24} />{chainName(c.chain)}</Link>
+                    <Link prefetch={false} href={`/chain/${c.chain}`} className="flex min-w-0 items-center gap-2.5 truncate font-bold text-ink hover:underline"><ChainLogo chain={c.chain} size={24} />{chainName(c.chain)}</Link>
                     <span className="relative h-2.5 rounded bg-raised" aria-hidden>
                       <span className="absolute inset-y-0 left-1/2 w-px bg-axis" />
                       <span className="absolute inset-y-0 rounded" style={c.net >= 0

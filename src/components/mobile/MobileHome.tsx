@@ -52,7 +52,7 @@ export function MobileHome({ mode, chains }: { mode: DisplayMode; chains: ChainT
 
       {/* Hero: the one number to read first. */}
       {/* Owner: Smart Money's 24h DEX net. Public: the all-trader chain with the largest inflow (Smart Money stays private). */}
-      <Link href={sm ? '/smart-money' : '/flows'} className="m-hero">
+      <Link prefetch={false} href={sm ? '/smart-money' : '/flows'} className="m-hero">
         <span className="m-hero-label">{sm ? 'Smart Money · 24 hours' : 'All traders · 24 hours'}</span>
         <span className="num m-hero-value" style={{ color: (sm ? net : inflow[0]?.net ?? 0) >= 0 ? 'var(--mint)' : 'var(--flare)' }}>{sm ? usd(net, { signed: true }) : inflow[0] ? usd(inflow[0].net, { signed: true }) : 'n/a'}</span>
         <span className="m-hero-sub">{sm ? `net on DEXs · ${sm.w.toLocaleString('en-US')} wallets` : inflow[0] ? `largest net inflow: ${chainName(inflow[0].chain)} · ${nets.length} chains measured` : 'Chain flows appear after the first scan'}</span>
@@ -71,7 +71,7 @@ export function MobileHome({ mode, chains }: { mode: DisplayMode; chains: ChainT
             {radar.map((r) => {
               const danger = r.score >= 55;
               return (
-                <Link role="listitem" key={`${r.chain}:${r.address}`} href={`/token/${r.chain}/${encodeURIComponent(r.address)}`} className="m-card m-risk">
+                <Link prefetch={false} role="listitem" key={`${r.chain}:${r.address}`} href={`/token/${r.chain}/${encodeURIComponent(r.address)}`} className="m-card m-risk">
                   <span className="flex items-center justify-between">
                     <TokenLogo symbol={r.symbol} chain={r.chain} address={r.address} size={34} />
                     <span className="m-badge" style={{ color: danger ? 'var(--flare)' : 'var(--amber)', background: `color-mix(in srgb, ${danger ? 'var(--flare)' : 'var(--amber)'} 14%, transparent)` }}><ShieldAlert size={12} />{Math.round(r.score)}</span>
@@ -102,7 +102,7 @@ export function MobileHome({ mode, chains }: { mode: DisplayMode; chains: ChainT
       <Group title="Explore">
         <div className="m-grid">
           {SHORTCUTS.map(({ href, label, Icon, tint }) => (
-            <Link key={href} href={href} className="m-tile">
+            <Link prefetch={false} key={href} href={href} className="m-tile">
               <span className="m-tile-icon" style={{ color: tint, background: `color-mix(in srgb, ${tint} 16%, transparent)` }}><Icon size={20} /></span>
               <span className="m-tile-label">{label}</span>
             </Link>
@@ -132,7 +132,7 @@ export function MobileHome({ mode, chains }: { mode: DisplayMode; chains: ChainT
       </Group>
 
       <Group>
-        <Link href="/proof" className="m-proof"><BadgeCheck size={16} />Every number here is read from Nansen. See the proof</Link>
+        <Link prefetch={false} href="/proof" className="m-proof"><BadgeCheck size={16} />Every number here is read from Nansen. See the proof</Link>
       </Group>
     </div>
   );

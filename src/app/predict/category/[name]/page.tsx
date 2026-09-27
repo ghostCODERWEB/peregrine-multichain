@@ -26,7 +26,7 @@ function Bars({ rows, value, fmt, label }: { rows: PmMarket[]; value: (m: PmMark
     <ol className="space-y-1.5" aria-label={label}>
       {rows.map((m) => (
         <li key={m.id}>
-          <Link href={`/predict/${encodeURIComponent(m.id)}`} className="group grid grid-cols-[minmax(0,1fr)_minmax(80px,32%)_76px] items-center gap-3 text-[12.5px]">
+          <Link prefetch={false} href={`/predict/${encodeURIComponent(m.id)}`} className="group grid grid-cols-[minmax(0,1fr)_minmax(80px,32%)_76px] items-center gap-3 text-[12.5px]">
             <span className="truncate text-ink group-hover:underline">{m.question}</span>
             <span className="h-2 overflow-hidden rounded-full bg-[var(--hair)]"><span className="block h-full rounded-full bg-[var(--mint)]" style={{ width: `${(value(m) / max) * 100}%` }} /></span>
             <span className="num text-right text-ink-2">{fmt(m)}</span>
@@ -54,7 +54,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ name:
 
   return (
     <div className="space-y-5">
-      <Link href="/predict" className="text-[12.5px] text-ink-2 hover:text-ink"><Back /> Predictions</Link>
+      <Link prefetch={false} href="/predict" className="text-[12.5px] text-ink-2 hover:text-ink"><Back /> Predictions</Link>
       <PageTitle title={title} pill={c?.weather != null ? <MoodWord mood={c.weather >= 70 ? 'hot' : c.weather <= 30 ? 'quiet' : 'normal'} word={heatLabel(c.weather)} className="text-[13px]" /> : 'Polymarket category'} />
       {unavailable && !markets.length ? <p className="material p-5 text-[13px] text-ink-2">{unavailable}</p> : (
         <div className="grid grid-cols-1 gap-4 xl:grid-cols-12 [&>*]:min-w-0">
@@ -92,7 +92,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ name:
             {movers.length ? (
               <ol className="divide-y divide-[var(--hair)]">
                 {movers.map((m) => (
-                  <li key={m.id}><Link href={`/predict/${encodeURIComponent(m.id)}`} className="grid grid-cols-[minmax(0,1fr)_56px_72px] items-center gap-3 py-2 text-[12.5px] hover:underline">
+                  <li key={m.id}><Link prefetch={false} href={`/predict/${encodeURIComponent(m.id)}`} className="grid grid-cols-[minmax(0,1fr)_56px_72px] items-center gap-3 py-2 text-[12.5px] hover:underline">
                     <span className="truncate text-ink">{m.question}</span><span className="num text-right text-ink-2">{impliedPct(m.price)}</span><span className="num text-right font-semibold" style={tone(m.change1d)}>{pts(m.change1d)}</span>
                   </Link></li>
                 ))}
@@ -106,7 +106,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ name:
             {closing.length ? (
               <ol className="divide-y divide-[var(--hair)]">
                 {closing.map((m) => (
-                  <li key={m.id}><Link href={`/predict/${encodeURIComponent(m.id)}`} className="grid grid-cols-[minmax(0,1fr)_56px_72px_44px] items-center gap-3 py-2 text-[12.5px] hover:underline">
+                  <li key={m.id}><Link prefetch={false} href={`/predict/${encodeURIComponent(m.id)}`} className="grid grid-cols-[minmax(0,1fr)_56px_72px_44px] items-center gap-3 py-2 text-[12.5px] hover:underline">
                     <span className="truncate text-ink">{m.question}</span><span className="num text-right text-ink-2">{impliedPct(m.price)}</span><span className="num text-right text-ink-2">{usd(m.volume24h)}</span><span className="num text-right text-ink-muted">{when(m.endDate)}</span>
                   </Link></li>
                 ))}
@@ -122,7 +122,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ name:
                 <tbody>
                   {byVol.map((m) => (
                     <tr key={m.id} className="border-t border-[var(--hair)] hover:bg-[var(--surface-2)]">
-                      <td className="max-w-[420px] py-2 pr-3"><Link href={`/predict/${encodeURIComponent(m.id)}`} className="block truncate font-semibold text-ink hover:underline" title={m.question}>{m.question}</Link>{m.eventTitle && m.eventTitle !== m.question && <span className="block truncate text-[11px] text-ink-muted">{m.eventTitle}</span>}</td>
+                      <td className="max-w-[420px] py-2 pr-3"><Link prefetch={false} href={`/predict/${encodeURIComponent(m.id)}`} className="block truncate font-semibold text-ink hover:underline" title={m.question}>{m.question}</Link>{m.eventTitle && m.eventTitle !== m.question && <span className="block truncate text-[11px] text-ink-muted">{m.eventTitle}</span>}</td>
                       <td className="num text-right text-ink">{impliedPct(m.price)}</td>
                       <td className="num text-right" style={tone(m.change1d)}>{pts(m.change1d)}</td>
                       <td className="num text-right text-ink">{usd(m.volume24h)}</td>
@@ -130,7 +130,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ name:
                       <td className="num text-right text-ink-2">{usd(m.liquidity)}</td>
                       <td className="num text-right text-ink-2">{m.traders24h?.toLocaleString('en-US') ?? 'n/a'}</td>
                       <td className="num text-right text-ink-muted">{when(m.endDate)}</td>
-                      <td className="text-right"><Link href={`/predict/${encodeURIComponent(m.id)}`} className="text-[11.5px] font-semibold text-[var(--mint)]" aria-label={`Open ${m.question}`}>Open <Go /></Link></td>
+                      <td className="text-right"><Link prefetch={false} href={`/predict/${encodeURIComponent(m.id)}`} className="text-[11.5px] font-semibold text-[var(--mint)]" aria-label={`Open ${m.question}`}>Open <Go /></Link></td>
                     </tr>
                   ))}
                 </tbody>

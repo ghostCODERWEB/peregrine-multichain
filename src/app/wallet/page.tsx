@@ -57,7 +57,7 @@ export default async function ProfilerHome() {
     <ol className="divide-y divide-[var(--hair)]">
       {rows.map((r) => (
         <li key={r.wallet} className="flex items-center gap-3 py-2 text-[13px]">
-          <span className="min-w-0 flex-1"><AddressLink address={r.wallet} label={r.label} /><span className="flex items-center gap-1 text-[11.5px] text-ink-muted">{r.trades} trades · mostly {(() => { const [sym, ch, addr] = (r.top ?? '').split('|'); return sym ? <Link href={`/token/${ch}/${encodeURIComponent(addr)}`} className="inline-flex items-center gap-1 font-semibold text-ink-2 hover:text-ink hover:underline"><TokenLogo symbol={sym} chain={ch} address={addr} size={14} />{sym}</Link> : 'n/a'; })()}</span></span>
+          <span className="min-w-0 flex-1"><AddressLink address={r.wallet} label={r.label} /><span className="flex items-center gap-1 text-[11.5px] text-ink-muted">{r.trades} trades · mostly {(() => { const [sym, ch, addr] = (r.top ?? '').split('|'); return sym ? <Link prefetch={false} href={`/token/${ch}/${encodeURIComponent(addr)}`} className="inline-flex items-center gap-1 font-semibold text-ink-2 hover:text-ink hover:underline"><TokenLogo symbol={sym} chain={ch} address={addr} size={14} />{sym}</Link> : 'n/a'; })()}</span></span>
           <span className="num font-semibold" style={{ color: tone === 'in' ? 'var(--mint)' : 'var(--flare)' }}>{usd(r.net, { signed: true })}</span>
         </li>
       ))}
@@ -92,7 +92,7 @@ export default async function ProfilerHome() {
                 <li key={`${p.symbol}:${p.address}`} className="flex items-center gap-3 py-2 text-[13px]">
                   <TokenLogo symbol={p.symbol} coin={p.symbol} size={20} />
                   <span className="min-w-0 flex-1"><span className="flex items-center gap-1.5"><AddressLink address={p.address} label={p.label} /><CohortBadges cohorts={p.cohorts} /></span>
-                    <span className="block text-[11.5px]" style={{ color: p.side === 'Long' ? 'var(--mint)' : 'var(--flare)' }}>{p.side} <Link href={`/perps/${p.symbol}`} className="font-semibold text-ink hover:underline">{p.symbol}</Link></span></span>
+                    <span className="block text-[11.5px]" style={{ color: p.side === 'Long' ? 'var(--mint)' : 'var(--flare)' }}>{p.side} <Link prefetch={false} href={`/perps/${p.symbol}`} className="font-semibold text-ink hover:underline">{p.symbol}</Link></span></span>
                   <span className="num font-semibold text-ink">{usd(p.value)}</span>
                 </li>
               ))}

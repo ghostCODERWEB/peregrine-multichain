@@ -29,14 +29,14 @@ export default async function EntityRoute({ params }: Params) {
   if (!lookup.found) {
     return (
       <div className="mx-auto max-w-2xl space-y-4">
-        <Link href="/" className="text-[12.5px] text-ink-2 hover:text-ink"><Back /> Overview</Link>
+        <Link prefetch={false} href="/" className="text-[12.5px] text-ink-2 hover:text-ink"><Back /> Overview</Link>
         <h1 className="t-headline text-ink">No Nansen entity named “{name}”</h1>
         {lookup.error ? <Unavailable text={lookup.error} /> : lookup.suggestions.length ? (
           <div>
             <p className="text-sm text-ink-2">Nansen&apos;s entity search suggests:</p>
             <ul className="mt-2 flex flex-wrap gap-2">
               {lookup.suggestions.map((s) => (
-                <li key={s}><Link href={`/entity/${encodeURIComponent(s)}`} className="rounded border border-border px-2 py-1 text-sm text-ink hover:bg-accent">{s}</Link></li>
+                <li key={s}><Link prefetch={false} href={`/entity/${encodeURIComponent(s)}`} className="rounded border border-border px-2 py-1 text-sm text-ink hover:bg-accent">{s}</Link></li>
               ))}
             </ul>
           </div>
@@ -55,7 +55,7 @@ export default async function EntityRoute({ params }: Params) {
   return (
     <div className="space-y-5">
       <div>
-        <Link href="/" className="text-[12.5px] text-ink-2 hover:text-ink"><Back /> Overview</Link>
+        <Link prefetch={false} href="/" className="text-[12.5px] text-ink-2 hover:text-ink"><Back /> Overview</Link>
         <h1 className="t-headline mt-1 text-ink">{entity.name}</h1>
         <p className="mt-1 text-[12.5px] text-ink-2">
           {entity.tags.length ? `${entity.tags.join(' · ')} · ` : ''}Nansen entity: every address Nansen attributes to it, aggregated by Nansen.

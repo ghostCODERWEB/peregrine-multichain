@@ -75,7 +75,7 @@ export function TrailMap({ steps }: { steps: TrailStep[] }) {
               <span className="inline-block h-2 w-2 rounded-full" style={{ background: s.side === 'buy' ? 'var(--in-3)' : 'var(--out-3)' }} aria-hidden />
               {s.side === 'buy' ? 'Buy' : 'Sell'}
             </span>
-            <Link href={`/token/${s.chain}/${encodeURIComponent(s.tokenAddress)}`} className="min-w-0 flex-1 truncate text-ink hover:underline">{s.symbol ?? s.tokenAddress.slice(0, 8)}</Link>
+            <Link prefetch={false} href={`/token/${s.chain}/${encodeURIComponent(s.tokenAddress)}`} className="min-w-0 flex-1 truncate text-ink hover:underline">{s.symbol ?? s.tokenAddress.slice(0, 8)}</Link>
             <span className="shrink-0 text-ink-muted">{chainName(s.chain)}</span>
             <span className="num w-20 shrink-0 text-right text-ink">{usd(s.usd)}{s.count > 1 && <span className="ml-1 text-[11px] text-ink-muted">×{s.count}</span>}</span>
           </li>

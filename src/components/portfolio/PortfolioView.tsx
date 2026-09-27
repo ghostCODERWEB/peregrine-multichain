@@ -182,7 +182,7 @@ export function PortfolioView({ demo, suggestions = [], embedded = false }: { de
                       {p.positions.map((x) => (
                         <tr key={`${x.chain}:${x.tokenAddress}`} className="border-t border-border/50">
                           <td className="p-2">
-                            <Link className="inline-flex items-center gap-1.5 font-semibold hover:underline" href={`/token/${x.chain}/${encodeURIComponent(x.tokenAddress)}`}>
+                            <Link prefetch={false} className="inline-flex items-center gap-1.5 font-semibold hover:underline" href={`/token/${x.chain}/${encodeURIComponent(x.tokenAddress)}`}>
                               <TokenLogo symbol={x.symbol} chain={x.chain} address={x.tokenAddress} size={16} />{x.symbol}
                             </Link>
                           </td>
@@ -207,7 +207,7 @@ export function PortfolioView({ demo, suggestions = [], embedded = false }: { de
             <ul className="space-y-2">
               {p.wallets.map((w) => (
                 <li key={w.address} className="rounded-lg bg-accent/30 p-3 text-xs">
-                  <Link href={`/wallet/${encodeURIComponent(w.address)}`} className="num hover:underline">
+                  <Link prefetch={false} href={`/wallet/${encodeURIComponent(w.address)}`} className="num hover:underline">
                     {shortAddress(w.address)} <Go />
                   </Link>
                   <span className="ml-3">{w.totalUsd == null ? 'Unavailable' : usd(w.totalUsd)}</span>
@@ -230,7 +230,7 @@ export function PortfolioView({ demo, suggestions = [], embedded = false }: { de
             <ul className="mt-3 space-y-2">
               {p.storm.rows.map((s) => (
                 <li key={`${s.chain}:${s.tokenAddress}`} className="flex items-center gap-3 text-xs">
-                  <Link className="inline-flex w-24 items-center gap-1 truncate hover:underline" href={`/token/${s.chain}/${encodeURIComponent(s.tokenAddress)}`}>
+                  <Link prefetch={false} className="inline-flex w-24 items-center gap-1 truncate hover:underline" href={`/token/${s.chain}/${encodeURIComponent(s.tokenAddress)}`}>
                     <TokenLogo symbol={s.symbol} chain={s.chain} address={s.tokenAddress} size={14} />{s.symbol}
                   </Link>
                   <span className="h-2 flex-1 rounded bg-accent">
@@ -278,7 +278,7 @@ export function PortfolioView({ demo, suggestions = [], embedded = false }: { de
                               {row.map((v, j) => (
                                 <td className="p-2" key={j}>
                                   {j < 2 && typeof v === 'string' ? (
-                                    <Link title={v} href={`/wallet/${encodeURIComponent(v)}`} className="num hover:underline">
+                                    <Link prefetch={false} title={v} href={`/wallet/${encodeURIComponent(v)}`} className="num hover:underline">
                                       {shortAddress(v)}
                                     </Link>
                                   ) : (

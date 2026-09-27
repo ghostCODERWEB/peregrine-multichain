@@ -43,7 +43,7 @@ function Tile({ s }: { s: SectorReading }) {
       className="scroll-mt-20 material p-4 target:ring-2 target:ring-ring">
       <div className="flex items-start justify-between gap-3">
         <h3 className="min-w-0 text-[12.5px] font-bold leading-snug text-ink sm:text-[14px]">
-          <Link href={sectorHref(s.sector)} className="hover:underline hover:underline-offset-2">{s.sector}</Link>
+          <Link prefetch={false} href={sectorHref(s.sector)} className="hover:underline hover:underline-offset-2">{s.sector}</Link>
         </h3>
         <span className="num shrink-0 rounded-md px-1.5 py-0.5 text-[13px] font-bold" style={{ background: fillVar(cls), color: onFillVar(cls) }}
           title={`Flow Index ${num(s.pressure, 1)} of 100, ${s.crossSectional ? `ranked against other sectors until it has ${MIN_HISTORY} snapshots of its own (${s.historyPoints} so far)` : 'against its own last 7 days'}`}>
@@ -67,7 +67,7 @@ function Tile({ s }: { s: SectorReading }) {
               <li className="text-[10.5px] uppercase tracking-wider text-ink-muted">{k}</li>
               {movers.map((m) => (
                 <li key={`${m.chain}:${m.address}`} className="flex min-w-0 justify-between gap-1">
-                  <Link href={`/token/${m.chain}/${encodeURIComponent(m.address)}`} className="flex min-w-0 items-center gap-1.5 text-ink-2 hover:text-ink hover:underline" title={`${m.symbol ?? m.address} on ${chainName(m.chain)}`}>
+                  <Link prefetch={false} href={`/token/${m.chain}/${encodeURIComponent(m.address)}`} className="flex min-w-0 items-center gap-1.5 text-ink-2 hover:text-ink hover:underline" title={`${m.symbol ?? m.address} on ${chainName(m.chain)}`}>
                     <TokenLogo symbol={m.symbol} chain={m.chain} address={m.address} size={14} /><span className="truncate">{m.symbol ?? '?'}</span>{movers.filter((o) => o.symbol === m.symbol).length > 1 && <span className="text-ink-muted"> · {chainName(m.chain)}</span>}
                   </Link>
                   <span className="num shrink-0 text-ink-muted">{usd(m.netFlowUsd, { signed: true })}</span>
@@ -78,7 +78,7 @@ function Tile({ s }: { s: SectorReading }) {
         </div>
         </details>
       )}
-      <Link href={sectorHref(s.sector)} className="mt-3 hidden text-[12.5px] font-bold text-brand sm:inline-block">Open sector <span aria-hidden><Go /></span></Link>
+      <Link prefetch={false} href={sectorHref(s.sector)} className="mt-3 hidden text-[12.5px] font-bold text-brand sm:inline-block">Open sector <span aria-hidden><Go /></span></Link>
     </li>
   );
 }

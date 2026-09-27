@@ -127,7 +127,7 @@ export function HolderSphere({ holders, forensics, river }: { holders: HolderRow
           Largest holders: {holders.slice(0, 5).map((h) => `${walletName(h.label, h.address)} ${pct(h.share, 1)}`).join('; ')}.
         </p>
       )}
-      <Link href="#holders" className="sr-only">Skip to the holder table</Link>
+      <Link prefetch={false} href="#holders" className="sr-only">Skip to the holder table</Link>
     </div>
   );
 }

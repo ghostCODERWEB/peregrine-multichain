@@ -32,7 +32,7 @@ export function ChainView({ d, gaps }: { d: ChainPageData; gaps: ModuleGaps }) {
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <Link href="/" className="text-[12.5px] text-ink-2 hover:text-ink"><Back /> Overview</Link>
+        <Link prefetch={false} href="/" className="text-[12.5px] text-ink-2 hover:text-ink"><Back /> Overview</Link>
       </div>
       <ChainHero d={d} tier={gaps.tier} title={barometerTitle(d.weather)} note={<>
         {d.weather.source === 'smart-money' && 'Smart-money flow (Nansen labels).'}
@@ -43,7 +43,7 @@ export function ChainView({ d, gaps }: { d: ChainPageData; gaps: ModuleGaps }) {
       {d.chain === 'hyperliquid' && (
         <p className="material px-5 py-4 text-[13px] text-ink-2">
           Hyperliquid is a perp venue: its reading here is the Perp Flow Index, weighted by open interest across its coins.{' '}
-          <Link href="/perps" className="text-ink underline underline-offset-2">Open the perps terminal <Go /></Link>
+          <Link prefetch={false} href="/perps" className="text-ink underline underline-offset-2">Open the perps terminal <Go /></Link>
         </p>
       )}
 

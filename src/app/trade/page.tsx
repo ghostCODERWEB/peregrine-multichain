@@ -24,11 +24,11 @@ export default async function TradePage({ searchParams }: { searchParams: Promis
   return (
     <div className="space-y-4">
       <PageTitle id="trade-title" title="Trade" pill="You sign every step · Peregrine never signs" />
-      {off ? <p className="material p-5 text-sm text-ink-2">{off} {mode === 'public' && accounts && <Link href="/account" className="text-ink underline underline-offset-2">Sign in</Link>}</p> : (
+      {off ? <p className="material p-5 text-sm text-ink-2">{off} {mode === 'public' && accounts && <Link prefetch={false} href="/account" className="text-ink underline underline-offset-2">Sign in</Link>}</p> : (
         <>
           <nav aria-label="Venue" className="inline-flex gap-1 rounded-full border border-[var(--hair)] bg-ink/5 p-1">
-            <Link href="/trade" aria-current={venue === 'spot' ? 'page' : undefined} className={`rounded px-3.5 py-1.5 text-[13px] ${venue === 'spot' ? 'bg-brand/15 font-medium text-ink ring-1 ring-brand/40' : 'text-ink-2'}`}>Spot · Base + Solana</Link>
-            <Link href="/trade?venue=perps" aria-current={venue === 'perps' ? 'page' : undefined} className={`rounded px-3.5 py-1.5 text-[13px] ${venue === 'perps' ? 'bg-brand/15 font-medium text-ink ring-1 ring-brand/40' : 'text-ink-2'}`}>Perps · Hyperliquid</Link>
+            <Link prefetch={false} href="/trade" aria-current={venue === 'spot' ? 'page' : undefined} className={`rounded px-3.5 py-1.5 text-[13px] ${venue === 'spot' ? 'bg-brand/15 font-medium text-ink ring-1 ring-brand/40' : 'text-ink-2'}`}>Spot · Base + Solana</Link>
+            <Link prefetch={false} href="/trade?venue=perps" aria-current={venue === 'perps' ? 'page' : undefined} className={`rounded px-3.5 py-1.5 text-[13px] ${venue === 'perps' ? 'bg-brand/15 font-medium text-ink ring-1 ring-brand/40' : 'text-ink-2'}`}>Perps · Hyperliquid</Link>
           </nav>
           {venue === 'spot' ? <><SpotTrade initialToken={token} /><BridgeStatusLookup /></> : (
             <PerpTrade initialCoin={sp.coin ?? ''} marks={perpBoard(viewOf(mode)).coins.slice(0, 150).map((c) => ({ symbol: c.symbol, mark: c.markPrice, ppi: c.ppi, fundingApr: c.fundingApr }))} />

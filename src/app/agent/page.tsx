@@ -30,15 +30,15 @@ export default async function AgentPage({ searchParams }: { searchParams: Promis
   const tabs = (
     <nav aria-label="Ask views" className="segmented" style={{ '--segments': 2, '--selected': tab === 'desk' ? 0 : 1 } as React.CSSProperties}>
       <span className="segmented-thumb" aria-hidden />
-      <Link href="/agent" aria-current={tab === 'desk' ? 'page' : undefined} className={`relative z-[1] px-4 py-1.5 text-center text-[12.5px] font-bold ${tab === 'desk' ? 'text-ink' : 'text-ink-muted'}`}>Research Desk</Link>
-      <Link href="/agent?tab=expert" aria-current={tab === 'expert' ? 'page' : undefined} className={`relative z-[1] px-4 py-1.5 text-center text-[12.5px] font-bold ${tab === 'expert' ? 'text-ink' : 'text-ink-muted'}`}>Nansen Expert</Link>
+      <Link prefetch={false} href="/agent" aria-current={tab === 'desk' ? 'page' : undefined} className={`relative z-[1] px-4 py-1.5 text-center text-[12.5px] font-bold ${tab === 'desk' ? 'text-ink' : 'text-ink-muted'}`}>Research Desk</Link>
+      <Link prefetch={false} href="/agent?tab=expert" aria-current={tab === 'expert' ? 'page' : undefined} className={`relative z-[1] px-4 py-1.5 text-center text-[12.5px] font-bold ${tab === 'expert' ? 'text-ink' : 'text-ink-muted'}`}>Nansen Expert</Link>
     </nav>
   );
   return (
     <div className="space-y-4">
       <PageTitle id="agent-title" title="Ask" pill={tab === 'desk' ? 'Research with evidence: Peregrine analytics + Nansen agent' : 'Nansen agent, expert mode · 750 credits a question'} action={mode === 'public' ? undefined : tabs} />
       {mode === 'public'
-        ? <p className="material p-5 text-sm text-ink-2">Ask runs on a Nansen key: this instance&apos;s owner&apos;s{accountsEnabled() ? <>, or yours once you <Link href="/account" className="text-ink underline underline-offset-2">sign in with it</Link></> : null}. The market brief on the home page uses Nansen&apos;s fast agent and is free to read.</p>
+        ? <p className="material p-5 text-sm text-ink-2">Ask runs on a Nansen key: this instance&apos;s owner&apos;s{accountsEnabled() ? <>, or yours once you <Link prefetch={false} href="/account" className="text-ink underline underline-offset-2">sign in with it</Link></> : null}. The market brief on the home page uses Nansen&apos;s fast agent and is free to read.</p>
         : tab === 'desk' ? <ResearchDesk initialReports={listReports()} /> : <ResearchAgent suggestions={suggestions(viewOf(mode))} />}
     </div>
   );

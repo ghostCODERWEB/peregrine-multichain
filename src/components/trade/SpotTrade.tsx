@@ -492,7 +492,7 @@ export function SpotTrade({ initialToken }: { initialToken: string }) {
               </span>
             </div>
             <p className="text-[11.5px] text-ink-muted">{signals.trackRecord}</p>
-            <Link href={`/token/${chain}/${token.trim()}`} className="text-ink-2 underline-offset-2 hover:text-ink hover:underline">
+            <Link prefetch={false} href={`/token/${chain}/${token.trim()}`} className="text-ink-2 underline-offset-2 hover:text-ink hover:underline">
               Open the token page <Go />
             </Link>
           </>

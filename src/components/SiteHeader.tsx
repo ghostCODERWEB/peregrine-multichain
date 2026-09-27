@@ -30,7 +30,7 @@ export async function SiteHeader() {
   return (
     <header className="shell-rail liquid-glass liquid-glass-strong fixed inset-x-2 top-2 z-40 flex h-12 items-center gap-2 rounded-2xl px-2.5
       lg:inset-y-[14px] lg:left-[14px] lg:right-auto lg:top-[14px] lg:h-auto lg:w-[236px] lg:flex-col lg:items-stretch lg:gap-0 lg:rounded-[22px] lg:p-3">
-      <Link href="/" className="brand-lockup flex items-center gap-2.5 lg:px-1 lg:pb-3.5 lg:pt-1" aria-label="Peregrine home">
+      <Link prefetch={false} href="/" className="brand-lockup flex items-center gap-2.5 lg:px-1 lg:pb-3.5 lg:pt-1" aria-label="Peregrine home">
         <BrandMark size={38} />
         <span className="leading-tight">
           <span className="block text-[17px] font-extrabold tracking-[-0.02em] text-ink">Peregrine</span>
@@ -54,9 +54,9 @@ export async function SiteHeader() {
           {accounts && <span className="hidden lg:inline"><AccountButton signedIn={!!ctx.user} address={ctx.user?.address ?? null} /></span>}
           <ThemeToggle />
           <span className="hidden items-center gap-2.5 lg:flex [&>a+a]:before:mr-2.5 [&>a+a]:before:text-ink-muted/50 [&>a+a]:before:content-['·']">
-            <Link href="/coverage" className="whitespace-nowrap text-[11.5px] font-medium text-ink-muted transition-colors hover:text-ink">Coverage</Link>
-            <Link href="/proof" className="text-[11.5px] font-medium text-ink-muted transition-colors hover:text-ink">Proof</Link>
-            {accounts && <Link href="/account" className="text-[11.5px] font-medium text-ink-muted transition-colors hover:text-ink">Account</Link>}
+            <Link prefetch={false} href="/coverage" className="whitespace-nowrap text-[11.5px] font-medium text-ink-muted transition-colors hover:text-ink">Coverage</Link>
+            <Link prefetch={false} href="/proof" className="text-[11.5px] font-medium text-ink-muted transition-colors hover:text-ink">Proof</Link>
+            {accounts && <Link prefetch={false} href="/account" className="text-[11.5px] font-medium text-ink-muted transition-colors hover:text-ink">Account</Link>}
           </span>
         </div>
         <MobileMenu>

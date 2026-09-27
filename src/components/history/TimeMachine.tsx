@@ -60,7 +60,7 @@ export function TimeMachine() {
               <tbody>
                 {res.rows.map((r) => (
                   <tr key={`${r.chain}:${r.token}`} className="border-t border-[var(--hair)]">
-                    <td className="px-3 py-2"><Link href={`/token/${r.chain}/${encodeURIComponent(r.token)}`} className="flex items-center gap-2 hover:underline"><TokenLogo symbol={r.symbol} chain={r.chain} address={r.token} size={20} /><span className="font-semibold text-ink">{r.symbol ?? r.token.slice(0, 8)}</span><span className="text-[11.5px] text-ink-muted">{chainName(r.chain)}</span></Link></td>
+                    <td className="px-3 py-2"><Link prefetch={false} href={`/token/${r.chain}/${encodeURIComponent(r.token)}`} className="flex items-center gap-2 hover:underline"><TokenLogo symbol={r.symbol} chain={r.chain} address={r.token} size={20} /><span className="font-semibold text-ink">{r.symbol ?? r.token.slice(0, 8)}</span><span className="text-[11.5px] text-ink-muted">{chainName(r.chain)}</span></Link></td>
                     <td className="num px-3 text-right text-ink-2">{r.edge === 'entered-top' ? 'outside top 200' : usd(r.thenUsd)}</td>
                     <td className="num px-3 text-right text-ink">{r.edge === 'left-top' ? 'outside top 200' : usd(r.nowUsd)}</td>
                     <td className="num px-3 text-right font-semibold" style={r.edge ? undefined : tone(r.deltaUsd)}>{r.edge === 'left-top' ? <span className="text-ink-muted">left the top 200</span> : r.edge === 'entered-top' ? <span className="text-ink-muted">entered the top 200</span> : <>{usd(r.deltaUsd, { signed: true })}{r.deltaPct != null ? (r.thenUsd < 50_000 && r.deltaPct > 10 ? ' · new position' : ` · ${r.deltaPct >= 0 ? '+' : ''}${pct(r.deltaPct, 0)}`) : ''}</>}</td>

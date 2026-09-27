@@ -35,8 +35,8 @@ export function SectorsAnalytics({ mode }: { mode: DisplayMode }) {
               <tbody>
                 {a.tokens.map((t) => (
                   <tr key={`${t.chain}:${t.address}`} className="border-t border-[var(--hair)] hover:bg-[var(--surface-2)]">
-                    <td className="py-1.5"><Link href={`/token/${t.chain}/${encodeURIComponent(t.address)}`} className="flex items-center gap-2 font-semibold text-ink hover:underline"><TokenLogo symbol={t.symbol} chain={t.chain} address={t.address} size={18} />{t.symbol}</Link></td>
-                    <td><Link href={`/sectors/${encodeURIComponent(t.sector)}`} className="text-ink-2 hover:text-ink hover:underline">{t.sector}</Link></td>
+                    <td className="py-1.5"><Link prefetch={false} href={`/token/${t.chain}/${encodeURIComponent(t.address)}`} className="flex items-center gap-2 font-semibold text-ink hover:underline"><TokenLogo symbol={t.symbol} chain={t.chain} address={t.address} size={18} />{t.symbol}</Link></td>
+                    <td><Link prefetch={false} href={`/sectors/${encodeURIComponent(t.sector)}`} className="text-ink-2 hover:text-ink hover:underline">{t.sector}</Link></td>
                     <td className="text-ink-2">{chainName(t.chain)}</td>
                     <td className="w-[140px]"><span className="block h-1.5 w-full overflow-hidden rounded-full bg-[var(--hair)]"><span className="block h-full rounded-full" style={{ width: `${(Math.abs(t.net) / maxTok) * 100}%`, background: t.net >= 0 ? 'var(--mint)' : 'var(--flare)' }} /></span></td>
                     <td className="num text-right font-semibold" style={{ color: t.net >= 0 ? 'var(--mint)' : 'var(--flare)' }}>{usd(t.net, { signed: true })}</td>

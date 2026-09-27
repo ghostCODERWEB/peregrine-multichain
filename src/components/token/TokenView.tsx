@@ -629,14 +629,14 @@ export function TokenView({
             <StormAlertForm chain={chain} address={address} clusterWallets={[...clustered]} />
             <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1 border-t border-border pt-3 text-[12.5px]">
               <span className="text-ink-muted">More alerts:</span>
-              <Link
+              <Link prefetch={false}
                 href={`/alerts?template=token-flows&chain=${chain}&token=${encodeURIComponent(address)}`}
                 className="text-ink-2 underline-offset-2 hover:text-ink hover:underline"
               >
                 smart money buying {symbol ?? 'this token'} <Go />
               </Link>
               {ok(s.forensics) && s.forensics.deployer && /^0x[0-9a-fA-F]{40}$/.test(s.forensics.deployer) && (
-                <Link
+                <Link prefetch={false}
                   href={`/alerts?template=deployer&chain=${chain}&address=${s.forensics.deployer}`}
                   className="text-ink-2 underline-offset-2 hover:text-ink hover:underline"
                 >

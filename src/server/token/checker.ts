@@ -60,7 +60,8 @@ export function tokenChecker(owner: boolean, now = Date.now()): CheckerData {
     .filter((r) => r.score >= 50).sort((a, b) => b.score - a.score) : [];
 
   return {
-    scored, universe, fresh, smIntoRisk,
+    // Pages show the top rows (with paging); stats below still count the whole universe.
+    scored, universe: universe.slice(0, 100), fresh: fresh.slice(0, 50), smIntoRisk,
     stats: { scored: scored.length, high: scored.filter((s) => s.score > 50).length, avg: scored.length ? scored.reduce((a, s) => a + s.score, 0) / scored.length : null, tracked: universe.length, newTokens: fresh.length, thin: universe.filter((u) => (u.turnover ?? 0) > 5).length },
     at: last,
   };

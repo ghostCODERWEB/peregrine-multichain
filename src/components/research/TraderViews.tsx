@@ -154,7 +154,7 @@ export function CompareView() {
           </div>
           <div className="material overflow-x-auto p-3.5">
             <table className="w-full min-w-[640px] text-[12.5px]">
-              <thead><tr><th className="py-1.5 text-left text-[10.5px] font-normal uppercase tracking-wider text-ink-muted">Measure</th>{loaded.map(({ d }, i) => <th key={d.address} className="text-right text-[12px] font-semibold" style={{ color: palette[i] }}><Link href={`/wallet/${d.address}`} className="hover:underline">{d.label ?? `${d.address.slice(0, 6)}…${d.address.slice(-4)}`}</Link></th>)}</tr></thead>
+              <thead><tr><th className="py-1.5 text-left text-[10.5px] font-normal uppercase tracking-wider text-ink-muted">Measure</th>{loaded.map(({ d }, i) => <th key={d.address} className="text-right text-[12px] font-semibold" style={{ color: palette[i] }}><Link prefetch={false} href={`/wallet/${d.address}`} className="hover:underline">{d.label ?? `${d.address.slice(0, 6)}…${d.address.slice(-4)}`}</Link></th>)}</tr></thead>
               <tbody>{rows.map(([k, f, t]) => <tr key={k} className="border-t border-[var(--hair)]"><td className="py-1.5 text-ink-muted">{k}</td>{loaded.map(({ d }) => <td key={d.address} className="num text-right text-ink" style={t ? tone(t(d)) : undefined}>{f(d)}</td>)}</tr>)}</tbody>
             </table>
           </div>

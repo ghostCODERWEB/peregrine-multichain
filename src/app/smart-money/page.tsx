@@ -32,7 +32,7 @@ export default async function SmartMoneyPage() {
             views: shown only to this instance&apos;s owner{accountsEnabled() ? <>, or to you with your own Nansen key</> : null}.
           </p>
           {accountsEnabled() && (
-            <Link
+            <Link prefetch={false}
               href="/account"
               className="mt-4 inline-flex rounded bg-brand/15 px-3.5 py-1.5 text-[13px] text-ink ring-1 ring-brand/40 hover:bg-brand/25"
             >

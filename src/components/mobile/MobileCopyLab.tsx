@@ -19,7 +19,7 @@ export function MobileCopyLab({ targets, spot, tf, market }: { targets: CopyTarg
       <LargeTitle title="Copy Lab" caption="Profitable traders worth following" />
       <nav aria-label="Market" className="flex gap-1.5 overflow-x-auto pb-1">
         {TABS.map(([k, label]) => (
-          <Link key={k} href={k === 'all' ? '/copy' : `/copy?m=${k}`} aria-pressed={market === k}
+          <Link prefetch={false} key={k} href={k === 'all' ? '/copy' : `/copy?m=${k}`} aria-pressed={market === k}
             className={`shrink-0 rounded-full px-3 py-1.5 text-[13px] font-semibold ${market === k ? 'bg-[var(--mint)] text-black' : 'bg-[var(--surface-2)] text-ink-2'}`}>{label}</Link>
         ))}
       </nav>

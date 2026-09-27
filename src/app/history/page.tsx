@@ -53,13 +53,13 @@ export default async function HistoryPage({ searchParams }: { searchParams: Prom
     <div className="space-y-5">
       <PageTitle title="History" pill={`Now vs ${w} ago · from stored snapshots`} action={
         <div className="segmented" style={{ '--segments': 2, '--selected': w === '7d' ? 1 : 0 } as React.CSSProperties}><span className="segmented-thumb" aria-hidden />
-          <Link href="/history" aria-pressed={w === '24h'} className="relative z-[1] px-3 py-1 text-center text-[12px] font-bold">24h</Link>
-          <Link href="/history?w=7d" aria-pressed={w === '7d'} className="relative z-[1] px-3 py-1 text-center text-[12px] font-bold">7d</Link>
+          <Link prefetch={false} href="/history" aria-pressed={w === '24h'} className="relative z-[1] px-3 py-1 text-center text-[12px] font-bold">24h</Link>
+          <Link prefetch={false} href="/history?w=7d" aria-pressed={w === '7d'} className="relative z-[1] px-3 py-1 text-center text-[12px] font-bold">7d</Link>
         </div>} />
       {owner && (
         <div className="grid gap-4 md:grid-cols-2">
           {perps.map(({ sym, c }) => (
-            <Link key={sym} href={`/perps/${sym}?tab=changes&win=${w}`} className="material block p-4 hover:border-[var(--hair-2)] sm:p-5">
+            <Link prefetch={false} key={sym} href={`/perps/${sym}?tab=changes&win=${w}`} className="material block p-4 hover:border-[var(--hair-2)] sm:p-5">
               <p className="flex items-center gap-1.5 text-[12px] font-semibold text-ink-muted"><TokenLogo symbol={sym} coin={sym} size={16} />{sym} Smart Money perp positioning, {w}</p>
               {'unavailable' in c ? <p className="mt-1 text-[13px] text-ink-2">{c.unavailable}</p> : (() => { const s = c.shift.smart_money ?? c.shift.all; return (
                 <><p className="mt-1 text-[17px] font-bold text-ink">{DIRECTION_TEXT[s.direction]}</p>
@@ -76,8 +76,8 @@ export default async function HistoryPage({ searchParams }: { searchParams: Prom
         <FlowIndexHistory series={flowIndexHistory(w === '7d' ? 7 : 1, 6, source)} />
       </section>
       <div className="grid gap-4 xl:grid-cols-2">
-        {table(`Largest Flow Index moves, ${w}`, 'Chain', chains.map((c) => ({ key: c.chain, name: <Link href={`/chain/${c.chain}`} className="flex items-center gap-2 font-semibold text-ink hover:underline"><ChainLogo chain={c.chain} size={16} />{chainName(c.chain)}</Link>, then: num(c.then, 0), now: num(c.now, 0), change: delta(c.d, (x) => `${x >= 0 ? '+' : '−'}${num(Math.abs(x), 0)}`) })), `History starts ${first ? new Date(first).toISOString().slice(0, 10) : 'with the first scan'}; ${w} comparisons appear once it is that old.`)}
-        {table(`Largest sector net-flow changes, ${w}`, 'Sector', sectors.map((s) => ({ key: s.sector, name: <Link href={`/sectors/${encodeURIComponent(s.sector)}`} className="font-semibold text-ink hover:underline">{s.sector}</Link>, then: usd(s.then, { signed: true }), now: usd(s.now, { signed: true }), change: delta(s.d, (x) => usd(x, { signed: true })) })), 'Not enough sector history for this window yet.')}
+        {table(`Largest Flow Index moves, ${w}`, 'Chain', chains.map((c) => ({ key: c.chain, name: <Link prefetch={false} href={`/chain/${c.chain}`} className="flex items-center gap-2 font-semibold text-ink hover:underline"><ChainLogo chain={c.chain} size={16} />{chainName(c.chain)}</Link>, then: num(c.then, 0), now: num(c.now, 0), change: delta(c.d, (x) => `${x >= 0 ? '+' : '−'}${num(Math.abs(x), 0)}`) })), `History starts ${first ? new Date(first).toISOString().slice(0, 10) : 'with the first scan'}; ${w} comparisons appear once it is that old.`)}
+        {table(`Largest sector net-flow changes, ${w}`, 'Sector', sectors.map((s) => ({ key: s.sector, name: <Link prefetch={false} href={`/sectors/${encodeURIComponent(s.sector)}`} className="font-semibold text-ink hover:underline">{s.sector}</Link>, then: usd(s.then, { signed: true }), now: usd(s.now, { signed: true }), change: delta(s.d, (x) => usd(x, { signed: true })) })), 'Not enough sector history for this window yet.')}
       </div>
       {owner && <TimeMachine />}
       <p className="text-[11.5px] text-ink-muted">Latest snapshot vs {w} ago.</p>

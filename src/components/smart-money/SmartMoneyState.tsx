@@ -34,14 +34,14 @@ export function SmartMoneyState() {
 
   const events: Ev[] = (db.prepare(`SELECT wallet, wallet_label AS label, side, chain, token_address AS t, token_symbol AS s, usd_value AS v, traded_at AS at FROM smart_money_trades WHERE traded_at >= ? AND usd_value >= 25000 ORDER BY traded_at DESC LIMIT 60`).all(now - day) as Array<{ wallet: string; label: string | null; side: string; chain: string; t: string; s: string | null; v: number; at: number }>)
     .map((r) => ({ at: r.at, kind: 'spot', wallet: r.wallet, label: r.label, verb: r.side === 'buy' ? 'bought' : 'sold', tone: r.side === 'buy' ? 'in' : 'out', usd: r.v, asset: `${r.chain}:${r.t}`,
-      what: <Link href={`/token/${r.chain}/${encodeURIComponent(r.t)}`} className="inline-flex items-center gap-1 font-semibold text-ink hover:underline"><TokenLogo symbol={r.s} chain={r.chain} address={r.t} size={14} />{r.s ?? r.t.slice(0, 6)} <span className="font-normal text-ink-muted">on {chainName(r.chain)}</span></Link> }));
+      what: <Link prefetch={false} href={`/token/${r.chain}/${encodeURIComponent(r.t)}`} className="inline-flex items-center gap-1 font-semibold text-ink hover:underline"><TokenLogo symbol={r.s} chain={r.chain} address={r.t} size={14} />{r.s ?? r.t.slice(0, 6)} <span className="font-normal text-ink-muted">on {chainName(r.chain)}</span></Link> }));
   for (const sym of ['BTC', 'ETH']) {
     const c = perpChanges(sym, 3_600_000);
     if ('unavailable' in c) continue;
     for (const ch of c.changes.filter((x) => x.cohorts.includes('smart_money') && x.kind !== 'left-set' && Math.abs(x.deltaUsd) >= 25_000).slice(0, 20)) {
       const verb = ch.kind === 'flipped' ? `flipped to ${ch.side}` : ch.kind === 'increased' ? `added to ${ch.side}` : ch.kind === 'reduced' ? `reduced ${ch.side}` : `${ch.kind} ${ch.side}`;
       events.push({ at: c.to, kind: 'perp', wallet: ch.address, label: ch.label, verb, tone: ch.deltaUsd >= 0 === (ch.side === 'long') ? 'in' : 'out', usd: Math.abs(ch.deltaUsd), asset: `perp:${sym}`,
-        what: <Link href={`/perps/${sym}?tab=changes`} className="inline-flex items-center gap-1 font-semibold text-ink hover:underline"><TokenLogo symbol={sym} coin={sym} size={14} />{sym} perp</Link> });
+        what: <Link prefetch={false} href={`/perps/${sym}?tab=changes`} className="inline-flex items-center gap-1 font-semibold text-ink hover:underline"><TokenLogo symbol={sym} coin={sym} size={14} />{sym} perp</Link> });
     }
   }
   events.sort((a, b) => b.at - a.at);

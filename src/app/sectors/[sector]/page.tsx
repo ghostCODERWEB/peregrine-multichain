@@ -29,7 +29,7 @@ function MoverList({ title, rows, tone }: { title: string; rows: SectorMover[]; 
         <ol className="divide-y divide-[var(--hair)]">
           {rows.map((m) => (
             <li key={`${m.chain}:${m.address}`}>
-              <Link href={`/token/${m.chain}/${encodeURIComponent(m.address)}`} className="flex min-h-[40px] items-center gap-2 py-1.5 text-[13px] hover:text-ink">
+              <Link prefetch={false} href={`/token/${m.chain}/${encodeURIComponent(m.address)}`} className="flex min-h-[40px] items-center gap-2 py-1.5 text-[13px] hover:text-ink">
                 <ChainLogo chain={m.chain} size={16} labelled />
                 <span className="min-w-0 flex-1 truncate font-semibold text-ink">
                   {m.symbol ?? `${m.address.slice(0, 6)}…`} <span className="font-normal text-ink-muted">{chainName(m.chain)}</span>
@@ -78,7 +78,7 @@ export default async function SectorPage({ params }: { params: Promise<{ sector:
   return (
     <div className="space-y-5">
       <nav aria-label="Breadcrumb" className="text-[12.5px] text-ink-muted">
-        <Link href="/sectors" className="hover:text-ink">Sectors</Link> <span className="text-ink-muted"><Go /></span> <span className="text-ink-2">{name}</span>
+        <Link prefetch={false} href="/sectors" className="hover:text-ink">Sectors</Link> <span className="text-ink-muted"><Go /></span> <span className="text-ink-2">{name}</span>
       </nav>
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div className="hero-seq">
@@ -108,7 +108,7 @@ export default async function SectorPage({ params }: { params: Promise<{ sector:
           <ul className="stagger grid grid-cols-2 gap-1.5">
             {d.membersByChain.map((c) => (
               <li key={c.chain}>
-                <Link href={`/chain/${c.chain}`} className="inset-well flex min-h-[40px] items-center gap-2 px-3 py-2 text-[13px]">
+                <Link prefetch={false} href={`/chain/${c.chain}`} className="inset-well flex min-h-[40px] items-center gap-2 px-3 py-2 text-[13px]">
                   <ChainLogo chain={c.chain} size={16} />
                   <span className="min-w-0 flex-1 truncate text-ink">{chainName(c.chain)}</span>
                   <span className="num text-ink-2">{c.tokens}</span>

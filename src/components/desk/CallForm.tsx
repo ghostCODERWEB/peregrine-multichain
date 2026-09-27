@@ -91,7 +91,7 @@ export function CallForm({
           Graded after {new Date(saved.dueAt).toISOString().slice(0, 16).replace('T', ' ')} UTC. It can’t be edited.
         </p>
         <div className="flex gap-3">
-          <Link href="/desk" className="text-ink underline underline-offset-2">
+          <Link prefetch={false} href="/desk" className="text-ink underline underline-offset-2">
             Open the Desk <Go />
           </Link>
           <button
@@ -209,7 +209,7 @@ export function CallForm({
         <summary className="cursor-pointer select-none font-semibold text-ink-2">How calls are graded</summary>
         <p className="mt-1">{GRADE_RULES}</p>
       </details>
-      <Link
+      <Link prefetch={false}
         href={`/replay/${chain}/${encodeURIComponent(token)}`}
         className="inline-block text-[13px] font-semibold text-ink underline underline-offset-4"
       >

@@ -41,7 +41,7 @@ function CallRow({ c, now }: { c: CallCardWithNotes; now: number | null; onNoteA
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <span className="text-ink">
           <b className="uppercase">{c.stance}</b>{' '}
-          <Link
+          <Link prefetch={false}
             href={`/token/${c.chain}/${encodeURIComponent(c.token)}`}
             className="inline-flex items-center gap-1.5 align-middle underline-offset-2 hover:underline"
           >
@@ -195,7 +195,7 @@ export function DeskView({ initial }: { initial: DeskData }) {
         <p className="mt-2 text-[13px] text-ink-2">
           Open any token and use <b>Make a call</b>.
         </p>
-        <Link href="/alpha" className="mt-3 inline-block text-[13px] text-ink underline underline-offset-2">
+        <Link prefetch={false} href="/alpha" className="mt-3 inline-block text-[13px] text-ink underline underline-offset-2">
           Find a token on the Alpha board <Go />
         </Link>
       </section>

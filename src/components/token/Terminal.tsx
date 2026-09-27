@@ -71,7 +71,7 @@ export function LiveTape({ t, chain }: { t: TapeWave; chain: string }) {
                 </td>
                 <td className="num py-1.5 text-right text-ink">{usd(x.valueUsd)}</td>
                 <td className="py-1.5 pl-3">
-                  <Link
+                  <Link prefetch={false}
                     href={`/wallet/${x.trader}`}
                     onClick={(e) => e.stopPropagation()}
                     className="text-ink-2 hover:text-ink hover:underline"
@@ -269,7 +269,7 @@ export function DcaLadder({ d }: { d: DcaWave }) {
     <ul className="max-h-[340px] space-y-1 overflow-y-auto">
       {d.orders.map((o, i) => (
         <li key={`${o.trader}:${i}`} className="grid grid-cols-[5.5rem_1fr_4.5rem] items-center gap-2 text-[12px]">
-          <Link href={`/wallet/${o.trader}`} className="truncate text-ink-2 hover:text-ink hover:underline">
+          <Link prefetch={false} href={`/wallet/${o.trader}`} className="truncate text-ink-2 hover:text-ink hover:underline">
             {walletName(o.label, o.trader)}
           </Link>
           <span
@@ -361,7 +361,7 @@ export function PnlBoard({ b }: { b: PnlBoardWave }) {
           {b.rows.map((r) => (
             <tr key={r.trader} className="border-b border-border/50">
               <td className="py-1.5">
-                <Link href={`/wallet/${r.trader}`} className="text-ink-2 hover:text-ink hover:underline">
+                <Link prefetch={false} href={`/wallet/${r.trader}`} className="text-ink-2 hover:text-ink hover:underline">
                   {walletName(r.label, r.trader)}
                 </Link>
               </td>

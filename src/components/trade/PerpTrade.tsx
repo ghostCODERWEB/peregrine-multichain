@@ -487,7 +487,7 @@ export function PerpTrade({ marks, initialCoin }: { marks: PerpMark[]; initialCo
               <span className="text-ink-2">Funding, yearly</span>
               <span className="num text-ink">{m.fundingApr != null ? pct(m.fundingApr, 1) : 'n/a'}</span>
             </div>
-            <Link href="/perps" className="text-ink-2 underline-offset-2 hover:text-ink hover:underline">
+            <Link prefetch={false} href="/perps" className="text-ink-2 underline-offset-2 hover:text-ink hover:underline">
               Open the liquidation ladder on /perps <Go />
             </Link>
           </>
@@ -497,7 +497,7 @@ export function PerpTrade({ marks, initialCoin }: { marks: PerpMark[]; initialCo
         <p className="border-t border-border pt-2 text-[11.5px] text-ink-muted">
           Peregrine never signs. Every action is prepared by Nansen, signed in your wallet and submitted only after your click. Perp
           flow&apos;s forward check against later prices is in the{' '}
-          <Link href="/lab" className="underline-offset-2 hover:underline">
+          <Link prefetch={false} href="/lab" className="underline-offset-2 hover:underline">
             Backtest Lab
           </Link>
           .

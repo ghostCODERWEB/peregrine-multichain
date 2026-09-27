@@ -34,7 +34,7 @@ function Parts({ row, max = 3 }: { row: AlphaRow; max?: number }) {
 
 function Leader({ row, rank }: { row: AlphaRow; rank: number }) {
   return (
-    <Link
+    <Link prefetch={false}
       href={`/token/${row.chain}/${encodeURIComponent(row.tokenAddress)}`}
       className="material rise group flex gap-4 p-5 transition-colors hover:border-brand/30"
     >
@@ -158,7 +158,7 @@ export function AlphaView({ board }: { board: AlphaBoard }) {
                     />
                   </td>
                   <td className="py-1.5 pr-2">
-                    <Link
+                    <Link prefetch={false}
                       href={`/token/${r.chain}/${encodeURIComponent(r.tokenAddress)}`}
                       className="inline-flex items-center gap-1.5 font-medium text-ink hover:underline"
                     >

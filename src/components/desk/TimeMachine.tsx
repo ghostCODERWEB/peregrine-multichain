@@ -266,7 +266,7 @@ export function TimeMachine({ chain, token }: { chain: string; token: string }) 
                 label="After the cutoff · revealed only after locking"
                 tfMs={preview.horizon === '1h' ? 300_000 : preview.horizon === '24h' ? 3_600_000 : 14_400_000}
               />
-              <Link href="/desk" className="text-sm underline">
+              <Link prefetch={false} href="/desk" className="text-sm underline">
                 View replay in the Desk <Go />
               </Link>
             </div>

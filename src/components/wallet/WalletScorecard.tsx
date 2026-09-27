@@ -91,7 +91,7 @@ export async function WalletScorecard({ address, balP, pnlP }: { address: string
           stats={ok(p) ? [['Realized 30D', sgn(p.realizedUsd), col(p.realizedUsd)], ['Win rate', pct(p.winRate, 0)], ['Tokens', String(p.tokens ?? 'n/a')]] : []}
           holding={tokens.length ? (
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1"><span className="text-ink-muted">Holds</span>
-              {tokens.map((t) => <Link key={`${t.chain}:${t.tokenAddress}`} href={`/token/${t.chain}/${encodeURIComponent(t.tokenAddress)}`} className="inline-flex items-center gap-1 hover:underline"><TokenLogo symbol={t.symbol} chain={t.chain} address={t.tokenAddress} size={14} /><span className="font-semibold text-ink">{t.symbol}</span><span className="num text-ink-muted">{usd(t.valueUsd)}</span></Link>)}
+              {tokens.map((t) => <Link prefetch={false} key={`${t.chain}:${t.tokenAddress}`} href={`/token/${t.chain}/${encodeURIComponent(t.tokenAddress)}`} className="inline-flex items-center gap-1 hover:underline"><TokenLogo symbol={t.symbol} chain={t.chain} address={t.tokenAddress} size={14} /><span className="font-semibold text-ink">{t.symbol}</span><span className="num text-ink-muted">{usd(t.valueUsd)}</span></Link>)}
             </div>
           ) : <span className="text-ink-muted">No priced non-stable holdings.</span>} />
 
@@ -115,7 +115,7 @@ export async function WalletScorecard({ address, balP, pnlP }: { address: string
             <div className="space-y-1"><span className="text-ink-muted">{openMarkets.length} open market{openMarkets.length > 1 ? 's' : ''}</span>
               {openMarkets.slice(0, 3).map((m) => (
                 <div key={m.id ?? m.question} className="flex items-baseline justify-between gap-2">
-                  {m.id ? <Link href={`/predict/${encodeURIComponent(m.id)}`} className="min-w-0 truncate text-ink hover:underline">{m.side ? <b>{m.side} · </b> : null}{m.question}</Link> : <span className="min-w-0 truncate text-ink">{m.question}</span>}
+                  {m.id ? <Link prefetch={false} href={`/predict/${encodeURIComponent(m.id)}`} className="min-w-0 truncate text-ink hover:underline">{m.side ? <b>{m.side} · </b> : null}{m.question}</Link> : <span className="min-w-0 truncate text-ink">{m.question}</span>}
                   <span className="num shrink-0" style={col(m.pnlUsd)}>{sgn(m.pnlUsd)}</span>
                 </div>
               ))}
