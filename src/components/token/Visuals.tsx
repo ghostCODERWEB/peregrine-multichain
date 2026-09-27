@@ -88,7 +88,7 @@ export function TokenHero({ chain, address, tier, h, m, storm, done, title, chil
               <div className="sr-only">{h?.symbol ?? 'Token'} price</div>
               <div className="num text-[32px] leading-tight tracking-[-.04em] font-extrabold text-ink sm:text-[40px]">{price == null && !done ? <span className="inline-block h-9 w-40 animate-pulse rounded-lg bg-ink/10 align-middle" aria-label="Loading price" /> : price != null ? (price < 1 ? `$${num(price, price < 0.01 ? 6 : 4)}` : usd(price)) : 'n/a'}</div>
             </div>
-            <div className="flex flex-col gap-1.5 pb-2">
+            <div className="flex min-h-[70px] flex-col justify-end gap-1.5 pb-2">
               {rangeChange != null && (
                 <span className="num inline-flex w-fit items-center gap-1.5 rounded-full px-3 py-1 text-[14px] font-extrabold" style={{ color: rangeChange >= 0 ? 'var(--mint)' : 'var(--flare)', background: `color-mix(in srgb, ${rangeChange >= 0 ? 'var(--mint)' : 'var(--flare)'} 14%, transparent)` }}>
                   {rangeChange >= 0 ? <Up /> : <Down />}<span className="sr-only">{rangeChange >= 0 ? 'up' : 'down'}</span>{pct(Math.abs(rangeChange), 1)} · {age != null && age < (RANGE_DAYS[move.range] ?? 0) ? 'since launch' : move.range}
@@ -99,7 +99,9 @@ export function TokenHero({ chain, address, tier, h, m, storm, done, title, chil
             </div>
             
           </div>
-          {m && <div className="mt-6"><TokenPriceChart chain={chain} address={address} initial={m.candles} events={events} onChange={onRange} /></div>}
+          {/* Hold the chart's space while candles stream in, so the page below does not jump when it lands. */}
+          {m ? <div className="mt-6"><TokenPriceChart chain={chain} address={address} initial={m.candles} events={events} onChange={onRange} /></div>
+            : !done && <div className="mt-6 h-[468px] animate-pulse rounded-xl bg-ink/5" aria-label="Loading price chart" />}
 
         </div>
         <div className="min-w-0 space-y-4">
