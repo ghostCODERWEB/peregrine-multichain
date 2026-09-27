@@ -694,3 +694,6 @@ a.m-row:active { background-color: color-mix(in srgb, var(--ink-1) 7%, transpare
 }
 @keyframes fade-out { to { opacity: 0; transform: translateY(6px); } }
 @media (prefers-reduced-motion: reduce) { .analyze-genie, .analyze-genie.is-closing { animation: none; } }
+/* The Analyze panel carries text: a thicker glass so the page behind never competes with it. */
+[data-analyze-dock][role=dialog], .analyze-genie { background: color-mix(in srgb, var(--surface-1) 94%, transparent) !important; backdrop-filter: blur(32px) saturate(170%) !important; -webkit-backdrop-filter: blur(32px) saturate(170%) !important; }
+.glass-action:focus-visible, .glass-tab:focus-visible { outline: none; box-shadow: none; }
