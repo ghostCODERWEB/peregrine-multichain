@@ -8,7 +8,6 @@ import { firstSelected } from '@/lib/cascade-select';
 import { displayMode } from '@/server/mode';
 import { walletName } from '@/lib/viz/format';
 import { WINDOW_MS } from '@/lib/models/cascade';
-import { compact } from '@/lib/compact';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = { title: 'Cascades · Peregrine' };
@@ -35,7 +34,7 @@ export default async function CascadePage() {
         { label: 'Precedence links', value: String(c.edges.length), note: 'wallet A enters before B, binomial p ≤ 0.1' },
       ]} />
       {/* Evidence for the wallet selected first; the rest loads when a wallet is picked (/api/cascade/evidence). */}
-      <CascadeExplorer nodes={compact(v.nodes)} edges={compact(v.edges)} evidence={first ? { [first]: v.evidence[first] ?? [] } : {}} replay={compact(v.replay)} />
+      <CascadeExplorer nodes={v.nodes} edges={v.edges} evidence={first ? { [first]: v.evidence[first] ?? [] } : {}} replay={v.replay} />
 
       <div className="grid grid-cols-1 gap-4 xl:grid-cols-12 [&>*]:min-w-0">
         <section className="material p-4 sm:p-5 xl:col-span-7" aria-labelledby="links">

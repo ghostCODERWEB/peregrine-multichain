@@ -15,14 +15,17 @@ export function CascadeExplorer({ nodes, edges, evidence: initial, replay }: { n
   const [sel, setSel] = useState<string | null>(firstSelected(nodes));
   // The page sends evidence for the first wallet only; others load when picked.
   const [evidence, setEvidence] = useState(initial);
+  const [failed, setFailed] = useState<string | null>(null);
+  const [attempt, setAttempt] = useState(0);
   useEffect(() => {
     if (!sel || evidence[sel]) return;
     let live = true;
-    fetch(`/api/cascade/evidence?wallet=${encodeURIComponent(sel)}`).then((r) => r.json()).then((j: { evidence?: Evidence[] }) => {
+    setFailed(null);
+    fetch(`/api/cascade/evidence?wallet=${encodeURIComponent(sel)}`).then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status))))).then((j: { evidence?: Evidence[] }) => {
       if (live) setEvidence((cur) => ({ ...cur, [sel]: j.evidence ?? [] }));
-    }).catch(() => {});
+    }).catch(() => { if (live) setFailed(sel); });
     return () => { live = false; };
-  }, [sel, evidence]);
+  }, [sel, evidence, attempt]);
   const [hover, setHover] = useState<string | null>(null);
   const [ep, setEp] = useState(0);
   const byId = useMemo(() => new Map(nodes.map((n) => [n.wallet, n])), [nodes]);
@@ -99,7 +102,9 @@ export function CascadeExplorer({ nodes, edges, evidence: initial, replay }: { n
               <div className="inset-well rounded-[12px] p-2"><dt className="text-ink-muted">Typical lead</dt><dd className="num text-[15px] font-bold text-ink">{s.leadMin != null ? fmtMin(s.leadMin) : 'n/a'}</dd></div>
             </dl>
             <p className="num mt-2 text-[11.5px] text-ink-muted">mean entry rank {s.meanR.toFixed(2)} (0 = first, 0.5 = chance) · z {s.z.toFixed(2)} · p {s.p < 0.001 ? s.p.toExponential(1) : s.p.toFixed(3)}{s.q ? ' · survives FDR' : ''}</p>
-            {!evidence[s.wallet] && <p className="mt-3 text-[12px] text-ink-muted">Loading evidence…</p>}
+            {!evidence[s.wallet] && (failed === s.wallet
+              ? <p className="mt-3 text-[12px] text-ink-muted">This wallet&apos;s evidence could not be loaded. <button type="button" onClick={() => setAttempt((n) => n + 1)} className="font-semibold text-[var(--mint)] hover:underline">Try again</button></p>
+              : <p className="mt-3 text-[12px] text-ink-muted">Loading evidence…</p>)}
             <ol className="mt-3 max-h-[260px] flex-1 divide-y divide-[var(--hair)] overflow-y-auto text-[12px]">
               {ev.map((x) => (
                 <li key={`${x.token}:${x.at}`} className="flex items-center gap-2 py-1.5">
