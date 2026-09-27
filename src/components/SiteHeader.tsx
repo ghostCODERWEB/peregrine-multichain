@@ -40,7 +40,7 @@ export async function SiteHeader() {
 
       <div className="ml-auto lg:ml-0 lg:mb-4"><Omnibox /></div>
 
-      <div className="hidden min-h-0 flex-1 overflow-y-auto lg:block"><NavList status={status} /></div>
+      <div className="hidden min-h-0 flex-1 overflow-y-auto overflow-x-hidden lg:block"><NavList status={status} /></div>
 
       <div className="flex items-center gap-1.5 lg:mt-3 lg:flex-col lg:items-stretch lg:gap-2 lg:border-t lg:border-border lg:pt-3">
         {demo && (
