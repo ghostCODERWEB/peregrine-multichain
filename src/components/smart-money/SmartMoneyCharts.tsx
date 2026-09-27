@@ -10,7 +10,7 @@ export function SmartMoneyCharts() {
   const peak = flow.reduce<(typeof flow)[number] | null>((m, p) => (!m || Math.abs(p.net) > Math.abs(m.net) ? p : m), null);
   const wallets = graph.nodes.filter((n) => n.kind === 'wallet').length, markets = graph.nodes.length - wallets;
   return (
-    <div className="grid gap-4 2xl:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)]">
+    <div className="grid gap-4">
       <section aria-labelledby="smflow" className="material min-w-0 p-4 sm:p-5">
         <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
           <h2 id="smflow" className="t-section">Smart Money DEX flow, hourly</h2>

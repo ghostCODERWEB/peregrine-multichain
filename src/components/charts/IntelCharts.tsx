@@ -5,6 +5,7 @@ import { EChart } from '@/components/charts/EChart';
 import { useThemeColors, type ThemeColors } from '@/components/charts/useThemeColors';
 import { chainName, pct, usd } from '@/lib/viz/format';
 import type { GraphLink, GraphNode } from '@/server/graph/series';
+import { clusterGraph } from '@/lib/viz/wallet-clusters';
 
 const axis = (c: ThemeColors) => ({ axisLabel: { color: c['ink-muted'], fontSize: 10 }, axisLine: { lineStyle: { color: c.axis } }, splitLine: { lineStyle: { color: c.grid } } });
 const tip = (c: ThemeColors) => ({ backgroundColor: c['surface-2'], borderColor: c.axis, textStyle: { color: c['ink-1'], fontSize: 12 }, confine: true });
@@ -132,52 +133,72 @@ export function FlowIndexHistory({ series }: { series: Array<{ chain: string; po
 
 // --------------------------------------------------------- wallet graph
 
-/** Wallets tied to the markets they hold or trade: every edge is a stored Nansen record. Drag to explore, select a node to open it. */
+/** Wallets tied to the markets they hold or trade, grouped into clusters that share a position pattern. Every tie is a stored Nansen record. Hover a cluster to isolate it, select a node to open it. */
 export function WalletGraph({ nodes, links }: { nodes: GraphNode[]; links: GraphLink[] }) {
-  const c = useThemeColors();
   const router = useRouter();
-  const byId = useMemo(() => new Map(nodes.map((n) => [n.id, n])), [nodes]);
-  const option = useMemo(() => {
-    const W = typeof window !== 'undefined' ? Math.min(600, window.innerWidth - 56) : 600, H = W < 500 ? 340 : 440;
-    if (!c) return null;
-    const maxV = Math.max(1, ...nodes.map((n) => n.value));
-    const col = { wallet: c['ink-2'], perp: c.signal, token: c.amber };
-    const markets = nodes.filter((n) => n.kind !== 'wallet').map((n) => n.id);
-    return {
-      animationDuration: 700,
-      tooltip: { ...tip(c), formatter: (raw: unknown) => { const p = raw as { dataType: string; data: { id?: string; source?: string; target?: string; value?: number; side?: string } };
-        if (p.dataType === 'edge') { const s = byId.get(p.data.source!), t = byId.get(p.data.target!); return `${s?.name} <b>${p.data.side}</b> ${t?.name}<br/>${usd(p.data.value)}`; }
-        const n = byId.get(p.data.id!); return `<b>${n?.name}</b><br/>${n?.kind === 'wallet' ? `wallet${n.sm ? ' · Smart Money' : ''}` : n?.kind === 'perp' ? 'perp market' : 'token'} · ${usd(n?.value)}<br/><span style="opacity:.7">Select to open</span>`;
-      } },
-      series: [{
-        type: 'graph' as const, layout: 'force' as const, roam: true, draggable: true,
-        force: { repulsion: W < 500 ? 120 : 220, edgeLength: W < 500 ? [30, 90] : [50, 150], gravity: W < 500 ? 0.12 : 0.05, layoutAnimation: true },
-        label: { show: true, position: 'right' as const, color: c['ink-2'], fontSize: 10, formatter: (raw: unknown) => { const p = raw as { data: { kind: string; name: string } }; return p.data.kind === 'wallet' ? '' : p.data.name; } },
-        emphasis: { focus: 'adjacency' as const, label: { show: true, formatter: '{b}' } },
-        data: nodes.map((n) => {
-          // Markets start spread on a ring sized to the screen so their wallet clusters separate instead of stacking in the centre.
-          const mi = markets.indexOf(n.id), ang = (2 * Math.PI * mi) / Math.max(1, markets.length);
-          return {
-          id: n.id, name: n.name, kind: n.kind, value: n.value,
-          ...(mi >= 0 ? { x: W / 2 + W * 0.27 * Math.cos(ang), y: H / 2 + H * 0.27 * Math.sin(ang), fixed: markets.length > 1 } : {}),
-          symbolSize: n.kind === 'wallet' ? 6 + 14 * Math.sqrt(n.value / maxV) : 16 + 20 * Math.sqrt(n.value / maxV),
-          itemStyle: { color: col[n.kind], borderColor: n.sm ? c.signal : 'transparent', borderWidth: n.sm ? 2 : 0 },
-        }; }),
-        links: links.map((l) => ({ source: l.source, target: l.target, value: l.value, side: l.side, lineStyle: { color: l.side === 'long' || l.side === 'bought' ? c.mint : c.flare, opacity: 0.45, width: 1 } })),
-      }],
-    };
-  }, [c, nodes, links, byId]);
+  const [hover, setHover] = useState<string | null>(null);
+  const L = useMemo(() => clusterGraph(nodes, links), [nodes, links]);
   if (!nodes.length) return <p className="text-[13px] text-ink-muted">No wallet ties two markets yet; the graph grows as the scanner stores snapshots and trades.</p>;
+  const pts = [...L.markets.map((m) => ({ x: m.x, y: m.y, r: 30 })), ...L.clusters.map((c) => ({ x: c.x, y: c.y, r: c.r + 26 }))];
+  const x0 = Math.min(...pts.map((p) => p.x - p.r)) - 110, x1 = Math.max(...pts.map((p) => p.x + p.r)) + 110;
+  const y0 = Math.min(...pts.map((p) => p.y - p.r)) - 10, y1 = Math.max(...pts.map((p) => p.y + p.r)) + 10;
+  const maxTie = Math.max(1, ...L.clusters.flatMap((c) => c.ties.map((t) => t.value)));
+  const maxM = Math.max(1, ...L.markets.map((m) => m.value));
+  const mById = new Map(L.markets.map((m) => [m.id, m]));
+  const active = hover ? L.clusters.find((c) => c.id === hover) : null;
+  const dim = (id: string, markets?: string[]) => (active ? (id === active.id || markets?.some((m) => active.ties.some((t) => t.market === m)) ? 1 : 0.15) : 1);
+  const col = (m: GraphNode) => (m.kind === 'perp' ? 'var(--signal)' : 'var(--amber)');
+  const top = L.clusters.slice(0, 8);
   return (
-    <div>
-      {option && <EChart option={option} height={460} ariaLabel={`Wallet network: ${nodes.filter((n) => n.kind === 'wallet').length} wallets connected to ${nodes.filter((n) => n.kind !== 'wallet').length} markets`} onEvents={{ click: (e: { dataType: string; data: { id?: string } }) => { if (e.dataType === 'node') { const n = byId.get(e.data.id!); if (n) router.push(n.href); } } }} />}
-      <div className="mt-1 flex flex-wrap gap-3 text-[11.5px] text-ink-muted">
-        <span className="flex items-center gap-1"><span className="h-2.5 w-2.5 rounded-full bg-[var(--signal)]" />perp market</span>
-        <span className="flex items-center gap-1"><span className="h-2.5 w-2.5 rounded-full bg-[var(--amber)]" />token (Smart Money DEX)</span>
-        <span className="flex items-center gap-1"><span className="h-2.5 w-2.5 rounded-full bg-ink-2" />wallet (blue ring = Smart Money)</span>
-        <span className="flex items-center gap-1"><span className="h-0.5 w-3 bg-[var(--mint)]" />long or bought</span>
-        <span className="flex items-center gap-1"><span className="h-0.5 w-3 bg-[var(--flare)]" />short or sold</span>
-        <span>· drag, zoom, hover to isolate a wallet</span>
+    <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_280px]">
+      <svg viewBox={`${x0} ${y0} ${x1 - x0} ${y1 - y0}`} className="h-auto max-h-[520px] w-full" role="img" aria-label={`Wallet network: ${L.wallets.length} wallets in ${L.clusters.length} clusters across ${L.markets.length} markets`} onMouseLeave={() => setHover(null)}>
+        <defs><filter id="wg-glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4" /></filter></defs>
+        {L.clusters.flatMap((c) => c.ties.map((t) => { const m = mById.get(t.market); if (!m) return null; const up = t.side === 'up';
+          const mx = (c.x + m.x) / 2, my = (c.y + m.y) / 2 - (up ? 10 : -10);
+          return <path key={`${c.id}-${t.market}`} d={`M${c.x},${c.y} Q${mx},${my} ${m.x},${m.y}`} fill="none" stroke={up ? 'var(--mint)' : 'var(--flare)'} strokeWidth={1 + 9 * Math.sqrt(t.value / maxTie)} strokeOpacity={0.55 * dim(c.id)} strokeLinecap="round" />; }))}
+        {L.clusters.map((c) => (
+          <g key={c.id} onMouseEnter={() => setHover(c.id)} style={{ opacity: dim(c.id), transition: 'opacity .15s' }} className="cursor-pointer">
+            <title>{`${c.label}\n${c.wallets.length} wallets${c.sm ? ` (${c.sm} Smart Money)` : ''} · ${usd(c.value)}\n${c.ties.map((t) => `${mById.get(t.market)?.name}: ${t.side === 'up' ? 'long/bought' : 'short/sold'} ${usd(t.value)}`).join('\n')}`}</title>
+            <circle cx={c.x} cy={c.y} r={c.r} fill="var(--surface-2)" stroke={c.ties.every((t) => t.side === 'up') ? 'var(--mint)' : c.ties.every((t) => t.side === 'down') ? 'var(--flare)' : 'var(--amber)'} strokeOpacity={0.7} strokeWidth={1.2} />
+            {(() => { const d = Math.hypot(c.x, c.y) || 1, ux = c.x / d, uy = c.y / d, lx = c.x + ux * (c.r + 6), ly = c.y + uy * (c.r + 6) + (uy > 0.3 ? 8 : uy < -0.3 ? -10 : 0), anchor = ux > 0.3 ? 'start' : ux < -0.3 ? 'end' : 'middle'; return (<>
+            <text x={lx} y={ly} textAnchor={anchor} className="fill-ink-2 text-[9px] font-semibold">{c.label.length > 34 ? `${c.label.slice(0, 33)}…` : c.label}</text>
+            <text x={lx} y={ly + 10} textAnchor={anchor} className="num fill-ink-muted text-[8px]">{c.wallets.length} wallet{c.wallets.length > 1 ? 's' : ''} · {usd(c.value)}</text></>); })()}
+          </g>
+        ))}
+        {L.wallets.map((w) => (
+          <circle key={w.id} cx={w.x} cy={w.y} r={w.sm ? 2.6 : 2.1} fill={w.sm ? 'var(--signal)' : 'var(--ink-2)'} opacity={dim(w.cluster)} className="cursor-pointer" onClick={() => router.push(w.href)}>
+            <title>{`${w.name}${w.sm ? ' · Smart Money' : ''} · ${usd(w.value)}\nSelect to open`}</title>
+          </circle>
+        ))}
+        {L.markets.map((m) => { const r = 12 + 14 * Math.sqrt(m.value / maxM);
+          return (
+            <g key={m.id} className="cursor-pointer" onClick={() => router.push(m.href)} style={{ opacity: dim('', [m.id]) }}>
+              <title>{`${m.name} · ${usd(m.value)} tied\nSelect to open`}</title>
+              <circle cx={m.x} cy={m.y} r={r + 4} fill={col(m)} opacity={0.35} filter="url(#wg-glow)" />
+              <circle cx={m.x} cy={m.y} r={r} fill={col(m)} />
+              <text x={m.x} y={m.y + 3} textAnchor="middle" className="text-[8.5px] font-extrabold" fill="#04121c">{m.name.replace(/ perp$/, '')}</text>
+              <text x={m.x} y={m.y + r + 11} textAnchor="middle" className="num fill-ink-muted text-[7.5px]">{m.kind === 'perp' ? 'perp' : 'token'} · {usd(m.value)}</text>
+            </g>
+          ); })}
+      </svg>
+      <div className="min-w-0">
+        <h3 className="mb-1.5 text-[12px] font-semibold uppercase tracking-wider text-ink-muted">Largest clusters</h3>
+        <ol className="divide-y divide-[var(--hair)]">
+          {top.map((c) => (
+            <li key={c.id} onMouseEnter={() => setHover(c.id)} onMouseLeave={() => setHover(null)} className={`cursor-default rounded-md px-1.5 py-2 text-[12.5px] ${hover === c.id ? 'bg-[var(--surface-2)]' : ''}`}>
+              <div className="font-semibold text-ink">{c.label}</div>
+              <div className="num text-[11.5px] text-ink-muted">{c.wallets.length} wallets{c.sm ? ` · ${c.sm} Smart Money` : ''} · {usd(c.value)}</div>
+            </li>
+          ))}
+        </ol>
+        <div className="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-[11px] text-ink-muted">
+          <span className="flex items-center gap-1"><span className="h-2.5 w-2.5 rounded-full bg-[var(--signal)]" />perp</span>
+          <span className="flex items-center gap-1"><span className="h-2.5 w-2.5 rounded-full bg-[var(--amber)]" />token</span>
+          <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-[var(--signal)]" />Smart Money wallet</span>
+          <span className="flex items-center gap-1"><span className="h-0.5 w-3 bg-[var(--mint)]" />long / bought</span>
+          <span className="flex items-center gap-1"><span className="h-0.5 w-3 bg-[var(--flare)]" />short / sold</span>
+          <span>Line width = dollars. Ring: green all long, red all short, amber hedged.</span>
+        </div>
       </div>
     </div>
   );
