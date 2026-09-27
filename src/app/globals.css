@@ -711,3 +711,10 @@ a.m-row:active { background-color: color-mix(in srgb, var(--ink-1) 7%, transpare
 /* The Analyze panel carries text: a thicker glass so the page behind never competes with it. */
 [data-analyze-dock][role=dialog], .analyze-genie { background: var(--surface-1) !important; backdrop-filter: blur(32px) saturate(170%) !important; }
 .glass-action:focus-visible, .glass-tab:focus-visible { outline: none; box-shadow: none; }
+
+/* Navigation progress: grows toward 90% while the next page renders on the server, then fills and fades. */
+.nav-progress { position: fixed; top: 0; left: 0; z-index: 80; height: 2px; width: 100%; transform: scaleX(0); transform-origin: 0 50%; opacity: 0; pointer-events: none;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--mint) 40%, transparent), var(--mint)); box-shadow: 0 0 8px color-mix(in srgb, var(--mint) 60%, transparent); }
+.nav-progress.is-going { opacity: 1; transform: scaleX(.9); transition: transform 8s cubic-bezier(.05,.7,.1,1), opacity .15s; }
+.nav-progress.is-done { opacity: 0; transform: scaleX(1); transition: transform .2s ease-out, opacity .3s .15s; }
+@media (prefers-reduced-motion: reduce) { .nav-progress.is-going { transform: scaleX(.6); transition: opacity .15s; } }

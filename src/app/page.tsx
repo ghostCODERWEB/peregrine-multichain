@@ -8,6 +8,7 @@ import { OverviewIntel } from '@/components/weather/OverviewIntel';
 import { RiskRadar } from '@/components/weather/RiskRadar';
 import { MobileHome } from '@/components/mobile/MobileHome';
 import { isPhone } from '@/server/device';
+import { compact } from '@/lib/compact';
 
 export const dynamic = 'force-dynamic';
 
@@ -16,12 +17,12 @@ export default async function Home() {
   const mode = await displayMode();
   const bulletin = buildBulletin(viewOf(mode));
   // Phones get their own Today screen; tablets and desktops the full overview.
-  if (await isPhone()) return <MobileHome mode={mode} chains={bulletin.chains} />;
+  if (await isPhone()) return <MobileHome mode={mode} chains={compact(bulletin.chains)} />;
   const alpha = alphaBoard(viewOf(mode), Date.now(), 5);
   return (
     <>
-      <div className="lg:hidden"><MobileHome mode={mode} chains={bulletin.chains} /></div>
-      <div className="max-lg:hidden"><WeatherView initial={bulletin} anchor={latestReport(subjectKey('bulletin', mode))} alpha={<AlphaStrip rows={alpha.rows} />} intel={<><RiskRadar mode={mode} /><OverviewIntel mode={mode} /></>} /></div>
+      <div className="lg:hidden"><MobileHome mode={mode} chains={compact(bulletin.chains)} /></div>
+      <div className="max-lg:hidden"><WeatherView initial={compact(bulletin)} anchor={latestReport(subjectKey('bulletin', mode))} alpha={<AlphaStrip rows={alpha.rows} />} intel={<><RiskRadar mode={mode} /><OverviewIntel mode={mode} /></>} /></div>
     </>
   );
 }

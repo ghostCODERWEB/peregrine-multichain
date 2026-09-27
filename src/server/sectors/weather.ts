@@ -11,6 +11,7 @@ import { loadMembership, tokenKey, membershipAge, membershipChains } from './mem
 import type { PressureView } from '@/server/weather/queries';
 import type { Provenance } from '@/lib/provenance';
 import { num, pct, usd } from '@/lib/viz/format';
+import { clearLiveMemo, liveMemo } from '@/server/live-memo';
 
 type Source = 'market-flow' | 'smart-money';
 const WINDOWS: Window[] = ['1h', '24h', '7d'];
@@ -36,6 +37,7 @@ export function storeSectorSnapshots(snapshotAt: number, window: Window, marketR
       }
     }
   })();
+  clearLiveMemo('sectors:');
   return n;
 }
 
@@ -65,7 +67,12 @@ export interface SectorWeather {
 
 interface SnapRow { snapshot_at: number; window: Window; sector: string; net_flow_usd: number; volume_usd: number; tokens: number; top: string | null }
 
+/** Live reads are memoized for 30s (see live-memo). */
 export function sectorWeather(view: PressureView, now = Date.now()): SectorWeather {
+  return liveMemo(`sectors:${view}`, now, 30_000, () => computeSectorWeather(view, now));
+}
+
+function computeSectorWeather(view: PressureView, now: number): SectorWeather {
   const source: Source = view === 'private' ? 'smart-money' : 'market-flow';
   const db = getDb();
   const members = (db.prepare('SELECT COUNT(DISTINCT chain || token_address) AS n FROM sector_members').get() as { n: number }).n;

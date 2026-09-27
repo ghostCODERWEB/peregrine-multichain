@@ -1,6 +1,7 @@
 'use client';
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { firstSelected } from '@/lib/cascade-select';
 import { TokenLogo } from '@/components/Logo';
 import type { MapNode, Evidence, ReplayEpisode } from '@/server/cascade/cascades';
 import type { Edge } from '@/lib/models/cascade';
@@ -10,9 +11,18 @@ const roleColor = (r: MapNode['role'] | null) => (r === 'leader' ? 'var(--mint)'
 const fmtMin = (m: number) => (Math.abs(m) >= 1440 ? `${(m / 1440).toFixed(1)}d` : Math.abs(m) >= 60 ? `${(m / 60).toFixed(1)}h` : `${Math.round(m)}m`);
 
 /** The Leadership map (x = how early a wallet enters, y = evidence), its precedence arrows, the evidence panel, and the cascade replay. */
-export function CascadeExplorer({ nodes, edges, evidence, replay }: { nodes: MapNode[]; edges: Edge[]; evidence: Record<string, Evidence[]>; replay: ReplayEpisode[] }) {
-  const lead = nodes.filter((n) => n.q)[0] ?? nodes[0];
-  const [sel, setSel] = useState<string | null>(lead?.wallet ?? null);
+export function CascadeExplorer({ nodes, edges, evidence: initial, replay }: { nodes: MapNode[]; edges: Edge[]; evidence: Record<string, Evidence[]>; replay: ReplayEpisode[] }) {
+  const [sel, setSel] = useState<string | null>(firstSelected(nodes));
+  // The page sends evidence for the first wallet only; others load when picked.
+  const [evidence, setEvidence] = useState(initial);
+  useEffect(() => {
+    if (!sel || evidence[sel]) return;
+    let live = true;
+    fetch(`/api/cascade/evidence?wallet=${encodeURIComponent(sel)}`).then((r) => r.json()).then((j: { evidence?: Evidence[] }) => {
+      if (live) setEvidence((cur) => ({ ...cur, [sel]: j.evidence ?? [] }));
+    }).catch(() => {});
+    return () => { live = false; };
+  }, [sel, evidence]);
   const [hover, setHover] = useState<string | null>(null);
   const [ep, setEp] = useState(0);
   const byId = useMemo(() => new Map(nodes.map((n) => [n.wallet, n])), [nodes]);
@@ -89,6 +99,7 @@ export function CascadeExplorer({ nodes, edges, evidence, replay }: { nodes: Map
               <div className="inset-well rounded-[12px] p-2"><dt className="text-ink-muted">Typical lead</dt><dd className="num text-[15px] font-bold text-ink">{s.leadMin != null ? fmtMin(s.leadMin) : 'n/a'}</dd></div>
             </dl>
             <p className="num mt-2 text-[11.5px] text-ink-muted">mean entry rank {s.meanR.toFixed(2)} (0 = first, 0.5 = chance) · z {s.z.toFixed(2)} · p {s.p < 0.001 ? s.p.toExponential(1) : s.p.toFixed(3)}{s.q ? ' · survives FDR' : ''}</p>
+            {!evidence[s.wallet] && <p className="mt-3 text-[12px] text-ink-muted">Loading evidence…</p>}
             <ol className="mt-3 max-h-[260px] flex-1 divide-y divide-[var(--hair)] overflow-y-auto text-[12px]">
               {ev.map((x) => (
                 <li key={`${x.token}:${x.at}`} className="flex items-center gap-2 py-1.5">

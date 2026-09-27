@@ -16,6 +16,7 @@ import { SectionRail } from '@/components/SectionRail';
 import { MobileClamp } from '@/components/MobileClamp';
 import { GuidedTour } from '@/components/GuidedTour';
 import { AnalyzeDock } from '@/components/analyze/AnalyzeDock';
+import { NavProgress } from '@/components/shell/NavProgress';
 
 const geistSans = Manrope({ variable: '--font-geist-sans', subsets: ['latin'] });
 const geistMono = IBM_Plex_Mono({ variable: '--font-geist-mono', subsets: ['latin'], weight: ['400', '500'] });
@@ -45,6 +46,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <MobileClamp />
           <GuidedTour />
           <AnalyzeDock />
+          <Suspense><NavProgress /></Suspense>
           <MotionObserver />
           <SiteHeader />
           <TabBar />

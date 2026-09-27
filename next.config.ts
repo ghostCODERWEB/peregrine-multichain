@@ -7,6 +7,12 @@ const nextConfig: NextConfig = {
   distDir: process.env.NEXT_DIST_DIR ?? '.next',
   // The dev badge sits over the sidebar's footer; build errors still show.
   devIndicators: false,
+  // Logos and brand images: Next serves public/ files with max-age=0, so every page view re-checked ~100 logos.
+  // They change only with a deploy; a day fresh plus a week of background revalidation is plenty.
+  async headers() {
+    const cache = [{ key: 'Cache-Control', value: 'public, max-age=86400, stale-while-revalidate=604800' }];
+    return [{ source: '/logos/:path*', headers: cache }, { source: '/brand/:path*', headers: cache }];
+  },
 };
 
 export default nextConfig;

@@ -4,9 +4,11 @@ import { PageTitle } from '@/components/PageTitle';
 import { StatStrip } from '@/components/StatStrip';
 import { CascadeExplorer } from '@/components/cascade/CascadeExplorer';
 import { cascades, cascadeView } from '@/server/cascade/cascades';
+import { firstSelected } from '@/lib/cascade-select';
 import { displayMode } from '@/server/mode';
 import { walletName } from '@/lib/viz/format';
 import { WINDOW_MS } from '@/lib/models/cascade';
+import { compact } from '@/lib/compact';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = { title: 'Cascades · Peregrine' };
@@ -21,6 +23,7 @@ export default async function CascadePage() {
   const name = new Map(v.nodes.map((n) => [n.wallet, n.name]));
   const leaders = v.nodes.filter((n) => n.role === 'leader');
   const followers = v.nodes.filter((n) => n.role === 'follower');
+  const first = firstSelected(v.nodes);
   return (
     <div className="space-y-4">
       <PageTitle title="Cascades" pill="Who moves Smart Money? Entry order, tested against chance" />
@@ -31,7 +34,8 @@ export default async function CascadePage() {
         { label: 'Consistent followers', value: String(followers.length), note: 'enter later than chance, p < 0.05', tone: 'out' },
         { label: 'Precedence links', value: String(c.edges.length), note: 'wallet A enters before B, binomial p ≤ 0.1' },
       ]} />
-      <CascadeExplorer nodes={v.nodes} edges={v.edges} evidence={v.evidence} replay={v.replay} />
+      {/* Evidence for the wallet selected first; the rest loads when a wallet is picked (/api/cascade/evidence). */}
+      <CascadeExplorer nodes={compact(v.nodes)} edges={compact(v.edges)} evidence={first ? { [first]: v.evidence[first] ?? [] } : {}} replay={compact(v.replay)} />
 
       <div className="grid grid-cols-1 gap-4 xl:grid-cols-12 [&>*]:min-w-0">
         <section className="material p-4 sm:p-5 xl:col-span-7" aria-labelledby="links">

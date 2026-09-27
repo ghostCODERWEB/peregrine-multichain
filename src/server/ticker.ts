@@ -6,13 +6,19 @@ import { perpBoard } from '@/server/perps/board';
 import { viewOf, type DisplayMode } from '@/server/mode';
 import { properAddress } from '@/server/nansen/address-case';
 import { price, usd } from '@/lib/viz/format';
+import { liveMemo } from '@/server/live-memo';
 
 export interface TickerItem { key: string; label: string; value: string; href: string; tone?: 'in' | 'out'; logo?: { symbol: string; coin?: string; chain?: string; address?: string } }
 
 const NAMES: Array<[string, string]> = [['/smart-money', 'Smart Money'], ['/flows', 'Chain flows'], ['/perps', 'Perps'], ['/predict', 'Predictions'], ['/sectors', 'Sectors'], ['/', 'Chains'], ['/alpha', 'Alpha']];
 const chg = (v: number) => `${v >= 0 ? '▲' : '▼'} ${Math.abs(v * 100).toFixed(2)}%`;
 
+/** Rendered on every page, so memoized for a minute like the nav status it reads. */
 export function tickerItems(mode: DisplayMode, now = Date.now()): TickerItem[] {
+  return liveMemo(`ticker:${mode}`, now, 60_000, () => buildTicker(mode, now));
+}
+
+function buildTicker(mode: DisplayMode, now: number): TickerItem[] {
   const out: TickerItem[] = [];
   const st = navStatus(mode, now);
   const db = getDb();

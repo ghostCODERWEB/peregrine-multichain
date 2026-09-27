@@ -25,7 +25,18 @@ export async function GET(req: Request) {
     const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="#2a2f36"/><text x="32" y="32" dy=".35em" text-anchor="middle" font-family="system-ui,sans-serif" font-weight="700" font-size="${letters.length > 2 ? 20 : 24}" fill="#c9d1d9">${letters}</text></svg>`;
     return new NextResponse(svg, { headers: { 'content-type': 'image/svg+xml', 'cache-control': 'public, max-age=3600' } });
   }
-  return NextResponse.redirect(url, { status: 302, headers: { 'cache-control': 'public, max-age=604800' } });
+  return NextResponse.redirect(sized(url), { status: 302, headers: { 'cache-control': 'public, max-age=604800' } });
+}
+
+/** Dexscreener serves token images at whatever size is asked, and its links ask for 800px (often 100-400 KB).
+ *  Logos show at 64px at most, so 128px keeps them sharp on 2x screens at a few KB. */
+function sized(url: string): string {
+  if (!url.startsWith('https://cdn.dexscreener.com/')) return url;
+  const u = new URL(url);
+  u.searchParams.set('width', '128');
+  u.searchParams.set('height', '128');
+  u.searchParams.set('quality', '90');
+  return u.toString();
 }
 
 const BASES: Array<[RegExp, string]> = [

@@ -6,7 +6,8 @@
 import { callNansen } from '@/server/nansen/client';
 import { getDb } from '@/server/nansen/db';
 import { requestDay } from '@/server/nansen/demo';
-import { perpBoard } from './board';
+import { computePerpBoard } from './board';
+import { clearLiveMemo } from '@/server/live-memo';
 
 const EVERY_MS = 55 * 60_000;
 const KEEP_MS = 7 * 86_400_000;
@@ -62,13 +63,14 @@ export async function scanPerps(now: number, errors: string[]): Promise<number> 
     }
     db.prepare('DELETE FROM perp_snapshots WHERE snapshot_at < ?').run(now - KEEP_MS);
   })();
+  clearLiveMemo('perps:');
 
   // The venue's reading on the map, one per view: all traders for public,
   // with smart money for the key owner.
   const put = db.prepare('INSERT INTO chain_cpi (chain, cpi, any_cross_section, windows, snapshot_at, source) VALUES (?, ?, ?, ?, ?, ?)');
   for (const [view, source] of [['public', 'market-flow'], ['private', 'smart-money']] as const) {
     if (view === 'private' && sm.status !== 'fulfilled') continue;
-    const b = perpBoard(view, now);
+    const b = computePerpBoard(view, now);
     if (b.venue?.ppi == null) continue;
     put.run('hyperliquid', b.venue.ppi, b.coins.some((c) => c.ppi != null && c.usedCrossSectional) ? 1 : 0, JSON.stringify(['perp']), now, source);
   }

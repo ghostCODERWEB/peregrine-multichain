@@ -18,6 +18,7 @@ import {
 } from '@/lib/models/ppi';
 import type { Provenance } from '@/lib/provenance';
 import { usd, pct, num } from '@/lib/viz/format';
+import { liveMemo } from '@/server/live-memo';
 
 export interface PerpRow {
   snapshot_at: number;
@@ -101,8 +102,12 @@ function raw(all: PerpRow, sm: PerpRow | undefined, withSm: boolean): Partial<Re
   return { taker: takerRatio(input), funding: all.funding, ...(withSm ? { sm: smSkew(input) } : {}) };
 }
 
-/** The board as of the latest perp snapshot at or before `now`. */
+/** The board as of the latest perp snapshot at or before `now`. Live reads are memoized for 30s (see live-memo). */
 export function perpBoard(view: PressureView, now = Date.now()): PerpBoard {
+  return liveMemo(`perps:${view}`, now, 30_000, () => computePerpBoard(view, now));
+}
+
+export function computePerpBoard(view: PressureView, now = Date.now()): PerpBoard {
   const db = getDb();
   const at = (
     db.prepare("SELECT MAX(snapshot_at) AS t FROM perp_snapshots WHERE source = 'all' AND snapshot_at <= ?").get(now) as {
