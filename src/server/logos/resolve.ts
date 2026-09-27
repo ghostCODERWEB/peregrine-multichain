@@ -96,3 +96,30 @@ export async function stockLogo(symbol: string): Promise<string | null> {
   const t = symbol.toUpperCase().replace(/[^A-Z.]/g, '');
   return t ? imageOk(`https://financialmodelingprep.com/image-stock/${encodeURIComponent(t)}.png`, `logo:stock:${t}`) : null;
 }
+
+/** The asset a symbol names, without wrapper prefixes/suffixes and emoji: WNEAR→NEAR, aEthWETH→ETH, stkAAVE→AAVE, WETH.e→ETH. */
+export function cleanSymbol(raw: string): string {
+  let s = raw.replace(/\p{Extended_Pictographic}|️/gu, '').trim().replace(/\.e$/i, '').replace(/^\$/, '');
+  s = s.replace(/^aEth(?=[A-Za-z])/i, '').replace(/^stk(?=[A-Z])/i, '');
+  const u = s.toUpperCase();
+  if (/^W(ETH|BTC|BNB|NEAR|TRX|SEI|XPL|TAO|AVAX|SOL|HYPE|POL|MATIC|MON|S)$/.test(u)) return u.slice(1);
+  if (/^S?USDAI$/.test(u)) return 'USDAI';
+  return u;
+}
+
+/** Last resort by symbol: CoinCap's icon set, then CoinGecko search (exact symbol, highest ranked). Cached in kv. */
+export async function symbolLogo(raw: string): Promise<string | null> {
+  const sym = cleanSymbol(raw);
+  if (!/^[A-Z0-9.]{2,12}$/.test(sym)) return null;
+  const cc = await imageOk(`https://assets.coincap.io/assets/icons/${encodeURIComponent(sym.toLowerCase())}@2x.png`, `logo:coincap:${sym.toLowerCase()}`);
+  if (cc) return cc;
+  const key = `logo:gecko:${sym}`;
+  const hit = getKv(key);
+  if (hit && Date.now() - hit.updatedAt < (hit.value ? HIT_TTL : MISS_TTL)) return hit.value || null;
+  const res = (await json(`https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(sym)}`).catch(() => null)) as { coins?: Array<{ symbol?: string; large?: string; market_cap_rank?: number | null }> } | null;
+  const best = (res?.coins ?? []).filter((c) => c.symbol?.toUpperCase() === sym && httpsImage(c.large) && !c.large!.includes('missing'))
+    .sort((a, b) => (a.market_cap_rank ?? 1e9) - (b.market_cap_rank ?? 1e9))[0];
+  const url = best?.large ?? null;
+  if (res) setKv(key, url ?? '');
+  return url;
+}
