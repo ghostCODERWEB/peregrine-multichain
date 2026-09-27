@@ -607,7 +607,7 @@ a.m-row:active { background-color: color-mix(in srgb, var(--ink-1) 7%, transpare
 @media (prefers-reduced-motion: reduce) { .m-hero, .m-card, .m-tile, .m-inline-title { transition: none; } }
 @media (max-width: 639px) {
   .m-inline-title { display: none; }
-  [data-analyze-dock] { display: none !important; }
+  button[data-analyze-dock] { display: none !important; }
   .section-rail { opacity: .16; }
 }
 /* Search inside phone screens: flat iOS search field look for the Token Checker box. */
@@ -649,7 +649,7 @@ a.m-row:active { background-color: color-mix(in srgb, var(--ink-1) 7%, transpare
   .nav-row { border-radius: 10px; }
 }
 @media (min-width: 768px) and (max-width: 1023px) { .m-screen { grid-auto-flow: row dense; } }
-@media (max-width: 1023px) { [data-analyze-dock] { display: none !important; } }
+@media (max-width: 1023px) { button[data-analyze-dock] { display: none !important; } }
 /* Cascade replay: wallets appear in the order they entered. */
 .cascade-dot { animation: cascade-in .45s cubic-bezier(.2,.8,.2,1) both; }
 @keyframes cascade-in { from { opacity: 0; transform: translate(-50%, 6px) scale(.8); } to { opacity: 1; transform: translate(-50%, 0) scale(1); } }
@@ -670,3 +670,19 @@ a.m-row:active { background-color: color-mix(in srgb, var(--ink-1) 7%, transpare
   main .material > div > p.mt-1\.5.truncate.text-\[13\.5px\] { display: none !important; }
 }
 @media (max-width: 1023px) { .tour-card { padding: 11px 13px; border-radius: 18px; } .tour-card p.mt-1 { display: none; } }
+
+/* Phones: the quick Ask sheet opens from the tab bar's Ask button with a genie effect (scale + skew from the
+   bottom-right corner, then settle), and sits on Liquid Glass above the tab bar. */
+@media (max-width: 1023px) {
+  .analyze-genie { bottom: calc(env(safe-area-inset-bottom, 0px) + 84px) !important; max-height: 70vh !important; border-radius: 26px !important;
+    background: color-mix(in srgb, var(--surface-1) 78%, transparent) !important; backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border-color: var(--lg-border, rgba(255,255,255,.1)) !important; box-shadow: var(--lg-edge), 0 24px 60px -20px rgba(0,0,0,.8) !important;
+    transform-origin: 88% 100%; animation: genie-in .52s cubic-bezier(.2,.9,.25,1) both; }
+}
+@keyframes genie-in {
+  0% { opacity: 0; transform: translateY(40px) scale(.08, .02) skewX(-18deg); filter: blur(6px); }
+  35% { opacity: 1; transform: translateY(18px) scale(.35, .55) skewX(-10deg); filter: blur(2px); }
+  70% { transform: translateY(-4px) scale(1.02, 1.01) skewX(0); filter: none; }
+  100% { transform: none; }
+}
+@media (prefers-reduced-motion: reduce) { .analyze-genie { animation: none; } }

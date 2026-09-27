@@ -48,9 +48,9 @@ export function TabBar() {
         </div>
         <div className="glass-bar glass-actions">
           {!publicSite && (
-            <Link href="/agent" aria-label="Ask" aria-current={path.startsWith('/agent') ? 'page' : undefined} className={`glass-action ${path.startsWith('/agent') ? 'is-on' : ''}`}>
+            <button type="button" aria-label="Ask about this screen" className="glass-action" onClick={() => window.dispatchEvent(new CustomEvent('peregrine:analyze'))}>
               <Sparkles size={21} strokeWidth={2} aria-hidden />
-            </Link>
+            </button>
           )}
           <button type="button" aria-label="Search" className="glass-action" onClick={() => window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true }))}>
             <Search size={21} strokeWidth={2} aria-hidden />
