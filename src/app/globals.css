@@ -529,13 +529,13 @@ html:not(.dark) .glass-lens { background: rgba(0,0,0,.06); }
    Apple: glass is the functional layer (navigation, controls, menus, popovers) floating above solid content.
    One recipe everywhere: translucent tint, blur + saturation + a slight luminosity lift, a hairline specular top edge. */
 :root {
-  --lg-tint: color-mix(in srgb, #0e1714 56%, transparent);
+  --lg-tint: color-mix(in srgb, #0e1714 86%, transparent);
   --lg-filter: blur(20px) saturate(185%) brightness(1.08);
   --lg-edge: inset 0 1px 0 rgba(255,255,255,.15), inset 0 -1px 0 rgba(255,255,255,.035);
   --lg-border: rgba(255,255,255,.10);
   --lg-lens: rgba(255,255,255,.11);
 }
-html:not(.dark) { --lg-tint: color-mix(in srgb, #ffffff 64%, transparent); --lg-edge: inset 0 1px 0 rgba(255,255,255,.95); --lg-border: rgba(0,0,0,.08); --lg-lens: rgba(0,0,0,.065); }
+html:not(.dark) { --lg-tint: color-mix(in srgb, #ffffff 88%, transparent); --lg-edge: inset 0 1px 0 rgba(255,255,255,.95); --lg-border: rgba(0,0,0,.08); --lg-lens: rgba(0,0,0,.065); }
 
 /* Navigation surfaces: desktop sidebar/header, menus, sheets, popovers, the command palette. */
 .liquid-glass, .material-strong, .glass-strong {
@@ -555,7 +555,8 @@ html:not(.dark) { --lg-tint: color-mix(in srgb, #ffffff 64%, transparent); --lg-
 .table-pager-sizes button[aria-pressed="true"] { background: var(--lg-lens) !important; box-shadow: inset 0 1px 0 rgba(255,255,255,.18); }
 .table-pager-more { border-radius: 999px !important; background: var(--lg-tint); backdrop-filter: blur(14px) saturate(170%); -webkit-backdrop-filter: blur(14px) saturate(170%); border: 1px solid var(--lg-border) !important; box-shadow: var(--lg-edge); }
 /* Expand buttons over previews and the Analyze button float as glass too. */
-[data-clamp] > .clamp-toggle, [data-analyze-dock] { background: var(--lg-tint) !important; backdrop-filter: var(--lg-filter); -webkit-backdrop-filter: var(--lg-filter); border-color: var(--lg-border) !important; box-shadow: var(--lg-edge), 0 10px 28px -10px rgba(0,0,0,.7) !important; }
+[data-clamp] > .clamp-toggle, [data-analyze-dock] { background: var(--lg-tint) !important; backdrop-filter: var(--lg-filter); -webkit-backdrop-filter: var(--lg-filter); }
+[data-clamp] > .clamp-toggle, [data-analyze-dock][role=dialog] { border-color: var(--lg-border) !important; box-shadow: var(--lg-edge), 0 10px 28px -10px rgba(0,0,0,.7) !important; }
 /* Accessibility: reduce transparency gives every glass surface a solid fill. */
 @media (prefers-reduced-transparency: reduce) {
   .liquid-glass, .material-strong, .glass-strong, .segmented, .pill-secondary, .liquid-control, .table-pager-sizes, .table-pager-more, [data-clamp] > .clamp-toggle, [data-analyze-dock] { background: var(--surface-2) !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
