@@ -19,6 +19,6 @@ Tick each item on the final export, not on the edit.
 - [ ] Opening: Peregrine mark only for the first 1.5 s
 - [ ] Ending: Nansen + "Powered by Nansen" for the last 1.5 s
 - [ ] Duration ≤ 60.0 s
-- [ ] 1920 × 1080, 60 fps, H.264 High, ≥ 20 Mbps, AAC 320 kbps stereo; first and last frames clean
+- [ ] 1920 × 1080, 60 fps, H.264 High at CRF 14 (quality-based; flat UI lands near 6–7 Mbps), AAC 320 kbps stereo; first and last frames clean
 - [ ] Captions readable, never over the data they refer to
 - [ ] Honesty note kept in 01 about the replayed AI answer
