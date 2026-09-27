@@ -134,11 +134,56 @@ export function FlowIndexHistory({ series }: { series: Array<{ chain: string; po
 // --------------------------------------------------------- wallet graph
 
 /** Wallets tied to the markets they hold or trade, grouped into clusters that share a position pattern. Every tie is a stored Nansen record. Hover a cluster to isolate it, select a node to open it. */
-export function WalletGraph({ nodes, links }: { nodes: GraphNode[]; links: GraphLink[] }) {
+// Majors: the large, liquid markets (perps by coin, spot by symbol, wrapped forms included).
+const MAJOR = /^(W|CB)?(BTC|ETH|SOL|HYPE|BNB|XRP|DOGE)$/i;
+const marketSymbol = (n: GraphNode) => n.name.replace(/ perp$/i, '').trim();
+export const isMajor = (n: GraphNode) => n.kind !== 'wallet' && MAJOR.test(marketSymbol(n));
+
+/** The graph restricted to chosen markets: ties to other markets drop, and wallets left with none drop too. */
+export function filterGraph(nodes: GraphNode[], links: GraphLink[], keep: Set<string>) {
+  const kept = links.filter((l) => keep.has(l.target));
+  const wallets = new Set(kept.map((l) => l.source));
+  const value = new Map<string, number>();
+  for (const l of kept) value.set(l.target, (value.get(l.target) ?? 0) + l.value);
+  return {
+    nodes: nodes.filter((n) => (n.kind === 'wallet' ? wallets.has(n.id) : keep.has(n.id) && value.has(n.id))).map((n) => (n.kind === 'wallet' ? n : { ...n, value: value.get(n.id) ?? n.value })),
+    links: kept,
+  };
+}
+
+export function WalletGraph({ nodes: allNodes, links: allLinks }: { nodes: GraphNode[]; links: GraphLink[] }) {
   const router = useRouter();
   const [hover, setHover] = useState<string | null>(null);
+  const markets = useMemo(() => allNodes.filter((n) => n.kind !== 'wallet').sort((a, b) => b.value - a.value), [allNodes]);
+  const [scope, setScope] = useState<'majors' | 'all'>('majors');
+  const [off, setOff] = useState<Set<string>>(new Set());
+  const inScope = useMemo(() => markets.filter((m) => scope === 'all' || isMajor(m)), [markets, scope]);
+  const keep = useMemo(() => new Set(inScope.filter((m) => !off.has(m.id)).map((m) => m.id)), [inScope, off]);
+  const { nodes, links } = useMemo(() => filterGraph(allNodes, allLinks, keep), [allNodes, allLinks, keep]);
   const L = useMemo(() => clusterGraph(nodes, links), [nodes, links]);
-  if (!nodes.length) return <p className="text-[13px] text-ink-muted">No wallet ties two markets yet; the graph grows as the scanner stores snapshots and trades.</p>;
+  const toggle = (id: string) => setOff((s) => { const n = new Set(s); if (n.has(id)) n.delete(id); else n.add(id); return n; });
+  const picker = (
+    <div className="mb-3 flex flex-wrap items-center gap-2">
+      <div role="group" aria-label="Markets" className="segmented segmented-inline" style={{ '--segments': 2, '--selected': scope === 'majors' ? 0 : 1 } as React.CSSProperties}>
+        <span className="segmented-thumb" aria-hidden />
+        <button type="button" aria-pressed={scope === 'majors'} onClick={() => setScope('majors')}>Majors</button>
+        <button type="button" aria-pressed={scope === 'all'} onClick={() => setScope('all')}>All markets</button>
+      </div>
+      {inScope.map((m) => {
+        const on = !off.has(m.id);
+        return (
+          <button key={m.id} type="button" aria-pressed={on} onClick={() => toggle(m.id)}
+            className={`rounded-full border px-2.5 py-1 text-[11.5px] font-semibold transition-colors ${on ? 'border-transparent text-[#04121c]' : 'border-[var(--hair-2)] text-ink-muted hover:text-ink'}`}
+            style={on ? { background: m.kind === 'perp' ? 'var(--signal)' : 'var(--amber)' } : undefined}>
+            {marketSymbol(m)}{m.kind === 'perp' ? ' perp' : ''}
+          </button>
+        );
+      })}
+      {!inScope.length && <span className="text-[12px] text-ink-muted">No major markets in the stored ties right now.</span>}
+    </div>
+  );
+  if (!allNodes.length) return <p className="text-[13px] text-ink-muted">No wallet ties two markets yet; the graph grows as the scanner stores snapshots and trades.</p>;
+  if (!L.clusters.length) return <div>{picker}<p className="py-10 text-center text-[13px] text-ink-muted">No wallets hold the selected markets. Turn a market back on or switch to All markets.</p></div>;
   const pts = [...L.markets.map((m) => ({ x: m.x, y: m.y, r: 30 })), ...L.clusters.map((c) => ({ x: c.x, y: c.y, r: c.r + 26 }))];
   const x0 = Math.min(...pts.map((p) => p.x - p.r)) - 110, x1 = Math.max(...pts.map((p) => p.x + p.r)) + 110;
   const y0 = Math.min(...pts.map((p) => p.y - p.r)) - 10, y1 = Math.max(...pts.map((p) => p.y + p.r)) + 10;
@@ -150,6 +195,8 @@ export function WalletGraph({ nodes, links }: { nodes: GraphNode[]; links: Graph
   const col = (m: GraphNode) => (m.kind === 'perp' ? 'var(--signal)' : 'var(--amber)');
   const top = L.clusters.slice(0, 8);
   return (
+    <div>
+    {picker}
     <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_280px]">
       <svg viewBox={`${x0} ${y0} ${x1 - x0} ${y1 - y0}`} className="h-auto max-h-[520px] w-full" role="img" aria-label={`Wallet network: ${L.wallets.length} wallets in ${L.clusters.length} clusters across ${L.markets.length} markets`} onMouseLeave={() => setHover(null)}>
         <defs><filter id="wg-glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4" /></filter></defs>
@@ -200,6 +247,7 @@ export function WalletGraph({ nodes, links }: { nodes: GraphNode[]; links: Graph
           <span>Line width = dollars. Ring: green all long, red all short, amber hedged.</span>
         </div>
       </div>
+    </div>
     </div>
   );
 }

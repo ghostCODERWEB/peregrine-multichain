@@ -145,6 +145,12 @@ code,pre { font-family:var(--font-geist-mono),monospace; }
 .segmented { position:relative; isolation:isolate; display:grid; grid-template-columns:repeat(var(--segments),minmax(0,1fr)); padding:3px; border-radius:12px; background:color-mix(in srgb,var(--ink-1) 6%,transparent); border:1px solid var(--hair); }
 .segmented button { transition:color var(--dur-fast) var(--ease-out); position:relative; z-index:1; min-height:30px; padding:4px 12px; font-size:12px; font-weight:700; color:var(--ink-muted); white-space:nowrap; }
 .segmented button[aria-pressed=true] { color:var(--ink-1); }
+/* Pill-shaped segments: the focus ring follows the pill, inside the track. */
+.segmented button { border-radius:999px; }
+.segmented button:focus-visible { outline:2px solid var(--mint); outline-offset:-2px; box-shadow:none; }
+.segmented.segmented-inline { display:inline-grid; width:auto; }
+/* Timeline filter: hide a minute group when none of its rows match. */
+[data-filter=spot] [data-kinds]:not([data-kinds~=spot]), [data-filter=perp] [data-kinds]:not([data-kinds~=perp]) { display:none; }
 .segmented-thumb { position:absolute; left:3px; top:3px; bottom:3px; width:calc((100% - 6px)/var(--segments)); transform:translateX(calc(var(--selected)*100%)); transition:transform var(--dur-normal) var(--ease-out); border-radius:9px; background:linear-gradient(180deg,color-mix(in srgb,var(--ink-1) 18%,transparent),color-mix(in srgb,var(--ink-1) 10%,transparent)); box-shadow:inset 0 1px 0 var(--hair-2),0 3px 8px #0002; }
 .terminal-tab[aria-pressed=true],.terminal-tab[aria-selected=true] { background:var(--accent); border-radius:10px; color:var(--ink-1); }
 section[aria-labelledby] { scroll-margin-top:7rem; }
