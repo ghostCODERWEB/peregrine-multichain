@@ -105,7 +105,7 @@ export function CascadeExplorer({ nodes, edges, evidence: initial, replay }: { n
             {!evidence[s.wallet] && (failed === s.wallet
               ? <p className="mt-3 text-[12px] text-ink-muted">This wallet&apos;s evidence could not be loaded. <button type="button" onClick={() => setAttempt((n) => n + 1)} className="font-semibold text-[var(--mint)] hover:underline">Try again</button></p>
               : <p className="mt-3 text-[12px] text-ink-muted">Loading evidence…</p>)}
-            <ol className="mt-3 max-h-[260px] flex-1 divide-y divide-[var(--hair)] overflow-y-auto text-[12px]">
+            <ol data-paged className="mt-3 max-h-[260px] flex-1 divide-y divide-[var(--hair)] overflow-y-auto text-[12px]">
               {ev.map((x) => (
                 <li key={`${x.token}:${x.at}`} className="flex items-center gap-2 py-1.5">
                   <TokenLogo symbol={x.symbol} chain={x.chain} address={x.token} size={16} />

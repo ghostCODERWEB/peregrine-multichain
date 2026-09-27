@@ -124,7 +124,7 @@ export default async function CoveragePage() {
           <p className="mt-2 text-[11px] text-ink-muted">Last scan <TimeAgo ts={u.scans.last} />.</p>
         </Card>
         <Card id="endpoints" title={`${u.byEndpoint.length} endpoints called, ${u.byEndpoint[0]?.endpoint ?? 'n/a'} the most`} sub="Live calls per endpoint, with credits.">
-          <ul tabIndex={0} aria-label="Scrollable list" className="max-h-[360px] space-y-1 overflow-y-auto">
+          <ul data-paged tabIndex={0} aria-label="Scrollable list" className="max-h-[360px] space-y-1 overflow-y-auto">
             {u.byEndpoint.map((e) => (
               <li key={e.endpoint} className="grid grid-cols-[minmax(0,13rem)_1fr_6rem] items-center gap-2 text-[12px]">
                 <span className="num truncate text-ink-2" title={e.endpoint}>{e.endpoint}</span>

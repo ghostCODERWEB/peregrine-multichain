@@ -19,6 +19,8 @@ export function MobileClamp() {
         if (s.dataset.clamp || s.parentElement?.closest('.material, [data-clamp]') || !hydrated(s)) continue;
         // Primary content (a price chart, a scorecard) opts out with data-no-clamp.
         if (s.scrollHeight < limit || s.matches('[data-no-clamp]') || s.querySelector('[data-no-clamp]')) continue;
+        // Paged tables and lists are already short; a second 'Show all' would hide their page numbers.
+        if (s.querySelector('table[data-sortable], table[data-page], .m-list, [data-paged]')) continue;
         s.dataset.clamp = 'closed';
         const btn = document.createElement('button');
         btn.type = 'button';

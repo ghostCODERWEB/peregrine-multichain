@@ -12,7 +12,7 @@ import { AreaSpark } from '@/components/viz/AreaSpark';
 import { ActivityRings } from '@/components/viz/ActivityRings';
 import { FlowOrbital } from '@/components/viz/FlowOrbital';
 import { FlowMovers } from '@/components/viz/FlowMovers';
-import { netFlowMap, chainNets } from '@/lib/viz/net-flow-map';
+import { netFlowMap, chainNets, allTraderOnly } from '@/lib/viz/net-flow-map';
 import { useSite } from '@/components/SiteContext';
 import { LockedPanel } from '@/components/ui/SurfaceKit';
 import { Segmented } from '@/components/ui/Segmented';
@@ -82,6 +82,8 @@ export function WeatherView({
     byNet.at(-1) && byNet.at(-1)!.net < 0 && { label: 'Largest outflow', chain: byNet.at(-1)!.chain, value: usd(byNet.at(-1)!.net, { signed: true }), tone: 'var(--flare)' },
   ].filter(Boolean) as Array<{ label: string; chain: string; value: string; tone: string }>;
   const nets = useMemo(() => new Map([...netMap.sellers, ...netMap.buyers].map((n) => [n.chain, n.net])), [netMap]);
+  // Chains read from all traders only: named beside the Smart Money figures instead of ranked against them.
+  const others = useMemo(() => allTraderOnly(data.chains), [data.chains]);
   const riskAlerts = (cls: string) => (
     <Card id="risk-alerts" title="Risk alerts" sub="Highest Token Score across chains, last 48 hours" className={cls}>
       <StormTicker storms={data.storms} />
@@ -188,6 +190,9 @@ export function WeatherView({
                     </dd>
                   </div>
                 </dl>
+                {others.length > 0 && <p className="seq mt-3 max-w-[520px] text-[12px] leading-relaxed text-ink-muted">All traders only, no Smart Money coverage: {others.sort((a, b) => Math.abs(b.net) - Math.abs(a.net)).map((c, i) => (
+                    <span key={c.chain}>{i ? ', ' : ''}<Link prefetch={false} href={`/chain/${c.chain}`} className="font-semibold text-ink-2 hover:underline">{chainName(c.chain)}</Link> <span className="num" style={{ color: c.net >= 0 ? 'var(--mint)' : 'var(--flare)' }}>{usd(c.net, { signed: true })}</span></span>
+                  ))}.</p>}
                 <div className="seq mt-7 flex flex-wrap gap-2" style={{ '--i': 3 } as React.CSSProperties}>
                   <Link prefetch={false} href="/flows" className="pill-button pill-primary">
                     Open Chain flows <span className="arrow" aria-hidden><Go /></span>

@@ -7,7 +7,7 @@ import { tokenChecker } from '@/server/token/checker';
 import { cachedCopyLab } from '@/server/copy/followability';
 import { marketPulse } from '@/server/pulse';
 import { getDb } from '@/server/nansen/db';
-import { chainNets } from '@/lib/viz/net-flow-map';
+import { chainNets, allTraderOnly } from '@/lib/viz/net-flow-map';
 import { chainName, usd, walletName } from '@/lib/viz/format';
 import type { DisplayMode } from '@/server/mode';
 import type { ChainTile } from '@/server/weather/bulletin';
@@ -36,6 +36,7 @@ export function MobileHome({ mode, chains }: { mode: DisplayMode; chains: ChainT
   const bars = Array.from({ length: 24 }, (_, i) => hourly.find((x) => x.h === i)?.net ?? 0);
   const maxBar = Math.max(1, ...bars.map(Math.abs));
   const nets = chainNets(chains).sort((a, b) => b.net - a.net);
+  const others = allTraderOnly(chains);
   const inflow = nets.filter((n) => n.net > 0).slice(0, 3), outflow = nets.filter((n) => n.net < 0).slice(-3).reverse();
   const risk = owner ? tokenChecker(true) : null;
   const radar = risk ? (risk.smIntoRisk.length ? risk.smIntoRisk.slice(0, 8).map((r) => ({ ...r, kind: 'buying' as const })) : risk.scored.filter((s) => s.score >= 50).slice(0, 8).map((s) => ({ chain: s.chain, address: s.address, symbol: s.symbol, score: s.score, net: 0, buyers: 0, kind: 'score' as const }))) : [];
@@ -129,6 +130,9 @@ export function MobileHome({ mode, chains }: { mode: DisplayMode; chains: ChainT
               subtitle={c.net >= 0 ? 'net inflow, 24h' : 'net outflow, 24h'} trailing={usd(c.net, { signed: true })} tone={c.net >= 0 ? 'in' : 'out'} />
           ))}
         </List>
+        {others.length > 0 && <p className="m-group-foot">All traders only, no Smart Money coverage: {others.sort((a, b) => Math.abs(b.net) - Math.abs(a.net)).map((c, i) => (
+                    <span key={c.chain}>{i ? ', ' : ''}<Link prefetch={false} href={`/chain/${c.chain}`} className="font-semibold text-ink-2 hover:underline">{chainName(c.chain)}</Link> <span className="num" style={{ color: c.net >= 0 ? 'var(--mint)' : 'var(--flare)' }}>{usd(c.net, { signed: true })}</span></span>
+                  ))}.</p>}
       </Group>
 
       <Group>

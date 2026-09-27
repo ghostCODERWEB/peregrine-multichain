@@ -46,13 +46,31 @@ export function netFlowMap(nets: ChainNet[], opts: { sellers?: number; buyers?: 
   return { edges, sellers, buyers, totalOut, totalIn };
 }
 
+type NetInput = { chain: string; source?: string | null; windows: Array<{ window: string; netFlowUsd: number; tokenCount?: number }> };
+
 /** A chain reading's measured net flow in one window (the public view's is
  *  all-trader market flow). Perp venues are left out: their flow is
- *  positioning, not spot capital. */
-export function chainNets(chains: Array<{ chain: string; windows: Array<{ window: string; netFlowUsd: number }> }>, window = '24h', skip = ['hyperliquid']): ChainNet[] {
+ *  positioning, not spot capital. A reading built from no tokens is left out
+ *  too: it means nothing was measured, not that the chain was flat.
+ *  Chains are read from different sources (Smart Money where Nansen covers the
+ *  chain, all traders elsewhere), and all-trader dollars dwarf Smart Money's.
+ *  So when Smart Money readings exist, only they are compared. */
+export function chainNets(chains: NetInput[], window = '24h', skip = ['hyperliquid']): ChainNet[] {
+  const rows = measured(chains, window, skip);
+  const sm = rows.filter((r) => r.source === 'smart-money');
+  return (sm.length >= 2 ? sm : rows).map(({ chain, net }) => ({ chain, net }));
+}
+
+/** Chains measured only from all traders while others have Smart Money, so chainNets leaves them out of the comparison. */
+export function allTraderOnly(chains: NetInput[], window = '24h', skip = ['hyperliquid']): ChainNet[] {
+  const rows = measured(chains, window, skip);
+  return rows.filter((r) => r.source === 'smart-money').length >= 2 ? rows.filter((r) => r.source !== 'smart-money').map(({ chain, net }) => ({ chain, net })) : [];
+}
+
+function measured(chains: NetInput[], window: string, skip: string[]) {
   return chains.flatMap((c) => {
     if (skip.includes(c.chain)) return [];
     const w = c.windows.find((x) => x.window === window);
-    return w && Number.isFinite(w.netFlowUsd) ? [{ chain: c.chain, net: w.netFlowUsd }] : [];
+    return w && Number.isFinite(w.netFlowUsd) && w.tokenCount !== 0 ? [{ chain: c.chain, net: w.netFlowUsd, source: c.source ?? null }] : [];
   });
 }
