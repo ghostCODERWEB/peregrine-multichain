@@ -24,7 +24,7 @@ export const NAV: NavItem[] = [
   { href: '/wallet', label: 'Profiler', icon: 'key', group: 'Research', also: ['/portfolio'] },
   { href: '/history', label: 'History', icon: 'gauge', group: 'Research' },
   { href: '/token', label: 'Token Checker', icon: 'shield', group: 'Research', also: ['/rug'] },
-  { href: '/agent', label: 'Ask Nansen', icon: 'bot', group: 'Act', ownerOnly: true },
+  { href: '/agent', label: 'Ask', icon: 'bot', group: 'Act', ownerOnly: true },
   { href: '/alerts', label: 'Alerts', icon: 'bell', group: 'Act', ownerOnly: true, signIn: true },
   { href: '/trade', label: 'Trade', icon: 'swap', group: 'Act', ownerOnly: true, signIn: true },
 ];

@@ -654,3 +654,5 @@ a.m-row:active { background-color: color-mix(in srgb, var(--ink-1) 7%, transpare
 .cascade-dot { animation: cascade-in .45s cubic-bezier(.2,.8,.2,1) both; }
 @keyframes cascade-in { from { opacity: 0; transform: translate(-50%, 6px) scale(.8); } to { opacity: 1; transform: translate(-50%, 0) scale(1); } }
 @media (prefers-reduced-motion: reduce) { .cascade-dot { animation: none; } }
+/* Research Desk: a cited evidence card lights up when its citation is tapped. */
+.research-ev.is-lit { box-shadow: 0 0 0 2px var(--signal), 0 10px 30px -12px color-mix(in srgb, var(--signal) 60%, transparent); }
