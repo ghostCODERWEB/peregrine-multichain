@@ -32,11 +32,12 @@ export function QuickRead({ chain, address, mode }: { chain: string; address: st
   const seller = [...trades].reverse().find((t) => t.net < 0) ?? null;
   const facts: Array<[string, React.ReactNode, React.ReactNode?]> = [];
   if (pulse) {
-    facts.push([`${owner ? 'Smart Money' : 'All-trader'} net flow, 24h`, <span key="n" style={{ color: (pulse.netflow ?? 0) >= 0 ? 'var(--mint)' : 'var(--flare)' }}>{usd(pulse.netflow, { signed: true })}</span>, pulse.volume ? `${pct((pulse.netflow ?? 0) / pulse.volume, 1)} of ${usd(pulse.volume)} volume` : null]);
-    if (pulse.buy_volume != null && pulse.sell_volume != null) facts.push(['Buy vs sell volume', `${usd(pulse.buy_volume)} / ${usd(pulse.sell_volume)}`, pulse.price_change != null ? `price ${pulse.price_change > 0 ? "+" : ""}${pct(pulse.price_change, 1)} in 24h` : null]);
+    facts.push([`${owner ? 'Smart Money' : 'All-trader'} net flow, 24h`, <span key="n" style={{ color: (pulse.netflow ?? 0) >= 0 ? 'var(--mint)' : 'var(--flare)' }}>{usd(pulse.netflow, { signed: true })}</span>, pulse.volume ? `${pct((pulse.netflow ?? 0) / pulse.volume, 1)} of ${usd(pulse.volume)} ${owner ? 'Smart Money ' : ''}volume` : null]);
+    if (pulse.buy_volume != null && pulse.sell_volume != null) facts.push([owner ? 'Smart Money buys vs sells' : 'Buy vs sell volume', `${usd(pulse.buy_volume)} / ${usd(pulse.sell_volume)}`, pulse.price_change != null ? `price ${pulse.price_change > 0 ? "+" : ""}${pct(pulse.price_change, 1)} in 24h` : null]);
   }
   if (owner && trades.length) {
-    facts.push(['Smart Money DEX wallets, 24h', `${trades.length} · ${usd(net, { signed: true })}`, topShare != null ? (topShare >= 0.5 ? `concentrated: one wallet is ${pct(topShare, 0)} of the flow` : `broad: largest wallet ${pct(topShare, 0)} of the flow`) : null]);
+    // Recorded trade by trade from Nansen's DEX feed; it can differ from the screener's net flow above.
+    facts.push(['Smart Money trades recorded, 24h', `${trades.length} wallet${trades.length === 1 ? '' : 's'} · ${usd(net, { signed: true })}`, topShare != null ? (topShare >= 0.5 ? `concentrated: one wallet is ${pct(topShare, 0)} of the flow` : `broad: largest wallet ${pct(topShare, 0)} of the flow`) : null]);
   }
   if (perp && perpTotal) facts.push([`${symbol} perps (observed)`, <Link prefetch={false} key="p" href={`/perps/${symbol!.toUpperCase()}`} className="hover:underline">{usd(perpTotal)}</Link>, smLong + smShort ? `Smart Money ${pct(smLong / (smLong + smShort), 0)} long` : 'no Smart Money positions']);
   const activity = pulse && perp ? 'Spot and perps' : perp ? 'Perps' : 'Spot';

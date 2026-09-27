@@ -86,12 +86,12 @@ function Tile({ s }: { s: SectorReading }) {
 export default async function SectorsPage() {
   const mode = await displayMode();
   const w = sectorWeather(viewOf(mode));
-  // Leaders among sectors with enough tokens to mean something. Flow Index is
-  // relative, so the top inflow is the highest-index sector that actually took
-  // in money, not merely the one losing it slowest.
+  // Leaders among sectors with enough tokens to mean something.
   const solid = w.sectors.filter((x) => (x.tokens ?? 0) >= 5);
-  const inflow = solid.filter((x) => (x.netFlow24hUsd ?? 0) > 0).sort((a, b) => b.pressure - a.pressure)[0];
-  const outflow = solid.filter((x) => (x.netFlow24hUsd ?? 0) < 0).sort((a, b) => a.pressure - b.pressure)[0];
+  // "Top inflow" shows dollars, so it is the largest dollar flow: the same leader the chart and pulse name
+  // (ranking by pressure put a +$129K sector over a +$265K one on the same page).
+  const inflow = solid.filter((x) => (x.netFlow24hUsd ?? 0) > 0).sort((a, b) => b.netFlow24hUsd! - a.netFlow24hUsd!)[0];
+  const outflow = solid.filter((x) => (x.netFlow24hUsd ?? 0) < 0).sort((a, b) => a.netFlow24hUsd! - b.netFlow24hUsd!)[0];
   const net = w.sectors.reduce((a, x) => a + (x.netFlow24hUsd ?? 0), 0);
   const count = (band: SectorReading['band']) => w.sectors.filter((x) => x.band === band).length;
 

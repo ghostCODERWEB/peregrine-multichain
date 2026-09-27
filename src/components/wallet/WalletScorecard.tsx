@@ -60,9 +60,9 @@ export async function WalletScorecard({ address, balP, pnlP }: { address: string
   const perps = perpGrade(hl?.stats ?? null);
   const predict = predictGrade(pm?.summary ?? null);
   const overall = overallGrade([
-    { grade: spot, weight: ok(p) ? Math.max(1, Math.abs(p.realizedUsd)) : 0 },
-    { grade: perps, weight: hl?.stats ? Math.max(1, Math.abs(hl.stats.realizedPnl)) : 0 },
-    { grade: predict, weight: pm?.summary ? Math.max(1, Math.abs((pm.summary.realizedUsd ?? 0) + (pm.summary.unrealizedUsd ?? 0))) : 0 },
+    { grade: spot, weight: ok(p) ? Math.max(1, Math.abs(p.realizedUsd)) : 0, pnl: ok(p) ? p.realizedUsd : null },
+    { grade: perps, weight: hl?.stats ? Math.max(1, Math.abs(hl.stats.realizedPnl)) : 0, pnl: hl?.stats?.realizedPnl ?? null },
+    { grade: predict, weight: pm?.summary ? Math.max(1, Math.abs((pm.summary.realizedUsd ?? 0) + (pm.summary.unrealizedUsd ?? 0))) : 0, pnl: pm?.summary ? (pm.summary.realizedUsd ?? 0) + (pm.summary.unrealizedUsd ?? 0) : null },
   ]);
 
   const tokens = ok(b) ? [...b.positions].sort((x, y) => y.valueUsd - x.valueUsd).filter((x) => !STABLE.test(x.symbol)).slice(0, 4) : [];

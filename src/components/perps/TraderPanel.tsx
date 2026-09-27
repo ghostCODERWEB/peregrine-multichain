@@ -87,7 +87,7 @@ export function TraderPanel({ address }: { address: string }) {
       {s && s.top5_coins.length > 0 && (
         <p className="text-[12.5px] text-ink-2">
           Best coins, 30d:{' '}
-          {s.top5_coins.map((c, i) => <span key={c.coin}>{i ? ' · ' : ''}{coinLink(c.coin)} {pnl(c.realized_pnl_usd)} over {c.closed_trade_count} trades</span>)}
+          {s.top5_coins.map((c, i) => <span key={c.coin}>{i ? ' · ' : ''}{coinLink(c.coin)} {pnl(c.realized_pnl_usd)} over {c.closed_trade_count} trade{c.closed_trade_count === 1 ? '' : 's'}</span>)}
         </p>
       )}
       <div>

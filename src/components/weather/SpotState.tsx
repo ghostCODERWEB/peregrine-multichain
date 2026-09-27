@@ -1,4 +1,5 @@
 import { StatStrip } from '@/components/StatStrip';
+import { isStablecoin } from '@/lib/models/trade-side';
 import { getDb } from '@/server/nansen/db';
 import type { DisplayMode } from '@/server/mode';
 import { chainName, pct, usd } from '@/lib/viz/format';
@@ -18,7 +19,8 @@ export function SpotState({ mode }: { mode: DisplayMode }) {
   if (!cur.length) return null;
   const vol = cur.reduce((a, r) => a + r.volume, 0);
   const buy = cur.reduce((a, r) => a + (r.buy_volume ?? 0), 0), sell = cur.reduce((a, r) => a + (r.sell_volume ?? 0), 0);
-  const accel = cur.filter((r) => r.volume >= 250_000 && (prev.get(`${r.chain}:${r.token_address}`) ?? 0) > 0)
+  // A real acceleration: $250K+ today from at least $25K a day earlier (a $944 base makes any ratio huge), stablecoins aside.
+  const accel = cur.filter((r) => r.volume >= 250_000 && (prev.get(`${r.chain}:${r.token_address}`) ?? 0) >= 25_000 && !isStablecoin(r.symbol))
     .map((r) => ({ r, x: r.volume / prev.get(`${r.chain}:${r.token_address}`)! })).sort((a, b) => b.x - a.x)[0];
   const sm = mode === 'owner' ? db.prepare(`SELECT chain, token_address AS t, MAX(token_symbol) AS s, SUM(CASE WHEN side='buy' THEN usd_value ELSE -usd_value END) AS net, COUNT(DISTINCT wallet) AS w FROM smart_money_trades WHERE traded_at >= ? GROUP BY chain, token_address`).all(now - 86_400_000) as Array<{ chain: string; t: string; s: string | null; net: number; w: number }> : [];
   const smNet = sm.reduce((a, x) => a + x.net, 0);

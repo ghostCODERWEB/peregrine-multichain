@@ -1,5 +1,6 @@
 // The top-bar ticker: live readings across the app, from the scanner's stored
 // Nansen reads (no call per view), each linking to its page.
+import { isRiskListable } from '@/lib/models/trade-side';
 import { getDb } from '@/server/nansen/db';
 import { navStatus } from '@/server/nav-status';
 import { perpBoard } from '@/server/perps/board';
@@ -45,7 +46,11 @@ function buildTicker(mode: DisplayMode, now: number): TickerItem[] {
     } catch { /* no trades yet */ }
   }
   try {
-    const r = db.prepare(`SELECT chain, token_address AS t, symbol, score FROM storm_scores WHERE computed_at >= ? AND COALESCE(symbol, '') <> '' AND sub_scores LIKE '%"v":2%' ORDER BY score DESC LIMIT 1`).get(now - 2 * 86_400_000) as { chain: string; t: string; symbol: string; score: number } | undefined;
+    // Each token's latest score (an older, higher reading would disagree with every other list), highest first.
+    const r = (db.prepare(`SELECT s.chain, s.token_address AS t, s.symbol, s.score FROM storm_scores s
+      JOIN (SELECT MAX(id) AS id FROM storm_scores WHERE computed_at >= ? GROUP BY chain, token_address) m ON m.id = s.id
+      WHERE COALESCE(s.symbol, '') <> '' AND s.sub_scores LIKE '%"v":2%' ORDER BY s.score DESC LIMIT 20`).all(now - 2 * 86_400_000) as Array<{ chain: string; t: string; symbol: string; score: number }>)
+      .find((x) => isRiskListable(x.symbol));
     if (r) out.push({ key: 'risk', label: 'Highest Token Score', value: `${r.symbol} ${Math.round(r.score)}`, href: `/token/${r.chain}/${encodeURIComponent(properAddress(r.chain, r.t))}`, tone: 'out', logo: { symbol: r.symbol, chain: r.chain, address: properAddress(r.chain, r.t) } });
   } catch { /* no scores */ }
   return out;

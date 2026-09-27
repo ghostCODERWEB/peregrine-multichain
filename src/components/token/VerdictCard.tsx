@@ -59,7 +59,7 @@ export function VerdictCard({ chain, address, ready }: { chain: string; address:
       </ul>
       <div className="mt-3 flex items-start gap-2 rounded-[var(--r-inner)] border border-[color-mix(in_srgb,var(--signal)_30%,var(--hair))] bg-[color-mix(in_srgb,var(--signal)_6%,transparent)] p-3 text-[12.5px] leading-relaxed text-ink">
         <Sparkles size={14} className="mt-0.5 shrink-0 text-[var(--signal)]" aria-hidden />
-        {v.ai ? <span>{v.ai.text}</span> : aiLoading ? <span className="text-ink-muted">Nansen agent is reading the signals…</span> : <span className="text-ink-muted">agent note unavailable right now.</span>}
+        {v.ai ? <span>{v.ai.text} <span className="whitespace-nowrap text-[11px] text-ink-muted">· Nansen agent, {Math.max(1, Math.round((Date.now() - v.ai.at) / 60_000))} min ago</span></span> : aiLoading ? <span className="text-ink-muted">Nansen agent is reading the signals…</span> : <span className="text-ink-muted">agent note unavailable right now.</span>}
       </div>
       <p className="mt-2 text-[11px] text-ink-muted">Rule: 55+ Danger, 35+ Watch, else Low risk. <Link prefetch={false} href="/proof" className="font-semibold text-ink-2 hover:text-ink">How well the score works</Link></p>
     </section>

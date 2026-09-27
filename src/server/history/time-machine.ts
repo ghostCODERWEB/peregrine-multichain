@@ -8,7 +8,7 @@ export const TM_ENDPOINT = 'v1beta1/smart-money/historical-token-balances';
 type Row = { chain: string; token_address: string; token_symbol: string | null; value_usd: number | null; holders_count: number | null; share_of_holdings_percent: number | null; token_sectors?: string[] | null };
 
 export interface TmRow { /** In only one snapshot's top 200: the other value is unknown, not zero. */ edge: 'entered-top' | 'left-top' | null; chain: string; token: string; symbol: string | null; thenUsd: number; nowUsd: number; deltaUsd: number; deltaPct: number | null; thenHolders: number | null; nowHolders: number | null; sectors: string[] }
-export interface TmResult { then: string; now: string; totalThen: number; totalNow: number; rows: TmRow[]; tally: CallTally; note: string | null }
+export interface TmResult { then: string; now: string; totalThen: number; totalNow: number; rows: TmRow[]; tally: CallTally; note: string | null; /** One side has no snapshot: nothing to compare. */ incomplete?: boolean }
 
 async function at(date: string): Promise<Row[]> {
   const r = await traced<{ data: Row[] }>(TM_ENDPOINT, { as_of_date: date, chains: [], pagination: { page: 1, per_page: 200 } }, 25);
@@ -31,8 +31,20 @@ export function compareHoldings(a: Row[], b: Row[]): TmRow[] {
 export async function timeMachine(then: string, now: string): Promise<TmResult> {
   const tally: CallTally = { calls: 0, credits: 0, cached: 0 };
   return callScope.run(tally, async () => {
-    const [a, b] = await Promise.all([at(then), at(now)]);
-    const note = !b.length ? `Nansen has no snapshot for ${now} yet (daily snapshots settle the next morning UTC).` : !a.length ? `Nansen returned no snapshot for ${then}.` : null;
-    return { then, now, totalThen: a.reduce((s, r) => s + (r.value_usd ?? 0), 0), totalNow: b.reduce((s, r) => s + (r.value_usd ?? 0), 0), rows: compareHoldings(a, b).slice(0, 60), tally, note };
+    const [a, first] = await Promise.all([at(then), at(now)]);
+    // The newest day often has not settled yet: step back one day rather than compare against nothing
+    // (an empty "now" read as $0 and a −100% change).
+    let b = first, used = now, note: string | null = null;
+    if (!b.length) {
+      const prev = isoDay(new Date(Date.parse(`${now}T00:00:00Z`) - 86_400_000));
+      if (prev > then) {
+        b = await at(prev);
+        if (b.length) { note = `Nansen's ${now} snapshot has not settled yet (it does the next morning UTC); comparing with ${prev}, the latest one.`; used = prev; }
+      }
+    }
+    if (!b.length) note = `Nansen has no snapshot for ${now} yet (daily snapshots settle the next morning UTC).`;
+    else if (!a.length) note = `Nansen returned no snapshot for ${then}.`;
+    const incomplete = !a.length || !b.length;
+    return { then, now: used, totalThen: a.reduce((s, r) => s + (r.value_usd ?? 0), 0), totalNow: b.reduce((s, r) => s + (r.value_usd ?? 0), 0), rows: incomplete ? [] : compareHoldings(a, b).slice(0, 60), tally, note, incomplete };
   });
 }

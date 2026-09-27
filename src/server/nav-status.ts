@@ -43,7 +43,7 @@ export function navStatus(mode: DisplayMode, now = Date.now()): NavStatus {
   } catch { /* no perp snapshot */ }
   try {
     const w = sectorWeather(owner ? 'private' : 'public', now);
-    const lead = w.sectors.filter((s) => (s.netFlow24hUsd ?? 0) > 0 && (s.tokens ?? 0) >= 5).sort((a, b) => b.pressure - a.pressure)[0];
+    const lead = w.sectors.filter((s) => (s.netFlow24hUsd ?? 0) > 0 && (s.tokens ?? 0) >= 5).sort((a, b) => (b.netFlow24hUsd ?? 0) - (a.netFlow24hUsd ?? 0))[0];
     if (lead) out['/sectors'] = { text: `${lead.sector} ${usd(lead.netFlow24hUsd, { signed: true })}`, tone: 'in' };
   } catch { /* no sector snapshot */ }
   try {
@@ -51,7 +51,8 @@ export function navStatus(mode: DisplayMode, now = Date.now()): NavStatus {
     if (n && !out['/alpha']) out['/alpha'] = { text: `${n} tokens with strong one-way flow` };
   } catch { /* no pulse */ }
   try {
-    const hot = predictionReadings(readCache<unknown>('prediction-market/categories', { pagination: { page: 1, per_page: 60 } }, null, { stale: true })?.value).filter((r) => r.score != null).sort((a, b) => b.score! - a.score!)[0];
+    const hot = predictionReadings(readCache<unknown>('prediction-market/categories', { pagination: { page: 1, per_page: 60 } }, null, { stale: true })?.value).filter((r) => r.score != null && (r.value ?? 0) >= 10_000).sort((a, b) => b.score! - a.score!)[0];
+    // Categories under $10K a day are left out: a $60 day is not "running hot", whatever its ratio.
     if (hot) out['/predict'] = { text: `${hot.name} running hot · ${usd(hot.value)} 24h`, tone: 'in' };
   } catch { /* no category cache */ }
   try {
