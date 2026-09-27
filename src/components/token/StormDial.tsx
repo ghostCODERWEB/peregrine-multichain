@@ -5,7 +5,7 @@ import { ActivityRings } from '@/components/viz/ActivityRings';
 import { InfoPopover } from '@/components/InfoPopover';
 import { STORM_CLASS, STORM_LABEL } from '@/lib/viz/scales';
 import { num, pct } from '@/lib/viz/format';
-import { stormBand, type StormInput } from '@/lib/models/storm-score';
+import { STORM_INPUTS, stormBand, type StormInput, type StormSubScores } from '@/lib/models/storm-score';
 import type { StormWave } from '@/server/token/storm';
 import type { Indicator } from '@/server/token/waves';
 
@@ -18,10 +18,14 @@ const INPUT_LABEL: Record<StormInput, [string, string]> = {
   nansenRisk: ['R', 'Nansen risk'],
 };
 
+/** The scored inputs only: cached rows also carry bookkeeping keys (v, stable). */
+function inputEntries(sub: StormSubScores): Array<[StormInput, number]> {
+  return STORM_INPUTS.flatMap((k) => (typeof sub[k] === 'number' ? [[k, sub[k] as number] as [StormInput, number]] : []));
+}
+
 export function stormTitle(symbol: string | null, s: StormWave): string {
   const r = s.result;
-  const lead = (Object.entries(r.subScores) as Array<[StormInput, number | null]>)
-    .filter(([, v]) => v != null)
+  const lead = inputEntries(r.subScores)
     .sort((a, b) => (b[1] as number) - (a[1] as number))[0];
   const name = lead && (lead[0] === 'nansenRisk' ? 'Nansen risk' : INPUT_LABEL[lead[0]][1].toLowerCase());
   const storm = r.band === 'watch' || r.band === 'warning';
@@ -95,8 +99,7 @@ export function StormDial({ s, indicators }: { s: StormWave; indicators: Indicat
       <ActivityRings
         value={r.score}
         band={STORM_LABEL[r.band]}
-        values={(Object.entries(r.subScores) as Array<[StormInput, number | null]>)
-          .filter((v): v is [StormInput, number] => v[1] != null)
+        values={inputEntries(r.subScores)
           .sort((a, b) => b[1] - a[1])
           .slice(0, 4)
           .map(([key, value]) => ({ name: INPUT_LABEL[key][1], value }))}
