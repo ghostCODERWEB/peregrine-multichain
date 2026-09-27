@@ -349,6 +349,8 @@ Screenshots come from demo mode, which is a public view. Copy Lab, Cascades and 
 
 <div align="center">
 
+<a href="https://nansen.ai"><img src="public/brand/nansen/wordmark-greenwhite.svg" height="28" alt="Nansen" /></a>
+
 Built for the **Nansen Meridian Buildathon** on the [Nansen API](https://nansen.ai/api)
 
 </div>
