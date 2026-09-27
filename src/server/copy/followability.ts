@@ -125,7 +125,7 @@ export async function computeCopyLab(opts: { maxTokens?: number; minUsd?: number
 
   const times = buys.map((b) => b.at);
   const lab: CopyLab = {
-    at: now, window: { from: Math.min(...times), to: Math.max(...times) },
+    at: now, window: { from: times.length ? Math.min(...times) : now, to: times.length ? Math.max(...times) : now },
     buysMeasured: measured, walletsScored: wallets.length, tokensPriced: series.size, calls,
     decay: { mean: all.map(mean), median: all.map(median), win: all.map((xs) => (xs.length ? xs.filter((x) => x > 0).length / xs.length : 0)) },
     wallets,
@@ -145,10 +145,14 @@ export function walletFollow(address: string): WalletFollow | null {
 }
 
 let running: Promise<CopyLab> | null = null;
-/** Recompute at most every 6 hours, in the background; callers read the cached result. */
+/** How long a study stays fresh: 6 hours, but only 30 minutes when it measured
+ *  nothing (the tape was too young), so it fills in as soon as buys age 24h. */
+export const studyTtl = (lab: Pick<CopyLab, 'buysMeasured'>) => (lab.buysMeasured > 0 ? 6 * 3_600_000 : 30 * 60_000);
+
+/** Recompute when stale, in the background; callers read the cached result. */
 export function refreshCopyLab(force = false): Promise<CopyLab> | null {
   const c = cachedCopyLab();
-  if (!force && c && Date.now() - c.at < 6 * 3_600_000) return null;
+  if (!force && c && Date.now() - c.at < studyTtl(c)) return null;
   if (!running) running = computeCopyLab().finally(() => { running = null; });
   return running;
 }
