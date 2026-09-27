@@ -23,12 +23,21 @@ const NODE_R = 21;
 const r1 = (n: number) => Math.round(n * 10) / 10;
 
 /** Pure placement (exported for tests): the ring layout, capped per side,
- *  with at most five flows drawn, largest first. */
+ *  with at most five flows drawn, largest first. Each chain shown keeps its
+ *  largest flow before the rest fill by size, so no node is left unconnected. */
 export function orbitalLayout(all: OrbitalFlow[]) {
   const edges = all.filter((f) => !f.inferred).sort((a, b) => b.netUsd - a.netUsd)
     .map((f) => ({ from: f.from, to: f.to, netUsd: f.netUsd, walletCount: f.walletCount, confidence: 1 }));
   const full = flowLayout(edges, W, H, RING, MAX_PER_SIDE, NODE_R + 5); // lines meet the outer ring
-  return { ...full, arcs: full.arcs.slice(0, 5) };
+  const byUsd = [...full.arcs].sort((a, b) => b.edge.netUsd - a.edge.netUsd);
+  const keep = new Set<(typeof byUsd)[number]>();
+  for (const n of full.nodes) {
+    if (keep.size >= 5 || byUsd.some((a) => keep.has(a) && (a.from === n.chain || a.to === n.chain))) continue;
+    const top = byUsd.find((a) => a.from === n.chain || a.to === n.chain);
+    if (top) keep.add(top);
+  }
+  for (const a of byUsd) { if (keep.size >= 5) break; keep.add(a); }
+  return { ...full, arcs: byUsd.filter((a) => keep.has(a)) };
 }
 
 export function FlowOrbital({ fronts, modeled = false, nets }: { fronts: OrbitalFlow[]; modeled?: boolean; nets?: Map<string, number> }) {

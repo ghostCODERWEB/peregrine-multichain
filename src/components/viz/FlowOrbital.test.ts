@@ -25,6 +25,15 @@ describe('orbitalLayout', () => {
     }
   });
 
+  it('connects every chain shown, even when its only flows are the smallest', () => {
+    const fronts = [flow('tron', 'solana', 2215), flow('near', 'solana', 1239), flow('robinhood', 'solana', 494),
+      flow('tron', 'ethereum', 425), flow('near', 'ethereum', 238), flow('tron', 'base', 219)];
+    const { nodes, arcs } = orbitalLayout(fronts);
+    expect(arcs).toHaveLength(5);
+    for (const n of nodes) expect(arcs.some((a) => a.from === n.chain || a.to === n.chain), n.chain).toBe(true);
+    expect(arcs[0]).toMatchObject({ from: 'tron', to: 'solana' }); // the lead arc is still the largest
+  });
+
   it('starts and ends every arc at a node’s rim, never at its centre', () => {
     const { nodes, arcs } = orbitalLayout([flow('a', 'x', 10), flow('b', 'y', 8)]);
     for (const a of arcs) {
