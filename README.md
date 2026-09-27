@@ -81,7 +81,7 @@ flowchart LR
 2. **Leaders.** Entry rank is scaled from 0 (first) to 1 (last). If entry order were random, a wallet's mean rank would be 0.5. Each wallet with 3+ episodes gets a z-test, and the results are corrected for testing hundreds of wallets at once (10% false-discovery rate).
 3. **Precedence links.** For each pair of wallets that entered 3+ tokens together, an exact binomial test on how often each went first. Entries within a minute count as ties.
 
-**Current result (30 days of data):** 12,443 Smart Money buys → 334 episodes → 463 wallets tested → **4 leaders survive the correction**, 16 consistent followers and 18 "enters before" links. For example, one leader typically enters 2.6 hours before the median Smart Money buyer across 13 episodes (p = 0.00008).
+**Current result (30 days of data):** 12,435 Smart Money buys → 334 episodes → 463 wallets tested → **2 leaders survive the correction**, 15 consistent followers and 17 "enters before" links. For example, one leader typically enters 2.6 hours before the median Smart Money buyer across 13 episodes (p = 0.00008).
 
 **Evidence.** Click any wallet to see each token, its rank of k, and how far ahead or behind the median entrant it was. The replay shows one token's Smart Money buyers in the order they entered. Wallet pages show each wallet's cascade role.
 

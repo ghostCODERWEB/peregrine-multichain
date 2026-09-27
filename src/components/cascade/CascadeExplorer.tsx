@@ -64,7 +64,12 @@ export function CascadeExplorer({ nodes, edges, evidence, replay }: { nodes: Map
             );
           })}
         </svg>
-        <p className="mt-1 text-[11.5px] text-ink-muted">Ringed: leaders that survive a 10% false-discovery-rate correction across every wallet tested. Mint = earlier than chance (p &lt; 0.05), red = later than chance, grey = no evidence either way.</p>
+        <div className="mt-3 grid gap-x-6 gap-y-2 border-t border-[var(--hair)] pt-3 text-[12.5px] sm:grid-cols-2">
+          <p className="flex items-start gap-2 text-ink-2"><span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[var(--mint)]" /><span><b className="text-ink">Leaders</b> buy before most other Smart Money wallets, more often than random order would explain.</span></p>
+          <p className="flex items-start gap-2 text-ink-2"><span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[var(--flare)]" /><span><b className="text-ink">Followers</b> usually buy after the others: by the time they enter, the move is often underway.</span></p>
+          <p className="flex items-start gap-2 text-ink-2"><span className="mt-0.5 grid h-3.5 w-3.5 shrink-0 place-items-center rounded-full border border-[var(--mint)]"><span className="h-1.5 w-1.5 rounded-full bg-[var(--mint)]" /></span><span><b className="text-ink">Ringed</b> leaders stay significant even after checking every wallet at once: the strongest evidence.</span></p>
+          <p className="flex items-start gap-2 text-ink-2"><span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[var(--ink-muted)] opacity-50" /><span><b className="text-ink">Grey</b> wallets show no consistent order. Higher dots appear in more tokens; arrows mean one wallet reliably buys before another.</span></p>
+        </div>
       </section>
 
       <section className="material flex flex-col p-4 sm:p-5 xl:col-span-4" aria-labelledby="evidence">
