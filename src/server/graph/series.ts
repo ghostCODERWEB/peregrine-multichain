@@ -2,9 +2,14 @@
 // (no Nansen call on view). Each function states its source.
 import { getDb } from '@/server/nansen/db';
 import type { Cohort } from '@/lib/perps/positions';
+import { liveMemo } from '@/server/live-memo';
 
-/** Smart Money DEX trades per hour (smart_money_trades): buys, sells, net, wallets, top token. */
+/** Smart Money DEX trades per hour (smart_money_trades): buys, sells, net, wallets, top token. Live reads are memoized for a minute. */
 export function smFlowSeries(hours = 168, now = Date.now()) {
+  return liveMemo(`smflow:${hours}`, now, 60_000, () => computeSmFlowSeries(hours, now));
+}
+
+function computeSmFlowSeries(hours: number, now: number) {
   const rows = getDb().prepare(`
     SELECT (traded_at / 3600000) * 3600000 AS h,
       SUM(CASE WHEN side='buy' THEN usd_value ELSE 0 END) AS buy, SUM(CASE WHEN side='sell' THEN usd_value ELSE 0 END) AS sell,
@@ -14,7 +19,7 @@ export function smFlowSeries(hours = 168, now = Date.now()) {
     SELECT (traded_at / 3600000) * 3600000 AS h, token_symbol AS s, chain, token_address AS t, SUM(CASE WHEN side='buy' THEN usd_value ELSE -usd_value END) AS net
     FROM smart_money_trades WHERE traded_at >= ? AND token_symbol IS NOT NULL GROUP BY h, chain, token_address`).all(now - hours * 3_600_000) as Array<{ h: number; s: string; chain: string; t: string; net: number }>;
   const byHour = new Map<number, typeof tops>();
-  for (const r of tops) byHour.set(r.h, [...(byHour.get(r.h) ?? []), r]);
+  for (const r of tops) { const list = byHour.get(r.h); if (list) list.push(r); else byHour.set(r.h, [r]); }
   return rows.map((r) => {
     const list = (byHour.get(r.h) ?? []).sort((a, b) => Math.abs(b.net) - Math.abs(a.net)).slice(0, 5).map((x) => ({ symbol: x.s, chain: x.chain, token: x.t, net: x.net }));
     return { t: r.h, buy: r.buy, sell: r.sell, net: r.buy - r.sell, wallets: r.wallets, top: list };

@@ -1,6 +1,7 @@
 import { SmFlowChart, WalletGraph } from '@/components/charts/IntelCharts';
 import { smFlowSeries, walletGraph } from '@/server/graph/series';
 import { usd } from '@/lib/viz/format';
+import { compact } from '@/lib/compact';
 
 /** Smart Money flow over time and the wallet network, from stored scanner reads (no Nansen call on view). */
 export function SmartMoneyCharts() {
@@ -20,7 +21,7 @@ export function SmartMoneyCharts() {
           Bought <span className="font-semibold text-ink">{usd(buy)}</span> · sold <span className="font-semibold text-ink">{usd(sell)}</span> · net <span className="font-semibold" style={{ color: buy - sell >= 0 ? 'var(--mint)' : 'var(--flare)' }}>{usd(buy - sell, { signed: true })}</span>
           {peak && <> · biggest hour {new Date(peak.t).toISOString().slice(5, 13).replace('T', ' ')}:00 UTC ({usd(peak.net, { signed: true })})</>}
         </p>
-        <SmFlowChart points={flow} />
+        <SmFlowChart points={compact(flow)} />
       </section>
       <section aria-labelledby="wgraph" className="material min-w-0 p-4 sm:p-5">
         <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
@@ -28,7 +29,7 @@ export function SmartMoneyCharts() {
           <span className="text-[12px] text-ink-muted">{wallets} wallets · {markets} markets · {graph.links.length} ties</span>
         </div>
         <p className="mb-2 text-[12.5px] text-ink-2">Wallets active in 2+ markets, grouped by position.</p>
-        <WalletGraph nodes={graph.nodes} links={graph.links} />
+        <WalletGraph nodes={compact(graph.nodes)} links={compact(graph.links)} />
       </section>
     </div>
   );

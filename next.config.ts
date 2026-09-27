@@ -7,6 +7,8 @@ const nextConfig: NextConfig = {
   distDir: process.env.NEXT_DIST_DIR ?? '.next',
   // The dev badge sits over the sidebar's footer; build errors still show.
   devIndicators: false,
+  // Responses are compressed by scripts/server.mjs, which coalesces Next's per-chunk flushes.
+  compress: false,
   // Logos and brand images: Next serves public/ files with max-age=0, so every page view re-checked ~100 logos.
   // They change only with a deploy; a day fresh plus a week of background revalidation is plenty.
   async headers() {
