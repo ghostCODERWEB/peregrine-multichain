@@ -24,7 +24,25 @@ export function NansenButton({ href, label, size = 'md', logo = true, className 
   );
 }
 
-/** The Get Nansen call to action (referral link). */
-export function GetNansen({ className = '' }: { className?: string }) {
-  return <NansenButton href={NANSEN_REF_URL} label="Get Nansen" className={className} />;
+/** The Get Nansen call to action (referral link). `card` is the sidebar version: a quiet dark card with a mint edge. */
+export function GetNansen({ className = '', variant = 'button' }: { className?: string; variant?: 'button' | 'card' }) {
+  const [iconOk, setIconOk] = useState(true);
+  if (variant === 'button') return <NansenButton href={NANSEN_REF_URL} label="Get Nansen" className={className} />;
+  return (
+    <a href={NANSEN_REF_URL} target="_blank" rel="noopener noreferrer" className={`nansen-card group items-center gap-3 rounded-[16px] p-2.5 pr-3 ${className}`}>
+      <span className="nansen-card-logo grid h-9 w-9 shrink-0 place-items-center overflow-hidden rounded-[10px]">
+        {iconOk ? (
+          // eslint-disable-next-line @next/next/no-img-element -- Nansen's own hosted icon; no optimizer proxy
+          <img src={NANSEN_ICON} alt="" width={36} height={36} referrerPolicy="no-referrer" onError={() => setIconOk(false)} className="h-full w-full object-cover" />
+        ) : <span className="text-[16px] font-black text-[#5ff5c8]">N</span>}
+      </span>
+      <span className="min-w-0 flex-1 leading-tight">
+        <span className="block text-[13.5px] font-bold tracking-[-0.01em] text-ink">Get Nansen</span>
+        <span className="block truncate text-[11px] text-ink-muted">Onchain data pro<//span>
+      </span>
+      <span className="nansen-card-go grid h-7 w-7 shrink-0 place-items-center rounded-full">
+        <ChevronRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" strokeWidth={3} aria-hidden />
+      </span>
+    </a>
+  );
 }

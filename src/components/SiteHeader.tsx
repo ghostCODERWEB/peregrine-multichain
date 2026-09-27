@@ -49,12 +49,12 @@ export async function SiteHeader() {
             Demo{recorded ? ` · recorded ${recorded.slice(0, 10)}` : ' mode'}
           </span>
         )}
-        <GetNansen className="hidden lg:flex" />
-        <div className="flex items-center gap-1.5 lg:justify-between lg:px-1">
+        <GetNansen variant="card" className="hidden lg:flex" />
+        <div className="flex items-center gap-1.5 lg:justify-between lg:pl-0.5 lg:pr-1">
           {accounts && <span className="hidden lg:inline"><AccountButton signedIn={!!ctx.user} address={ctx.user?.address ?? null} /></span>}
           <ThemeToggle />
-          <span className="hidden items-center gap-3 lg:flex">
-            <Link href="/coverage" className="text-[11.5px] font-medium text-ink-muted transition-colors hover:text-ink">Data coverage</Link>
+          <span className="hidden items-center gap-2.5 lg:flex [&>a+a]:before:mr-2.5 [&>a+a]:before:text-ink-muted/50 [&>a+a]:before:content-['·']">
+            <Link href="/coverage" className="whitespace-nowrap text-[11.5px] font-medium text-ink-muted transition-colors hover:text-ink">Coverage</Link>
             <Link href="/proof" className="text-[11.5px] font-medium text-ink-muted transition-colors hover:text-ink">Proof</Link>
             {accounts && <Link href="/account" className="text-[11.5px] font-medium text-ink-muted transition-colors hover:text-ink">Account</Link>}
           </span>
