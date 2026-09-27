@@ -28,7 +28,7 @@ export default async function FlowsPage() {
   const weather = weatherMap(now, view);
   const chains = weather.map((c) => ({ chain: c.chain, cpi: c.cpi }));
   // Public view: measured per-chain net flow, the only flow data Nansen lets a public page show.
-  const netChains = weather.map((c) => ({ chain: c.chain, cpi: c.cpi, windows: c.windows.map((w) => ({ window: w.window, netFlowUsd: w.netFlowUsd })) }));
+  const netChains = weather.map((c) => ({ chain: c.chain, cpi: c.cpi, source: c.source, windows: c.windows.map((w) => ({ window: w.window, netFlowUsd: w.netFlowUsd })) }));
   const maxDay = Math.max(1, ...(history?.days ?? []).map((d) => d.netUsd));
   const maxChain = Math.max(1, ...(history?.chains ?? []).map((c) => Math.abs(c.net)));
   const weekTotal = (history?.days ?? []).reduce((s, d) => s + d.netUsd, 0);

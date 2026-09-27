@@ -12,7 +12,7 @@ import { AreaSpark } from '@/components/viz/AreaSpark';
 import { ActivityRings } from '@/components/viz/ActivityRings';
 import { FlowOrbital } from '@/components/viz/FlowOrbital';
 import { FlowMovers } from '@/components/viz/FlowMovers';
-import { netFlowMap, chainNets } from '@/lib/viz/net-flow-map';
+import { netFlowMap, chainNets, otherNets } from '@/lib/viz/net-flow-map';
 import { useSite } from '@/components/SiteContext';
 import { LockedPanel } from '@/components/ui/SurfaceKit';
 import { Segmented } from '@/components/ui/Segmented';
@@ -81,6 +81,8 @@ export function WeatherView({
     byNet[0] && byNet[0].net > 0 && { label: 'Largest inflow', chain: byNet[0].chain, value: usd(byNet[0].net, { signed: true }), tone: 'var(--mint)' },
     byNet.at(-1) && byNet.at(-1)!.net < 0 && { label: 'Largest outflow', chain: byNet.at(-1)!.chain, value: usd(byNet.at(-1)!.net, { signed: true }), tone: 'var(--flare)' },
   ].filter(Boolean) as Array<{ label: string; chain: string; value: string; tone: string }>;
+  // Chains read from all-trader flow only: named apart, never ranked against Smart Money totals.
+  const others = useMemo(() => otherNets(data.chains).filter((n) => Math.abs(n.net) >= 1).sort((a, b) => Math.abs(b.net) - Math.abs(a.net)), [data.chains]);
   const nets = useMemo(() => new Map([...netMap.sellers, ...netMap.buyers].map((n) => [n.chain, n.net])), [netMap]);
   const riskAlerts = (cls: string) => (
     <Card id="risk-alerts" title="Risk alerts" sub="Highest Token Score across chains, last 48 hours" className={cls}>
@@ -188,6 +190,19 @@ export function WeatherView({
                     </dd>
                   </div>
                 </dl>
+                {others.length > 0 && (
+                  <p className="seq mt-3 max-w-[520px] text-[12px] leading-relaxed text-ink-muted" style={{ '--i': 2 } as React.CSSProperties}>
+                    All traders only, not ranked above:{' '}
+                    {others.slice(0, 4).map((n, i) => (
+                      <span key={n.chain}>
+                        {i > 0 && ' · '}
+                        <Link prefetch={false} href={`/chain/${n.chain}`} className="hover:text-ink">{chainName(n.chain)}</Link>{' '}
+                        <span className="num font-semibold" style={{ color: n.net >= 0 ? 'var(--mint)' : 'var(--flare)' }}>{usd(n.net, { signed: true })}</span>
+                      </span>
+                    ))}
+                    {others.length > 4 && ` · ${others.length - 4} more in Chain flows`}
+                  </p>
+                )}
                 <div className="seq mt-7 flex flex-wrap gap-2" style={{ '--i': 3 } as React.CSSProperties}>
                   <Link prefetch={false} href="/flows" className="pill-button pill-primary">
                     Open Chain flows <span className="arrow" aria-hidden><Go /></span>

@@ -19,7 +19,7 @@ import { addressKey } from '@/lib/address-family';
 import { scanPerps } from '@/server/perps/scan';
 import { getDb } from '@/server/nansen/db';
 import { chainPressureWindow, blendChainPressure, flowRatio, type Window, type CpiWindowResult } from '@/lib/models/cpi';
-import { classifySwap, isStablecoin } from '@/lib/models/trade-side';
+import { classifySwap, isNativeOrWrapped, isStablecoin } from '@/lib/models/trade-side';
 import { pressureChains, pressureSource, type PressureSource } from '@/lib/registry';
 import { stormSweep, sweepDue, type SweepCandidate } from '@/server/token/sweep';
 import { storeSectorSnapshots } from '@/server/sectors/weather';
@@ -133,6 +133,8 @@ function sumByChain(rows: ScreenerRow[], field: 'volume' | 'netflow'): Map<strin
     // Nansen's flag misses some non-EVM stables (Sui's SBUSDT/USDSUI), and
     // a stable swap pair would otherwise read as a $280K flow each way.
     if (isStablecoin(row.token_symbol)) continue;
+    // Same for wrapped native coins (WNEAR): wrapping is not capital moving.
+    if (isNativeOrWrapped(row.token_symbol)) continue;
     const v = row[field];
     if (v == null || !Number.isFinite(v)) continue;
     const acc = out.get(row.chain) ?? { sum: 0, count: 0 };

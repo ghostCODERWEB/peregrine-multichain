@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { netFlowMap, chainNets } from './net-flow-map';
+import { netFlowMap, chainNets, otherNets } from './net-flow-map';
 
 describe('netFlowMap', () => {
   const nets = [
@@ -53,5 +53,23 @@ describe('chainNets', () => {
       { chain: 'sui', windows: [] },
     ];
     expect(chainNets(chains)).toEqual([{ chain: 'base', net: -5 }]);
+  });
+
+  it('ranks Smart Money chains apart from all-trader chains', () => {
+    const chains = [
+      { chain: 'solana', source: 'smart-money', windows: [{ window: '24h', netFlowUsd: 187_000 }] },
+      { chain: 'near', source: 'market-flow', windows: [{ window: '24h', netFlowUsd: -32_000_000 }] },
+    ];
+    expect(chainNets(chains)).toEqual([{ chain: 'solana', net: 187_000 }]);
+    expect(otherNets(chains)).toEqual([{ chain: 'near', net: -32_000_000 }]);
+  });
+
+  it('keeps every chain when none has a Smart Money reading', () => {
+    const chains = [
+      { chain: 'near', source: 'market-flow', windows: [{ window: '24h', netFlowUsd: -3 }] },
+      { chain: 'ton', source: 'market-flow', windows: [{ window: '24h', netFlowUsd: 2 }] },
+    ];
+    expect(chainNets(chains)).toHaveLength(2);
+    expect(otherNets(chains)).toEqual([]);
   });
 });

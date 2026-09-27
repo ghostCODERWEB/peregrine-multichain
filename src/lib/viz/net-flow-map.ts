@@ -46,13 +46,30 @@ export function netFlowMap(nets: ChainNet[], opts: { sellers?: number; buyers?: 
   return { edges, sellers, buyers, totalOut, totalIn };
 }
 
-/** A chain reading's measured net flow in one window (the public view's is
- *  all-trader market flow). Perp venues are left out: their flow is
- *  positioning, not spot capital. */
-export function chainNets(chains: Array<{ chain: string; windows: Array<{ window: string; netFlowUsd: number }> }>, window = '24h', skip = ['hyperliquid']): ChainNet[] {
+type NetChain = { chain: string; source?: string | null; windows: Array<{ window: string; netFlowUsd: number }> };
+
+function readNets(chains: NetChain[], window: string, skip: string[]): Array<ChainNet & { source: string | null }> {
   return chains.flatMap((c) => {
     if (skip.includes(c.chain)) return [];
     const w = c.windows.find((x) => x.window === window);
-    return w && Number.isFinite(w.netFlowUsd) ? [{ chain: c.chain, net: w.netFlowUsd }] : [];
+    return w && Number.isFinite(w.netFlowUsd) ? [{ chain: c.chain, net: w.netFlowUsd, source: c.source ?? null }] : [];
   });
+}
+
+/** A chain reading's measured net flow in one window. Perp venues are left
+ *  out: their flow is positioning, not spot capital. Only like is ranked with
+ *  like: when any chain carries a Smart Money reading, chains measured only
+ *  from all-trader flow are left out (see `otherNets`), since a market-wide
+ *  total dwarfs a Smart Money one and would read as the bigger move. */
+export function chainNets(chains: NetChain[], window = '24h', skip = ['hyperliquid']): ChainNet[] {
+  const all = readNets(chains, window, skip);
+  const sm = all.some((n) => n.source === 'smart-money');
+  return all.filter((n) => !sm || n.source === 'smart-money').map(({ chain, net }) => ({ chain, net }));
+}
+
+/** The chains `chainNets` leaves out: measured from all-trader flow only, while others have Smart Money readings. */
+export function otherNets(chains: NetChain[], window = '24h', skip = ['hyperliquid']): ChainNet[] {
+  const all = readNets(chains, window, skip);
+  if (!all.some((n) => n.source === 'smart-money')) return [];
+  return all.filter((n) => n.source !== 'smart-money').map(({ chain, net }) => ({ chain, net }));
 }
