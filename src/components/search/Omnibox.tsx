@@ -251,7 +251,7 @@ export function Omnibox() {
         type="button"
         onClick={() => setOpen(true)}
         aria-label="Search tokens, wallets, entities, chains and sectors"
-        className="liquid-chip liquid-control flex h-8 items-center gap-2 rounded-xl px-2 text-[12px] text-ink-muted hover:text-ink lg:h-9 lg:w-full lg:px-2.5"
+        className="liquid-chip liquid-control hidden h-8 items-center gap-2 rounded-xl px-2 text-[12px] text-ink-muted hover:text-ink lg:flex lg:h-9 lg:w-full lg:px-2.5"
       >
         <Search className="h-3.5 w-3.5" strokeWidth={2.2} aria-hidden />
         <span className="hidden lg:inline">Search</span>

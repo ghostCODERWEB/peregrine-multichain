@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-import { Radar, Shuffle, Search, Activity, Target, ShieldCheck, CopyCheck, Wallet } from 'lucide-react';
+import { Radar, Shuffle, Search, Activity, Target, ShieldCheck, CopyCheck, Wallet, Sparkles } from 'lucide-react';
 import { useSite } from '@/components/SiteContext';
 
 /** Phones: a Liquid Glass tab bar. A capsule floating above content (inset from the edges), a glass lens under
@@ -46,9 +46,16 @@ export function TabBar() {
             </Link>
           ))}
         </div>
-        <button type="button" aria-label="Search" className="glass-bar glass-search" onClick={() => window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true }))}>
-          <Search size={22} strokeWidth={2} aria-hidden />
-        </button>
+        <div className="glass-bar glass-actions">
+          {!publicSite && (
+            <Link href="/agent" aria-label="Ask" aria-current={path.startsWith('/agent') ? 'page' : undefined} className={`glass-action ${path.startsWith('/agent') ? 'is-on' : ''}`}>
+              <Sparkles size={21} strokeWidth={2} aria-hidden />
+            </Link>
+          )}
+          <button type="button" aria-label="Search" className="glass-action" onClick={() => window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true }))}>
+            <Search size={21} strokeWidth={2} aria-hidden />
+          </button>
+        </div>
       </nav>
     </>
   );
