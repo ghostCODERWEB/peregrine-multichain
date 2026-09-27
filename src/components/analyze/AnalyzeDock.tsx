@@ -1,5 +1,5 @@
 'use client';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { Crosshair, FileSearch, Loader2, Send, Sparkles, X } from 'lucide-react';
 import { Line } from '@/components/perps/terminal/AnalystPanel';
@@ -7,6 +7,7 @@ import { useSite } from '@/components/SiteContext';
 import { extract, PICKABLE, type Selection } from './extract';
 import { pageContexts } from './store';
 import { friendlyError } from '@/lib/friendly-error';
+import { canGenie, genie } from './genie';
 
 type Turn = { q: string; sels: string[]; text: string; tools: string[]; error?: string; busy: boolean };
 
@@ -31,20 +32,38 @@ export function AnalyzeDock() {
   const path = usePathname() ?? '/';
   const [open, setOpenRaw] = useState(false);
   const [closing, setClosing] = useState(false);
+  const panel = useRef<HTMLDivElement>(null);
+  const openRef = useRef(false);
+  const closingRef = useRef(false);
+  openRef.current = open;
   // Tell the tab bar's Ask button whether the panel is showing, so it can light up.
   useEffect(() => { window.dispatchEvent(new CustomEvent('peregrine:analyze-state', { detail: open && !closing })); }, [open, closing]);
-  // Closing plays the genie in reverse (back into the Ask button) before unmounting.
-  const setOpen = (v: boolean | ((o: boolean) => boolean)) => setOpenRaw((o) => {
-    const next = typeof v === 'function' ? v(o) : v;
-    if (o && !next) { setClosing(true); setTimeout(() => { setClosing(false); setOpenRaw(false); }, 360); return o; }
-    return next;
-  });
+  // The tab bar's Ask button (phones and tablets): the panel pours out of it and back into it.
+  const askButton = () => document.querySelector<HTMLElement>('.glass-action[aria-pressed]')?.getBoundingClientRect() ?? null;
+  useLayoutEffect(() => {
+    const el = panel.current, to = askButton();
+    if (open && el && canGenie(el, to)) void genie(el, to, 'in');
+  }, [open]);
+  const close = () => {
+    if (!openRef.current || closingRef.current) return;
+    closingRef.current = true;
+    setClosing(true);
+    const done = () => { closingRef.current = false; setClosing(false); setOpenRaw(false); };
+    const el = panel.current, to = askButton();
+    if (el && canGenie(el, to)) void genie(el, to, 'out').then(done);
+    else setTimeout(done, 200);
+  };
+  const setOpen = (v: boolean | ((o: boolean) => boolean)) => {
+    const now = openRef.current && !closingRef.current;
+    const next = typeof v === 'function' ? v(now) : v;
+    if (next === now) return;
+    if (next) { if (!closingRef.current) setOpenRaw(true); } else close();
+  };
   const [picking, setPicking] = useState(false);
   const [sels, setSels] = useState<Selection[]>([]);
   const [q, setQ] = useState('');
   const [turns, setTurns] = useState<Turn[]>([]);
   const [hover, setHover] = useState<{ r: DOMRect; label: string } | null>(null);
-  const panel = useRef<HTMLDivElement>(null);
   const endRef = useRef<HTMLDivElement>(null);
 
   const add = useCallback(async (el: HTMLElement) => {

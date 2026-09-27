@@ -15,6 +15,7 @@ import { cohortFlows, cohortBoards, COHORTS, COHORT_LABEL, COHORT_NOTE, type Coh
 import { perpLeaders, type PerpLeaders } from '@/server/perps/detail';
 import { predictBoard } from '@/server/predict/board';
 import { displayMode } from '@/server/mode';
+import { isPhone } from '@/server/device';
 import { chainName, usd } from '@/lib/viz/format';
 
 export const dynamic = 'force-dynamic';
@@ -77,9 +78,11 @@ export default async function CopyLabPage({ searchParams }: { searchParams: Prom
     want('perps') ? settle(perpLeaders()) : Promise.resolve(null),
     want('predict') ? settle(Promise.resolve(cachedPmLeaders()).then((hit) => hit ?? predictBoard().then((b) => (b.markets.length ? pmLeaders(b.markets) : { unavailable: b.unavailable ?? 'No Polymarket markets were read.' })))) : Promise.resolve(null),
   ]);
+  const targets = copyTargets({ spot: un(spot) ? null : spot, perps: un(perps) ? null : perps, predict: un(predict) ? null : predict }, tf);
+  const phone = <MobileCopyLab targets={targets} spot={un(spot) ? null : spot} tf={tf} market={m} />;
+  if (await isPhone()) return phone;
   const lab = cachedCopyLab();
   const cohorts = want('cohorts') ? await settle(cohortFlows(spot && !un(spot) ? spot.consensus.filter((c) => c.chain && c.token).slice(0, 4) : [])) : null;
-  const targets = copyTargets({ spot: un(spot) ? null : spot, perps: un(perps) ? null : perps, predict: un(predict) ? null : predict }, tf);
 
   const controls = (
     <div className="flex flex-wrap items-center gap-2">
@@ -91,7 +94,7 @@ export default async function CopyLabPage({ searchParams }: { searchParams: Prom
 
   return (
     <>
-    <div className="lg:hidden"><MobileCopyLab targets={targets} spot={un(spot) ? null : spot} tf={tf} market={m} /></div>
+    <div className="lg:hidden">{phone}</div>
     <div className="space-y-5 max-lg:hidden">
       <PageTitle title="Copy Lab" pill="Profitable traders worth following: spot, perps, predictions" action={controls} />
       <div className="grid grid-cols-1 gap-4 xl:grid-cols-12 [&>*]:min-w-0">

@@ -21,6 +21,23 @@ export function TabBar() {
     ? [['/', 'Today', Radar], ['/token', 'Tokens', ShieldCheck], ['/flows', 'Flows', Shuffle], ['/perps', 'Perps', Activity], ['/predict', 'Markets', Target]] as const
     : [['/', 'Today', Radar], ['/token', 'Tokens', ShieldCheck], ['/copy', 'Copy', CopyCheck], ['/wallet', 'Wallets', Wallet]] as const;
   const current = tabs.findIndex(([href]) => (href === '/' ? path === '/' : path.startsWith(String(href))));
+  // The lens moves on the tap itself, not when the next page arrives from the server.
+  const [tapped, setTapped] = useState<number | null>(null);
+  useEffect(() => setTapped(null), [path]);
+  const shown = tapped ?? current;
+  // Liquid: the lens stretches along its path and settles back into shape as it lands.
+  const lens = useRef<HTMLSpanElement>(null);
+  const was = useRef(shown);
+  useEffect(() => {
+    if (was.current === shown) return;
+    const far = Math.min(3, Math.abs(shown - was.current));
+    was.current = shown;
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    lens.current?.animate(
+      [{ scale: '1 1' }, { scale: `${1 + 0.16 * far} ${1 - 0.06 * far}`, offset: 0.35 }, { scale: '0.96 1.04', offset: 0.7 }, { scale: '1 1' }],
+      { duration: 460, easing: 'cubic-bezier(.3,.7,.4,1)' },
+    );
+  }, [shown]);
 
   useEffect(() => {
     const onScroll = () => {
@@ -39,11 +56,11 @@ export function TabBar() {
     <>
       <div aria-hidden className="glass-edge lg:hidden" />
       <nav aria-label="Quick navigation" className={`glass-dock lg:hidden ${min ? 'is-min' : ''}`}>
-        <div className="glass-bar glass-tabs" style={{ '--n': tabs.length, '--i': Math.max(0, current) } as React.CSSProperties}>
-          {current >= 0 && <span aria-hidden className="glass-lens" />}
+        <div className="glass-bar glass-tabs" style={{ '--n': tabs.length, '--i': Math.max(0, shown) } as React.CSSProperties}>
+          {shown >= 0 && <span ref={lens} aria-hidden className="glass-lens" />}
           {tabs.map(([href, label, Icon], i) => (
-            <Link prefetch={false} key={String(href)} href={String(href)} aria-current={i === current ? 'page' : undefined} className={`glass-tab ${i === current ? 'is-on' : ''}`}>
-              <Icon size={22} strokeWidth={i === current ? 2.3 : 1.9} aria-hidden />
+            <Link prefetch={false} key={String(href)} href={String(href)} onClick={() => i !== current && setTapped(i)} aria-current={i === current ? 'page' : undefined} className={`glass-tab ${i === shown ? 'is-on' : ''}`}>
+              <Icon size={22} strokeWidth={i === shown ? 2.3 : 1.9} aria-hidden />
               <span className="glass-tab-label">{String(label)}</span>
             </Link>
           ))}

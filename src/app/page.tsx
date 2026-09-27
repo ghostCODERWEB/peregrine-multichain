@@ -7,6 +7,7 @@ import { AlphaStrip } from '@/components/alpha/AlphaStrip';
 import { OverviewIntel } from '@/components/weather/OverviewIntel';
 import { RiskRadar } from '@/components/weather/RiskRadar';
 import { MobileHome } from '@/components/mobile/MobileHome';
+import { isPhone } from '@/server/device';
 
 export const dynamic = 'force-dynamic';
 
@@ -14,8 +15,9 @@ export default async function Home() {
   // Rendered from TIDE's own scanner history: no Nansen call per page view.
   const mode = await displayMode();
   const bulletin = buildBulletin(viewOf(mode));
-  const alpha = alphaBoard(viewOf(mode), Date.now(), 5);
   // Phones get their own Today screen; tablets and desktops the full overview.
+  if (await isPhone()) return <MobileHome mode={mode} chains={bulletin.chains} />;
+  const alpha = alphaBoard(viewOf(mode), Date.now(), 5);
   return (
     <>
       <div className="lg:hidden"><MobileHome mode={mode} chains={bulletin.chains} /></div>

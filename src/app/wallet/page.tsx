@@ -12,6 +12,7 @@ import { CohortBadges } from '@/components/entity/CohortBadges';
 import { WalletJump } from '@/components/wallet/WalletJump';
 import { getDb } from '@/server/nansen/db';
 import { displayMode } from '@/server/mode';
+import { isPhone } from '@/server/device';
 import { usd } from '@/lib/viz/format';
 import type { Cohort } from '@/lib/perps/positions';
 
@@ -49,6 +50,7 @@ export default async function ProfilerHome() {
   }
   const buyers = [...active].filter((a) => a.net > 0).sort((a, b) => b.net - a.net).slice(0, 8);
   const sellers = [...active].filter((a) => a.net < 0).sort((a, b) => a.net - b.net).slice(0, 8);
+  if (await isPhone()) return <MobileWallets buyers={buyers} sellers={sellers} perp={perp} owner={owner} />;
   const totals = owner ? (db.prepare(`SELECT COUNT(DISTINCT wallet) AS n, SUM(CASE WHEN side='buy' THEN usd_value ELSE -usd_value END) AS net FROM smart_money_trades WHERE traded_at >= ?`).get(since) as { n: number; net: number | null }) : { n: 0, net: 0 };
   const net = totals.net ?? 0;
   const clean = (l: string | null | undefined, w?: string) => (l ?? '').replace(/\s*\[[^\]]*\]\s*$/, '').replace(/\p{Extended_Pictographic}|️|‍/gu, '').replace(/\s{2,}/g, ' ').trim() || (w ? `${w.slice(0, 6)}…${w.slice(-4)}` : undefined);

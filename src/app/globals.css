@@ -121,7 +121,7 @@
  button,a { -webkit-tap-highlight-color:transparent; }
 }
 .material,.glass { border-radius:var(--r-card); background:var(--material); border:1px solid var(--hair); box-shadow:var(--panel-shadow); }
-.material-strong,.liquid-glass,.glass-strong { background:var(--material-strong); border:1px solid var(--hair); box-shadow:var(--panel-shadow); backdrop-filter:blur(30px) saturate(160%); -webkit-backdrop-filter:blur(30px) saturate(160%); }
+.material-strong,.liquid-glass,.glass-strong { background:var(--material-strong); border:1px solid var(--hair); box-shadow:var(--panel-shadow); backdrop-filter:blur(30px) saturate(160%); }
 .inset-well { border-radius:var(--r-inner); transition:border-color var(--dur-fast) var(--ease-out),background-color var(--dur-fast) var(--ease-out); background:color-mix(in srgb,var(--ink-1) 3.5%,transparent); border:1px solid var(--hair); }
 .shell-rail { overflow-y:auto; overflow-x:hidden; }
 .label { font-size:12.5px; font-weight:600; letter-spacing:0; text-transform:none; color:var(--ink-muted); }
@@ -181,7 +181,7 @@ a.inset-well:hover,.inset-well:is(a,button):hover { border-color:var(--hair-2); 
 .dark .text-accumulation { background:linear-gradient(100deg,#8cffd5,#00ffa7);background-clip:text;-webkit-text-fill-color:transparent; }
 .dark .text-distribution { background:linear-gradient(100deg,#ff8a5c,#ff5e2b);background-clip:text;-webkit-text-fill-color:transparent; }
 @media(max-width:1023px) {
- .material-strong,.liquid-glass { backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%); }
+ .material-strong,.liquid-glass { backdrop-filter:blur(20px) saturate(160%); }
  .radar-headline { font-size:clamp(22px,6.4vw,34px); letter-spacing:-.035em; }
 }
 @media(prefers-reduced-motion:reduce) {
@@ -189,7 +189,7 @@ a.inset-well:hover,.inset-well:is(a,button):hover { border-color:var(--hair-2); 
  .flow-particle { display:none; } .flow-static { display:block!important; }
 }
 @media(prefers-reduced-transparency:reduce) {
- .material,.glass,.material-strong,.liquid-glass,.glass-strong { background:var(--surface-1);backdrop-filter:none;-webkit-backdrop-filter:none; }
+ .material,.glass,.material-strong,.liquid-glass,.glass-strong { background:var(--surface-1);backdrop-filter:none; }
 }
 @media(prefers-contrast:more) {
  :root,.dark { --hair:var(--axis);--hair-2:var(--axis); }
@@ -457,11 +457,11 @@ html:not(.dark) .nansen-card { background: linear-gradient(180deg, color-mix(in 
   .section-rail { display: block; position: fixed; right: 0; top: 50%; transform: translateY(-50%); z-index: 45; padding: 10px 4px 10px 18px; opacity: .28; transition: opacity .35s ease; touch-action: none; }
   .section-rail.is-awake, .section-rail.is-dragging { opacity: 1; }
   .section-rail-track { display: flex; flex-direction: column; align-items: flex-end; gap: 7px; max-height: 54vh; justify-content: space-between; padding: 6px 6px 6px 14px; }
-  .section-rail.is-dragging .section-rail-track { background: color-mix(in srgb, var(--surface-1) 70%, transparent); border-radius: 12px 0 0 12px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+  .section-rail.is-dragging .section-rail-track { background: color-mix(in srgb, var(--surface-1) 70%, transparent); border-radius: 12px 0 0 12px; backdrop-filter: blur(12px); }
   .section-rail-tick { display: block; height: 2px; border-radius: 2px; background: var(--ink-1, #e8f3ee); transition: width .18s cubic-bezier(.2,.8,.2,1), opacity .18s; padding: 0; border: 0; flex-shrink: 0; position: relative; }
   .section-rail-tick::after { content: ''; position: absolute; inset: -4px -6px; }
   .section-rail-tick[aria-current] { background: var(--mint); }
-  .section-rail-label { position: absolute; right: 52px; transform: translateY(-50%); max-width: 62vw; padding: 9px 13px; border-radius: 14px; background: color-mix(in srgb, var(--surface-2) 92%, transparent); border: 1px solid var(--hair-2); box-shadow: 0 12px 34px -12px rgba(0,0,0,.7); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); font-size: 14px; font-weight: 600; color: var(--ink-1, #e8f3ee); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; pointer-events: none; transition: top .12s ease-out; }
+  .section-rail-label { position: absolute; right: 52px; transform: translateY(-50%); max-width: 62vw; padding: 9px 13px; border-radius: 14px; background: color-mix(in srgb, var(--surface-2) 92%, transparent); border: 1px solid var(--hair-2); box-shadow: 0 12px 34px -12px rgba(0,0,0,.7); backdrop-filter: blur(16px); font-size: 14px; font-weight: 600; color: var(--ink-1, #e8f3ee); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; pointer-events: none; transition: top .12s ease-out; }
   .section-rail-count { margin-right: 8px; font-size: 11px; font-weight: 700; color: var(--mint); font-variant-numeric: tabular-nums; }
 }
 @media (prefers-reduced-motion: reduce) { .section-rail, .section-rail-tick, .section-rail-label { transition: none; } }
@@ -481,7 +481,6 @@ html:not(.dark) .nansen-card { background: linear-gradient(180deg, color-mix(in 
 .glass-bar {
   background: color-mix(in srgb, #0d1512 58%, transparent);
   backdrop-filter: blur(22px) saturate(185%) brightness(1.08);
-  -webkit-backdrop-filter: blur(22px) saturate(185%) brightness(1.08);
   border: 1px solid rgba(255,255,255,.10);
   box-shadow: inset 0 1px 0 rgba(255,255,255,.16), inset 0 -1px 0 rgba(255,255,255,.04), 0 10px 30px -8px rgba(0,0,0,.65), 0 2px 6px rgba(0,0,0,.35);
 }
@@ -505,16 +504,16 @@ html:not(.dark) .glass-lens { background: rgba(0,0,0,.06); }
 /* Scroll edge effect: content fades under the floating bar so it stays legible. */
 .glass-edge { position: fixed; inset: auto 0 0 0; height: 120px; z-index: 39; pointer-events: none; background: linear-gradient(to bottom, transparent, color-mix(in srgb, var(--surface-page) 86%, transparent) 72%); }
 @media (prefers-reduced-transparency: reduce) {
-  .glass-bar { background: var(--surface-2); backdrop-filter: none; -webkit-backdrop-filter: none; }
+  .glass-bar { background: var(--surface-2); backdrop-filter: none; }
 }
 @media (prefers-reduced-motion: reduce) { .glass-lens, .glass-tabs, .glass-search, .glass-tab-label { transition: none; } }
 @media (min-width: 1024px) { .glass-dock, .glass-edge { display: none; } }
 @media (max-width: 1023px) {
   header.shell-rail { border-radius: 999px; padding-left: 6px; padding-right: 8px; height: 52px;
-    background: color-mix(in srgb, #0d1512 58%, transparent); backdrop-filter: blur(22px) saturate(185%) brightness(1.08); -webkit-backdrop-filter: blur(22px) saturate(185%) brightness(1.08);
+    background: color-mix(in srgb, #0d1512 58%, transparent); backdrop-filter: blur(22px) saturate(185%) brightness(1.08);
     border: 1px solid rgba(255,255,255,.10); box-shadow: inset 0 1px 0 rgba(255,255,255,.16), 0 10px 30px -8px rgba(0,0,0,.6); }
   html:not(.dark) header.shell-rail { background: color-mix(in srgb, #ffffff 62%, transparent); border-color: rgba(0,0,0,.08); }
-  @media (prefers-reduced-transparency: reduce) { header.shell-rail { background: var(--surface-2); backdrop-filter: none; -webkit-backdrop-filter: none; } }
+  @media (prefers-reduced-transparency: reduce) { header.shell-rail { background: var(--surface-2); backdrop-filter: none; } }
 }
 
 /* Desktop: the rail sits quietly at the right edge and opens on hover; the label glides between ticks. */
@@ -548,27 +547,27 @@ html:not(.dark) { --lg-tint: color-mix(in srgb, #ffffff 88%, transparent); --lg-
 
 /* Navigation surfaces: desktop sidebar/header, menus, sheets, popovers, the command palette. */
 .liquid-glass, .material-strong, .glass-strong {
-  background: var(--lg-tint); backdrop-filter: var(--lg-filter); -webkit-backdrop-filter: var(--lg-filter);
+  background: var(--lg-tint); backdrop-filter: var(--lg-filter);
   border: 1px solid var(--lg-border); box-shadow: var(--lg-edge), 0 18px 50px -20px rgba(0,0,0,.7);
 }
 /* Segmented controls: a glass track with a lens that glides to the selection. */
-.segmented { background: var(--lg-tint); backdrop-filter: var(--lg-filter); -webkit-backdrop-filter: var(--lg-filter); border: 1px solid var(--lg-border); box-shadow: var(--lg-edge); border-radius: 999px; }
+.segmented { background: var(--lg-tint); backdrop-filter: var(--lg-filter); border: 1px solid var(--lg-border); box-shadow: var(--lg-edge); border-radius: 999px; }
 .segmented-thumb { border-radius: 999px; background: var(--lg-lens) !important; box-shadow: inset 0 1px 0 rgba(255,255,255,.2), inset 0 0 0 1px rgba(255,255,255,.05), 0 2px 8px -2px rgba(0,0,0,.4) !important; transition: transform .42s cubic-bezier(.3,1.25,.4,1) !important; }
 /* Secondary buttons and icon controls: small glass capsules. */
-.pill-secondary, .liquid-control { background: var(--lg-tint); backdrop-filter: blur(14px) saturate(170%); -webkit-backdrop-filter: blur(14px) saturate(170%); border: 1px solid var(--lg-border); box-shadow: var(--lg-edge); }
+.pill-secondary, .liquid-control { background: var(--lg-tint); backdrop-filter: blur(14px) saturate(170%); border: 1px solid var(--lg-border); box-shadow: var(--lg-edge); }
 .pill-secondary:hover:not(:disabled), .liquid-control:hover { background: color-mix(in srgb, var(--ink-1) 9%, var(--lg-tint)); }
 .liquid-control.is-active { background: var(--lg-lens); }
 /* Table pager: a floating glass control under long tables. */
-.table-pager-sizes { background: var(--lg-tint); backdrop-filter: blur(14px) saturate(170%); -webkit-backdrop-filter: blur(14px) saturate(170%); border: 1px solid var(--lg-border) !important; box-shadow: var(--lg-edge); border-radius: 999px !important; padding: 2px; }
+.table-pager-sizes { background: var(--lg-tint); backdrop-filter: blur(14px) saturate(170%); border: 1px solid var(--lg-border) !important; box-shadow: var(--lg-edge); border-radius: 999px !important; padding: 2px; }
 .table-pager-sizes button { border-radius: 999px !important; }
 .table-pager-sizes button[aria-pressed="true"] { background: var(--lg-lens) !important; box-shadow: inset 0 1px 0 rgba(255,255,255,.18); }
-.table-pager-more { border-radius: 999px !important; background: var(--lg-tint); backdrop-filter: blur(14px) saturate(170%); -webkit-backdrop-filter: blur(14px) saturate(170%); border: 1px solid var(--lg-border) !important; box-shadow: var(--lg-edge); }
+.table-pager-more { border-radius: 999px !important; background: var(--lg-tint); backdrop-filter: blur(14px) saturate(170%); border: 1px solid var(--lg-border) !important; box-shadow: var(--lg-edge); }
 /* Expand buttons over previews and the Analyze button float as glass too. */
-[data-clamp] > .clamp-toggle, [data-analyze-dock] { background: var(--lg-tint) !important; backdrop-filter: var(--lg-filter); -webkit-backdrop-filter: var(--lg-filter); }
+[data-clamp] > .clamp-toggle, [data-analyze-dock] { background: var(--lg-tint) !important; backdrop-filter: var(--lg-filter); }
 [data-clamp] > .clamp-toggle, [data-analyze-dock][role=dialog] { border-color: var(--lg-border) !important; box-shadow: var(--lg-edge), 0 10px 28px -10px rgba(0,0,0,.7) !important; }
 /* Accessibility: reduce transparency gives every glass surface a solid fill. */
 @media (prefers-reduced-transparency: reduce) {
-  .liquid-glass, .material-strong, .glass-strong, .segmented, .pill-secondary, .liquid-control, .table-pager-sizes, .table-pager-more, [data-clamp] > .clamp-toggle, [data-analyze-dock] { background: var(--surface-2) !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+  .liquid-glass, .material-strong, .glass-strong, .segmented, .pill-secondary, .liquid-control, .table-pager-sizes, .table-pager-more, [data-clamp] > .clamp-toggle, [data-analyze-dock] { background: var(--surface-2) !important; backdrop-filter: none !important; }
 }
 @media (max-width: 639px) { main .pill-button { min-height: 36px; padding: 7px 15px; font-size: 13px; } }
 
@@ -696,29 +695,19 @@ a.m-row:active { background-color: color-mix(in srgb, var(--ink-1) 7%, transpare
 }
 @media (max-width: 1023px) { .tour-card { padding: 11px 13px; border-radius: 18px; } .tour-card p.mt-1 { display: none; } }
 
-/* Phones: the quick Ask sheet opens from the tab bar's Ask button with a genie effect (scale + skew from the
-   bottom-right corner, then settle), and sits on Liquid Glass above the tab bar. */
+/* Phones: the quick Ask sheet sits on Liquid Glass above the tab bar. It pours out of the tab bar's Ask button
+   and back into it with the genie effect (src/components/analyze/genie.ts); the fade here covers the cases the
+   genie skips (reduced motion, no Ask button on screen). */
 @media (max-width: 1023px) {
   .analyze-genie { bottom: calc(env(safe-area-inset-bottom, 0px) + 84px) !important; max-height: 70vh !important; border-radius: 26px !important;
-    background: color-mix(in srgb, var(--surface-1) 78%, transparent) !important; backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%);
+    background: color-mix(in srgb, var(--surface-1) 78%, transparent) !important; backdrop-filter: blur(24px) saturate(180%);
     border-color: var(--lg-border, rgba(255,255,255,.1)) !important; box-shadow: var(--lg-edge), 0 24px 60px -20px rgba(0,0,0,.8) !important;
-    transform-origin: 88% 100%; animation: genie-in .52s cubic-bezier(.2,.9,.25,1) both; }
+    animation: sheet-in .24s cubic-bezier(.2,.8,.2,1) both; }
 }
-@keyframes genie-in {
-  0% { opacity: 0; transform: translateY(40px) scale(.08, .02) skewX(-18deg); filter: blur(6px); }
-  35% { opacity: 1; transform: translateY(18px) scale(.35, .55) skewX(-10deg); filter: blur(2px); }
-  70% { transform: translateY(-4px) scale(1.02, 1.01) skewX(0); filter: none; }
-  100% { transform: none; }
-}
-@media (max-width: 1023px) { .analyze-genie.is-closing { animation: genie-out .36s cubic-bezier(.5,0,.75,.2) both; } }
-@media (min-width: 1024px) { .analyze-genie.is-closing { animation: fade-out .2s ease both; } }
-@keyframes genie-out {
-  0% { transform: none; opacity: 1; }
-  40% { transform: translateY(10px) scale(.6, .75) skewX(-8deg); opacity: 1; filter: blur(1px); }
-  100% { transform: translateY(40px) scale(.06, .02) skewX(-18deg); opacity: 0; filter: blur(6px); }
-}
+@keyframes sheet-in { from { opacity: 0; transform: translateY(8px); } }
+.analyze-genie.is-closing { animation: fade-out .2s ease both; }
 @keyframes fade-out { to { opacity: 0; transform: translateY(6px); } }
 @media (prefers-reduced-motion: reduce) { .analyze-genie, .analyze-genie.is-closing { animation: none; } }
 /* The Analyze panel carries text: a thicker glass so the page behind never competes with it. */
-[data-analyze-dock][role=dialog], .analyze-genie { background: var(--surface-1) !important; backdrop-filter: blur(32px) saturate(170%) !important; -webkit-backdrop-filter: blur(32px) saturate(170%) !important; }
+[data-analyze-dock][role=dialog], .analyze-genie { background: var(--surface-1) !important; backdrop-filter: blur(32px) saturate(170%) !important; }
 .glass-action:focus-visible, .glass-tab:focus-visible { outline: none; box-shadow: none; }
