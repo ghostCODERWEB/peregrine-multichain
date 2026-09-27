@@ -5,6 +5,21 @@ const M = 60_000;
 const buy = (wallet: string, token: string, at: number, usd = 1000): Buy => ({ wallet, label: null, token, chain: 'solana', symbol: token, at, usd });
 
 describe('cascade model', () => {
+  it('keeps case-sensitive token identities in separate episodes', () => {
+    const mint = 'AbcDEFGHJKLMNPQRSTUVWXYZ123456789abc';
+    const eps = buildEpisodes(['A', 'B', 'C'].flatMap((w, i) => [buy(w, mint, i * M), buy(w, mint.toLowerCase(), i * M)]));
+    expect(eps).toHaveLength(2);
+    expect(new Set(eps.map((e) => e.token))).toEqual(new Set([mint, mint.toLowerCase()]));
+    expect(eps.every((e) => e.entries.every((x) => x.usd === 1000))).toBe(true);
+  });
+
+  it('normalizes EVM token casing while keeping chains separate', () => {
+    const token = '0xabcdefabcdefabcdefabcdefabcdefabcdefabcd';
+    const buys = ['A', 'B', 'C'].map((w, i) => ({ ...buy(w, i % 2 ? token.toUpperCase() : token, i * M), chain: 'base' }));
+    expect(buildEpisodes(buys)).toHaveLength(1);
+    expect(buildEpisodes([...buys, ...buys.map((b) => ({ ...b, chain: 'ethereum' }))])).toHaveLength(2);
+  });
+
   it('orders first buys per token and ranks them 0..1', () => {
     const eps = buildEpisodes([buy('A', 't1', 0), buy('B', 't1', 10 * M), buy('C', 't1', 20 * M), buy('A', 't1', 30 * M, 500)]);
     expect(eps).toHaveLength(1);

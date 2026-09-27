@@ -13,7 +13,6 @@ import { ForecastMultiple } from '@/components/weather/ForecastStrip';
 import { InfoPopover } from '@/components/InfoPopover';
 import { chainName, num } from '@/lib/viz/format';
 import type { ChainPageData, PeerRow } from '@/server/weather/chain-page';
-import { AskNansen } from '@/components/agent/AskNansen';
 import { CapitalFlows } from '@/components/weather/CapitalFlows';
 import { Go, Back } from '@/components/ui/Icons';
 
@@ -34,7 +33,6 @@ export function ChainView({ d, gaps }: { d: ChainPageData; gaps: ModuleGaps }) {
     <div className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <Link href="/" className="text-[12.5px] text-ink-2 hover:text-ink"><Back /> Overview</Link>
-        <AskNansen subject={{ kind: 'chain', chain: d.chain }} label={`the ${name} chain page`} />
       </div>
       <ChainHero d={d} tier={gaps.tier} title={barometerTitle(d.weather)} note={<>
         {d.weather.source === 'smart-money' && 'Smart-money flow (Nansen labels).'}

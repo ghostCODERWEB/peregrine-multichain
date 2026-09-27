@@ -685,4 +685,12 @@ a.m-row:active { background-color: color-mix(in srgb, var(--ink-1) 7%, transpare
   70% { transform: translateY(-4px) scale(1.02, 1.01) skewX(0); filter: none; }
   100% { transform: none; }
 }
-@media (prefers-reduced-motion: reduce) { .analyze-genie { animation: none; } }
+@media (max-width: 1023px) { .analyze-genie.is-closing { animation: genie-out .36s cubic-bezier(.5,0,.75,.2) both; } }
+@media (min-width: 1024px) { .analyze-genie.is-closing { animation: fade-out .2s ease both; } }
+@keyframes genie-out {
+  0% { transform: none; opacity: 1; }
+  40% { transform: translateY(10px) scale(.6, .75) skewX(-8deg); opacity: 1; filter: blur(1px); }
+  100% { transform: translateY(40px) scale(.06, .02) skewX(-18deg); opacity: 0; filter: blur(6px); }
+}
+@keyframes fade-out { to { opacity: 0; transform: translateY(6px); } }
+@media (prefers-reduced-motion: reduce) { .analyze-genie, .analyze-genie.is-closing { animation: none; } }

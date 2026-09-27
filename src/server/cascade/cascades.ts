@@ -9,8 +9,13 @@ export interface Cascades {
   trades: number; wallets: number; episodes: Episode[]; stats: WalletStat[]; edges: Edge[];
   tested: number; fdrLeaders: number; minUsd: number;
 }
-const KEY = 'cascades:v1';
+const KEY = 'cascades:v2'; // v1 merged case-sensitive token identities.
 const TTL = 30 * 60_000;
+// SQLite counterpart of addressKey: normalize EVM only, never base58 mints.
+const TOKEN_KEY_SQL = `CASE WHEN length(token_address) = 42
+  AND lower(substr(token_address, 1, 2)) = '0x'
+  AND substr(token_address, 3) NOT GLOB '*[^0-9a-fA-F]*'
+  THEN lower(token_address) ELSE token_address END`;
 
 export function computeCascades(opts: { minUsd?: number; days?: number; now?: number } = {}): Cascades {
   const now = opts.now ?? Date.now();
@@ -20,12 +25,12 @@ export function computeCascades(opts: { minUsd?: number; days?: number; now?: nu
   // (tgm/dex-trades, only_smart_money), one row per transaction.
   const since = now - (opts.days ?? 30) * 86_400_000;
   const rows = getDb().prepare(`SELECT wallet, MAX(label) AS label, token, chain, MAX(symbol) AS symbol, MIN(at) AS at, MAX(usd) AS usd FROM (
-      SELECT wallet, wallet_label AS label, lower(token_address) AS token, chain, token_symbol AS symbol, traded_at AS at, usd_value AS usd, tx_hash AS tx
+      SELECT wallet, wallet_label AS label, ${TOKEN_KEY_SQL} AS token, chain, token_symbol AS symbol, traded_at AS at, usd_value AS usd, tx_hash AS tx
         FROM smart_money_trades WHERE side = 'buy' AND usd_value >= @minUsd AND traded_at >= @since
       UNION ALL
-      SELECT wallet, wallet_label, lower(token_address), chain, token_symbol, traded_at, usd_value, tx_hash
+      SELECT wallet, wallet_label, ${TOKEN_KEY_SQL}, chain, token_symbol, traded_at, usd_value, tx_hash
         FROM cascade_trades WHERE side = 'buy' AND usd_value >= @minUsd AND traded_at >= @since
-    ) GROUP BY tx, wallet, token ORDER BY at`).all({ minUsd, since }) as Buy[];
+    ) GROUP BY chain, tx, wallet, token ORDER BY at`).all({ minUsd, since }) as Buy[];
   const clean = rows.map((b) => ({ ...b, symbol: b.symbol?.replace(/\p{Extended_Pictographic}|️/gu, '').trim() || null }));
   const episodes = buildEpisodes(clean);
   const stats = walletStats(episodes);

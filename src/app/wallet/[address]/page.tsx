@@ -29,7 +29,6 @@ import { isUnavailable } from '@/server/nansen/traced';
 import { displayMode, type DisplayMode } from '@/server/mode';
 import { forMode, redacted } from '@/server/redact';
 import { chainName, shortAddress, usd, walletName } from '@/lib/viz/format';
-import { AskNansen } from '@/components/agent/AskNansen';
 import { walletWeatherReading } from '@/server/wallet/weather';
 import { walletRotations } from '@/server/weather/queries';
 import { ChainLogo } from '@/components/Logo';
@@ -89,7 +88,6 @@ export default async function WalletRoute({ params }: Params) {
         </div>
         <span className="flex items-center gap-2">
           <NansenButton href={nansenWallet(address)} label="Open in Nansen Profiler" size="sm" logo={false} />
-          <AskNansen subject={{ kind: 'wallet', address, chain: null }} label={`the wallet ${shortAddress(address)}`} />
         </span>
       </div>
 

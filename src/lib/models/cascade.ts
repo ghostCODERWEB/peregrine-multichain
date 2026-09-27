@@ -6,6 +6,8 @@
 // 0 = first in, 1 = last in. Under the null hypothesis (entry order is random), r is uniform on
 // {0, 1/(k-1), ..., 1} with mean 1/2 and variance (k+1)/(12(k-1)).
 
+import { addressKey } from './portfolio';
+
 export interface Buy { wallet: string; label: string | null; token: string; chain: string; symbol: string | null; at: number; usd: number }
 export interface EpisodeEntry { wallet: string; label: string | null; at: number; usd: number; rank: number; r: number }
 export interface Episode { chain: string; token: string; symbol: string | null; start: number; entries: EpisodeEntry[] }
@@ -23,7 +25,7 @@ const TIE_MS = 60_000;
 /** Group buys into episodes: per token, each wallet's first buy within WINDOW of the token's first Smart Money buy. */
 export function buildEpisodes(buys: Buy[], minWallets = 3): Episode[] {
   const byToken = new Map<string, Buy[]>();
-  for (const b of buys) { const k = `${b.chain}|${b.token.toLowerCase()}`; (byToken.get(k) ?? byToken.set(k, []).get(k)!).push(b); }
+  for (const b of buys) { const k = `${b.chain}|${addressKey(b.token)}`; (byToken.get(k) ?? byToken.set(k, []).get(k)!).push(b); }
   const out: Episode[] = [];
   for (const list of byToken.values()) {
     list.sort((a, b) => a.at - b.at);

@@ -9,7 +9,6 @@ import { chainName } from '@/lib/viz/format';
 import { setupLabel, type DnaRow, type Grade } from '@/lib/models/calls';
 import type { CallCardWithNotes } from '@/server/desk/calls';
 import { receiptProvenance, fmtPrice, GRADE_RULES } from './receipt';
-import { AskNansen } from '@/components/agent/AskNansen';
 import { Go } from '@/components/ui/Icons';
 
 export interface DeskData {
@@ -35,7 +34,7 @@ function left(ms: number) {
   return h >= 24 ? `due in ${Math.floor(h / 24)}d ${h % 24}h` : h ? `due in ${h}h ${m}m` : `due in ${m}m`;
 }
 
-function CallRow({ c, now, onNoteAttached }: { c: CallCardWithNotes; now: number | null; onNoteAttached: () => void }) {
+function CallRow({ c, now }: { c: CallCardWithNotes; now: number | null; onNoteAttached?: () => void }) {
   const name = c.symbol ?? `${c.token.slice(0, 6)}…`;
   return (
     <li className="space-y-1 border-t border-border py-3 first:border-0 text-[13px]">
@@ -64,12 +63,6 @@ function CallRow({ c, now, onNoteAttached }: { c: CallCardWithNotes; now: number
           ) : (
             <span className="text-ink-2">{now == null ? `due ${utc(c.dueAt)}` : left(c.dueAt - now)}</span>
           )}
-          <AskNansen
-            subject={{ kind: 'token', chain: c.chain, address: c.token }}
-            label={`${name} on ${chainName(c.chain)}`}
-            attachTo={{ callId: c.id, onAttached: onNoteAttached }}
-            buttonClassName="text-[11px] text-ink-muted hover:text-ink"
-          />
         </span>
       </div>
       <div className="num flex flex-wrap items-center gap-x-3 text-[12px] text-ink-2">

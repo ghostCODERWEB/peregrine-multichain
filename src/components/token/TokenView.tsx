@@ -51,7 +51,6 @@ import { Gauges, gaugesTitle, gaugeReadings } from './Gauges';
 import type { GaugeInputs } from '@/lib/models/gauges';
 import { FollowThrough, followTitle } from './FollowThrough';
 import type { FollowReport } from '@/server/smart-money/follow';
-import { AskNansen } from '@/components/agent/AskNansen';
 import { Go } from '@/components/ui/Icons';
 
 interface State {
@@ -215,10 +214,9 @@ export function TokenView({
   const { accounts } = useSite();
   const [view, setView] = useView();
   const [followReport, setFollowReport] = useState<FollowReport | null>(null);
-  // "/ask TOKEN" (L5) lands here with ?ask=1: open the panel once, after mount.
-  const [autoAsk, setAutoAsk] = useState(false);
+  // "/ask TOKEN" lands here with ?ask=1: open the quick Analyze panel once, after mount.
   useEffect(() => {
-    if (new URLSearchParams(window.location.search).get('ask') === '1') setAutoAsk(true);
+    if (new URLSearchParams(window.location.search).get('ask') === '1') window.dispatchEvent(new CustomEvent('peregrine:analyze'));
   }, []);
   const h = ok(s.header) ? s.header : null;
   const symbol = h?.symbol ?? null;
@@ -296,14 +294,6 @@ export function TokenView({
         className={cls}
         title={`Make a call on ${symbol ?? 'this token'}`}
         sub="Bull, bear or pass, a horizon, and what would prove you wrong. Saved to your Desk with Nansen’s price now, graded when the horizon passes."
-        action={
-          <AskNansen
-            subject={{ kind: 'token', chain, address }}
-            label={`${symbol ?? 'this token'} on ${chainName(chain)}`}
-            autoOpen={autoAsk}
-            buttonClassName="rounded border border-border px-2.5 py-1 text-[11.5px] text-ink-2 hover:text-ink hover:border-ink-muted"
-          />
-        }
       >
         <CallForm
           chain={chain}
