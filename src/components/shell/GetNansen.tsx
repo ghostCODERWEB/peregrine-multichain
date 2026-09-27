@@ -38,7 +38,7 @@ export function GetNansen({ className = '', variant = 'button' }: { className?: 
       </span>
       <span className="min-w-0 flex-1 leading-tight">
         <span className="block text-[13.5px] font-bold tracking-[-0.01em] text-ink">Get Nansen</span>
-        <span className="block truncate text-[11px] text-ink-muted">Onchain data pro<//span>
+        <span className="block truncate text-[11px] text-ink-muted">Onchain intelligence</span>
       </span>
       <span className="nansen-card-go grid h-7 w-7 shrink-0 place-items-center rounded-full">
         <ChevronRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" strokeWidth={3} aria-hidden />
