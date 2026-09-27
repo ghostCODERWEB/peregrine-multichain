@@ -103,8 +103,8 @@ export function RugReportView({ chain, address }: { chain: string; address: stri
       <div className="flex flex-wrap items-center justify-between gap-3 text-[12.5px] text-ink-muted">
         <span></span>
         <span className="flex gap-4">
-          <Link href="/token" className="font-bold text-ink-2 hover:text-ink">Check another token</Link>
-          <Link href={`/token/${chain}/${encodeURIComponent(address)}`} className="font-bold text-[var(--mint)]">Full token page <Go /></Link>
+          <Link prefetch={false} href="/token" className="font-bold text-ink-2 hover:text-ink">Check another token</Link>
+          <Link prefetch={false} href={`/token/${chain}/${encodeURIComponent(address)}`} className="font-bold text-[var(--mint)]">Full token page <Go /></Link>
         </span>
       </div>
       {info && <p className="text-[12px] text-ink-muted">Market cap {usd(info.marketCapUsd)} · liquidity {usd(info.liquidityUsd)} · {info.holders != null ? `${info.holders.toLocaleString('en-US')} holders` : 'holders n/a'}</p>}

@@ -64,7 +64,7 @@ export function ForecastStrip({ forecasts }: { forecasts: ForecastWithProvenance
         return (
           <li key={f.chain} className="inset-well rounded-[14px] p-2.5 sm:rounded-[16px] sm:p-3">
             <div className="flex items-center justify-between gap-2">
-              <Link href={`/chain/${f.chain}`} className="flex min-w-0 items-center gap-1.5 truncate text-[12.5px] font-bold sm:gap-2 sm:text-[13.5px] text-ink hover:underline"><ChainLogo chain={f.chain} size={18} />{chainName(f.chain)}</Link>
+              <Link prefetch={false} href={`/chain/${f.chain}`} className="flex min-w-0 items-center gap-1.5 truncate text-[12.5px] font-bold sm:gap-2 sm:text-[13.5px] text-ink hover:underline"><ChainLogo chain={f.chain} size={18} />{chainName(f.chain)}</Link>
               <InfoPopover p={f.provenance} />
             </div>
             <div className="num mt-1.5 flex items-baseline gap-1.5 text-[18px] font-extrabold tracking-[-0.02em]">

@@ -27,7 +27,7 @@ export async function BalancesCard({ p, what = 'Balances' }: { p: Promise<Wave<B
       <ul className="mt-2 space-y-1 text-[12.5px]">
         {b.top.slice(0, 6).map((t) => (
           <li key={`${t.chain}:${t.tokenAddress}`} className="flex justify-between gap-2 border-b border-border/50 py-0.5">
-            <Link href={`/token/${t.chain}/${encodeURIComponent(t.tokenAddress)}`} className="truncate text-ink hover:underline">{t.symbol} <span className="text-ink-muted">· {chainName(t.chain)}</span></Link>
+            <Link prefetch={false} href={`/token/${t.chain}/${encodeURIComponent(t.tokenAddress)}`} className="truncate text-ink hover:underline">{t.symbol} <span className="text-ink-muted">· {chainName(t.chain)}</span></Link>
             <span className="num text-ink">{usd(t.valueUsd)}</span>
           </li>
         ))}
@@ -57,7 +57,7 @@ export async function PnlCard({ p, mode }: { p: Promise<Wave<PnlSummary>>; mode:
       <ul className="mt-1 space-y-1">
         {r.top.map((t) => (
           <li key={`${t.chain}:${t.tokenAddress}`} className="grid grid-cols-[7.5rem_1fr_4.5rem] items-center gap-2 text-[12px]">
-            <Link href={`/token/${t.chain}/${encodeURIComponent(t.tokenAddress)}`} className="flex min-w-0 items-center gap-1.5 text-ink hover:underline"><TokenLogo symbol={t.symbol} chain={t.chain} address={t.tokenAddress} size={14} /><span className="truncate">{t.symbol}</span><span className="truncate text-[10.5px] text-ink-muted">{chainName(t.chain)}</span></Link>
+            <Link prefetch={false} href={`/token/${t.chain}/${encodeURIComponent(t.tokenAddress)}`} className="flex min-w-0 items-center gap-1.5 text-ink hover:underline"><TokenLogo symbol={t.symbol} chain={t.chain} address={t.tokenAddress} size={14} /><span className="truncate">{t.symbol}</span><span className="truncate text-[10.5px] text-ink-muted">{chainName(t.chain)}</span></Link>
             <span className="h-2 rounded-full bg-accent"><span className="block h-2 rounded-full" style={{ width: `${(Math.abs(t.pnlUsd ?? 0) / max) * 100}%`, background: (t.pnlUsd ?? 0) >= 0 ? 'var(--in-3)' : 'var(--out-3)' }} /></span>
             <span className="num text-right text-ink">{usd(t.pnlUsd, { signed: true })}</span>
           </li>
@@ -76,7 +76,7 @@ export async function CounterpartiesCard({ p, mode }: { p: Promise<Wave<Counterp
       <ul className="space-y-1">
         {r.rows.map((x) => (
           <li key={x.address} className="grid grid-cols-[6.5rem_1fr] items-center gap-2 text-[12px]">
-            <Link href={`/wallet/${x.address}`} className="block truncate text-ink-2 hover:text-ink hover:underline" title={x.label ?? x.address}>{walletName(x.label, x.address)}</Link>
+            <Link prefetch={false} href={`/wallet/${x.address}`} className="block truncate text-ink-2 hover:text-ink hover:underline" title={x.label ?? x.address}>{walletName(x.label, x.address)}</Link>
             <div className="relative h-4">
               <div className="absolute inset-y-0 left-1/2 w-px bg-axis" aria-hidden />
               <div className="absolute top-1/2 h-3 -translate-y-1/2 rounded-l" style={{ right: '50%', width: `${(x.outUsd / max) * 48}%`, background: 'var(--out-3)' }} title={`sent ${usd(x.outUsd)}`} />

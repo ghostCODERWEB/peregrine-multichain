@@ -38,7 +38,7 @@ export function FlowBars({ chain, f }: { chain: string; f: FlowSection }) {
           const pos = r.netFlowUsd > 0;
           return (
             <li key={`${r.address}-${pos}`} className="group grid grid-cols-[6.5rem_1fr] items-center gap-2 text-[12px]">
-              <Link href={`/token/${chain}/${r.address}`} className="truncate text-ink hover:underline" title={`${r.symbol} ${r.address}`}>
+              <Link prefetch={false} href={`/token/${chain}/${r.address}`} className="truncate text-ink hover:underline" title={`${r.symbol} ${r.address}`}>
                 {label(r)}
               </Link>
               <div className="relative h-5">

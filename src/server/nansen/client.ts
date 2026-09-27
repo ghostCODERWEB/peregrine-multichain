@@ -6,7 +6,7 @@
 import { z, type ZodType } from 'zod';
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { getLimiter, type NansenPlan } from './limiter';
-import { readCache, writeCache } from './cache';
+import { readCache, writeCache, ttlFor, cacheKey } from './cache';
 import { recordCall, webCreditsToday } from './ledger';
 import { inWebServer, publicSite, webDailyCreditCap, DailyBudgetExhausted } from '@/server/site';
 import { recordError, checkDriftLater } from './health';
@@ -302,6 +302,8 @@ function overWebBudget(reserve = 0): boolean {
   return webCreditsToday() + reserve >= webDailyCreditCap();
 }
 
+const revalidating = new Set<string>();
+
 export async function callNansen<T>(endpoint: string, body: unknown = {}, options: CallOptions = {}): Promise<CallResult<T>> {
   const { method = 'POST', schema, skipCache = false } = options;
   const caller = await currentCaller();
@@ -322,6 +324,20 @@ export async function callNansen<T>(endpoint: string, body: unknown = {}, option
         t.cached++;
       }
       return { data: cached.value, meta: { creditsCost: 0, creditsUsed: null, creditsRemaining: null, cacheHit: true } };
+    }
+    // Stale-while-revalidate: a recently expired answer is served at once and refreshed in the background,
+    // so a visitor never waits on Nansen just because a cache entry crossed its TTL.
+    const stale = fixtureMode() === 'replay' ? null : readCache<T>(endpoint, body, scope, { stale: true });
+    if (stale && Date.now() - stale.fetchedAt < Math.max(6 * ttlFor(endpoint), 30 * 60_000)) {
+      const key = `${scope ?? ''}|${cacheKey(endpoint, body, scope)}`;
+      if (!revalidating.has(key)) {
+        revalidating.add(key);
+        void callNansen<T>(endpoint, body, { ...options, skipCache: true }).catch(() => undefined).finally(() => revalidating.delete(key));
+      }
+      recordCall(endpoint, 0, true, caller.userId);
+      const t = callScope.getStore();
+      if (t) { t.calls++; t.cached++; }
+      return { data: stale.value, meta: { creditsCost: 0, creditsUsed: null, creditsRemaining: null, cacheHit: true } };
     }
   }
 

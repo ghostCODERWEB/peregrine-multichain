@@ -82,7 +82,7 @@ export function CascadeExplorer({ nodes, edges, evidence, replay }: { nodes: Map
         {s ? (
           <>
             <p className="mt-1 text-[14px] font-bold" style={{ color: roleColor(s.role) }}>{s.role === 'leader' ? 'Enters before other Smart Money' : s.role === 'follower' ? 'Enters after other Smart Money' : 'No consistent order'}</p>
-            <Link href={`/wallet/${s.wallet}`} className="mt-0.5 block truncate text-[13px] font-semibold text-ink hover:underline">{s.name}</Link>
+            <Link prefetch={false} href={`/wallet/${s.wallet}`} className="mt-0.5 block truncate text-[13px] font-semibold text-ink hover:underline">{s.name}</Link>
             <dl className="mt-3 grid grid-cols-3 gap-2 text-[12px]">
               <div className="inset-well rounded-[12px] p-2"><dt className="text-ink-muted">Episodes</dt><dd className="num text-[15px] font-bold text-ink">{s.episodes}</dd></div>
               <div className="inset-well rounded-[12px] p-2"><dt className="text-ink-muted">First in</dt><dd className="num text-[15px] font-bold text-ink">{s.firsts}</dd></div>
@@ -93,7 +93,7 @@ export function CascadeExplorer({ nodes, edges, evidence, replay }: { nodes: Map
               {ev.map((x) => (
                 <li key={`${x.token}:${x.at}`} className="flex items-center gap-2 py-1.5">
                   <TokenLogo symbol={x.symbol} chain={x.chain} address={x.token} size={16} />
-                  <Link href={`/token/${x.chain}/${encodeURIComponent(x.token)}`} className="min-w-0 flex-1 truncate font-semibold text-ink hover:underline">{x.symbol ?? x.token.slice(0, 6)}</Link>
+                  <Link prefetch={false} href={`/token/${x.chain}/${encodeURIComponent(x.token)}`} className="min-w-0 flex-1 truncate font-semibold text-ink hover:underline">{x.symbol ?? x.token.slice(0, 6)}</Link>
                   <span className="num text-ink-2">#{x.rank} of {x.k}</span>
                   <span className="num w-14 text-right" style={{ color: x.aheadMin >= 0 ? 'var(--mint)' : 'var(--flare)' }}>{x.aheadMin >= 0 ? '−' : '+'}{fmtMin(Math.abs(x.aheadMin))}</span>
                 </li>

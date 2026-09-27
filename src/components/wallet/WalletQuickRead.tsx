@@ -17,7 +17,7 @@ export function WalletQuickRead({ address }: { address: string }) {
   const facts: Array<[string, React.ReactNode, string]> = [
     ['Activity', lean, 'Smart Money DEX volume (7d, scanner) against observed open perp value'],
     ['Spot, 7d', spot.n ? `${spot.n} trades · ${usd(spotVol)}` : 'none recorded', spot.n ? `net ${usd(spot.net, { signed: true })} across ${spot.tokens} tokens on ${spot.chains} chains` : 'only Smart Money wallets are recorded'],
-    ['Most traded', top ? <Link key="t" href={`/token/${top.chain}/${encodeURIComponent(top.t)}`} className="hover:underline">{top.s ?? top.t.slice(0, 6)}</Link> : 'n/a', top ? `${usd(top.v)} · ${pct(top.v / Math.max(1, spotVol), 0)} of its 7d volume · ${chainName(top.chain)}` : ''],
+    ['Most traded', top ? <Link prefetch={false} key="t" href={`/token/${top.chain}/${encodeURIComponent(top.t)}`} className="hover:underline">{top.s ?? top.t.slice(0, 6)}</Link> : 'n/a', top ? `${usd(top.v)} · ${pct(top.v / Math.max(1, spotVol), 0)} of its 7d volume · ${chainName(top.chain)}` : ''],
     ['Perps (observed)', perps.length ? usd(perpUsd) : 'none', perps.length ? perps.slice(0, 3).map((p) => `${p.side} ${p.symbol} ${usd(p.valueUsd)}`).join(' · ') : 'not in Peregrine\'s position reads'],
   ];
   return (

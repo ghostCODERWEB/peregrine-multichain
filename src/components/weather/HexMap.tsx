@@ -192,7 +192,7 @@ export function HexMap({
           const w = byChain.get(t.chain);
           const label = `${chainName(t.chain)}: ${w?.cpi != null ? `Flow ${num(w.cpi)}` : 'no flow reading'}. Open chain page.`;
           return (
-            <Link
+            <Link prefetch={false}
               key={t.chain}
               href={`/chain/${t.chain}`}
               aria-label={label}

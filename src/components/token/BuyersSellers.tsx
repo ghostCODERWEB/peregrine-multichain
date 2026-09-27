@@ -32,7 +32,7 @@ export function BuyersSellers({ h, clustered }: { h: HoldersWave; clustered: Set
           const insider = clustered.has(r.address.toLowerCase());
           return (
             <li key={`${r.address}-${r.side}`} className="grid grid-cols-[7.5rem_1fr] items-center gap-2 text-[12px]">
-              <Link href={`/wallet/${r.address}`} className="block truncate text-ink-2 hover:text-ink hover:underline" title={r.label ?? r.address}>
+              <Link prefetch={false} href={`/wallet/${r.address}`} className="block truncate text-ink-2 hover:text-ink hover:underline" title={r.label ?? r.address}>
                 {insider && <span className="mr-1 inline-block h-2 w-2 rounded-full align-middle" style={{ background: 'var(--storm-3)' }} title="In an insider cluster" />}
                 {walletName(r.label, r.address)}
               </Link>

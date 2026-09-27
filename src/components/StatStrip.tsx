@@ -19,7 +19,7 @@ export function StatStrip({ stats, className = '' }: { stats: Stat[]; className?
         );
         return (
           <li key={s.label} className="min-w-0 bg-[var(--surface-1)]">
-            {s.href ? <Link href={s.href} className="block h-full px-3.5 py-2.5 transition-colors sm:px-4 sm:py-3 duration-[var(--dur-fast)] hover:bg-[var(--surface-2)]">{body}</Link> : <div className="px-3.5 py-2.5 sm:px-4 sm:py-3">{body}</div>}
+            {s.href ? <Link prefetch={false} href={s.href} className="block h-full px-3.5 py-2.5 transition-colors sm:px-4 sm:py-3 duration-[var(--dur-fast)] hover:bg-[var(--surface-2)]">{body}</Link> : <div className="px-3.5 py-2.5 sm:px-4 sm:py-3">{body}</div>}
           </li>
         );
       })}

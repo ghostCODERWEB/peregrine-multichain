@@ -442,7 +442,7 @@ function FlowDetail({ front: f, onWallets }: { front: FrontWithProvenance; onWal
       <ul className="mt-3 space-y-1 text-[12px]">
         {f.wallets.slice(0, 3).map((w) => (
           <li key={w.wallet} className="flex items-center justify-between gap-2">
-            <Link href={`/wallet/${w.wallet}`} className="truncate text-ink-2 hover:text-ink hover:underline">
+            <Link prefetch={false} href={`/wallet/${w.wallet}`} className="truncate text-ink-2 hover:text-ink hover:underline">
               {w.label ? walletName(w.label, w.wallet) : shortAddress(w.wallet)}
             </Link>
             <span className="num shrink-0 text-ink-muted">{usd(w.boughtUsd)}</span>
@@ -480,7 +480,7 @@ function Chip({ t, r, children }: { t: string; r?: Ref; children?: React.ReactNo
     </>
   );
   return href ? (
-    <Link href={href} className={`${cls} hover:border-axis hover:bg-raised`}>
+    <Link prefetch={false} href={href} className={`${cls} hover:border-axis hover:bg-raised`}>
       {inner}
     </Link>
   ) : (

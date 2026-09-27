@@ -43,8 +43,8 @@ export default async function CascadePage() {
               <tbody>
                 {c.edges.map((e) => (
                   <tr key={`${e.from}>${e.to}`} className="border-t border-[var(--hair)]">
-                    <td className="max-w-[170px] truncate py-1.5 pr-2"><Link href={`/wallet/${e.from}`} className="font-semibold text-[var(--mint)] hover:underline">{name.get(e.from) ?? walletName(null, e.from)}</Link></td>
-                    <td className="max-w-[170px] truncate pr-2"><Link href={`/wallet/${e.to}`} className="text-ink-2 hover:underline">{name.get(e.to) ?? walletName(null, e.to)}</Link></td>
+                    <td className="max-w-[170px] truncate py-1.5 pr-2"><Link prefetch={false} href={`/wallet/${e.from}`} className="font-semibold text-[var(--mint)] hover:underline">{name.get(e.from) ?? walletName(null, e.from)}</Link></td>
+                    <td className="max-w-[170px] truncate pr-2"><Link prefetch={false} href={`/wallet/${e.to}`} className="text-ink-2 hover:underline">{name.get(e.to) ?? walletName(null, e.to)}</Link></td>
                     <td className="num text-right text-ink">{e.wins}/{e.n}</td>
                     <td className="num text-right text-ink-2">{fmtMin(e.medianGapMin)}</td>
                     <td className="num text-right text-ink-2">{e.p.toFixed(3)}</td>

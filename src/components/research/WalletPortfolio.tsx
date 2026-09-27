@@ -43,7 +43,7 @@ export async function WalletPortfolio({ balP, pnlP }: { balP: Promise<Wave<Balan
             <ul className="space-y-1.5">
               {b.byChain.slice(0, 14).map((ch) => (
                 <li key={ch.chain} className="grid grid-cols-[minmax(0,1fr)_90px_64px] items-center gap-2 text-[12px]">
-                  <Link href={`/chain/${ch.chain}`} className="flex min-w-0 items-center gap-1.5 truncate font-semibold text-ink hover:underline"><ChainLogo chain={ch.chain} size={14} />{chainName(ch.chain)}<span className="font-normal text-ink-muted">{ch.tokens}</span></Link>
+                  <Link prefetch={false} href={`/chain/${ch.chain}`} className="flex min-w-0 items-center gap-1.5 truncate font-semibold text-ink hover:underline"><ChainLogo chain={ch.chain} size={14} />{chainName(ch.chain)}<span className="font-normal text-ink-muted">{ch.tokens}</span></Link>
                   <span className="h-1.5 overflow-hidden rounded-full bg-[var(--hair)]"><span className="block h-full rounded-full bg-[var(--signal)]" style={{ width: `${(ch.valueUsd / total) * 100}%` }} /></span>
                   <span className="num text-right text-ink-2">{usd(ch.valueUsd)}</span>
                 </li>
@@ -57,13 +57,13 @@ export async function WalletPortfolio({ balP, pnlP }: { balP: Promise<Wave<Balan
             <tbody>
               {pos.map((x) => (
                 <tr key={`${x.chain}:${x.tokenAddress}`} className="border-t border-[var(--hair)] hover:bg-[var(--surface-2)]">
-                  <td className="py-1.5"><Link href={href(x)} className="flex items-center gap-2 font-semibold text-ink hover:underline"><TokenLogo symbol={x.symbol} chain={x.chain} address={x.tokenAddress} size={18} />{x.symbol}{STABLES.has(x.symbol.toUpperCase()) && <span className="rounded bg-ink/8 px-1 text-[9.5px] font-bold text-ink-muted">STABLE</span>}</Link></td>
+                  <td className="py-1.5"><Link prefetch={false} href={href(x)} className="flex items-center gap-2 font-semibold text-ink hover:underline"><TokenLogo symbol={x.symbol} chain={x.chain} address={x.tokenAddress} size={18} />{x.symbol}{STABLES.has(x.symbol.toUpperCase()) && <span className="rounded bg-ink/8 px-1 text-[9.5px] font-bold text-ink-muted">STABLE</span>}</Link></td>
                   <td className="text-ink-2">{chainName(x.chain)}</td>
                   <td className="num text-right text-ink-2">{x.amount != null ? x.amount.toLocaleString('en-US', { maximumFractionDigits: 4 }) : 'n/a'}</td>
                   <td className="num text-right text-ink-2">{x.amount ? usd(x.valueUsd / x.amount) : 'n/a'}</td>
                   <td className="num text-right font-semibold text-ink">{usd(x.valueUsd)}</td>
                   <td className="num text-right text-ink-2">{pct(x.valueUsd / total, 1)}</td>
-                  <td className="text-right"><Link href={`/rug/${x.chain}/${encodeURIComponent(x.tokenAddress)}`} className="text-[11.5px] font-semibold text-ink-muted hover:text-ink" title={`${x.symbol} risk report`}>Risk report</Link></td>
+                  <td className="text-right"><Link prefetch={false} href={`/rug/${x.chain}/${encodeURIComponent(x.tokenAddress)}`} className="text-[11.5px] font-semibold text-ink-muted hover:text-ink" title={`${x.symbol} risk report`}>Risk report</Link></td>
                 </tr>
               ))}
             </tbody>

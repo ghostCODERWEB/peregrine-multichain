@@ -33,7 +33,7 @@ export default function NotFound() {
       <ul className="mt-6 grid w-full max-w-[680px] gap-2 sm:grid-cols-2">
         {LINKS.map(([href, name, sub], i) => (
           <li key={href} className="nf-link" style={{ '--i': i } as React.CSSProperties}>
-            <Link href={href} className="group flex items-center justify-between gap-3 rounded-[14px] border border-[var(--hair)] bg-[var(--surface-1)] px-4 py-3 text-left transition-colors hover:border-[color-mix(in_srgb,#1fe0a3_45%,var(--hair))]">
+            <Link prefetch={false} href={href} className="group flex items-center justify-between gap-3 rounded-[14px] border border-[var(--hair)] bg-[var(--surface-1)] px-4 py-3 text-left transition-colors hover:border-[color-mix(in_srgb,#1fe0a3_45%,var(--hair))]">
               <span><span className="block text-[14px] font-bold text-ink">{name}</span><span className="block text-[12px] text-ink-muted">{sub}</span></span>
               <span aria-hidden className="text-[18px] text-ink-muted transition-transform group-hover:translate-x-1 group-hover:text-[#1fe0a3]">›</span>
             </Link>

@@ -172,7 +172,7 @@ export function SmartMoneyDesk({ mode }: { mode: 'owner' | 'member' }) {
           action={history?.state === 'ok' ? <InfoPopover p={history.data.provenance} /> : undefined}>
           {history?.state === 'ok' ? <HoldingHistory h={history.data} /> : history?.state === 'error' ? <Unavailable text={history.message} /> : <WaveLoading what="30 days of smart-money balances" height={240} />}
           <div className="mt-2 flex gap-3 text-[12px]">
-            <Link href={`/token/${picked.chain}/${picked.tokenAddress}`} className="text-ink-2 underline-offset-2 hover:text-ink hover:underline">Open {picked.symbol}&apos;s token page <Go /></Link>
+            <Link prefetch={false} href={`/token/${picked.chain}/${picked.tokenAddress}`} className="text-ink-2 underline-offset-2 hover:text-ink hover:underline">Open {picked.symbol}&apos;s token page <Go /></Link>
             <button onClick={() => { setPicked(null); setHistory(null); }} className="text-ink-muted hover:text-ink">Close</button>
           </div>
         </Card>
@@ -220,7 +220,7 @@ export function SmartMoneyDesk({ mode }: { mode: 'owner' | 'member' }) {
                   {d.leaders.slice(0, 50).map((l) => (
                     <tr key={l.address} className="border-t border-border align-top">
                       <td className="num py-1.5 text-ink-muted">{l.rank}</td>
-                      <td className="max-w-[180px] truncate"><Link href={`/wallet/${l.address}`} className="text-ink hover:underline">{walletName(l.label, l.address)}</Link></td>
+                      <td className="max-w-[180px] truncate"><Link prefetch={false} href={`/wallet/${l.address}`} className="text-ink hover:underline">{walletName(l.label, l.address)}</Link></td>
                       <td className="num text-ink">{usd(l.totalPnlUsd, { signed: true })}</td>
                       <td className="num text-ink-2">{l.winRate != null ? pct(l.winRate, 0) : 'n/a'}</td>
                       <td className="num text-ink-2">{l.trades.toLocaleString('en-US')}</td>

@@ -46,7 +46,7 @@ export function OddsCard({ f }: { f: ForecastWave }) {
       <Row label="Breakout: rises 30%+ from here" o={f.breakout} tone="var(--in-3)" />
       <p className="text-[11.5px] text-ink-muted">
         {f.extrapolated ? `Trained on ${f.trainedOn.map(chainName).join(', ')}, on this chain the model is extrapolating. ` : ''}
-        Probabilities from logistic models fitted on Nansen point-in-time data. <Link href="/lab" className="underline underline-offset-2 hover:text-ink">How they were tested <Go /></Link>
+        Probabilities from logistic models fitted on Nansen point-in-time data. <Link prefetch={false} href="/lab" className="underline underline-offset-2 hover:text-ink">How they were tested <Go /></Link>
       </p>
     </div>
   );

@@ -46,7 +46,7 @@ export function PredictMarketView({ market, detail, outcomes, owner, analytics }
   useEffect(() => { void runRecords(); void loadPositions(); }, [detail.id]);
   return (
     <div className="space-y-4">
-      <nav aria-label="Breadcrumb" className="flex items-center gap-1 text-[12.5px] text-ink-muted"><Link href="/predict" className="hover:text-ink">Predictions</Link><Go /><span className="truncate text-ink-2">{market?.eventTitle ?? 'Market'}</span></nav>
+      <nav aria-label="Breadcrumb" className="flex items-center gap-1 text-[12.5px] text-ink-muted"><Link prefetch={false} href="/predict" className="hover:text-ink">Predictions</Link><Go /><span className="truncate text-ink-2">{market?.eventTitle ?? 'Market'}</span></nav>
       <header className="hero-seq flex flex-wrap items-end justify-between gap-3">
         <div className="min-w-0 max-w-[80ch]">
           <p className="text-[12px] text-ink-muted">Polymarket via Nansen{market?.endDate ? ` · ends ${market.endDate.slice(0, 10)}` : ''}{market?.tags.length ? ` · ${market.tags.slice(0, 3).join(', ')}` : ''}</p>
@@ -79,7 +79,7 @@ export function PredictMarketView({ market, detail, outcomes, owner, analytics }
           <ol className="space-y-1">
             {outcomes.outcomes.map((o) => (
               <li key={o.id}>
-                <Link href={`/predict/${encodeURIComponent(o.id)}`} aria-current={o.id === detail.id ? 'page' : undefined}
+                <Link prefetch={false} href={`/predict/${encodeURIComponent(o.id)}`} aria-current={o.id === detail.id ? 'page' : undefined}
                   className={`grid grid-cols-[minmax(0,1fr)_minmax(120px,30%)_64px_72px_88px] items-center gap-3 rounded-[8px] px-2 py-1.5 text-[13px] hover:bg-ink/5 ${o.id === detail.id ? 'bg-ink/8' : ''}`}>
                   <span className="truncate text-ink">{o.question}</span>
                   <span className="h-2 overflow-hidden rounded-full bg-ink/8"><span className="block h-full rounded-full bg-[var(--signal)]" style={{ width: `${Math.round((o.price ?? 0) * 100)}%` }} /></span>

@@ -60,7 +60,7 @@ export function RugSearch({ chains, autoFocus = true, placeholder }: { chains: r
           <div className="mb-2 text-[12.5px] font-bold text-ink-muted">Which network is this address on?</div>
           <div className="flex flex-wrap gap-2">
             {addrChains.map((c) => (
-              <Link key={c} href={`/token/${c}/${encodeURIComponent(v)}`} className="inline-flex h-9 items-center gap-2 rounded-full border border-[var(--hair)] px-3 text-[13px] font-semibold text-ink-2 hover:border-[var(--mint)] hover:text-ink">
+              <Link prefetch={false} key={c} href={`/token/${c}/${encodeURIComponent(v)}`} className="inline-flex h-9 items-center gap-2 rounded-full border border-[var(--hair)] px-3 text-[13px] font-semibold text-ink-2 hover:border-[var(--mint)] hover:text-ink">
                 <ChainLogo chain={c} size={16} />{chainName(c)}
               </Link>
             ))}
@@ -71,7 +71,7 @@ export function RugSearch({ chains, autoFocus = true, placeholder }: { chains: r
         <ul className="divide-y divide-[var(--hair)] rounded-[18px] border border-[var(--hair)]" aria-label="Matching tokens">
           {hits.slice(0, 8).map((h) => (
             <li key={`${h.chain}:${h.address}`}>
-              <Link href={`/token/${h.chain}/${encodeURIComponent(h.address)}`} className="flex items-center gap-3 px-4 py-3 hover:bg-ink/5">
+              <Link prefetch={false} href={`/token/${h.chain}/${encodeURIComponent(h.address)}`} className="flex items-center gap-3 px-4 py-3 hover:bg-ink/5">
                 <ChainLogo chain={h.chain} size={22} />
                 <span className="min-w-0"><span className="block truncate text-[14px] font-bold text-ink">{h.title}</span><span className="block truncate text-[12.5px] text-ink-muted">{h.subtitle}</span></span>
                 <span className="ml-auto shrink-0 text-[13px] font-bold text-[var(--mint)]">Open <Go /></span>

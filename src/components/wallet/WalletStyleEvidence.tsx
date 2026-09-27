@@ -72,7 +72,7 @@ export function WalletStyleEvidence({
         ) : (
           <>
             DeFi protocol positions are not auto-loaded.{' '}
-            <Link href="#wallet-desk" className="text-ink underline decoration-border underline-offset-2 hover:decoration-ink">
+            <Link prefetch={false} href="#wallet-desk" className="text-ink underline decoration-border underline-offset-2 hover:decoration-ink">
               Load DeFi in Wallet desk
             </Link>{' '}
             to assess them.
@@ -85,7 +85,7 @@ export function WalletStyleEvidence({
         ) : (
           <>
             Perpetual positions are not assumed absent.{' '}
-            <Link href="#wallet-desk" className="text-ink underline decoration-border underline-offset-2 hover:decoration-ink">
+            <Link prefetch={false} href="#wallet-desk" className="text-ink underline decoration-border underline-offset-2 hover:decoration-ink">
               Load Hyperliquid in Wallet desk
             </Link>{' '}
             to assess them.

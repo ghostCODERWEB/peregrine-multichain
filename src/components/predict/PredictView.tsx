@@ -215,7 +215,7 @@ export function PredictView({ board, title, analytics, series = {} }: { board: P
         <ul className="stagger grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-2" aria-label="Prediction categories by heat">
           {cats.map((c) => (
             <li key={c.category}>
-              <Link
+              <Link prefetch={false}
               href={`/predict/category/${encodeURIComponent(c.category)}`}
               title={c.topQuestion ? `Busiest: ${c.topQuestion}` : undefined}
               className="block h-full rounded-xl border border-border/40 p-2.5 transition-[border-color,transform] hover:-translate-y-px hover:border-[var(--mint)]"
@@ -312,7 +312,7 @@ export function PredictView({ board, title, analytics, series = {} }: { board: P
               sub={`${picked.eventTitle ?? ''}${picked.endDate ? ` · ends in ${ends(picked.endDate)}` : ''}. YES implied probability, hourly.`}
               action={
                 <span className="flex items-center gap-2 text-[12px] font-semibold">
-                  <Link href={`/predict/${picked.id}`} className="text-brand hover:underline">Full analysis <Go /></Link>
+                  <Link prefetch={false} href={`/predict/${picked.id}`} className="text-brand hover:underline">Full analysis <Go /></Link>
                   {picked.slug && <a href={polymarketMarket(picked.slug)} target="_blank" rel="noopener noreferrer" className="text-ink-2 hover:text-ink">Polymarket <ArrowUpRight className="inline h-3.5 w-3.5" aria-hidden /></a>}
                 </span>
               }
@@ -444,7 +444,7 @@ export function PredictView({ board, title, analytics, series = {} }: { board: P
                             <td className="num text-right text-ink">{usd(tr.usd)}</td>
                             <td className="text-right">
                               {tr.buyer && (
-                                <Link href={`/wallet/${tr.buyer}`} className="text-ink-muted hover:text-ink">
+                                <Link prefetch={false} href={`/wallet/${tr.buyer}`} className="text-ink-muted hover:text-ink">
                                   {shortAddress(tr.buyer)}
                                 </Link>
                               )}
@@ -489,7 +489,7 @@ export function PredictView({ board, title, analytics, series = {} }: { board: P
                       {records.data.records.map((r) => (
                         <tr key={r.address} className="border-t border-border">
                           <td className="py-1.5">
-                            <Link href={`/wallet/${r.address}`} className="text-ink hover:underline">
+                            <Link prefetch={false} href={`/wallet/${r.address}`} className="text-ink hover:underline">
                               {shortAddress(r.address)}
                             </Link>
                             {r.skilled && <span className="ml-1.5 rounded bg-brand/15 px-1.5 text-[10.5px] text-ink">skilled</span>}
@@ -541,7 +541,7 @@ export function PredictView({ board, title, analytics, series = {} }: { board: P
                   className={`cursor-pointer border-t border-border hover:bg-raised/60 ${picked?.id === m.id ? 'bg-raised' : ''}`}
                 >
                   <td className="max-w-[360px] truncate py-1.5 text-ink" title={m.question}>
-                    <Link href={`/predict/${encodeURIComponent(m.id)}`} onClick={(e) => e.stopPropagation()} className="hover:underline hover:underline-offset-2">{m.question}</Link>
+                    <Link prefetch={false} href={`/predict/${encodeURIComponent(m.id)}`} onClick={(e) => e.stopPropagation()} className="hover:underline hover:underline-offset-2">{m.question}</Link>
                   </td>
                   <td className="num text-ink">{impliedPct(m.price)}</td>
                   <td className="num" style={{ color: m.change1d ? (m.change1d > 0 ? 'var(--mint)' : 'var(--flare)') : undefined }}>

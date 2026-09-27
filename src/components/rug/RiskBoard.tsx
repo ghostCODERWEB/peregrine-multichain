@@ -33,7 +33,7 @@ export function RiskBoard() {
               return (
                 <tr key={`${r.chain}:${r.t}`} className="border-t border-[var(--hair)] hover:bg-[var(--surface-2)]">
                   <td className="py-1.5 pr-3">
-                    <Link href={`/token/${r.chain}/${encodeURIComponent(addr)}`} className="flex items-center gap-2 font-semibold text-ink hover:underline">
+                    <Link prefetch={false} href={`/token/${r.chain}/${encodeURIComponent(addr)}`} className="flex items-center gap-2 font-semibold text-ink hover:underline">
                       <TokenLogo symbol={r.symbol} chain={r.chain} address={addr} size={18} />{r.symbol ?? r.t.slice(0, 6)}<span className="font-normal text-ink-muted">{chainName(r.chain)}</span>
                     </Link>
                   </td>

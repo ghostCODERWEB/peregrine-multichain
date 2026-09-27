@@ -73,7 +73,7 @@ export function NavList({ onNavigate, status = {} }: { onNavigate?: () => void; 
                 const st = status[n.href];
                 return (
                   <li key={n.href} style={{ '--i': i } as React.CSSProperties}>
-                    <Link
+                    <Link prefetch={false}
                       href={n.href}
                       onClick={onNavigate}
                       aria-current={on ? 'page' : undefined}
@@ -176,8 +176,8 @@ export function MobileMenu({ children }: { children?: React.ReactNode }) {
               </div>
               <NavList onNavigate={() => setOpen(false)} />
               <div className="my-4 flex gap-4 text-sm">
-                <Link href="/coverage">Data coverage</Link>
-                <Link href="/proof">Proof</Link>
+                <Link prefetch={false} href="/coverage">Data coverage</Link>
+                <Link prefetch={false} href="/proof">Proof</Link>
               </div>
               {children && <div className="mt-auto space-y-2 border-t border-border pt-3">{children}</div>}
             </div>

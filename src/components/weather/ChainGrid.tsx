@@ -46,7 +46,7 @@ function Tile({ c }: { c: ChainTile }) {
   const tint = band === 'Neutral' ? 0 : Math.min(0.24, Math.abs(d) * 0.34);
   const t = c.trend6h;
   return (
-    <Link href={`/chain/${c.chain}`} aria-label={`${chainName(c.chain)}: Flow Index ${v}, ${band.toLowerCase()}${t != null ? `, ${t >= 0 ? 'up' : 'down'} ${Math.abs(Math.round(t))} in 6 hours` : ''}`}
+    <Link prefetch={false} href={`/chain/${c.chain}`} aria-label={`${chainName(c.chain)}: Flow Index ${v}, ${band.toLowerCase()}${t != null ? `, ${t >= 0 ? 'up' : 'down'} ${Math.abs(Math.round(t))} in 6 hours` : ''}`}
       className="group block rounded-[var(--r-inner)] border border-[var(--hair)] p-2.5 sm:p-3.5 transition-[border-color,transform] duration-[var(--dur-fast)] ease-[var(--ease-out)] hover:-translate-y-px hover:border-[var(--hair-2)]"
       style={{ background: tint ? `linear-gradient(160deg, color-mix(in srgb, ${color} ${Math.round(tint * 100)}%, transparent), color-mix(in srgb, ${color} ${Math.round(tint * 30)}%, transparent))` : 'color-mix(in srgb, var(--ink-1) 3%, transparent)' }}>
       <div className="flex items-center gap-2">

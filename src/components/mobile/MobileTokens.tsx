@@ -25,7 +25,7 @@ export function MobileTokens({ d }: { d: CheckerData }) {
             {risky.map((r) => {
               const l = level(r.score);
               return (
-                <Link role="listitem" key={`${r.chain}:${r.address}`} href={href(r)} className="m-card m-risk">
+                <Link prefetch={false} role="listitem" key={`${r.chain}:${r.address}`} href={href(r)} className="m-card m-risk">
                   <span className="flex items-center justify-between"><TokenLogo symbol={r.symbol} chain={r.chain} address={r.address} size={34} /><span className="m-badge" style={{ color: l.color, background: `color-mix(in srgb, ${l.color} 14%, transparent)` }}><ShieldAlert size={12} />{Math.round(r.score)}</span></span>
                   <span className="m-card-title">{r.symbol}</span>
                   <span className="m-row-sub">{chainName(r.chain)}</span>

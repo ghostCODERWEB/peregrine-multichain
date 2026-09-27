@@ -44,7 +44,7 @@ function Segmented<T extends string | number>({ label, items, value, name, link 
   return (
     <nav aria-label={label} className="segmented" style={{ '--segments': items.length, '--selected': items.indexOf(value) } as React.CSSProperties}>
       <span className="segmented-thumb" aria-hidden />
-      {items.map((x) => <Link key={String(x)} href={link(x)} aria-pressed={x === value} className="relative z-[1] px-3 py-1 text-center text-[12px] font-bold">{name(x)}</Link>)}
+      {items.map((x) => <Link prefetch={false} key={String(x)} href={link(x)} aria-pressed={x === value} className="relative z-[1] px-3 py-1 text-center text-[12px] font-bold">{name(x)}</Link>)}
     </nav>
   );
 }
@@ -200,7 +200,7 @@ function SpotView({ board, tf, who, lab }: { board: Leaders; tf: Timeframe; who:
                       <td className="num text-right text-ink-2">{x.tokens}</td>
                       <td className="pl-4"><span className="flex gap-1.5">{TIMEFRAMES.map((t) => { const v = l.windows[t]; return <span key={t} title={v ? `${t}D ${usd(v.pnl, { signed: true })}` : `Not in the ${t}D top 100`} className="h-2.5 w-2.5 rounded-full" style={{ background: v ? (v.pnl > 0 ? 'var(--mint)' : 'var(--flare)') : 'var(--hair-2)' }} />; })}</span></td>
                       <td><span className="flex items-center gap-1">{l.holdings.slice(0, 4).map((h, j) => <span key={j} title={`${h.symbol ?? h.address}${h.usd != null ? ` · ${usd(h.usd)}` : ''}`}><TokenLogo symbol={h.symbol} chain={h.chain ?? undefined} address={h.address ?? undefined} size={18} /></span>)}{!l.holdings.length && <span className="text-ink-muted">n/a</span>}</span></td>
-                      <td className="num text-right text-ink-2">{last ? <Link href={`/token/${last.chain}/${encodeURIComponent(last.token)}`} className="hover:underline">{last.symbol ?? last.token.slice(0, 6)} · <TimeAgo ts={last.at} /></Link> : '·'}</td>
+                      <td className="num text-right text-ink-2">{last ? <Link prefetch={false} href={`/token/${last.chain}/${encodeURIComponent(last.token)}`} className="hover:underline">{last.symbol ?? last.token.slice(0, 6)} · <TimeAgo ts={last.at} /></Link> : '·'}</td>
                       <td className="num text-right font-semibold" style={lt == null ? undefined : { color: scoreColor(lt) }}>{lt ?? '·'}</td>
                     </tr>
                   );
@@ -225,7 +225,7 @@ function BuyingNow({ board, tf, who, className }: { board: Leaders; tf: Timefram
         {feed.map((r) => (
           <li key={`${r.leader.address}:${r.chain}:${r.token}`} className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 py-2 text-[12.5px]">
             <span className="min-w-0">
-              <Link href={`/token/${r.chain}/${encodeURIComponent(r.token)}`} className="flex min-w-0 items-center gap-2 font-semibold text-ink hover:underline"><TokenLogo symbol={r.symbol} chain={r.chain} address={r.token} size={18} /><span className="truncate">{r.symbol ?? r.token.slice(0, 6)}</span><span className="text-[11px] font-normal text-ink-muted">{chainName(r.chain)}</span></Link>
+              <Link prefetch={false} href={`/token/${r.chain}/${encodeURIComponent(r.token)}`} className="flex min-w-0 items-center gap-2 font-semibold text-ink hover:underline"><TokenLogo symbol={r.symbol} chain={r.chain} address={r.token} size={18} /><span className="truncate">{r.symbol ?? r.token.slice(0, 6)}</span><span className="text-[11px] font-normal text-ink-muted">{chainName(r.chain)}</span></Link>
               <span className="mt-0.5 flex min-w-0 items-center gap-1.5 text-[11.5px] text-ink-muted">bought by <AddressLink address={r.leader.address} label={r.leader.label} compact /><span className="num font-semibold" style={{ color: scoreColor(r.leader.score) }}>· {r.leader.score}</span><span className="num">· {usd(r.leader.windows[tf]!.pnl, { signed: true })} {tf}D</span></span>
             </span>
             <span className="text-right"><span className="num block font-bold text-ink">{usd(r.usd)}</span><span className="num block text-[11px] text-ink-muted"><TimeAgo ts={r.at} /></span></span>
@@ -246,7 +246,7 @@ function Consensus({ board, className }: { board: Leaders; className: string }) 
           const body = <><TokenLogo symbol={c.symbol} chain={c.chain || undefined} address={c.token || undefined} size={18} /><span className="truncate font-semibold text-ink">{c.symbol ?? c.token.slice(0, 6)}</span>{c.chain && <span className="text-[11px] text-ink-muted">{chainName(c.chain)}</span>}</>;
           return (
             <li key={`${c.source}:${c.chain}:${c.token}:${c.symbol}`} className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 py-2 text-[12.5px]">
-              {c.chain && c.token ? <Link href={`/token/${c.chain}/${encodeURIComponent(c.token)}`} className="flex min-w-0 items-center gap-2 hover:underline">{body}</Link> : <span className="flex min-w-0 items-center gap-2">{body}</span>}
+              {c.chain && c.token ? <Link prefetch={false} href={`/token/${c.chain}/${encodeURIComponent(c.token)}`} className="flex min-w-0 items-center gap-2 hover:underline">{body}</Link> : <span className="flex min-w-0 items-center gap-2">{body}</span>}
               <span className="text-right"><span className="num block font-bold" style={{ color: c.source === 'buying' ? 'var(--mint)' : 'var(--ink-1)' }}>{c.wallets} {c.source}</span><span className="num block text-[11px] text-ink-muted">{c.usd ? usd(c.usd) : ''}{c.last ? <> · <TimeAgo ts={c.last} /></> : ''}</span></span>
             </li>
           );
@@ -288,7 +288,7 @@ function PerpsView({ perps }: { perps: PerpLeaders | Un }) {
                   <td className="num text-right" style={r.pnl7 == null ? undefined : tone(r.pnl7)}>{r.pnl7 == null ? '·' : usd(r.pnl7, { signed: true })}</td>
                   <td className="num text-right text-ink-2">{usd(r.accountValue)}</td>
                   <td className="num text-right text-ink-2">{r.trades30?.toLocaleString('en-US') ?? 'n/a'}</td>
-                  <td className="pl-4"><span className="flex flex-wrap gap-1">{r.positions.slice(0, 3).map((x) => <Link key={`${x.coin}:${x.side}`} href={`/perps/${encodeURIComponent(x.coin)}`} className="inline-flex items-center gap-1 rounded-full bg-[var(--surface-2)] px-1.5 py-px text-[11px] hover:underline"><TokenLogo symbol={x.coin} coin={x.coin} size={14} />{x.coin}<span style={{ color: /short/i.test(x.side) ? 'var(--flare)' : 'var(--mint)' }}>{/short/i.test(x.side) ? 'S' : 'L'}</span></Link>)}{!r.positions.length && <span className="text-ink-muted">none</span>}</span></td>
+                  <td className="pl-4"><span className="flex flex-wrap gap-1">{r.positions.slice(0, 3).map((x) => <Link prefetch={false} key={`${x.coin}:${x.side}`} href={`/perps/${encodeURIComponent(x.coin)}`} className="inline-flex items-center gap-1 rounded-full bg-[var(--surface-2)] px-1.5 py-px text-[11px] hover:underline"><TokenLogo symbol={x.coin} coin={x.coin} size={14} />{x.coin}<span style={{ color: /short/i.test(x.side) ? 'var(--flare)' : 'var(--mint)' }}>{/short/i.test(x.side) ? 'S' : 'L'}</span></Link>)}{!r.positions.length && <span className="text-ink-muted">none</span>}</span></td>
                 </tr>
               ))}
             </tbody>
@@ -326,7 +326,7 @@ function PredictView({ predict }: { predict: PmLeaders | Un }) {
                     <td className="num text-right font-bold" style={l.totalPnl == null ? undefined : tone(l.totalPnl)}>{usd(l.totalPnl, { signed: true })}</td>
                     <td className="num text-right text-ink">{l.winRate == null ? 'n/a' : `${Math.round(l.winRate * 100)}%`}</td>
                     <td className="num text-right text-ink-2">{l.marketsTraded ?? 'n/a'}</td>
-                    <td className="max-w-[420px] pl-4">{l.wins.slice(0, 2).map((x) => <Link key={x.id} href={`/predict/${encodeURIComponent(x.id)}`} className="block truncate text-ink-2 hover:underline"><span className="num font-semibold" style={tone(x.pnlUsd)}>{usd(x.pnlUsd, { signed: true })}</span> {x.side ? `${x.side} · ` : ''}{x.question}</Link>)}</td>
+                    <td className="max-w-[420px] pl-4">{l.wins.slice(0, 2).map((x) => <Link prefetch={false} key={x.id} href={`/predict/${encodeURIComponent(x.id)}`} className="block truncate text-ink-2 hover:underline"><span className="num font-semibold" style={tone(x.pnlUsd)}>{usd(x.pnlUsd, { signed: true })}</span> {x.side ? `${x.side} · ` : ''}{x.question}</Link>)}</td>
                   </tr>
                 ))}
               </tbody>
@@ -344,7 +344,7 @@ function CohortView({ cohorts, compact }: { cohorts: Cohorts | Un; compact: bool
   const shown = compact ? COHORTS.filter((c) => c !== 'fresh_wallets') : COHORTS;
   const row = (r: (typeof boards)[keyof typeof boards]['buying'][number]) => (
     <li key={`${r.chain}:${r.token}`} className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 py-1.5 text-[12.5px]">
-      <Link href={`/token/${r.chain}/${encodeURIComponent(r.token)}`} className="flex min-w-0 items-center gap-2 hover:underline"><TokenLogo symbol={r.symbol} chain={r.chain} address={r.token} size={16} /><span className="truncate font-semibold text-ink">{r.symbol ?? r.token.slice(0, 6)}</span><span className="text-[11px] text-ink-muted">{chainName(r.chain)}</span></Link>
+      <Link prefetch={false} href={`/token/${r.chain}/${encodeURIComponent(r.token)}`} className="flex min-w-0 items-center gap-2 hover:underline"><TokenLogo symbol={r.symbol} chain={r.chain} address={r.token} size={16} /><span className="truncate font-semibold text-ink">{r.symbol ?? r.token.slice(0, 6)}</span><span className="text-[11px] text-ink-muted">{chainName(r.chain)}</span></Link>
       <span className="num text-right"><span className="font-bold" style={tone(r.cell.netUsd)}>{usd(r.cell.netUsd, { signed: true })}</span>{r.cell.wallets != null && <span className="ml-1.5 text-[11px] text-ink-muted">{r.cell.wallets}w</span>}</span>
     </li>
   );
@@ -364,7 +364,7 @@ function CohortView({ cohorts, compact }: { cohorts: Cohorts | Un; compact: bool
           </div>
         ))}
       </div>
-      {compact && <p className="mt-3 text-[11.5px] text-ink-muted"><Link href="/copy?m=cohorts" className="font-semibold text-[var(--mint)] hover:underline">All cohorts, buying and selling →</Link></p>}
+      {compact && <p className="mt-3 text-[11.5px] text-ink-muted"><Link prefetch={false} href="/copy?m=cohorts" className="font-semibold text-[var(--mint)] hover:underline">All cohorts, buying and selling →</Link></p>}
     </Section>
   );
 }

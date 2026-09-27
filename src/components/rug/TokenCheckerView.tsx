@@ -13,7 +13,7 @@ const tone = (v: number | null | undefined) => ({ color: (v ?? 0) >= 0 ? 'var(--
 const px = (v: number | null) => (v == null ? 'n/a' : v >= 1 ? `$${v.toLocaleString('en-US', { maximumFractionDigits: 2 })}` : `$${v.toPrecision(3)}`);
 
 function Tok({ t, sym }: { t: { chain: string; address: string }; sym: string | null }) {
-  return <Link href={href(t)} className="flex items-center gap-2 font-semibold text-ink hover:underline"><TokenLogo symbol={sym} chain={t.chain} address={t.address} size={18} />{sym ?? t.address.slice(0, 6)}<span className="font-normal text-ink-muted">{chainName(t.chain)}</span></Link>;
+  return <Link prefetch={false} href={href(t)} className="flex items-center gap-2 font-semibold text-ink hover:underline"><TokenLogo symbol={sym} chain={t.chain} address={t.address} size={18} />{sym ?? t.address.slice(0, 6)}<span className="font-normal text-ink-muted">{chainName(t.chain)}</span></Link>;
 }
 function ScoreCell({ s }: { s: ScoredToken }) {
   const [, band, color] = levelOf(s.score);

@@ -38,7 +38,7 @@ export function QuickRead({ chain, address, mode }: { chain: string; address: st
   if (owner && trades.length) {
     facts.push(['Smart Money DEX wallets, 24h', `${trades.length} · ${usd(net, { signed: true })}`, topShare != null ? (topShare >= 0.5 ? `concentrated: one wallet is ${pct(topShare, 0)} of the flow` : `broad: largest wallet ${pct(topShare, 0)} of the flow`) : null]);
   }
-  if (perp && perpTotal) facts.push([`${symbol} perps (observed)`, <Link key="p" href={`/perps/${symbol!.toUpperCase()}`} className="hover:underline">{usd(perpTotal)}</Link>, smLong + smShort ? `Smart Money ${pct(smLong / (smLong + smShort), 0)} long` : 'no Smart Money positions']);
+  if (perp && perpTotal) facts.push([`${symbol} perps (observed)`, <Link prefetch={false} key="p" href={`/perps/${symbol!.toUpperCase()}`} className="hover:underline">{usd(perpTotal)}</Link>, smLong + smShort ? `Smart Money ${pct(smLong / (smLong + smShort), 0)} long` : 'no Smart Money positions']);
   const activity = pulse && perp ? 'Spot and perps' : perp ? 'Perps' : 'Spot';
 
   return (

@@ -473,7 +473,7 @@ export function PerpsView({ board, title, mode, analytics }: { board: PerpBoard;
             <p className="text-[13.5px] text-ink-2">
               <span className="font-bold text-ink">{pickedCoin.symbol}</span> in depth: liquidation radar, who holds each band, Smart Money conviction shift, what changed, and the AI analyst.
             </p>
-            <Link href={`/perps/${encodeURIComponent(pickedCoin.symbol)}`} className="pill-button pill-primary">Open {pickedCoin.symbol} terminal <Go /></Link>
+            <Link prefetch={false} href={`/perps/${encodeURIComponent(pickedCoin.symbol)}`} className="pill-button pill-primary">Open {pickedCoin.symbol} terminal <Go /></Link>
           </div>
           <div className="grid gap-4 lg:grid-cols-3">
             <Card
@@ -619,7 +619,7 @@ export function PerpsView({ board, title, mode, analytics }: { board: PerpBoard;
                           {detail.data.pnl.rows.map((p) => (
                             <tr key={p.address} className="border-t border-border">
                               <td className="max-w-[160px] truncate py-1.5">
-                                <Link href={`/wallet/${p.address}`} className="text-ink hover:underline">
+                                <Link prefetch={false} href={`/wallet/${p.address}`} className="text-ink hover:underline">
                                   {walletName(p.label, p.address)}
                                 </Link>
                               </td>
@@ -683,7 +683,7 @@ export function PerpsView({ board, title, mode, analytics }: { board: PerpBoard;
                       />
                     </td>
                     <td className="max-w-[160px] truncate">
-                      <Link href={`/wallet/${l.address}`} className="text-ink hover:underline">
+                      <Link prefetch={false} href={`/wallet/${l.address}`} className="text-ink hover:underline">
                         {walletName(l.label, l.address)}
                       </Link>
                     </td>

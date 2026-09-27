@@ -51,8 +51,8 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
     ['Top 10 hold', (x) => pct(x.crowd.top10Share, 0)],
     ['Median leverage', (x) => (x.all.medianLeverage ? `${num(x.all.medianLeverage, 1)}x` : 'n/a')],
     ['Within 5% of liquidation', (x) => usd(x.all.nearLiqUsd)],
-    ['Densest long liquidation band', (x) => (x.below ? <Link href={`/perps/${x.sym}?band=${x.below.lo}_${x.below.hi}`} className="hover:underline">{usd(totalUsd(x.below))} at {price(x.below.lo)} ({pct(Math.abs(x.below.distance), 1)} below)</Link> : 'n/a')],
-    ['Densest short liquidation band', (x) => (x.above ? <Link href={`/perps/${x.sym}?band=${x.above.lo}_${x.above.hi}`} className="hover:underline">{usd(totalUsd(x.above))} at {price(x.above.lo)} ({pct(x.above.distance, 1)} above)</Link> : 'n/a')],
+    ['Densest long liquidation band', (x) => (x.below ? <Link prefetch={false} href={`/perps/${x.sym}?band=${x.below.lo}_${x.below.hi}`} className="hover:underline">{usd(totalUsd(x.below))} at {price(x.below.lo)} ({pct(Math.abs(x.below.distance), 1)} below)</Link> : 'n/a')],
+    ['Densest short liquidation band', (x) => (x.above ? <Link prefetch={false} href={`/perps/${x.sym}?band=${x.above.lo}_${x.above.hi}`} className="hover:underline">{usd(totalUsd(x.above))} at {price(x.above.lo)} ({pct(x.above.distance, 1)} above)</Link> : 'n/a')],
     ['Smart Money shift, 4h', (x) => (x.shift ? DIRECTION_TEXT[x.shift.direction] : 'needs history')],
     ['Data', (x) => `${new Date(x.d.at).toISOString().slice(11, 16)} UTC`],
   ];
@@ -67,7 +67,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
       </form>
       <div tabIndex={0} role="region" aria-label="Comparison" className="material overflow-x-auto p-0">
         <table className="w-full min-w-[640px] text-[13px]">
-          <thead className="text-[12px] text-ink-muted"><tr><th className="px-4 py-3 text-left font-semibold">Measure</th>{[A, B].map((x) => <th key={x.sym} className="px-4 py-3 text-right"><Link href={`/perps/${x.sym}`} className="text-[15px] font-bold text-ink hover:underline">{x.sym}</Link></th>)}</tr></thead>
+          <thead className="text-[12px] text-ink-muted"><tr><th className="px-4 py-3 text-left font-semibold">Measure</th>{[A, B].map((x) => <th key={x.sym} className="px-4 py-3 text-right"><Link prefetch={false} href={`/perps/${x.sym}`} className="text-[15px] font-bold text-ink hover:underline">{x.sym}</Link></th>)}</tr></thead>
           <tbody>{rows.map(([k, f]) => <tr key={k} className="border-t border-[var(--hair)]"><th scope="row" className="px-4 py-2 text-left font-medium text-ink-2">{k}</th><td className="num px-4 text-right text-ink">{f(A)}</td><td className="num px-4 text-right text-ink">{f(B)}</td></tr>)}</tbody>
         </table>
       </div>

@@ -87,7 +87,7 @@ export function MarketAnalyticsView({ id, a, mode }: { id: string; a: MarketAnal
           <ol className="grid gap-x-6 gap-y-1 md:grid-cols-2">
             {a.related.map((m) => (
               <li key={m.id}>
-                <Link href={`/predict/${m.id}`} className="grid grid-cols-[minmax(0,1fr)_90px_48px_64px] items-center gap-2 rounded-[8px] px-2 py-1.5 text-[12.5px] hover:bg-ink/5">
+                <Link prefetch={false} href={`/predict/${m.id}`} className="grid grid-cols-[minmax(0,1fr)_90px_48px_64px] items-center gap-2 rounded-[8px] px-2 py-1.5 text-[12.5px] hover:bg-ink/5">
                   <span className="truncate text-ink">{m.question}</span>
                   <span className="h-1.5 overflow-hidden rounded-full bg-ink/8"><span className="block h-full rounded-full bg-[var(--signal)]" style={{ width: `${Math.round((m.price ?? 0) * 100)}%` }} /></span>
                   <span className="num text-right font-semibold text-ink">{prob(m.price)}</span>

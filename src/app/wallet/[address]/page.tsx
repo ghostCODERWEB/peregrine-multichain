@@ -79,7 +79,7 @@ export default async function WalletRoute({ params }: Params) {
     <div className="space-y-5">
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div>
-          <Link href="/" className="text-[12.5px] text-ink-2 hover:text-ink">
+          <Link prefetch={false} href="/" className="text-[12.5px] text-ink-2 hover:text-ink">
             <Back /> Overview
           </Link>
           <h1 className="t-headline mt-1 break-all text-ink">
@@ -179,7 +179,7 @@ async function OriginsCard({ address, mainChain, mode }: { address: string; main
     >
       {f ? (
         <p className="text-[12.5px] text-ink-2">
-          <Link href={`/wallet/${f.address}`} className="num text-ink underline underline-offset-2">
+          <Link prefetch={false} href={`/wallet/${f.address}`} className="num text-ink underline underline-offset-2">
             {shortAddress(f.address)}
           </Link>{' '}
           on {chainName(f.chain)}, {f.at.slice(0, 10)}
@@ -192,7 +192,7 @@ async function OriginsCard({ address, mainChain, mode }: { address: string; main
         <ul tabIndex={0} aria-label="Scrollable list" className="mt-1 max-h-[220px] space-y-1 overflow-y-auto text-[12px]">
           {r.related.map((x, i) => (
             <li key={`${x.address}-${i}`} className="flex justify-between gap-2 border-b border-border/50 py-0.5">
-              <Link href={`/wallet/${x.address}`} className="truncate text-ink hover:underline">
+              <Link prefetch={false} href={`/wallet/${x.address}`} className="truncate text-ink hover:underline">
                 {walletName(x.label, x.address)}
               </Link>
               <span className="shrink-0 text-ink-muted">{x.relation}</span>
@@ -263,7 +263,7 @@ function RotationsCard({ address, mode }: { address: string; mode: DisplayMode }
       title="Chain rotations"
       sub={`${rows.length} chain pair${rows.length === 1 ? '' : 's'} in 7 days: sold on one chain, bought on another within 12h`}
       action={
-        <Link href="/#fronts-title" className="text-[12px] text-brand hover:underline">
+        <Link prefetch={false} href="/#fronts-title" className="text-[12px] text-brand hover:underline">
           Chain flows <Go />
         </Link>
       }

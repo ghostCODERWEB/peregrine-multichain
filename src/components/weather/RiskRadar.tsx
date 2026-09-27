@@ -30,7 +30,7 @@ export function RiskRadar({ mode }: { mode: DisplayMode }) {
             return (
               <li key={`${r.chain}:${r.address}`} className="inset-well flex items-center gap-3 rounded-[14px] p-3">
                 <TokenLogo symbol={r.symbol} chain={r.chain} address={r.address} size={30} />
-                <Link href={href} className="min-w-0 flex-1 hover:underline">
+                <Link prefetch={false} href={href} className="min-w-0 flex-1 hover:underline">
                   <span className="block truncate text-[14px] font-bold text-ink">{r.symbol} <span className="text-[11.5px] font-normal text-ink-muted">{chainName(r.chain)}</span></span>
                   <span className="num block truncate text-[12px] text-ink-2"><span style={{ color: 'var(--mint)' }}>+{usd(r.net)}</span> by {r.buyers} Smart Money wallet{r.buyers === 1 ? '' : 's'}</span>
                 </Link>
@@ -50,7 +50,7 @@ export function RiskRadar({ mode }: { mode: DisplayMode }) {
           <p>No Smart Money net buying into High-risk tokens in the last 24 hours.{fallback.length ? ' Highest Token Scores right now:' : ''}</p>
           {fallback.length > 0 && (
             <ul className="mt-2 flex flex-wrap gap-2">
-              {fallback.map((s) => <li key={`${s.chain}:${s.address}`}><Link href={`/token/${s.chain}/${encodeURIComponent(s.address)}`} className="inset-well inline-flex items-center gap-2 rounded-full px-3 py-1.5 hover:underline"><TokenLogo symbol={s.symbol} chain={s.chain} address={s.address} size={16} /><span className="font-semibold text-ink">{s.symbol}</span><span className="num font-bold" style={{ color: band(s.score).color }}>{Math.round(s.score)}</span></Link></li>)}
+              {fallback.map((s) => <li key={`${s.chain}:${s.address}`}><Link prefetch={false} href={`/token/${s.chain}/${encodeURIComponent(s.address)}`} className="inset-well inline-flex items-center gap-2 rounded-full px-3 py-1.5 hover:underline"><TokenLogo symbol={s.symbol} chain={s.chain} address={s.address} size={16} /><span className="font-semibold text-ink">{s.symbol}</span><span className="num font-bold" style={{ color: band(s.score).color }}>{Math.round(s.score)}</span></Link></li>)}
             </ul>
           )}
         </div>

@@ -26,7 +26,7 @@ export function AddressLink({ address, label, compact = false, className = '' }:
     <span className={`group/addr inline-flex min-w-0 max-w-full items-center gap-1 ${className}`}>
       {/* eslint-disable-next-line @next/next/no-img-element -- DefiLlama's public icon CDN; no optimizer proxy */}
       {icon && <img src={icon} alt="" width={14} height={14} loading="lazy" referrerPolicy="no-referrer" onError={() => setIconOk(false)} className="h-3.5 w-3.5 shrink-0 rounded-full bg-raised object-cover" />}
-      <Link href={`/wallet/${encodeURIComponent(address)}`} title={`${clean ? `${clean}\n` : ens ? `${ens}\n` : ''}${address}\nOpen in Profiler`} onClick={(e) => e.stopPropagation()}
+      <Link prefetch={false} href={`/wallet/${encodeURIComponent(address)}`} title={`${clean ? `${clean}\n` : ens ? `${ens}\n` : ''}${address}\nOpen in Profiler`} onClick={(e) => e.stopPropagation()}
         className="min-w-0 truncate rounded-[4px] hover:text-ink hover:underline hover:underline-offset-2">
         {clean ? (
           <>

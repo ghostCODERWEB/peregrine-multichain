@@ -25,7 +25,7 @@ function Module({ title, href, children }: { title: string; href: string; childr
     <section className="material flex min-w-0 flex-col p-4 sm:p-5">
       <div className="mb-3 flex items-center justify-between gap-2">
         <h2 className="text-[13.5px] font-bold text-ink">{title}</h2>
-        <Link href={href} className="text-[12px] font-semibold text-brand">Open <Go /></Link>
+        <Link prefetch={false} href={href} className="text-[12px] font-semibold text-brand">Open <Go /></Link>
       </div>
       {children}
     </section>
@@ -84,7 +84,7 @@ export function OverviewIntel({ mode }: { mode: DisplayMode }) {
   const tokRow = (t: Tok) => (
     <li key={`${t.chain}:${t.token}`} className="py-1 text-[12.5px]">
       <span className="flex items-center justify-between gap-2">
-        <Link href={`/token/${t.chain}/${encodeURIComponent(t.token)}`} className="flex min-w-0 items-center gap-1.5 truncate font-semibold text-ink hover:underline"><TokenLogo symbol={t.sym} chain={t.chain} address={t.token} size={16} />{t.sym ?? t.token.slice(0, 6)} <span className="font-normal text-ink-muted">{chainName(t.chain)} · {t.wallets} wallet{t.wallets === 1 ? '' : 's'}</span></Link>
+        <Link prefetch={false} href={`/token/${t.chain}/${encodeURIComponent(t.token)}`} className="flex min-w-0 items-center gap-1.5 truncate font-semibold text-ink hover:underline"><TokenLogo symbol={t.sym} chain={t.chain} address={t.token} size={16} />{t.sym ?? t.token.slice(0, 6)} <span className="font-normal text-ink-muted">{chainName(t.chain)} · {t.wallets} wallet{t.wallets === 1 ? '' : 's'}</span></Link>
         <span className="num shrink-0 whitespace-nowrap font-semibold" style={tone(t.net)}>{usd(t.net, { signed: true })}</span>
       </span>
       <RowBar value={t.net} max={tokMax} />
@@ -155,7 +155,7 @@ export function OverviewIntel({ mode }: { mode: DisplayMode }) {
         <ol className="space-y-1">
           {moves.map((m) => (
             <li key={m.chain} className="grid grid-cols-[minmax(0,1fr)_64px_auto] items-center gap-2 text-[12.5px]">
-              <Link href={`/chain/${m.chain}`} className="flex min-w-0 items-center gap-1.5 truncate font-semibold text-ink hover:underline"><ChainLogo chain={m.chain} size={14} />{chainName(m.chain)}</Link>
+              <Link prefetch={false} href={`/chain/${m.chain}`} className="flex min-w-0 items-center gap-1.5 truncate font-semibold text-ink hover:underline"><ChainLogo chain={m.chain} size={14} />{chainName(m.chain)}</Link>
               <MiniLines height={18} min={0} max={100} baseline={50} label={`${chainName(m.chain)} Flow Index, last 24 hours`} series={[{ values: cpiLine(m.chain), color: m.d >= 0 ? 'var(--mint)' : 'var(--flare)' }]} />
               <span className="num whitespace-nowrap"><span className="text-ink-2">{num(m.v, 0)}</span> <span className="font-semibold" style={tone(m.d)}>{m.d >= 0 ? '+' : '−'}{num(Math.abs(m.d), 0)}</span></span>
             </li>
@@ -168,7 +168,7 @@ export function OverviewIntel({ mode }: { mode: DisplayMode }) {
             <ol className="space-y-1">
               {others.map((o) => (
                 <li key={o.label}>
-                  <Link href={o.href} className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 text-[12.5px] hover:underline">
+                  <Link prefetch={false} href={o.href} className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2 text-[12.5px] hover:underline">
                     <span className="flex min-w-0 items-center gap-1.5"><HrefLogo href={o.href} size={14} /><span className="truncate"><span className="text-ink-muted">{o.kind} </span><span className="font-semibold text-ink">{o.label}</span></span></span>
                     <span className="num whitespace-nowrap font-semibold" style={tone(o.up ? 1 : -1)}>{o.value}</span>
                   </Link>

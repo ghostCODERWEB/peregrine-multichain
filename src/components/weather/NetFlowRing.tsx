@@ -236,7 +236,7 @@ export function NetFlowRing({ chains }: { chains: NetFlowChain[] }) {
                 const v = measured.get(ch) ?? 0,
                   c = cpi.get(ch);
                 return (
-                  <Link key={ch} href={`/chain/${ch}`} className="inset-well block p-3 hover:border-[var(--hair-2)]">
+                  <Link prefetch={false} key={ch} href={`/chain/${ch}`} className="inset-well block p-3 hover:border-[var(--hair-2)]">
                     <div className="flex items-center gap-1.5 text-[12px] text-ink-muted">
                       <ChainLogo chain={ch} size={14} />
                       {chainName(ch)} · 24h
@@ -308,7 +308,7 @@ export function NetFlowBoard({ chains }: { chains: NetFlowChain[] }) {
         {rows.map((r, i) => (
           <li key={r.chain} className="grid h-12 grid-cols-[18px_minmax(0,140px)_minmax(0,1fr)_90px] items-center gap-3 text-[14px]">
             <span className="num text-[12.5px] font-bold text-ink-muted">{i + 1}</span>
-            <Link href={`/chain/${r.chain}`} className="flex min-w-0 items-center gap-2.5 truncate font-bold hover:underline">
+            <Link prefetch={false} href={`/chain/${r.chain}`} className="flex min-w-0 items-center gap-2.5 truncate font-bold hover:underline">
               <ChainLogo chain={r.chain} size={24} />
               {chainName(r.chain)}
             </Link>

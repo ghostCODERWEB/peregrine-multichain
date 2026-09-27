@@ -42,7 +42,7 @@ export function TabBar() {
         <div className="glass-bar glass-tabs" style={{ '--n': tabs.length, '--i': Math.max(0, current) } as React.CSSProperties}>
           {current >= 0 && <span aria-hidden className="glass-lens" />}
           {tabs.map(([href, label, Icon], i) => (
-            <Link key={String(href)} href={String(href)} aria-current={i === current ? 'page' : undefined} className={`glass-tab ${i === current ? 'is-on' : ''}`}>
+            <Link prefetch={false} key={String(href)} href={String(href)} aria-current={i === current ? 'page' : undefined} className={`glass-tab ${i === current ? 'is-on' : ''}`}>
               <Icon size={22} strokeWidth={i === current ? 2.3 : 1.9} aria-hidden />
               <span className="glass-tab-label">{String(label)}</span>
             </Link>

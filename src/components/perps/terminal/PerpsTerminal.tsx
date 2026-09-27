@@ -133,7 +133,7 @@ export function PerpsTerminal({ symbol, coins, owner, positioning = [] }: { symb
       <header className="hero-seq flex flex-wrap items-end justify-between gap-x-6 gap-y-3">
         <div className="min-w-0">
           <nav aria-label="Breadcrumb" className="mb-1 flex items-center gap-1 text-[12.5px] text-ink-muted">
-            <Link href="/perps" className="hover:text-ink">Perps</Link><Go /><span className="text-ink-2">{symbol}</span>
+            <Link prefetch={false} href="/perps" className="hover:text-ink">Perps</Link><Go /><span className="text-ink-2">{symbol}</span>
             {state.band && <><Go /><button type="button" className="text-ink-2 hover:text-ink" onClick={() => goTab('positions')}>Liq. {price(state.band.lo)} to {price(state.band.hi)}</button></>}
           </nav>
           <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
@@ -154,7 +154,7 @@ export function PerpsTerminal({ symbol, coins, owner, positioning = [] }: { symb
             <span className={`h-1.5 w-1.5 rounded-full ${loading ? 'animate-pulse bg-ink-muted' : 'bg-[var(--mint)]'}`} />{loading ? 'Refreshing' : freshness ? `Positions ${freshness}` : ''}
           </span>
           <button type="button" onClick={refresh} disabled={loading} aria-label="Refresh" className="pill-button pill-secondary min-h-[34px] px-3"><RefreshCw className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`} aria-hidden /></button>
-          <Link href={`/perps/compare?a=${encodeURIComponent(symbol)}&b=${symbol === 'BTC' ? 'ETH' : 'BTC'}`} className="pill-button pill-secondary min-h-[34px] px-3.5 text-[12.5px]">Compare</Link>
+          <Link prefetch={false} href={`/perps/compare?a=${encodeURIComponent(symbol)}&b=${symbol === 'BTC' ? 'ETH' : 'BTC'}`} className="pill-button pill-secondary min-h-[34px] px-3.5 text-[12.5px]">Compare</Link>
           <a href={hyperliquidTrade(symbol)} target="_blank" rel="noopener noreferrer" className="pill-button pill-secondary min-h-[34px] px-3.5 text-[12.5px]">Trade on Hyperliquid <ArrowUpRight className="h-3.5 w-3.5 shrink-0" aria-hidden /></a>
           <button type="button" onClick={() => goTab('changes')} className="pill-button pill-secondary min-h-[34px] px-3.5 text-[12.5px]"><History className="h-3.5 w-3.5" aria-hidden />What changed?</button>
         </div>

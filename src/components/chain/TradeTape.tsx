@@ -35,7 +35,7 @@ export function TradeTape({ tape }: { tape: ChainPageData['tape'] }) {
                 {t.count > 1 && <span className="ml-1 text-[11px] text-ink-muted" title={`${t.count} consecutive fills folded into one row`}>×{t.count}</span>}
               </td>
               <td className="py-1.5 pl-3">
-                <Link href={`/wallet/${t.wallet}`} className="text-ink-2 hover:text-ink hover:underline">{walletName(t.label, t.wallet)}</Link>
+                <Link prefetch={false} href={`/wallet/${t.wallet}`} className="text-ink-2 hover:text-ink hover:underline">{walletName(t.label, t.wallet)}</Link>
               </td>
             </tr>
           ))}

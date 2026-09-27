@@ -34,7 +34,7 @@ export function ChainTable({ chains }: { chains: ChainTile[] }) {
               <tr key={c.chain} className="border-b border-border/60">
                 <td className="py-1.5 font-sans">
                   <span className="mr-2 inline-block h-2.5 w-2.5 rounded-sm align-middle" style={{ background: c.cpi != null ? fillVar(pressureClass(c.cpi)) : 'transparent', outline: c.cpi == null ? '1px solid var(--axis)' : undefined }} aria-hidden />
-                  <Link href={`/chain/${c.chain}`} className="inline-flex items-center gap-2 text-ink hover:underline"><ChainLogo chain={c.chain} size={16} />{chainName(c.chain)}</Link>
+                  <Link prefetch={false} href={`/chain/${c.chain}`} className="inline-flex items-center gap-2 text-ink hover:underline"><ChainLogo chain={c.chain} size={16} />{chainName(c.chain)}</Link>
                 </td>
                 <td className="text-ink-2">{c.tier}</td>
                 <td className="text-right text-ink">{c.cpi != null ? num(c.cpi) : 'n/a'}</td>

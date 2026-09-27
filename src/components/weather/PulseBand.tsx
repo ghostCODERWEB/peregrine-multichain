@@ -64,7 +64,7 @@ function Tile({
     </div>
   );
   return href ? (
-    <Link href={href} className="block h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring">
+    <Link prefetch={false} href={href} className="block h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring">
       {body}
     </Link>
   ) : (

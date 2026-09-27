@@ -7,7 +7,7 @@ import { num, pct, price, usd } from '@/lib/viz/format';
 import type { TraderFill, TraderPerps, TraderPosition } from '@/server/perps/trader';
 
 const pnl = (v: number | null | undefined) => <span style={{ color: v == null ? undefined : v >= 0 ? 'var(--mint)' : 'var(--flare)' }}>{usd(v, { signed: true })}</span>;
-const coinLink = (c: string) => <Link href={`/perps/${encodeURIComponent(c)}`} className="font-semibold text-ink hover:underline hover:underline-offset-2">{c}</Link>;
+const coinLink = (c: string) => <Link prefetch={false} href={`/perps/${encodeURIComponent(c)}`} className="font-semibold text-ink hover:underline hover:underline-offset-2">{c}</Link>;
 
 /** The wallet as a Hyperliquid trader: identity, account, performance, open
  *  positions (each coin opens its terminal) and recent fills. */
@@ -63,7 +63,7 @@ export function TraderPanel({ address }: { address: string }) {
           <p className="text-[12.5px] text-ink-2">
             Seen in Peregrine&apos;s position reads:{' '}
             {d.seenIn.slice(0, 4).map((x, i) => (
-              <span key={x.symbol}>{i ? ', ' : ''}<Link href={`/perps/${encodeURIComponent(x.symbol)}`} className="font-semibold text-ink hover:underline">{x.symbol}</Link> {x.side} {usd(x.valueUsd)} <span className="text-ink-muted">({new Date(x.at).toISOString().slice(5, 16).replace('T', ' ')} UTC)</span></span>
+              <span key={x.symbol}>{i ? ', ' : ''}<Link prefetch={false} href={`/perps/${encodeURIComponent(x.symbol)}`} className="font-semibold text-ink hover:underline">{x.symbol}</Link> {x.side} {usd(x.valueUsd)} <span className="text-ink-muted">({new Date(x.at).toISOString().slice(5, 16).replace('T', ' ')} UTC)</span></span>
             ))}
           </p>
         )}

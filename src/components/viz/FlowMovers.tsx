@@ -15,7 +15,7 @@ export function FlowMovers({ chains }: { chains: ChainTile[] }) {
     const v = Math.round(c.cpi!), off = Math.min(50, Math.abs(v - 50));
     return (
       <li key={c.chain}>
-        <Link href={`/chain/${c.chain}`} className="grid grid-cols-[26px_minmax(0,1fr)_minmax(0,110px)_34px] items-center gap-3 py-2 text-ink">
+        <Link prefetch={false} href={`/chain/${c.chain}`} className="grid grid-cols-[26px_minmax(0,1fr)_minmax(0,110px)_34px] items-center gap-3 py-2 text-ink">
           <ChainLogo chain={c.chain} size={26} />
           <span className="truncate text-[14px] font-bold">{chainName(c.chain)}</span>
           <span className="relative h-1.5 rounded-full bg-ink/10" aria-hidden>

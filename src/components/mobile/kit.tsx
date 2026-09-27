@@ -35,7 +35,7 @@ export function Group({ title, href, action = 'See all', children, footer }: { t
       {title && (
         <div className="m-group-head">
           <h2>{title}</h2>
-          {href && <Link href={href} className="m-see-all">{action}</Link>}
+          {href && <Link prefetch={false} href={href} className="m-see-all">{action}</Link>}
         </div>
       )}
       {children}
@@ -65,7 +65,7 @@ export function Row({ href, leading, title, subtitle, trailing, trailingSub, ton
       {href && <ChevronRight className="m-row-chev" size={16} aria-hidden />}
     </>
   );
-  return <li>{href ? <Link href={href} className="m-row">{body}</Link> : <div className="m-row">{body}</div>}</li>;
+  return <li>{href ? <Link prefetch={false} href={href} className="m-row">{body}</Link> : <div className="m-row">{body}</div>}</li>;
 }
 
 /** Horizontal snap-scrolling rail of cards (App Store style), bleeding to the screen edges. */

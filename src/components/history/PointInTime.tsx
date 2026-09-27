@@ -199,7 +199,7 @@ export function WalletTimeMachine({ address, current }: { address: string; curre
                   const n = now.get(`${b.chain}:${b.token.toLowerCase()}`);
                   return (
                     <li key={`${b.chain}:${b.token}`} className="flex items-center gap-2 py-1.5 text-[12.5px]">
-                      <Link href={`/token/${b.chain}/${encodeURIComponent(b.token)}`} className="flex min-w-0 flex-1 items-center gap-1.5 truncate font-semibold text-ink hover:underline"><TokenLogo symbol={b.symbol} chain={b.chain} address={b.token} size={16} />{b.symbol ?? b.token.slice(0, 8)} <span className="font-normal text-ink-muted">{chainName(b.chain)}</span></Link>
+                      <Link prefetch={false} href={`/token/${b.chain}/${encodeURIComponent(b.token)}`} className="flex min-w-0 flex-1 items-center gap-1.5 truncate font-semibold text-ink hover:underline"><TokenLogo symbol={b.symbol} chain={b.chain} address={b.token} size={16} />{b.symbol ?? b.token.slice(0, 8)} <span className="font-normal text-ink-muted">{chainName(b.chain)}</span></Link>
                       <span className="num w-20 text-right text-ink-2">{usd(b.valueUsd)}</span>
                       <span className="num w-24 text-right text-ink">{n ? usd(n.valueUsd) : current ? 'none now' : 'n/a'}</span>
                     </li>
