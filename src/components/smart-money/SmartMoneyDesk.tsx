@@ -101,37 +101,37 @@ export function SmartMoneyDesk({ mode }: { mode: 'owner' | 'member' }) {
 
   return (
     <div className="space-y-4">
-      <section aria-labelledby="sm-title" className="material rise relative overflow-hidden p-5 sm:p-7">
-        <div className="relative">
-          <div className="flex flex-wrap items-center gap-2 text-[12px]">
-            <span className="text-ink-muted">Smart-money desk</span>
+      <section aria-labelledby="sm-title" className="material rise p-4 sm:px-5 sm:py-4">
+        <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2">
+          <div className="min-w-0 flex-1">
+            <p className="text-[11.5px] font-semibold uppercase tracking-[0.06em] text-ink-muted">Smart-money desk</p>
+            <h1 id="sm-title" className="mt-1 text-[17px] font-bold leading-snug tracking-[-0.01em] text-ink sm:text-[19px]">
+              {d ? deskTitle(d) : desk.state === 'error' ? 'The smart-money desk could not load' : 'Reading smart-money holdings and the PnL leaderboard from Nansen…'}
+            </h1>
           </div>
-          <h1 id="sm-title" className="t-headline mt-2 text-ink">
-            {d ? deskTitle(d) : desk.state === 'error' ? 'The smart-money desk could not load' : 'Reading smart-money holdings and the PnL leaderboard from Nansen…'}
-          </h1>
-          <div className="mt-3 flex flex-wrap items-center gap-2">
-            <label htmlFor="sm-chain" className="text-[12.5px] text-ink-2">Chain</label>
+          <label className="flex shrink-0 items-center gap-2 text-[12px] text-ink-muted">
+            Chain
             <select id="sm-chain" value={chain} onChange={(e) => { setChain(e.target.value); setPicked(null); setHistory(null); }}
-              className="rounded-lg border border-border bg-raised px-2.5 py-1 text-[13px] text-ink">
+              className="rounded-lg border border-border bg-raised px-2 py-1 text-[12.5px] text-ink">
               {CHAINS.map((c) => <option key={c} value={c}>{c === 'all' ? 'All chains' : chainName(c)}</option>)}
             </select>
-          </div>
-          {d && (
-            <dl className="stagger mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-5">
-              {[
-                ['Value tracked', usd(d.totals.valueUsd)], ['Tokens', String(d.totals.tokens)],
-                ['Adding · trimming', `${d.totals.adding} · ${d.totals.trimming}`], ['Crowded exits', String(exits.length)],
-                ['Top-PnL wallets read', String(d.leaders.length)],
-              ].map(([k, v]) => (
-                <div key={k} className="inset-well min-w-0 rounded-[18px] px-4 py-3">
-                  <dt className="text-[12.5px] font-medium text-ink-muted">{k}</dt>
-                  <dd className="num mt-1 truncate text-[19px] font-extrabold tracking-[-0.02em] text-ink">{v}</dd>
-                </div>
-              ))}
-            </dl>
-          )}
-          {desk.state === 'error' && <div className="mt-3"><Unavailable text={desk.message} /></div>}
+          </label>
         </div>
+        {d && (
+          <dl className="mt-3 grid grid-cols-2 gap-px overflow-hidden rounded-[var(--r-inner)] border border-[var(--hair)] bg-[var(--hair)] sm:grid-cols-5">
+            {[
+              ['Value tracked', usd(d.totals.valueUsd)], ['Tokens', String(d.totals.tokens)],
+              ['Adding · trimming', `${d.totals.adding} · ${d.totals.trimming}`], ['Crowded exits', String(exits.length)],
+              ['Top-PnL wallets read', String(d.leaders.length)],
+            ].map(([k, v]) => (
+              <div key={k} className="min-w-0 bg-[var(--surface-1)] px-3 py-2 [&:last-child:nth-child(odd)]:col-span-2 sm:[&:last-child:nth-child(odd)]:col-span-1">
+                <dt className="truncate text-[11.5px] font-medium text-ink-muted">{k}</dt>
+                <dd className="num truncate text-[15px] font-bold tracking-[-0.01em] text-ink">{v}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
+        {desk.state === 'error' && <div className="mt-3"><Unavailable text={desk.message} /></div>}
       </section>
 
       <div className="grid gap-4 lg:grid-cols-3">
