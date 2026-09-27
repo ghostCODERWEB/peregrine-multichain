@@ -18,10 +18,32 @@ describe('netFlowMap', () => {
     expect(m.edges[0].netUsd).toBeCloseTo(52.5); // 70 × 60/80
   });
   it('keeps the largest pairs only, and draws nothing without both sides', () => {
-    expect(netFlowMap(nets, { pairs: 2 }).edges).toHaveLength(2);
+    expect(netFlowMap(nets, { pairs: 3 }).edges).toHaveLength(3);
     expect(netFlowMap([{ chain: 'a', net: 5 }, { chain: 'b', net: 3 }]).edges).toEqual([]);
   });
 });
+
+describe('netFlowMap connections', () => {
+  it('connects every chain shown, even the smallest', () => {
+    // 3×3 = 9 arcs trimmed to 6: base's arcs are the three smallest.
+    const m = netFlowMap([
+      { chain: 'tron', net: -2860 }, { chain: 'near', net: -1600 }, { chain: 'robinhood', net: -638 },
+      { chain: 'solana', net: 685.6 }, { chain: 'ethereum', net: 131.7 }, { chain: 'base', net: 67.8 },
+    ], { sellers: 3, buyers: 3, pairs: 6 });
+    expect(m.edges).toHaveLength(6);
+    for (const n of [...m.sellers, ...m.buyers]) {
+      expect(m.edges.some((e) => e.from === n.chain || e.to === n.chain)).toBe(true);
+    }
+    expect(m.edges.find((e) => e.to === 'base')).toMatchObject({ from: 'tron' });
+  });
+  it('goes past pairs only when every chain needs its own arc', () => {
+    expect(netFlowMap(nets4(), { pairs: 1 }).edges).toHaveLength(3);
+  });
+});
+
+function nets4() {
+  return [{ chain: 'a', net: -70 }, { chain: 'b', net: -30 }, { chain: 'x', net: 60 }, { chain: 'y', net: 20 }];
+}
 
 describe('chainNets', () => {
   it('reads one window and skips perp venues', () => {

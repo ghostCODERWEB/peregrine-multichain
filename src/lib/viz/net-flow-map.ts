@@ -19,8 +19,9 @@ export interface NetFlowMap {
   totalIn: number;
 }
 
-/** Chains' measured net flow → the largest `pairs` modeled arcs between the
- *  top `sellers` and top `buyers` (by size). `min` drops noise-level chains. */
+/** Chains' measured net flow → modeled arcs between the top `sellers` and top
+ *  `buyers`: each chain's largest arc, then the largest others up to `pairs`
+ *  in all (more only when every chain needs its own). `min` drops noise. */
 export function netFlowMap(nets: ChainNet[], opts: { sellers?: number; buyers?: number; pairs?: number; min?: number } = {}): NetFlowMap {
   const { sellers: ns = 4, buyers: nb = 4, pairs = 7, min = 1 } = opts;
   const clean = nets.filter((n) => Number.isFinite(n.net) && Math.abs(n.net) >= min);
@@ -32,7 +33,16 @@ export function netFlowMap(nets: ChainNet[], opts: { sellers?: number; buyers?: 
   const all: FlowEdge[] = sellers.flatMap((s) => buyers.map((b) => ({
     from: s.chain, to: b.chain, netUsd: (-s.net * b.net) / totalIn, walletCount: 0, confidence: 1,
   })));
-  const edges = all.sort((a, b) => b.netUsd - a.netUsd).slice(0, pairs);
+  all.sort((a, b) => b.netUsd - a.netUsd);
+  // Every chain shown keeps its largest arc, so a small buyer or seller is
+  // never left floating; the rest of the `pairs` budget goes by size.
+  const keep = new Set<FlowEdge>();
+  for (const n of [...sellers, ...buyers]) {
+    const top = all.find((e) => e.from === n.chain || e.to === n.chain);
+    if (top) keep.add(top);
+  }
+  for (const e of all) { if (keep.size >= pairs) break; keep.add(e); }
+  const edges = all.filter((e) => keep.has(e));
   return { edges, sellers, buyers, totalOut, totalIn };
 }
 
