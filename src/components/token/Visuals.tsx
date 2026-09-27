@@ -83,7 +83,8 @@ export function TokenHero({ chain, address, tier, h, m, storm, done, title, chil
               </div>
             </div>
           </div>
-          <div className="mt-4 flex flex-wrap items-end gap-x-5 gap-y-3">
+          {/* Phones stack price and change: a row that wraps only once the change pill arrives would jump. */}
+          <div className="mt-4 flex flex-col items-start gap-x-5 gap-y-2 sm:flex-row sm:flex-wrap sm:items-end sm:gap-y-3">
             <div>
               <div className="sr-only">{h?.symbol ?? 'Token'} price</div>
               <div className="num text-[32px] leading-tight tracking-[-.04em] font-extrabold text-ink sm:text-[40px]">{price == null && !done ? <span className="inline-block h-9 w-40 animate-pulse rounded-lg bg-ink/10 align-middle" aria-label="Loading price" /> : price != null ? (price < 1 ? `$${num(price, price < 0.01 ? 6 : 4)}` : usd(price)) : 'n/a'}</div>
@@ -101,7 +102,7 @@ export function TokenHero({ chain, address, tier, h, m, storm, done, title, chil
           </div>
           {/* Hold the chart's space while candles stream in, so the page below does not jump when it lands. */}
           {m ? <div className="mt-6"><TokenPriceChart chain={chain} address={address} initial={m.candles} events={events} onChange={onRange} /></div>
-            : !done && <div className="mt-6 h-[468px] animate-pulse rounded-xl bg-ink/5" aria-label="Loading price chart" />}
+            : !done && <div className="mt-6 h-[532px] animate-pulse rounded-xl bg-ink/5 sm:h-[488px]" aria-label="Loading price chart" />}
 
         </div>
         <div className="min-w-0 space-y-4">
