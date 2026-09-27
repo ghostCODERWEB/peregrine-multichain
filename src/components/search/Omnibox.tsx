@@ -37,7 +37,7 @@ interface Item {
  * the one priced call only on Enter. Keyboard first: ↑/↓ move, Enter opens,
  * Esc closes.
  */
-const SUGGESTIONS = ['aero', 'Wintermute', 'base', 'AI', '/who bought $AERO last 6h'];
+const SUGGESTIONS = ['aero', 'Wintermute', 'base', 'PUMP', '/who bought $AERO last 6h'];
 
 export function Omnibox() {
   const router = useRouter();

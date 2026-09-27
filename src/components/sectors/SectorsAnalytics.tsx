@@ -7,7 +7,7 @@ import { sectorsAnalytics } from '@/server/insights';
 import type { DisplayMode } from '@/server/mode';
 import { chainName, usd } from '@/lib/viz/format';
 
-/** The Sectors page's analytical overview: insights with a Nansen AI brief, net flow ranking, 24h swings, flow history and the tokens driving it. */
+/** The Sectors page's analytical overview: insights with a Nansen brief, net flow ranking, 24h swings, flow history and the tokens driving it. */
 export function SectorsAnalytics({ mode }: { mode: DisplayMode }) {
   const a = sectorsAnalytics(mode);
   const maxTok = Math.max(1, ...a.tokens.map((t) => Math.abs(t.net)));

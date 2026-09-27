@@ -7,7 +7,7 @@ import { plainAnchorText } from '@/lib/plain-text';
 type Status = 'idle' | 'loading' | 'streaming' | 'done' | 'error';
 
 /**
- * The AI anchor: text from Nansen's own agent (agent/fast), streamed in as
+ * The anchor: text from Nansen's own agent (agent/fast), streamed in as
  * it arrives with a typewriter reveal, the Nansen tools it used as chips.
  * Never generates on its own — a report costs 200 credits, so it only runs
  * on a click, and a report under an hour old is replayed instead.

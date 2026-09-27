@@ -12,7 +12,7 @@ import { marketAnalytics } from '@/server/predict/market';
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = { title: 'Prediction market · Peregrine' };
 
-/** One Polymarket market (via Nansen), URL-addressable: pulse and AI brief, statistics, flow, top traders, outcomes, price and volume, depth, holders, positions, trades, related markets. */
+/** One Polymarket market (via Nansen), URL-addressable: pulse and written brief, statistics, flow, top traders, outcomes, price and volume, depth, holders, positions, trades, related markets. */
 export default async function PredictMarketPage({ params }: { params: Promise<{ id: string }> }) {
   const id = decodeURIComponent((await params).id);
   if (!MARKET_ID_RE.test(id)) notFound();

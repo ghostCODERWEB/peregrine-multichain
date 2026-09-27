@@ -1,4 +1,4 @@
-// The AI Anchor (spec 6.1): Nansen's own agent (agent/fast, 200 credits)
+// The anchor (spec 6.1): Nansen's own agent (agent/fast, 200 credits)
 // reads TIDE's computed numbers and writes a four-sentence broadcast. Two
 // subjects — the global bulletin and one token — each reused for an hour,
 // and a hard ANCHOR_MAX_PER_HOUR across all subjects so a busy page can't
@@ -123,7 +123,7 @@ function bulletinPrompt(mode: DisplayMode): { prompt: string; facts: unknown } {
   };
   return {
     facts,
-    prompt: `You are the AI Analyst of Peregrine, a smart-money market brief built on Nansen data. ${RULES}\nTIDE's current readings:\n${JSON.stringify(facts)}`,
+    prompt: `You are the analyst of Peregrine, a smart-money market brief built on Nansen data. ${RULES}\nTIDE's current readings:\n${JSON.stringify(facts)}`,
   };
 }
 
@@ -164,7 +164,7 @@ export function tokenPrompt(chain: string, token: string): { prompt: string; fac
   };
   return {
     facts,
-    prompt: `You are the AI Analyst of Peregrine, a smart-money market brief built on Nansen data. Explain what Peregrine's scores say about this token. ${RULES}\nTIDE's scores:\n${JSON.stringify(facts)}`,
+    prompt: `You are the analyst of Peregrine, a smart-money market brief built on Nansen data. Explain what Peregrine's scores say about this token. ${RULES}\nTIDE's scores:\n${JSON.stringify(facts)}`,
   };
 }
 
@@ -197,14 +197,14 @@ export async function* anchorStream(
   if (callsThisHour() >= max) {
     yield {
       type: 'error',
-      message: `The AI Analyst has used its ${max} Nansen agent calls for this hour (ANCHOR_MAX_PER_HOUR). ${cached ? 'The last report is shown instead.' : 'Try again later.'}`,
+      message: `The analyst has used its ${max} Nansen agent calls for this hour (ANCHOR_MAX_PER_HOUR). ${cached ? 'The last report is shown instead.' : 'Try again later.'}`,
     };
     if (cached) yield { type: 'done', report: cached, cached: true };
     return;
   }
   const built = kind === 'bulletin' ? bulletinPrompt(mode) : tokenPrompt(chain!, token!);
   if (!built) {
-    yield { type: 'error', message: 'Open the token page first: the AI Analyst reads the Dump Risk Peregrine computes there.' };
+    yield { type: 'error', message: 'Open the token page first: the analyst reads the Dump Risk Peregrine computes there.' };
     return;
   }
 

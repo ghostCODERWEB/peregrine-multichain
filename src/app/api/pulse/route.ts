@@ -5,7 +5,7 @@ import { aiBrief } from '@/server/pulse-brief';
 
 export const dynamic = 'force-dynamic';
 
-/** A page's AI brief (shared, cached hourly): ?key=pulse|perps|sectors|predict|flows|pm-<market id>. Owner view only: it reads Smart Money data. */
+/** A page's written brief (shared, cached hourly): ?key=pulse|perps|sectors|predict|flows|pm-<market id>. Owner view only: it reads Smart Money data. */
 export async function GET(req: Request) {
   const ctx = contextFromRequest(req);
   if (ctx.mode !== 'owner') return NextResponse.json({ brief: null });

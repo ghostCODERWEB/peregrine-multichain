@@ -3,7 +3,7 @@ import { tokenVerdict, verdictAi } from '@/server/token/verdict';
 
 export const dynamic = 'force-dynamic';
 
-/** GET ?chain=&address=[&ai=1] → the token's verdict from stored reads; ai=1 also writes (or returns the cached) AI sentence. */
+/** GET ?chain=&address=[&ai=1] → the token's verdict from stored reads; ai=1 also writes (or returns the cached) agent sentence. */
 export async function GET(req: Request) {
   const q = new URL(req.url).searchParams;
   const chain = q.get('chain') ?? '', address = q.get('address') ?? '';

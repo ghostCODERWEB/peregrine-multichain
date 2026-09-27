@@ -45,14 +45,14 @@ export async function POST(req: Request) {
           await new Promise((r) => setTimeout(r, 120)); // pace the timeline so each step reads
         }
 
-        send('step', { id: 'write', label: 'Nansen AI writes a cited report', status: 'running' });
+        send('step', { id: 'write', label: 'Nansen agent writes a cited report', status: 'running' });
         let answer = '';
         for await (const e of streamNansen('agent/fast', { text: prompt(t, mode, question, evidence) }, { record: false })) {
           if (e.type === 'delta') { answer += e.text; send('delta', { text: e.text }); }
           else if (e.type === 'error') throw new Error(e.error || 'Nansen agent error');
         }
         answer = answer.replace(/\*\*/g, '').trim();
-        send('step', { id: 'write', label: 'Nansen AI writes a cited report', status: 'done' });
+        send('step', { id: 'write', label: 'Nansen agent writes a cited report', status: 'done' });
         const report = { id: randomUUID(), at: Date.now(), mode, target: label, question, evidence, answer };
         saveReport(report);
         send('done', report);

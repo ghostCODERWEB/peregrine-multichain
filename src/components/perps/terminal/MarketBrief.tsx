@@ -9,7 +9,7 @@ import type { ChangesData, TerminalData } from '@/server/perps/terminal';
 import type { Tab } from './state';
 
 /** Market Intelligence Brief: deterministic statements computed from the data on
- *  screen (Derived, not AI). Every statement opens the records behind it. */
+ *  screen (derived from data). Every statement opens the records behind it. */
 export function MarketBrief({ data, mark, changes, available, onBand, onTab, onCohort }: {
   data: TerminalData; mark: number; changes: ChangesData | { unavailable: string } | null; available: Cohort[];
   onBand: (b: Band) => void; onTab: (t: Tab) => void; onCohort: (c: Cohort | 'all') => void;

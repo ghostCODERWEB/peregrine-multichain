@@ -39,7 +39,7 @@ function MarketCard({ m, o }: { m: PmMarket; o: PredictOverview }) {
   );
 }
 
-/** The Predictions page's analytical overview: insights with a Nansen AI brief, trending markets with 7-day probability and volume, rankings and a live trade feed. */
+/** The Predictions page's analytical overview: insights with a Nansen brief, trending markets with 7-day probability and volume, rankings and a live trade feed. */
 export function PredictAnalytics({ board, o, mode }: { board: PredictBoard; o: PredictOverview; mode: DisplayMode }) {
   const byOi = [...board.markets].sort((a, b) => (b.openInterest ?? 0) - (a.openInterest ?? 0)).slice(0, 12).map((m) => ({ label: m.question.length > 42 ? `${m.question.slice(0, 40)}…` : m.question, value: m.openInterest ?? 0, href: `/predict/${m.id}`, sub: `${prob(m.price)} YES · ${usd(m.volume24h)} 24h` }));
   const cats = [...board.categories].filter((c) => c.volume24h).sort((a, b) => b.volume24h! - a.volume24h!).slice(0, 12).map((c) => ({ label: c.category, value: c.volume24h!, href: `/predict?q=${encodeURIComponent(c.category)}`, sub: `${c.heat != null ? `${c.heat.toFixed(1)}× usual pace · ` : ''}OI ${usd(c.openInterest)}` }));

@@ -115,9 +115,9 @@ export function AnalystPanel({ symbol, available, suggestions, buildContext, coi
     return <p className="text-[12.5px] text-ink-muted">The analyst reads wallet labels and Smart Money cohorts, which Nansen allows only in the key owner&apos;s view.</p>;
   }
   return (
-    <section aria-label="Nansen AI analyst" className="flex min-h-0 flex-col gap-3">
+    <section aria-label="Nansen analyst" className="flex min-h-0 flex-col gap-3">
       <div className="flex items-center justify-between gap-2">
-        <h3 className="flex items-center gap-1.5 text-[13.5px] font-bold text-ink"><Sparkles className="h-3.5 w-3.5 text-brand" aria-hidden />Nansen AI analyst</h3>
+        <h3 className="flex items-center gap-1.5 text-[13.5px] font-bold text-ink"><Sparkles className="h-3.5 w-3.5 text-brand" aria-hidden />Nansen analyst</h3>
         <div className="flex items-center gap-2">
           {turns.length > 0 && <button type="button" onClick={() => { setTurns([]); conversation.current = null; }} className="text-[11.5px] font-semibold text-ink-muted hover:text-ink">New</button>}
           <Segmented label="Analysis depth" value={depth} options={[{ value: 'quick', label: 'Quick' }, { value: 'deep', label: 'Deep' }]} onChange={setDepth} />
@@ -132,7 +132,7 @@ export function AnalystPanel({ symbol, available, suggestions, buildContext, coi
             )}
             {t.text && (
               <div className="rounded-[10px] border border-[var(--hair)] bg-[color-mix(in_srgb,var(--ink-1)_3%,transparent)] p-3 text-[13px] leading-relaxed text-ink-2">
-                {t.command ? <span className="mb-1.5 inline-block rounded-[5px] bg-ink/10 px-1.5 py-px text-[10.5px] font-bold text-ink-2">Command</span> : <span className="mb-1.5 inline-block rounded-[5px] bg-[color-mix(in_srgb,var(--signal)_16%,transparent)] px-1.5 py-px text-[10.5px] font-bold text-[var(--signal)]">AI analysis</span>}
+                {t.command ? <span className="mb-1.5 inline-block rounded-[5px] bg-ink/10 px-1.5 py-px text-[10.5px] font-bold text-ink-2">Command</span> : <span className="mb-1.5 inline-block rounded-[5px] bg-[color-mix(in_srgb,var(--signal)_16%,transparent)] px-1.5 py-px text-[10.5px] font-bold text-[var(--signal)]">Nansen analysis</span>}
                 {t.text.split('\n').filter(Boolean).map((line, j) => (
                   <p key={j} className={`mt-1 whitespace-pre-wrap ${/^evidence:/i.test(line.trim()) ? 'border-t border-[var(--hair)] pt-1.5 text-[12px] text-ink-muted' : ''}`}>
                     <Line text={line} coins={coinSet} onRange={onRange} />

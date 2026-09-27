@@ -1,7 +1,7 @@
 // Dedicated analytics for one Polymarket market, from Nansen: price
 // statistics over the 7-day history, trade flow, order-book balance, holder
 // concentration, the market's top traders (pnl-by-market) and related
-// markets, plus derived insights for its AI brief.
+// markets, plus derived insights for its written brief.
 import { traced } from '@/server/nansen/traced';
 import { callScope, type CallTally } from '@/server/nansen/client';
 import type { PmDetail, PmMarket, PredictBoard } from '@/server/predict/board';

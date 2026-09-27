@@ -1,4 +1,4 @@
-// AI briefs over derived insights: Nansen's agent (agent/fast) summarizes a
+// Written briefs over derived insights: Nansen's agent (agent/fast) summarizes a
 // page's signals in three short sentences. One brief per page key is shared by
 // every view: cached in kv, regenerated at most hourly and only when the data changed.
 import { createHash } from 'node:crypto';

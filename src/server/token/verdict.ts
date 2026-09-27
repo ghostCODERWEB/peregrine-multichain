@@ -1,6 +1,6 @@
 // Token Verdict: one answer to "should I be worried about this token?", from stored reads only.
 // The level is a rule on the stored Token Score (50% Nansen, 50% Peregrine); every reason cites the number
-// behind it. An optional one-sentence AI read comes from Nansen's agent, cached per token.
+// behind it. An optional one-sentence agent note comes from Nansen's agent, cached per token.
 import { getDb } from '@/server/nansen/db';
 import { tokenScore, type StormSubScores } from '@/lib/models/storm-score';
 import { aiBrief, cachedBrief } from '@/server/pulse-brief';

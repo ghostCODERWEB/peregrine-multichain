@@ -36,7 +36,7 @@ export default async function AgentPage({ searchParams }: { searchParams: Promis
   );
   return (
     <div className="space-y-4">
-      <PageTitle id="agent-title" title="Ask" pill={tab === 'desk' ? 'Research with evidence: Peregrine analytics + Nansen AI' : 'Nansen agent, expert mode · 750 credits a question'} action={mode === 'public' ? undefined : tabs} />
+      <PageTitle id="agent-title" title="Ask" pill={tab === 'desk' ? 'Research with evidence: Peregrine analytics + Nansen agent' : 'Nansen agent, expert mode · 750 credits a question'} action={mode === 'public' ? undefined : tabs} />
       {mode === 'public'
         ? <p className="material p-5 text-sm text-ink-2">Ask runs on a Nansen key: this instance&apos;s owner&apos;s{accountsEnabled() ? <>, or yours once you <Link href="/account" className="text-ink underline underline-offset-2">sign in with it</Link></> : null}. The market brief on the home page uses Nansen&apos;s fast agent and is free to read.</p>
         : tab === 'desk' ? <ResearchDesk initialReports={listReports()} /> : <ResearchAgent suggestions={suggestions(viewOf(mode))} />}

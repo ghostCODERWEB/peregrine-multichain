@@ -24,7 +24,7 @@ export function MarketPulse({ mode }: { mode: DisplayMode }) {
   return <InsightPanel id="pulse-title" title="Market Pulse" items={marketPulse(mode)} briefKey="pulse" mode={mode} />;
 }
 
-/** Derived insights for a page, each with its series and a link, beside a shared Nansen AI brief. */
+/** Derived insights for a page, each with its series and a link, beside a shared Nansen brief. */
 export function InsightPanel({ id, title, items, briefKey, mode }: { id: string; title: string; items: PulseItem[]; briefKey: string; mode: DisplayMode }) {
   if (!items.length) return null;
   return (

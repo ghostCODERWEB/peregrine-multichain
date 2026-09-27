@@ -8,7 +8,7 @@ type StepState = { id: string; label: string; status: 'running' | 'done' | 'fail
 const MODES: Array<{ id: Mode; title: string; blurb: string; placeholder: string; Icon: typeof ShieldCheck; examples: string[] }> = [
   { id: 'token', title: 'Token due diligence', blurb: 'Risk score, Smart Money flow, who entered first, followable holders, liquidity', placeholder: 'Symbol or contract address', Icon: ShieldCheck, examples: ['GP', 'PUMP', 'JUP'] },
   { id: 'wallet', title: 'Wallet investigation', blurb: 'What it trades, where it sits in entry order, whether copying it pays', placeholder: 'Address or name.eth', Icon: Wallet, examples: ['vitalik.eth'] },
-  { id: 'leaders', title: 'Who is leading this token?', blurb: 'Did proven early wallets get in, or is late money buying?', placeholder: 'Symbol or contract address', Icon: Waypoints, examples: ['STONK', 'AI'] },
+  { id: 'leaders', title: 'Who is leading this token?', blurb: 'Did proven early wallets get in, or is late money buying?', placeholder: 'Symbol or contract address', Icon: Waypoints, examples: ['STONK', 'PUMP'] },
   { id: 'market', title: 'Market brief', blurb: 'Today’s signals and what proven leaders bought in 48 hours', placeholder: '', Icon: Globe2, examples: [] },
 ];
 const toneColor = (t?: EvidenceItem['tone']) => (t === 'bad' ? 'var(--flare)' : t === 'good' ? 'var(--mint)' : 'var(--ink-2)');

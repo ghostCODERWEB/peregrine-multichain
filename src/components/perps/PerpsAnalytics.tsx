@@ -7,7 +7,7 @@ import { perpsAnalytics } from '@/server/insights';
 import type { DisplayMode } from '@/server/mode';
 import { usd } from '@/lib/viz/format';
 
-/** The Perps page's analytical overview: insights with a Nansen AI brief, then OI, price and funding movers and the Smart Money book. */
+/** The Perps page's analytical overview: insights with a Nansen brief, then OI, price and funding movers and the Smart Money book. */
 export function PerpsAnalytics({ mode }: { mode: DisplayMode }) {
   const a = perpsAnalytics(mode);
   const maxBook = Math.max(1, ...a.smBook.map((b) => b.long + b.short));

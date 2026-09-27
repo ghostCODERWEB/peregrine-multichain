@@ -11,7 +11,7 @@ const LOOK = {
 } as const;
 const reasonIcon = (t: VerdictReason['tone']) => (t === 'bad' ? <TrendingDown size={14} style={{ color: 'var(--flare)' }} aria-hidden /> : t === 'good' ? <TrendingUp size={14} style={{ color: 'var(--mint)' }} aria-hidden /> : <CircleDot size={13} className="text-ink-muted" aria-hidden />);
 
-/** "Should I be worried about this token?": the verdict from the stored Token Score, its reasons, and one AI sentence. */
+/** "Should I be worried about this token?": the verdict from the stored Token Score, its reasons, and one agent sentence. */
 export function VerdictCard({ chain, address, ready }: { chain: string; address: string; ready: boolean }) {
   const [v, setV] = useState<Verdict | null>(null);
   const [aiLoading, setAiLoading] = useState(false);
@@ -59,7 +59,7 @@ export function VerdictCard({ chain, address, ready }: { chain: string; address:
       </ul>
       <div className="mt-3 flex items-start gap-2 rounded-[var(--r-inner)] border border-[color-mix(in_srgb,var(--signal)_30%,var(--hair))] bg-[color-mix(in_srgb,var(--signal)_6%,transparent)] p-3 text-[12.5px] leading-relaxed text-ink">
         <Sparkles size={14} className="mt-0.5 shrink-0 text-[var(--signal)]" aria-hidden />
-        {v.ai ? <span>{v.ai.text}</span> : aiLoading ? <span className="text-ink-muted">Nansen AI is reading the signals…</span> : <span className="text-ink-muted">AI read unavailable right now.</span>}
+        {v.ai ? <span>{v.ai.text}</span> : aiLoading ? <span className="text-ink-muted">Nansen agent is reading the signals…</span> : <span className="text-ink-muted">agent note unavailable right now.</span>}
       </div>
       <p className="mt-2 text-[11px] text-ink-muted">Rule: 55+ Danger, 35+ Watch, else Low risk. <Link href="/proof" className="font-semibold text-ink-2 hover:text-ink">How well the score works</Link></p>
     </section>

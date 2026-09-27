@@ -19,7 +19,7 @@ function Split({ a, b, labelA, labelB }: { a: number; b: number; labelA: string;
   );
 }
 
-/** One market's dedicated analytics: insights with a Nansen AI brief, statistics, flow, top traders and related markets. */
+/** One market's dedicated analytics: insights with a Nansen brief, statistics, flow, top traders and related markets. */
 export function MarketAnalyticsView({ id, a, mode }: { id: string; a: MarketAnalytics; mode: DisplayMode }) {
   const s = a.stats;
   const tiles: Array<[string, string, string?, number?]> = [

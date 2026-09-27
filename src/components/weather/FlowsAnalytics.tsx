@@ -5,7 +5,7 @@ import { flowsAnalytics } from '@/server/insights';
 import { flowIndexHistory } from '@/server/graph/series';
 import type { DisplayMode } from '@/server/mode';
 
-/** The Chain flows page's analytical overview: insights with a Nansen AI brief, net flow per chain, Flow Index moves and history. */
+/** The Chain flows page's analytical overview: insights with a Nansen brief, net flow per chain, Flow Index moves and history. */
 export function FlowsAnalytics({ mode }: { mode: DisplayMode }) {
   const a = flowsAnalytics(mode);
   return (
