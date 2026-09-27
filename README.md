@@ -9,6 +9,36 @@
 | **7,903** real Nansen API calls during the buildathon | **82** endpoints across 19 Nansen API families |
 | **0.84 AUC** for the dump-risk score on unseen test weeks | **25** networks in one token search, with ENS names for wallets |
 
+## Flagship research feature: Smart Money Cascades
+
+**Peregrine can test which labeled Smart Money wallets consistently enter tokens *before* other Smart Money wallets, and who follows whom, by deriving entry-order statistics and a precedence network from Nansen's labeled Smart Money trades.** I could not find this workflow implemented directly in Nansen or the competitors reviewed (Arkham, Bubblemaps, Dune dashboards, ChainfiAI and others): tools show who bought a token, or how early Smart Money is versus the market price, not the ordering *among* Smart Money wallets, tested against chance.
+
+**Research question.** When several Smart Money wallets buy the same token, is the order random, or do some wallets reliably get there first, and do specific wallets reliably precede specific others?
+
+**Why existing tools are insufficient.** Nansen's Smart Money trade feed (`smart-money/dex-trades`) covers only the trailing 24 hours with no date parameter, so ordering across weeks cannot be read from it; Token God Mode shows one token at a time. Answering the question means joining trades across hundreds of tokens, ordering entries, and testing against a null model: an export-to-Python job today.
+
+**Nansen data used.**
+| Endpoint | Role |
+|---|---|
+| `smart-money/dex-trades` | the live labeled Smart Money tape, stored every scan (trailing 24h per call) |
+| `tgm/dex-trades` with `only_smart_money: true` and a date range | 30 days of labeled Smart Money trades per token, backfilled daily for the 150 most-touched tokens |
+| Nansen wallet labels (in both) | who each wallet is; the whole analysis is defined over Nansen's Smart Money set |
+
+**Method** (`src/lib/models/cascade.ts`, unit-tested):
+1. *Episodes.* Per token, each wallet's first buy (≥ $500) within a 72-hour window; a new episode starts after the window closes. Episodes need 3+ distinct wallets.
+2. *Leaders.* Entry rank is scaled to r = (rank − 1)/(k − 1). If order were random, r has mean ½ and variance (k+1)/(12(k−1)). A z-test on each wallet's mean rank across its episodes (3+ episodes), then Benjamini–Hochberg at a 10% false-discovery rate across all wallets tested.
+3. *Precedence links.* For each pair that co-entered 3+ tokens, an exact two-sided binomial test on how often each entered first; entries within a minute are ties.
+
+**Evidence model.** Every claim opens to its trades: a wallet's episodes (token, rank of k, minutes ahead of the median Smart Money entrant), a link's record (e.g. 7/7), tokens and typical gap, and a replay of any episode's entry sequence. Wallet pages show the wallet's cascade role.
+
+**Current result (30 days, local run).** 12,443 Smart Money buys → 334 episodes → 463 wallets tested: 17 lead at p < 0.05, **4 survive the 10% FDR correction**, 16 consistently follow, 18 pairwise links at p ≤ 0.1.
+
+**Limitations.** Entering first is not causation: two wallets can share an information source. Links are not multiple-testing corrected (treat them as leads for research). The 30-day backfill is capped at 1,000 trades per token, and Smart Money labels change over time. Small tokens with few Smart Money entrants are excluded by design.
+
+**Architecture.** Nansen API → `server/cascade/backfill.ts` (daily, in the scanner job) and the live scan → SQLite (`cascade_trades`, `smart_money_trades`) → `lib/models/cascade.ts` (pure statistics) → `server/cascade/cascades.ts` (30-minute cache, view shaping) → `/cascade` (Leadership map, Evidence, Cascade replay, links table, method).
+
+**Demo.** Open `/cascade`: the ringed dots on the left of the Leadership map are FDR-surviving leaders; click one for its evidence, pick a token in Cascade replay to watch who entered first, then open the wallet.
+
 ## The story in five taps
 
 1. **Token Verdict:** open any token and get *Low risk / Watch / Danger*, the Token Score with its Nansen and Peregrine halves, reasons that each cite a number, and one sentence from Nansen's AI agent.

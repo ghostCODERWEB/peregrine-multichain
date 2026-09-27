@@ -650,3 +650,7 @@ a.m-row:active { background-color: color-mix(in srgb, var(--ink-1) 7%, transpare
 }
 @media (min-width: 768px) and (max-width: 1023px) { .m-screen { grid-auto-flow: row dense; } }
 @media (max-width: 1023px) { [data-analyze-dock] { display: none !important; } }
+/* Cascade replay: wallets appear in the order they entered. */
+.cascade-dot { animation: cascade-in .45s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes cascade-in { from { opacity: 0; transform: translate(-50%, 6px) scale(.8); } to { opacity: 1; transform: translate(-50%, 0) scale(1); } }
+@media (prefers-reduced-motion: reduce) { .cascade-dot { animation: none; } }

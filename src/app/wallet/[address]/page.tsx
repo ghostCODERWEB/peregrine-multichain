@@ -2,6 +2,7 @@ import { NansenButton } from '@/components/shell/GetNansen';
 import Link from 'next/link';
 import { WalletPortfolio } from '@/components/research/WalletPortfolio';
 import { FollowabilityCard } from '@/components/wallet/FollowabilityCard';
+import { CascadeRole } from '@/components/wallet/CascadeRole';
 import { nansenWallet } from '@/config/external';
 import { Suspense } from 'react';
 import { notFound, redirect } from 'next/navigation';
@@ -98,6 +99,7 @@ export default async function WalletRoute({ params }: Params) {
         <Suspense fallback={<div className="h-[420px] animate-pulse rounded-[var(--r-card)] bg-ink/5 xl:col-span-12" />}>
           <WalletPortfolio balP={balP} pnlP={pnlP} />
         </Suspense>
+        {mode === 'owner' && <div className="xl:col-span-12 empty:hidden"><CascadeRole address={address} /></div>}
         {mode === 'owner' && <div className="xl:col-span-12 empty:hidden"><FollowabilityCard address={address} /></div>}
         {evm && <div className="xl:col-span-12"><HyperliquidWorkspace address={address} /></div>}
         <Tile span="xl:col-span-12">

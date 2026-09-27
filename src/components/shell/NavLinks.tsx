@@ -24,6 +24,7 @@ import {
   NotebookPen,
   BadgeCheck,
   CopyCheck,
+  Waypoints,
 } from 'lucide-react';
 import { NAV, type NavIcon } from './nav';
 import { useSite } from '@/components/SiteContext';
@@ -43,6 +44,7 @@ const ICONS: Record<NavIcon, typeof Map> = {
   flask: FlaskConical,
   badge: BadgeCheck,
   copy: CopyCheck,
+  cascade: Waypoints,
   gauge: Gauge,
   bell: Bell,
   key: KeyRound,

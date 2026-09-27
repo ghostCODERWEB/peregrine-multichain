@@ -8,6 +8,8 @@ import { snapshotScheduledCoins } from '@/server/perps/terminal';
 import { stormSweep, type SweepCandidate } from '@/server/token/sweep';
 import { runBacktest } from '@/server/backtest/run';
 import { refreshMembership } from '@/server/sectors/membership';
+import { backfillCascades } from '@/server/cascade/backfill';
+import { getKv, setKv } from '@/server/nansen/db';
 import { enqueue, type Job } from './queue';
 
 export interface Handler {
@@ -29,6 +31,12 @@ export const HANDLERS: Record<string, Handler> = {
       log(`windows=${s.windows.join(',') || 'none due'} chains=${s.chainsScored} trades+=${s.tradesAdded} sectors=${s.sectorRows} credits=${s.credits} ${s.ms}ms`);
       for (const e of s.errors) log(`  ! ${e}`);
       await snapshotScheduledCoins(log);
+      // Cascades history: once a day, 30 days of Smart Money trades for the most-touched tokens (tgm/dex-trades).
+      const lastBf = getKv('cascades:backfill-at');
+      if (!lastBf || Date.now() - lastBf.updatedAt > 24 * 3_600_000) {
+        setKv('cascades:backfill-at', String(Date.now()));
+        try { const bf = await backfillCascades(); log(`cascades backfill: ${bf.stored} new trades from ${bf.calls} tokens`); } catch (e) { log(`  ! cascades backfill: ${(e as Error).message.slice(0, 120)}`); }
+      }
       if (s.sweepCandidates) {
         const q = enqueue('storm-sweep', { candidates: s.sweepCandidates }, { dedupeKey: 'storm-sweep', maxAttempts: 2 });
         log(`storm sweep due: ${q.created ? `queued job ${q.id}` : `already queued (job ${q.id})`}`);

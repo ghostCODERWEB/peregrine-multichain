@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ShieldAlert, Sparkles, Activity, Target, BadgeCheck, Layers, TrendingUp, TrendingDown, Zap, Brain, Shuffle, MessageCircle, History } from 'lucide-react';
+import { ShieldAlert, Sparkles, Activity, Target, BadgeCheck, Layers, TrendingUp, TrendingDown, Zap, Brain, Shuffle, MessageCircle, Waypoints } from 'lucide-react';
 import { LargeTitle, Group, List, Row, Rail } from '@/components/mobile/kit';
 import { SearchPill } from '@/components/mobile/SearchPill';
 import { TokenLogo, ChainLogo } from '@/components/Logo';
@@ -14,6 +14,7 @@ import type { ChainTile } from '@/server/weather/bulletin';
 
 const H = 3_600_000;
 const SHORTCUTS = [
+  { href: '/cascade', label: 'Cascades', Icon: Waypoints, tint: '#1fe0a3' },
   { href: '/alpha', label: 'Alpha', Icon: Sparkles, tint: '#ffd84d' },
   { href: '/smart-money', label: 'Smart Money', Icon: Brain, tint: '#1fe0a3' },
   { href: '/flows', label: 'Chain flows', Icon: Shuffle, tint: '#7cc8ff' },
@@ -21,7 +22,6 @@ const SHORTCUTS = [
   { href: '/predict', label: 'Predictions', Icon: Target, tint: '#c49bff' },
   { href: '/sectors', label: 'Sectors', Icon: Layers, tint: '#5ef0c0' },
   { href: '/agent', label: 'Ask Nansen', Icon: MessageCircle, tint: '#9bd5ff' },
-  { href: '/history', label: 'History', Icon: History, tint: '#ffb86b' },
 ];
 const pulseIcon = (tone: string) => (tone === 'up' ? <TrendingUp size={16} /> : tone === 'down' ? <TrendingDown size={16} /> : tone === 'alert' ? <Zap size={16} /> : <Activity size={16} />);
 const pulseTint = (tone: string) => (tone === 'up' ? 'var(--mint)' : tone === 'down' ? 'var(--flare)' : tone === 'alert' ? 'var(--amber)' : 'var(--signal)');
