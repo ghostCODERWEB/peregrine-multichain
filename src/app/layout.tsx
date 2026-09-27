@@ -21,7 +21,7 @@ const geistSans = Manrope({ variable: '--font-geist-sans', subsets: ['latin'] })
 const geistMono = IBM_Plex_Mono({ variable: '--font-geist-mono', subsets: ['latin'], weight: ['400', '500'] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.SITE_URL ?? 'http://localhost:3000'),
+  metadataBase: new URL(process.env.SITE_URL || 'http://localhost:3000'),
   title: 'Peregrine · smart-money intelligence for every chain',
   description:
     'Smart-money intelligence built on the Nansen API: a flow index for every chain, capital rotations between chains, dump-risk alerts on tokens, and projections with published accuracy.',
