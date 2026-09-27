@@ -13,7 +13,7 @@ const href = (t: { chain: string; address: string }) => `/token/${t.chain}/${enc
 
 /** Phones: token risk at a glance. Search first, then who is buying risk, then scores and what is trading. */
 export function MobileTokens({ d }: { d: CheckerData }) {
-  const risky = d.smIntoRisk.slice(0, 8);
+  const risky = d.smIntoRisk.slice(0, 16);
   return (
     <div className="m-screen">
       <LargeTitle title="Tokens" caption={`${RUG_CHAINS.length} networks · Token Score`} />
@@ -39,8 +39,8 @@ export function MobileTokens({ d }: { d: CheckerData }) {
 
       {d.scored.length > 0 && (
         <Group title="Token Scores" footer="50% Nansen risk indicators, 50% Peregrine's model. Tap a token for its verdict.">
-          <List>
-            {d.scored.slice(0, 12).map((s) => (
+          <List page>
+            {d.scored.map((s) => (
               <Row key={`${s.chain}:${s.address}`} href={href(s)} leading={<TokenLogo symbol={s.symbol} chain={s.chain} address={s.address} size={30} />}
                 title={s.symbol} subtitle={`${chainName(s.chain)} · Nansen ${s.nansen != null ? Math.round(s.nansen) : 'n/a'} · Peregrine ${s.peregrine != null ? Math.round(s.peregrine) : 'n/a'}`} trailing={badge(s.score)} />
             ))}
@@ -50,8 +50,8 @@ export function MobileTokens({ d }: { d: CheckerData }) {
 
       {d.universe.length > 0 && (
         <Group title="Trading now" footer="All traders, 24h volume.">
-          <List>
-            {d.universe.slice(0, 10).map((u) => (
+          <List page>
+            {d.universe.map((u) => (
               <Row key={`${u.chain}:${u.address}`} href={href(u)} leading={<TokenLogo symbol={u.symbol} chain={u.chain} address={u.address} size={30} />}
                 title={u.symbol ?? u.address.slice(0, 6)} subtitle={`${chainName(u.chain)} · vol ${usd(u.volume)}`}
                 trailing={u.change != null ? pct(u.change, 1) : 'n/a'} tone={(u.change ?? 0) >= 0 ? 'in' : 'out'} trailingSub={u.score != null ? `score ${Math.round(u.score)}` : undefined} />
@@ -62,8 +62,8 @@ export function MobileTokens({ d }: { d: CheckerData }) {
 
       {d.fresh.length > 0 && (
         <Group title="New launches" footer="Seven days old or younger. New tokens carry the most risk: check the verdict first.">
-          <List>
-            {d.fresh.slice(0, 8).map((u) => (
+          <List page>
+            {d.fresh.map((u) => (
               <Row key={`${u.chain}:${u.address}`} href={href(u)} leading={<TokenLogo symbol={u.symbol} chain={u.chain} address={u.address} size={30} />}
                 title={u.symbol ?? u.address.slice(0, 6)} subtitle={`${chainName(u.chain)} · ${u.ageDays != null ? `${Math.round(u.ageDays)}d old` : 'new'} · liq ${usd(u.liquidity)}`}
                 trailing={u.change != null ? pct(u.change, 0) : 'n/a'} tone={(u.change ?? 0) >= 0 ? 'in' : 'out'} />

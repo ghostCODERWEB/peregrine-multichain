@@ -18,8 +18,8 @@ export function WalletOverlaps() {
       <p className="mb-3 text-[12.5px] text-ink-2">
         <span className="font-semibold text-ink">{multi.length}</span> wallets hold positions in more than one perp; <span className="font-semibold text-ink">{both.length}</span> Smart Money wallets traded spot in the last 24h and also hold an observed perp position.
       </p>
-      <ol className="max-h-[440px] divide-y divide-[var(--hair)] overflow-auto" tabIndex={0} aria-label="Wallet overlaps">
-        {wallets.slice(0, 40).map((w) => (
+      <ol data-page="10" className="divide-y divide-[var(--hair)]" aria-label="Wallet overlaps">
+        {wallets.slice(0, 100).map((w) => (
           <li key={w.address} className="flex flex-wrap items-center gap-x-3 gap-y-1 py-2 text-[12.5px]">
             <span className="flex min-w-[220px] flex-1 items-center gap-1.5"><AddressLink address={w.address} label={w.label} /><CohortBadges cohorts={w.cohorts} /></span>
             <span className="flex flex-wrap gap-1">

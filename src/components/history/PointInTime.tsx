@@ -194,8 +194,8 @@ export function WalletTimeMachine({ address, current }: { address: string; curre
           <div className="grid gap-4 lg:grid-cols-2 [&>*]:min-w-0">
             <div>
               <h3 className="mb-1 text-[12.5px] font-semibold text-ink-muted">Largest holdings then, and now</h3>
-              <ol className="max-h-[300px] divide-y divide-[var(--hair)] overflow-auto" tabIndex={0} aria-label="Holdings then and now">
-                {res.data.balances.filter((b) => (b.valueUsd ?? 0) >= 1).slice(0, 30).map((b) => {
+              <ol data-page="10" className="divide-y divide-[var(--hair)]" aria-label="Holdings then and now">
+                {res.data.balances.filter((b) => (b.valueUsd ?? 0) >= 1).slice(0, 100).map((b) => {
                   const n = now.get(`${b.chain}:${b.token.toLowerCase()}`);
                   return (
                     <li key={`${b.chain}:${b.token}`} className="flex items-center gap-2 py-1.5 text-[12.5px]">

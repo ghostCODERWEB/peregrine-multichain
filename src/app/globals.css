@@ -407,12 +407,17 @@ html:not(.dark) .nansen-card { background: linear-gradient(180deg, color-mix(in 
 .map-bubble { transition: opacity var(--dur-fast); }
 
 /* Table pager (TablePager): a compact footer under long tables. */
-.table-pager { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding-top: 8px; font-size: 11.5px; color: var(--ink-muted); }
-.table-pager-sizes { display: inline-flex; border: 1px solid var(--hair); border-radius: 9px; padding: 2px; }
-.table-pager-sizes button { border-radius: 7px; padding: 2px 8px; font-weight: 600; color: var(--ink-muted); }
-.table-pager-sizes button[aria-pressed="true"] { background: color-mix(in srgb, var(--ink-1) 12%, transparent); color: var(--ink-1); }
-.table-pager-more { margin-left: auto; border: 1px solid var(--hair); border-radius: 999px; padding: 3px 12px; font-weight: 600; color: var(--ink-2); }
-.table-pager-more:hover, .table-pager-sizes button:hover { color: var(--ink-1); }
+.pager { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding-top: 10px; font-size: 12px; color: var(--ink-muted); }
+.pager-pages { display: inline-flex; align-items: center; gap: 4px; }
+.pager-pages button { min-width: 32px; height: 32px; padding: 0 8px; border-radius: 999px; font-weight: 600; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.pager-pages button:hover:not(:disabled) { color: var(--ink-1); background: color-mix(in srgb, var(--ink-1) 8%, transparent); }
+.pager-pages button[aria-current="page"] { background: var(--mint); color: #000; }
+.pager-pages button:disabled { opacity: .3; cursor: default; }
+.pager-gap { padding: 0 2px; }
+.pager-size { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; }
+.pager-size select { height: 30px; border-radius: 999px; padding: 0 10px; border: 1px solid var(--hair); background: var(--surface-2); color: var(--ink-1); font-weight: 600; font-size: 12px; }
+/* Phone lists: the bar sits under the inset list, inside the group's gutter. */
+.m-list + .pager { padding-inline: 4px; }
 /* Inputs inside a styled search bar: the bar shows focus, the input itself shows none. */
 .bare-input, .bare-input:focus, .bare-input:focus-visible { outline: none !important; box-shadow: none !important; border: 0 !important; background: transparent !important; }
 .inset-well input:focus-visible, .inset-well textarea:focus-visible { outline: none; box-shadow: none; }
@@ -440,7 +445,10 @@ html:not(.dark) .nansen-card { background: linear-gradient(180deg, color-mix(in 
   .mood-ring-box { width: 92px !important; height: 92px !important; }
   .mood-ring-box svg { width: 100%; height: 100%; }
   .mood-ring-box .mood-num { font-size: 28px !important; }
-  .table-pager { font-size: 11.5px; gap: 8px; }
+  .pager { gap: 8px; }
+  .pager-pages button { min-width: 36px; height: 36px; font-size: 14px; }
+  .pager-count { width: 100%; }
+  .pager-size { margin-left: 0; }
 }
 
 /* Phones: filter and chip rows scroll sideways on one line instead of wrapping into a wall of buttons. */
@@ -458,7 +466,7 @@ html:not(.dark) .nansen-card { background: linear-gradient(180deg, color-mix(in 
   .section-rail.is-awake, .section-rail.is-dragging { opacity: 1; }
   .section-rail-track { display: flex; flex-direction: column; align-items: flex-end; gap: 7px; max-height: 54vh; justify-content: space-between; padding: 6px 6px 6px 14px; }
   .section-rail.is-dragging .section-rail-track { background: color-mix(in srgb, var(--surface-1) 70%, transparent); border-radius: 12px 0 0 12px; backdrop-filter: blur(12px); }
-  .section-rail-tick { display: block; height: 2px; border-radius: 2px; background: var(--ink-1, #e8f3ee); transition: width .18s cubic-bezier(.2,.8,.2,1), opacity .18s; padding: 0; border: 0; flex-shrink: 0; position: relative; }
+  .section-rail-tick { display: block; width: calc(var(--w, 1) * var(--rail-w, 22px)); height: 2px; border-radius: 2px; background: var(--ink-1, #e8f3ee); transition: width .18s cubic-bezier(.2,.8,.2,1), opacity .18s; padding: 0; border: 0; flex-shrink: 0; position: relative; }
   .section-rail-tick::after { content: ''; position: absolute; inset: -4px -6px; }
   .section-rail-tick[aria-current] { background: var(--mint); }
   .section-rail-label { position: absolute; right: 52px; transform: translateY(-50%); max-width: 62vw; padding: 9px 13px; border-radius: 14px; background: color-mix(in srgb, var(--surface-2) 92%, transparent); border: 1px solid var(--hair-2); box-shadow: 0 12px 34px -12px rgba(0,0,0,.7); backdrop-filter: blur(16px); font-size: 14px; font-weight: 600; color: var(--ink-1, #e8f3ee); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; pointer-events: none; transition: top .12s ease-out; }
@@ -558,16 +566,14 @@ html:not(.dark) { --lg-tint: color-mix(in srgb, #ffffff 88%, transparent); --lg-
 .pill-secondary:hover:not(:disabled), .liquid-control:hover { background: color-mix(in srgb, var(--ink-1) 9%, var(--lg-tint)); }
 .liquid-control.is-active { background: var(--lg-lens); }
 /* Table pager: a floating glass control under long tables. */
-.table-pager-sizes { background: var(--lg-tint); backdrop-filter: blur(14px) saturate(170%); border: 1px solid var(--lg-border) !important; box-shadow: var(--lg-edge); border-radius: 999px !important; padding: 2px; }
-.table-pager-sizes button { border-radius: 999px !important; }
-.table-pager-sizes button[aria-pressed="true"] { background: var(--lg-lens) !important; box-shadow: inset 0 1px 0 rgba(255,255,255,.18); }
-.table-pager-more { border-radius: 999px !important; background: var(--lg-tint); backdrop-filter: blur(14px) saturate(170%); border: 1px solid var(--lg-border) !important; box-shadow: var(--lg-edge); }
+.pager-pages { background: var(--lg-tint); backdrop-filter: blur(14px) saturate(170%); border: 1px solid var(--lg-border); box-shadow: var(--lg-edge); border-radius: 999px; padding: 3px; }
+.pager-size select { background: var(--lg-tint); backdrop-filter: blur(14px) saturate(170%); border-color: var(--lg-border); box-shadow: var(--lg-edge); }
 /* Expand buttons over previews and the Analyze button float as glass too. */
 [data-clamp] > .clamp-toggle, [data-analyze-dock] { background: var(--lg-tint) !important; backdrop-filter: var(--lg-filter); }
 [data-clamp] > .clamp-toggle, [data-analyze-dock][role=dialog] { border-color: var(--lg-border) !important; box-shadow: var(--lg-edge), 0 10px 28px -10px rgba(0,0,0,.7) !important; }
 /* Accessibility: reduce transparency gives every glass surface a solid fill. */
 @media (prefers-reduced-transparency: reduce) {
-  .liquid-glass, .material-strong, .glass-strong, .segmented, .pill-secondary, .liquid-control, .table-pager-sizes, .table-pager-more, [data-clamp] > .clamp-toggle, [data-analyze-dock] { background: var(--surface-2) !important; backdrop-filter: none !important; }
+  .liquid-glass, .material-strong, .glass-strong, .segmented, .pill-secondary, .liquid-control, .pager-pages, .pager-size select, [data-clamp] > .clamp-toggle, [data-analyze-dock] { background: var(--surface-2) !important; backdrop-filter: none !important; }
 }
 @media (max-width: 639px) { main .pill-button { min-height: 36px; padding: 7px 15px; font-size: 13px; } }
 
@@ -633,6 +639,15 @@ a.m-row:active { background-color: color-mix(in srgb, var(--ink-1) 7%, transpare
   .m-inline-title { display: none; }
   button[data-analyze-dock] { display: none !important; }
   .section-rail { opacity: .16; }
+}
+/* Touch screens: a rail a finger can use. Higher up (clear of the tab bar and the thumb's resting spot),
+   thicker and longer ticks spaced further apart, a wide grab zone, and easier to see at rest. */
+@media (hover: none) and (pointer: coarse) {
+  .section-rail { top: 40%; padding: 14px 0 14px 28px; opacity: .45; }
+  .section-rail-track { gap: 14px; max-height: 50vh; padding: 12px 10px 12px 18px; border-radius: 16px 0 0 16px; background: color-mix(in srgb, var(--surface-1) 45%, transparent); backdrop-filter: blur(10px); }
+  .section-rail-tick { --rail-w: 30px; height: 4px; }
+  .section-rail-tick::after { inset: -7px -10px; }
+  .section-rail-label { right: 64px; font-size: 15px; padding: 11px 15px; }
 }
 /* Search inside phone screens: flat iOS search field look for the Token Checker box. */
 @media (max-width: 639px) { .m-search-wrap .inset-well { height: 42px; border-radius: 12px; } .m-search-wrap input { font-size: 15px; } }

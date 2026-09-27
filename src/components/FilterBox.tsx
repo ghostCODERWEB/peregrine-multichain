@@ -25,10 +25,12 @@ export function FilterBox({ target, placeholder, groups = [], label }: { target:
       const text = el.dataset.search!.toLowerCase();
       const ok = words.every((w) => text.includes(w)) && (!group || (el.dataset.group ?? '').split('|').includes(group));
       el.hidden = !ok;
+      // Marks the row for the pager, which pages only rows that match.
+      el.toggleAttribute('data-filtered', !ok);
       if (ok) n++;
     });
     root.querySelectorAll<HTMLElement>('[data-filter-group]').forEach((g) => {
-      const any = [...g.querySelectorAll<HTMLElement>('[data-search]')].some((el) => !el.hidden);
+      const any = [...g.querySelectorAll<HTMLElement>('[data-search]')].some((el) => !el.hasAttribute('data-filtered'));
       g.hidden = !any;
       if (g instanceof HTMLDetailsElement) {
         if (words.length && any && !g.open) { g.open = true; opened.current.add(g); }

@@ -217,7 +217,7 @@ export function SmartMoneyDesk({ mode }: { mode: 'owner' | 'member' }) {
                   <tr><th className="py-2 font-normal">#</th><th className="font-normal">Wallet</th><th className="font-normal">PnL 30d</th><th className="font-normal">Win rate</th><th className="font-normal">Trades</th><th className="font-normal">Largest balances</th><th /></tr>
                 </thead>
                 <tbody>
-                  {d.leaders.slice(0, 50).map((l) => (
+                  {d.leaders.slice(0, 200).map((l) => (
                     <tr key={l.address} className="border-t border-border align-top">
                       <td className="num py-1.5 text-ink-muted">{l.rank}</td>
                       <td className="max-w-[180px] truncate"><Link prefetch={false} href={`/wallet/${l.address}`} className="text-ink hover:underline">{walletName(l.label, l.address)}</Link></td>
@@ -321,7 +321,7 @@ function PerpPanel({ p }: { p: SmPerps }) {
       <div className="max-h-[220px] overflow-auto border-t border-border pt-2">
         <table data-sortable className="w-full min-w-[420px] text-left text-[12px]">
           <tbody>
-            {p.trades.slice(0, 40).map((t) => (
+            {p.trades.slice(0, 100).map((t) => (
               <tr key={t.tx + t.action} className="border-t border-border first:border-0">
                 <td className="num py-1 text-ink-muted">{ago(Date.parse(t.at))}</td>
                 <td className="max-w-[130px] truncate text-ink-2">{walletName(t.label, t.address)}</td>

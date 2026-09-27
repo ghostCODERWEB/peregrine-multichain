@@ -114,7 +114,7 @@ export default async function CopyLabPage({ searchParams }: { searchParams: Prom
 function AllView({ targets, spot, perps, predict, tf }: { targets: CopyTarget[]; spot: Leaders | Un | null; perps: PerpLeaders | Un | null; predict: PmLeaders | Un | null; tf: Timeframe }) {
   const count = (x: CopyTarget['market']) => targets.filter((t) => t.market === x).length;
   const strong = targets.filter((t) => t.score >= 65);
-  const top = targets.slice(0, 30);
+  const top = targets.slice(0, 200);
   const board = spot && !un(spot) ? spot : null;
   return (
     <>
@@ -161,7 +161,7 @@ function AllView({ targets, spot, perps, predict, tf }: { targets: CopyTarget[];
 function SpotView({ board, tf, who, lab }: { board: Leaders; tf: Timeframe; who: Who; lab: CopyLab | null }) {
   const all = board.leaders;
   const leaders = who === 'all' ? all : all.filter((l) => l.kind === who);
-  const shown = leaders.slice(0, 50);
+  const shown = leaders.slice(0, 200);
   const w = (l: Leader) => l.windows[tf]!;
   const steady = all.filter((l) => TIMEFRAMES.filter((t) => l.windows[t]).length >= 2 && TIMEFRAMES.every((t) => !l.windows[t] || l.windows[t]!.pnl > 0));
   const winMed = median(all.map((l) => w(l).winRate).filter((x): x is number => x != null));

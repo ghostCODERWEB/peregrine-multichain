@@ -45,8 +45,9 @@ export function Group({ title, href, action = 'See all', children, footer }: { t
 }
 
 /** Inset grouped list (iOS Settings style): rounded container, hairline separators inset past the leading icon. */
-export function List({ children }: { children: ReactNode }) {
-  return <ul className="m-list">{children}</ul>;
+export function List({ children, page }: { children: ReactNode; page?: number | boolean }) {
+  // `page` splits a long list into numbered pages (TablePager); a number sets rows per page.
+  return <ul className="m-list" data-page={page === true ? '' : page || undefined}>{children}</ul>;
 }
 
 export function Row({ href, leading, title, subtitle, trailing, trailingSub, tone }: {

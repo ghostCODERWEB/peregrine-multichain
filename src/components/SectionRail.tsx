@@ -1,5 +1,5 @@
 'use client';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, type CSSProperties } from 'react';
 import { usePathname } from 'next/navigation';
 
 type Mark = { el: HTMLElement; title: string };
@@ -92,7 +92,7 @@ export function SectionRail() {
           const d = Math.abs(i - shown);
           return (
             <button key={i} type="button" tabIndex={-1} aria-label={m.title} aria-current={i === active ? 'true' : undefined}
-              className="section-rail-tick" style={{ width: d === 0 ? 22 : d === 1 ? 14 : 9, opacity: d === 0 ? 1 : d === 1 ? 0.6 : 0.35 }}
+              className="section-rail-tick" style={{ '--w': d === 0 ? 1 : d === 1 ? 0.64 : 0.41, opacity: d === 0 ? 1 : d === 1 ? 0.6 : 0.35 } as CSSProperties}
               onClick={(e) => { e.preventDefault(); go(i, true); }} />
           );
         })}

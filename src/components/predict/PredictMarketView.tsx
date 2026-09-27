@@ -129,8 +129,8 @@ export function PredictMarketView({ market, detail, outcomes, owner, analytics }
               <p className="num mt-1.5 text-[12.5px] text-ink-2">YES {usd(bal.yesUsd)} ({pct(bal.yesShare, 0)}) · {pct(bal.yesInProfit, 0)} in profit · NO {usd(bal.noUsd)} · {pct(bal.noInProfit, 0)} in profit</p>
             </>
           )}
-          <ol className="mt-3 max-h-[320px] divide-y divide-[var(--hair)] overflow-auto" tabIndex={0} aria-label="Top holders">
-            {detail.holders.slice(0, 30).map((h, i) => (
+          <ol data-page="10" className="mt-3 divide-y divide-[var(--hair)]" aria-label="Top holders">
+            {detail.holders.slice(0, 100).map((h, i) => (
               <li key={`${h.address}:${i}`} className="flex items-center gap-2 py-1.5 text-[12.5px]">
                 <SideTag side={h.side} up={sideUp(h.side, h.outcomeIndex)} />
                 <span className="min-w-0 flex-1"><AddressLink address={h.address} /></span>
@@ -199,8 +199,8 @@ export function PredictMarketView({ market, detail, outcomes, owner, analytics }
 
       <section aria-labelledby="trades" className="material p-4 sm:p-5">
         <h2 id="trades" className="t-section mb-2">Recent trades</h2>
-        <ol className="max-h-[320px] divide-y divide-[var(--hair)] overflow-auto" tabIndex={0} aria-label="Recent trades">
-          {detail.trades.slice(0, 60).map((t, i) => (
+        <ol data-page="10" className="divide-y divide-[var(--hair)]" aria-label="Recent trades">
+          {detail.trades.slice(0, 100).map((t, i) => (
             <li key={i} className="flex items-center gap-3 py-1.5 text-[12.5px]">
               <span className="num w-[86px] shrink-0 text-ink-muted">{t.at.slice(5, 16).replace('T', ' ')}</span>
               <span className="w-24 shrink-0 font-semibold text-ink">{[t.action, t.side].filter(Boolean).join(' ')}</span>

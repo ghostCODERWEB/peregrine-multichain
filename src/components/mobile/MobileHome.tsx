@@ -7,7 +7,7 @@ import { tokenChecker } from '@/server/token/checker';
 import { cachedCopyLab } from '@/server/copy/followability';
 import { marketPulse } from '@/server/pulse';
 import { getDb } from '@/server/nansen/db';
-import { chainNets } from '@/lib/viz/net-flow-map';
+import { chainNets, otherNets } from '@/lib/viz/net-flow-map';
 import { chainName, usd, walletName } from '@/lib/viz/format';
 import type { DisplayMode } from '@/server/mode';
 import type { ChainTile } from '@/server/weather/bulletin';
@@ -36,12 +36,19 @@ export function MobileHome({ mode, chains }: { mode: DisplayMode; chains: ChainT
   const bars = Array.from({ length: 24 }, (_, i) => hourly.find((x) => x.h === i)?.net ?? 0);
   const maxBar = Math.max(1, ...bars.map(Math.abs));
   const nets = chainNets(chains).sort((a, b) => b.net - a.net);
+  const others = otherNets(chains).filter((n) => Math.abs(n.net) >= 1).sort((a, b) => b.net - a.net);
   const inflow = nets.filter((n) => n.net > 0).slice(0, 3), outflow = nets.filter((n) => n.net < 0).slice(-3).reverse();
   const risk = owner ? tokenChecker(true) : null;
-  const radar = risk ? (risk.smIntoRisk.length ? risk.smIntoRisk.slice(0, 8).map((r) => ({ ...r, kind: 'buying' as const })) : risk.scored.filter((s) => s.score >= 50).slice(0, 8).map((s) => ({ chain: s.chain, address: s.address, symbol: s.symbol, score: s.score, net: 0, buyers: 0, kind: 'score' as const }))) : [];
+  // Smart Money buying into risky tokens first; the rail is filled up with the highest Token Scores
+  // (Watch level, 35+, and up) so one lone card never stands for the whole board.
+  const buying = (risk?.smIntoRisk ?? []).slice(0, 12).map((r) => ({ ...r, kind: 'buying' as const }));
+  const seen = new Set(buying.map((r) => `${r.chain}:${r.address}`));
+  const riskiest = (risk?.scored ?? []).filter((s) => s.score >= 35 && !seen.has(`${s.chain}:${s.address}`)).sort((a, b) => b.score - a.score)
+    .slice(0, Math.max(0, 12 - buying.length)).map((s) => ({ chain: s.chain, address: s.address, symbol: s.symbol, score: s.score, net: 0, buyers: 0, kind: 'score' as const }));
+  const radar = [...buying, ...riskiest];
   const lab = owner ? cachedCopyLab() : null;
-  const follow = lab?.wallets.filter((w) => w.score >= 60).slice(0, 5) ?? [];
-  const pulse = marketPulse(mode).slice(0, 5);
+  const follow = lab?.wallets.filter((w) => w.score >= 60).slice(0, 60) ?? [];
+  const pulse = marketPulse(mode).slice(0, 40);
   const net = sm?.net ?? 0;
   const date = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
 
@@ -66,7 +73,7 @@ export function MobileHome({ mode, chains }: { mode: DisplayMode; chains: ChainT
       </Link>
 
       {radar.length > 0 && (
-        <Group title={radar[0].kind === 'buying' ? 'Smart Money buying into danger' : 'Highest risk right now'} href="/token#sm-risk">
+        <Group title={radar[0].kind === 'buying' ? 'Smart Money buying into danger' : 'Highest risk right now'} footer={`${radar.length} tokens · Token Score 0–100, higher is riskier.`} href="/token#sm-risk">
           <Rail label="Risk Radar">
             {radar.map((r) => {
               const danger = r.score >= 55;
@@ -78,7 +85,7 @@ export function MobileHome({ mode, chains }: { mode: DisplayMode; chains: ChainT
                   </span>
                   <span className="m-card-title">{r.symbol}</span>
                   <span className="m-row-sub">{chainName(r.chain)}</span>
-                  <span className="m-card-foot">{r.kind === 'buying' ? <><b style={{ color: 'var(--mint)' }}>+{usd(r.net)}</b> · {r.buyers} SM wallet{r.buyers === 1 ? '' : 's'}</> : danger ? 'Danger' : 'High risk'}</span>
+                  <span className="m-card-foot">{r.kind === 'buying' ? <><b style={{ color: 'var(--mint)' }}>+{usd(r.net)}</b> · {r.buyers} SM wallet{r.buyers === 1 ? '' : 's'}</> : danger ? 'Danger' : r.score >= 50 ? 'High risk' : 'Watch'}</span>
                 </Link>
               );
             })}
@@ -88,7 +95,7 @@ export function MobileHome({ mode, chains }: { mode: DisplayMode; chains: ChainT
 
       {follow.length > 0 && (
         <Group title="Worth copying" href="/copy" footer="Followability: what copying their buys returned when you enter an hour late.">
-          <List>
+          <List page={5}>
             {follow.map((w) => (
               <Row key={w.wallet} href={`/wallet/${w.wallet}`}
                 leading={<span className="m-score" style={{ color: w.score >= 65 ? 'var(--mint)' : 'var(--amber)' }}>{w.score}</span>}
@@ -112,7 +119,7 @@ export function MobileHome({ mode, chains }: { mode: DisplayMode; chains: ChainT
 
       {pulse.length > 0 && (
         <Group title="Signals">
-          <List>
+          <List page={5}>
             {pulse.map((p) => (
               <Row key={p.id} href={p.href}
                 leading={<span className="m-icon" style={{ color: pulseTint(p.tone), background: `color-mix(in srgb, ${pulseTint(p.tone)} 15%, transparent)` }}>{pulseIcon(p.tone)}</span>}
@@ -122,9 +129,10 @@ export function MobileHome({ mode, chains }: { mode: DisplayMode; chains: ChainT
         </Group>
       )}
 
-      <Group title="Where money is moving" href="/flows">
-        <List>
-          {nets.slice(0, 3).concat(nets.slice(-2)).filter((c, i, a) => a.findIndex((x) => x.chain === c.chain) === i).map((c) => (
+      <Group title="Where money is moving" href="/flows"
+        footer={others.length ? `All traders only (no Smart Money labels): ${others.map((o) => `${chainName(o.chain)} ${usd(o.net, { signed: true })}`).join(' · ')}` : undefined}>
+        <List page={5}>
+          {nets.filter((c) => Math.abs(c.net) >= 1).map((c) => (
             <Row key={c.chain} href={`/chain/${c.chain}`} leading={<ChainLogo chain={c.chain} size={26} />} title={chainName(c.chain)}
               subtitle={c.net >= 0 ? 'net inflow, 24h' : 'net outflow, 24h'} trailing={usd(c.net, { signed: true })} tone={c.net >= 0 ? 'in' : 'out'} />
           ))}
