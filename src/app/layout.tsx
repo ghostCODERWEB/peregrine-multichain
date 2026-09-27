@@ -48,8 +48,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <MotionObserver />
           <SiteHeader />
           <TabBar />
-          <div className="pb-24 pt-16 lg:pb-0 lg:pl-[256px] lg:pt-0">
-            <main className="mx-auto max-w-[1600px] px-4 3xl:max-w-[2000px] 3xl:px-8 pb-32 pt-5 lg:pb-16 lg:px-[14px] lg:pt-3"><div className="mb-2 flex items-center gap-4"><Suspense><WorkspaceBar /></Suspense><Suspense><MarketStrip /></Suspense></div>{children}</main>
+          <div className="pt-[68px] lg:pl-[256px] lg:pt-0">
+            <main className="mx-auto max-w-[1600px] px-4 3xl:max-w-[2000px] 3xl:px-8 pb-[104px] pt-2 lg:pb-16 lg:px-[14px] lg:pt-3"><div className="mb-2 flex items-center gap-4"><Suspense><WorkspaceBar /></Suspense><Suspense><MarketStrip /></Suspense></div>{children}</main>
           </div>
         </Providers>
       </body>

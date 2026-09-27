@@ -30,6 +30,8 @@ export function AnalyzeDock() {
   const path = usePathname() ?? '/';
   const [open, setOpenRaw] = useState(false);
   const [closing, setClosing] = useState(false);
+  // Tell the tab bar's Ask button whether the panel is showing, so it can light up.
+  useEffect(() => { window.dispatchEvent(new CustomEvent('peregrine:analyze-state', { detail: open && !closing })); }, [open, closing]);
   // Closing plays the genie in reverse (back into the Ask button) before unmounting.
   const setOpen = (v: boolean | ((o: boolean) => boolean)) => setOpenRaw((o) => {
     const next = typeof v === 'function' ? v(o) : v;
@@ -62,9 +64,11 @@ export function AnalyzeDock() {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'j') { e.preventDefault(); setOpen((o) => !o); }
       if (e.key === 'Escape') setPicking(false);
     };
+    const onToggle = () => setOpen((o) => !o);
     window.addEventListener('peregrine:analyze', onOpen);
+    window.addEventListener('peregrine:analyze-toggle', onToggle);
     window.addEventListener('keydown', onKey);
-    return () => { window.removeEventListener('peregrine:analyze', onOpen); window.removeEventListener('keydown', onKey); };
+    return () => { window.removeEventListener('peregrine:analyze', onOpen); window.removeEventListener('peregrine:analyze-toggle', onToggle); window.removeEventListener('keydown', onKey); };
   }, [add]);
 
   // Picking: highlight what is under the cursor, take it on click.

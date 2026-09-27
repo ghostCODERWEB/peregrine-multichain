@@ -12,6 +12,8 @@ export function TabBar() {
   const path = usePathname();
   const { publicSite } = useSite();
   const [min, setMin] = useState(false);
+  const [asking, setAsking] = useState(false);
+  useEffect(() => { const on = (e: Event) => setAsking(!!(e as CustomEvent<boolean>).detail); addEventListener('peregrine:analyze-state', on); return () => removeEventListener('peregrine:analyze-state', on); }, []);
   const last = useRef(0);
   // A public site has no Ask Nansen (paid agent runs).
   // The product's story as top-level tabs: today's read, token risk, who to copy, wallets. The rest lives in Today's Explore grid.
@@ -48,7 +50,7 @@ export function TabBar() {
         </div>
         <div className="glass-bar glass-actions">
           {!publicSite && (
-            <button type="button" aria-label="Ask about this screen" className="glass-action" onClick={() => window.dispatchEvent(new CustomEvent('peregrine:analyze'))}>
+            <button type="button" aria-label="Ask about this screen" aria-pressed={asking} className={`glass-action ${asking ? 'is-on' : ''}`} onClick={() => window.dispatchEvent(new CustomEvent('peregrine:analyze-toggle'))}>
               <Sparkles size={21} strokeWidth={2} aria-hidden />
             </button>
           )}
