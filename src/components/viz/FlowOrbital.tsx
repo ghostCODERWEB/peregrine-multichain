@@ -91,7 +91,6 @@ export function FlowOrbital({ fronts, modeled = false, nets }: { fronts: Orbital
       })}
       <text x={14} y={H - 8} className="fill-[var(--flare)] text-[10px] font-extrabold tracking-[0.08em]">{modeled ? 'NET OUTFLOW' : 'NET SELLERS'}</text>
       <text x={W - 14} y={H - 8} textAnchor="end" className="fill-[var(--mint)] text-[10px] font-extrabold tracking-[0.08em]">{modeled ? 'NET INFLOW' : 'NET BUYERS'}</text>
-      {modeled && <text x={cx} y={H - 8} textAnchor="middle" className="fill-ink-muted text-[10px] font-bold">arcs modeled · nodes measured</text>}
     </svg>
   );
 }
