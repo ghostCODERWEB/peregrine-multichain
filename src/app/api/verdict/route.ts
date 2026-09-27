@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { tokenVerdict, verdictAi } from '@/server/token/verdict';
+import { allow, clientId } from '@/server/rate';
 
 export const dynamic = 'force-dynamic';
 
@@ -9,7 +10,7 @@ export async function GET(req: Request) {
   const chain = q.get('chain') ?? '', address = q.get('address') ?? '';
   if (!/^[a-z0-9-]{2,20}$/.test(chain) || !/^[A-Za-z0-9:._-]{20,160}$/.test(address)) return NextResponse.json({ error: 'bad token' }, { status: 400 });
   const v = tokenVerdict(chain, address);
-  if (!v.pending && q.get('ai') === '1' && !v.ai) {
+  if (!v.pending && q.get('ai') === '1' && !v.ai && allow('verdict-ai', clientId(req), 6)) {
     const ai = await verdictAi(chain, address, v).catch(() => null);
     if (ai) v.ai = ai;
   }

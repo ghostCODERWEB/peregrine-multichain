@@ -10,6 +10,7 @@ import { forecastWave } from '@/server/token/forecast';
 import { callScope, type CallTally } from '@/server/nansen/client';
 import { contextFromRequest, contextScope } from '@/server/context';
 import { forMode } from '@/server/redact';
+import { allow, clientId } from '@/server/rate';
 
 export const dynamic = 'force-dynamic';
 
@@ -17,6 +18,9 @@ export async function GET(req: Request, { params }: { params: Promise<{ chain: s
   const { chain, address } = await params;
   if (!ALL_CHAIN_IDS.includes(chain)) return new Response('Unknown chain', { status: 404 });
   const token = decodeURIComponent(address).trim();
+  if (!/^[A-Za-z0-9:._-]{20,160}$/.test(token)) return new Response('Not a token address.', { status: 400 });
+  // Each open runs every token wave (many Nansen calls): bound it per client.
+  if (!allow('token-stream', clientId(req), 20)) return new Response('Too many requests. Try again in a minute.', { status: 429 });
   const smChain = !!chainCapability(chain)?.smartMoney;
   const enc = new TextEncoder();
   // The stream outlives this handler: carry the caller's context (mode and

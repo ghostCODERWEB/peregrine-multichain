@@ -6,6 +6,7 @@ import { Line } from '@/components/perps/terminal/AnalystPanel';
 import { useSite } from '@/components/SiteContext';
 import { extract, PICKABLE, type Selection } from './extract';
 import { pageContexts } from './store';
+import { friendlyError } from '@/lib/friendly-error';
 
 type Turn = { q: string; sels: string[]; text: string; tools: string[]; error?: string; busy: boolean };
 
@@ -213,7 +214,7 @@ export function AnalyzeDock() {
                   {t.text.split('\n').filter(Boolean).map((l, j) => <p key={j} className={`mt-1 ${/^evidence:/i.test(l.trim()) ? 'border-t border-[var(--hair)] pt-1.5 text-[11.5px] text-ink-muted' : ''}`}><Line text={l} coins={new Set()} onRange={() => {}} /></p>)}
                 </div>
                 {t.busy && <p className="flex items-center gap-1.5 text-[12px] text-ink-muted"><Loader2 className="h-3 w-3 animate-spin" aria-hidden />{t.text ? 'Writing' : 'Reading the data'}</p>}
-                {t.error && <p role="alert" className="text-[12.5px] text-[var(--flare)]">{t.error}</p>}
+                {t.error && <p role="alert" className="text-[12.5px] text-[var(--flare)]">{friendlyError(t.error)}</p>}
               </div>
             ))}
             <div ref={endRef} />

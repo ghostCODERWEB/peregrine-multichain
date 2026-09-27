@@ -12,6 +12,7 @@ import { pct, usd } from '@/lib/viz/format';
 import type { OutcomeBoard } from '@/lib/models/outcomes';
 import type { PmDetail, PmMarket, PmRecords } from '@/server/predict/board';
 import type { PmPosition } from '@/server/predict/trader';
+import { friendlyError } from '@/lib/friendly-error';
 
 const pts = (v: number | null | undefined) => (v == null ? 'n/a' : `${v > 0 ? '+' : v < 0 ? '−' : ''}${Math.abs(Math.round(v * 100))} pts`);
 const prob = (v: number | null | undefined) => (v == null ? 'n/a' : `${(v * 100).toFixed(v < 0.1 ? 1 : 0)}%`);
@@ -144,7 +145,7 @@ export function PredictMarketView({ market, detail, outcomes, owner, analytics }
           <h2 id="skilled" className="t-section mb-1">Skilled holders vs the price</h2>
           <p className="text-[12px] text-ink-muted">Skilled: 10+ markets, 55%+ won, in profit.</p>
           {!rec && <p className="mt-3 text-[12.5px] text-ink-muted">Reading the holders’ records…</p>}
-          {rec && 'error' in rec && <p role="alert" className="mt-2 text-[12.5px] text-[var(--flare)]">{rec.error}</p>}
+          {rec && 'error' in rec && <p role="alert" className="mt-2 text-[12.5px] text-[var(--flare)]">{friendlyError(rec.error)}</p>}
           {rec && !('error' in rec) && (
             <div className="mt-3 space-y-2 text-[12.5px]">
               <p className="text-ink">
@@ -173,7 +174,7 @@ export function PredictMarketView({ market, detail, outcomes, owner, analytics }
           <h2 id="positions" className="t-section">Positions with cost basis</h2>
         </div>
         {!pos && <p className="text-[12.5px] text-ink-2">Cost basis, entry and PnL per holder.</p>}
-        {pos && 'error' in pos && <p role="alert" className="text-[12.5px] text-[var(--flare)]">{pos.error}</p>}
+        {pos && 'error' in pos && <p role="alert" className="text-[12.5px] text-[var(--flare)]">{friendlyError(pos.error)}</p>}
         {pos && !('error' in pos) && (pos.positions.length === 0 ? <p className="text-[12.5px] text-ink-muted">Reading…</p> : (
           <div tabIndex={0} role="region" aria-label="Positions" className="max-h-[420px] overflow-auto rounded-[10px] border border-[var(--hair)]">
             <table data-sortable className="w-full min-w-[760px] text-[12.5px]">

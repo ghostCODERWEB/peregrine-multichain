@@ -53,6 +53,8 @@ export async function WalletScorecard({ address, balP, pnlP }: { address: string
     evm ? traderWorkspace(address).catch(() => null) : Promise.resolve(null),
     evm ? pmTrader(address).catch(() => null) : Promise.resolve(null),
   ]);
+  // A summary with no markets traded is no record at all.
+  if (pm?.summary && !pm.summary.marketsTraded) pm.summary = null;
 
   const spot = ok(p) ? spotGrade({ realizedUsd: p.realizedUsd, realizedPct: p.realizedPct != null ? p.realizedPct / 100 : null, winRate: p.winRate, exits: p.exits }) : null;
   const perps = perpGrade(hl?.stats ?? null);
@@ -72,7 +74,7 @@ export async function WalletScorecard({ address, balP, pnlP }: { address: string
     : 'Not enough trades to grade';
 
   return (
-    <section aria-labelledby="scorecard" className="material p-4 sm:p-5 xl:col-span-12">
+    <section aria-labelledby="scorecard" data-no-clamp className="material p-4 sm:p-5 xl:col-span-12">
       <div className="flex flex-wrap items-center gap-4">
         <Ring g={overall} size={76} />
         <div className="min-w-0 flex-1">

@@ -1,5 +1,6 @@
 'use client';
 import { ArrowUpRight } from 'lucide-react';
+import { friendlyError } from '@/lib/friendly-error';
 import { hyperliquidTrade } from '@/config/external';
 import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -163,7 +164,7 @@ export function PerpsTerminal({ symbol, coins, owner, positioning = [] }: { symb
         <ReplayBar times={data.snapshots} at={state.at} shownAt={data.at} onChange={(t) => set({ at: t })} />
       )}
 
-      {error && !data && <p role="alert" className="rounded-[12px] border border-[var(--hair-2)] p-4 text-[13px] text-ink-2">{error} <button type="button" onClick={refresh} className="ml-2 font-semibold text-brand">Retry</button></p>}
+      {error && !data && <p role="alert" className="rounded-[12px] border border-[var(--hair-2)] p-4 text-[13px] text-ink-2">{friendlyError(error)} <button type="button" onClick={refresh} className="ml-2 font-semibold text-brand">Retry</button></p>}
 
       {/* ------------------------------------------------------------- metrics */}
       <ul className="stagger grid grid-cols-2 gap-px overflow-hidden rounded-[var(--r-inner)] border border-[var(--hair)] bg-[var(--hair)] sm:grid-cols-3 lg:grid-cols-6">

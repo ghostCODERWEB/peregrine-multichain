@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { Segmented } from '@/components/ui/Segmented';
 import { chainName, pct, usd } from '@/lib/viz/format';
 import type { TmResult } from '@/server/history/time-machine';
+import { friendlyError } from '@/lib/friendly-error';
 
 const day = (daysAgo: number) => new Date(Date.now() - daysAgo * 86_400_000).toISOString().slice(0, 10);
 
@@ -40,7 +41,7 @@ export function TimeMachine() {
         </div>
       </div>
       {!res && <p className="text-[13px] text-ink-muted">Reading snapshots…</p>}
-      {res && 'error' in res && <p role="alert" className="text-[13px] text-[var(--flare)]">{res.error}</p>}
+      {res && 'error' in res && <p role="alert" className="text-[13px] text-[var(--flare)]">{friendlyError(res.error)}</p>}
       {res && !('error' in res) && (
         <div className="space-y-3">
           {res.note && <p className="text-[12.5px] text-ink-2">{res.note}</p>}

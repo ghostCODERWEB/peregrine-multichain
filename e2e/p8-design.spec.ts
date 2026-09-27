@@ -49,9 +49,9 @@ test('P8 screenshot sweep', async ({page}, info) => {
       await page.evaluate(()=>document.fonts.ready);
       await page.waitForTimeout(600);
       expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),`${name} ${width} ${theme} overflow`).toBe(true);
-      await page.screenshot({path:`docs/img/P8-${name}-${width}-${theme==='navy'?'dark':'light'}.png`});
+      await page.screenshot({path:`test-results/p8/P8-${name}-${width}-${theme==='navy'?'dark':'light'}.png`});
       expect(errors,`${name} runtime errors`).toEqual([]);
     }
   }
-  await info.attach('screenshots',{body:'Saved 76 route/theme/viewport screenshots to docs/img/P8-*.png',contentType:'text/plain'});
+  await info.attach('screenshots',{body:'Saved 76 route/theme/viewport screenshots to test-results/p8/P8-*.png',contentType:'text/plain'});
 });

@@ -9,6 +9,9 @@ describe('friendlyError', () => {
     expect(friendlyError('Nansen x responded 429: {}')).toMatch(/rate-limiting/);
     expect(friendlyError('Nansen call failed: fetch failed')).toMatch(/temporarily unavailable/);
   });
+  it('explains demo-mode gaps without naming fixtures', () => {
+    expect(friendlyError('No recorded fixture for tgm/perp-positions (request a9b1935a). Run with a real NANSEN_API_KEY once')).toMatch(/demo recording/);
+  });
   it('leaves ordinary sentences alone', () => {
     expect(friendlyError('No holders yet.')).toBe('No holders yet.');
   });

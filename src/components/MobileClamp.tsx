@@ -17,7 +17,8 @@ export function MobileClamp() {
       const limit = Math.max(540, innerHeight * 0.65);
       for (const s of document.querySelectorAll<HTMLElement>('main .material, main [data-clamp-me]')) {
         if (s.dataset.clamp || s.parentElement?.closest('.material, [data-clamp]') || !hydrated(s)) continue;
-        if (s.scrollHeight < limit) continue;
+        // Primary content (a price chart, a scorecard) opts out with data-no-clamp.
+        if (s.scrollHeight < limit || s.matches('[data-no-clamp]') || s.querySelector('[data-no-clamp]')) continue;
         s.dataset.clamp = 'closed';
         const btn = document.createElement('button');
         btn.type = 'button';

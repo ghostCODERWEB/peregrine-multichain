@@ -31,7 +31,16 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
     const ch = perpChanges(sym, 4 * 3_600_000);
     return { sym, d, mark, all: matrix[0], sm: matrix.find((r) => r.cohort === 'smart_money'), whale: matrix.find((r) => r.cohort === 'whale'), crowd: crowding(d.positions), below, above, shift: 'unavailable' in ch ? null : ch.shift.smart_money ?? ch.shift.all };
   };
-  const [A, B] = await Promise.all([load(a), load(b)]);
+  // One coin's feed failing should not take the page down: say which one and why.
+  const settled = await Promise.allSettled([load(a), load(b)]);
+  const failed = settled.map((r, i) => (r.status === 'rejected' ? `${[a, b][i]}: ${String((r.reason as Error)?.message ?? r.reason).slice(0, 140)}` : null)).filter(Boolean);
+  if (failed.length) return (
+    <div className="space-y-4">
+      <PageTitle title={`${a} vs ${b}`} pill="Compare observed perp positioning" />
+      <p role="alert" className="material p-5 text-[13px] text-ink-2">Positions could not be read right now. {failed.join(' · ')}</p>
+    </div>
+  );
+  const [A, B] = settled.map((r) => (r as PromiseFulfilledResult<Awaited<ReturnType<typeof load>>>).value);
   const rows: Array<[string, (x: typeof A) => React.ReactNode]> = [
     ['Mark', (x) => price(x.mark)],
     ['Observed exposure', (x) => `${usd(x.crowd.totalUsd)} · ${x.crowd.traders} traders`],

@@ -17,3 +17,12 @@ minimumReleaseAgeExclude:
   - '@next/swc-win32-x64-msvc@15.5.26'
   - eslint-config-next@15.5.26
   - next@15.5.26
+overrides:
+  'postcss@<8.5.23': ^8.5.28
+  'uuid@<11.1.1': ^11.1.1
+# GHSA-528h-pc64-c93x (stream-json, via @solana/web3.js > jayson) is not
+# reachable: web3.js only loads jayson/lib/client/browser, which never
+# imports stream-json, and the patched 3.x moves the paths jayson requires.
+auditConfig:
+  ignoreGhsas:
+    - GHSA-528h-pc64-c93x

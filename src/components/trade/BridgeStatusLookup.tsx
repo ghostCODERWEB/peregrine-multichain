@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { friendlyError } from '@/lib/friendly-error';
 
 /** Look up any cross-chain route's status by its source transaction (Nansen trade/bridge-status). Read-only. */
 export function BridgeStatusLookup() {
@@ -28,7 +29,7 @@ export function BridgeStatusLookup() {
         <select value={to} onChange={(e) => setTo(e.target.value)} aria-label="To chain" className="inset-well h-9 rounded-[8px] px-2">{chains.map((c) => <option key={c}>{c}</option>)}</select>
         <button type="submit" disabled={busy || tx.trim().length < 20} className="pill-button pill-secondary min-h-9 px-4 py-1.5">{busy ? 'Checking…' : 'Check status'}</button>
       </form>
-      {res && ('error' in res ? <p role="alert" className="mt-2 text-[12.5px] text-[var(--flare)]">{res.error}</p> : <p className="mt-2 text-[13px] text-ink">Status: <span className="font-semibold">{res.status ?? 'unknown'}</span>{res.substatus ? ` · ${res.substatus}` : ''}</p>)}
+      {res && ('error' in res ? <p role="alert" className="mt-2 text-[12.5px] text-[var(--flare)]">{friendlyError(res.error)}</p> : <p className="mt-2 text-[13px] text-ink">Status: <span className="font-semibold">{res.status ?? 'unknown'}</span>{res.substatus ? ` · ${res.substatus}` : ''}</p>)}
     </section>
   );
 }

@@ -51,6 +51,8 @@ export function TokenTimeMachine({ chain, address, owner }: { chain: string; add
   const [trades, setTrades] = useState<Loaded<{ rows: Trade[] }> | null>(null);
   const [holders, setHolders] = useState<Loaded<{ rows: Holder[] }> | null>(null);
   const [pnl, setPnl] = useState<Loaded<{ rows: Leader[] }> | null>(null);
+  // Historical reads are priced (5 to 25 credits each): nothing loads until asked.
+  const [armed, setArmed] = useState(false);
   const base = `kind=token&chain=${chain}&address=${encodeURIComponent(address)}&date=${date}`;
   const loadCore = async () => {
     setBusy('core');
@@ -63,11 +65,12 @@ export function TokenTimeMachine({ chain, address, owner }: { chain: string; add
     setBusy(null);
   };
   const changeDate = (d: string) => { setDate(d); setFlows(null); setTraders(null); setTrades(null); setHolders(null); setPnl(null); };
-  // Every part of the day loads as soon as a date is set (point-in-time reads are cached permanently).
+  // Once asked, every part of the chosen day loads, and reloads per date (point-in-time reads are cached permanently).
   useEffect(() => {
+    if (!armed) return;
     void loadCore(); void loadOne('holders'); if (owner) void loadOne('pnl');
     // eslint-disable-next-line react-hooks/exhaustive-deps -- reload per date
-  }, [date]);
+  }, [date, armed]);
   const err = (x: { error: string }) => <p role="alert" className="text-[12.5px] text-ink-2">{friendlyError(x.error)}</p>;
 
   return (
@@ -75,11 +78,12 @@ export function TokenTimeMachine({ chain, address, owner }: { chain: string; add
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h2 id="tok-tm" className="t-section">Token Time Machine</h2>
-          <p className="text-[12px] text-ink-muted">What happened to this token on a past day, as Nansen recorded it then (labels and prices as of that date)</p>
+          <p className="text-[12px] text-ink-muted">This token on a past day, as Nansen recorded it then</p>
         </div>
         <DatePick date={date} setDate={changeDate} />
       </div>
-      {!flows && <p className="text-[12.5px] text-ink-muted">Reading {date}…</p>}
+      {!armed && <LoadButton credits={owner ? 65 : 40} onClick={() => setArmed(true)} what={`Read ${date}`} />}
+      {armed && !flows && <p className="text-[12.5px] text-ink-muted">Reading {date}…</p>}
       {flows && ('error' in flows ? err(flows) : (
         <div>
           <h3 className="mb-1.5 text-[12.5px] font-semibold text-ink-muted">Net flow by Nansen cohort on {date}</h3>
@@ -158,16 +162,17 @@ export function WalletTimeMachine({ address, current }: { address: string; curre
   const [chain, setChain] = useState('all');
   const [res, setRes] = useState<Loaded<WalletThen> | null>(null);
   const [busy, setBusy] = useState(false);
+  const [armed, setArmed] = useState(false);
   const run = async () => { setBusy(true); setRes(await get<WalletThen>(`kind=wallet&address=${encodeURIComponent(address)}&chain=${chain}&date=${date}`)); setBusy(false); };
   // eslint-disable-next-line react-hooks/exhaustive-deps -- reload per date and chain
-  useEffect(() => { void run(); }, [date, chain]);
+  useEffect(() => { if (armed) void run(); }, [date, chain, armed]);
   const now = new Map((current?.positions ?? []).map((p) => [`${p.chain}:${p.tokenAddress.toLowerCase()}`, p]));
   return (
     <section aria-labelledby="wal-tm" className="material space-y-3 p-4 sm:p-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h2 id="wal-tm" className="t-section">Wallet Time Machine</h2>
-          <p className="text-[12px] text-ink-muted">Holdings and transactions on a past day (Nansen point-in-time), against today&apos;s balances</p>
+          <p className="text-[12px] text-ink-muted">Holdings and activity on a past day vs today</p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <DatePick date={date} setDate={(d) => { setDate(d); setRes(null); }} />
@@ -177,6 +182,7 @@ export function WalletTimeMachine({ address, current }: { address: string; curre
           {busy && <span className="text-[12px] text-ink-muted">Reading…</span>}
         </div>
       </div>
+      {!armed && <LoadButton credits={10} onClick={() => setArmed(true)} what={`Read ${date}`} />}
       {res && 'error' in res && <p role="alert" className="text-[12.5px] text-ink-2">{friendlyError(res.error)}</p>}
       {res && !('error' in res) && (
         <>
@@ -255,5 +261,15 @@ export function TxAsOf({ chain, hash, at, compact = false }: { chain: string; ha
         </span>
       )}
     </span>
+  );
+}
+
+/** Starts a priced historical read, saying what it costs first. */
+function LoadButton({ credits, onClick, what }: { credits: number; onClick: () => void; what: string }) {
+  return (
+    <div className="flex flex-wrap items-center gap-3">
+      <button type="button" onClick={onClick} className="pill-button pill-secondary min-h-9 px-4 py-1 text-[12.5px] font-semibold">{what}</button>
+      <span className="text-[12px] text-ink-muted">up to {credits} Nansen credits · cached after the first read</span>
+    </div>
   );
 }

@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import { friendlyError } from '@/lib/friendly-error';
 import { useEffect, useRef, useState } from 'react';
 import { Loader2, Sparkles, Square } from 'lucide-react';
 import { AddressLink } from '@/components/entity/AddressLink';
@@ -143,7 +144,7 @@ export function AnalystPanel({ symbol, available, suggestions, buildContext, coi
             {busy && i === turns.length - 1 && !t.error && (
               <p className="flex items-center gap-1.5 text-[12px] text-ink-muted"><Loader2 className="h-3 w-3 animate-spin" aria-hidden />{t.text ? 'Writing' : t.tools.length ? 'Reading Nansen data' : 'Starting'}</p>
             )}
-            {t.error && <p role="alert" className="text-[12.5px] text-[var(--flare)]">{t.error}</p>}
+            {t.error && <p role="alert" className="text-[12.5px] text-[var(--flare)]">{friendlyError(t.error)}</p>}
             {t.credits != null && <p className="text-[11px] text-ink-muted">{t.depth === 'deep' ? 'Deep investigation' : 'Quick analysis'} · {t.credits} credits{t.at ? ` · ${new Date(t.at).toISOString().slice(5, 16).replace('T', ' ')} UTC` : ''}</p>}
           </li>
         ))}

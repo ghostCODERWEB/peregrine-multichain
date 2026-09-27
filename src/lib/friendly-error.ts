@@ -2,6 +2,8 @@
 // plain sentence for the page. The raw text stays in server logs.
 export function friendlyError(raw: string): string {
   const t = raw ?? '';
+  // Demo mode replays recorded responses; say so plainly instead of naming the fixture.
+  if (/No recorded (fixture|agent)/i.test(t)) return 'Not part of the demo recording. Live with a Nansen API key.';
   if (!/responded \d{3}|Nansen call failed|fetch failed|timeout|aborted|ECONN|\{"error"/i.test(t)) return t;
   const chain = t.match(/Invalid value '([^']+)' for body -> chain/);
   if (chain) return `Not available on ${chain[1].replace(/^./, (c) => c.toUpperCase())}: Nansen does not cover this chain for this data.`;

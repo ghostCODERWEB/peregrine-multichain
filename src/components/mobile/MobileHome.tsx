@@ -51,13 +51,14 @@ export function MobileHome({ mode, chains }: { mode: DisplayMode; chains: ChainT
       <SearchPill />
 
       {/* Hero: the one number to read first. */}
-      <Link href="/smart-money" className="m-hero">
-        <span className="m-hero-label">Smart Money · 24 hours</span>
-        <span className="num m-hero-value" style={{ color: net >= 0 ? 'var(--mint)' : 'var(--flare)' }}>{usd(net, { signed: true })}</span>
-        <span className="m-hero-sub">{sm ? `net on DEXs · ${sm.w.toLocaleString('en-US')} wallets` : 'Smart Money is shown on the owner view'}</span>
-        <span className="m-hero-bars" aria-hidden>
+      {/* Owner: Smart Money's 24h DEX net. Public: the all-trader chain with the largest inflow (Smart Money stays private). */}
+      <Link href={sm ? '/smart-money' : '/flows'} className="m-hero">
+        <span className="m-hero-label">{sm ? 'Smart Money · 24 hours' : 'All traders · 24 hours'}</span>
+        <span className="num m-hero-value" style={{ color: (sm ? net : inflow[0]?.net ?? 0) >= 0 ? 'var(--mint)' : 'var(--flare)' }}>{sm ? usd(net, { signed: true }) : inflow[0] ? usd(inflow[0].net, { signed: true }) : 'n/a'}</span>
+        <span className="m-hero-sub">{sm ? `net on DEXs · ${sm.w.toLocaleString('en-US')} wallets` : inflow[0] ? `largest net inflow: ${chainName(inflow[0].chain)} · ${nets.length} chains measured` : 'Chain flows appear after the first scan'}</span>
+        {sm && <span className="m-hero-bars" aria-hidden>
           {bars.map((b, i) => <span key={i} style={{ height: `${Math.max(6, (Math.abs(b) / maxBar) * 100)}%`, background: b >= 0 ? 'var(--mint)' : 'var(--flare)', opacity: b === 0 ? 0.18 : 0.35 + 0.65 * (i / 23) }} />)}
-        </span>
+        </span>}
         <span className="m-hero-chips">
           {inflow.map((c) => <span key={c.chain} className="m-chip"><ChainLogo chain={c.chain} size={14} />{chainName(c.chain)}<b style={{ color: 'var(--mint)' }}>{usd(c.net, { signed: true })}</b></span>)}
           {outflow.map((c) => <span key={c.chain} className="m-chip"><ChainLogo chain={c.chain} size={14} />{chainName(c.chain)}<b style={{ color: 'var(--flare)' }}>{usd(c.net, { signed: true })}</b></span>)}

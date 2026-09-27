@@ -2,10 +2,14 @@ import { describe, it, expect, beforeEach, afterAll, vi } from 'vitest';
 import fs from 'node:fs';
 
 const dir = await vi.hoisted(async () => {
+  // A fresh database seeded from the recorded demo history (fixtures/), so the test runs on any clean checkout.
   const [f, p, o] = await Promise.all([import('node:fs'), import('node:path'), import('node:os')]);
   const d = f.mkdtempSync(p.join(o.tmpdir(), 'tide-anchor-'));
-  f.copyFileSync(p.join(process.cwd(), 'data/demo.db'), p.join(d, 'anchor.db'));
   process.env.TIDE_DB_PATH = p.join(d, 'anchor.db');
+  const prev = process.env.DEMO_MODE;
+  process.env.DEMO_MODE = '1';
+  (await import('@/server/nansen/db')).getDb();
+  if (prev === undefined) delete process.env.DEMO_MODE; else process.env.DEMO_MODE = prev;
   return d;
 });
 

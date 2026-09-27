@@ -1,5 +1,5 @@
 // Integration tests on recorded Nansen responses (DEMO_MODE replay) and a
-// copy of the demo database: the token, chain, board and wallet pipelines
+// fresh database seeded from the recorded demo history: the token, chain, board and wallet pipelines
 // run end to end offline, with real response shapes, no key and no credits.
 import { describe, it, expect, afterAll, vi } from 'vitest';
 import fs from 'node:fs';
@@ -7,7 +7,6 @@ import fs from 'node:fs';
 const dir = await vi.hoisted(async () => {
   const [f, p, o] = await Promise.all([import('node:fs'), import('node:path'), import('node:os')]);
   const d = f.mkdtempSync(p.join(o.tmpdir(), 'tide-replay-'));
-  f.copyFileSync(p.join(process.cwd(), 'data/demo.db'), p.join(d, 'replay.db'));
   Object.assign(process.env, { TIDE_DB_PATH: p.join(d, 'replay.db'), DEMO_MODE: '1', NANSEN_API_KEY: '' });
   return d;
 });

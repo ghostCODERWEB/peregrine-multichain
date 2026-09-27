@@ -14,18 +14,23 @@ Built for the **Nansen Meridian Buildathon** (September 2026)
 
 ---
 
-Peregrine turns Nansen's labeled onchain data into answers a trader can act on. It stores Nansen data continuously, runs its own statistical models on top, and shows every result with the evidence behind it.
-
-It answers four questions that are hard to answer with Nansen alone:
+Peregrine turns Nansen's labeled onchain data into answers a trader can act on. It stores Nansen data continuously, runs its own statistical models on top, and shows every result with the evidence behind it, on desktop and as a native-feeling phone app.
 
 | Question | Peregrine feature |
 |---|---|
 | **Is this token about to dump?** | Token Score and Verdict: 50% Nansen risk indicators, 50% Peregrine's model |
+| **Who is worth following?** | Copy Lab: the most profitable traders in spot, perps and prediction markets, ranked by a copy score |
+| **Is this wallet any good?** | Profiler: a trader score for spot, Hyperliquid and Polymarket, and what it holds in each right now |
 | **Who moves Smart Money?** | Cascades: which labeled wallets enter tokens *before* other Smart Money, tested against chance |
-| **Can I actually copy Smart Money?** | Copy Lab: what you earn when you see a Smart Money trade 15 minutes, 1 hour or 6 hours late |
-| **What is the full story on this token or wallet?** | Research Desk: a research plan that gathers numbered evidence and writes a cited report |
+| **What is the full story?** | Research Desk: a research plan that gathers numbered evidence and writes a cited report |
 
 ![Overview](docs/screenshots/overview.jpg)
+
+<table><tr>
+<td width="33%"><img src="docs/screenshots/phone-genie-ask.gif" alt="Genie Ask on the phone" /><br/><sub><b>Genie Ask.</b> The Ask panel grows out of the tab bar and reads the screen.</sub></td>
+<td width="33%"><img src="docs/screenshots/phone-tabs.gif" alt="Liquid Glass tab bar" /><br/><sub><b>Liquid Glass tab bar.</b> The lens glides between tabs as screens change.</sub></td>
+<td width="33%"><img src="docs/screenshots/phone-scroll.gif" alt="Scroll behaviour" /><br/><sub><b>Scroll.</b> Large titles collapse and the glass bar shrinks out of the way.</sub></td>
+</tr></table>
 
 ## Contents
 
@@ -34,6 +39,7 @@ It answers four questions that are hard to answer with Nansen alone:
 - [Copy Lab](#copy-lab)
 - [Token Score and Verdict](#token-score-and-verdict)
 - [Research Desk](#research-desk)
+- [Wallet network and insider clusters](#wallet-network-and-insider-clusters)
 - [Markets](#markets)
 - [Profiler](#profiler)
 - [Phone app](#phone-app)
@@ -48,7 +54,7 @@ It answers four questions that are hard to answer with Nansen alone:
 |---|---|
 | **7,903** real Nansen API calls during the buildathon (7.9× the 1,000 required) | **82** Nansen endpoints across 19 API families |
 | **12,888** more requests served from cache | **0.84 AUC** for the dump-risk model on weeks it never saw |
-| **25** networks in one token search, plus ENS names | **647** automated tests |
+| **25** networks in one token search, plus ENS names | **667** unit and integration tests, plus end-to-end tests on desktop and phone |
 
 Every number above is shown live on the [Proof page](https://peregrine-nansen.up.railway.app/proof).
 
@@ -60,7 +66,6 @@ Every number above is shown live on the [Proof page](https://peregrine-nansen.up
 
 Every tool treats Smart Money wallets as independent actors. None of the products reviewed (Nansen, Arkham, Bubblemaps, Dune dashboards, ChainfiAI) measures the *order* in which Smart Money wallets enter the same token and tests it against chance. Nansen's Smart Money trade feed only covers the last 24 hours, so this was previously an export-to-Python job.
 
-![Cascades](docs/screenshots/cascades.jpg)
 
 **How it works**
 
@@ -91,24 +96,20 @@ flowchart LR
 
 ## Copy Lab
 
-> **If you see a Smart Money trade late, is it still worth copying?**
+> **Who is actually worth following, in every market Nansen covers?**
 
-Every stored Smart Money buy is replayed against Nansen's 15-minute price candles. Copy Lab measures the 24-hour return of entering at the same moment, 15 minutes late, 1 hour late and 6 hours late.
+Copy Lab ranks the most profitable traders straight from Nansen, with no waiting for history to build up:
 
-![Copy Lab](docs/screenshots/copy-lab.jpg)
+| Tab | Source | Ranked by |
+|---|---|---|
+| **Spot** | Smart Money PnL leaderboard over 7, 30 and 90 days, all chains | Copy score, with KOL, fund and trader tags |
+| **Perps** | Hyperliquid leaderboard over 30 and 7 days | Copy score from return, consistency, banked profit and leverage |
+| **Predictions** | Winners of the busiest Polymarket markets, then each one's lifetime record | Copy score from lifetime profit, win rate and markets traded |
+| **KOLs and cohorts** | Nansen cohort flows: Public Figures, Top PnL traders, Smart Traders, whales, fresh wallets | What each group is buying and selling in 24 hours |
 
-```mermaid
-flowchart LR
-  A[Smart Money buys ≥ $1K] --> C{"entry at<br/>+0 / +15m / +1h / +6h"}
-  B["Nansen tgm/token-ohlcv<br/>15-minute candles"] --> C
-  C --> D[24h return per buy]
-  D --> E["per wallet: one return per token<br/>win rate + median"]
-  E --> F[Followability score 0 to 100]
-```
+The **copy score** (0 to 100) rewards profit that repeats across windows, is realized rather than on paper, and comes from many tokens or markets. It marks down one lucky trade, bots trading more than 30 times a day, and high leverage. The **All** tab puts every market in one list, with what each trader is buying or holding now and where the leaders agree.
 
-**What it found:** the median Smart Money buy is **down 7.6%** a day later, and only 37% of 1,565 buys were in profit. The +4.0% average is carried by a few big winners. About a third of the average edge is gone after just 15 minutes of delay, and only a handful of wallets stay profitable to copy an hour late.
-
-Each wallet gets a **Followability** score from its win rate and median return when copied an hour late. It needs at least 3 tokens, and wallets with few tokens are pulled toward 50.
+A second study, **If you see the trade late**, replays Smart Money buys against Nansen's 15-minute candles to show how much of the edge survives entering 15 minutes, 1 hour or 6 hours late.
 
 ---
 
@@ -149,7 +150,6 @@ Each token page opens with a **Verdict card**: the level, both halves of the sco
 
 Pick a research mode, name a target (symbol, contract address, wallet or ENS name), and watch it work:
 
-![Research Desk](docs/screenshots/research-desk.jpg)
 
 ```mermaid
 sequenceDiagram
@@ -177,6 +177,13 @@ sequenceDiagram
 
 ---
 
+## Wallet network and insider clusters
+
+- **Wallet network** (Smart Money): wallets active in two or more markets are grouped by their position pattern, for example *long BTC perp, short ETH perp*. Each group is one bubble around the markets, with a line per market sized by dollars. Hover a group to isolate it.
+- **Insider clusters** (token pages): each group of linked top holders is its own bubble, sized by share of supply, with the shared first funder at its centre and deployer links flagged.
+
+---
+
 ## Markets
 
 | Page | What it shows |
@@ -199,12 +206,12 @@ sequenceDiagram
 
 ## Profiler
 
-Any wallet, including ENS names like `vitalik.eth`, on one page. It shows:
-- holdings by chain as a logo treemap,
-- realized PnL, counterparties and first funder,
-- recent transactions with spam filtered out,
-- a point-in-time Time Machine and Hyperliquid positions,
-- its **cascade role** and **Followability** score.
+Any wallet, including ENS names like `vitalik.eth`, on one page. It opens with a **trader score**:
+
+- an overall verdict (Strong trader, Profitable, Break-even, Losing) and a 0 to 100 grade for **spot**, **Hyperliquid perps** and **Polymarket**, each from that market's own record, and no grade without enough trades;
+- what the wallet holds in each market now: top tokens, open perp positions with leverage, unrealized PnL and distance to liquidation, and open prediction markets.
+
+Below it: holdings by chain as a treemap, realized PnL, counterparties and first funder, the full Hyperliquid workspace (entry, mark, liquidation, leverage, ROE, funding, closed trades), the Polymarket record, a point-in-time Time Machine, its cascade role, and recent transactions with spam filtered out.
 
 ![Profiler](docs/screenshots/profiler.jpg)
 
@@ -212,19 +219,25 @@ Any wallet, including ENS names like `vitalik.eth`, on one page. It shows:
 
 ## Phone app
 
-The phone version is built as its own app, not a shrunk desktop, following Apple's design guidance:
-- **Liquid Glass tab bar:** Today, Tokens, Copy and Wallets, plus Ask and Search controls. It shrinks while you scroll.
-- **iOS-style large titles and inset grouped lists.**
-- **Swipeable card rails** and a fast-scroll section rail.
-- **A quick Ask panel** that opens with a genie animation.
+The phone version is its own app, not a shrunk desktop, following Apple's design guidance:
+
+- **Liquid Glass tab bar:** Today, Tokens, Copy and Wallets, plus Ask and Search. A glass lens glides to the active tab, and the bar shrinks while you scroll.
+- **Genie Ask:** the Ask panel grows out of the tab bar button and folds back into it.
+- **iOS-style large titles and inset grouped lists**, swipeable card rails and a fast-scroll section rail.
+- **Long panels open as previews** with one tap to expand; price charts and scorecards always show in full.
 
 <table><tr>
-<td><img src="docs/screenshots/phone-today.jpg" width="260" alt="Today" /></td>
-<td><img src="docs/screenshots/phone-tokens.jpg" width="260" alt="Tokens" /></td>
-<td><img src="docs/screenshots/phone-copy.jpg" width="260" alt="Copy Lab" /></td>
+<td><img src="docs/screenshots/phone-today.jpg" width="200" alt="Today" /></td>
+<td><img src="docs/screenshots/phone-tokens.jpg" width="200" alt="Tokens" /></td>
+<td><img src="docs/screenshots/phone-token.jpg" width="200" alt="Token page" /></td>
+<td><img src="docs/screenshots/phone-wallet.jpg" width="200" alt="Wallet page" /></td>
 </tr></table>
 
-Tablets get the same screens in a two-column layout.
+On desktop, **Analyze with Nansen** (⌘J) opens the same panel beside any page:
+
+<img src="docs/screenshots/desktop-analyze.gif" alt="Analyze with Nansen on desktop" />
+
+Tablets get the phone screens in a two-column layout.
 
 ---
 
@@ -315,8 +328,12 @@ cp .env.example .env.local        # add NANSEN_API_KEY
 pnpm dev                          # web app on http://localhost:3000
 pnpm worker                       # background scanner, in a second terminal
 pnpm tsx scripts/cascade-backfill.ts   # optional: fill 30 days of Cascades history now
-pnpm test                         # 647 tests
+pnpm test                         # unit and integration tests
+pnpm e2e                          # end-to-end, desktop and phone (demo mode)
+pnpm screenshots                  # regenerate the README stills and GIFs from pnpm dev:demo
 ```
+
+Screenshots come from demo mode, which is a public view. Copy Lab, Cascades and the wallet network use Smart Money data and show only on an owner instance: run `TIDE_OWNER=1 TIDE_URL=<owner instance> pnpm screenshots` there to add them.
 
 **Deploy:** the included `Dockerfile` runs the web app and the worker in one container, with SQLite on a volume at `/data`. The live demo runs this way on Railway.
 
@@ -325,7 +342,7 @@ pnpm test                         # 647 tests
 1. **Overview:** Risk Radar shows Smart Money buying into a Danger-scored token.
 2. **Open the token:** the Verdict card shows Danger 56, both score halves and cited reasons.
 3. **Cascades:** was that buying led by proven early wallets? Replay who entered first.
-4. **Copy Lab:** could you have copied it? The median Smart Money buy is −7.6% a day later.
+4. **Copy Lab:** who is worth following instead, in spot, perps and predictions, and what they are buying now.
 5. **Ask:** one cited report that puts it all together, then **Proof** for the numbers.
 
 ---

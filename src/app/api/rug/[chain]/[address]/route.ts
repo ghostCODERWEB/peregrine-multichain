@@ -9,6 +9,7 @@ import { computeStorm, saveStorm } from '@/server/token/storm';
 import { callScope, type CallTally } from '@/server/nansen/client';
 import { contextFromRequest, contextScope } from '@/server/context';
 import { forMode } from '@/server/redact';
+import { allow, clientId } from '@/server/rate';
 
 export const dynamic = 'force-dynamic';
 
@@ -17,6 +18,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ chain: s
   const token = decodeURIComponent(address).trim();
   if (!RUG_CHAINS.includes(chain)) return new Response('Rug checks are not available on this network.', { status: 404 });
   if (!/^[A-Za-z0-9:._-]{20,160}$/.test(token)) return new Response('Not a token address.', { status: 400 });
+  if (!allow('rug', clientId(req), 10)) return new Response('Too many requests. Try again in a minute.', { status: 429 });
   const ctx = contextFromRequest(req);
   const enc = new TextEncoder();
   const stream = new ReadableStream({

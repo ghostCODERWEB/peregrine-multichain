@@ -7,6 +7,7 @@ import { ALL_CHAIN_IDS } from '@/lib/registry';
 import { anchorStream, latestReport, subjectKey, callsThisHour, anchorMaxPerHour, ANCHOR_TTL_MS } from '@/server/agents/anchor';
 import { modeFromRequest } from '@/server/mode';
 import { contextFromRequest, contextScope } from '@/server/context';
+import { sameOrigin } from '@/server/auth/http';
 
 export const dynamic = 'force-dynamic';
 
@@ -31,6 +32,7 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
+  if (!sameOrigin(req)) return new Response('Cross-site request refused.', { status: 403 });
   const p = parse(req.url);
   if (!p) return new Response('bad subject', { status: 400 });
   const enc = new TextEncoder();

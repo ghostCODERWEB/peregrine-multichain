@@ -94,7 +94,7 @@ export function TokenPriceChart({ chain, address, initial, events = [], onChange
 
   const chip = (on: boolean) => `rounded-[7px] px-2 py-1 text-[11.5px] font-semibold transition-colors ${on ? 'bg-ink/12 text-ink' : 'text-ink-muted hover:text-ink'}`;
   return (
-    <div>
+    <div data-no-clamp>
       <div className="mb-2 flex flex-wrap items-center gap-x-3 gap-y-2">
         <div role="tablist" aria-label="Range" className="inline-flex rounded-[9px] border border-[var(--hair)] p-0.5">
           {(['1H', '4H', '1D', '1W', '14D', '1M', '3M', '1Y'] as const).map((r) => (

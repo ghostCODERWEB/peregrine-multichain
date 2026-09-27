@@ -61,3 +61,4 @@ data/*.log
 # scorecard artefacts
 /coverage/
 /.score-build.log
+docs/screenshots/.frames/
