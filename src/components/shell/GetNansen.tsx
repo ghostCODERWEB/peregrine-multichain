@@ -23,7 +23,7 @@ export function NansenButton({ href, label, size = 'md', logo = true, className 
       {logo && <span className={`grid shrink-0 place-items-center overflow-hidden bg-[#0b1a17] shadow-[inset_0_0_0_1px_rgba(255,255,255,.12)] ${sm ? 'h-7 w-7 rounded-[8px]' : 'h-8 w-8 rounded-[9px]'}`}>
         {icon.ok ? (
           // eslint-disable-next-line @next/next/no-img-element -- Nansen's own hosted icon; no optimizer proxy
-          <img ref={icon.ref} src={NANSEN_ICON} alt="" width={32} height={32} onError={icon.fail} className="h-[62%] w-[62%] object-contain" />
+          <img ref={icon.ref} src={NANSEN_ICON} alt="" width={32} height={32} onError={icon.fail} className="h-[78%] w-[78%] object-contain" />
         ) : <span className="text-[15px] font-black text-[#5ff5c8]">N</span>}
       </span>}
       <span className="min-w-0 flex-1 whitespace-nowrap leading-tight">{label}</span>
@@ -41,7 +41,7 @@ export function GetNansen({ className = '', variant = 'button' }: { className?: 
       <span className="nansen-card-logo grid h-9 w-9 shrink-0 place-items-center overflow-hidden rounded-[10px]">
         {icon.ok ? (
           // eslint-disable-next-line @next/next/no-img-element -- Nansen's own hosted icon; no optimizer proxy
-          <img ref={icon.ref} src={NANSEN_ICON} alt="" width={36} height={36} onError={icon.fail} className="h-[62%] w-[62%] object-contain" />
+          <img ref={icon.ref} src={NANSEN_ICON} alt="" width={36} height={36} onError={icon.fail} className="h-[78%] w-[78%] object-contain" />
         ) : <span className="text-[16px] font-black text-[#5ff5c8]">N</span>}
       </span>
       <span className="min-w-0 flex-1 leading-tight">
