@@ -63,7 +63,7 @@ export function NavList({ onNavigate, status = {} }: { onNavigate?: () => void; 
     <nav aria-label="Primary" className="nav-list space-y-3">
       {groups.map((g) => (
         <div key={g}>
-          {g !== 'Explore' && <div className="px-3 pb-1.5 pt-1 text-[10.5px] font-bold uppercase tracking-[0.1em] text-ink-muted">{g === 'Research' ? 'Research' : 'AI'}</div>}
+          {g !== 'Markets' && <div className="px-3 pb-1.5 pt-1 text-[10.5px] font-bold uppercase tracking-[0.1em] text-ink-muted">{g}</div>}
           <ul className="space-y-0.5">
             {items
               .filter((n) => n.group === g)
