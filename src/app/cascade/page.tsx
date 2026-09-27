@@ -56,7 +56,7 @@ export default async function CascadePage() {
           </div>
         </section>
 
-        <section className="material p-4 sm:p-5 xl:col-span-5" aria-labelledby="method">
+        <section className="material hidden p-4 sm:block sm:p-5 xl:col-span-5" aria-labelledby="method">
           <h2 id="method" className="t-section">Method and limits</h2>
           <ol className="mt-2 list-decimal space-y-1.5 pl-4 text-[12.5px] leading-relaxed text-ink-2">
             <li><b className="text-ink">Data.</b> Smart Money DEX buys of ${c.minUsd}+ with Nansen labels: the live feed (smart-money/dex-trades, which only covers 24 hours) stored every scan, plus 30 days per token from Token God Mode (tgm/dex-trades, only_smart_money).</li>

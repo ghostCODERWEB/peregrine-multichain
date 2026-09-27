@@ -7,7 +7,7 @@ export function PageTitle({ title, pill, id, action }: { title: ReactNode; pill?
     <div className="flex flex-wrap items-center justify-between gap-3">
       <div className="hero-seq flex min-w-0 flex-wrap items-center gap-3">
         <h1 id={id} className="t-title text-ink">{title}</h1>
-        {pill && <span className="inline-flex max-w-full items-center gap-2 truncate rounded-full bg-brand/10 px-3 py-1 text-xs font-semibold text-brand">{pill}</span>}
+        {pill && <span className="hidden max-w-full items-center sm:inline-flex gap-2 truncate rounded-full bg-brand/10 px-3 py-1 text-xs font-semibold text-brand">{pill}</span>}
       </div>
       {action}
     </div>

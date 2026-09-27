@@ -30,7 +30,7 @@ export function CascadeExplorer({ nodes, edges, evidence, replay }: { nodes: Map
 
   return (
     <div className="grid grid-cols-1 gap-4 xl:grid-cols-12 [&>*]:min-w-0">
-      <section className="material p-4 sm:p-5 xl:col-span-8" aria-labelledby="map">
+      <section className="material hidden p-4 sm:block sm:p-5 xl:col-span-8" aria-labelledby="map">
         <div className="mb-1 flex flex-wrap items-baseline justify-between gap-2">
           <h2 id="map" className="t-section">Leadership map</h2>
           <span className="text-[12px] text-ink-muted">Each dot is a Smart Money wallet · left enters first, right enters late · arrows: A enters before B more often than chance</span>
@@ -69,6 +69,11 @@ export function CascadeExplorer({ nodes, edges, evidence, replay }: { nodes: Map
 
       <section className="material flex flex-col p-4 sm:p-5 xl:col-span-4" aria-labelledby="evidence">
         <h2 id="evidence" className="t-section">Evidence</h2>
+        <div className="chip-row -mx-1 mt-2 flex gap-1.5 overflow-x-auto px-1 sm:hidden">
+          {nodes.filter((n) => n.role !== 'mixed').sort((a, b) => b.z - a.z).slice(0, 12).map((n) => (
+            <button key={n.wallet} type="button" onClick={() => setSel(n.wallet)} className={`shrink-0 rounded-full border px-2.5 py-1 text-[12px] font-semibold ${sel === n.wallet ? 'border-[var(--mint)] text-ink' : 'border-[var(--hair)] text-ink-2'}`} style={{ color: sel === n.wallet ? undefined : roleColor(n.role) }}>{n.name.slice(0, 18)}</button>
+          ))}
+        </div>
         {s ? (
           <>
             <p className="mt-1 text-[14px] font-bold" style={{ color: roleColor(s.role) }}>{s.role === 'leader' ? 'Enters before other Smart Money' : s.role === 'follower' ? 'Enters after other Smart Money' : 'No consistent order'}</p>
@@ -106,7 +111,7 @@ export function CascadeExplorer({ nodes, edges, evidence, replay }: { nodes: Map
               ))}
             </div>
           </div>
-          <div key={ep} className="relative h-[150px]" role="img" aria-label={`Order in which ${e.entries.length} Smart Money wallets first bought ${e.symbol}`}>
+          <div key={ep} className="relative hidden h-[150px] sm:block" role="img" aria-label={`Order in which ${e.entries.length} Smart Money wallets first bought ${e.symbol}`}>
             <div className="absolute inset-x-0 top-[72px] h-px bg-[var(--hair-2)]" />
             {e.entries.map((x, i) => {
               const f = Math.sqrt((x.at - e.start) / span); // sqrt time: early entrants spread out, late ones compress
@@ -123,7 +128,19 @@ export function CascadeExplorer({ nodes, edges, evidence, replay }: { nodes: Map
               );
             })}
           </div>
-          <p className="num mt-1 flex justify-between text-[11px] text-ink-muted"><span>first Smart Money buy · {new Date(e.start).toISOString().slice(0, 16).replace('T', ' ')} UTC</span><span>+{fmtMin(span / 60_000)} (square-root time scale)</span></p>
+          {/* Phones: the same order as a readable list. */}
+          <ol className="divide-y divide-[var(--hair)] sm:hidden">
+            {e.entries.slice(0, 12).map((x, i) => (
+              <li key={x.wallet}>
+                <button type="button" onClick={() => setSel(byId.has(x.wallet) ? x.wallet : sel)} className="flex w-full items-center gap-3 py-2 text-left">
+                  <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full text-[11px] font-extrabold text-[#04120c]" style={{ background: roleColor(x.role), opacity: x.role ? 1 : 0.5 }}>{i + 1}</span>
+                  <span className="min-w-0 flex-1 truncate text-[14px] font-semibold text-ink">{x.name}</span>
+                  <span className="num text-[12px] text-ink-muted">{i === 0 ? 'first' : `+${fmtMin((x.at - e.start) / 60_000)}`}</span>
+                </button>
+              </li>
+            ))}
+          </ol>
+          <p className="num mt-1 hidden justify-between sm:flex text-[11px] text-ink-muted"><span>first Smart Money buy · {new Date(e.start).toISOString().slice(0, 16).replace('T', ' ')} UTC</span><span>+{fmtMin(span / 60_000)} (square-root time scale)</span></p>
         </section>
       )}
     </div>

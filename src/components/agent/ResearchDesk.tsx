@@ -98,13 +98,13 @@ export function ResearchDesk({ initialReports }: { initialReports: Report[] }) {
           </div>
           <form onSubmit={(e) => { e.preventDefault(); void run(); }} className="mt-3 flex flex-col gap-2 sm:flex-row">
             {mode !== 'market' && (
-              <label className="inset-well flex h-11 flex-1 items-center gap-2 rounded-full px-4">
+              <label className="inset-well flex h-11 shrink-0 items-center gap-2 rounded-full px-4 sm:flex-1">
                 <Search size={16} className="shrink-0 text-ink-muted" aria-hidden />
                 <input value={target} onChange={(e) => setTarget(e.target.value)} placeholder={m.placeholder} aria-label="Research target" className="bare-input min-w-0 flex-1 bg-transparent text-[14px] text-ink outline-none placeholder:text-ink-muted" autoComplete="off" spellCheck={false} />
               </label>
             )}
             {mode !== 'leaders' && (
-              <input value={question} onChange={(e) => setQuestion(e.target.value)} placeholder="Optional: a specific question" aria-label="Question" className="inset-well h-11 flex-1 rounded-full px-4 text-[14px] text-ink placeholder:text-ink-muted" />
+              <input value={question} onChange={(e) => setQuestion(e.target.value)} placeholder="Optional: a specific question" aria-label="Question" className="inset-well h-11 shrink-0 rounded-full px-4 sm:flex-1 text-[14px] text-ink placeholder:text-ink-muted" />
             )}
             <button type="submit" disabled={busy || (mode !== 'market' && !target.trim())} className="get-nansen inline-flex h-11 items-center justify-center gap-2 rounded-full px-6 text-[14px] font-extrabold disabled:opacity-50">
               {busy ? <Loader2 size={16} className="animate-spin" /> : <Sparkles size={16} />}{busy ? 'Researching' : 'Research'}

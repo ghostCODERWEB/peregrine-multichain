@@ -663,3 +663,10 @@ a.m-row:active { background-color: color-mix(in srgb, var(--ink-1) 7%, transpare
 .glass-action:active { transform: scale(.92); }
 .glass-dock.is-min .glass-actions { height: 48px; padding: 4px; }
 .glass-dock.is-min .glass-action { width: 42px; }
+/* Phones: numbers and charts speak; explanatory captions and footnotes are hidden. */
+@media (max-width: 639px) {
+  main section > h2 + p.text-ink-muted, main section > div > h2 + p, main section > div:first-child > span.text-ink-muted,
+  main section > p.text-\[11\.5px\].text-ink-muted, main section > p.text-\[11px\].text-ink-muted,
+  main .material > div > p.mt-1\.5.truncate.text-\[13\.5px\] { display: none !important; }
+}
+@media (max-width: 1023px) { .tour-card { padding: 11px 13px; border-radius: 18px; } .tour-card p.mt-1 { display: none; } }
