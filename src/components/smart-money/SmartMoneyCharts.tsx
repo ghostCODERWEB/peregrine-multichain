@@ -27,7 +27,7 @@ export function SmartMoneyCharts() {
           <h2 id="wgraph" className="t-section">Wallet network</h2>
           <span className="text-[12px] text-ink-muted">{wallets} wallets · {markets} markets · {graph.links.length} ties</span>
         </div>
-        <p className="mb-2 text-[12.5px] text-ink-2">Wallets holding or trading in two or more markets, one of them a perp. Every line is a stored position or a 24h Smart Money trade.</p>
+        <p className="mb-2 text-[12.5px] text-ink-2">Wallets active in 2+ markets, grouped by position.</p>
         <WalletGraph nodes={graph.nodes} links={graph.links} />
       </section>
     </div>

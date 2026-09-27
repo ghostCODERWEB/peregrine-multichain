@@ -71,7 +71,7 @@ export default async function ProofPage() {
               </li>
             ))}
           </ul>
-          {s && <p className="mt-3 text-[11.5px] leading-relaxed text-ink-muted">Honest limits: the dump test has {s.test.events} events, so its AUC interval runs from {num(s.fitted.aucCi?.[0], 2)} to {num(s.fitted.aucCi?.[1], 2)}. AUC 0.5 is a coin flip, 1.0 is perfect ranking. Models are re-tested as new weeks arrive.</p>}
+          {s && <p className="mt-3 text-[11.5px] leading-relaxed text-ink-muted">Dump test: {s.test.events} events · AUC 95% CI {num(s.fitted.aucCi?.[0], 2)}–{num(s.fitted.aucCi?.[1], 2)} · re-tested weekly.</p>}
         </div>
         {s && (
           <div className="mx-auto w-full max-w-[340px]">

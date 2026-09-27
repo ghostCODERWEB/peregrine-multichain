@@ -24,7 +24,7 @@ export function StormV2Section({ r }: { r: V2Report | null }) {
         id="v2-pilot"
         className="lg:col-span-3"
         title={`Token Score rebuilt point in time: ${n} pilot observations, ${r.creditsNominal} credits against an empty cache`}
-        sub="The live formulas applied to Nansen's historical endpoints as of each date, then the next 7 days of price. Insider clusters can't be rebuilt at a past date, so that input is dropped."
+        sub="Live formulas on historical data, scored on the next 7 days"
       >
         <div className="flex flex-wrap gap-1.5">
           {inputs.map(([k, label]) => (
@@ -78,7 +78,7 @@ export function StormV2Section({ r }: { r: V2Report | null }) {
         id="v2-power"
         className="lg:col-span-2"
         title="Why the weights stay expert priors"
-        sub="How many observations a fit needs before its AUC could clear 0.70 with a 95% lower bound above 0.60 (Hanley and McNeil)."
+        sub="Observations needed for AUC 0.70 at 95% confidence"
       >
         <table className="w-full text-left text-[12.5px]">
           <thead className="text-[11px] uppercase tracking-wider text-ink-muted">
@@ -158,7 +158,7 @@ export function ForwardSection({ alpha, ppi }: { alpha: ForwardCheck; ppi: Forwa
       <Card
         id="fwd-alpha"
         title={`Alpha, ${alpha.horizonHours} hours later`}
-        sub="Each past board rebuilt from the snapshots it could have seen, then the price move that followed. Out of sample by construction."
+        sub="Past boards rebuilt from their own snapshots · out of sample"
       >
         <ForwardTable f={alpha} />
       </Card>

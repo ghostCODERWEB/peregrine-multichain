@@ -1,6 +1,7 @@
 import { NansenButton } from '@/components/shell/GetNansen';
 import Link from 'next/link';
 import { WalletPortfolio } from '@/components/research/WalletPortfolio';
+import { WalletScorecard } from '@/components/wallet/WalletScorecard';
 import { FollowabilityCard } from '@/components/wallet/FollowabilityCard';
 import { CascadeRole } from '@/components/wallet/CascadeRole';
 import { nansenWallet } from '@/config/external';
@@ -93,13 +94,16 @@ export default async function WalletRoute({ params }: Params) {
 
       {/* One tile grid, ordered like a research session: who and what it holds, how it trades, who it deals with, then its history. */}
       <div className="grid grid-cols-1 gap-4 xl:grid-cols-12 [&>*]:min-w-0">
+        <Suspense fallback={<div className="h-[260px] animate-pulse rounded-[var(--r-card)] bg-ink/5 xl:col-span-12" />}>
+          <WalletScorecard address={address} balP={balP} pnlP={pnlP} />
+        </Suspense>
         {mode === 'owner' && <div className="xl:col-span-12"><WalletQuickRead address={address} /></div>}
         <Suspense fallback={<div className="h-[420px] animate-pulse rounded-[var(--r-card)] bg-ink/5 xl:col-span-12" />}>
           <WalletPortfolio balP={balP} pnlP={pnlP} />
         </Suspense>
         {mode === 'owner' && <div className="xl:col-span-12 empty:hidden"><CascadeRole address={address} /></div>}
         {mode === 'owner' && <div className="xl:col-span-12 empty:hidden"><FollowabilityCard address={address} /></div>}
-        {evm && <div className="xl:col-span-12"><HyperliquidWorkspace address={address} /></div>}
+        {evm && <div id="hyperliquid" className="scroll-mt-20 xl:col-span-12"><HyperliquidWorkspace address={address} /></div>}
         <Tile span="xl:col-span-12">
           <Suspense fallback={<Card id="wallet-weather-loading" title="Wallet profile"><WaveLoading what="wallet profile" height={280} /></Card>}>
             <WalletWeather p={redacted(mode, weatherP)} />
@@ -137,7 +141,7 @@ export default async function WalletRoute({ params }: Params) {
           </Suspense>
         </div>
         <Tile span="xl:col-span-6"><RotationsCard address={address} mode={mode} /></Tile>
-        {evm && <Tile span="xl:col-span-6"><PredictionTraderPanel address={address} /></Tile>}
+        {evm && <div id="pm-trader" className="scroll-mt-20 min-w-0 xl:col-span-6 [&>*]:h-full"><PredictionTraderPanel address={address} /></div>}
         <div className="xl:col-span-12">
           <Suspense fallback={<Card id="wallet-desk-loading" title="Wallet desk"><WaveLoading what="wallet chain" /></Card>}>
             <Desk address={address} mainChain={mainChainP} />

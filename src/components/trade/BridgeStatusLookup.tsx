@@ -20,7 +20,7 @@ export function BridgeStatusLookup() {
   return (
     <section aria-labelledby="bridge-lookup" className="material p-4 sm:p-5">
       <h2 id="bridge-lookup" className="t-section">Bridge transfer status</h2>
-      <p className="mt-0.5 text-[12.5px] text-ink-2">Paste the source transaction of a cross-chain route to see where it is (Nansen trade/bridge-status). Read-only: nothing is signed or sent.</p>
+      <p className="mt-0.5 text-[12.5px] text-ink-2">Paste a source transaction to track a bridge route. Read-only.</p>
       <form onSubmit={run} className="mt-3 flex flex-wrap items-center gap-2 text-[12.5px]">
         <input value={tx} onChange={(e) => setTx(e.target.value)} placeholder="Source transaction hash" aria-label="Source transaction hash" className="inset-well h-9 min-w-[260px] flex-1 rounded-[8px] px-3 font-mono text-[12px]" />
         <select value={from} onChange={(e) => setFrom(e.target.value)} aria-label="From chain" className="inset-well h-9 rounded-[8px] px-2">{chains.map((c) => <option key={c}>{c}</option>)}</select>

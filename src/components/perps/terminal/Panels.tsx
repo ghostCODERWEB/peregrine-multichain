@@ -129,7 +129,7 @@ export function BandInspector({ band, positions, mark, onClear, onHover }: { ban
         </ol>
       </div>
       <RawPositions positions={traders} />
-      <p className="text-[11px] text-ink-muted">Mark {price(mark)}. Exposure is where these observed positions would be force-closed; it does not say price will get there.</p>
+      <p className="text-[11px] text-ink-muted">Mark {price(mark)} · liquidation levels of observed positions</p>
     </section>
   );
 }

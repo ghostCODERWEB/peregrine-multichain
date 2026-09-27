@@ -161,7 +161,7 @@ export function PortfolioView({ demo, suggestions = [], embedded = false }: { de
           <Card
             id="portfolio-allocation"
             title={`${p.exposure.byChain.length} chains · ${p.positions.length} priced positions`}
-            sub="Each area is proportional to its USD value. Open a block to inspect the token; the table includes every position."
+            sub="Area = USD value"
             action={<InfoPopover p={p.provenance} />}
           >
             {p.positions.length ? (
@@ -305,7 +305,7 @@ export function PortfolioView({ demo, suggestions = [], embedded = false }: { de
           <Card
             id="portfolio-stress"
             title="What if the largest positions move together?"
-            sub="A seven-day sensitivity scenario for up to eight positions, using their own daily volatility and historical cone coverage."
+            sub="7-day scenario · top 8 positions"
           >
             <button className={button} disabled={!!busy || !p.positions.length} onClick={() => run('stress')}>
               Run stress scenario

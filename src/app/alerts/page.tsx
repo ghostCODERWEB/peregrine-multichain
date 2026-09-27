@@ -23,7 +23,7 @@ export default async function AlertsPage() {
       {mode !== 'public' && (
         <section aria-labelledby="alerts-new" className="material rise p-5 sm:p-6">
           <h2 id="alerts-new" className="text-[15px] font-semibold text-ink">New alert from a Peregrine signal</h2>
-          <p className="mb-3 mt-1 text-[12.5px] text-ink-2">Pick a template, preview the exact request, then create it. Nothing is created until you click Create. Up to 20 Peregrine alerts per account.</p>
+          <p className="mb-3 mt-1 text-[12.5px] text-ink-2">Pick a template, preview, create. Up to 20 alerts.</p>
           <AlertBuilder />
         </section>
       )}

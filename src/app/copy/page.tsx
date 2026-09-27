@@ -231,9 +231,9 @@ function BuyingNow({ board, tf, who, className }: { board: Leaders; tf: Timefram
             <span className="text-right"><span className="num block font-bold text-ink">{usd(r.usd)}</span><span className="num block text-[11px] text-ink-muted"><TimeAgo ts={r.at} /></span></span>
           </li>
         ))}
-        {!feed.length && <li className="py-4 text-[12.5px] text-ink-muted">None of these traders has a stored Smart Money buy in the last 3 days yet. The scanner records the tape as it runs; their current holdings are in the spot table.</li>}
+        {!feed.length && <li className="py-4 text-[12.5px] text-ink-muted">No buys recorded in the last 3 days.</li>}
       </ol>
-      <p className="mt-2 text-[11.5px] text-ink-muted">Open a token for its risk verdict before following.</p>
+      
     </Section>
   );
 }
@@ -253,7 +253,7 @@ function Consensus({ board, className }: { board: Leaders; className: string }) 
         })}
         {!board.consensus.length && <li className="py-4 text-[12.5px] text-ink-muted">No token is shared by two or more ranked traders right now.</li>}
       </ol>
-      <p className="mt-2 text-[11.5px] text-ink-muted">Buys from the last 3 days, holdings from each trader&apos;s top 5. Stablecoins and majors left out.</p>
+      
     </Section>
   );
 }
@@ -374,7 +374,7 @@ function LateEntry({ lab, className = '' }: { lab: CopyLab; className?: string }
   const d = lab.decay;
   const maxAbs = Math.max(0.001, ...d.mean.map(Math.abs));
   return (
-    <Section id="decay" title="If you see the trade late" sub="24h return of copying every Smart Money spot buy of $1K+, priced from Nansen 15-minute candles" className={className}>
+    <Section id="decay" title="If you see the trade late" sub="24h return of Smart Money buys ($1K+) by entry delay" className={className}>
       {lab.buysMeasured ? (
         <ol className="grid gap-4 sm:grid-cols-4">
           {LAGS.map((_, i) => (
@@ -383,30 +383,26 @@ function LateEntry({ lab, className = '' }: { lab: CopyLab; className?: string }
               <div className="mt-1 h-2.5 overflow-hidden rounded-full bg-[var(--hair)]"><span className="block h-full rounded-full" style={{ width: `${(Math.abs(d.mean[i]) / maxAbs) * 100}%`, background: d.mean[i] >= 0 ? 'var(--mint)' : 'var(--flare)', opacity: 1 - i * 0.18 }} /></div>
             </li>
           ))}
-          <li className="text-[11.5px] leading-relaxed text-ink-muted sm:col-span-4">{lab.buysMeasured.toLocaleString('en-US')} buys measured, {lab.walletsScored} wallets scored. The Late entry column in the spot table is each wallet&apos;s score when copied an hour late.</li>
+          <li className="num text-[11.5px] text-ink-muted sm:col-span-4">{lab.buysMeasured.toLocaleString('en-US')} buys · {lab.walletsScored} wallets</li>
         </ol>
       ) : (
-        <p className="text-[12.5px] text-ink-muted">Not measured yet: a buy is scored once it is 24 hours old, and the stored tape starts {new Date(lab.window.from).toISOString().slice(0, 10)}. The study re-runs every 30 minutes until it has data.</p>
+        <p className="text-[12.5px] text-ink-muted">Collecting data · first results 24h after {new Date(lab.window.from).toISOString().slice(0, 10)}.</p>
       )}
     </Section>
   );
 }
 
 function Method({ m, spot, perps, predict, cohorts }: { m: Market; spot: Leaders | Un | null; perps: PerpLeaders | Un | null; predict: PmLeaders | Un | null; cohorts: Cohorts | Un | null }) {
-  const notes = [spot && !un(spot) ? spot.notes : [], predict && !un(predict) ? predict.notes : [], cohorts && !un(cohorts) ? cohorts.notes : []].flat();
-  const calls = (spot && !un(spot) ? spot.calls.length : 0) + (perps && !un(perps) ? perps.provenance.calls.length : 0) + (predict && !un(predict) ? predict.calls.length : 0) + (cohorts && !un(cohorts) ? cohorts.calls.length : 0);
+  const reads = (spot && !un(spot) ? spot.calls.length : 0) + (perps && !un(perps) ? perps.provenance.calls.length : 0) + (predict && !un(predict) ? predict.calls.length : 0) + (cohorts && !un(cohorts) ? cohorts.calls.length : 0);
+  const src = [
+    (m === 'all' || m === 'spot') && 'Smart Money PnL leaderboard (7/30/90D)',
+    (m === 'all' || m === 'perps') && 'Hyperliquid leaderboard (30D)',
+    (m === 'all' || m === 'predict') && 'Polymarket records',
+    (m === 'all' || m === 'cohorts') && 'cohort flows (24h)',
+  ].filter(Boolean).join(' · ');
   return (
-    <Section id="method" title="Method" className="xl:col-span-12">
-      <ul className="mt-2 grid gap-1.5 text-[12.5px] leading-relaxed text-ink-2 sm:grid-cols-2">
-        {(m === 'all' || m === 'spot') && <>
-          <li><b className="text-ink">Spot.</b> The 100 most profitable Smart Money wallets on Nansen&apos;s PnL leaderboard (all chains) over 7, 30 and 90 days. Copy score from 50: profit (log scale), profitable in every window, win rate shrunk toward 50% for few trades, realized share, token count, average trade ROI.</li>
-          <li>Marked down: fewer than three tokens (one lucky trade) and more than 30 trades a day (a bot nobody can keep up with). KOLs and funds come from Nansen&apos;s wallet labels; buys from this instance&apos;s stored Smart Money tape.</li>
-        </>}
-        {(m === 'all' || m === 'perps') && <li><b className="text-ink">Perps.</b> Nansen&apos;s Hyperliquid leaderboard over 30 and 7 days. Copy score from 50: 30-day ROI, profitable in both windows, realized share; marked down for leverage past 3×, open losses, and books under $100K.</li>}
-        {(m === 'all' || m === 'cohorts') && <li><b className="text-ink">KOLs and cohorts.</b> Nansen has no leaderboard for KOLs (its Public Figure label), whales or its Top PnL cohort, so each is read from tgm/flow-intelligence: 24-hour net flow by wallet group on today&apos;s busiest tokens (from the scanner&apos;s token pulse) and the spot leaders&apos; shared picks.</li>}
-        {(m === 'all' || m === 'predict') && <li><b className="text-ink">Predictions.</b> The biggest winners in the busiest Polymarket markets, then each one&apos;s lifetime record. Copy score from 50: lifetime profit, win rate shrunk for few markets, markets traded; marked down when one market carries the profit.</li>}
-        <li className="sm:col-span-2 text-ink-muted">{calls} Nansen reads behind this view, cached 30 minutes (prediction records 2 hours).{notes.length ? ` ${notes.join(' ')}` : ''} Past profit is evidence, not a promise.</li>
-      </ul>
-    </Section>
+    <p className="text-[11.5px] text-ink-muted xl:col-span-12">
+      Source: Nansen {src} · {reads} reads, cached 30 min · Copy score 0–100 rewards repeated, realized, diversified profit and penalises one-trade luck, bots and high leverage. Past performance is not indicative of future results.
+    </p>
   );
 }

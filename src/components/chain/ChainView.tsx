@@ -48,7 +48,7 @@ export function ChainView({ d, gaps }: { d: ChainPageData; gaps: ModuleGaps }) {
       )}
 
       <Card id="grid" title={d.grid.tiles.length ? gridTitle(d.chain, d.grid.tiles) : `${name} market`}
-        sub="The chain's most-traded tokens today, one tile each: colour is the 24h move (green up, red down), the bar is volume. All traders."
+        sub="Most traded today · colour = 24h move"
         action={d.grid.provenance ? <InfoPopover p={d.grid.provenance} /> : undefined}>
         {d.grid.tiles.length ? <MarketGrid chain={d.chain} tiles={d.grid.tiles} /> : <Unavailable text={d.grid.unavailable ?? `Nansen returned no tokens for ${name}.`} />}
       </Card>
@@ -123,7 +123,7 @@ export function ChainView({ d, gaps }: { d: ChainPageData; gaps: ModuleGaps }) {
         <Card
           id="tape"
           title={`Latest smart-money trades on ${name}`}
-          sub="DEX swaps by Nansen-labelled smart money, recorded by the scanner. Buy = stable or native in, risk token out of the pool."
+          sub="Smart Money DEX swaps"
         >
           {gaps.trades ? <p className="text-sm text-ink-2">{gaps.trades}</p>
             : d.tapeSource === 'withheld' ? (

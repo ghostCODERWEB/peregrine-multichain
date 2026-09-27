@@ -258,7 +258,7 @@ export function TokenView({
         id="follow"
         className={cls}
         title={followTitle(followReport)}
-        sub="After a smart-money buy, did other wallets buy faster in the next 10 minutes, and where was the price 24 hours later?"
+        sub="Buying after Smart Money entries, and price 24h later"
       >
         <FollowThrough chain={chain} token={address} mode={mode} onReport={setFollowReport} />
       </Card>
@@ -268,7 +268,7 @@ export function TokenView({
         id="gauges"
         className={cls}
         title={gaugesTitle(gaugeInputs)}
-        sub="Who is on which side, how much evidence there is, and whether the holders move as one. Three readings, never one score."
+        sub="Sides, evidence and holder alignment"
       >
         {gone(s.wind) && gone(s.header) ? (
           <Unavailable text={s.wind.unavailable} />
@@ -293,7 +293,7 @@ export function TokenView({
         id="call"
         className={cls}
         title={`Make a call on ${symbol ?? 'this token'}`}
-        sub="Bull, bear or pass, a horizon, and what would prove you wrong. Saved to your Desk with Nansen’s price now, graded when the horizon passes."
+        sub="Record a call · graded at its horizon"
       >
         <CallForm
           chain={chain}
@@ -343,7 +343,7 @@ export function TokenView({
         id="market"
         className={cls}
         title={ok(s.market) ? marketTitle(symbol, s.market) : 'Price and flow'}
-        sub="4-hour candles over 14 days with an 80% volatility cone 7 days ahead; below, the labelled holder segment's daily net flow."
+        sub="14 days · 7-day 80% cone · segment net flow"
       >
         {ok(s.market) ? (
           <CandleChart m={s.market} />
@@ -359,7 +359,7 @@ export function TokenView({
         id="sphere"
         className={cls}
         title={ok(s.holders) ? sphereTitle(s.holders.holders.length, clustered.size, ok(s.forensics)) : 'Holder constellation'}
-        sub="The top holders on a sphere, sized by share of supply, linked where Nansen shows a shared first funder, related wallets or a transfer between them today."
+        sub="Top holders by share of supply, linked by funder, relation or transfer"
       >
         {ok(s.holders) ? (
           <HolderSphere holders={s.holders.holders} forensics={ok(s.forensics) ? s.forensics : null} river={ok(s.river) ? s.river : null} />
@@ -444,7 +444,7 @@ export function TokenView({
         id="holders"
         className={cls}
         title={ok(s.holders) ? holdersTitle(s.holders) : 'Holders'}
-        sub="Lorenz curve of the top 100 non-custodial holders (the further below the diagonal, the more concentrated), and all top 100 grouped by Nansen label."
+        sub="Top 100 holders: concentration and labels"
       >
         {ok(s.holders) ? (
           <HolderPanel h={s.holders} />
@@ -460,7 +460,7 @@ export function TokenView({
         id="insiders"
         className={cls}
         title={ok(s.forensics) ? forensicsTitle(s.forensics) : 'Insider clusters'}
-        sub="Top 25 holders linked by a shared first funder (cross-chain) or Nansen related-wallets, and to the deployer."
+        sub="Top 25 holders linked by first funder, relation or deployer"
       >
         {ok(s.forensics) ? (
           <InsiderGraph f={s.forensics} />

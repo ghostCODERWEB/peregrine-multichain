@@ -24,7 +24,7 @@ export function MobileCopyLab({ targets, spot, tf, market }: { targets: CopyTarg
         ))}
       </nav>
 
-      <Group title="Worth following" footer="Copy score 0 to 100 within each market: profit that repeats, is banked and is not one lucky bet. Past profit is evidence, not a promise.">
+      <Group title="Worth following" footer="Copy score 0–100, per market.">
         <List>
           {shown.map((t) => (
             <Row key={`${t.market}:${t.address}`} href={`/wallet/${t.address}`} leading={<span className="m-score" style={{ color: col(t.score) }}>{t.score}</span>}

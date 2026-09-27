@@ -30,7 +30,7 @@ export function FollowabilityCard({ address }: { address: string }) {
           </li>
         ))}
       </ol>
-      <p className="mt-2 text-[11.5px] text-ink-muted">Median 24h return of copying its buys, over {w.tokens} tokens ({w.buys} buys), priced with Nansen 15-minute candles. <Link href="/copy" className="font-semibold text-ink-2 hover:text-ink">Copy Lab</Link></p>
+      <p className="mt-2 text-[11.5px] text-ink-muted">Median 24h copy return · {w.tokens} tokens, {w.buys} buys · <Link href="/copy" className="font-semibold text-ink-2 hover:text-ink">Copy Lab</Link></p>
     </section>
   );
 }

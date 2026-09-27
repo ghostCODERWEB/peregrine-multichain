@@ -40,7 +40,7 @@ export async function PnlCard({ p, mode }: { p: Promise<Wave<PnlSummary>>; mode:
   const r = forMode(mode, await p);
   if (isUnavailable(r)) return <Card id="pnl" title="PnL, 30 days"><Unavailable text={r.unavailable} /></Card>;
   if (!r.tokens && !r.exits) return (
-    <Card id="pnl" title="Realized PnL, 30 days" sub="No realized exits in this window. Nansen reports no realized token activity in this window; open positions are not marked." action={<InfoPopover p={r.provenance} />}>
+    <Card id="pnl" title="Realized PnL, 30 days" sub="No realized exits in 30 days" action={<InfoPopover p={r.provenance} />}>
       <p className="text-[12.5px] text-ink-2">The current holdings still inform the wallet-profile concentration and stability readings.</p>
     </Card>
   );

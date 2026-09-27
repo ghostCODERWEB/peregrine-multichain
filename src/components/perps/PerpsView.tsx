@@ -650,7 +650,7 @@ export function PerpsView({ board, title, mode, analytics }: { board: PerpBoard;
             ? `Top copy-trade candidate scores ${leaders.data.rows[0].score}: ${usd(leaders.data.rows[0].pnl30, { signed: true })} in 30 days`
             : 'Hyperliquid traders'
         }
-        sub="Nansen's 100 most profitable Hyperliquid traders over 30 days, re-ranked by how copyable the record looks: return, consistency, banked profit, leverage and open losses. A candidate score, not a recommendation."
+        sub="Top 100 by 30-day PnL, ranked by copy score"
         action={leaders.state === 'ok' ? <InfoPopover p={leaders.data.provenance} /> : undefined}
       >
         {!priv ? (

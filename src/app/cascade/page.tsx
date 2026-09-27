@@ -58,13 +58,12 @@ export default async function CascadePage() {
 
         <section className="material hidden p-4 sm:block sm:p-5 xl:col-span-5" aria-labelledby="method">
           <h2 id="method" className="t-section">Method and limits</h2>
-          <ol className="mt-2 list-decimal space-y-1.5 pl-4 text-[12.5px] leading-relaxed text-ink-2">
-            <li><b className="text-ink">Data.</b> Smart Money DEX buys of ${c.minUsd}+ with Nansen labels: the live feed (smart-money/dex-trades, which only covers 24 hours) stored every scan, plus 30 days per token from Token God Mode (tgm/dex-trades, only_smart_money).</li>
-            <li><b className="text-ink">Episodes.</b> Per token, each wallet&apos;s first buy within a {WINDOW_MS / 3_600_000}h window; a new episode starts after the window closes. At least three wallets.</li>
-            <li><b className="text-ink">Leaders.</b> Entry rank scaled 0 (first) to 1 (last). If order were random its mean is 0.5; a z-test on the wallet&apos;s mean rank, corrected across all wallets (Benjamini-Hochberg, 10%).</li>
-            <li><b className="text-ink">Links.</b> For each pair that co-entered 3+ tokens, an exact binomial test on how often each entered first. Entries within a minute count as ties.</li>
-          </ol>
-          <p className="mt-3 text-[11.5px] leading-relaxed text-ink-muted">Entering first is not causation: two wallets can share an information source rather than copy each other. Links are not corrected for multiple testing, so treat single links as leads for research, and leaders that survive FDR as the stronger finding. Window {new Date(c.window.from).toISOString().slice(0, 10)} to {new Date(c.window.to).toISOString().slice(0, 10)}.</p>
+          <ul className="mt-2 space-y-1 text-[12.5px] text-ink-2">
+            <li><b className="text-ink">Data</b> · Smart Money DEX buys ${c.minUsd}+, 30 days</li>
+            <li><b className="text-ink">Leaders</b> · entry rank z-test, FDR 10%</li>
+            <li><b className="text-ink">Links</b> · binomial test on pairs co-entering 3+ tokens</li>
+          </ul>
+          <p className="mt-3 text-[11.5px] text-ink-muted">Correlation, not causation · {new Date(c.window.from).toISOString().slice(0, 10)} to {new Date(c.window.to).toISOString().slice(0, 10)}</p>
         </section>
       </div>
     </div>

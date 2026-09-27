@@ -129,7 +129,7 @@ function PositionsTable({ d, sel, onSel }: { d: TraderWorkspace; sel: unknown; o
       {!Array.isArray(d.positions) ? <p className="text-[12.5px] text-ink-muted">{d.positions.unavailable}</p> : !P.length ? <p className="py-8 text-center text-[12.5px] text-ink-muted">No open Hyperliquid positions.</p> : (
         <div className="max-h-[300px] overflow-auto" tabIndex={0} role="region" aria-label="Open positions">
           <table className="w-full min-w-[620px] text-[12px]">
-            <thead className="sticky top-0 bg-[var(--surface-1)] text-[10.5px] uppercase tracking-wider text-ink-muted"><tr><th className="py-1.5 text-left font-normal">Market</th>{th('valueUsd', 'Notional')}<th className="text-right font-normal">Entry</th><th className="text-right font-normal">Mark</th><th className="text-right font-normal">Liq.</th>{th('distanceToLiq', 'To liq.')}{th('leverage', 'Lev.')}{th('upnlUsd', 'uPnL')}{th('roe', 'ROE')}</tr></thead>
+            <thead className="sticky top-0 bg-[var(--surface-1)] text-[10.5px] uppercase tracking-wider text-ink-muted"><tr><th className="py-1.5 text-left font-normal">Market</th>{th('valueUsd', 'Notional')}<th className="text-right font-normal">Entry</th><th className="text-right font-normal">Mark</th><th className="text-right font-normal">Liq.</th>{th('distanceToLiq', 'To liq.')}{th('leverage', 'Lev.')}{th('upnlUsd', 'uPnL')}{th('roe', 'ROE')}<th className="text-right font-normal">Funding</th></tr></thead>
             <tbody>
               {P.map((p) => (
                 <tr key={p.coin} onClick={() => onSel({ kind: 'open', p })} className={`cursor-pointer border-t border-[var(--hair)] hover:bg-[var(--surface-2)] ${sel && (sel as { p: Position }).p === p ? 'bg-[color-mix(in_srgb,var(--signal)_10%,transparent)]' : ''}`}>
@@ -142,6 +142,7 @@ function PositionsTable({ d, sel, onSel }: { d: TraderWorkspace; sel: unknown; o
                   <td className="num text-right text-ink-2">{p.leverage ? `${p.leverage}×` : 'n/a'}</td>
                   <td className="num text-right font-semibold" style={tone(p.upnlUsd)}>{sgn(p.upnlUsd)}</td>
                   <td className="num text-right" style={tone(p.roe)}>{p.roe != null ? pct(p.roe, 1) : 'n/a'}</td>
+                  <td className="num text-right" style={tone(p.fundingSinceOpenUsd)} title="Funding since the position opened">{sgn(p.fundingSinceOpenUsd)}</td>
                 </tr>
               ))}
             </tbody>

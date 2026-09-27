@@ -28,6 +28,7 @@ export function PredictMarketView({ market, detail, outcomes, owner, analytics }
     } catch { setPos({ error: 'Could not reach the server.' }); }
   };
   const last = detail.candles.at(-1)?.close ?? market?.price ?? null;
+  const outcomeOf = new Map(detail.holders.map((h) => [h.side, h.outcomeIndex]));
   const bal = detail.balance;
   const bestBid = detail.book?.bids[0]?.price ?? market?.bid ?? null, bestAsk = detail.book?.asks[0]?.price ?? market?.ask ?? null;
   const spread = bestBid != null && bestAsk != null ? bestAsk - bestBid : null;
@@ -130,7 +131,7 @@ export function PredictMarketView({ market, detail, outcomes, owner, analytics }
           <ol className="mt-3 max-h-[320px] divide-y divide-[var(--hair)] overflow-auto" tabIndex={0} aria-label="Top holders">
             {detail.holders.slice(0, 30).map((h, i) => (
               <li key={`${h.address}:${i}`} className="flex items-center gap-2 py-1.5 text-[12.5px]">
-                <span className="w-9 font-semibold" style={{ color: /^yes$/i.test(h.side) || h.outcomeIndex === 1 ? 'var(--mint)' : 'var(--flare)' }}>{h.side}</span>
+                <SideTag side={h.side} up={sideUp(h.side, h.outcomeIndex)} />
                 <span className="min-w-0 flex-1"><AddressLink address={h.address} /></span>
                 <span className="num text-ink-2">entry {prob(h.avgEntry)}</span>
                 <span className="num w-20 text-right font-semibold text-ink">{usd(h.size * (h.currentPrice ?? 0))}</span>
@@ -141,7 +142,7 @@ export function PredictMarketView({ market, detail, outcomes, owner, analytics }
         </section>
         <section aria-labelledby="skilled" className="material min-w-0 p-4 sm:p-5">
           <h2 id="skilled" className="t-section mb-1">Skilled holders vs the price</h2>
-          <p className="text-[12.5px] text-ink-2">Reads the prediction-market record of the largest holders (Nansen address-summary). Skilled = 10+ markets traded, positive total PnL, 55%+ won. Compares where skilled value sits with the market price.</p>
+          <p className="text-[12px] text-ink-muted">Skilled: 10+ markets, 55%+ won, in profit.</p>
           {!rec && <p className="mt-3 text-[12.5px] text-ink-muted">Reading the holders’ records…</p>}
           {rec && 'error' in rec && <p role="alert" className="mt-2 text-[12.5px] text-[var(--flare)]">{rec.error}</p>}
           {rec && !('error' in rec) && (
@@ -153,7 +154,7 @@ export function PredictMarketView({ market, detail, outcomes, owner, analytics }
               <ol className="divide-y divide-[var(--hair)]">
                 {rec.records.map((r, i) => (
                   <li key={`${r.address}:${r.side}:${i}`} className="flex items-center gap-2 py-1.5">
-                    <span className="w-9 font-semibold" style={{ color: /^yes$/i.test(r.side) ? 'var(--mint)' : 'var(--flare)' }}>{r.side}</span>
+                    <SideTag side={r.side} up={sideUp(r.side, outcomeOf.get(r.side))} />
                     <span className="min-w-0 flex-1"><AddressLink address={r.address} /></span>
                     {r.skilled && <span className="rounded bg-[color-mix(in_srgb,var(--signal)_16%,transparent)] px-1.5 text-[10.5px] font-bold text-[var(--signal)]">skilled</span>}
                     <span className="num text-ink-2">{r.marketsTraded ?? 'n/a'} mkts · {pct(r.winRate, 0)} won</span>
@@ -161,7 +162,7 @@ export function PredictMarketView({ market, detail, outcomes, owner, analytics }
                   </li>
                 ))}
               </ol>
-              <p className="text-[11px] text-ink-muted">Descriptive: a holder&apos;s past record does not decide this market.</p>
+              
             </div>
           )}
         </section>
@@ -171,7 +172,7 @@ export function PredictMarketView({ market, detail, outcomes, owner, analytics }
         <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
           <h2 id="positions" className="t-section">Positions with cost basis</h2>
         </div>
-        {!pos && <p className="text-[12.5px] text-ink-2">Each holder&apos;s buy cost, sale proceeds, average entry, current value and PnL in this market (Nansen position-detail).</p>}
+        {!pos && <p className="text-[12.5px] text-ink-2">Cost basis, entry and PnL per holder.</p>}
         {pos && 'error' in pos && <p role="alert" className="text-[12.5px] text-[var(--flare)]">{pos.error}</p>}
         {pos && !('error' in pos) && (pos.positions.length === 0 ? <p className="text-[12.5px] text-ink-muted">Reading…</p> : (
           <div tabIndex={0} role="region" aria-label="Positions" className="max-h-[420px] overflow-auto rounded-[10px] border border-[var(--hair)]">
@@ -214,4 +215,15 @@ export function PredictMarketView({ market, detail, outcomes, owner, analytics }
       <p className="text-[11.5px] text-ink-muted">Prices are the crowd&apos;s implied probabilities.{owner ? '' : ' Holder labels are shown in the key owner’s view.'}</p>
     </div>
   );
+}
+
+/** YES and the second outcome read green, NO and the first read red, whatever the outcome is called. */
+function sideUp(side: string, outcomeIndex: number | null | undefined): boolean {
+  if (/^yes$/i.test(side)) return true;
+  if (/^no$/i.test(side)) return false;
+  return outcomeIndex === 1;
+}
+
+function SideTag({ side, up }: { side: string; up: boolean }) {
+  return <span title={side} className="w-[118px] shrink-0 truncate font-semibold" style={{ color: up ? 'var(--mint)' : 'var(--flare)' }}>{side}</span>;
 }
