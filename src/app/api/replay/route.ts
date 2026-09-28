@@ -1,3 +1,4 @@
+import { cookie } from '@/server/auth/http';
 import crypto from 'node:crypto';
 import { z } from 'zod';
 import { sameOrigin, fail } from '@/server/auth/http';
@@ -24,8 +25,7 @@ export async function POST(req: Request) {
   let deskId = cookieFrom(req.headers.get('cookie'), DESK_COOKIE), setCookie: string | null = null;
   if (!deskScope(ctx, deskId) && b.action === 'prepare') {
     deskId = crypto.randomBytes(18).toString('base64url');
-    const secure = new URL(req.url).protocol === 'https:' || req.headers.get('x-forwarded-proto') === 'https';
-    setCookie = `${DESK_COOKIE}=${deskId}; Path=/; HttpOnly; SameSite=Lax; Max-Age=31536000${secure ? '; Secure' : ''}`;
+    setCookie = cookie(req, DESK_COOKIE, deskId, 31_536_000);
   }
   const scope = deskScope(ctx, deskId);
   if (!scope) return fail('Prepare a replay in this browser first.', 404);

@@ -18,9 +18,12 @@ export default async function PerpTerminalPage({ params }: { params: Promise<{ s
   if (!SYMBOL_RE.test(symbol)) notFound();
   const mode = await displayMode();
   // The coin switcher: the board's coins by open interest (stored snapshots, no Nansen call).
-  const coins = [...perpBoard(viewOf(mode)).coins].sort((a, b) => (b.openInterest ?? 0) - (a.openInterest ?? 0)).slice(0, 60).map((c) => c.symbol);
+  const board = [...perpBoard(viewOf(mode)).coins].sort((a, b) => (b.openInterest ?? 0) - (a.openInterest ?? 0));
+  // A coin Hyperliquid does not list answers 404 rather than an empty terminal (with no snapshot yet, any valid symbol passes).
+  if (board.length && !board.some((c) => c.symbol.toUpperCase() === symbol)) notFound();
+  const coins = board.slice(0, 60).map((c) => c.symbol);
   return (
-    <Suspense>
+    <Suspense fallback={<p className="material p-5 text-[13px] text-ink-muted">Opening the {symbol} terminal…</p>}>
       <PerpsTerminal symbol={symbol} coins={coins.length ? coins : ['BTC', 'ETH', 'SOL', 'HYPE']} owner={mode !== 'public'} positioning={mode !== 'public' ? positioningSeries(symbol) : []} />
     </Suspense>
   );

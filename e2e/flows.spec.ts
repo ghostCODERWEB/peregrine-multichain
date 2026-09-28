@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures';
 
 // P3: Capital Flows, the animated chain-to-chain rotation map. Rotations come
 // from Nansen smart-money DEX trades, so public views get a locked panel and
@@ -7,15 +7,16 @@ import { test, expect } from '@playwright/test';
 test('capital flows: public views are locked, and the flows API refuses them', async ({ page, request }) => {
   expect((await request.get('/api/weather/flows?hours=48')).status()).toBe(403);
   await page.goto('/');
+  // Home carries a compact "Wallet rotations" teaser; the chain page carries the full map, locked the same way.
   const flows = page.locator('section[aria-labelledby="fronts-title"]');
-  await expect(flows.getByRole('heading', { name: 'Capital flows: key-owner view only' })).toBeVisible();
+  await expect(flows.getByRole('heading', { name: 'Wallet rotations: key-owner view only' })).toBeVisible();
   await expect(flows.getByRole('link', { name: 'Use my Nansen key' })).toHaveAttribute('href', '/account');
   await expect(flows.locator('animateMotion')).toHaveCount(0);
   await page.goto('/chain/base');
   await expect(page.locator('section[aria-labelledby="fronts-title"]').getByRole('heading', { name: 'Capital flows: key-owner view only' })).toBeVisible();
 });
 
-test('capital flows: Radar has an orbital teaser, not the full detail (synthetic owner data) @mobile', async ({ page, request }) => {
+test('capital flows: home lists the day\'s rotations and links to the full map (synthetic owner data)', async ({ page, request }) => {
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   const base = await (await request.get('/api/weather')).json();
@@ -37,12 +38,12 @@ test('capital flows: Radar has an orbital teaser, not the full detail (synthetic
   // The bulletin poll that brings the owner data only runs after hydration.
   await expect(async () => {
     await page.clock.fastForward(61_000);
-    await expect(flows.getByRole('heading', { name: 'Capital Flows', exact: true })).toBeVisible({ timeout: 1_000 });
+    await expect(flows.getByRole('heading', { name: 'Wallet rotations', exact: true })).toBeVisible({ timeout: 1_000 });
   }).toPass({ timeout: 30_000 });
   await expect(flows.getByRole('listitem')).toHaveCount(2);
-  await expect(page.locator('svg[aria-label^="Capital rotations"] animateMotion').first()).toBeAttached();
+  await expect(flows.getByRole('listitem').first()).toContainText('2 wallets');
   await expect(flows.getByRole('list', { name: 'All flows' })).toHaveCount(0);
-  await expect(flows.getByRole('link', { name: 'See all →' })).toHaveAttribute('href','/flows');
+  await expect(flows.getByRole('link', { name: /^See all/ })).toHaveAttribute('href', '/flows');
   expect(asked).toEqual([]);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
   await flows.screenshot({ path: test.info().outputPath('capital-flows.png') });
@@ -52,12 +53,12 @@ test('capital flows: Radar has an orbital teaser, not the full detail (synthetic
 test('capital flows page: in the nav; public views get the measured net-flow map, not rotations', async ({ page }) => {
   await page.goto('/');
   if (test.info().project.name === 'desktop') {
-    await page.getByRole('navigation', { name: 'Primary' }).getByRole('link', { name: 'Capital Flows' }).click();
-    await expect(page).toHaveURL(/\/flows$/);
+    await page.getByRole('navigation', { name: 'Primary' }).getByRole('link', { name: 'Chain flows' }).click();
+    await expect(page).toHaveURL(/\/flows$/, { timeout: 30_000 });
   } else {
     await page.goto('/flows');
   }
-  await expect(page.getByRole('heading', { level: 1, name: 'Capital Flows' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 1, name: 'Chain flows' })).toBeVisible();
   // Public: measured per-chain net flow with modeled arcs, never wallet-level rotations.
   const map = page.locator('section[aria-labelledby="netflow-title"]');
   await expect(map).toBeVisible();
@@ -95,7 +96,7 @@ test('capital flows: animated arcs, flow detail and window switch (synthetic own
   await expect(flows.locator('animateMotion').first()).toBeAttached();
   await expect(flows.getByText('Sold on Base')).toBeVisible();
   await expect(flows.getByText('AAA', { exact: true })).toBeVisible();
-  await flows.getByRole('button', { name: /Robinhood → Ethereum/ }).click();
+  await flows.getByRole('button', { name: /^From Robinhood to Ethereum/ }).click();
   await expect(flows.getByText('Bought on Ethereum')).toBeVisible();
   await flows.getByRole('button', { name: '48h' }).click();
   await expect(flows.getByRole('list', { name: 'All flows' }).getByRole('listitem')).toHaveCount(3);

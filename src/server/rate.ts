@@ -17,6 +17,12 @@ export function allow(bucket: string, id: string, perMinute: number, now = Date.
   return true;
 }
 
-export function clientId(req: Request): string {
-  return req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || req.headers.get('x-real-ip') || 'local';
+/** The visitor's address as the reverse proxy in front of the site reports it. Proxies append the
+ *  address they saw, so the trustworthy entry is counted from the right: TRUSTED_PROXY_HOPS (default 1,
+ *  one proxy such as Railway's edge) from the end. The leftmost entry is whatever the client sent and
+ *  would let anyone dodge a rate limit by sending a new one each time. */
+export function clientId(req: { headers: Headers }, hops = Number(process.env.TRUSTED_PROXY_HOPS ?? 1)): string {
+  const chain = (req.headers.get('x-forwarded-for') ?? '').split(',').map((s) => s.trim()).filter(Boolean);
+  const n = Number.isInteger(hops) && hops >= 1 ? hops : 1;
+  return chain[Math.max(0, chain.length - n)] || req.headers.get('x-real-ip') || 'direct';
 }

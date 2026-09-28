@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures';
 
 // L4: smart-money follow-through. Public/demo views explain why it's owner-only;
 // the owner flow runs on a private instance (PRIVATE_E2E_URL, or the trading

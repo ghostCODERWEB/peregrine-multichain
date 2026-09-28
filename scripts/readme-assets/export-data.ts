@@ -11,7 +11,9 @@ const ledger = JSON.parse(fs.readFileSync('fixtures/proof-ledger.json', 'utf8'))
 out('ledger', ledger);
 
 const bt = JSON.parse(fs.readFileSync('fixtures/backtest-results.json', 'utf8'));
-const pick = (m: any) => m && ({ definition: m.definition, train: m.train, test: m.test, fitted: { auc: m.fitted.auc, aucCi: m.fitted.aucCi, brier: m.fitted.brier, roc: m.fitted.roc, weights: m.fitted.weights }, expert: { auc: m.expert.auc, roc: m.expert.roc }, passes: m.passes });
+type Roc = Array<[number, number]>;
+type ModelResult = { definition: unknown; train: unknown; test: unknown; passes: unknown; fitted: { auc: number; aucCi: unknown; brier: number; roc: Roc; weights: unknown }; expert: { auc: number; roc: Roc } };
+const pick = (m: ModelResult | undefined) => m && ({ definition: m.definition, train: m.train, test: m.test, fitted: { auc: m.fitted.auc, aucCi: m.fitted.aucCi, brier: m.fitted.brier, roc: m.fitted.roc, weights: m.fitted.weights }, expert: { auc: m.expert.auc, roc: m.expert.roc }, passes: m.passes });
 out('backtest', { generatedAt: bt.generatedAt, samples: bt.samples, tokens: bt.tokens, anchors: bt.anchors, chains: bt.chains, storm: pick(bt.storm), breakout: pick(bt.breakout), cone: bt.cone });
 
 // Nansen API coverage: documented endpoints (docs/openapi.json) vs endpoints Peregrine called (ledger).

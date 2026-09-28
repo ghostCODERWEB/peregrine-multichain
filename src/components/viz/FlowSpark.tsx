@@ -6,7 +6,7 @@ export function FlowSpark({ values, width = 84, height = 22, label }: { values: 
   const bw = width / values.length;
   const mid = height / 2;
   return (
-    <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} className="draw" role="img" aria-label={`${label}: ${values.map((v) => `${(v * 100).toFixed(0)}%`).join(', ')}`}>
+    <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} className="draw h-auto max-w-full" role="img" aria-label={`${label}: ${values.map((v) => `${(v * 100).toFixed(0)}%`).join(', ')}`}>
       <line x1={0} x2={width} y1={mid} y2={mid} stroke="var(--axis)" strokeWidth={1} />
       {values.map((v, i) => {
         const h = Math.max(1, (Math.abs(v) / max) * (mid - 1));

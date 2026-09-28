@@ -420,7 +420,7 @@ function AllocationMap({ positions }: { positions: Position[] }) {
   }
   if (items.length) split(items, 0, 0, 960, 340);
   return (
-    <div role="img" aria-label="Portfolio allocation map; block area equals USD value" className="relative w-full" style={{ aspectRatio: '960 / 340' }}>
+    <div role="group" aria-label="Portfolio allocation map; block area equals USD value" className="relative w-full" style={{ aspectRatio: '960 / 340' }}>
       {tiles.map(({ p, x, y, w, h }, i) => {
         // Tiles are laid out on a 960×340 grid; show as much as the block has room for.
         const big = w > 150 && h > 90, mid = w > 70 && h > 44, tiny = w > 20 && h > 20;

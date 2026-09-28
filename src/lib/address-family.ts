@@ -43,6 +43,16 @@ const RE = {
   algorand: /^[A-Z2-7]{58}$/,
 };
 
+/** Whether `address` can be a token id on `chain`. Strict where the format is unambiguous (EVM chains:
+ *  0x + 40 hex; Solana: base58), permissive elsewhere (Sui coin types, Near accounts, TON, Tron…), so a
+ *  typo'd URL answers 404 instead of a page that loads forever and spends credits trying. */
+export function plausibleTokenAddress(chain: string, address: string): boolean {
+  const a = address.trim();
+  if (EVM_CHAINS.includes(chain)) return RE.evm.test(a);
+  if (chain === 'solana') return RE.solana.test(a);
+  return /^[A-Za-z0-9:._-]{3,160}$/.test(a);
+}
+
 /** Every family `input` could belong to, most likely first; empty when it
  *  is not an address at all (a name, a symbol, a sector). */
 export function detectAddress(input: string): FamilyMatch[] {

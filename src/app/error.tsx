@@ -1,20 +1,12 @@
 'use client';
 import { useEffect } from 'react';
 import Link from 'next/link';
-
-// After a redeploy, a tab opened earlier asks for script chunks that no longer exist: reload once to pick up the new build.
-function staleBuild(e: Error) {
-  return /ChunkLoadError|Loading chunk|Failed to fetch dynamically imported module|Importing a module script failed/i.test(`${e.name} ${e.message}`);
-}
+import { reloadForStaleBuild } from '@/lib/stale-build';
 
 export default function RouteError({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
   useEffect(() => {
     console.error(error);
-    if (staleBuild(error)) {
-      try {
-        if (!sessionStorage.getItem('reloaded-for-build')) { sessionStorage.setItem('reloaded-for-build', '1'); location.reload(); }
-      } catch { location.reload(); }
-    }
+    reloadForStaleBuild(error);
   }, [error]);
   return (
     <div className="material mx-auto mt-10 max-w-lg p-6 text-center">

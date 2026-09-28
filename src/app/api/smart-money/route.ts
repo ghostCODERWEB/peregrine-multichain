@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { sameOrigin, fail } from '@/server/auth/http';
+import { sameOrigin, fail, failFrom } from '@/server/auth/http';
 import { contextFromRequest, contextScope } from '@/server/context';
 import { allow, clientId } from '@/server/rate';
 import { smDesk, smPerpTrades, smDcas, smHistory, parseChain, followScope, readFollows, setFollow, followedMoves } from '@/server/smart-money/desk';
@@ -54,5 +54,5 @@ export async function POST(req: Request) {
       }
     });
     return Response.json(data, { headers: privateHeaders });
-  } catch (e) { return fail((e as Error).message.slice(0, 200)); }
+  } catch (e) { return failFrom(e, 200); }
 }

@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import { plausibleTokenAddress } from '@/lib/address-family';
 import type { Metadata } from 'next';
 import { RugReportView } from '@/components/rug/RugReportView';
 import { RUG_CHAINS } from '@/lib/rug';
@@ -14,6 +15,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
 export default async function RugReportPage({ params }: Params) {
   const { chain, address } = await params;
-  if (!RUG_CHAINS.includes(chain)) notFound();
-  return <RugReportView chain={chain} address={decodeURIComponent(address)} />;
+  const token = decodeURIComponent(address);
+  if (!RUG_CHAINS.includes(chain) || !plausibleTokenAddress(chain, token)) notFound();
+  return <RugReportView chain={chain} address={token} />;
 }

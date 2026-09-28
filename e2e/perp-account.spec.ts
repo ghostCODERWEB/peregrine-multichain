@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures';
 
 // D1b: Hyperliquid account actions on /trade. The trading UI only renders on a
 // private instance with FEATURE_TRADING=1, so this runs only when

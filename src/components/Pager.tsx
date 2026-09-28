@@ -1,5 +1,6 @@
 'use client';
 import { useEffect } from 'react';
+import { hydratedPast } from '@/lib/hydration';
 
 /** Long tables and lists split into numbered pages, with a choice of rows per page. One listener for the app.
  *  Paged: sortable tables, tables with data-page, phone lists (.m-list) and any list marked data-paged.
@@ -12,8 +13,6 @@ const SELECTOR = 'main table[data-sortable], main table[data-page], main .m-list
 type State = { size: number; page: number; first: Element | null; count: number };
 const state = new WeakMap<HTMLElement, State>();
 
-// Streamed sections arrive as HTML before React hydrates them; touching their rows early breaks hydration.
-const hydrated = (el: Element) => Object.keys(el).some((k) => k.startsWith('__reactFiber'));
 
 const itemsOf = (host: HTMLElement): HTMLElement[] =>
   host instanceof HTMLTableElement ? [...(host.tBodies[0]?.rows ?? [])] : ([...host.children].filter((c) => c.tagName === 'LI') as HTMLElement[]);
@@ -38,8 +37,13 @@ function barFor(host: HTMLElement): HTMLElement | null {
 
 const out = (r: HTMLElement, v: boolean) => r.toggleAttribute('data-paged-out', v);
 
+/** Where the bar goes: below the table's scroll box when it has one, else right after the list. */
+const boxOf = (host: HTMLElement): HTMLElement => (host.parentElement && host instanceof HTMLTableElement && getComputedStyle(host.parentElement).overflowX !== 'visible' ? host.parentElement : host);
+
 function apply(host: HTMLElement, opts: { resetPage?: boolean; scroll?: boolean } = {}): boolean {
-  if (!hydrated(host)) return false;
+  // Streamed sections arrive as HTML before React hydrates them: wait until React is done with this one
+  // (an early bar or changed row is a hydration error that re-renders the section on the client).
+  if (!hydratedPast(boxOf(host))) return false;
   const all = itemsOf(host);
   all.forEach((r) => { if (r.hidden) out(r, false); });
   const items = all.filter((r) => !r.hidden);
@@ -63,8 +67,7 @@ function apply(host: HTMLElement, opts: { resetPage?: boolean; scroll?: boolean 
     bar = document.createElement('nav');
     bar.className = 'pager';
     // Below the element's scroll box when it has one, so the bar never scrolls away with the rows.
-    const box = host.parentElement && host instanceof HTMLTableElement && getComputedStyle(host.parentElement).overflowX !== 'visible' ? host.parentElement : host;
-    box.after(bar);
+    boxOf(host).after(bar);
   }
   const label = host.getAttribute('aria-label') ?? host.closest('section')?.querySelector('h2, h3')?.textContent ?? 'list';
   bar.setAttribute('aria-label', `Pages: ${label}`);

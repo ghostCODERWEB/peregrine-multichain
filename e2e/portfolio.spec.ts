@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures';
 const address = '0xcbb811f129782ef87e19dea9d3375045219bae00';
 
 test('portfolio: recorded balances, allocation, stress coverage and paper theme @mobile', async ({ page }) => {
@@ -7,9 +7,11 @@ test('portfolio: recorded balances, allocation, stress coverage and paper theme 
   page.on('pageerror', (e) => errors.push(e.message));
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/portfolio');
-  await page.getByRole('button', { name: 'Use recorded demo wallet' }).click();
-  await page.getByRole('button', { name: 'Analyze · up to 5 credits' }).click();
-  await expect(page.getByRole('img', { name: /Portfolio allocation map/ })).toBeVisible();
+  // At phone width the page carries a second, hidden copy of some controls: act on the visible ones.
+  await page.getByRole('button', { name: 'Use recorded demo wallet' }).filter({ visible: true }).click();
+  await page.getByRole('button', { name: 'Analyze', exact: true }).filter({ visible: true }).click();
+  // A group, not an image: its blocks are links to each token.
+  await expect(page.getByRole('group', { name: /Portfolio allocation map/ })).toBeVisible();
   await expect(page.locator('section[aria-labelledby="portfolio-allocation"] tbody tr')).not.toHaveCount(0);
   await page.getByRole('button', { name: /Run stress scenario/ }).click();
   await expect(page.getByText(/remains unmodeled/)).toBeVisible({ timeout: 90_000 });
@@ -19,18 +21,19 @@ test('portfolio: recorded balances, allocation, stress coverage and paper theme 
   expect(errors).toEqual([]);
 });
 
-test('wallet desk: PnL loads only on request and unsupported chains explain the gap', async ({ page }) => {
+test('wallet desk: the default section loads on open, each pick loads once, unsupported chains explain the gap', async ({ page }) => {
   let calls = 0;
   page.on('request', (r) => { if (r.url().endsWith('/api/wallet/desk')) calls++; });
   await page.goto(`/wallet/${address}`);
-  await expect(page.locator('#wallet-desk')).toBeVisible();
-  expect(calls).toBe(0);
+  const desk = page.locator('section[aria-labelledby="wallet-desk"]');
+  await expect(desk).toBeVisible();
+  // Token PnL (1 credit) loads on open; DeFi, perps and the rest only when picked.
+  await expect.poll(() => calls).toBe(1);
   await page.getByLabel('Wallet desk chain').selectOption('base');
-  await page.getByRole('button', { name: /Load Token PnL/ }).click();
-  await expect(page.getByRole('heading', { name: 'Token performance', exact: true })).toBeVisible();
+  await expect(desk.getByRole('heading', { name: 'Token PnL · 30 days' })).toBeVisible();
+  await expect.poll(() => calls).toBe(2);
   await page.getByLabel('Wallet desk chain').selectOption('bitcoin');
-  await page.getByRole('button', { name: /Load Token PnL/ }).click();
-  await expect(page.getByText(/Token PnL: not available on Bitcoin/)).toBeVisible();
+  await expect(desk.getByText('Token PnL: not available on Bitcoin in Nansen API.')).toBeVisible();
 });
 
 test('wallet weather: evidence, unknown styles and exact table stay legible @mobile', async ({ page }) => {
@@ -40,14 +43,14 @@ test('wallet weather: evidence, unknown styles and exact table stay legible @mob
   await page.goto(`/wallet/${address}`);
   const weather = page.locator('section[aria-labelledby="wallet-weather"]');
   await expect(weather).toBeVisible();
-  await expect(weather.getByText('0 extra credits')).toBeVisible();
   await expect(weather.getByText('Observed style evidence')).toBeVisible();
   await expect(weather.getByRole('heading', { name: 'Farmer' })).toBeVisible();
   await expect(weather.getByRole('heading', { name: 'Perp' })).toBeVisible();
   await expect(weather.getByText('not assessed')).toHaveCount(2);
+  // DeFi is not auto-loaded; picking it in the Wallet desk loads it and the Farmer style gets assessed.
+  await page.getByLabel('Wallet desk chain').selectOption('base');
   await page.getByLabel('Wallet desk section').selectOption('defi');
-  await page.getByRole('button', { name: /Load DeFi/ }).click();
-  await expect(page.getByTestId('wallet-style-farmer')).not.toContainText('not assessed');
+  await expect(page.getByTestId('wallet-style-farmer')).not.toContainText('not assessed', { timeout: 30_000 });
   await expect(page.getByTestId('wallet-style-farmer')).toContainText(/protocol/);
   await expect(page.getByTestId('wallet-style-perp')).toContainText('not assessed');
   await weather.getByText('Exact exposure table').click();

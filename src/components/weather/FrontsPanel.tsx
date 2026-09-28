@@ -72,7 +72,7 @@ export function FrontSheet({ front, onClose }: { front: FrontWithProvenance | nu
             <SheetHeader>
               <SheetTitle className="text-ink">
                 {front.inferred ? 'Inferred: ' : ''}
-                {chainName(front.from)} <Go /> {chainName(front.to)}
+                {chainName(front.from)} <Go /><span className="sr-only"> to</span> {chainName(front.to)}
               </SheetTitle>
               <SheetDescription>
                 {front.inferred ? (

@@ -3,6 +3,7 @@
 // Nansen's "prohibited" redistribution class, so the desk exists only for
 // the key owner and signed-in members, is never recorded into fixtures and
 // is never cached for anyone else (the cache is partitioned per key).
+import { UserInputError } from '@/server/errors';
 import { validated } from '@/server/portfolio/portfolio';
 import { requestDay } from '@/server/nansen/demo';
 import { getDb, audit } from '@/server/nansen/db';
@@ -397,12 +398,12 @@ export const MAX_FOLLOWS = 50;
 
 export function setFollow(scope: string, address: string, on: boolean, userId: number | null): string[] {
   const a = address.trim();
-  if (!detectAddress(a).length) throw new Error('That is not a wallet address.');
+  if (!detectAddress(a).length) throw new UserInputError('That is not a wallet address.');
   const key = addressKey(a);
   const db = getDb();
   if (on) {
     const n = (db.prepare('SELECT COUNT(*) AS n FROM sm_follows WHERE scope = ?').get(scope) as { n: number }).n;
-    if (n >= MAX_FOLLOWS) throw new Error(`The follow list holds up to ${MAX_FOLLOWS} wallets.`);
+    if (n >= MAX_FOLLOWS) throw new UserInputError(`The follow list holds up to ${MAX_FOLLOWS} wallets.`);
     db.prepare('INSERT OR IGNORE INTO sm_follows (scope, address, created_at) VALUES (?, ?, ?)').run(scope, key, Date.now());
   } else {
     db.prepare('DELETE FROM sm_follows WHERE scope = ? AND address = ?').run(scope, key);

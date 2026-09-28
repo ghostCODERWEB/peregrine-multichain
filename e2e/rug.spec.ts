@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures';
 
 const AERO = '/rug/base/0x940181a94a35a4569e4529a3cdfb74e38fd98631';
 

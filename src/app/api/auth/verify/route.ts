@@ -3,7 +3,7 @@
 // issued for this domain (a signature for another site can't be replayed).
 import { parseMessage, verifyEvm, verifySolana, type Family } from '@/server/auth/wallet-sig';
 import { consumeNonce, createSession, SESSION_COOKIE, SESSION_TTL_MS } from '@/server/auth/session';
-import { sameOrigin, fail } from '@/server/auth/http';
+import { sameOrigin, fail, cookie } from '@/server/auth/http';
 import { audit } from '@/server/nansen/db';
 import { accountsEnabled } from '@/server/site';
 
@@ -23,8 +23,7 @@ export async function POST(req: Request) {
   if (!consumeNonce(m.nonce)) return fail('This sign-in message was already used or expired.', 401);
   const { id, user } = createSession(b.family, m.address);
   audit(user.id, 'signin', b.family);
-  const secure = new URL(req.url).protocol === 'https:' ? '; Secure' : '';
   return Response.json({ user: { family: user.family, address: user.address } }, {
-    headers: { 'Set-Cookie': `${SESSION_COOKIE}=${id}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${SESSION_TTL_MS / 1000}${secure}` },
+    headers: { 'Set-Cookie': cookie(req, SESSION_COOKIE, id, SESSION_TTL_MS / 1000) },
   });
 }

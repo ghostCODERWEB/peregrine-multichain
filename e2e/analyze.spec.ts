@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures';
 
 // Analyze with Nansen: the one Ask surface on every page. Opening it, reading
 // the suggestions and closing it must never call the paid routes; only a

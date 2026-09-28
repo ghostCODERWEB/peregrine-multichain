@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { sameOrigin, fail } from '@/server/auth/http';
+import { sameOrigin, fail, failFrom } from '@/server/auth/http';
 import { contextFromRequest, contextScope } from '@/server/context';
 import { allow, clientId } from '@/server/rate';
 import { validated } from '@/server/portfolio/portfolio';
@@ -27,5 +27,5 @@ export async function POST(req: Request) {
     audit(ctx.user?.id ?? null, 'wallet.labels.request', JSON.stringify({ address, chain, price }));
     const result = await contextScope.run(ctx, () => validated(endpoint, { address, chain, pagination: { page: 1, per_page: 100 } }, S_ProfilerAddressLabelsResponse));
     return Response.json({ labels: result.data.data, call: result.call, limited: result.data.pagination.is_last_page === false }, { headers: { 'Cache-Control': 'private, no-store' } });
-  } catch (e) { return fail((e as Error).message.slice(0, 200)); }
+  } catch (e) { return failFrom(e, 200); }
 }

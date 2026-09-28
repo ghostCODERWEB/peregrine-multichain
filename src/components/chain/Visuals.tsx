@@ -10,6 +10,8 @@ import type { ChainPageData, GridTile, PeerRow } from '@/server/weather/chain-pa
 
 const BAND_RING: Record<'high' | 'neutral' | 'low', string> = { high: 'var(--in-2)', neutral: 'var(--brand)', low: 'var(--out-2)' };
 const BAND_TEXT: Record<'high' | 'neutral' | 'low', string> = { high: 'Accumulation · net buying', neutral: 'Neutral', low: 'Distribution · net selling' };
+// Text needs the accents tuned per theme for contrast; the --in-2/--out-2 fills are for lines and areas.
+const BAND_INK: Record<'high' | 'neutral' | 'low', string> = { high: 'var(--mint)', neutral: 'var(--brand)', low: 'var(--flare)' };
 
 type Metric = 'dexVolumeUsd' | 'activeAddresses' | 'txCount';
 const METRICS: Array<[Metric, string, keyof PeerRow]> = [
@@ -92,7 +94,7 @@ export function ChainHero({ d, tier, title, note }: { d: ChainPageData; tier: st
               <div className="num text-[64px] font-extrabold">{Math.round(w.cpi)}</div><AreaSpark values={w.series.map(v=>({t:v.t,value:v.cpi}))} label="Seven-day Flow Index; local trend scale" color={BAND_RING[w.band]}/>
               <div>
                 <div className="text-[11px] uppercase tracking-wider text-ink-muted">Flow Index</div>
-                <BandBadge color={BAND_RING[w.band]}>{BAND_TEXT[w.band]}</BandBadge>
+                <BandBadge color={BAND_INK[w.band]}>{BAND_TEXT[w.band]}</BandBadge>
                 {w.trend6h != null && <div className="num text-[11.5px] text-ink-2">{w.trend6h >= 0 ? '+' : ''}{num(w.trend6h, 1)} over 6 hours</div>}
               </div>
             </>

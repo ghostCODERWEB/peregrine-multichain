@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { sameOrigin, fail } from '@/server/auth/http';
+import { sameOrigin, fail, failFrom } from '@/server/auth/http';
 import { contextFromRequest, contextScope } from '@/server/context';
 import { allow, clientId } from '@/server/rate';
 import { portfolio, portfolioStress } from '@/server/portfolio/portfolio';
@@ -35,5 +35,5 @@ export async function POST(req: Request) {
     if (!allow(`portfolio-${action}`, ctx.user ? `u${ctx.user.id}` : clientId(req), 6)) return fail('Please wait a minute before running this again.', 429);
     const data = await contextScope.run(ctx, async () => action === 'stress' ? portfolioStress(addresses) : action === 'counterparties' ? portfolioCounterparties(addresses) : portfolio(addresses));
     return Response.json(forMode(ctx.mode, data), { headers: privateHeaders });
-  } catch (e) { return fail((e as Error).message.slice(0, 200)); }
+  } catch (e) { return failFrom(e, 200); }
 }
