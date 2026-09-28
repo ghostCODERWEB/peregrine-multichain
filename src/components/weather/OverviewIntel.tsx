@@ -122,6 +122,23 @@ export function OverviewIntel({ mode }: { mode: DisplayMode }) {
       <Module title="Perps" href="/perps/BTC">
         <p className="num text-[22px] font-bold tracking-[-0.02em] text-ink">{board.venue ? usd(board.venue.openInterest) : 'n/a'}</p>
         <p className="text-[12px] text-ink-2">Hyperliquid open interest{board.venue?.ppi != null ? ` · Perp Flow Index ${num(board.venue.ppi, 0)}` : ''}</p>
+        {/* Without the owner's Smart Money book, the largest markets: public Hyperliquid data the board already holds. */}
+        {!(owner && (smLong + smShort) > 0) && board.coins.length > 0 && (
+          <div className="mt-3">
+            <p className="text-[11.5px] font-semibold text-ink-muted">Largest by open interest</p>
+            <ol className="mt-1 space-y-1">
+              {[...board.coins].sort((a, b) => (b.openInterest ?? 0) - (a.openInterest ?? 0)).slice(0, 5).map((c) => (
+                <li key={c.symbol} className="grid grid-cols-[minmax(0,1fr)_auto_52px] items-center gap-2 text-[12.5px]">
+                  <Link prefetch={false} href={`/perps/${encodeURIComponent(c.symbol)}`} className="flex min-w-0 items-center gap-1.5 truncate font-semibold text-ink hover:underline">
+                    <TokenLogo symbol={c.symbol} coin={c.symbol} size={14} />{c.symbol.replace(/^[^:]+:/, '')}
+                  </Link>
+                  <span className="num text-ink-2">{usd(c.openInterest)}</span>
+                  <span className="num text-right font-semibold" style={tone(c.change24h ?? 0)}>{c.change24h != null ? `${c.change24h >= 0 ? '+' : '−'}${Math.abs(c.change24h * 100).toFixed(1)}%` : 'n/a'}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        )}
         {owner && (smLong + smShort) > 0 && (
           <div className="mt-3 space-y-1.5 text-[12.5px]">
             <p className="text-[11.5px] font-semibold text-ink-muted">BTC Smart Money book (observed)</p>

@@ -90,7 +90,7 @@ export function SmartMoneyState() {
                 <ol className="divide-y divide-[var(--hair)]">
                   {g.rows.map((e, i) => (
                     <li key={i} data-kind={e.kind} className="grid grid-cols-[40px_minmax(0,1fr)_auto] items-center gap-x-3 gap-y-0.5 py-1.5 text-[12.5px] sm:grid-cols-[44px_minmax(140px,220px)_minmax(120px,170px)_minmax(120px,1fr)_minmax(120px,220px)_92px]">
-                      <span className={`rounded-[5px] px-1 text-center text-[10px] font-bold ${e.kind === 'perp' ? 'bg-[color-mix(in_srgb,var(--signal)_16%,transparent)] text-[var(--signal)]' : 'bg-ink/10 text-ink-2'}`}>{e.kind === 'perp' ? 'PERP' : 'SPOT'}</span>
+                      <span className={`rounded-[5px] px-1 text-center text-[10px] font-bold ${e.kind === 'perp' ? 'bg-[color-mix(in_srgb,var(--signal)_12%,transparent)] text-[var(--signal)]' : 'bg-ink/10 text-ink-2'}`}>{e.kind === 'perp' ? 'PERP' : 'SPOT'}</span>
                       <span className="min-w-0 truncate"><AddressLink address={e.wallet} label={e.label} compact /></span>
                       <span className="hidden items-center gap-1.5 sm:flex">
                         <span className="rounded-full px-2 py-px text-[11.5px] font-semibold" style={{ color: e.tone === 'in' ? 'var(--mint)' : 'var(--flare)', background: `color-mix(in srgb, ${e.tone === 'in' ? 'var(--mint)' : 'var(--flare)'} 12%, transparent)` }}>{e.verb}</span>

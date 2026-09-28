@@ -283,7 +283,7 @@ function RotationsCard({ address, mode }: { address: string; mode: DisplayMode }
               {chainName(r.to)}
             </span>
             <span className="min-w-0 truncate text-ink-2">
-              <span className="num" style={{ color: 'var(--out-3)' }}>
+              <span className="num" style={{ color: 'var(--flare)' }}>
                 −{usd(r.soldUsd)}
               </span>{' '}
               sold {r.soldTokens.slice(0, 3).join(', ')}

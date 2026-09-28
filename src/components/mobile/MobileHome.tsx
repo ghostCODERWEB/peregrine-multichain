@@ -56,7 +56,7 @@ export function MobileHome({ mode, chains }: { mode: DisplayMode; chains: ChainT
       <Link prefetch={false} href={sm ? '/smart-money' : '/flows'} className="m-hero">
         <span className="m-hero-label">{sm ? 'Smart Money · 24 hours' : 'All traders · 24 hours'}</span>
         <span className="num m-hero-value" style={{ color: (sm ? net : inflow[0]?.net ?? 0) >= 0 ? 'var(--mint)' : 'var(--flare)' }}>{sm ? usd(net, { signed: true }) : inflow[0] ? usd(inflow[0].net, { signed: true }) : 'n/a'}</span>
-        <span className="m-hero-sub">{sm ? `net on DEXs · ${sm.w.toLocaleString('en-US')} wallets` : inflow[0] ? `largest net inflow: ${chainName(inflow[0].chain)} · ${nets.length} chains measured` : 'Chain flows appear after the first scan'}</span>
+        <span className="m-hero-sub">{sm ? `net on DEXs · ${sm.w.toLocaleString('en-US')} wallets` : inflow[0] ? `largest net inflow: ${chainName(inflow[0].chain)} · ${chains.filter((c) => c.cpi != null).length} chains measured` : 'Chain flows appear after the first scan'}</span>
         {sm && <span className="m-hero-bars" aria-hidden>
           {bars.map((b, i) => <span key={i} style={{ height: `${Math.max(6, (Math.abs(b) / maxBar) * 100)}%`, background: b >= 0 ? 'var(--mint)' : 'var(--flare)', opacity: b === 0 ? 0.18 : 0.35 + 0.65 * (i / 23) }} />)}
         </span>}
@@ -104,7 +104,7 @@ export function MobileHome({ mode, chains }: { mode: DisplayMode; chains: ChainT
         <div className="m-grid">
           {SHORTCUTS.map(({ href, label, Icon, tint }) => (
             <Link prefetch={false} key={href} href={href} className="m-tile">
-              <span className="m-tile-icon" style={{ color: tint, background: `color-mix(in srgb, ${tint} 16%, transparent)` }}><Icon size={20} /></span>
+              <span className="m-tile-icon" style={{ '--tint': tint } as React.CSSProperties}><Icon size={20} /></span>
               <span className="m-tile-label">{label}</span>
             </Link>
           ))}

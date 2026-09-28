@@ -323,7 +323,7 @@ export function NetFlowBoard({ chains }: { chains: NetFlowChain[] }) {
                 }
               />
             </span>
-            <span className="num text-right font-extrabold" style={{ color: r.net >= 0 ? 'var(--in-3)' : 'var(--out-3)' }}>
+            <span className="num text-right font-extrabold" style={{ color: r.net >= 0 ? 'var(--in-3)' : 'var(--flare)' }}>
               {r.net >= 0 ? '+' : '−'}
               {usd(Math.abs(r.net))}
             </span>

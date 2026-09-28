@@ -88,7 +88,7 @@ export default async function FlowsPage() {
                         ? { left: '50%', width: `${(c.net / maxChain) * 50}%`, background: 'var(--in-3)' }
                         : { right: '50%', width: `${(-c.net / maxChain) * 50}%`, background: 'var(--out-3)' }} />
                     </span>
-                    <span className="num text-right font-extrabold" style={{ color: c.net >= 0 ? 'var(--in-3)' : 'var(--out-3)' }}>{c.net >= 0 ? '▲ +' : '▼ −'}{usd(Math.abs(c.net))}</span>
+                    <span className="num text-right font-extrabold" style={{ color: c.net >= 0 ? 'var(--in-3)' : 'var(--flare)' }}>{c.net >= 0 ? '▲ +' : '▼ −'}{usd(Math.abs(c.net))}</span>
                   </li>
                 ))}
               </ul>

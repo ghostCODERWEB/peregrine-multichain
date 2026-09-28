@@ -126,6 +126,9 @@ export function PerpsTerminal({ symbol, coins, owner, positioning = [] }: { symb
 
   const cols = mark ? positionCols(mark) : [];
   const freshness = data ? ago(data.at) : null;
+  // Waiting shows an ellipsis; a load that failed shows n/a, not a figure that never arrives.
+  const wait = error && !data ? 'n/a' : '…';
+  const failed = !!error && !data;
 
   return (
     <div className="space-y-4">
@@ -136,6 +139,7 @@ export function PerpsTerminal({ symbol, coins, owner, positioning = [] }: { symb
             <Link prefetch={false} href="/perps" className="hover:text-ink">Perps</Link><Go /><span className="text-ink-2">{symbol}</span>
             {state.band && <><Go /><button type="button" className="text-ink-2 hover:text-ink" onClick={() => goTab('positions')}>Liq. {price(state.band.lo)} to {price(state.band.hi)}</button></>}
           </nav>
+          <h1 className="sr-only">{symbol} perpetual on Hyperliquid</h1>
           <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
             <label className="relative">
               <span className="sr-only">Coin</span>
@@ -172,11 +176,11 @@ export function PerpsTerminal({ symbol, coins, owner, positioning = [] }: { symb
       {/* ------------------------------------------------------------- metrics */}
       <ul className="stagger grid grid-cols-2 gap-px overflow-hidden rounded-[var(--r-inner)] border border-[var(--hair)] bg-[var(--hair)] sm:grid-cols-3 lg:grid-cols-6">
         {[
-          ['Observed exposure', data ? usd(crowd.totalUsd) : '…', `${filtered.length} positions`],
-          ['Long share', crowd.longShare == null ? '…' : pct(crowd.longShare, 0), crowd.longShare == null ? '' : `${usd(crowd.totalUsd * crowd.longShare)} long`],
-          ['Traders', data ? String(crowd.traders) : '…', filters.cohort === 'all' ? 'all observed' : COHORT_NAME[filters.cohort]],
-          ['Top 10 hold', crowd.top10Share == null ? '…' : pct(crowd.top10Share, 0), 'of observed exposure'],
-          ['Smart Money', !data ? '…' : available.includes('smart_money') ? usd(data.positions.filter((p) => p.cohorts.includes('smart_money')).reduce((a, p) => a + p.valueUsd, 0)) : 'owner view', available.includes('smart_money') && data ? `${new Set(data.positions.filter((p) => p.cohorts.includes('smart_money')).map((p) => p.address)).size} traders` : ''],
+          ['Observed exposure', data ? usd(crowd.totalUsd) : wait, `${filtered.length} positions`],
+          ['Long share', crowd.longShare == null ? wait : pct(crowd.longShare, 0), crowd.longShare == null ? '' : `${usd(crowd.totalUsd * crowd.longShare)} long`],
+          ['Traders', data ? String(crowd.traders) : wait, filters.cohort === 'all' ? 'all observed' : COHORT_NAME[filters.cohort]],
+          ['Top 10 hold', crowd.top10Share == null ? wait : pct(crowd.top10Share, 0), 'of observed exposure'],
+          ['Smart Money', !data ? wait : available.includes('smart_money') ? usd(data.positions.filter((p) => p.cohorts.includes('smart_money')).reduce((a, p) => a + p.valueUsd, 0)) : 'owner view', available.includes('smart_money') && data ? `${new Set(data.positions.filter((p) => p.cohorts.includes('smart_money')).map((p) => p.address)).size} traders` : ''],
           ['Conviction shift', changes && !('unavailable' in changes) && changes.shift[filters.cohort] ? changes.shift[filters.cohort]!.direction.replace('-', ' ') : 'n/a', `vs ${state.win} ago`],
         ].map(([k, v, note]) => (
           <li key={k} className="min-w-0 bg-[var(--surface-1)] px-3.5 py-2.5">
@@ -235,7 +239,9 @@ export function PerpsTerminal({ symbol, coins, owner, positioning = [] }: { symb
               {available.includes('smart_money') && <span className="flex items-center gap-1"><span className="h-1 w-3 rounded-[2px] bg-[var(--signal)]" />Smart Money</span>}
             </span>
           </div>
-          {!data || !mark ? (
+          {failed ? (
+            <p className="grid min-h-[442px] place-items-center text-center text-[13px] text-ink-muted">The radar fills in once positions load.</p>
+          ) : !data || !mark ? (
             <div className="space-y-1.5" aria-busy="true">{Array.from({ length: 16 }, (_, i) => <div key={i} className="h-[22px] animate-pulse rounded-[6px] bg-ink/5" style={{ width: `${40 + ((i * 37) % 55)}%` }} />)}</div>
           ) : (
             <LiquidationRadar positions={inEntry} mark={mark} bandPct={state.bandPct} window={state.range} selected={state.band} highlightLiq={hoverLiq} smAvailable={available.includes('smart_money')} onSelect={selectBand} />
@@ -279,7 +285,7 @@ export function PerpsTerminal({ symbol, coins, owner, positioning = [] }: { symb
             </button>
           ))}
         </div>
-        {!data || !mark ? <div className="h-40 animate-pulse rounded-[10px] bg-ink/5" /> : (
+        {failed ? <p className="grid h-40 place-items-center text-center text-[13px] text-ink-muted">Positions will list here once they load.</p> : !data || !mark ? <div className="h-40 animate-pulse rounded-[10px] bg-ink/5" /> : (
           <div role="tabpanel">
             {state.tab === 'positions' && (
               <DataTable rows={inBand} cols={cols} rowKey={(p) => `${p.address}:${p.side}`} initialSort={{ key: 'value', dir: -1 }} onRowHover={(p) => setHoverLiq(p?.liq ?? null)}

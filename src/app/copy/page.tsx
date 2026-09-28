@@ -61,10 +61,40 @@ const Section = ({ id, title, sub, className = '', children }: { id: string; tit
 );
 const Unavailable = ({ what, u }: { what: string; u: Un }) => <p className="py-3 text-[12.5px] text-ink-muted">{what} could not be read: {u.unavailable}</p>;
 
+/** What the owner's Copy Lab holds, for the public view's explainer. */
+const COPY_PANELS: Array<[string, string]> = [
+  ['Best to follow, every market', "Each market's own copy score, 0 to 100, for spot, perp and prediction traders side by side."],
+  ['Spot traders to follow', 'Nansen Smart Money PnL over 7, 30 or 90 days, ranked by copy score, with what the leaders are buying and where they agree.'],
+  ['Perp and prediction traders', 'Hyperliquid leaders over 30 days, and Polymarket winners rated by their lifetime record, not one market.'],
+  ['Followability', 'Whether copying a wallet works in practice: its buys replayed 15 minutes, 1 hour and 6 hours late, as a follower would enter.'],
+];
+
 /** Copy Lab: the profitable traders worth following, in spot, perps and prediction markets. */
 export default async function CopyLabPage({ searchParams }: { searchParams: Promise<{ m?: string; tf?: string; who?: string }> }) {
   const mode = await displayMode();
-  if (mode !== 'owner') return (<div className="space-y-5"><PageTitle title="Copy Lab" /><p className="material p-5 text-[13px] text-ink-2">Copy Lab is built on Smart Money data, shown only on this instance&apos;s owner view.</p></div>);
+  if (mode !== 'owner') return (
+    <div className="space-y-4">
+      <PageTitle title="Copy Lab" />
+      <section aria-labelledby="copy-private" className="material rise p-5 sm:p-6">
+        <h2 id="copy-private" className="t-section text-ink">Copy Lab is private</h2>
+        <p className="mt-2 max-w-[68ch] text-[13px] text-ink-2">
+          It ranks the traders worth following from Nansen Smart Money data, which Nansen&apos;s redistribution rules keep out of public
+          views: it is shown only on this instance&apos;s owner view.
+        </p>
+      </section>
+      <section aria-labelledby="copy-what" className="material rise p-5 sm:p-6">
+        <h2 id="copy-what" className="text-[15px] font-semibold text-ink">What Copy Lab shows</h2>
+        <dl className="mt-3 grid gap-3 sm:grid-cols-2">
+          {COPY_PANELS.map(([k, v]) => (
+            <div key={k} className="rounded-xl border border-border/70 bg-raised/50 p-3">
+              <dt className="text-[13px] font-medium text-ink">{k}</dt>
+              <dd className="mt-0.5 text-[12.5px] text-ink-2">{v}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+    </div>
+  );
 
   const q = await searchParams;
   const m: Market = (MARKETS as readonly string[]).includes(q.m ?? '') ? (q.m as Market) : 'all';

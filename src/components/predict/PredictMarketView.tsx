@@ -157,7 +157,7 @@ export function PredictMarketView({ market, detail, outcomes, owner, analytics }
                   <li key={`${r.address}:${r.side}:${i}`} className="flex items-center gap-2 py-1.5">
                     <SideTag side={r.side} up={sideUp(r.side, outcomeOf.get(r.side))} />
                     <span className="min-w-0 flex-1"><AddressLink address={r.address} /></span>
-                    {r.skilled && <span className="rounded bg-[color-mix(in_srgb,var(--signal)_16%,transparent)] px-1.5 text-[10.5px] font-bold text-[var(--signal)]">skilled</span>}
+                    {r.skilled && <span className="rounded bg-[color-mix(in_srgb,var(--signal)_12%,transparent)] px-1.5 text-[10.5px] font-bold text-[var(--signal)]">skilled</span>}
                     <span className="num text-ink-2">{r.marketsTraded ?? 'n/a'} mkts · {pct(r.winRate, 0)} won</span>
                     <span className="num w-20 text-right" style={{ color: (r.totalPnlUsd ?? 0) >= 0 ? 'var(--mint)' : 'var(--flare)' }}>{usd(r.totalPnlUsd, { signed: true })}</span>
                   </li>

@@ -69,7 +69,7 @@ function Leader({ row, rank }: { row: AlphaRow; rank: number }) {
         <ul className="mt-2 hidden space-y-0.5 text-[12px] text-ink-2 sm:block">
           {row.parts.slice(0, 3).map((p) => (
             <li key={p.id}>
-              <span className={`num ${p.points >= 0 ? 'text-brand' : 'text-out-3'}`}>
+              <span className={`num ${p.points >= 0 ? 'text-brand' : 'text-[var(--flare)]'}`}>
                 {p.points > 0 ? '+' : ''}
                 {p.points}
               </span>{' '}
@@ -128,7 +128,7 @@ export function AlphaView({ board }: { board: AlphaBoard }) {
                   {chainName(c)}
                 </span>
               )}{' '}
-              <span className="num text-ink-muted">{n}</span>
+              <span className={`num ${chain === c ? 'text-ink-2' : 'text-ink-muted'}`}>{n}</span>
             </button>
           ))}
         </div>
@@ -171,7 +171,7 @@ export function AlphaView({ board }: { board: AlphaBoard }) {
                       {chainName(r.chain)}
                     </div>
                   </td>
-                  <td className="num py-1.5 pr-2 text-right" style={{ color: (r.flowShare ?? 0) >= 0 ? 'var(--in-3)' : 'var(--out-3)' }}>
+                  <td className="num py-1.5 pr-2 text-right" style={{ color: (r.flowShare ?? 0) >= 0 ? 'var(--in-3)' : 'var(--flare)' }}>
                     {r.flowShare != null ? pct(r.flowShare, 1) : 'n/a'}
                   </td>
                   <td className="py-1.5 pr-2">

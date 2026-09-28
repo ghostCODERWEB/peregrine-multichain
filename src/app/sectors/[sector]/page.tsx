@@ -8,7 +8,7 @@ import { ChainLogo } from '@/components/Logo';
 import { NetFlowBars } from '@/components/sectors/NetFlowBars';
 import { sectorDetail, type SectorWindowReading } from '@/server/sectors/detail';
 import { displayMode, viewOf } from '@/server/mode';
-import { chainName, num, pct, usd } from '@/lib/viz/format';
+import { chainName, num, pct, spanOf, usd } from '@/lib/viz/format';
 import type { SectorMover } from '@/lib/models/sector-flows';
 import { Go } from '@/components/ui/Icons';
 
@@ -101,7 +101,7 @@ export default async function SectorPage({ params }: { params: Promise<{ sector:
       />
 
       <div className="grid gap-4 xl:grid-cols-3">
-        <Card id="history" title="24h net flow, last 7 days" sub="One bar per scan · up is net buying · hover a bar for its value" className="xl:col-span-2">
+        <Card id="history" title={`24h net flow, last ${spanOf(d.history.map((x) => x.t), 7)}`} sub="One bar per scan · up is net buying · hover a bar for its value" className="xl:col-span-2">
           <NetFlowBars points={d.history} label={`${name} 24h net flow`} />
         </Card>
         <Card id="members" title="Where its tokens trade" sub="Tokens in this sector per chain">

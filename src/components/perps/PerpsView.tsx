@@ -7,6 +7,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Card, WaveLoading, Unavailable } from '@/components/Card';
 import { MiniLines } from '@/components/charts/Mini';
 import { InfoPopover } from '@/components/InfoPopover';
+import { SHOW_RECEIPTS } from '@/lib/provenance';
 import { ScoreRing } from '@/components/viz/ScoreRing';
 import { LiquidationLadder, leverageTitle } from '@/components/token/Visuals';
 import { pct, usd, num, walletName, ago } from '@/lib/viz/format';
@@ -59,7 +60,8 @@ function Hero({ b, title, mode }: { b: PerpBoard; title: string; mode: 'owner' |
   return (
     <section aria-labelledby="perps-title" className="material rise relative overflow-hidden p-5 sm:p-7">
       <div className="relative flex flex-col gap-5 lg:flex-row lg:items-start">
-        <div className="hero-seq min-w-0 flex-1">
+        {/* Wide screens: the headline at the top and the figures on the bottom line of the gauge card beside it. */}
+        <div className="hero-seq min-w-0 flex-1 lg:flex lg:flex-col lg:self-stretch">
           <div className="flex flex-wrap items-center gap-2 text-[12px] text-ink-2">
             <span className="rounded border border-border px-2 py-0.5">Hyperliquid</span>
             <span className="rounded border border-border px-2 py-0.5">{mode === 'public' ? 'All traders' : 'With smart money'}</span>
@@ -73,14 +75,15 @@ function Hero({ b, title, mode }: { b: PerpBoard; title: string; mode: 'owner' |
             {title}
           </h1>
           {v && (
-            <dl className="stagger mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
+            <dl className="stagger mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4 lg:mt-auto lg:pt-4">
               {[
                 ['Open interest', usd(v.openInterest)],
                 ['Median funding, yearly', v.fundingMedianApr != null ? pct(v.fundingMedianApr, 1) : 'n/a'],
-                ['Taker flow, 24h', v.takerAll != null ? `${signedPct(v.takerAll)} net buy` : 'n/a'],
+                // A negative net buy reads as what it is: net selling.
+                ['Taker flow, 24h', v.takerAll != null ? (v.takerAll >= 0 ? `${signedPct(v.takerAll)} net buy` : `${pct(-v.takerAll, 1)} net sell`) : 'n/a'],
                 mode === 'public'
                   ? ['Coins scored', String(b.coins.filter((c) => c.ppi != null).length)]
-                  : ['Smart money book', v.smSkew != null ? `${signedPct(v.smSkew, 0)} long skew` : 'n/a'],
+                  : ['Smart money book', v.smSkew != null ? (v.smSkew >= 0 ? `${signedPct(v.smSkew, 0)} long skew` : `${pct(-v.smSkew, 0)} short skew`) : 'n/a'],
               ].map(([k, val]) => (
                 <div key={k} className="inset-well min-w-0 rounded-[18px] px-4 py-3">
                   <dt className="text-[12.5px] font-medium text-ink-muted">{k}</dt>
@@ -105,9 +108,11 @@ function Hero({ b, title, mode }: { b: PerpBoard; title: string; mode: 'owner' |
           )}
         </div>
       </div>
-      <div className="relative mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-border/60 pt-3 text-[11.5px] text-ink-muted">
-        {b.provenance && <InfoPopover p={b.provenance} />}
-      </div>
+      {SHOW_RECEIPTS && b.provenance && (
+        <div className="relative mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-border/60 pt-3 text-[11.5px] text-ink-muted">
+          <InfoPopover p={b.provenance} />
+        </div>
+      )}
     </section>
   );
 }

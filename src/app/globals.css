@@ -338,6 +338,17 @@ tr[data-analyze-selected] { background: color-mix(in srgb, var(--signal) 10%, tr
 
 .mood-normal .mood-word, .mood-normal .mood-icon { color: #5ef0c0; }
 
+/* Paper theme: the same moods in inks that read on light cards (the neon above is made for navy). */
+:root:not(.dark) .mood-normal .mood-word, :root:not(.dark) .mood-normal .mood-icon { color: var(--mint); }
+:root:not(.dark) .mood-hot .mood-word { background-image: linear-gradient(90deg, #b45309, #c2410c, #be123c, #c2410c, #b45309); }
+:root:not(.dark) .mood-hot .mood-icon { color: #c2410c; filter: drop-shadow(0 0 4px rgba(194,65,12,.35)); }
+:root:not(.dark) .mood-quiet .mood-word { background-image: linear-gradient(90deg, #075985, #0284c7, #075985); }
+:root:not(.dark) .mood-quiet .mood-icon { color: #0369a1; filter: drop-shadow(0 0 4px rgba(3,105,161,.3)); }
+:root:not(.dark) :is(.mood-hot, .mood-quiet) .mood-num { color: var(--ink-1); }
+:root:not(.dark) .mood-hot .ms1 { stop-color: #d97706; } :root:not(.dark) .mood-hot .ms2 { stop-color: #ea580c; } :root:not(.dark) .mood-hot .ms3 { stop-color: #e11d48; }
+:root:not(.dark) .mood-quiet .ms1 { stop-color: #38bdf8; } :root:not(.dark) .mood-quiet .ms2 { stop-color: #0284c7; } :root:not(.dark) .mood-quiet .ms3 { stop-color: #1d4ed8; }
+:root:not(.dark) .mood-normal .ms1 { stop-color: #00a36c; } :root:not(.dark) .mood-normal .ms3 { stop-color: #006b46; }
+
 @media (prefers-reduced-motion: no-preference) {
   .mood-hot .mood-word { animation: mood-shimmer 2.2s linear infinite; }
   .mood-hot .mood-icon { animation: mood-flicker 1.1s ease-in-out infinite alternate; }
@@ -619,7 +630,9 @@ a.m-row:active { background-color: color-mix(in srgb, var(--ink-1) 7%, transpare
 .m-badge { display: inline-flex; align-items: center; gap: 3px; height: 24px; padding: 0 8px; border-radius: 999px; font-size: 12.5px; font-weight: 800; font-variant-numeric: tabular-nums; }
 .m-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
 .m-tile { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; padding: 12px 6px; border-radius: 18px; background: var(--surface-1); border: 1px solid var(--hair); transition: transform .2s cubic-bezier(.2,.8,.2,1); -webkit-tap-highlight-color: transparent; }
-.m-tile-icon { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 11px; }
+.m-tile-icon { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 11px; color: var(--tint); background: color-mix(in srgb, var(--tint) 16%, transparent); }
+/* Paper theme: the bright tints deepened so the icons hold up on light tiles. */
+:root:not(.dark) .m-tile-icon { color: color-mix(in srgb, var(--tint) 55%, #000); background: color-mix(in srgb, var(--tint) 22%, transparent); }
 .m-tile-label { font-size: 11.5px; font-weight: 600; color: var(--ink-1); line-height: 1.2; }
 .m-proof { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 2px 0 0; font-size: 12.5px; font-weight: 600; color: var(--ink-muted); }
 @media (prefers-reduced-motion: reduce) { .m-hero, .m-card, .m-tile, .m-inline-title { transition: none; } }

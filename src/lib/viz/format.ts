@@ -37,6 +37,17 @@ export function ago(ts: number | null | undefined, now = Date.now()): string {
   return `${Math.round(s / 86400)}d ago`;
 }
 
+/** How much time a chart really covers, for its title: the full window ("7 days") once the history spans
+ *  it, else what there is ("18 hours", "3 days"), so a young history never claims a week. */
+export function spanOf(times: number[], days: number): string {
+  const t = times.filter(Number.isFinite);
+  const span = t.length > 1 ? Math.max(...t) - Math.min(...t) : 0;
+  if (span >= (days - 0.5) * 86_400_000) return `${days} days`;
+  const h = Math.max(1, Math.round(span / 3_600_000));
+  if (h < 48) return `${h} hour${h === 1 ? '' : 's'}`;
+  return `${Math.round(h / 24)} days`;
+}
+
 const CONTROL = /[\u0000-\u001F\u007F]/g;
 
 export function shortAddress(raw: string): string {

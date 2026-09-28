@@ -5,7 +5,7 @@ import { HistoryLines, RankBars } from '@/components/charts/IntelCharts';
 import { InsightPanel } from '@/components/pulse/MarketPulse';
 import { perpsAnalytics } from '@/server/insights';
 import type { DisplayMode } from '@/server/mode';
-import { usd } from '@/lib/viz/format';
+import { spanOf, usd } from '@/lib/viz/format';
 
 /** The Perps page's analytical overview: insights with a Nansen brief, then OI, price and funding movers and the Smart Money book. */
 export function PerpsAnalytics({ mode }: { mode: DisplayMode }) {
@@ -15,8 +15,8 @@ export function PerpsAnalytics({ mode }: { mode: DisplayMode }) {
     <div className="space-y-4">
       <InsightPanel id="perps-pulse" title="Perps pulse" items={a.insights} briefKey="perps" mode={mode} />
       <div className="grid gap-4 xl:grid-cols-3">
-        <Card id="perps-oi-history" title="Hyperliquid open interest, 7 days" className="xl:col-span-2">
-          <HistoryLines series={[{ name: 'Open interest', points: a.oiHistory }]} label="Hyperliquid total open interest over 7 days" height={250} />
+        <Card id="perps-oi-history" title={`Hyperliquid open interest, ${spanOf(a.oiHistory.map((p) => p[0]), 7)}`} className="xl:col-span-2">
+          <HistoryLines series={[{ name: 'Open interest', points: a.oiHistory }]} label={`Hyperliquid total open interest over ${spanOf(a.oiHistory.map((p) => p[0]), 7)}`} height={250} />
         </Card>
         <Card id="perps-oi-movers" title="Open interest change, 24h" sub="Coins over $5M OI · select to open">
           <RankBars rows={a.oiMovers} format="pct" label="Largest 24h open interest changes" />

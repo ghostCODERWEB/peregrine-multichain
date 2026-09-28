@@ -231,7 +231,7 @@ export function ChainRank({ chain, rows }: { chain: string; rows: PeerRow[] }) {
         {ordered.map(({ m, label, r }) => (
           <button key={m} role="tab" aria-selected={metric === m} onClick={() => setMetric(m)}
             className={`rounded px-2.5 py-0.5 text-[12px] ${metric === m ? 'bg-brand/15 text-ink ring-1 ring-brand/40' : 'text-ink-2 hover:text-ink'}`}>
-            {label}{r > 0 && <span className="num ml-1 text-ink-muted">#{r}</span>}
+            {label}{r > 0 && <span className={`num ml-1 ${metric === m ? 'text-ink-2' : 'text-ink-muted'}`}>#{r}</span>}
           </button>
         ))}
       </div>
@@ -241,7 +241,7 @@ export function ChainRank({ chain, rows }: { chain: string; rows: PeerRow[] }) {
           const place = i < 12 ? i + 1 : at + 1;
           return (
             <li key={r.chain} className={`grid grid-cols-[26px_92px_1fr_70px_48px] items-center gap-2 rounded-md px-1 py-[3px] text-[12px] ${me ? 'bg-brand/12 ring-1 ring-brand/40' : ''} ${i === 12 ? 'mt-2 border-t border-dashed border-border pt-2' : ''}`}>
-              <span className="num text-right text-ink-muted">{place}</span>
+              <span className={`num text-right ${me ? 'text-ink-2' : 'text-ink-muted'}`}>{place}</span>
               <Link prefetch={false} href={`/chain/${r.chain}`} className={`truncate ${me ? 'font-semibold text-ink' : 'text-ink-2 hover:text-ink'}`}>{chainName(r.chain)}</Link>
               <span className="relative h-[12px]">
                 <span className="absolute inset-y-0 left-0 rounded-r-[4px]" style={{ width: `${Math.max(0.8, (r[metric] / peak) * 100)}%`, background: me ? 'var(--brand)' : 'var(--axis)' }} />

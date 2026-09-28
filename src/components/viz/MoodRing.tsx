@@ -20,9 +20,9 @@ export function MoodRing({ score, mood, word, detail, label, size = 124 }: { sco
         <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="relative -rotate-90" aria-hidden>
           <defs>
             <linearGradient id={grad} x1="0" y1="0" x2="1" y2="1">
-              {mood === 'hot' ? (<><stop offset="0%" stopColor="#ffd84d" /><stop offset="45%" stopColor="#ff7a1a" /><stop offset="100%" stopColor="#ff2d55" /></>)
-                : mood === 'quiet' ? (<><stop offset="0%" stopColor="#e3f6ff" /><stop offset="55%" stopColor="#7cc8ff" /><stop offset="100%" stopColor="#3b82f6" /></>)
-                : (<><stop offset="0%" stopColor="#5ef0c0" /><stop offset="100%" stopColor="#1fb58a" /></>)}
+              {mood === 'hot' ? (<><stop className="ms1" offset="0%" stopColor="#ffd84d" /><stop className="ms2" offset="45%" stopColor="#ff7a1a" /><stop className="ms3" offset="100%" stopColor="#ff2d55" /></>)
+                : mood === 'quiet' ? (<><stop className="ms1" offset="0%" stopColor="#e3f6ff" /><stop className="ms2" offset="55%" stopColor="#7cc8ff" /><stop className="ms3" offset="100%" stopColor="#3b82f6" /></>)
+                : (<><stop className="ms1" offset="0%" stopColor="#5ef0c0" /><stop className="ms3" offset="100%" stopColor="#1fb58a" /></>)}
             </linearGradient>
           </defs>
           <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="var(--grid)" strokeWidth={stroke} />

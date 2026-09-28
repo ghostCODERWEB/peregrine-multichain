@@ -9,6 +9,7 @@ import { Go } from '@/components/ui/Icons';
 import { MoodRing, MoodWord } from '@/components/viz/MoodRing';
 import { Card, WaveLoading, Unavailable } from '@/components/Card';
 import { InfoPopover } from '@/components/InfoPopover';
+import { SHOW_RECEIPTS } from '@/lib/provenance';
 import { LaterBody } from '@/components/LaterBody';
 import { usd, num, ago, shortAddress } from '@/lib/viz/format';
 import { heatLabel, impliedPct, categoryHeat, isMover } from '@/lib/models/predict';
@@ -164,16 +165,15 @@ export function PredictView({ board, title, analytics, series = {} }: { board: P
     <div className="space-y-4">
       <section aria-labelledby="pm-title" className="material rise relative overflow-hidden p-5 sm:p-7">
         <div className="relative flex flex-col gap-5 lg:flex-row lg:items-start">
-          <div className="hero-seq min-w-0 flex-1">
+          {/* Wide screens: the headline at the top and the figures on the bottom line of the heat card beside it. */}
+          <div className="hero-seq min-w-0 flex-1 lg:flex lg:flex-col lg:self-stretch">
             <div className="flex flex-wrap items-center gap-2 text-[12px] text-ink-2">
               <span className="rounded border border-border px-2 py-0.5">Polymarket via Nansen</span>
-              <span className="num text-ink-muted">
-              </span>
             </div>
             <h1 id="pm-title" className="t-headline mt-1.5 text-ink">
               {title}
             </h1>
-            <dl className="stagger mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
+            <dl className="stagger mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4 lg:mt-auto lg:pt-4">
               {[
                 ['Open interest', usd(t.openInterest)],
                 ['24h volume', usd(t.volume24h)],
@@ -198,9 +198,11 @@ export function PredictView({ board, title, analytics, series = {} }: { board: P
             )}
           </div>
         </div>
-        <div className="relative mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-border/60 pt-3 text-[11.5px] text-ink-muted">
-          <InfoPopover p={board.provenance} />
-        </div>
+        {SHOW_RECEIPTS && board.provenance && (
+          <div className="relative mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-border/60 pt-3 text-[11.5px] text-ink-muted">
+            <InfoPopover p={board.provenance} />
+          </div>
+        )}
       </section>
       {analytics}
 

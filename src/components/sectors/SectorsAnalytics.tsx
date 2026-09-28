@@ -5,7 +5,7 @@ import { HistoryLines, RankBars } from '@/components/charts/IntelCharts';
 import { InsightPanel } from '@/components/pulse/MarketPulse';
 import { sectorsAnalytics } from '@/server/insights';
 import type { DisplayMode } from '@/server/mode';
-import { chainName, usd } from '@/lib/viz/format';
+import { chainName, spanOf, usd } from '@/lib/viz/format';
 
 /** The Sectors page's analytical overview: insights with a Nansen brief, net flow ranking, 24h swings, flow history and the tokens driving it. */
 export function SectorsAnalytics({ mode }: { mode: DisplayMode }) {
@@ -18,8 +18,8 @@ export function SectorsAnalytics({ mode }: { mode: DisplayMode }) {
         <Card id="sector-ranking" title="Net flow by sector, 24h" sub="Select a bar to open the sector">
           <RankBars rows={a.ranking} label="Net flow per sector in 24 hours" />
         </Card>
-        <Card id="sector-history" title="Net flow over 7 days, most active sectors" sub="Rolling 24h net flow at each scan · select a line" className="xl:col-span-2">
-          <HistoryLines series={a.history.map((h) => ({ ...h, href: `/sectors/${encodeURIComponent(h.name)}` }))} zeroLine label="Rolling 24-hour net flow for the most active sectors over 7 days" height={300} />
+        <Card id="sector-history" title={`Net flow over ${spanOf(a.history.flatMap((h) => h.points.map((p) => p[0])), 7)}, most active sectors`} sub="Rolling 24h net flow at each scan · select a line" className="xl:col-span-2">
+          <HistoryLines series={a.history.map((h) => ({ ...h, href: `/sectors/${encodeURIComponent(h.name)}` }))} zeroLine label={`Rolling 24-hour net flow for the most active sectors over ${spanOf(a.history.flatMap((h) => h.points.map((p) => p[0])), 7)}`} height={300} />
         </Card>
       </div>
       <div className="grid gap-4 xl:grid-cols-3">
