@@ -247,7 +247,7 @@ function TraderAnalytics({ d }: { d: TraderWorkspace }) {
       hourly: { ...base, grid: { left: 36, right: 12, top: 10, bottom: 24 }, tooltip: { ...base.tooltip, trigger: 'axis' }, xAxis: { type: 'category', data: d.hourly.map((_, i) => `${i}h`), ...ax }, yAxis: { type: 'value', ...ax }, series: [{ type: 'bar', data: d.hourly, itemStyle: { color: c['ink-2'] }, barMaxWidth: 10 }] },
     };
   }, [c, d]);
-  const card = (title: string, sub: string, o: unknown, h = 220) => <div className="material min-w-0 p-3.5"><h3 className="text-[13px] font-bold text-ink">{title}</h3><p className="mb-1 text-[11px] text-ink-muted">{sub}</p>{o ? <EChart option={o as never} height={h} ariaLabel={title} /> : null}</div>;
+  const card = (title: string, sub: string, o: unknown, h = 220) => <div className="material min-w-0 p-3.5"><h3 className="text-[13px] font-bold text-ink">{title}</h3><p className="mb-1 text-[11px] text-ink-muted">{sub}</p><EChart option={(o ?? null) as never} height={h} ariaLabel={title} /></div>;
   return (
     <div className="space-y-3">
       <ul className="grid grid-cols-2 gap-px overflow-hidden rounded-[var(--r-inner)] border border-[var(--hair)] bg-[var(--hair)] sm:grid-cols-4 xl:grid-cols-8">

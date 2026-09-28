@@ -1,5 +1,6 @@
 'use client';
 import { useEffect } from 'react';
+import { isHydrated as hydrated } from '@/lib/hydration';
 
 // Decorative animations that loop forever: shimmering mood words, flames, the live dot, the Analyze glow,
 // the Nansen sheen, the ticker, skeleton pulses, the 404 scene.
@@ -7,8 +8,6 @@ const LOOPING = '.live-dot, .analyze-glow, .mood-word, .mood-icon, .mood-arc, .g
 // SVGs whose particles move with SMIL (<animateMotion>): the flow rings and capital-flow maps.
 const SMIL = 'svg:has(animateMotion, animate, animateTransform)';
 const ANY = `${LOOPING}, ${SMIL}`;
-// React sets a fiber reference on a node once it has hydrated it (see MotionObserver).
-const hydrated = (el: Element) => Object.keys(el).some((k) => k.startsWith('__reactFiber'));
 
 /** Pauses looping animations while they are off screen, and resumes them as they scroll back in.
  *  Off-screen CSS animations and SMIL particles otherwise keep repainting every frame (Predict alone
@@ -17,14 +16,14 @@ export function OffscreenPause() {
   useEffect(() => {
     if (typeof IntersectionObserver === 'undefined') return;
     const seen = new WeakSet<Element>();
+    // CSS loops restart where they were, so they resume a little ahead of the screen edge.
     const io = new IntersectionObserver((entries) => {
-      for (const e of entries) {
-        const el = e.target;
-        if (el instanceof SVGSVGElement && el.matches(SMIL)) {
-          if (e.isIntersecting) el.unpauseAnimations(); else el.pauseAnimations();
-        } else el.toggleAttribute('data-offscreen', !e.isIntersecting);
-      }
+      for (const e of entries) e.target.toggleAttribute('data-offscreen', !e.isIntersecting);
     }, { rootMargin: '100px 0px' });
+    // SMIL particles repaint their whole map each frame and resume without a jump: they run only while on screen.
+    const smil = new IntersectionObserver((entries) => {
+      for (const e of entries) { const svg = e.target as SVGSVGElement; if (e.isIntersecting) svg.unpauseAnimations(); else svg.pauseAnimations(); }
+    });
 
     // Only new content is searched (a whole-page :has() query on every DOM change was measurable on long
     // pages). Marking an element React has not hydrated yet would make its markup differ from the server's:
@@ -35,7 +34,8 @@ export function OffscreenPause() {
     const take = (el: Element) => {
       if (seen.has(el)) return;
       if (!hydrated(el)) { waiting.add(el); return; }
-      waiting.delete(el); seen.add(el); io.observe(el);
+      waiting.delete(el); seen.add(el);
+      if (el instanceof SVGSVGElement && el.matches(SMIL)) smil.observe(el); else io.observe(el);
     };
     const scan = () => {
       for (const r of roots) { if (r.matches(ANY)) take(r); r.querySelectorAll(ANY).forEach(take); }
@@ -52,7 +52,7 @@ export function OffscreenPause() {
     roots.add(document.body);
     later();
     mo.observe(document.body, { childList: true, subtree: true });
-    return () => { io.disconnect(); mo.disconnect(); window.clearTimeout(t); };
+    return () => { io.disconnect(); smil.disconnect(); mo.disconnect(); window.clearTimeout(t); };
   }, []);
   return null;
 }

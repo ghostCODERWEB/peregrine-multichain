@@ -38,10 +38,20 @@ function barFor(host: HTMLElement): HTMLElement | null {
 
 const out = (r: HTMLElement, v: boolean) => r.toggleAttribute('data-paged-out', v);
 
-/** Where the bar goes: below the table's scroll box when it has one, else right after the list. */
-const boxOf = (host: HTMLElement): HTMLElement => (host.parentElement && host instanceof HTMLTableElement && getComputedStyle(host.parentElement).overflowX !== 'visible' ? host.parentElement : host);
+/** Where the bar goes: below the table's scroll box when it has one, else right after the list.
+ *  Kept per list (while its parent stays the same): reading computed style between the pager's own
+ *  changes made the browser restyle the page once per list. */
+const boxes = new WeakMap<HTMLElement, { parent: Element | null; box: HTMLElement }>();
+function boxOf(host: HTMLElement): HTMLElement {
+  const known = boxes.get(host);
+  if (known && known.parent === host.parentElement) return known.box;
+  const box = host.parentElement && host instanceof HTMLTableElement && getComputedStyle(host.parentElement).overflowX !== 'visible' ? host.parentElement : host;
+  boxes.set(host, { parent: host.parentElement, box });
+  return box;
+}
 
-function apply(host: HTMLElement, opts: { resetPage?: boolean; scroll?: boolean } = {}): boolean {
+/** `width` is the list box's width when the caller measured it already (all lists are measured before any is changed). */
+function apply(host: HTMLElement, opts: { resetPage?: boolean; scroll?: boolean; width?: number } = {}): boolean {
   // Streamed sections arrive as HTML before React hydrates them: wait until React is done with this one
   // (an early bar or changed row is a hydration error that re-renders the section on the client).
   const all = itemsOf(host);
@@ -76,7 +86,7 @@ function apply(host: HTMLElement, opts: { resetPage?: boolean; scroll?: boolean 
   bar.setAttribute('aria-label', `Pages: ${label}`);
   // A narrow column (a side panel) gets ‹ 3 / 16 › instead of a row of page numbers.
   // Measured on the list's own box: 0 means not laid out (a hidden tab), which is not narrow.
-  const boxWidth = boxOf(host).getBoundingClientRect().width;
+  const boxWidth = opts.width ?? boxOf(host).getBoundingClientRect().width;
   const narrow = boxWidth > 0 && boxWidth < 360;
   const btn = (p: number, text: string, extra = '') => `<button type="button" data-go="${p}" ${extra}>${text}</button>`;
   const numbers = narrow
@@ -113,7 +123,10 @@ export function Pager() {
     const run = () => {
       queued = false;
       let pending = false;
-      document.querySelectorAll<HTMLElement>(SELECTOR).forEach((el) => { if (!apply(el)) pending = true; });
+      // Every measurement first, then every change: one layout for the whole pass, not one per list.
+      const hosts = [...document.querySelectorAll<HTMLElement>(SELECTOR)];
+      const widths = hosts.map((el) => boxOf(el).getBoundingClientRect().width);
+      hosts.forEach((el, i) => { if (!apply(el, { width: widths[i] })) pending = true; });
       clearTimeout(retry);
       if (pending) retry = setTimeout(run, 250);
     };

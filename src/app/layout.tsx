@@ -59,7 +59,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <SiteHeader />
           <TabBar />
           <div className="pt-[68px] lg:pl-[256px] lg:pt-0">
-            <main className="mx-auto max-w-[1600px] px-4 3xl:max-w-[2000px] 3xl:px-8 pb-[104px] pt-2 lg:pb-16 lg:px-[14px] lg:pt-3"><div className="mb-2 flex items-center gap-4"><Suspense><WorkspaceBar /></Suspense><Suspense><MarketStrip /></Suspense></div>{children}<Suspense><PublicAttribution /></Suspense></main>
+            <main className="mx-auto max-w-[1600px] px-4 3xl:max-w-[2000px] 3xl:px-8 pb-[104px] pt-2 lg:pb-16 lg:px-[14px] lg:pt-3"><div className="mb-2 flex items-center gap-4 lg:min-h-8"><Suspense><WorkspaceBar /></Suspense><Suspense><MarketStrip /></Suspense></div>{children}<Suspense><PublicAttribution /></Suspense></main>
           </div>
         </Providers>
       </body>

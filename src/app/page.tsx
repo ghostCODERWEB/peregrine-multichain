@@ -8,6 +8,7 @@ import { OverviewIntel } from '@/components/weather/OverviewIntel';
 import { RiskRadar } from '@/components/weather/RiskRadar';
 import { MobileHome } from '@/components/mobile/MobileHome';
 import { isPhone } from '@/server/device';
+import { forClient } from '@/lib/provenance';
 
 export const dynamic = 'force-dynamic';
 
@@ -21,7 +22,7 @@ export default async function Home() {
   return (
     <>
       <div className="lg:hidden"><MobileHome mode={mode} chains={bulletin.chains} /></div>
-      <div className="max-lg:hidden"><WeatherView initial={bulletin} anchor={latestReport(subjectKey('bulletin', mode))} alpha={<AlphaStrip rows={alpha.rows} />} intel={<><RiskRadar mode={mode} /><OverviewIntel mode={mode} /></>} /></div>
+      <div className="max-lg:hidden"><WeatherView initial={forClient(bulletin)} anchor={latestReport(subjectKey('bulletin', mode))} alpha={<AlphaStrip rows={alpha.rows} />} intel={<><RiskRadar mode={mode} /><OverviewIntel mode={mode} /></>} /></div>
     </>
   );
 }

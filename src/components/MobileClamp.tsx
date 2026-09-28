@@ -17,6 +17,9 @@ export function MobileClamp() {
       const limit = Math.max(540, innerHeight * 0.65);
       // Hydration finishing changes no DOM, so no mutation would bring us back: retry until every panel is ready.
       let pending = false;
+      // Every panel is measured before any is folded: one layout for the pass, not one per panel. Folding a
+      // panel only moves panels below it, which are already off the first screen, so the checks don't change.
+      const fold: HTMLElement[] = [];
       for (const s of document.querySelectorAll<HTMLElement>('main .material, main [data-clamp-me]')) {
         if (s.dataset.clamp || s.parentElement?.closest('.material, [data-clamp]')) continue;
         // The button goes inside the panel: only once React has finished hydrating it (see hydratedPast).
@@ -30,6 +33,9 @@ export function MobileClamp() {
         if (s.querySelector('table[data-sortable], table[data-page], .m-list, [data-paged]')) continue;
         // Never fold a form: its submit button would end up under the fade (a call could be filled in and not locked).
         if (s.querySelector('form, input:not([type=hidden]), select, textarea, [role=radiogroup]')) continue;
+        fold.push(s);
+      }
+      for (const s of fold) {
         s.dataset.clamp = 'closed';
         const btn = document.createElement('button');
         btn.type = 'button';

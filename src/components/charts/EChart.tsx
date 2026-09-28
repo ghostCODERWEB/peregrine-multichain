@@ -2,6 +2,7 @@
 import dynamic from 'next/dynamic';
 import { useEffect, useRef, useState } from 'react';
 import type { EChartsOption } from 'echarts';
+import { afterHydration } from '@/lib/hydration';
 
 // ECharts touches `window` at import; load it client-side only, and only the parts Peregrine registers
 // (./echarts-core) instead of the full library that echarts-for-react's default entry pulls in.
@@ -27,9 +28,15 @@ export function EChart({ option, height, ariaLabel, onEvents }: { option: EChart
     const el = box.current;
     if (near || !el) return;
     if (typeof IntersectionObserver === 'undefined') { setNear(true); return; }
-    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setNear(true); io.disconnect(); } }, { rootMargin: '300px 0px' });
-    io.observe(el);
-    return () => io.disconnect();
+    // On screen: now. Just below it: once the page has loaded (or sooner if scrolled to), so a chart nobody
+    // sees yet does not start ECharts, a large module, inside the first load.
+    let stop = () => {};
+    const show = () => setNear(true);
+    const seen = new IntersectionObserver(([e]) => { if (e.isIntersecting) show(); });
+    const ahead = new IntersectionObserver(([e]) => { if (e.isIntersecting) { ahead.disconnect(); stop = afterHydration(show); } }, { rootMargin: '300px 0px' });
+    seen.observe(el);
+    ahead.observe(el);
+    return () => { seen.disconnect(); ahead.disconnect(); stop(); };
   }, [near]);
   return (
     <div ref={box} role="img" aria-label={ariaLabel} style={{ height }}>

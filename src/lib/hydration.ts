@@ -12,11 +12,22 @@ type Fiber = { tag?: number; return?: Fiber | null; memoizedState?: { dehydrated
 
 const SUSPENSE = 13; // React's SuspenseComponent work tag
 
+// React names the property `__reactFiber$<random>`, the same for every node of the app: found once, then read directly
+// (listing every node's own keys was a measurable share of these checks on long pages).
+let fiberKey: string | null = null;
+
 function fiberOf(el: Element | null | undefined): Fiber | null {
   if (!el) return null;
+  const node = el as unknown as Record<string, Fiber | undefined>;
+  if (fiberKey) return node[fiberKey] ?? null;
   const key = Object.keys(el).find((k) => k.startsWith('__reactFiber'));
-  return key ? ((el as unknown as Record<string, Fiber>)[key] ?? null) : null;
+  if (!key) return null;
+  fiberKey = key;
+  return node[key] ?? null;
 }
+
+/** React has hydrated (or rendered) this node. */
+export const isHydrated = (el: Element): boolean => fiberOf(el) != null;
 
 /** Hydrated, and not inside a section React is still hydrating (or abandoned and will retry). */
 function settled(el: Element | null | undefined): boolean {
