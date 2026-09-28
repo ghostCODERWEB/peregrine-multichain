@@ -38,6 +38,36 @@ function barFor(host: HTMLElement): HTMLElement | null {
 
 const out = (r: HTMLElement, v: boolean) => r.toggleAttribute('data-paged-out', v);
 
+/** The current page's green lens, one per bar, kept across rewrites of the bar so it can travel: it slides from
+ *  the page it was on to the new one with the phone tab bar's spring, stretching along the way and settling
+ *  back into shape as it lands (TabBar's lens). */
+const lenses = new WeakMap<HTMLElement, { el: HTMLSpanElement; x: number }>();
+function placeLens(bar: HTMLElement, travel = true) {
+  const pages = bar.querySelector<HTMLElement>('.pager-pages');
+  const cur = pages?.querySelector<HTMLElement>('button[aria-current="page"]');
+  let lens = lenses.get(bar);
+  // Nothing to sit under, or not laid out (a hidden tab): no lens, and the button shows its own green bubble.
+  if (!pages || !cur || !cur.offsetWidth) { lens?.el.remove(); if (lens) lens.x = NaN; return; }
+  if (!lens) {
+    const el = document.createElement('span');
+    el.className = 'pager-lens';
+    el.setAttribute('aria-hidden', 'true');
+    lens = { el, x: NaN };
+    lenses.set(bar, lens);
+  }
+  if (lens.el.parentElement !== pages) pages.prepend(lens.el);
+  const x = cur.offsetLeft, from = lens.x;
+  Object.assign(lens.el.style, { top: `${cur.offsetTop}px`, width: `${cur.offsetWidth}px`, height: `${cur.offsetHeight}px`, translate: `${x}px 0` });
+  lens.x = x;
+  if (!travel || !Number.isFinite(from) || from === x || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const far = Math.min(3, Math.abs(x - from) / Math.max(1, cur.offsetWidth));
+  lens.el.animate([{ translate: `${from}px 0` }, { translate: `${x}px 0` }], { duration: 420, easing: 'cubic-bezier(.3,1.25,.4,1)' });
+  lens.el.animate(
+    [{ scale: '1 1' }, { scale: `${1 + 0.16 * far} ${1 - 0.06 * far}`, offset: 0.35 }, { scale: '0.96 1.04', offset: 0.7 }, { scale: '1 1' }],
+    { duration: 460, easing: 'cubic-bezier(.3,.7,.4,1)' },
+  );
+}
+
 /** Where the bar goes: below the table's scroll box when it has one, else right after the list.
  *  Kept per list (while its parent stays the same): reading computed style between the pager's own
  *  changes made the browser restyle the page once per list. */
@@ -91,8 +121,12 @@ function apply(host: HTMLElement, opts: { resetPage?: boolean; scroll?: boolean;
   bar.setAttribute('aria-label', `Pages: ${label}`);
   // A narrow column (a side panel) gets ‹ 3 / 16 › instead of a row of page numbers.
   // Measured on the list's own box: 0 means not laid out (a hidden tab), which is not narrow.
+  // Phones give the numbers a row of their own: they show whenever the widest row (‹ 1 2 3 4 … 22 ›, 36px
+  // buttons, 5px apart) fits the list's width, so a phone keeps its page numbers and their green lens.
   const boxWidth = opts.width ?? boxOf(host).getBoundingClientRect().width;
-  const narrow = boxWidth > 0 && boxWidth < 360;
+  const shownNums = Math.min(pages, 6), gaps = pages > 6 ? 1 : 0;
+  const phoneRow = (shownNums + 2) * 36 + gaps * 14 + (shownNums + gaps + 1) * 5;
+  const narrow = boxWidth > 0 && (matchMedia(PHONE).matches ? phoneRow > boxWidth : boxWidth < 360);
   const btn = (p: number, text: string, extra = '') => `<button type="button" data-go="${p}" ${extra}>${text}</button>`;
   const numbers = narrow
     ? `<span class="pager-of" aria-current="page">${s.page + 1} / ${pages}</span>`
@@ -104,7 +138,18 @@ function apply(host: HTMLElement, opts: { resetPage?: boolean; scroll?: boolean;
       : '') +
     `<span class="pager-sizes" role="group" aria-label="Rows per page">${choices.map((c) => `<button type="button" data-size="${c}" aria-pressed="${c === s!.size}">${c || 'All'}</button>`).join('')}</span>`;
   // Rewritten only when something on it changed: the pager re-runs on every DOM change the page makes.
-  if (written.get(bar) !== html) { bar.innerHTML = html; written.set(bar, html); }
+  if (written.get(bar) !== html) {
+    // Keyboard focus stays on the same control through the rewrite (it used to drop to the page).
+    const had = bar.contains(document.activeElement) ? (document.activeElement as HTMLElement) : null;
+    const key = had?.getAttribute('aria-label') ?? (had?.dataset.size != null ? `size:${had.dataset.size}` : null);
+    bar.innerHTML = html;
+    written.set(bar, html);
+    placeLens(bar);
+    if (key) {
+      const again = key.startsWith('size:') ? bar.querySelector<HTMLElement>(`[data-size="${key.slice(5)}"]`) : [...bar.querySelectorAll<HTMLElement>('button')].find((b) => b.getAttribute('aria-label') === key);
+      (again && !(again as HTMLButtonElement).disabled ? again : bar.querySelector<HTMLElement>('button[aria-current="page"], button:not(:disabled)'))?.focus({ preventScroll: true });
+    }
+  }
   bar.onclick = (e) => {
     const b = (e.target as HTMLElement).closest('button');
     if (!b || b.disabled) return;
@@ -153,11 +198,16 @@ export function Pager() {
     // A long table's later rows just arrived (LaterBody): page them before the browser paints.
     const onRowsIn = (e: Event) => { const table = (e.target as Element).closest('table'); if (ready && table) apply(table); };
     document.addEventListener('peregrine:rows-in', onRowsIn);
+    // A resize (a phone turned) moves the numbers without rewriting the bar: the lenses follow at once, a shown tab gets one.
+    let frame = 0;
+    const onResize = () => { cancelAnimationFrame(frame); frame = requestAnimationFrame(() => document.querySelectorAll<HTMLElement>('.pager').forEach((b) => placeLens(b, false))); };
+    addEventListener('resize', onResize);
+    document.addEventListener('click', onResize);
     // Crossing the phone breakpoint changes the page sizes.
     const mq = matchMedia(PHONE);
     const onBreak = () => document.querySelectorAll<HTMLElement>(SELECTOR).forEach((el) => { state.delete(el); apply(el); });
     mq.addEventListener('change', onBreak);
-    return () => { stopWaiting(); clearTimeout(retry); mo.disconnect(); document.removeEventListener('click', onClick); document.removeEventListener('peregrine:rows-in', onRowsIn); mq.removeEventListener('change', onBreak); };
+    return () => { stopWaiting(); clearTimeout(retry); mo.disconnect(); document.removeEventListener('click', onClick); document.removeEventListener('peregrine:rows-in', onRowsIn); removeEventListener('resize', onResize); document.removeEventListener('click', onResize); cancelAnimationFrame(frame); mq.removeEventListener('change', onBreak); };
   }, []);
   return null;
 }

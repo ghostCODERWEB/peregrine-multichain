@@ -572,7 +572,7 @@ html:not(.dark) { --lg-tint: color-mix(in srgb, #ffffff 88%, transparent); --lg-
 [data-clamp] > .clamp-toggle, [data-analyze-dock][role=dialog] { border-color: var(--lg-border) !important; box-shadow: var(--lg-edge), 0 10px 28px -10px rgba(0,0,0,.7) !important; }
 /* Accessibility: reduce transparency gives every glass surface a solid fill. */
 @media (prefers-reduced-transparency: reduce) {
-  .liquid-glass, .material-strong, .glass-strong, .segmented, .pill-secondary, .liquid-control, .pager-sizes, .pager-pages button, [data-clamp] > .clamp-toggle, [data-analyze-dock] { background: var(--surface-2) !important; backdrop-filter: none !important; }
+  .liquid-glass, .material-strong, .glass-strong, .segmented, .pill-secondary, .liquid-control, .pager-sizes, .pager-pages button:not([aria-current]), [data-clamp] > .clamp-toggle, [data-analyze-dock] { background: var(--surface-2) !important; backdrop-filter: none !important; }
 }
 @media (max-width: 639px) { main .pill-button { min-height: 36px; padding: 7px 15px; font-size: 13px; } }
 
@@ -730,11 +730,16 @@ a.m-row:active { background-color: color-mix(in srgb, var(--ink-1) 7%, transpare
 /* Pager: numbered pages and rows per page under long tables and lists (src/components/Pager.tsx). */
 .pager { display: flex; flex-wrap: wrap; min-width: 0; max-width: 100%; align-items: center; gap: 8px 12px; padding-top: 10px; font-size: 12px; color: var(--ink-muted); }
 .pager-count { font-variant-numeric: tabular-nums; white-space: nowrap; }
-.pager-pages { display: inline-flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 4px; margin-left: auto; max-width: 100%; }
-.pager-pages button { min-width: 32px; height: 32px; padding: 0 8px; border-radius: 999px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--ink-2);
+.pager-pages { position: relative; isolation: isolate; display: inline-flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 4px; margin-left: auto; max-width: 100%; }
+.pager-pages button { position: relative; z-index: 1; min-width: 32px; height: 32px; padding: 0 8px; border-radius: 999px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--ink-2);
   background: var(--lg-tint); backdrop-filter: blur(14px) saturate(170%); border: 1px solid var(--lg-border); box-shadow: var(--lg-edge); -webkit-tap-highlight-color: transparent; }
 .pager-pages button:hover:not(:disabled) { color: var(--ink-1); }
-.pager-pages button[aria-current="page"] { background: var(--mint); border-color: var(--mint); color: #03110c; box-shadow: none; }
+.pager-pages button[aria-current="page"] { background: var(--mint); border-color: var(--mint); color: #03110c; box-shadow: none; backdrop-filter: none; }
+.pager-pages:has(> .pager-lens) button[aria-current="page"] { background: transparent; border-color: transparent; }
+html:not(.dark) .pager-pages button[aria-current="page"] { color: #fff; }
+/* The current page's lens (Pager.tsx): green glass that travels between numbers like the phone tab bar's lens. */
+.pager-lens { position: absolute; left: 0; z-index: 0; border-radius: 999px; pointer-events: none; background: var(--mint);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.38), inset 0 -1px 0 rgba(0,0,0,.14), 0 6px 16px -6px color-mix(in srgb, var(--mint) 70%, transparent); }
 .pager-pages button:disabled { opacity: .35; cursor: default; }
 .pager-gap { min-width: 14px; text-align: center; }
 .pager-of { min-width: 56px; text-align: center; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--ink-2); }
@@ -759,8 +764,8 @@ table[data-sortable], table[data-page], .m-list, [data-paged] { scroll-margin-to
 @media (max-width: 639px) {
   .pager { gap: 10px; }
   .pager-sizes { margin-left: auto; }
-  .pager-pages { order: 3; width: 100%; justify-content: center; margin-left: 0; gap: 6px; }
-  .pager-pages button { min-width: 38px; height: 38px; }
+  .pager-pages { order: 3; width: 100%; justify-content: center; margin-left: 0; gap: 5px; }
+  .pager-pages button { min-width: 36px; height: 36px; padding: 0 6px; }
 }
 /* Touch screens: the section rail sits higher and is sized for a finger, with a wide grab zone and thicker, longer ticks. */
 @media (max-width: 1023px) and (hover: none) {
