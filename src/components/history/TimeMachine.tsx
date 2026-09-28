@@ -45,6 +45,7 @@ export function TimeMachine() {
       {res && !('error' in res) && (
         <div className="space-y-3">
           {res.note && <p className="text-[12.5px] text-ink-2">{res.note}</p>}
+          {!res.incomplete && <>
           <div className="grid grid-cols-3 gap-px overflow-hidden rounded-[var(--r-inner)] border border-[var(--hair)] bg-[var(--hair)]">
             {[['Then', res.then, usd(res.totalThen)], ['Now', res.now, usd(res.totalNow)], ['Change', pct(res.totalThen ? res.totalNow / res.totalThen - 1 : null, 1), usd(res.totalNow - res.totalThen, { signed: true })]].map(([k, sub, v], i) => (
               <div key={k} className="bg-[var(--surface-1)] px-3.5 py-2.5">
@@ -70,6 +71,7 @@ export function TimeMachine() {
               </tbody>
             </table>
           </div>
+          </>}
           <p className="text-[11px] text-ink-muted">Nansen point-in-time balances.</p>
         </div>
       )}

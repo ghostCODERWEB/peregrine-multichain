@@ -48,6 +48,13 @@ export function isMajorOrWrapped(symbol: string | null | undefined): boolean {
   return isBaseAsset(s) || /^(W|CB|U|K|T|S|M|R|ST|WST|R|B|SOL)?(BTC|ETH|SOL|BNB|AVAX|POL|HYPE)(\.E|B|0)?$/.test(s);
 }
 
+/** Whether a token belongs on a dump-risk list: not a stablecoin, and not a
+ *  major or its wrapped copy (WETH, cbBTC). A score can still be read on the
+ *  token's own page; lists of risky tokens leave these out. */
+export function isRiskListable(symbol: string | null | undefined): boolean {
+  return !isStablecoin(symbol) && !isMajorOrWrapped(symbol);
+}
+
 export function isBaseAsset(symbol: string | null | undefined): boolean {
   if (!symbol) return false;
   const s = norm(symbol);

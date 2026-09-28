@@ -75,7 +75,7 @@ export function OverviewIntel({ mode }: { mode: DisplayMode }) {
     <li key={w.wallet} className="py-1 text-[12.5px]">
       <span className="flex items-center justify-between gap-2">
         <span className="min-w-0 truncate"><AddressLink address={w.wallet} label={w.label} compact /></span>
-        <span className="num shrink-0 whitespace-nowrap font-semibold" style={tone(w.net)}>{usd(w.net, { signed: true })} <span className="font-normal text-ink-muted">· {w.n} trades</span></span>
+        <span className="num shrink-0 whitespace-nowrap font-semibold" style={tone(w.net)}>{usd(w.net, { signed: true })} <span className="font-normal text-ink-muted">· {w.n} trade{w.n === 1 ? '' : 's'}</span></span>
       </span>
       <RowBar value={w.net} max={walletMax} />
     </li>

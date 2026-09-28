@@ -403,6 +403,11 @@ const MIGRATIONS: string[] = [
   );
   CREATE INDEX idx_perp_position_snapshots ON perp_position_snapshots(symbol, at);
   `,
+  // Strip NUL bytes Nansen once sent inside a wallet address (a duplicate, if any, is dropped).
+  `
+  UPDATE OR IGNORE smart_money_trades SET wallet = replace(wallet, char(0), '') WHERE instr(wallet, char(0)) > 0;
+  DELETE FROM smart_money_trades WHERE instr(wallet, char(0)) > 0;
+  `,
 ];
 
 export function audit(userId: number | null, action: string, detail?: string): void {

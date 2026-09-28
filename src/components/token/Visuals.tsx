@@ -14,6 +14,9 @@ import type { LeverageWave } from '@/server/token/terminal';
 import type { LadderBand } from '@/lib/models/liquidation';
 import { Up, Down } from '@/components/ui/Icons';
 
+/** Days each chart range spans: a younger token's change over it is its change since launch. */
+const RANGE_DAYS: Record<string, number> = { '1D': 1, '1W': 7, '14D': 14, '1M': 30, '3M': 90, '1Y': 365 };
+
 export const STORM_RING: Record<StormWave['result']['band'], string> = {
   clear: 'var(--brand)', cloudy: 'var(--storm-1)', watch: 'var(--storm-2)', warning: 'var(--storm-3)',
 };
@@ -75,27 +78,31 @@ export function TokenHero({ chain, address, tier, h, m, storm, done, title, chil
               <div className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-[13px] text-ink-muted">
                 <span className="font-semibold text-ink-2">{h?.symbol ?? 'Token'}</span><span aria-hidden>·</span>
                 <span className="inline-flex items-center gap-1"><ChainLogo chain={chain} size={13} />{chainName(chain)}</span>
-                {age != null && <><span aria-hidden>·</span><span>{age.toLocaleString('en-US')} days old</span></>}
+                {age != null && <><span aria-hidden>·</span><span>{age < 1 ? 'launched today' : `${age.toLocaleString('en-US')} day${age === 1 ? '' : 's'} old`}</span></>}
                 <span aria-hidden>·</span><span className="num" title={`Tier ${tier}${h?.marketCapGroup ? ` · ${h.marketCapGroup.replace(/_/g, ' ')}` : ''}`}>{shortAddress(address)}</span>
               </div>
             </div>
           </div>
-          <div className="mt-4 flex flex-wrap items-end gap-x-5 gap-y-3">
+          {/* Phones stack price and change: a row that wraps only once the change pill arrives would jump. */}
+          <div className="mt-4 flex flex-col items-start gap-x-5 gap-y-2 sm:flex-row sm:flex-wrap sm:items-end sm:gap-y-3">
             <div>
               <div className="sr-only">{h?.symbol ?? 'Token'} price</div>
               <div className="num text-[32px] leading-tight tracking-[-.04em] font-extrabold text-ink sm:text-[40px]">{price == null && !done ? <span className="inline-block h-9 w-40 animate-pulse rounded-lg bg-ink/10 align-middle" aria-label="Loading price" /> : price != null ? (price < 1 ? `$${num(price, price < 0.01 ? 6 : 4)}` : usd(price)) : 'n/a'}</div>
             </div>
-            <div className="flex flex-col gap-1.5 pb-2">
+            <div className="flex min-h-[70px] flex-col justify-end gap-1.5 pb-2">
               {rangeChange != null && (
                 <span className="num inline-flex w-fit items-center gap-1.5 rounded-full px-3 py-1 text-[14px] font-extrabold" style={{ color: rangeChange >= 0 ? 'var(--mint)' : 'var(--flare)', background: `color-mix(in srgb, ${rangeChange >= 0 ? 'var(--mint)' : 'var(--flare)'} 14%, transparent)` }}>
-                  {rangeChange >= 0 ? <Up /> : <Down />}<span className="sr-only">{rangeChange >= 0 ? 'up' : 'down'}</span>{pct(Math.abs(rangeChange), 1)} · {move.range}
+                  {rangeChange >= 0 ? <Up /> : <Down />}<span className="sr-only">{rangeChange >= 0 ? 'up' : 'down'}</span>{pct(Math.abs(rangeChange), 1)} · {age != null && age < (RANGE_DAYS[move.range] ?? 0) ? 'since launch' : move.range}
                 </span>
               )}
-              <div className="flex flex-wrap gap-1.5"><Delta v={change(m, 24)} label="24h" /><Delta v={change(m, 24 * 7)} label="7d" /></div>
+              <div className="flex flex-wrap gap-1.5"><Delta v={change(m, 24)} label="24h" />{/* A token younger than a week has no 7-day change: that would be its change since launch. */}
+              {(age == null || age >= 7) && <Delta v={change(m, 24 * 7)} label="7d" />}</div>
             </div>
             
           </div>
-          {m && <div className="mt-6"><TokenPriceChart chain={chain} address={address} initial={m.candles} events={events} onChange={onRange} /></div>}
+          {/* Hold the chart's space while candles stream in, so the page below does not jump when it lands. */}
+          {m ? <div className="mt-6"><TokenPriceChart chain={chain} address={address} initial={m.candles} events={events} onChange={onRange} /></div>
+            : !done && <div className="mt-6 h-[532px] animate-pulse rounded-xl bg-ink/5 sm:h-[488px]" aria-label="Loading price chart" />}
 
         </div>
         <div className="min-w-0 space-y-4">
@@ -131,7 +138,7 @@ export function TokenHero({ chain, address, tier, h, m, storm, done, title, chil
           <dl className="stagger mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-6">
             {[
               ['Market cap', usd(h?.marketCapUsd)], ['FDV', usd(h?.fdvUsd)], ['Liquidity', usd(h?.liquidityUsd)],
-              ['24h volume', usd(h?.volume24hUsd)], ['Holders', h?.holders?.toLocaleString('en-US') ?? 'n/a'], ['Age', age != null ? `${age.toLocaleString('en-US')} days` : 'n/a'],
+              ['24h volume', usd(h?.volume24hUsd)], ['Holders', h?.holders?.toLocaleString('en-US') ?? 'n/a'], ['Age', age != null ? (age < 1 ? 'under a day' : `${age.toLocaleString('en-US')} day${age === 1 ? '' : 's'}`) : 'n/a'],
             ].map(([k, v]) => (
               <div key={k} className="inset-well px-4 py-3">
                 <dt className="text-[12.5px] text-ink-muted">{k}</dt>

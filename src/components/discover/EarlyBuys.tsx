@@ -14,12 +14,14 @@ const SORTS: Array<[Sort, string]> = [['buyers', 'SM buyers'], ['net', 'Net boug
 const move = (r: EarlyBuy) => (r.priceAtFirst && r.priceNow ? r.priceNow / r.priceAtFirst - 1 : null);
 
 /** Tokens Smart Money started buying in the last 72 hours, with filters, sorting and paging. */
-export function EarlyBuys({ rows: all }: { rows: EarlyBuy[] }) {
+export function EarlyBuys({ rows: all, phone = false }: { rows: EarlyBuy[]; phone?: boolean }) {
   const [chain, setChain] = useState('all');
   const [minBuyers, setMinBuyers] = useState(2);
   const [sort, setSort] = useState<Sort>('buyers');
   const [rising, setRising] = useState(false);
-  const [limit, setLimit] = useState(12);
+  // Phones open on 4 cards: short enough that the page's "Show all" clamp never has to fold the
+  // panel after load (that fold moved everything below it, a layout shift).
+  const [limit, setLimit] = useState(phone ? 4 : 12);
   const chains = useMemo(() => [...new Set(all.map((r) => r.chain))], [all]);
   const filtered = useMemo(() => all
     .filter((r) => (chain === 'all' || r.chain === chain) && r.buyers >= minBuyers && (!rising || (move(r) ?? -1) > 0))
@@ -28,7 +30,7 @@ export function EarlyBuys({ rows: all }: { rows: EarlyBuy[] }) {
   if (!all.length) return null;
   const chip = (on: boolean) => `rounded-[7px] px-2 py-1 text-[11.5px] font-semibold ${on ? 'bg-ink/12 text-ink' : 'text-ink-muted hover:text-ink'}`;
   return (
-    <section aria-labelledby="early" className="material p-4 sm:p-5">
+    <section aria-labelledby="early" className="material p-4 sm:p-5" data-no-clamp={phone ? true : undefined}>
       <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
         <h2 id="early" className="t-section">Early alpha buys</h2>
         <span className="text-[12px] text-ink-muted">First Smart Money buys in the last 72 hours · {filtered.length} of {all.length} shown by filters</span>
@@ -38,7 +40,7 @@ export function EarlyBuys({ rows: all }: { rows: EarlyBuy[] }) {
         <span className="inline-flex rounded-[9px] border border-[var(--hair)] p-0.5">{[2, 5, 10, 20].map((n) => <button key={n} type="button" onClick={() => setMinBuyers(n)} className={chip(minBuyers === n)}>{n}+ buyers</button>)}</span>
         <button type="button" aria-pressed={rising} onClick={() => setRising((v) => !v)} className={`rounded-[9px] border border-[var(--hair)] ${chip(rising)}`}>Rising since first buy</button>
         <span className="ml-auto inline-flex items-center gap-1 text-[11.5px] text-ink-muted">Sort<span className="inline-flex rounded-[9px] border border-[var(--hair)] p-0.5">{SORTS.map(([k, l]) => <button key={k} type="button" onClick={() => setSort(k)} className={chip(sort === k)}>{l}</button>)}</span></span>
-        <span className="inline-flex items-center gap-1 text-[11.5px] text-ink-muted">Show<span className="inline-flex rounded-[9px] border border-[var(--hair)] p-0.5">{[12, 24, 999].map((n) => <button key={n} type="button" onClick={() => setLimit(n)} className={chip(limit === n)}>{n === 999 ? 'All' : n}</button>)}</span></span>
+        <span className="inline-flex items-center gap-1 text-[11.5px] text-ink-muted">Show<span className="inline-flex rounded-[9px] border border-[var(--hair)] p-0.5">{(phone ? [4, 12, 999] : [12, 24, 999]).map((n) => <button key={n} type="button" onClick={() => setLimit(n)} className={chip(limit === n)}>{n === 999 ? 'All' : n}</button>)}</span></span>
       </div>
       {!rows.length && <p className="py-6 text-center text-[12.5px] text-ink-muted">No early buys match these filters.</p>}
       <ol className="stagger grid gap-px overflow-hidden rounded-[var(--r-inner)] border border-[var(--hair)] bg-[var(--hair)] sm:grid-cols-2 xl:grid-cols-3 3xl:grid-cols-4">

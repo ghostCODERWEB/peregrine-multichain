@@ -135,9 +135,13 @@ export function MarketGrid({ chain, tiles }: { chain: string; tiles: GridTile[] 
   // Phones show the 36 most-traded first; the rest on request.
   const [all, setAll] = useState(false);
   const value = (t: GridTile) => (by === 'change' ? t.priceChange : t.netFlowUsd != null && t.volumeUsd > 0 ? t.netFlowUsd / t.volumeUsd : null);
-  // The ramp anchor: the largest move on screen, floored so a flat market
+  // The ramp anchor: the 90th-percentile move on screen, so one runaway
+  // token (a +6000% launch) cannot wash every other tile out to neutral;
+  // anything past it paints at full strength. Floored so a flat market
   // does not paint a small drift as a crash.
-  const anchor = Math.max(by === 'change' ? 0.02 : 0.05, ...tiles.map((t) => Math.abs(value(t) ?? 0)));
+  const mags = tiles.map((t) => Math.abs(value(t) ?? 0)).sort((x, y) => x - y);
+  const anchor = Math.max(by === 'change' ? 0.02 : 0.05, mags[Math.min(mags.length - 1, Math.floor(mags.length * 0.9))] ?? 0);
+  const beyond = mags.some((m) => m > anchor);
   const peak = Math.max(1, ...tiles.map((t) => t.volumeUsd));
   const shown = hover ?? tiles[0];
   return (
@@ -150,9 +154,10 @@ export function MarketGrid({ chain, tiles }: { chain: string; tiles: GridTile[] 
           ))}
         </div>
         <div className="ml-auto flex items-center gap-2 text-[11px] text-ink-muted">
-          <span className="num">−{pct(anchor, 0)}</span>
+          {/* A price cannot fall more than 100%. */}
+          <span className="num">−{pct(by === 'change' ? Math.min(anchor, 1) : anchor, 0)}</span>
           <span aria-hidden className="h-2 w-28 rounded-full" style={{ background: 'linear-gradient(90deg, var(--out-2), var(--surface-1) 50%, var(--in-2))' }} />
-          <span className="num">+{pct(anchor, 0)}</span>
+          <span className="num">+{pct(anchor, 0)}{beyond ? ' or more' : ''}</span>
         </div>
       </div>
       <ul className="mt-3 grid grid-cols-[repeat(auto-fill,minmax(76px,1fr))] gap-1.5 sm:grid-cols-[repeat(auto-fill,minmax(86px,1fr))]" aria-label={`${tiles.length} ${chainName(chain)} tokens, most traded first`}>

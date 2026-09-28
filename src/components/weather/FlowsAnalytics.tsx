@@ -12,7 +12,7 @@ export function FlowsAnalytics({ mode }: { mode: DisplayMode }) {
     <div className="space-y-4">
       <InsightPanel id="flows-pulse" title="Chain flow pulse" items={a.insights} briefKey="flows" mode={mode} />
       <div className="grid gap-4 xl:grid-cols-3">
-        <Card id="chain-net" title="Net flow by chain, 24h" sub="Select a bar to open the chain">
+        <Card id="chain-net" title="Net flow by chain, 24h" sub={mode === 'owner' ? 'Smart Money chains · select a bar to open the chain' : 'All traders · select a bar to open the chain'}>
           <RankBars rows={a.net} label="Net flow per chain in 24 hours" />
         </Card>
         <Card id="chain-index-history" title="Flow Index, 7 days" sub="The chains that moved most · 50 is neutral · select a line" className="xl:col-span-2">

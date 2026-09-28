@@ -5,7 +5,7 @@
 // token); the insider forensics (~50 profiler calls a token) run only on a
 // token page, and the sweep's scores say so through their confidence.
 import { getDb } from '@/server/nansen/db';
-import { isStablecoin } from '@/lib/models/trade-side';
+import { isRiskListable } from '@/lib/models/trade-side';
 import { headerWave, windWave, holdersWave, isUnavailable } from './waves';
 import { computeStorm, saveStorm } from './storm';
 
@@ -30,7 +30,7 @@ export function sweepDue(now: number): boolean {
 export async function stormSweep(candidates: SweepCandidate[], errors: string[]): Promise<number> {
   const seen = new Set<string>();
   const picks = candidates
-    .filter((c) => c.netFlowUsd < 0 && !isStablecoin(c.symbol) && (c.marketCapUsd ?? 0) >= MIN_MCAP)
+    .filter((c) => c.netFlowUsd < 0 && isRiskListable(c.symbol) && (c.marketCapUsd ?? 0) >= MIN_MCAP)
     .sort((a, b) => a.netFlowUsd - b.netFlowUsd)
     .filter((c) => { const k = `${c.chain}:${c.tokenAddress.toLowerCase()}`; if (seen.has(k)) return false; seen.add(k); return true; })
     .slice(0, TOKENS);

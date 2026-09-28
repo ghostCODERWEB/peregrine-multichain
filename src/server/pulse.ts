@@ -1,6 +1,7 @@
 // Market Pulse: short, data-backed statements about the last 24 hours, derived
 // from the scanner's stored Nansen reads (no Nansen call per view). Each item
 // names its numbers, links to the records behind it and carries a small series.
+import { isRiskListable } from '@/lib/models/trade-side';
 import { smFlowSeries } from '@/server/graph/series';
 import { properAddress } from '@/server/nansen/address-case';
 import { getDb } from '@/server/nansen/db';
@@ -100,7 +101,7 @@ export function marketPulse(mode: DisplayMode, now = Date.now()): PulseItem[] {
   const cpiLine = (chain: string) => (db.prepare('SELECT cpi FROM chain_cpi WHERE chain = ? AND source = ? AND snapshot_at >= ? ORDER BY snapshot_at').all(chain, source, now - D) as Array<{ cpi: number }>).map((r) => r.cpi);
   if (up && down) out.push({
     id: 'rotation', kind: 'Rotation', tone: 'flat', href: '/flows',
-    text: `Flow shifting toward ${chainName(up.chain)} (${Math.round(up.v)}, +${Math.round(up.d)}) and away from ${chainName(down.chain)} (${Math.round(down.v)}, −${Math.round(Math.abs(down.d))})`,
+    text: `Flow Index rising fastest on ${chainName(up.chain)} (${Math.round(up.v)}, +${Math.round(up.d)}) and falling fastest on ${chainName(down.chain)} (${Math.round(down.v)}, −${Math.round(Math.abs(down.d))})`,
     detail: `Flow Index, 24h change · ${((n) => `${n} chain${n === 1 ? '' : 's'}`)([...a.values()].filter((v) => v >= 65).length)} accumulating, ${[...a.values()].filter((v) => v <= 35).length} distributing`,
     spark: { type: 'line', values: cpiLine(up.chain), min: 0, max: 100, baseline: 50 },
   });
@@ -141,7 +142,8 @@ export function marketPulse(mode: DisplayMode, now = Date.now()): PulseItem[] {
       out.push({
         id: 'btc-book', kind: 'Positioning', tone: last >= 0.5 ? 'up' : 'down', href: '/perps/BTC',
         text: `Smart Money is ${pct(last, 0)} long BTC on Hyperliquid`,
-        detail: share.length > 1 ? `${last >= first ? 'Up' : 'Down'} from ${pct(first, 0)} across ${share.length} snapshots` : 'Latest snapshot',
+        // Same whole percent at both ends reads as unchanged, not "down from 13%" while at 13%.
+        detail: share.length > 1 ? (pct(first, 0) === pct(last, 0) ? `Unchanged at ${pct(last, 0)} across ${share.length} snapshots` : `${last > first ? 'Up' : 'Down'} from ${pct(first, 0)} across ${share.length} snapshots`) : 'Latest snapshot',
         spark: share.length > 1 ? { type: 'line', values: share.map((x) => x * 100), min: 0, max: 100, baseline: 50 } : undefined,
       });
     }
@@ -160,11 +162,11 @@ export function marketPulse(mode: DisplayMode, now = Date.now()): PulseItem[] {
   }
 
   // 9. Dump risk: tokens at High or Critical in the last 48 hours.
-  const risk = db.prepare(`SELECT s.chain, s.token_address AS t, s.symbol, s.score, s.band FROM storm_scores s JOIN (SELECT chain, token_address, MAX(computed_at) m FROM storm_scores WHERE computed_at >= ? GROUP BY chain, token_address) x
-    ON x.chain = s.chain AND x.token_address = s.token_address AND x.m = s.computed_at WHERE s.band IN ('watch', 'warning') ORDER BY s.score DESC`).all(now - 2 * D) as Array<{ chain: string; t: string; symbol: string | null; score: number; band: string }>;
+  const risk = (db.prepare(`SELECT s.chain, s.token_address AS t, s.symbol, s.score, s.band FROM storm_scores s JOIN (SELECT chain, token_address, MAX(computed_at) m FROM storm_scores WHERE computed_at >= ? GROUP BY chain, token_address) x
+    ON x.chain = s.chain AND x.token_address = s.token_address AND x.m = s.computed_at WHERE s.band IN ('watch', 'warning') ORDER BY s.score DESC`).all(now - 2 * D) as Array<{ chain: string; t: string; symbol: string | null; score: number; band: string }>).filter((r) => isRiskListable(r.symbol));
   if (risk.length) out.push({
     id: 'risk', kind: 'Risk', tone: 'alert', href: `/token/${risk[0].chain}/${encodeURIComponent(properAddress(risk[0].chain, risk[0].t))}`,
-    text: `${risk.length} tokens at High or Critical dump risk; ${risk[0].symbol ?? 'top'} scores ${Math.round(risk[0].score)}`,
+    text: `${risk.length} token${risk.length === 1 ? '' : 's'} at High or Critical dump risk; ${risk[0].symbol ?? 'top'} scores ${Math.round(risk[0].score)}`,
     detail: risk.slice(1, 4).map((r) => `${r.symbol ?? '?'} ${Math.round(r.score)}`).join(' · '),
   });
 

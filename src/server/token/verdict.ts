@@ -58,7 +58,10 @@ export function tokenVerdict(chain: string, address: string, now = Date.now()): 
     reasons.unshift({ text: `Smart Money ${sm.net24h >= 0 ? 'net bought' : 'net sold'} ${usd(Math.abs(sm.net24h))} in 24h (${sm.buyers} buying, ${sm.sellers} selling)${buyingRisk ? ', buying into elevated risk' : ''}`, tone: sm.net24h >= 0 ? (buyingRisk ? 'neutral' : 'good') : 'bad' });
   }
   const headline = level === 'danger' ? 'Danger: several risk signals line up' : level === 'watch' ? 'Watch: some risk signals are elevated' : 'Low risk on the signals Peregrine measures';
-  const ai = cachedBrief(`verdict:${chain}:${address.toLowerCase()}`);
+  // An agent note older than an hour is dropped so the page asks for a fresh one: the note
+  // quotes live figures (volume, buyers) that would otherwise contradict the numbers beside it.
+  const cached = cachedBrief(`verdict:${chain}:${address.toLowerCase()}`);
+  const ai = cached && now - cached.at < 3_600_000 ? cached : null;
   return { pending: false, level, headline, score: ts.score, nansen: ts.nansen, peregrine: ts.peregrine, reasons: reasons.slice(0, 4), sm, ai, scoredAt: row.at, symbol: row.symbol };
 }
 

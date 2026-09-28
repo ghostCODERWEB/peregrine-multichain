@@ -162,9 +162,11 @@ export function WeatherView({
                 <h2 className="radar-headline seq" style={{ '--i': 1 } as React.CSSProperties}>
                   {top && bottom ? (
                     <>
-                      Accumulating <span className="text-accumulation">{chainName(top.chain)}.</span>
+                      {/* Dollars, not the Flow Index: a chain can take the day's largest net inflow while its
+                          index, read against its own history, still sits in distribution. "Buying"/"selling" says what the number is. */}
+                      Buying <span className="text-accumulation">{chainName(top.chain)}.</span>
                       <br />
-                      Distributing <span className="text-distribution">{chainName(bottom.chain)}.</span>
+                      Selling <span className="text-distribution">{chainName(bottom.chain)}.</span>
                     </>
                   ) : (
                     mapHeadline(data.chains, data.fronts)

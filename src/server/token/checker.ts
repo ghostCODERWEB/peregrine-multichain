@@ -2,6 +2,7 @@
 // every token scored in the last 7 days with its Token Score (50% Nansen's
 // risk indicator, 50% Peregrine's model), the token universe from the
 // scanner's screener snapshots, new tokens, and Smart Money buying into risk.
+import { isRiskListable } from '@/lib/models/trade-side';
 import { getDb } from '@/server/nansen/db';
 import { properAddress } from '@/server/nansen/address-case';
 import { tokenScore, type StormSubScores } from '@/lib/models/storm-score';
@@ -37,7 +38,7 @@ export function tokenChecker(owner: boolean, now = Date.now()): CheckerData {
     void _v;
     const ts = tokenScore(sub as unknown as StormSubScores, { marketCapUsd: r.mc, isStablecoin: (_s as unknown) === true, symbol: r.symbol });
     return { chain: r.chain, address: properAddress(r.chain, r.t), symbol: r.symbol, score: ts.score, band: ts.band, nansen: ts.nansen, peregrine: ts.peregrine, confidence: ts.confidence, sub, marketCap: r.mc, at: r.at };
-  }).sort((a, b) => b.score - a.score);
+  }).filter((s) => isRiskListable(s.symbol)).sort((a, b) => b.score - a.score);
   const scoreOf = new Map(scored.map((s) => [`${s.chain}:${s.address.toLowerCase()}`, s.score]));
 
   // The universe is always the all-trader screener (real market volume); the smart-money

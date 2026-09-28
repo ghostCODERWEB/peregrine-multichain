@@ -47,7 +47,7 @@ export function perpsAnalytics(mode: DisplayMode, now = Date.now()): PerpsAnalyt
   const priceMovers = coins.filter((c) => c.change24h != null).sort((a, b) => Math.abs(b.change24h!) - Math.abs(a.change24h!)).slice(0, 14).map((c) => ({ label: c.symbol, value: c.change24h! * 100, href: href(c.symbol), sub: usd(c.openInterest) }));
   const funding = coins.filter((c) => c.fundingApr != null && (c.openInterest ?? 0) >= 20e6).sort((a, b) => Math.abs(b.fundingApr!) - Math.abs(a.fundingApr!)).slice(0, 14).map((c) => ({ label: c.symbol, value: c.fundingApr! * 100, href: href(c.symbol), sub: usd(c.openInterest) }));
   const oiHistory = (db.prepare("SELECT snapshot_at AS t, SUM(open_interest) AS oi FROM perp_snapshots WHERE source = 'all' AND snapshot_at >= ? GROUP BY snapshot_at ORDER BY snapshot_at").all(now - 7 * D) as Array<{ t: number; oi: number }>).map((r) => [r.t, r.oi] as [number, number]);
-  const smBook = mode === 'owner' ? board.coins.filter((c) => c.sm && c.sm.longsUsd + c.sm.shortsUsd > 0).sort((a, b) => (b.sm!.longsUsd + b.sm!.shortsUsd) - (a.sm!.longsUsd + a.sm!.shortsUsd)).slice(0, 12).map((c) => ({ symbol: c.symbol, long: c.sm!.longsUsd, short: c.sm!.shortsUsd })) : [];
+  const smBook = mode === 'owner' ? board.coins.filter((c) => c.sm && c.sm.longsUsd + c.sm.shortsUsd > 0).sort((a, b) => (b.sm!.longsUsd + b.sm!.shortsUsd) - (a.sm!.longsUsd + a.sm!.shortsUsd)).map((c) => ({ symbol: c.symbol, long: c.sm!.longsUsd, short: c.sm!.shortsUsd })) : [];
 
   const insights: PulseItem[] = [];
   // Every coin on both sides, as the Overview pulse computes it: like against like.
@@ -65,7 +65,9 @@ export function perpsAnalytics(mode: DisplayMode, now = Date.now()): PerpsAnalyt
   if (div.length) insights.push({ id: 'p-div', kind: 'Crowd vs Smart Money', tone: 'alert', href: href(div[0].symbol), text: `${div.length} coins where funding and Smart Money lean opposite ways: ${div.slice(0, 4).map((c) => c.symbol).join(', ')}`, detail: `${div.filter((c) => c.divergence === 'crowded-long').length} crowded long, ${div.filter((c) => c.divergence === 'crowded-short').length} crowded short` });
   if (smBook.length) {
     const L = smBook.reduce((a, x) => a + x.long, 0), S = smBook.reduce((a, x) => a + x.short, 0);
-    insights.push({ id: 'p-sm', kind: 'Smart Money book', tone: L >= S ? 'up' : 'down', href: '/perps/BTC', text: `Smart Money holds ${usd(L)} long against ${usd(S)} short across its top ${smBook.length} coins`, detail: `${pct(L / (L + S), 0)} long · largest book ${smBook[0].symbol}` });
+    insights.push({ id: 'p-sm', kind: 'Smart Money book', tone: L >= S ? 'up' : 'down', href: '/perps/BTC', // Every coin, as the page's "Smart money book" skew is: one set, so the two agree. This is Nansen's perp
+    // screener; the BTC page's observed book is read position by position and can differ.
+    text: `Smart Money holds ${usd(L)} long against ${usd(S)} short across ${smBook.length} coins`, detail: `${pct(L / (L + S), 0)} long (${signedPct((L - S) / (L + S))} skew) · largest in Nansen's perp screener: ${smBook[0].symbol}` });
   }
   const pm = priceMovers[0];
   if (pm) insights.push({ id: 'p-px', kind: 'Price mover', tone: pm.value >= 0 ? 'up' : 'down', href: pm.href, text: `${pm.label} ${pm.value >= 0 ? '+' : '−'}${Math.abs(pm.value).toFixed(1)}% in 24h, the largest move over $5M OI`, detail: `OI ${pm.sub}` });
@@ -127,15 +129,20 @@ export function flowsAnalytics(mode: DisplayMode, now = Date.now()): FlowsAnalyt
   const map = weatherMap(now, viewOf(mode));
   const href = (c: string) => `/chain/${c}`;
   const w24 = (c: (typeof map)[number]) => c.windows.find((x) => x.window === '24h');
-  const net = map.filter((c) => w24(c) && Math.abs(w24(c)!.netFlowUsd) >= 1).map((c) => ({ label: chainName(c.chain), value: w24(c)!.netFlowUsd, href: href(c.chain), sub: `${w24(c)!.tokenCount} tokens · ${usd(w24(c)!.volumeUsd)} volume` })).sort((a, b) => b.value - a.value);
+  // Like with like: when chains carry Smart Money readings, the all-trader-only chains (Near, Tron…)
+  // are not ranked or counted with them; their market-wide totals are far larger by nature.
+  const smOnly = map.some((c) => c.source === 'smart-money');
+  const same = map.filter((c) => !smOnly || c.source === 'smart-money');
+  const net = same.filter((c) => w24(c) && Math.abs(w24(c)!.netFlowUsd) >= 1).map((c) => ({ label: chainName(c.chain), value: w24(c)!.netFlowUsd, href: href(c.chain), sub: `${w24(c)!.tokenCount} tokens · ${usd(w24(c)!.volumeUsd)} volume` })).sort((a, b) => b.value - a.value);
   const index = map.filter((c) => c.cpi != null && c.trend6h != null).map((c) => ({ label: chainName(c.chain), value: c.trend6h!, href: href(c.chain), sub: `Flow Index ${Math.round(c.cpi!)}` })).sort((a, b) => Math.abs(b.value) - Math.abs(a.value)).slice(0, 12);
   const insights: PulseItem[] = [];
   const inn = net[0], out = net.at(-1);
-  if (inn && out && inn !== out) insights.push({ id: 'f-net', kind: 'Net flow', tone: 'flat', href: inn.href, text: `${inn.label} took the most net flow (${usd(inn.value, { signed: true })}); ${out.label} lost the most (${usd(out.value, { signed: true })})`, detail: `${net.filter((x) => x.value > 0).length} of ${net.length} chains net positive in 24h`, spark: { type: 'bars', values: net.map((x) => x.value) } });
+  if (inn && out && inn !== out) insights.push({ id: 'f-net', kind: 'Net flow', tone: 'flat', href: inn.href, text: `${inn.label} took the most net flow (${usd(inn.value, { signed: true })}); ${out.label} lost the most (${usd(out.value, { signed: true })})`, detail: `${net.filter((x) => x.value > 0).length} of ${net.length} chains net positive in 24h${smOnly ? ' · Smart Money flow' : ''}`, spark: { type: 'bars', values: net.map((x) => x.value) } });
   const fast = index[0];
   if (fast) insights.push({ id: 'f-fast', kind: 'Fastest change', tone: fast.value >= 0 ? 'up' : 'down', href: fast.href, text: `${fast.label}'s Flow Index moved ${fast.value >= 0 ? '+' : '−'}${Math.abs(Math.round(fast.value))} in 6 hours`, detail: fast.sub ?? '' });
-  const acc = map.filter((c) => (c.cpi ?? 50) >= 65).length, dist = map.filter((c) => (c.cpi ?? 50) <= 35).length;
-  insights.push({ id: 'f-breadth', kind: 'Breadth', tone: acc >= dist ? 'up' : 'down', href: '/', text: `${acc} chains accumulating, ${dist} distributing`, detail: `${map.filter((c) => c.cpi != null).length} chains measured against their own history` });
+  const acc = same.filter((c) => (c.cpi ?? 50) >= 65).length, dist = same.filter((c) => (c.cpi ?? 50) <= 35).length;
+  const n = (k: number) => `${k} chain${k === 1 ? '' : 's'}`;
+  insights.push({ id: 'f-breadth', kind: 'Breadth', tone: acc >= dist ? 'up' : 'down', href: '/', text: `${n(acc)} accumulating, ${dist} distributing`, detail: `${same.filter((c) => c.cpi != null).length} chains measured against their own history${smOnly ? ' · Smart Money flow' : ''}` });
   const fronts = capitalFlows(viewOf(mode), 24, now)?.fronts ?? [];
   const f = [...fronts].sort((a, b) => b.netUsd - a.netUsd)[0];
   if (f) insights.push({ id: 'f-rot', kind: 'Rotation', tone: 'up', href: '/flows', text: `Largest wallet rotation: ${chainName(f.from)} to ${chainName(f.to)}, ${usd(f.netUsd)} by ${f.walletCount} wallets`, detail: `${fronts.length} rotations between chains in 24h` });

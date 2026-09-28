@@ -669,7 +669,8 @@ export function TokenView({
       >
         {cards.storm('')}
       </TokenHero>
-      <VerdictCard chain={chain} address={address} ready={ok(s.storm)} />
+      {/* Refetch once the final score is stored, so the verdict and the Token Score card show the same number. */}
+      <VerdictCard chain={chain} address={address} ready={ok(s.storm) && s.storm.final} />
       {quickRead}
       {s.fatal && <p className="rounded-md border border-border px-3 py-2 text-sm text-ink-2">{s.fatal}</p>}
       {gone(s.header) && <Unavailable text={s.header.unavailable} />}

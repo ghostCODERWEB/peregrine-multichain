@@ -54,7 +54,7 @@ export function MobileTokens({ d }: { d: CheckerData }) {
             {d.universe.slice(0, 10).map((u) => (
               <Row key={`${u.chain}:${u.address}`} href={href(u)} leading={<TokenLogo symbol={u.symbol} chain={u.chain} address={u.address} size={30} />}
                 title={u.symbol ?? u.address.slice(0, 6)} subtitle={`${chainName(u.chain)} · vol ${usd(u.volume)}`}
-                trailing={u.change != null ? pct(u.change, 1) : 'n/a'} tone={(u.change ?? 0) >= 0 ? 'in' : 'out'} trailingSub={u.score != null ? `score ${Math.round(u.score)}` : undefined} />
+                trailing={u.change != null ? `${u.change > 0 ? '+' : ''}${pct(u.change, 1)}` : 'n/a'} tone={(u.change ?? 0) >= 0 ? 'in' : 'out'} trailingSub={u.score != null ? `score ${Math.round(u.score)}` : undefined} />
             ))}
           </List>
         </Group>
@@ -66,7 +66,7 @@ export function MobileTokens({ d }: { d: CheckerData }) {
             {d.fresh.slice(0, 8).map((u) => (
               <Row key={`${u.chain}:${u.address}`} href={href(u)} leading={<TokenLogo symbol={u.symbol} chain={u.chain} address={u.address} size={30} />}
                 title={u.symbol ?? u.address.slice(0, 6)} subtitle={`${chainName(u.chain)} · ${u.ageDays != null ? `${Math.round(u.ageDays)}d old` : 'new'} · liq ${usd(u.liquidity)}`}
-                trailing={u.change != null ? pct(u.change, 0) : 'n/a'} tone={(u.change ?? 0) >= 0 ? 'in' : 'out'} />
+                trailing={u.change != null ? `${u.change > 0 ? '+' : ''}${pct(u.change, 0)}` : 'n/a'} tone={(u.change ?? 0) >= 0 ? 'in' : 'out'} />
             ))}
           </List>
         </Group>

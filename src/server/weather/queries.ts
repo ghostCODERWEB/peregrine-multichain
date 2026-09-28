@@ -1,6 +1,7 @@
 // Read side of the scanner: turns stored snapshots and trades into what the
 // pages show. No Nansen calls here — everything is derived from TIDE's own
 // history, which is why the map loads instantly and costs nothing to view.
+import { isRiskListable } from '@/lib/models/trade-side';
 import { properAddress } from '@/server/nansen/address-case';
 import { getDb } from '@/server/nansen/db';
 import { tokenLogos, logoOf } from '@/server/token/meta';
@@ -308,12 +309,13 @@ export interface StormTick {
 /** The home ticker: the latest Storm Score of every token scored in the
  *  last 48h (token page views and the scanner's sweep), highest first. */
 export function stormTicker(limit = 12, now = Date.now()): StormTick[] {
-  const rows = getDb().prepare(`
+  const rows = (getDb().prepare(`
     SELECT s.chain, s.token_address, s.symbol, s.score, s.band, s.confidence, s.missing, s.source, s.computed_at
     FROM storm_scores s
     JOIN (SELECT MAX(id) AS id FROM storm_scores WHERE computed_at >= ? GROUP BY chain, token_address) m ON m.id = s.id
     ORDER BY s.score DESC LIMIT ?
-  `).all(now - 48 * 3_600_000, limit) as Array<{ chain: string; token_address: string; symbol: string | null; score: number; band: StormTick['band']; confidence: number; missing: string; source: StormTick['source']; computed_at: number }>;
+  `).all(now - 48 * 3_600_000, limit * 3) as Array<{ chain: string; token_address: string; symbol: string | null; score: number; band: StormTick['band']; confidence: number; missing: string; source: StormTick['source']; computed_at: number }>)
+    .filter((r) => isRiskListable(r.symbol)).slice(0, limit);
   const logos = tokenLogos(rows.map((r) => ({ chain: r.chain, address: r.token_address })));
   return rows.map((r) => ({
     chain: r.chain, tokenAddress: properAddress(r.chain, r.token_address), symbol: r.symbol, score: r.score, band: r.band,

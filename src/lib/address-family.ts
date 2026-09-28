@@ -83,4 +83,9 @@ export const FAMILY_NAMES: Record<AddressFamily, string> = {
  * (lowercased), everything else — base58 Solana and Tron, TON, Stellar — is
  * case-sensitive and kept exactly as Nansen returned it.
  */
-export const addressKey = (a: string): string => (/^0x[0-9a-fA-F]+$/.test(a) ? a.toLowerCase() : a);
+/** Stored form of an address. Control characters are stripped first: Nansen has returned a
+ *  Solana address with a trailing NUL byte, which broke its link and label. */
+export const addressKey = (raw: string): string => {
+  const a = raw.replace(/[\u0000-\u001F\u007F]/g, '').trim();
+  return /^0x[0-9a-fA-F]+$/.test(a) ? a.toLowerCase() : a;
+};
