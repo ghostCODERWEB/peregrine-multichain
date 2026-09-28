@@ -10,7 +10,9 @@ import { spanOf, usd } from '@/lib/viz/format';
 /** The Perps page's analytical overview: insights with a Nansen brief, then OI, price and funding movers and the Smart Money book. */
 export function PerpsAnalytics({ mode }: { mode: DisplayMode }) {
   const a = perpsAnalytics(mode);
-  const maxBook = Math.max(1, ...a.smBook.map((b) => b.long + b.short));
+  // As long as the ranked charts beside it (14 rows each); the pulse above still totals the whole book.
+  const book = a.smBook.slice(0, 14);
+  const maxBook = Math.max(1, ...book.map((b) => b.long + b.short));
   return (
     <div className="space-y-4">
       <InsightPanel id="perps-pulse" title="Perps pulse" items={a.insights} briefKey="perps" mode={mode} />
@@ -32,7 +34,7 @@ export function PerpsAnalytics({ mode }: { mode: DisplayMode }) {
         {a.smBook.length > 0 ? (
           <Card id="perps-sm-book" title="Smart Money book by coin" sub="Observed long and short exposure">
             <ul className="space-y-2">
-              {a.smBook.map((b) => (
+              {book.map((b) => (
                 <li key={b.symbol} data-analyze={JSON.stringify({ kind: 'perp', label: `${b.symbol} Smart Money book`, href: `/perps/${b.symbol}`, longUsd: Math.round(b.long), shortUsd: Math.round(b.short) })}>
                   <Link prefetch={false} href={`/perps/${encodeURIComponent(b.symbol)}`} className="group grid grid-cols-[84px_minmax(0,1fr)_auto] items-center gap-2 text-[12px]">
                     <span className="flex min-w-0 items-center gap-1.5 font-semibold text-ink group-hover:underline"><TokenLogo symbol={b.symbol} coin={b.symbol} size={16} /><span className="truncate">{b.symbol}</span></span>

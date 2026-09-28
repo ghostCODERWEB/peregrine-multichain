@@ -172,7 +172,7 @@ function PressureGrid({ coins, onPick, picked }: { coins: PerpCoin[]; onPick: (c
 // ------------------------------------------------------------- crowding map
 
 const CW = 760,
-  CH = 380,
+  CH = 500, // tall enough to end with the coins table beside it; spreads the cluster near zero
   CP = { l: 52, r: 18, t: 16, b: 40 };
 const FMAX = 1,
   FK = 0.05;

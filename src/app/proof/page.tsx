@@ -84,7 +84,7 @@ export default async function ProofPage() {
 
       <details className="material p-4 text-[12.5px] sm:p-5">
         <summary className="cursor-pointer font-semibold text-ink-2 hover:text-ink">All {L?.endpoints.length ?? 0} Nansen endpoints, by calls</summary>
-        <table className="mt-3 w-full text-left">
+        <table data-page className="mt-3 w-full text-left">
           <tbody>
             {L?.endpoints.map((e) => (
               <tr key={e.endpoint} className="border-t border-[var(--hair)]"><td className="py-1 pr-3 font-mono text-[11.5px] text-ink">{e.endpoint}</td><td className="num py-1 text-right text-ink-2">{e.calls.toLocaleString('en-US')}</td></tr>
