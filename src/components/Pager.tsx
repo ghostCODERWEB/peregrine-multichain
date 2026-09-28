@@ -164,10 +164,18 @@ function apply(host: HTMLElement, opts: { resetPage?: boolean; scroll?: boolean;
     const box = boxOf(host);
     const before = box.offsetHeight, barTop = here.getBoundingClientRect().top;
     if (b.dataset.go != null) {
+      // Whether this page change scrolls up to the list's start (a list that begins far above the screen).
+      const toStart = host.getBoundingClientRect().top < -innerHeight * 0.6;
       cur.page = Number(b.dataset.go);
       apply(host, { scroll: true });
       const spacer = Math.max(0, (parseFloat(here.style.marginTop) || 0) + before - box.offsetHeight);
       if (spacer) here.style.marginTop = `${spacer}px`; else here.style.removeProperty('margin-top');
+      // Near the page's end the shorter page shortened the document for a moment and the browser pulled the
+      // scroll up to fit, before the spacer gave the height back; put the bar back under the finger.
+      if (!toStart) {
+        const drift = here.getBoundingClientRect().top - barTop;
+        if (Math.abs(drift) > 1) window.scrollBy({ top: drift, behavior: 'instant' });
+      }
     } else {
       const first = cur.page * (cur.size || count);
       cur.size = Number(b.dataset.size);
