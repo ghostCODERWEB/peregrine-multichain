@@ -70,7 +70,7 @@ export function allTraderOnly(chains: NetInput[], window = '24h', skip = ['hyper
 function measured(chains: NetInput[], window: string, skip: string[]) {
   return chains.flatMap((c) => {
     if (skip.includes(c.chain)) return [];
-    const w = c.windows.find((x) => x.window === window);
+    const w = c.windows?.find((x) => x.window === window);
     return w && Number.isFinite(w.netFlowUsd) && w.tokenCount !== 0 ? [{ chain: c.chain, net: w.netFlowUsd, source: c.source ?? null }] : [];
   });
 }

@@ -14,7 +14,7 @@ const BAND = { high: 'accumulation', low: 'distribution', neutral: 'neutral' } a
 export default async function Image({ params }: { params: Promise<{ chain: string }> }) {
   const chain = decodeURIComponent((await params).chain);
   const c = buildBulletin('public').chains.find((x) => x.chain === chain);
-  const w = (k: string) => c?.windows.find((x) => x.window === k)?.netFlowUsd ?? null;
+  const w = (k: string) => c?.windows?.find((x) => x.window === k)?.netFlowUsd ?? null;
   const name = chainName(chain);
   return ogCard({
     section: 'Chain',

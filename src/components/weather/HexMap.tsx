@@ -261,7 +261,7 @@ function TileTooltip({ w, chain, x, y, containerWidth }: {
           </div>
           <table className="mt-2 w-full">
             <tbody>
-              {w.windows.map((x) => (
+              {(w.windows ?? []).map((x) => (
                 <tr key={x.window} className="text-ink-2">
                   <td className="py-0.5">{x.window}</td>
                   <td className="num text-right text-ink">{usd(x.netFlowUsd, { signed: true })}</td>

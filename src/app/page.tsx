@@ -9,6 +9,7 @@ import { RiskRadar } from '@/components/weather/RiskRadar';
 import { MobileHome } from '@/components/mobile/MobileHome';
 import { isPhone } from '@/server/device';
 import { forClient } from '@/lib/provenance';
+import { SectionBoundary } from '@/components/SectionBoundary';
 
 export const dynamic = 'force-dynamic';
 
@@ -17,12 +18,12 @@ export default async function Home() {
   const mode = await displayMode();
   const bulletin = buildBulletin(viewOf(mode));
   // Phones get their own Today screen; tablets and desktops the full overview.
-  if (await isPhone()) return <MobileHome mode={mode} chains={bulletin.chains} />;
+  if (await isPhone()) return <SectionBoundary what="Today" minHeight={320}><MobileHome mode={mode} chains={bulletin.chains} /></SectionBoundary>;
   const alpha = alphaBoard(viewOf(mode), Date.now(), 5);
   return (
     <>
-      <div className="lg:hidden"><MobileHome mode={mode} chains={bulletin.chains} /></div>
-      <div className="max-lg:hidden"><WeatherView initial={forClient(bulletin)} anchor={latestReport(subjectKey('bulletin', mode))} alpha={<AlphaStrip rows={alpha.rows} />} intel={<><RiskRadar mode={mode} /><OverviewIntel mode={mode} /></>} /></div>
+      <div className="lg:hidden"><SectionBoundary what="Today" minHeight={320}><MobileHome mode={mode} chains={bulletin.chains} /></SectionBoundary></div>
+      <div className="max-lg:hidden"><SectionBoundary what="The overview" minHeight={480}><WeatherView initial={forClient(bulletin)} anchor={latestReport(subjectKey('bulletin', mode))} alpha={<AlphaStrip rows={alpha.rows} />} intel={<><RiskRadar mode={mode} /><OverviewIntel mode={mode} /></>} /></SectionBoundary></div>
     </>
   );
 }

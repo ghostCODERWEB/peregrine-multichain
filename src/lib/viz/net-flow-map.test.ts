@@ -71,4 +71,9 @@ describe('chainNets', () => {
     expect(chainNets(chains)).toEqual([{ chain: 'near', net: -10 }, { chain: 'ton', net: 4 }]);
     expect(allTraderOnly(chains)).toEqual([]);
   });
+  it('skips a chain that arrives without its readings instead of failing the page', () => {
+    const chains = [{ chain: 'base', windows: [{ window: '24h', netFlowUsd: 4 }] }, { chain: 'ton' } as unknown as { chain: string; windows: [] }];
+    expect(chainNets(chains)).toEqual([{ chain: 'base', net: 4 }]);
+    expect(allTraderOnly(chains)).toEqual([]);
+  });
 });

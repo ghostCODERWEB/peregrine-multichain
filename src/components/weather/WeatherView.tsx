@@ -35,7 +35,10 @@ import { Go, Up, Down } from '@/components/ui/Icons';
 async function fetchBulletin(): Promise<WeatherBulletin> {
   const r = await fetch('/api/weather', { cache: 'no-store' });
   if (!r.ok) throw new Error(`weather ${r.status}`);
-  return r.json();
+  // A malformed answer (a deploy mid-restart, a proxy page) throws, so the last good bulletin stays on screen.
+  const b = (await r.json()) as WeatherBulletin;
+  if (!b || !Array.isArray(b.chains)) throw new Error('weather: unexpected answer');
+  return { ...b, fronts: b.fronts ?? [], layers: b.layers ?? [], forecasts: b.forecasts ?? [], storms: b.storms ?? [], chains: b.chains.filter((c) => c && typeof c.chain === 'string').map((c) => ({ ...c, windows: Array.isArray(c.windows) ? c.windows : [], series: Array.isArray(c.series) ? c.series : [] })) };
 }
 
 export function WeatherView({

@@ -128,7 +128,7 @@ export interface FlowsAnalytics { insights: PulseItem[]; net: RankRow[]; index: 
 export function flowsAnalytics(mode: DisplayMode, now = Date.now()): FlowsAnalytics {
   const map = weatherMap(now, viewOf(mode));
   const href = (c: string) => `/chain/${c}`;
-  const w24 = (c: (typeof map)[number]) => c.windows.find((x) => x.window === '24h');
+  const w24 = (c: (typeof map)[number]) => c.windows?.find((x) => x.window === '24h');
   // Like with like: when chains carry Smart Money readings, the all-trader-only chains (Near, Tron…)
   // are not ranked or counted with them; their market-wide totals are far larger by nature.
   const smOnly = map.some((c) => c.source === 'smart-money');

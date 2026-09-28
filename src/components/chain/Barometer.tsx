@@ -70,7 +70,7 @@ export function Barometer({ w, provenance }: { w: ChainWeather; provenance: Prov
         </svg>
       </div>
       <dl className="mt-3 grid grid-cols-3 gap-2 text-center">
-        {w.windows.map((x) => (
+        {(w.windows ?? []).map((x) => (
           <div key={x.window} className="rounded-md bg-accent/50 px-2 py-1.5">
             <dt className="text-[11px] text-ink-muted">{x.window}</dt>
             <dd className="num text-sm text-ink">{num(x.cpi, 0)}</dd>
