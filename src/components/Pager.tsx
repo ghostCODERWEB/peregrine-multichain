@@ -43,8 +43,8 @@ const boxOf = (host: HTMLElement): HTMLElement => (host.parentElement && host in
 function apply(host: HTMLElement, opts: { resetPage?: boolean; scroll?: boolean } = {}): boolean {
   // Streamed sections arrive as HTML before React hydrates them: wait until React is done with this one
   // (an early bar or changed row is a hydration error that re-renders the section on the client).
-  if (!hydratedPast(boxOf(host))) return false;
   const all = itemsOf(host);
+  if (!hydratedPast(boxOf(host), host, all.at(-1))) return false;
   all.forEach((r) => { if (r.hidden) out(r, false); });
   const items = all.filter((r) => !r.hidden);
   const choices = sizes();
