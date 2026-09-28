@@ -33,10 +33,10 @@ test.describe('owner', () => {
     await page.goto(`${AERO}?view=flow`);
     const card = page.locator('section', { has: page.getByRole('heading', { name: /follow smart money|Followed \d/ }) });
     await expect(card).toContainText('4 smart-money buys of this token (≥ $250) in the last 7 days, grouped into 2 events', { timeout: 60_000 });
-    await card.getByRole('button', { name: 'Check follow-through · up to 21 credits' }).click();
+    await card.getByRole('button', { name: 'Check follow-through', exact: true }).click();
     await expect(page.getByRole('heading', { name: 'Followed 1 of 2 smart-money buys within 10 minutes' })).toBeVisible();
     await expect(card.getByRole('row')).toHaveCount(3);
-    await expect(card.getByRole('row').nth(1)).toContainText(/0\.20 → 0\.90.*2 → 9 buyers · tape cut.*followed.*\+4\.0%/);
+    await expect(card.getByRole('row').nth(1)).toContainText(/0\.20 to 0\.90.*2 to 9 buyers · tape cut.*followed.*\+4\.0%/);
     await expect(card).toContainText('Median 24h after followed buys +4.0%, after the rest −2.0%. 2 events is an anecdote');
     expect(posts).toEqual([{ chain: 'base', token: '0x940181a94a35a4569e4529a3cdfb74e38fd98631', confirmCredits: 21 }]);
     await card.screenshot({ path: test.info().outputPath('follow.png') });

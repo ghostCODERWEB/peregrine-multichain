@@ -9,6 +9,10 @@ import { chainName, num, pct, usd } from '@/lib/viz/format';
 import { DIVERGENCE_TEXT, type Divergence } from '@/lib/models/spot-perp';
 import { ExplainView } from '@/components/ExplainView';
 
+// Browsers keep a style percentage to 4 decimals; a full-precision value rendered on the server then no longer
+// matches the client's and React reports a hydration mismatch for every bubble. 3 decimals is far below a pixel.
+const pctPos = (v: number, of: number) => Math.round((v / of) * 100_000) / 1000;
+
 type Preset = { id: string; label: string; rule: string; test: (r: AlphaRow, ctx: { volTop: number }) => boolean };
 
 const f = (r: AlphaRow) => r.flowShare ?? 0;
@@ -70,7 +74,7 @@ function MarketMap({ rows, match, onPick }: { rows: AlphaRow[]; match: (r: Alpha
           <a key={`${r.chain}:${r.tokenAddress}`} href={`/token/${r.chain}/${encodeURIComponent(r.tokenAddress)}`}
             onClick={(e) => { e.preventDefault(); onPick(r); }} onMouseEnter={() => setHover(r)} onMouseLeave={() => setHover(null)} onFocus={() => setHover(r)} onBlur={() => setHover(null)}
             aria-label={`${r.symbol ?? 'Token'} on ${chainName(r.chain)}: net flow ${pct(r.flowShare, 1)} of volume, price ${pct(r.priceChange24h, 1)}, volume ${usd(r.volume24hUsd)}, alpha ${r.score}`}
-            className="map-bubble absolute flex flex-col items-center" style={{ left: `${(x / W) * 100}%`, top: `${(y / H) * 100}%`, transform: 'translate(-50%, -50%)', opacity: on ? 1 : 0.25, zIndex: hover === r ? 5 : Math.round(rad) }}>
+            className="map-bubble absolute flex flex-col items-center" style={{ left: `${pctPos(x, W)}%`, top: `${pctPos(y, H)}%`, transform: 'translate(-50%, -50%)', opacity: on ? 1 : 0.25, zIndex: hover === r ? 5 : Math.round(rad) }}>
             <span className="grid place-items-center rounded-full bg-[var(--surface-1)] transition-transform" style={{ padding: 2, boxShadow: `0 0 0 2px ${ring}` }}>
               <TokenLogo symbol={r.symbol} logo={r.logo} chain={r.chain} address={r.tokenAddress} size={Math.round(size * 0.9)} />
             </span>

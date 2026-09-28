@@ -7,13 +7,22 @@ const WALLET = '/wallet/0xcbb811f129782ef87e19dea9d3375045219bae00';
 /** Fails the test on any uncaught page error or console error, and on any
  *  horizontal overflow (the layout must fit the viewport). */
 async function watch(page: Page) {
-  const errors: string[] = [];
-  page.on('pageerror', (e) => errors.push(`pageerror: ${e.message}`));
+  const logged: Array<{ text: string; url: string }> = [];
+  // Requests the demo recording lacks: their API answers "No recorded fixture", and the browser adds its own
+  // "Failed to load resource" line for that failed request. Both are tolerated; nothing else is.
+  const fixtureMisses = new Set<string>();
+  page.on('response', async (r) => {
+    if (r.status() >= 400 && r.url().includes('/api/')) {
+      const body = await r.text().catch(() => '');
+      if (body.includes('No recorded fixture')) fixtureMisses.add(r.url());
+    }
+  });
+  page.on('pageerror', (e) => logged.push({ text: `pageerror: ${e.message}`, url: '' }));
   // "No recorded fixture": the dev server echoes its own log of a call the demo recording lacks into the
   // browser console (development only). The page itself says the section is not in the recording.
-  page.on('console', (m) => { if (m.type() === 'error' && !/favicon|Download the React DevTools|No recorded fixture/.test(m.text())) errors.push(`console: ${m.text()}`); });
+  page.on('console', (m) => { if (m.type() === 'error' && !/favicon|Download the React DevTools|No recorded fixture/.test(m.text())) logged.push({ text: `console: ${m.text()}`, url: m.location().url }); });
   return {
-    errors,
+    get errors() { return logged.filter((e) => !(e.text.startsWith('console: Failed to load resource') && fixtureMisses.has(e.url))).map((e) => e.text); },
     async noOverflow() {
       const [doc, win] = await page.evaluate(() => [document.documentElement.scrollWidth, window.innerWidth]);
       expect(doc, 'page scrolls sideways').toBeLessThanOrEqual(win + 1);

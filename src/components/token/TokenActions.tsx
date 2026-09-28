@@ -39,7 +39,8 @@ export function TokenActions({ chain, address, symbol, owner }: { chain: string;
         <ChevronRight size={13} aria-hidden />
         <span className="truncate text-ink" aria-current="page">{symbol ?? 'Token'}</span>
       </nav>
-      <div className="flex items-center gap-2">
+      {/* Wraps on narrow phones: with accounts on, the alert and Trade buttons outgrow a 390px screen. */}
+      <div className="flex flex-wrap items-center justify-end gap-2">
         {shared && <span role="status" className="text-[12px] font-semibold text-[var(--mint)]">{shared}</span>}
         <button type="button" onClick={() => setWatching(toggleWatch({ chain, address, symbol }))} aria-pressed={watching}
           aria-label={watching ? 'Remove from watchlist' : 'Add to watchlist'} title={watching ? 'Watching: listed on your Desk' : 'Watch: list it on your Desk'} className={icon}>

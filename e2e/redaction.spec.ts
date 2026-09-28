@@ -10,6 +10,10 @@ import path from 'node:path';
 // database, then asserts none of them appear anywhere public.
 const BASE = process.env.REDACTION_URL ?? process.env.E2E_URL ?? 'http://localhost:3300';
 const DB = process.env.REDACTION_DB ?? 'data/demo.db';
+// API calls come from the site's own pages: a public site answers only same-origin requests.
+test.use({ extraHTTPHeaders: { referer: `${BASE}/` } });
+// A refused public caller: 403 on a public view, 404 where a public site has the route switched off entirely.
+const REFUSED = [403, 404];
 
 function secrets(): { labels: string[]; wallets: string[]; counterpartyLabels: string[]; tradeLabels: string[] } {
   try {
@@ -61,7 +65,9 @@ test('public header: public view, attribution, no credit balance', async ({ page
 
 test('home: fronts withheld, no labels or smart-money wallets', async ({ page }) => {
   await page.goto('/');
-  await expect(page.getByRole('heading', { name: /key-owner view only/ })).toBeVisible();
+  // Public mode shows as the withheld rotations card on a public view (demo), or, on a public site
+  // (TIDE_PUBLIC_SITE=1, where that card can never unlock and is left out), as the Nansen attribution.
+  await expect(page.getByRole('heading', { name: /key-owner view only/ }).or(page.getByText('Public view · Powered by Nansen API')).first()).toBeVisible();
   const html = await page.content();
   assertClean('home', html);
   for (const w of wallets.slice(0, 20)) expect(html.includes(w), `home leaks smart-money wallet ${w}`).toBe(false);
@@ -74,15 +80,17 @@ test('weather API and public API expose no private data', async ({ request }) =>
   expect(w.inference).toBeNull();
   for (const c of w.chains) if (c.source) expect(c.source).toBe('market-flow');
   assertClean('/api/weather', JSON.stringify(w));
-  expect((await request.get('/api/public/fronts')).status()).toBe(403);
-  const f = await (await request.get('/api/public/forecast?chain=base')).json();
-  expect(f.measured_from === null || f.measured_from === 'market-flow').toBe(true);
+  expect(REFUSED).toContain((await request.get('/api/public/fronts')).status());
+  const fr = await request.get('/api/public/forecast?chain=base');
+  if (fr.status() === 200) { const f = await fr.json(); expect(f.measured_from === null || f.measured_from === 'market-flow').toBe(true); }
+  else expect(REFUSED).toContain(fr.status());
 });
 
 test('chain page: all-trader flows, trade tape and sectors withheld', async ({ page }) => {
   await page.goto('/chain/base');
   const text = await page.locator('main').innerText();
-  expect(text).toMatch(/Shown only to (the API key owner|this instance's owner)/);
+  // A public view shows the lock; a public site (TIDE_PUBLIC_SITE=1) leaves the locked tape card out entirely.
+  expect(/Shown only to (the API key owner|this instance's owner)/.test(text) || !/Latest smart-money trades on Base/.test(text)).toBe(true);
   expect(text).not.toMatch(/Latest smart-money trades on Base\s*\n\s*WHEN/);
   assertClean('/chain/base', await page.content());
 });
@@ -140,12 +148,13 @@ test('wallet page: trail withheld, labels stripped', async ({ page }) => {
 
 test('smart-money desk: private explanation only; its API refuses public callers', async ({ page, request }) => {
   await page.goto('/smart-money');
-  await expect(page.getByRole('heading', { name: 'The smart-money desk is private' })).toBeVisible();
+  // A public view explains the desk is private; a public site sends owner-only pages back home.
+  if (new URL(page.url()).pathname === '/smart-money') await expect(page.getByRole('heading', { name: 'The smart-money desk is private' })).toBeVisible();
   await expect(page.locator('#conviction-map, #holdings, #leaders, #sm-perps, #sm-dcas')).toHaveCount(0);
   assertClean('/smart-money', await page.content());
-  expect((await request.get('/api/smart-money')).status()).toBe(403);
+  expect(REFUSED).toContain((await request.get('/api/smart-money')).status());
   const post = await request.post('/api/smart-money', { data: { action: 'desk', chain: 'all' }, headers: { Origin: BASE } });
-  expect(post.status()).toBe(403);
+  expect(REFUSED).toContain(post.status());
   expect(await post.text()).not.toContain('holders');
 });
 
@@ -156,7 +165,7 @@ test('perps: pressure board public, trader leaderboard withheld, coin detail wit
   await expect(page.locator('section[aria-labelledby="leaders"] table')).toHaveCount(0);
   assertClean('/perps', await page.content());
   const leaders = await request.post('/api/perps', { data: { action: 'leaders' }, headers: { Origin: BASE } });
-  expect(leaders.status()).toBe(403);
+  expect(REFUSED).toContain(leaders.status());
   const coin = await request.post('/api/perps', { data: { action: 'coin', symbol: 'BTC' }, headers: { Origin: BASE }, timeout: 90_000 });
   if (coin.ok()) {
     const body = await coin.text();
@@ -175,16 +184,18 @@ test('alerts API: public callers cannot list, create, toggle or delete Smart Ale
   const h = { Origin: BASE };
   const list = await request.get('/api/alerts');
   // DEMO_MODE answers with an empty list and a note; a live public instance refuses.
-  if (list.status() !== 200) expect(list.status()).toBe(403);
+  if (list.status() !== 200) expect(REFUSED).toContain(list.status());
   expect((await list.json()).alerts ?? []).toEqual([]);
   const create = await request.post('/api/alerts', { headers: h, data: { chain: 'base', address: '0x9b5e262cf9bb04869ab40b19af91d2dc85761722', channel: { type: 'telegram', chatId: '123456789' } } });
   expect(create.ok()).toBe(false);
-  expect((await request.patch('/api/alerts', { headers: h, data: { id: 'x', isEnabled: false } })).status()).toBe(403);
-  expect((await request.delete('/api/alerts?id=x', { headers: h })).status()).toBe(403);
+  expect(REFUSED).toContain((await request.patch('/api/alerts', { headers: h, data: { id: 'x', isEnabled: false } })).status());
+  expect(REFUSED).toContain((await request.delete('/api/alerts?id=x', { headers: h })).status());
 });
 
 test('MCP and research agent: public callers get public tools only, no agent', async ({ request }) => {
   const list = await request.post('/api/mcp', { data: { jsonrpc: '2.0', id: 1, method: 'tools/list' } });
+  // A public site switches MCP off entirely: nothing to list, nothing to call.
+  if (list.status() === 404) { expect(REFUSED).toContain((await request.get('/api/agent')).status()); return; }
   const names = ((await list.json()).result.tools as Array<{ name: string }>).map((t) => t.name);
   expect(names).not.toContain('tide_fronts');
   expect(names).not.toContain('tide_smart_money');
@@ -195,13 +206,13 @@ test('MCP and research agent: public callers get public tools only, no agent', a
     assertClean(`mcp ${tool}`, await r.text());
   }
   expect((await request.post('/api/mcp', { headers: { Authorization: 'Bearer tide_mcp_notarealtokennotarealtoken' }, data: { jsonrpc: '2.0', id: 4, method: 'tools/list' } })).status()).toBe(401);
-  expect((await request.get('/api/agent')).status()).toBe(403);
+  expect(REFUSED).toContain((await request.get('/api/agent')).status());
 });
 
 test('trade API: public callers cannot quote, prepare or execute', async ({ request }) => {
   const h = { Origin: BASE };
   const q = await request.post('/api/trade', { headers: h, data: { action: 'quote', chain: 'base', side: 'buy', base: 'USDC', token: '0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b', amount: '5000000', wallet: '0x000000000000000000000000000000000000dEaD' } });
-  expect(q.status()).toBe(403);
+  expect(REFUSED).toContain(q.status());
   const x = await request.post('/api/trade', { headers: h, data: { action: 'execute', chain: 'base', signedTx: '0x' + 'ab'.repeat(80), confirm: true } });
-  expect(x.status()).toBe(403);
+  expect(REFUSED).toContain(x.status());
 });

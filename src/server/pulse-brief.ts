@@ -1,12 +1,13 @@
 // Written briefs over derived insights: Nansen's agent (agent/fast) summarizes a
 // page's signals in three short sentences. One brief per page key is shared by
-// every view: cached in kv, regenerated at most hourly and only when the data changed.
+// every view: cached in kv, regenerated only when the data changed and the brief is older than
+// BRIEF_TTL_HOURS (default 6). Each rewrite is a 200-credit agent call, so briefs are the costliest part of a page view.
 import { createHash } from 'node:crypto';
 import { streamNansen } from '@/server/nansen/client';
 import { getKv, setKv } from '@/server/nansen/db';
 import type { PulseItem } from '@/server/pulse';
 
-const TTL = 3_600_000;
+const TTL = Math.max(1, Number(process.env.BRIEF_TTL_HOURS) || 6) * 3_600_000;
 export interface PulseBrief { text: string; at: number }
 const inflight = new Map<string, Promise<PulseBrief | null>>();
 const kvKey = (key: string) => (key === 'pulse' ? 'pulse:brief' : `brief:${key}`);
