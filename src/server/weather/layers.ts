@@ -58,7 +58,9 @@ export function weatherLayers(view: PressureView, now = Date.now()): WeatherLaye
   const body = { pagination: { page: 1, per_page: 60 } };
   // Only this attributed, non-wallet endpoint uses the shared operator cache.
   // Never inspect or merge member cache partitions.
-  let prediction = readCache<unknown>('prediction-market/categories', body);
+  // The fresh board, else the last one stored, shown with its real age: when the credit budget is spent (or no
+  // key is set), the API client serves that same stored board, so the view must not claim there is none.
+  let prediction = readCache<unknown>('prediction-market/categories', body) ?? readCache<unknown>('prediction-market/categories', body, null, { stale: true });
   if (recorded) {
     try {
       prediction = { value: replayFixture('prediction-market/categories', body), fetchedAt: 0 };
@@ -126,7 +128,7 @@ export function weatherLayers(view: PressureView, now = Date.now()): WeatherLaye
       readings: predictionReadings(prediction?.value),
       unavailable: prediction
         ? null
-        : 'No fresh shared category observation: the 15-minute cache is empty or expired. Load it here, or open Predictions. Member-key responses stay isolated.',
+        : 'Category activity could not be read from Nansen just now; the Predictions page has the full board.',
     },
   ];
 }

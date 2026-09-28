@@ -25,6 +25,7 @@ import { ForecastStrip } from './ForecastStrip';
 import { ChainTable } from './ChainTable';
 import { StormTicker } from './StormTicker';
 import { LayerPanel } from './LayerPanel';
+import { useCategoryLoad } from './LoadCategories';
 import type { AnchorReport } from '@/server/agents/anchor';
 import { mapHeadline } from '@/lib/insights';
 import { TimeAgo } from '@/components/TimeAgo';
@@ -410,6 +411,9 @@ function LayerOverview({
     </>
   );
   const empty = !hi;
+  // A cold prediction layer is fetching itself (LoadCategories): say so, not that there is nothing.
+  const categories = useCategoryLoad();
+  const loadingLayer = empty && layer.id === 'predictions' && !layer.recorded && !!layer.unavailable && categories !== 'failed';
   const card = (r: typeof hi | null, i: number) =>
     r && (
       <section key={i} className="material p-6" aria-label={i ? 'Lowest reading' : 'Highest reading'}>
@@ -443,7 +447,7 @@ function LayerOverview({
             </>
           ) : null}
         </p>
-        <h2 className="radar-headline">{empty ? `No fresh ${layer.title.toLowerCase()} yet` : headline}</h2>
+        <h2 className={`radar-headline ${loadingLayer ? 'animate-pulse' : ''}`}>{loadingLayer ? `Loading ${layer.title.toLowerCase()}…` : empty ? `No ${layer.title.toLowerCase()} right now` : headline}</h2>
         <p className="lede mt-4 hidden sm:block">{plain}</p>
         <div className="mt-6">
           <Link prefetch={false} href={layer.href} className="pill-button pill-primary">

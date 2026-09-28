@@ -5,6 +5,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { runScan } from '@/server/weather/scanner';
 import { snapshotScheduledCoins } from '@/server/perps/terminal';
+import { callNansen } from '@/server/nansen/client';
+import { CATEGORY_BODY } from '@/server/weather/category-refresh';
 import { stormSweep, type SweepCandidate } from '@/server/token/sweep';
 import { runBacktest } from '@/server/backtest/run';
 import { refreshMembership } from '@/server/sectors/membership';
@@ -31,6 +33,9 @@ export const HANDLERS: Record<string, Handler> = {
       log(`windows=${s.windows.join(',') || 'none due'} chains=${s.chainsScored} trades+=${s.tradesAdded} sectors=${s.sectorRows} credits=${s.credits} ${s.ms}ms`);
       for (const e of s.errors) log(`  ! ${e}`);
       await snapshotScheduledCoins(log);
+      // Prediction activity on the Overview reads the shared category board: kept warm here (1 credit a scan),
+      // so a visitor finds it filled instead of waiting for it to load.
+      try { const c = await callNansen<unknown>('prediction-market/categories', CATEGORY_BODY); log(`prediction categories: ${c.meta.cacheHit ? 'cached' : `refreshed (${c.meta.creditsCost} credit)`}`); } catch (e) { log(`  ! prediction categories: ${(e as Error).message.slice(0, 120)}`); }
       // Cascades history: once a day, 30 days of Smart Money trades for the most-touched tokens (tgm/dex-trades).
       const lastBf = getKv('cascades:backfill-at');
       if (!lastBf || Date.now() - lastBf.updatedAt > 24 * 3_600_000) {

@@ -44,6 +44,9 @@ test('prediction layer: an expired cache loads once on open, then fills in place
   await page.clock.install();
   await page.goto('/');
   await page.getByRole('group', { name: 'Overview views' }).getByRole('button', { name: 'Predictions', exact: true }).click();
+  // While it loads, the view says so: never that there is no activity.
+  await expect(page.getByRole('heading', { name: /^Loading prediction activity|is running/ })).toBeVisible();
+  await expect(page.getByText(/No fresh prediction activity|No prediction activity right now/)).toHaveCount(0);
   // Opening the layer asks for the categories by itself; once they are in, the layer fills with readings.
   await expect(async () => {
     await page.clock.fastForward(61_000);

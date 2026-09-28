@@ -17,8 +17,10 @@ export function LayerPanel({ layer, table, onRefresh, brief = false }: { layer: 
         <span>· {layer.recorded ? 'recorded demo data' : layer.at ? <>updated <TimeAgo ts={layer.at} /></> : 'no reading yet'}</span></div>
       <Link prefetch={false} className="font-semibold text-brand" href={layer.href}>Methodology <Go /></Link>
     </div>}
-    {layer.unavailable && <div className="inset-well space-y-3 p-4"><p className="text-sm text-ink-2">{layer.unavailable}</p>
-      {layer.id === 'predictions' && !layer.recorded && onRefresh && <LoadCategories onLoaded={onRefresh} />}</div>}
+    {/* Prediction activity fetches itself when its cache is cold: a loading state, then the tiles; the reason only if that fails. */}
+    {layer.unavailable && (layer.id === 'predictions' && !layer.recorded && onRefresh
+      ? <LoadCategories onLoaded={onRefresh} unavailable={layer.unavailable} />
+      : <div className="inset-well p-4"><p className="text-sm text-ink-2">{layer.unavailable}</p></div>)}
     {!layer.unavailable && !layer.readings.length && <p className="text-sm text-ink-2">No usable readings in this snapshot.</p>}
     {table ? <div tabIndex={0} role="region" aria-label="Readings table" className="overflow-x-auto"><table className="w-full text-left text-[13px]"><thead><tr className="border-b border-[var(--hair)] text-ink-muted"><th className="p-2 font-semibold">Name</th><th className="p-2 font-semibold">Index / 100</th><th className="p-2 text-right font-semibold">{layer.metric}</th></tr></thead><tbody>
       {layer.readings.map((r) => <tr key={r.name} className={`border-b border-[var(--hair)] ${r.wide ? 'hidden 3xl:table-row' : ''}`}><th className="p-2 font-semibold text-ink"><Link prefetch={false} href={r.href ?? layer.href} className="hover:underline">{r.name}</Link></th><td className="num p-2">{num(r.score, 0)}</td><td className="num p-2 text-right">{usd(r.value, { signed: layer.id === 'sectors' })}</td></tr>)}
