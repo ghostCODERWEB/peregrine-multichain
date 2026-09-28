@@ -8,6 +8,7 @@ import { extract, PICKABLE, type Selection } from './extract';
 import { pageContexts } from './store';
 import { friendlyError } from '@/lib/friendly-error';
 import { canGenie, genie } from './genie';
+import { AnalyzeButton } from './AnalyzeButton';
 
 type Turn = { q: string; sels: string[]; text: string; tools: string[]; error?: string; busy: boolean };
 
@@ -30,7 +31,8 @@ function prompts(path: string, hasSel: boolean): string[] {
 /** The tab bar's Ask button (phones and tablets): the panel pours out of it and back into it. */
 const askButton = () => document.querySelector<HTMLElement>('.glass-action[aria-pressed]')?.getBoundingClientRect() ?? null;
 
-export function AnalyzeDock() {
+/** The full panel. Loaded on first use by AnalyzeLauncher, which passes what opened it (and the picked element, if any). */
+export function AnalyzeDock({ initial }: { initial?: { el: HTMLElement | null } }) {
   const { publicSite } = useSite();
   const path = usePathname() ?? '/';
   const [open, setOpenRaw] = useState(false);
@@ -76,6 +78,14 @@ export function AnalyzeDock() {
   }, [setOpen]);
   const remove = (s: Selection) => { s.el.removeAttribute('data-analyze-selected'); setSels((cur) => cur.filter((x) => x.id !== s.id)); };
   const clearAll = useCallback(() => { setSels((cur) => { cur.forEach((s) => s.el.removeAttribute('data-analyze-selected')); return []; }); }, []);
+
+  // Opened by the launcher: open now, with the element that asked for it.
+  const started = useRef(false);
+  useEffect(() => {
+    if (!initial || started.current) return;
+    started.current = true;
+    if (initial.el) void add(initial.el); else setOpen(true);
+  }, [initial, add, setOpen]);
 
   // A new page: its elements are gone.
   useEffect(() => { clearAll(); setPicking(false); }, [path, clearAll]);
@@ -179,13 +189,7 @@ export function AnalyzeDock() {
         </div>
       )}
 
-      {!open && (
-        <button type="button" data-analyze-dock onClick={() => setOpen(true)} aria-label="Analyze with Nansen (⌘J)"
-          className="fixed bottom-[calc(env(safe-area-inset-bottom,0px)+84px)] right-3 z-50 inline-flex items-center gap-2 rounded-full border border-[color-mix(in_srgb,#1fe0a3_45%,var(--hair))] bg-[var(--surface-2)] p-3 text-[13px] sm:px-4 sm:py-2.5 font-bold text-ink analyze-glow transition-transform hover:-translate-y-0.5 lg:bottom-6 lg:right-6">
-          <Sparkles className="analyze-glow-icon h-4 w-4 text-[#1fe0a3]" aria-hidden /><span className="hidden sm:inline">Analyze with Nansen</span>
-          <span className="kbd !hidden lg:!inline">⌘J</span>
-        </button>
-      )}
+      {!open && <AnalyzeButton onClick={() => setOpen(true)} />}
 
       {open && (
         <div ref={panel} data-analyze-dock role="dialog" aria-label="Analyze with Nansen"

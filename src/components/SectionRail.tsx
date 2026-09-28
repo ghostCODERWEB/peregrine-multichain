@@ -41,7 +41,10 @@ export function SectionRail() {
   // Which section is in view, and wake the rail while the page scrolls.
   useEffect(() => {
     if (marks.length < 3) return;
-    const onScroll = () => {
+    // Measured at most once per frame: scroll events can outnumber frames, and each pass reads every section's position.
+    let frame = 0;
+    const measure = () => {
+      frame = 0;
       const y = innerHeight * 0.3;
       let i = 0;
       marks.forEach((m, k) => { if (m.el.getBoundingClientRect().top <= y) i = k; });
@@ -50,9 +53,10 @@ export function SectionRail() {
       clearTimeout(sleep.current);
       sleep.current = setTimeout(() => setAwake(false), 1400);
     };
-    onScroll();
+    const onScroll = () => { if (!frame) frame = requestAnimationFrame(measure); };
+    measure();
     addEventListener('scroll', onScroll, { passive: true });
-    return () => removeEventListener('scroll', onScroll);
+    return () => { removeEventListener('scroll', onScroll); cancelAnimationFrame(frame); };
   }, [marks]);
 
   const indexAt = useCallback((clientY: number) => {

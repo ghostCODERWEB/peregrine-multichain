@@ -59,7 +59,7 @@ export function TideChart({ tide }: { tide: ChainPageData['tide'] }) {
   return (
     <div>
       <div className="flex justify-end"><InfoPopover p={tide.provenance} /></div>
-      {option && <EChart option={option} height={240} ariaLabel="Cumulative smart-money flow over time" />}
+      {<EChart option={option ?? null} height={240} ariaLabel="Cumulative smart-money flow over time" />}
     </div>
   );
 }

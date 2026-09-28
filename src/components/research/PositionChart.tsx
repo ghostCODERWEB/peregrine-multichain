@@ -88,7 +88,7 @@ export function PositionChart({ coin, start, end, events, entry, mark, liq, heig
       </div>
       {!data && !err && <div className="animate-pulse rounded-[10px] bg-ink/5" style={{ height }} />}
       {err && <p className="rounded-[10px] border border-[var(--hair)] p-4 text-[12.5px] text-ink-muted">{err}</p>}
-      {option && <EChart option={option as never} height={height} ariaLabel={`${coin} price with position events`} />}
+      {<EChart option={(option ?? null) as never} height={height} ariaLabel={`${coin} price with position events`} />}
     </div>
   );
 }

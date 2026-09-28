@@ -15,8 +15,9 @@ import { Pager } from '@/components/Pager';
 import { SectionRail } from '@/components/SectionRail';
 import { MobileClamp } from '@/components/MobileClamp';
 import { GuidedTour } from '@/components/GuidedTour';
-import { AnalyzeDock } from '@/components/analyze/AnalyzeDock';
+import { AnalyzeLauncher } from '@/components/analyze/AnalyzeLauncher';
 import { NavProgress } from '@/components/shell/NavProgress';
+import { OffscreenPause } from '@/components/OffscreenPause';
 import { PublicAttribution } from '@/components/shell/PublicAttribution';
 
 const geistSans = Manrope({ variable: '--font-geist-sans', subsets: ['latin'] });
@@ -38,6 +39,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
+        {/* Token logos redirect to these hosts (/api/logo): open their connections before the first logo asks. */}
+        <link rel="preconnect" href="https://cdn.dexscreener.com" />
+        <link rel="preconnect" href="https://assets.coincap.io" />
+        <link rel="dns-prefetch" href="https://coin-images.coingecko.com" />
+        <link rel="dns-prefetch" href="https://financialmodelingprep.com" />
       </head>
       <body className="min-h-screen antialiased">
         <Providers publicSite={publicSite()} accounts={accountsEnabled()}>
@@ -46,9 +52,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <SectionRail />
           <MobileClamp />
           <GuidedTour />
-          <AnalyzeDock />
+          <AnalyzeLauncher />
           <Suspense><NavProgress /></Suspense>
           <MotionObserver />
+          <OffscreenPause />
           <SiteHeader />
           <TabBar />
           <div className="pt-[68px] lg:pl-[256px] lg:pt-0">

@@ -317,7 +317,8 @@ export function TokenView({
         ) : gone(s.storm) ? (
           <Unavailable text={s.storm.unavailable} />
         ) : pending(s.storm) ? (
-          <WaveLoading what="the Token Score inputs" height={420} />
+          // As tall as the finished dial (503px at every width), so the page does not jump when it arrives.
+          <WaveLoading what="the Token Score inputs" height={503} />
         ) : null}
         {s.candidates && (
           <div className="mt-3 border-t border-border pt-2">

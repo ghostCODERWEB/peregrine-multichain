@@ -5,9 +5,12 @@ test('P8 shell: 15 primary destinations, footer links, unclipped search @mobile'
   if (test.info().project.name === 'desktop') await expect(page.getByRole('navigation',{name:'Primary'}).getByRole('link')).toHaveCount(15);
   else {
     await expect(page.getByRole('navigation',{name:'Quick navigation'})).toBeVisible();
-    await page.getByRole('button',{name:'Open menu'}).click();
     const menu=page.getByRole('dialog',{name:'Menu'});
-    await expect(menu.getByRole('link',{name:'Coverage'})).toBeVisible();
+    // A tap before hydration has no handler yet (slow on a cold dev server): tap until the menu answers.
+    await expect(async () => {
+      if (!(await menu.isVisible())) await page.getByRole('button',{name:'Open menu'}).click();
+      await expect(menu.getByRole('link',{name:'Coverage'})).toBeVisible({ timeout: 1_000 });
+    }).toPass({ timeout: 20_000 });
     await page.keyboard.press('Escape');
     await expect(menu).toHaveCount(0);
   }

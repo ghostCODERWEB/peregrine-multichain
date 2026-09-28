@@ -1,7 +1,7 @@
 'use client';
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
-import { hydratedPast } from '@/lib/hydration';
+import { afterHydration, hydratedPast } from '@/lib/hydration';
 
 const PREVIEW = 420; // px shown before "Show all"
 
@@ -23,6 +23,9 @@ export function MobileClamp() {
         if (!hydratedPast(s)) { pending = true; continue; }
         // Primary content (a price chart, a scorecard) opts out with data-no-clamp.
         if (s.scrollHeight < limit || s.matches('[data-no-clamp]') || s.querySelector('[data-no-clamp]')) continue;
+        // A panel already on the first screen stays open: collapsing it after paint made everything under the reader jump.
+        if (!s.dataset.clampSeen && s.getBoundingClientRect().top < innerHeight) { s.dataset.clampSeen = 'open'; continue; }
+        if (s.dataset.clampSeen === 'open') continue;
         // Paged tables and lists are already short; a second 'Show all' would hide their page numbers.
         if (s.querySelector('table[data-sortable], table[data-page], .m-list, [data-paged]')) continue;
         // Never fold a form: its submit button would end up under the fade (a call could be filled in and not locked).
@@ -42,12 +45,14 @@ export function MobileClamp() {
       }
       if (pending) { clearTimeout(t); t = setTimeout(apply, 300); }
     };
-    const soon = () => { clearTimeout(t); t = setTimeout(apply, 500); };
-    soon();
+    // Waits for the first load to finish hydrating before adding buttons to server-rendered panels (see afterHydration).
+    let ready = false;
+    const soon = () => { if (!ready) return; clearTimeout(t); t = setTimeout(apply, 500); };
+    const stopWaiting = afterHydration(() => { ready = true; soon(); });
     const mo = new MutationObserver(soon);
     const main = document.querySelector('main');
     if (main) mo.observe(main, { childList: true, subtree: true });
-    return () => { clearTimeout(t); mo.disconnect(); };
+    return () => { stopWaiting(); clearTimeout(t); mo.disconnect(); };
   }, [path]);
   return null;
 }

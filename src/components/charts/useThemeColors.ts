@@ -25,8 +25,10 @@ function read(): ThemeColors {
 export function useThemeColors(): ThemeColors | null {
   const [colors, setColors] = useState<ThemeColors | null>(null);
   useEffect(() => {
-    setColors(read());
-    const mo = new MutationObserver(() => setColors(read()));
+    // Only a real change re-renders the chart: other classes on <html> (motion-ready, public-site) change too.
+    const update = () => setColors((cur) => { const next = read(); return cur && TOKENS.every((t) => cur[t] === next[t]) ? cur : next; });
+    update();
+    const mo = new MutationObserver(update);
     mo.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
     return () => mo.disconnect();
   }, []);

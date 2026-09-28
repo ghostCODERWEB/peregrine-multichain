@@ -315,14 +315,17 @@ tr[data-analyze-selected] { background: color-mix(in srgb, var(--signal) 10%, tr
 .analyze-glow { border-color: color-mix(in srgb, #1fe0a3 55%, var(--hair)); box-shadow: 0 0 0 1px rgba(31,224,163,.2), 0 0 10px rgba(31,224,163,.22), 0 8px 28px -10px rgba(31,224,163,.4); }
 .analyze-glow:hover { box-shadow: 0 0 0 1px rgba(31,224,163,.4), 0 0 16px 1px rgba(31,224,163,.35), 0 8px 32px -8px rgba(31,224,163,.5); }
 .analyze-glow-icon { filter: drop-shadow(0 0 3px rgba(31,224,163,.6)); }
+/* The breath is a brighter glow layer fading in and out: opacity runs on the compositor, where animating
+   box-shadow itself repainted the button every frame on every page. */
+.analyze-glow::after { content: ''; position: absolute; inset: -1px; border-radius: inherit; pointer-events: none; opacity: 0;
+  box-shadow: 0 0 0 1px rgba(31,224,163,.14), 0 0 14px 1px rgba(31,224,163,.16), 0 8px 32px -8px rgba(31,224,163,.14); }
 @media (prefers-reduced-motion: no-preference) {
-  .analyze-glow { animation: analyze-glow 3s ease-in-out infinite; }
-  .analyze-glow:hover { animation-play-state: paused; }
+  .analyze-glow::after { animation: analyze-glow 3s ease-in-out infinite; }
+  .analyze-glow:hover::after { animation-play-state: paused; }
 }
-@keyframes analyze-glow {
-  0%, 100% { box-shadow: 0 0 0 1px rgba(31,224,163,.18), 0 0 8px rgba(31,224,163,.18), 0 8px 28px -10px rgba(31,224,163,.35); }
-  50% { box-shadow: 0 0 0 1px rgba(31,224,163,.3), 0 0 14px 1px rgba(31,224,163,.3), 0 8px 32px -8px rgba(31,224,163,.45); }
-}
+@keyframes analyze-glow { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
+/* Looping animations wait while off screen (src/components/OffscreenPause.tsx). */
+[data-offscreen], [data-offscreen] *, [data-offscreen]::before, [data-offscreen]::after { animation-play-state: paused !important; }
 
 /* MoodRing: motion that matches the reading (hot flames, normal pulse, quiet frost). */
 .mood-hot .mood-word { background: linear-gradient(90deg, #ffd84d, #ff7a1a, #ff2d55, #ff7a1a, #ffd84d); background-size: 200% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; }
@@ -712,22 +715,33 @@ a.m-row:active { background-color: color-mix(in srgb, var(--ink-1) 7%, transpare
 @media (prefers-reduced-motion: reduce) { .nav-progress.is-going { transform: scaleX(.6); transition: opacity .15s; } }
 
 /* Pager: numbered pages and rows per page under long tables and lists (src/components/Pager.tsx). */
-.pager { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding-top: 10px; font-size: 12px; color: var(--ink-muted); }
+.pager { display: flex; flex-wrap: wrap; min-width: 0; max-width: 100%; align-items: center; gap: 8px 12px; padding-top: 10px; font-size: 12px; color: var(--ink-muted); }
 .pager-count { font-variant-numeric: tabular-nums; white-space: nowrap; }
-.pager-pages { display: inline-flex; align-items: center; gap: 4px; margin-left: auto; }
+.pager-pages { display: inline-flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 4px; margin-left: auto; max-width: 100%; }
 .pager-pages button { min-width: 32px; height: 32px; padding: 0 8px; border-radius: 999px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--ink-2);
   background: var(--lg-tint); backdrop-filter: blur(14px) saturate(170%); border: 1px solid var(--lg-border); box-shadow: var(--lg-edge); -webkit-tap-highlight-color: transparent; }
 .pager-pages button:hover:not(:disabled) { color: var(--ink-1); }
 .pager-pages button[aria-current="page"] { background: var(--mint); border-color: var(--mint); color: #03110c; box-shadow: none; }
 .pager-pages button:disabled { opacity: .35; cursor: default; }
 .pager-gap { min-width: 14px; text-align: center; }
-.pager-sizes { display: inline-flex; padding: 2px; border-radius: 999px; background: var(--lg-tint); backdrop-filter: blur(14px) saturate(170%); border: 1px solid var(--lg-border); box-shadow: var(--lg-edge); }
+.pager-of { min-width: 56px; text-align: center; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--ink-2); }
+.pager-sizes { display: inline-flex; flex-wrap: wrap; max-width: 100%; padding: 2px; border-radius: 999px; background: var(--lg-tint); backdrop-filter: blur(14px) saturate(170%); border: 1px solid var(--lg-border); box-shadow: var(--lg-edge); }
 .pager-sizes button { border-radius: 999px; padding: 3px 10px; font-weight: 600; color: var(--ink-muted); font-variant-numeric: tabular-nums; }
 .pager-sizes button[aria-pressed="true"] { background: var(--lg-lens); color: var(--ink-1); box-shadow: inset 0 1px 0 rgba(255,255,255,.18); }
 .pager-sizes button:hover { color: var(--ink-1); }
 .pager button:focus-visible { outline: 2px solid var(--mint); outline-offset: 2px; }
 table[data-sortable], table[data-page], .m-list, [data-paged] { scroll-margin-top: 84px; }
 [data-paged-out] { display: none !important; }
+/* Before the pager takes over (it waits for the first load to finish hydrating), CSS alone shows each long list's
+   first page, so nothing collapses when the pager arrives and no server-rendered row is touched early. */
+@media (max-width: 639px) {
+  main :is(table[data-sortable], table[data-page]):not([data-pager-live]) > tbody > tr:nth-child(n+11 of :not([hidden])),
+  main :is(.m-list, [data-paged]):not([data-pager-live]) > li:nth-child(n+11 of :not([hidden])) { display: none; }
+}
+@media (min-width: 640px) {
+  main :is(table[data-sortable], table[data-page]):not([data-pager-live]) > tbody > tr:nth-child(n+16 of :not([hidden])),
+  main :is(.m-list, [data-paged]):not([data-pager-live]) > li:nth-child(n+16 of :not([hidden])) { display: none; }
+}
 /* Phones: count and sizes on one line, page numbers on their own full-width line with larger targets. */
 @media (max-width: 639px) {
   .pager { gap: 10px; }

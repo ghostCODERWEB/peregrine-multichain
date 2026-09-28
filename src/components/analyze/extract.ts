@@ -38,7 +38,7 @@ async function chartData(el: HTMLElement): Promise<unknown> {
   const host = el.querySelector<HTMLElement>('.echarts-for-react');
   if (host) {
     try {
-      const echarts = await import('echarts');
+      const { echarts } = await import('@/components/charts/echarts-core');
       const inst = echarts.getInstanceByDom(host);
       const opt = inst?.getOption() as { series?: Array<{ name?: string; type?: string; data?: unknown[] }>; xAxis?: Array<{ data?: unknown[] }> } | undefined;
       if (opt?.series) {

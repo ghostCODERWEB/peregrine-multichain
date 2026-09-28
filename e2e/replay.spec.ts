@@ -34,7 +34,8 @@ test('Time Machine: hidden outcome, lock, reveal, immutable replay in Desk @mobi
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
   await page.screenshot({ path: test.info().outputPath('time-machine.png'), fullPage: true });
   await page.getByRole('link', { name: /^View replay in the Desk/ }).click();
-  await expect(page.getByText('Time Machine replays', { exact: true })).toBeVisible();
+  // Navigates to the Desk: on a cold dev server that is a first compile.
+  await expect(page.getByText('Time Machine replays', { exact: true })).toBeVisible({ timeout: 60_000 });
   await expect(page.getByText('Recorded replay acceptance check', { exact: false })).toBeVisible();
   expect(errors).toEqual([]);
 });

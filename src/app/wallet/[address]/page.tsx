@@ -94,7 +94,8 @@ export default async function WalletRoute({ params }: Params) {
 
       {/* One tile grid, ordered like a research session: who and what it holds, how it trades, who it deals with, then its history. */}
       <div className="grid grid-cols-1 gap-4 xl:grid-cols-12 [&>*]:min-w-0">
-        <Suspense fallback={<div className="h-[260px] animate-pulse rounded-[var(--r-card)] bg-ink/5 xl:col-span-12" />}>
+        {/* Placeholder sized like the scorecard it stands in for (580px stacked, 330px wide) so nothing below jumps. */}
+        <Suspense fallback={<div className="h-[580px] animate-pulse rounded-[var(--r-card)] bg-ink/5 xl:col-span-12 xl:h-[330px]" />}>
           <WalletScorecard address={address} balP={balP} pnlP={pnlP} />
         </Suspense>
         {mode === 'owner' && <div className="xl:col-span-12"><WalletQuickRead address={address} /></div>}

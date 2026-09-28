@@ -4,7 +4,7 @@ import { getKv } from '@/server/nansen/db';
 import { GetNansen } from '@/components/shell/GetNansen';
 import { requestContext } from '@/server/context';
 import { AccountButton } from '@/components/auth/AccountButton';
-import { Omnibox } from '@/components/search/Omnibox';
+import { OmniboxLauncher } from '@/components/search/OmniboxLauncher';
 import { BrandMark } from '@/components/shell/BrandMark';
 import { NavList, MobileMenu } from '@/components/shell/NavLinks';
 import { navStatus } from '@/server/nav-status';
@@ -38,7 +38,7 @@ export async function SiteHeader() {
         </span>
       </Link>
 
-      <div className="ml-auto lg:ml-0 lg:mb-4"><Omnibox /></div>
+      <div className="ml-auto lg:ml-0 lg:mb-4"><OmniboxLauncher /></div>
 
       <div className="hidden min-h-0 flex-1 overflow-y-auto overflow-x-hidden lg:block"><NavList status={status} /></div>
 

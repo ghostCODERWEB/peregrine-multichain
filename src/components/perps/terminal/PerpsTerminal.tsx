@@ -146,7 +146,8 @@ export function PerpsTerminal({ symbol, coins, owner, positioning = [] }: { symb
               <span aria-hidden className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 text-ink-muted">▾</span>
             </label>
             <span className="num text-[22px] font-bold tracking-[-0.02em] text-ink">{price(mark)}</span>
-            <span className="text-[12.5px] text-ink-muted">Hyperliquid perp · mark{data?.meta?.maxLeverage ? ` · max ${data.meta.maxLeverage}x` : ''}</span>
+            {/* Its own line on phones: it grows when the data adds max leverage, and wrapping then pushed the page down. */}
+            <span className="basis-full text-[12.5px] text-ink-muted sm:basis-auto">Hyperliquid perp · mark{data?.meta?.maxLeverage ? ` · max ${data.meta.maxLeverage}x` : ''}</span>
           </div>
         </div>
         <div className="-mx-1 flex items-center gap-2 overflow-x-auto px-1 pb-1 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0 [&>*]:shrink-0">
@@ -163,6 +164,8 @@ export function PerpsTerminal({ symbol, coins, owner, positioning = [] }: { symb
       {data && data.snapshots.length > 1 && (
         <ReplayBar times={data.snapshots} at={state.at} shownAt={data.at} onChange={(t) => set({ at: t })} />
       )}
+      {/* Held space while the coin loads: the replay bar and brief arrive with the data and used to push the page down. */}
+      {!data && !error && positioning.length > 1 && <div aria-hidden className="h-[71px] rounded-[var(--r-inner)] border border-[var(--hair)] md:h-10" />}
 
       {error && !data && <p role="alert" className="rounded-[12px] border border-[var(--hair-2)] p-4 text-[13px] text-ink-2">{friendlyError(error)} <button type="button" onClick={refresh} className="ml-2 font-semibold text-brand">Retry</button></p>}
 
@@ -203,6 +206,7 @@ export function PerpsTerminal({ symbol, coins, owner, positioning = [] }: { symb
       </div>
 
       <div className={`grid gap-4 ${positioning.length > 1 ? 'xl:grid-cols-2' : ''}`}>
+        {!data && !error && <section aria-hidden className="material min-h-[420px] xl:min-h-[456px]" />}
         {data && mark && (
           <MarketBrief data={data} mark={mark} changes={changes} available={available} onBand={(b) => selectBand(b)} onTab={goTab} onCohort={(c) => set({ cohort: c })} />
         )}

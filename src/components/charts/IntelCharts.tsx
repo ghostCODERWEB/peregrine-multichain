@@ -40,7 +40,7 @@ export function SmFlowChart({ points }: { points: SmFlowPoint[] }) {
   if (points.length < 2) return <p className="text-[13px] text-ink-muted">The scanner has not stored enough Smart Money trades yet.</p>;
   return (
     <div>
-      {option && <EChart option={option} height={300} ariaLabel={`Smart Money DEX buys and sells per hour over ${points.length} hours`} onEvents={{ click: (e: { dataIndex: number }) => setPicked(points[e.dataIndex] ?? null) }} />}
+      {<EChart option={option ?? null} height={300} ariaLabel={`Smart Money DEX buys and sells per hour over ${points.length} hours`} onEvents={{ click: (e: { dataIndex: number }) => setPicked(points[e.dataIndex] ?? null) }} />}
       <div className="mt-1 flex flex-wrap items-center gap-3 text-[11.5px] text-ink-muted">
         <span className="flex items-center gap-1"><span className="h-2 w-3 rounded-[2px] bg-[var(--mint)]" />bought</span>
         <span className="flex items-center gap-1"><span className="h-2 w-3 rounded-[2px] bg-[var(--flare)]" />sold</span>
@@ -92,7 +92,7 @@ export function PositioningHistory({ points, onReplay }: { points: PositionPoint
   if (points.length < 2) return <p className="text-[13px] text-ink-muted">History builds with each stored snapshot (the scanner stores BTC and ETH every run).</p>;
   return (
     <div>
-      {option && <EChart option={option} height={240} ariaLabel={`Smart Money perp positioning across ${points.length} snapshots`} onEvents={canReplay ? { click: (e: { dataIndex: number }) => points[e.dataIndex] && replay.current?.(points[e.dataIndex].at) } : undefined} />}
+      {<EChart option={option ?? null} height={240} ariaLabel={`Smart Money perp positioning across ${points.length} snapshots`} onEvents={canReplay ? { click: (e: { dataIndex: number }) => points[e.dataIndex] && replay.current?.(points[e.dataIndex].at) } : undefined} />}
       <div className="mt-1 flex flex-wrap gap-3 text-[11.5px] text-ink-muted">
         <span className="flex items-center gap-1"><span className="h-0.5 w-3 bg-[var(--mint)]" />Smart Money long</span>
         <span className="flex items-center gap-1"><span className="h-0.5 w-3 bg-[var(--flare)]" />Smart Money short</span>
@@ -123,7 +123,7 @@ export function FlowIndexHistory({ series }: { series: Array<{ chain: string; po
   if (!series.length) return <p className="text-[13px] text-ink-muted">Flow Index history appears after a few scans.</p>;
   return (
     <div>
-      {option && <EChart option={option} height={260} ariaLabel={`Flow Index history for ${series.map((s) => chainName(s.chain)).join(', ')}`} onEvents={{ click: (e: { seriesIndex: number }) => series[e.seriesIndex] && router.push(`/chain/${series[e.seriesIndex].chain}`) }} />}
+      {<EChart option={option ?? null} height={260} ariaLabel={`Flow Index history for ${series.map((s) => chainName(s.chain)).join(', ')}`} onEvents={{ click: (e: { seriesIndex: number }) => series[e.seriesIndex] && router.push(`/chain/${series[e.seriesIndex].chain}`) }} />}
       <div className="mt-1 flex flex-wrap gap-3 text-[11.5px] text-ink-2">
         {series.map((s, i) => <button key={s.chain} type="button" onClick={() => router.push(`/chain/${s.chain}`)} className="flex items-center gap-1 hover:text-ink"><span className="h-0.5 w-3" style={{ background: palette[i % palette.length] }} />{chainName(s.chain)} {Math.round(s.points.at(-1)![1])}</button>)}
       </div>
@@ -298,7 +298,7 @@ export function HistoryLines({ series, format = 'usd', height = 260, label, zero
   if (!series.some((s) => s.points.length > 1)) return <p className="text-[13px] text-ink-muted">History builds with each scan.</p>;
   return (
     <div>
-      {option && <EChart option={option} height={height} ariaLabel={label} onEvents={{ click: (e: { seriesIndex: number }) => { const h = series[e.seriesIndex]?.href; if (h) router.push(h); } }} />}
+      {<EChart option={option ?? null} height={height} ariaLabel={label} onEvents={{ click: (e: { seriesIndex: number }) => { const h = series[e.seriesIndex]?.href; if (h) router.push(h); } }} />}
       {series.length > 1 && (
         <div className="mt-1 flex flex-wrap gap-3 text-[11.5px] text-ink-2">
           {series.map((s, i) => {

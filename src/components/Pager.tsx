@@ -1,6 +1,6 @@
 'use client';
 import { useEffect } from 'react';
-import { hydratedPast } from '@/lib/hydration';
+import { afterHydration, hydratedPast } from '@/lib/hydration';
 
 /** Long tables and lists split into numbered pages, with a choice of rows per page. One listener for the app.
  *  Paged: sortable tables, tables with data-page, phone lists (.m-list) and any list marked data-paged.
@@ -12,6 +12,7 @@ const SELECTOR = 'main table[data-sortable], main table[data-page], main .m-list
 
 type State = { size: number; page: number; first: Element | null; count: number };
 const state = new WeakMap<HTMLElement, State>();
+const written = new WeakMap<HTMLElement, string>();
 
 
 const itemsOf = (host: HTMLElement): HTMLElement[] =>
@@ -45,6 +46,8 @@ function apply(host: HTMLElement, opts: { resetPage?: boolean; scroll?: boolean 
   // (an early bar or changed row is a hydration error that re-renders the section on the client).
   const all = itemsOf(host);
   if (!hydratedPast(boxOf(host), host, all.at(-1))) return false;
+  // From here the pager owns paging for this list: the CSS first-page rule steps aside.
+  if (!host.hasAttribute('data-pager-live')) host.setAttribute('data-pager-live', '');
   all.forEach((r) => { if (r.hidden) out(r, false); });
   const items = all.filter((r) => !r.hidden);
   const choices = sizes();
@@ -71,15 +74,22 @@ function apply(host: HTMLElement, opts: { resetPage?: boolean; scroll?: boolean 
   }
   const label = host.getAttribute('aria-label') ?? host.closest('section')?.querySelector('h2, h3')?.textContent ?? 'list';
   bar.setAttribute('aria-label', `Pages: ${label}`);
+  // A narrow column (a side panel) gets ‹ 3 / 16 › instead of a row of page numbers.
+  // Measured on the list's own box: 0 means not laid out (a hidden tab), which is not narrow.
+  const boxWidth = boxOf(host).getBoundingClientRect().width;
+  const narrow = boxWidth > 0 && boxWidth < 360;
   const btn = (p: number, text: string, extra = '') => `<button type="button" data-go="${p}" ${extra}>${text}</button>`;
-  bar.innerHTML =
+  const numbers = narrow
+    ? `<span class="pager-of" aria-current="page">${s.page + 1} / ${pages}</span>`
+    : pageList(s.page, pages).map((p) => (p == null ? '<span class="pager-gap" aria-hidden="true">…</span>' : btn(p, String(p + 1), `aria-label="Page ${p + 1}" ${p === s!.page ? 'aria-current="page"' : ''}`))).join('');
+  const html =
     `<span class="pager-count">${from + 1}–${to} of ${items.length}</span>` +
     (pages > 1
-      ? `<span class="pager-pages">${btn(s.page - 1, '‹', `aria-label="Previous page" ${s.page === 0 ? 'disabled' : ''}`)}${pageList(s.page, pages)
-          .map((p) => (p == null ? '<span class="pager-gap" aria-hidden="true">…</span>' : btn(p, String(p + 1), `aria-label="Page ${p + 1}" ${p === s!.page ? 'aria-current="page"' : ''}`)))
-          .join('')}${btn(s.page + 1, '›', `aria-label="Next page" ${s.page >= pages - 1 ? 'disabled' : ''}`)}</span>`
+      ? `<span class="pager-pages">${btn(s.page - 1, '‹', `aria-label="Previous page" ${s.page === 0 ? 'disabled' : ''}`)}${numbers}${btn(s.page + 1, '›', `aria-label="Next page" ${s.page >= pages - 1 ? 'disabled' : ''}`)}</span>`
       : '') +
     `<span class="pager-sizes" role="group" aria-label="Rows per page">${choices.map((c) => `<button type="button" data-size="${c}" aria-pressed="${c === s!.size}">${c || 'All'}</button>`).join('')}</span>`;
+  // Rewritten only when something on it changed: the pager re-runs on every DOM change the page makes.
+  if (written.get(bar) !== html) { bar.innerHTML = html; written.set(bar, html); }
   bar.onclick = (e) => {
     const b = (e.target as HTMLElement).closest('button');
     if (!b || b.disabled) return;
@@ -107,8 +117,11 @@ export function Pager() {
       clearTimeout(retry);
       if (pending) retry = setTimeout(run, 250);
     };
-    const schedule = () => { if (!queued) { queued = true; setTimeout(run, 16); } }; // a timer, not a frame: background tabs stay in step
-    run();
+    // Until the first load has hydrated, CSS shows each list's first page (globals.css, "Before the pager
+    // takes over"): changing rows or adding a bar while React still hydrates them was a hydration error.
+    let ready = false;
+    const schedule = () => { if (ready && !queued) { queued = true; setTimeout(run, 16); } }; // a timer, not a frame: background tabs stay in step
+    const stopWaiting = afterHydration(() => { ready = true; run(); });
     const mo = new MutationObserver((muts) => { if (muts.some((m) => !(m.target as HTMLElement).closest?.('.pager'))) schedule(); });
     // A search (FilterBox) toggles `hidden` on rows: re-page what it leaves.
     mo.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['hidden'] });
@@ -123,7 +136,7 @@ export function Pager() {
     const mq = matchMedia(PHONE);
     const onBreak = () => document.querySelectorAll<HTMLElement>(SELECTOR).forEach((el) => { state.delete(el); apply(el); });
     mq.addEventListener('change', onBreak);
-    return () => { clearTimeout(retry); mo.disconnect(); document.removeEventListener('click', onClick); mq.removeEventListener('change', onBreak); };
+    return () => { stopWaiting(); clearTimeout(retry); mo.disconnect(); document.removeEventListener('click', onClick); mq.removeEventListener('change', onBreak); };
   }, []);
   return null;
 }

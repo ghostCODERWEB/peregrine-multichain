@@ -34,3 +34,17 @@ function settled(el: Element | null | undefined): boolean {
 export function hydratedPast(el: Element, ...also: Array<Element | null | undefined>): boolean {
   return settled(el) && settled(el.parentElement) && also.every((x) => !x || settled(x));
 }
+
+/** Runs `fn` once the first page load has finished hydrating: after the load event and an idle moment.
+ *  The per-node check above can pass while React is still mid-way through a section (it claims nodes before it
+ *  commits), so scripts that change server-rendered markup wait for this first. Later calls run at once. */
+let hydrationDone = false;
+export function afterHydration(fn: () => void): () => void {
+  if (hydrationDone) { fn(); return () => {}; }
+  let cancelled = false, idle = 0;
+  const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number; cancelIdleCallback?: (id: number) => void };
+  const go = () => { if (cancelled) return; hydrationDone = true; fn(); };
+  const onLoad = () => { idle = w.requestIdleCallback ? w.requestIdleCallback(go, { timeout: 1500 }) : window.setTimeout(go, 300); };
+  if (document.readyState === 'complete') onLoad(); else window.addEventListener('load', onLoad, { once: true });
+  return () => { cancelled = true; window.removeEventListener('load', onLoad); if (w.cancelIdleCallback) w.cancelIdleCallback(idle); else window.clearTimeout(idle); };
+}

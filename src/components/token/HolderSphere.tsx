@@ -56,12 +56,15 @@ export function HolderSphere({ holders, forensics, river }: { holders: HolderRow
   useEffect(() => {
     if (!spinning || hover || drag.current) return;
     if (typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
-    let raf = 0, visible = true;
-    const io = new IntersectionObserver(([e]) => { visible = e.isIntersecting; });
+    // The loop runs only while the sphere is on screen and the tab is visible, and re-renders at ~30 fps
+    // with a double step: the same turning speed, half the React work.
+    let raf = 0, visible = false, frame = 0;
+    const tick = () => { if (++frame % 2 === 0) setYaw((y) => y + 0.007); raf = requestAnimationFrame(tick); };
+    const run = () => { cancelAnimationFrame(raf); raf = 0; if (visible && !document.hidden) raf = requestAnimationFrame(tick); };
+    const io = new IntersectionObserver(([e]) => { visible = e.isIntersecting; run(); });
     if (svg.current) io.observe(svg.current);
-    const tick = () => { if (visible && !document.hidden) setYaw((y) => y + 0.0035); raf = requestAnimationFrame(tick); };
-    raf = requestAnimationFrame(tick);
-    return () => { cancelAnimationFrame(raf); io.disconnect(); };
+    document.addEventListener('visibilitychange', run);
+    return () => { cancelAnimationFrame(raf); io.disconnect(); document.removeEventListener('visibilitychange', run); };
   }, [spinning, hover]);
 
   const byId = new Map(nodes.map((n) => [n.id, n]));
