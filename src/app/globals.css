@@ -529,6 +529,10 @@ html:not(.dark) .glass-lens { background: rgba(0,0,0,.06); }
 @media (hover: hover) and (pointer: fine) {
   .section-rail { right: 6px; opacity: .22; }
   .section-rail:hover { opacity: 1; }
+  /* Only the ticks take the mouse: the rail's padding used to catch clicks meant for buttons at the page's
+     right edge (a pager's "All" became a jump to another section). Content keeps clear of it (layout.tsx). */
+  .section-rail { pointer-events: none; }
+  .section-rail-track { pointer-events: auto; padding-left: 4px; }
   .section-rail-track { gap: 9px; max-height: 60vh; }
   .section-rail-tick { cursor: pointer; }
   .section-rail-label { right: 46px; font-size: 13px; animation: rail-in .18s cubic-bezier(.2,.8,.2,1); transition: top .16s cubic-bezier(.2,.8,.2,1); }
@@ -748,6 +752,9 @@ html:not(.dark) .pager-pages button[aria-current="page"] { color: #fff; }
 .pager-sizes button[aria-pressed="true"] { background: var(--lg-lens); color: var(--ink-1); box-shadow: inset 0 1px 0 rgba(255,255,255,.18); }
 .pager-sizes button:hover { color: var(--ink-1); }
 .pager button:focus-visible { outline: 2px solid var(--mint); outline-offset: 2px; }
+/* Sections whose results reload under their own controls (a new date, a new page): the browser must not anchor
+   the scroll inside the results, or a shorter answer moves the buttons that were just pressed. */
+.time-machine > :not(:first-child), main :is(table[data-sortable], table[data-page], .m-list, [data-paged]) { overflow-anchor: none; }
 table[data-sortable], table[data-page], .m-list, [data-paged] { scroll-margin-top: 84px; }
 [data-paged-out] { display: none !important; }
 /* Before the pager takes over (it waits for the first load to finish hydrating), CSS alone shows each long list's
@@ -782,6 +789,6 @@ table[data-sortable], table[data-page], .m-list, [data-paged] { scroll-margin-to
 @media (max-width: 1023px) and (hover: none) {
   .section-rail, .section-rail-track, .section-rail:not(.is-dragging) .section-rail-tick { pointer-events: none; }
   .section-rail-track { position: relative; }
-  .section-rail-track::before { content: ''; position: absolute; top: 0; bottom: 0; right: 0; width: 24px; pointer-events: auto; }
+  .section-rail-track::before { content: ''; position: absolute; top: 0; bottom: 0; right: 0; width: 14px; pointer-events: auto; } /* inside the page's 16px margin: never over a card */
   .section-rail.is-dragging .section-rail-track { pointer-events: auto; }
 }

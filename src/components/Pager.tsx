@@ -97,9 +97,10 @@ function apply(host: HTMLElement, opts: { resetPage?: boolean; scroll?: boolean;
   const count = items.length + later;
   const choices = sizes();
   const fallback = Number(host.dataset.page) || choices[0];
-  let s = state.get(host);
+  const old = state.get(host);
   // A new set of rows (another selection, a refresh) starts again from page 1.
-  if (!s || s.first !== (items[0] ?? null) || s.count !== count || opts.resetPage) s = { size: s?.size ?? fallback, page: 0, first: items[0] ?? null, count };
+  const fresh = !old || old.first !== (items[0] ?? null) || old.count !== count || !!opts.resetPage;
+  const s: State = fresh ? { size: old?.size ?? fallback, page: 0, first: items[0] ?? null, count } : old;
   state.set(host, s);
 
   let bar = barFor(host);
@@ -150,18 +151,38 @@ function apply(host: HTMLElement, opts: { resetPage?: boolean; scroll?: boolean;
       (again && !(again as HTMLButtonElement).disabled ? again : bar.querySelector<HTMLElement>('button[aria-current="page"], button:not(:disabled)'))?.focus({ preventScroll: true });
     }
   }
-  bar.onclick = (e) => {
+  // A new set of rows (a search, another selection) lays out from scratch: no spacer kept from paging.
+  if (fresh) bar.style.removeProperty('margin-top');
+  const here = bar;
+  // The bar stays under the finger that pressed it: paging to a shorter page leaves the space the rows took
+  // (a spacer above the bar, removed as longer pages come back), and changing rows per page scrolls the page
+  // by exactly what the list grew or shrank. Pages used to jump when a short last page pulled the bar up.
+  here.onclick = (e) => {
     const b = (e.target as HTMLElement).closest('button');
     if (!b || b.disabled) return;
     const cur = state.get(host)!;
-    if (b.dataset.go != null) cur.page = Number(b.dataset.go);
-    else { const first = cur.page * (cur.size || count); cur.size = Number(b.dataset.size); cur.page = cur.size ? Math.floor(first / cur.size) : 0; }
-    apply(host, { scroll: true });
+    const box = boxOf(host);
+    const before = box.offsetHeight, barTop = here.getBoundingClientRect().top;
+    if (b.dataset.go != null) {
+      cur.page = Number(b.dataset.go);
+      apply(host, { scroll: true });
+      const spacer = Math.max(0, (parseFloat(here.style.marginTop) || 0) + before - box.offsetHeight);
+      if (spacer) here.style.marginTop = `${spacer}px`; else here.style.removeProperty('margin-top');
+    } else {
+      const first = cur.page * (cur.size || count);
+      cur.size = Number(b.dataset.size);
+      cur.page = cur.size ? Math.floor(first / cur.size) : 0;
+      here.style.removeProperty('margin-top');
+      apply(host);
+      const drift = here.getBoundingClientRect().top - barTop;
+      if (Math.abs(drift) > 1) window.scrollBy({ top: drift, behavior: 'instant' });
+    }
   };
-  // Keep the reader at the top of the rows they asked for.
+  // New page: its first rows in view. A scroll box goes back to its top; the page itself scrolls only when the
+  // list starts far above the screen (a long page), never for a list that is already in view.
   if (opts.scroll) {
     if (host.scrollHeight > host.clientHeight) host.scrollTop = 0;
-    if (host.getBoundingClientRect().top < 0) host.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    if (host.getBoundingClientRect().top < -innerHeight * 0.6) host.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
   }
   return true;
 }
