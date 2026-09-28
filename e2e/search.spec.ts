@@ -61,7 +61,8 @@ test('sectors: tiles scored on the pressure scale, or a plain reason', async ({ 
   const reason = page.getByText(/Sector membership has not been built yet|No sector snapshots yet/);
   await expect(tiles.first().or(reason)).toBeVisible();
   if (await tiles.count()) {
-    await expect(page.getByRole('heading', { level: 1 })).toContainText(/rotating into|lean most toward|pressure|flow/);
-    await expect(page.getByText(/Public view: all-trader flows/)).toBeVisible();
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Sectors');
+    // A public view reads all-trader flow, and says so beside the title.
+    await expect(page.getByText(/^All traders · 24h/).first()).toBeVisible();
   }
 });
