@@ -3,14 +3,34 @@
 // extra element it meets (a pager bar, a "Show all" button) is a hydration error that throws the section away
 // and re-renders it on the client.
 //
-// React records its fiber on a DOM node once it has hydrated that node, and completes a parent only after all
-// of its children. So a node carrying a fiber, whose parent carries one too, sits in a finished subtree. The
-// element *after* a node is no signal on its own: it can belong to another streamed section that hydrated first.
+// A fiber on a DOM node is not proof on its own: when a section suspends mid-hydration (a lazily loaded chart
+// inside it), React abandons that pass but the nodes it already claimed keep their fiber, and the retry later
+// meets whatever was changed in between. So the node's fiber path must also pass through no Suspense boundary
+// that is still dehydrated (React keeps `memoizedState.dehydrated` on it until the section has hydrated).
 
-const hasFiber = (el: Element | null | undefined) => !!el && Object.keys(el).some((k) => k.startsWith('__reactFiber'));
+type Fiber = { tag?: number; return?: Fiber | null; memoizedState?: { dehydrated?: unknown } | null };
 
-/** True once React has hydrated `el` and its parent (so `el`'s whole subtree, and the spot right after it), and
- *  every element in `also` (e.g. the last row of a list about to be paged). Only then may they be changed. */
+const SUSPENSE = 13; // React's SuspenseComponent work tag
+
+function fiberOf(el: Element | null | undefined): Fiber | null {
+  if (!el) return null;
+  const key = Object.keys(el).find((k) => k.startsWith('__reactFiber'));
+  return key ? ((el as unknown as Record<string, Fiber>)[key] ?? null) : null;
+}
+
+/** Hydrated, and not inside a section React is still hydrating (or abandoned and will retry). */
+function settled(el: Element | null | undefined): boolean {
+  let f = fiberOf(el);
+  if (!f) return false;
+  for (let guard = 0; f && guard < 500; f = f.return ?? null, guard++) {
+    if (f.tag === SUSPENSE && f.memoizedState?.dehydrated) return false;
+  }
+  return true;
+}
+
+/** True once React has hydrated `el`, its parent (so the spot right after `el`) and every element in `also`
+ *  (e.g. the last row of a list about to be paged), outside any section still hydrating. Only then may they
+ *  be changed. */
 export function hydratedPast(el: Element, ...also: Array<Element | null | undefined>): boolean {
-  return hasFiber(el) && hasFiber(el.parentElement) && also.every((x) => !x || hasFiber(x));
+  return settled(el) && settled(el.parentElement) && also.every((x) => !x || settled(x));
 }
