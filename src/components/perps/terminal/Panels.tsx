@@ -7,6 +7,7 @@ import { cohortMatrix, entryDistribution, leverageDistribution, liquidationDista
 import { COHORT_NAME, type Cohort, type Position } from '@/lib/perps/positions';
 import { num, pct, price, usd } from '@/lib/viz/format';
 import type { PerpTrade } from '@/server/perps/terminal';
+import { activateProps } from '@/components/ui/activate';
 
 // ------------------------------------------------------------ sortable table
 
@@ -51,7 +52,7 @@ export function DataTable<T>({ rows, cols, rowKey, initialSort, onRowHover, onRo
           </thead>
           <tbody>
             {sorted.slice(0, limit).map((r) => (
-              <tr key={rowKey(r)} onMouseEnter={() => onRowHover?.(r)} onMouseLeave={() => onRowHover?.(null)} onClick={() => onRowClick?.(r)}
+              <tr key={rowKey(r)} onMouseEnter={() => onRowHover?.(r)} onMouseLeave={() => onRowHover?.(null)} onClick={() => onRowClick?.(r)} {...(onRowClick ? activateProps(() => onRowClick(r)) : {})}
                 className={`border-t border-[var(--hair)] transition-colors duration-[var(--dur-fast)] hover:bg-[color-mix(in_srgb,var(--ink-1)_5%,transparent)] ${onRowClick ? 'cursor-pointer' : ''}`}>
                 {cols.map((c) => <td key={c.key} className={`whitespace-nowrap px-3 py-1.5 ${c.right ? 'num text-right' : ''}`}>{c.cell(r)}</td>)}
               </tr>

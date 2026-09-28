@@ -6,6 +6,7 @@ import { SiteHeader } from '@/components/SiteHeader';
 import { themeBootScript } from '@/components/ThemeToggle';
 import { TabBar } from '@/components/shell/TabBar';
 import { MotionObserver } from '@/components/MotionObserver';
+import { LiveValues } from '@/components/LiveValues';
 import { WorkspaceBar } from '@/components/shell/WorkspaceBar';
 import { MarketStrip } from '@/components/shell/MarketStrip';
 import { Suspense } from 'react';
@@ -74,6 +75,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <AnalyzeLauncher />
           <Suspense><NavProgress /></Suspense>
           <MotionObserver />
+          <LiveValues />
           <OffscreenPause />
           <SiteHeader />
           <TabBar />

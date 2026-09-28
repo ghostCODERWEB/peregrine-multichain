@@ -15,6 +15,7 @@ import type { PerpBoard, PerpCoin } from '@/server/perps/board';
 import type { CoinDetail, PerpLeaders } from '@/server/perps/detail';
 import { Go, Back, Up } from '@/components/ui/Icons';
 import { LaterBody } from '@/components/LaterBody';
+import { activateProps } from '@/components/ui/activate';
 
 type Load<T> = { state: 'idle' } | { state: 'loading' } | { state: 'error'; message: string } | { state: 'ok'; data: T };
 
@@ -442,6 +443,7 @@ export function PerpsView({ board, title, mode, analytics }: { board: PerpBoard;
                       data-search={`${c.symbol} ${c.symbol.replace(/^[^:]+:/, '')}${c.divergence ? ' divergent' : ''}`}
                       data-group={c.ppi! >= 60 ? 'Long bias' : c.ppi! <= 40 ? 'Short bias' : 'Neutral'}
                       onClick={() => pick(c)}
+                      {...activateProps(() => pick(c))}
                       className={`cursor-pointer border-t border-border hover:bg-raised/60 ${picked === c.symbol ? 'bg-raised' : ''}`}
                     >
                       <td className="py-1.5">

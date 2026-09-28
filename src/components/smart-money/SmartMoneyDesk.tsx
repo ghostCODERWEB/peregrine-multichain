@@ -9,6 +9,7 @@ import { HoldingHistory } from './HoldingHistory';
 import type { SmDesk, SmPerps, SmDcas, SmHistory, DeskHolding, FollowedMove } from '@/server/smart-money/desk';
 import type { Provenance } from '@/lib/provenance';
 import { Go } from '@/components/ui/Icons';
+import { activateProps } from '@/components/ui/activate';
 
 type Load<T> = { state: 'loading' } | { state: 'error'; message: string } | { state: 'ok'; data: T };
 type Moves = { moves: FollowedMove[]; source: 'scanner' | 'live'; provenance: Provenance };
@@ -189,7 +190,7 @@ export function SmartMoneyDesk({ mode }: { mode: 'owner' | 'member' }) {
               </thead>
               <tbody>
                 {d.holdings.slice(0, 120).map((h) => (
-                  <tr key={h.chain + h.tokenAddress} onClick={() => pick(h)} className={`cursor-pointer border-t border-border hover:bg-raised/60 ${picked === h ? 'bg-raised' : ''}`}>
+                  <tr key={h.chain + h.tokenAddress} onClick={() => pick(h)} {...activateProps(() => pick(h))} className={`cursor-pointer border-t border-border hover:bg-raised/60 ${picked === h ? 'bg-raised' : ''}`}>
                     <td className="py-1.5"><span className="text-ink">{h.symbol}</span> <span className="text-ink-muted">{chainName(h.chain)}</span>{h.crowdedExit && <span className="ml-1.5 rounded border border-dashed px-1.5 text-[10.5px] text-ink-2" style={{ borderColor: 'var(--storm-2)' }}>crowded exit</span>}</td>
                     <td className="num text-ink">{usd(h.valueUsd)}</td>
                     <td className="num text-ink">{h.change24h == null ? 'n/a' : `${h.change24h >= 0 ? '+' : '−'}${pct(Math.abs(h.change24h), 1)}`}</td>

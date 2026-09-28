@@ -14,6 +14,7 @@ import { LaterBody } from '@/components/LaterBody';
 import { usd, num, ago, shortAddress } from '@/lib/viz/format';
 import { heatLabel, impliedPct, categoryHeat, isMover } from '@/lib/models/predict';
 import type { PredictBoard, PmMarket, PmDetail, PmRecords } from '@/server/predict/board';
+import { activateProps } from '@/components/ui/activate';
 
 type Load<T> = { state: 'idle' } | { state: 'loading' } | { state: 'error'; message: string } | { state: 'ok'; data: T };
 
@@ -541,6 +542,7 @@ export function PredictView({ board, title, analytics, series = {} }: { board: P
                   data-search={`${m.question} ${m.tags.join(' ')}`}
                   data-group={m.tags.join('|')}
                   onClick={() => pick(m)}
+                  {...activateProps(() => pick(m))}
                   className={`cursor-pointer border-t border-border hover:bg-raised/60 ${picked?.id === m.id ? 'bg-raised' : ''}`}
                 >
                   <td className="max-w-[360px] truncate py-1.5 text-ink" title={m.question}>

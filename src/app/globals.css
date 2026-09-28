@@ -752,6 +752,8 @@ html:not(.dark) .pager-pages button[aria-current="page"] { color: #fff; }
 .pager-sizes button[aria-pressed="true"] { background: var(--lg-lens); color: var(--ink-1); box-shadow: inset 0 1px 0 rgba(255,255,255,.18); }
 .pager-sizes button:hover { color: var(--ink-1); }
 .pager button:focus-visible { outline: 2px solid var(--mint); outline-offset: 2px; }
+/* Clickable rows (activateProps): a clear ring when reached with the keyboard. */
+tr[tabindex]:focus-visible { outline: 2px solid var(--mint); outline-offset: -2px; }
 /* Sections whose results reload under their own controls (a new date, a new page): the browser must not anchor
    the scroll inside the results, or a shorter answer moves the buttons that were just pressed. */
 .time-machine > :not(:first-child), main :is(table[data-sortable], table[data-page], .m-list, [data-paged]) { overflow-anchor: none; }
