@@ -34,6 +34,7 @@ import { walletWeatherReading } from '@/server/wallet/weather';
 import { walletRotations } from '@/server/weather/queries';
 import { ChainLogo } from '@/components/Logo';
 import { Go, Back } from '@/components/ui/Icons';
+import { pageMeta } from '@/server/seo';
 
 export const dynamic = 'force-dynamic';
 
@@ -41,7 +42,8 @@ type Params = { params: Promise<{ address: string }> };
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { address } = await params;
-  return { title: `${shortAddress(decodeURIComponent(address))} · Peregrine wallet` };
+  const a = decodeURIComponent(address);
+  return pageMeta({ title: `Wallet ${shortAddress(a)}`, description: `Trader score, holdings, PnL, counterparties and origins for ${shortAddress(a)}, from Nansen data.`, path: `/wallet/${encodeURIComponent(a)}`, noindex: true });
 }
 
 // Every address family Nansen profiles is some run of letters, digits and

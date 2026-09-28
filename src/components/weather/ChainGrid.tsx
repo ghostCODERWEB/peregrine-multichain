@@ -41,7 +41,8 @@ export function ChainGrid({ chains, brief = 0 }: { chains: ChainTile[]; /** show
 function Tile({ c }: { c: ChainTile }) {
   const v = Math.round(c.cpi!), d = (v - 50) / 50;
   const color = d >= 0 ? 'var(--mint)' : 'var(--flare)';
-  const band = v >= 65 ? 'Accumulation' : v <= 35 ? 'Distribution' : 'Neutral';
+  // The stored band, as the chain's page and share card read it (a rounded 65 can still sit just inside neutral).
+  const band = c.band === 'high' ? 'Accumulation' : c.band === 'low' ? 'Distribution' : 'Neutral';
   // Colour is reserved for a signal: neutral tiles stay quiet.
   const tint = band === 'Neutral' ? 0 : Math.min(0.24, Math.abs(d) * 0.34);
   const t = c.trend6h;

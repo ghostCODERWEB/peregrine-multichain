@@ -7,9 +7,10 @@ import { loadBacktest } from '@/server/token/forecast';
 import { weatherMap, pressureForecast } from '@/server/weather/queries';
 import { displayMode, viewOf } from '@/server/mode';
 import { num, pct } from '@/lib/viz/format';
+import { pageMeta } from '@/server/seo';
 
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'Proof · Peregrine' };
+export const metadata: Metadata = pageMeta({ title: 'Proof: the models\' out-of-sample record', description: 'Do the models work? Peregrine\'s dump-risk scores and projections, tested out of sample and published with their errors.', path: '/proof' });
 
 type Ledger = { window: { from: string; to: string }; calls: number; cached: number; endpoints: Array<{ endpoint: string; calls: number; cached: number; credits: number }>; days: Array<{ day: string; calls: number }> };
 function ledger(): Ledger | null {

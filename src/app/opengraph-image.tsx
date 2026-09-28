@@ -1,49 +1,31 @@
-// Share card for the weather map: the headline, the chains under the most
-// pressure as tiles on the diverging scale, and the lead storm warning.
-import { ImageResponse } from 'next/og';
+import { ogCard, OG_SIZE } from '@/lib/og/card';
 import { buildBulletin } from '@/server/weather/bulletin';
-import { mapHeadline, frontsHeadline } from '@/lib/insights';
-import { pressureClass } from '@/lib/viz/scales';
-import { chainName } from '@/lib/viz/format';
-import { OG, ogInk } from '@/lib/viz/og-palette';
+import { mapHeadline } from '@/lib/insights';
+import { chainNets } from '@/lib/viz/net-flow-map';
+import { chainName, usd } from '@/lib/viz/format';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
-export const alt = 'Peregrine · smart-money intelligence across every chain the Nansen API lists';
-export const size = { width: 1200, height: 630 };
+export const alt = 'Peregrine: smart-money intelligence for every chain, built on the Nansen API';
+export const size = OG_SIZE;
 export const contentType = 'image/png';
 
+/** The overview's card: the day's headline and the largest moves, from the scanner's stored readings (public view). */
 export default function Image() {
   const b = buildBulletin('public'); // share images leave the app: always the public view
-  const tiles = b.chains.filter((c) => c.cpi != null).sort((x, y) => Math.abs(y.cpi! - 50) - Math.abs(x.cpi! - 50)).slice(0, 12);
-  const storm = b.storms[0];
-  return new ImageResponse(
-    (
-      <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', background: OG.page, color: OG.ink, padding: 56, fontFamily: 'sans-serif' }}>
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: 18 }}>
-          <div style={{ display: 'flex', fontSize: 34, fontWeight: 700, letterSpacing: -0.5 }}>Peregrine</div>
-          <div style={{ display: 'flex', fontSize: 22, color: OG.muted }}>smart-money intelligence · {b.chains.length} chains · Nansen API</div>
-        </div>
-        <div style={{ display: 'flex', fontSize: 52, fontWeight: 700, marginTop: 28, lineHeight: 1.15, maxWidth: 1080 }}>{mapHeadline(b.chains, b.fronts)}</div>
-        <div style={{ display: 'flex', fontSize: 26, color: OG.ink2, marginTop: 14 }}>{frontsHeadline(b.fronts)}</div>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginTop: 36 }}>
-          {tiles.map((c) => {
-            const cls = pressureClass(c.cpi!);
-            const bg = cls === 'mid' ? OG.mid : OG[cls as keyof typeof OG];
-            return (
-              <div key={c.chain} style={{ display: 'flex', flexDirection: 'column', width: 168, padding: '12px 16px', borderRadius: 6, background: bg, color: ogInk(cls) }}>
-                <div style={{ display: 'flex', fontSize: 22 }}>{chainName(c.chain)}</div>
-                <div style={{ display: 'flex', fontSize: 38, fontWeight: 700 }}>{Math.round(c.cpi!)}</div>
-              </div>
-            );
-          })}
-        </div>
-        <div style={{ display: 'flex', marginTop: 'auto', justifyContent: 'space-between', fontSize: 22, color: OG.muted }}>
-          <div style={{ display: 'flex' }}>{storm ? `Risk alert: ${storm.symbol ?? 'token'} on ${chainName(storm.chain)}, ${Math.round(storm.score)}/100` : 'No risk alerts'}</div>
-          <div style={{ display: 'flex' }}>red = smart money selling · green = buying</div>
-        </div>
-      </div>
-    ),
-    size,
-  );
+  const nets = chainNets(b.chains).sort((x, y) => y.net - x.net);
+  const inflow = nets.find((n) => n.net > 0), outflow = [...nets].reverse().find((n) => n.net < 0);
+  const measured = b.chains.filter((c) => c.cpi != null).length;
+  return ogCard({
+    section: 'Overview',
+    // The overview's own hero line, so the card and the page say the same thing.
+    title: inflow && outflow ? `Buying ${chainName(inflow.chain)}. Selling ${chainName(outflow.chain)}.` : mapHeadline(b.chains, b.fronts),
+    subtitle: 'Where capital is moving across every chain the Nansen API covers, and the tokens at risk.',
+    stats: [
+      { label: inflow ? `Largest inflow · ${chainName(inflow.chain)}` : 'Largest inflow', value: inflow ? usd(inflow.net, { signed: true }) : 'n/a', tone: 'up' },
+      { label: outflow ? `Largest outflow · ${chainName(outflow.chain)}` : 'Largest outflow', value: outflow ? usd(outflow.net, { signed: true }) : 'n/a', tone: 'down' },
+      { label: 'Chains measured', value: `${measured} of ${b.chains.length}` },
+      { label: 'Dump-risk alerts', value: String(b.storms.length), tone: b.storms.length ? 'warn' : 'plain' },
+    ],
+  });
 }

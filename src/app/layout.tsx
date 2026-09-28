@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Manrope, IBM_Plex_Mono } from 'next/font/google';
 import './globals.css';
 import { Providers } from '@/components/Providers';
@@ -17,6 +17,7 @@ import { MobileClamp } from '@/components/MobileClamp';
 import { GuidedTour } from '@/components/GuidedTour';
 import { AnalyzeLauncher } from '@/components/analyze/AnalyzeLauncher';
 import { NavProgress } from '@/components/shell/NavProgress';
+import { SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE, pageMeta, siteUrl } from '@/server/seo';
 import { OffscreenPause } from '@/components/OffscreenPause';
 import { PublicAttribution } from '@/components/shell/PublicAttribution';
 
@@ -24,11 +25,28 @@ const geistSans = Manrope({ variable: '--font-geist-sans', subsets: ['latin'] })
 const geistMono = IBM_Plex_Mono({ variable: '--font-geist-mono', subsets: ['latin'], weight: ['400', '500'] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.SITE_URL || 'http://localhost:3000'),
-  title: 'Peregrine · smart-money intelligence for every chain',
-  description:
-    'Smart-money intelligence built on the Nansen API: a flow index for every chain, capital rotations between chains, dump-risk alerts on tokens, and projections with published accuracy.',
+  // The public address, so share cards and canonical links resolve outside this machine (SITE_URL or the host's domain).
+  metadataBase: new URL(siteUrl()),
+  ...pageMeta({ title: `${SITE_NAME} · ${SITE_TAGLINE}`, description: SITE_DESCRIPTION, path: '/', absoluteTitle: true }),
+  applicationName: SITE_NAME,
+  keywords: ['smart money', 'onchain analytics', 'Nansen', 'crypto flows', 'chain flows', 'Flow Index', 'Hyperliquid perps', 'Polymarket', 'token risk', 'dump risk', 'wallet profiler', 'crypto sectors'],
+  icons: { icon: '/icon.png', apple: '/brand/peregrine-256.png' },
+  formatDetection: { telephone: false, email: false, address: false },
 };
+
+export const viewport: Viewport = {
+  themeColor: [{ media: '(prefers-color-scheme: dark)', color: '#040507' }, { media: '(prefers-color-scheme: light)', color: '#F5F6F8' }],
+  colorScheme: 'dark light',
+};
+
+/** What search engines read about the site as a whole: the site and the web app. */
+const structuredData = () => JSON.stringify({
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'WebSite', '@id': `${siteUrl()}/#website`, url: siteUrl(), name: SITE_NAME, description: SITE_DESCRIPTION, inLanguage: 'en' },
+    { '@type': 'WebApplication', name: SITE_NAME, url: siteUrl(), applicationCategory: 'FinanceApplication', operatingSystem: 'Web', description: SITE_DESCRIPTION, image: `${siteUrl()}/opengraph-image`, offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } },
+  ],
+}).replace(/</g, '\\u003c');
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
@@ -39,6 +57,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: structuredData() }} />
         {/* Token logos redirect to these hosts (/api/logo): open their connections before the first logo asks. */}
         <link rel="preconnect" href="https://cdn.dexscreener.com" />
         <link rel="preconnect" href="https://assets.coincap.io" />

@@ -6,11 +6,14 @@ import { SYMBOL_RE } from '@/server/perps/detail';
 import { perpBoard } from '@/server/perps/board';
 import { displayMode, viewOf } from '@/server/mode';
 import { positioningSeries } from '@/server/graph/series';
+import { pageMeta } from '@/server/seo';
 
 export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }: { params: Promise<{ symbol: string }> }): Promise<Metadata> {
-  return { title: `${decodeURIComponent((await params).symbol).toUpperCase()} Perps · Peregrine` };
+  const symbol = decodeURIComponent((await params).symbol).toUpperCase();
+  const name = symbol.replace(/^[^:]+:/, '');
+  return pageMeta({ title: `${name} perp: liquidation map and positioning`, description: `${name} on Hyperliquid: liquidation levels, who holds the book, the crowd against smart money, funding and open interest.`, path: `/perps/${encodeURIComponent(symbol)}` });
 }
 
 export default async function PerpTerminalPage({ params }: { params: Promise<{ symbol: string }> }) {

@@ -17,9 +17,10 @@ import { predictBoard } from '@/server/predict/board';
 import { displayMode } from '@/server/mode';
 import { isPhone } from '@/server/device';
 import { chainName, usd } from '@/lib/viz/format';
+import { pageMeta } from '@/server/seo';
 
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'Copy Lab · Peregrine' };
+export const metadata: Metadata = pageMeta({ title: 'Copy Lab: profitable traders to follow', description: 'Spot, perp and prediction-market traders ranked by a copy score, and whether copying them still works when you enter late.', path: '/copy' });
 
 const LAG_LABEL = ['Same moment', '15 min late', '1 hour late', '6 hours late'];
 const MARKETS = ['all', 'spot', 'perps', 'predict', 'cohorts'] as const;

@@ -4,8 +4,9 @@ import { perpBoard, perpTitle } from '@/server/perps/board';
 import { PerpsView } from '@/components/perps/PerpsView';
 import { PerpsState } from '@/components/perps/PerpsState';
 import { PerpsAnalytics } from '@/components/perps/PerpsAnalytics';
+import { pageMeta } from '@/server/seo';
 
-export const metadata: Metadata = { title: 'Perps · Peregrine' };
+export const metadata: Metadata = pageMeta({ title: 'Hyperliquid perps: open interest, funding and flow', description: 'Every Hyperliquid perp with over $1M open interest: funding, taker flow, a 0–100 Perp Flow Index, crowding against smart money and liquidation levels.', path: '/perps' });
 export const dynamic = 'force-dynamic';
 
 export default async function PerpsPage() {

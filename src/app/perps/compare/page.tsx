@@ -9,9 +9,10 @@ import { forMode } from '@/server/redact';
 import { cohortMatrix, crowding, liquidationBands, totalUsd } from '@/lib/perps/liquidation';
 import { DIRECTION_TEXT } from '@/lib/perps/changes';
 import { num, pct, price, usd } from '@/lib/viz/format';
+import { pageMeta } from '@/server/seo';
 
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'Compare perps · Peregrine' };
+export const metadata: Metadata = pageMeta({ title: 'Compare perps', description: 'Compare Hyperliquid perpetuals side by side: open interest, funding, positioning and Perp Flow Index.', path: '/perps/compare', image: '/perps/opengraph-image' });
 
 /** Compare mode: two coins side by side on the same observed-position measures. */
 export default async function ComparePage({ searchParams }: { searchParams: Promise<{ a?: string; b?: string }> }) {

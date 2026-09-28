@@ -11,13 +11,14 @@ import { PageTitle } from '@/components/PageTitle';
 import { Go } from '@/components/ui/Icons';
 
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'Chain flows · Peregrine' };
+export const metadata: Metadata = pageMeta({ title: 'Chain flows: net flow and Flow Index by chain', description: 'Where capital is moving: 24-hour net flow for every chain the Nansen API covers, a 0–100 Flow Index against each chain\'s own history, and the largest moves.', path: '/flows' });
 
 // P4: Capital Flows as its own page — the animated chain-to-chain map with
 // room, a 7-day rotation timeline and a chain leaderboard. All of it is read
 // from the owner's stored smart-money trades: no Nansen call, owner view only.
 import { SpotState } from '@/components/weather/SpotState';
 import { FlowsAnalytics } from '@/components/weather/FlowsAnalytics';
+import { pageMeta } from '@/server/seo';
 
 export default async function FlowsPage() {
   const mode = await displayMode();

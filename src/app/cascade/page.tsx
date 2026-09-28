@@ -8,9 +8,10 @@ import { firstSelected } from '@/lib/cascade-select';
 import { displayMode } from '@/server/mode';
 import { walletName } from '@/lib/viz/format';
 import { WINDOW_MS } from '@/lib/models/cascade';
+import { pageMeta } from '@/server/seo';
 
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'Cascades · Peregrine' };
+export const metadata: Metadata = pageMeta({ title: 'Smart-money cascades', description: 'Who bought first and who followed: smart-money buying cascades on tokens, wallet by wallet, from Nansen data.', path: '/cascade' });
 
 const fmtMin = (m: number) => (m >= 1440 ? `${(m / 1440).toFixed(1)} days` : m >= 60 ? `${(m / 60).toFixed(1)} h` : `${Math.round(m)} min`);
 

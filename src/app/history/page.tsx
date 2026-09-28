@@ -11,9 +11,10 @@ import { displayMode } from '@/server/mode';
 import { perpChanges } from '@/server/perps/terminal';
 import { DIRECTION_TEXT } from '@/lib/perps/changes';
 import { chainName, num, usd } from '@/lib/viz/format';
+import { pageMeta } from '@/server/seo';
 
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'History · Peregrine' };
+export const metadata: Metadata = pageMeta({ title: 'History: what changed in 24 hours and 7 days', description: 'Flow Index moves, sector swings and the market as it was, from Peregrine\'s stored snapshots.', path: '/history' });
 
 const WINDOWS = { '24h': 86_400_000, '7d': 7 * 86_400_000 } as const;
 

@@ -8,9 +8,10 @@ import { publicSite, webDailyCreditCap } from '@/server/site';
 import { webCreditsToday } from '@/server/nansen/ledger';
 import { AdminPanels, LedgerCard } from '@/components/coverage/AdminPanels';
 import { chainName, num } from '@/lib/viz/format';
+import { pageMeta } from '@/server/seo';
 
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'Coverage · Peregrine' };
+export const metadata: Metadata = pageMeta({ title: 'Coverage: every chain the Nansen API covers', description: 'Which chains and data sets Peregrine reads from the Nansen API, and what each view is built from.', path: '/coverage' });
 
 const CELL: Record<CellStatus, { cls: string; label: string }> = {
   documented: { cls: 'bg-ink-2', label: 'supported (Nansen docs)' },

@@ -9,12 +9,16 @@ import { ALL_CHAIN_IDS, chainCapability } from '@/lib/registry';
 import { plausibleTokenAddress } from '@/lib/address-family';
 import { chainName, shortAddress } from '@/lib/viz/format';
 import { displayMode } from '@/server/mode';
+import { pageMeta } from '@/server/seo';
+import { tokenSymbol } from '@/server/og-data';
 
 type Params = { params: Promise<{ chain: string; address: string }> };
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { chain, address } = await params;
-  return { title: `${shortAddress(decodeURIComponent(address))} on ${chainName(chain)} · Peregrine` };
+  const token = decodeURIComponent(address);
+  const name = tokenSymbol(chain, token) ?? shortAddress(token);
+  return pageMeta({ title: `${name} on ${chainName(chain)}: Token Score and smart money`, description: `${name} on ${chainName(chain)}: a 0–100 dump-risk score, price, smart-money flow, holders and liquidity, from Nansen data.`, path: `/token/${chain}/${encodeURIComponent(token)}` });
 }
 
 // The page is a shell; every module streams in from

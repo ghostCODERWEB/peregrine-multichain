@@ -9,8 +9,9 @@ import { perpBoard } from '@/server/perps/board';
 import { viewOf } from '@/server/mode';
 import { accountsEnabled } from '@/server/site';
 import { PageTitle } from '@/components/PageTitle';
+import { pageMeta } from '@/server/seo';
 
-export const metadata: Metadata = { title: 'Trade · Peregrine' };
+export const metadata: Metadata = pageMeta({ title: 'Trade', description: 'Trading on this Peregrine instance.', path: '/trade', noindex: true, image: '/opengraph-image' });
 export const dynamic = 'force-dynamic';
 
 export default async function TradePage({ searchParams }: { searchParams: Promise<{ token?: string; coin?: string; venue?: string }> }) {

@@ -8,9 +8,20 @@ import { outcomeBoard } from '@/lib/models/outcomes';
 import { PredictMarketView } from '@/components/predict/PredictMarketView';
 import { MarketAnalyticsView } from '@/components/predict/MarketAnalyticsView';
 import { marketAnalytics } from '@/server/predict/market';
+import { pageMeta } from '@/server/seo';
+import { storedBoard } from '@/server/predict/board';
 
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'Prediction market · Peregrine' };
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const id = decodeURIComponent((await params).id);
+  const m = storedBoard()?.markets.find((x) => x.id === id);
+  const prob = m?.price != null ? ` Priced at ${Math.round(m.price * 100)}% YES.` : '';
+  return pageMeta({
+    title: m?.question ? m.question.slice(0, 90) : 'Prediction market',
+    description: `${m?.question ? `${m.question}${prob} ` : ''}Implied probability, repricing, order book and the traders on each side, from Polymarket via Nansen.`,
+    path: `/predict/${encodeURIComponent(id)}`,
+  });
+}
 
 /** One Polymarket market (via Nansen), URL-addressable: pulse and written brief, statistics, flow, top traders, outcomes, price and volume, depth, holders, positions, trades, related markets. */
 export default async function PredictMarketPage({ params }: { params: Promise<{ id: string }> }) {

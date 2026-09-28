@@ -15,9 +15,10 @@ import { displayMode } from '@/server/mode';
 import { isPhone } from '@/server/device';
 import { usd } from '@/lib/viz/format';
 import type { Cohort } from '@/lib/perps/positions';
+import { pageMeta } from '@/server/seo';
 
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'Profiler · Peregrine' };
+export const metadata: Metadata = pageMeta({ title: 'Wallet Profiler', description: 'Profile any wallet: trader score across spot, perps and prediction markets, holdings, PnL, counterparties and side-by-side comparisons.', path: '/wallet' });
 
 type Active = { wallet: string; label: string | null; trades: number; net: number; bought: number; sold: number; top: string | null };
 

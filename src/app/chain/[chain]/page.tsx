@@ -5,6 +5,8 @@ import { displayMode } from '@/server/mode';
 import { ChainView } from '@/components/chain/ChainView';
 import { ALL_CHAIN_IDS, chainCapability, unavailableReason } from '@/lib/registry';
 import { chainName } from '@/lib/viz/format';
+import { pageMeta } from '@/server/seo';
+import { buildBulletin } from '@/server/weather/bulletin';
 
 export const dynamic = 'force-dynamic';
 
@@ -12,7 +14,10 @@ type Params = { params: Promise<{ chain: string }> };
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { chain } = await params;
-  return { title: `${chainName(chain)} · Peregrine` };
+  const name = chainName(chain);
+  const tile = buildBulletin('public').chains.find((c) => c.chain === chain);
+  const reading = tile?.cpi != null ? `Flow Index ${Math.round(tile.cpi)} (${tile.band === 'high' ? 'accumulation' : tile.band === 'low' ? 'distribution' : 'neutral'}). ` : '';
+  return pageMeta({ title: `${name} flows and Flow Index`, description: `${reading}Net flow, activity and the most-traded tokens on ${name}, measured against the chain's own history, from the Nansen API.`, path: `/chain/${chain}` });
 }
 
 export default async function ChainRoute({ params }: Params) {

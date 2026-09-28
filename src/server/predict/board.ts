@@ -3,6 +3,7 @@
 // and its holders' track records are fetched on request, with the price
 // shown before the records call. All of it is attribution-class data.
 import { traced, errText } from '@/server/nansen/traced';
+import { readCache } from '@/server/nansen/cache';
 import { requestDay } from '@/server/nansen/demo';
 import { callScope, type CallTally } from '@/server/nansen/client';
 import {
@@ -84,11 +85,15 @@ export interface PredictBoard {
   unavailable: string | null;
 }
 
+/** The board's category and market requests: shared with the share card, which reads their stored answers only. */
+export const PM_CATEGORY_BODY = { pagination: { page: 1, per_page: 60 } };
+export const PM_MARKET_BODY = { status: 'active', order_by: [{ field: 'volume_24hr', direction: 'DESC' }], pagination: { page: 1, per_page: 200 } };
+
 export async function predictBoard(): Promise<PredictBoard> {
   const tally: CallTally = { calls: 0, credits: 0, cached: 0 };
   return callScope.run(tally, async () => {
-    const cBody = { pagination: { page: 1, per_page: 60 } };
-    const mBody = { status: 'active', order_by: [{ field: 'volume_24hr', direction: 'DESC' }], pagination: { page: 1, per_page: 200 } };
+    const cBody = PM_CATEGORY_BODY;
+    const mBody = PM_MARKET_BODY;
     const eBody = { status: 'active', order_by: [{ field: 'volume_24hr', direction: 'DESC' }], pagination: { page: 1, per_page: 40 } };
     try {
       const [c, m, e] = await Promise.all([
@@ -169,6 +174,26 @@ export async function predictBoard(): Promise<PredictBoard> {
       };
     }
   });
+}
+
+/** The board as last stored, read without a Nansen call (expired answers included): for share cards and page
+ *  titles, which crawlers fetch and which must never spend credits. Null when nothing was stored yet. */
+export function storedBoard(): { markets: PmMarket[]; totals: PredictBoard['totals']; hottest: PmCategory | null } | null {
+  const c = readCache<unknown>('prediction-market/categories', PM_CATEGORY_BODY, null, { stale: true });
+  const m = readCache<unknown>('prediction-market/market-screener', PM_MARKET_BODY, null, { stale: true });
+  if (!c && !m) return null;
+  const categories: PmCategory[] = rows(c?.value).map((r) => {
+    const base = { volume24h: n(r.total_volume_24hr), volume1w: n(r.total_volume_1wk), openInterest: n(r.total_open_interest) };
+    return { category: s(r.category) ?? '?', activeMarkets: n(r.active_markets), traders24h: n(r.total_traders_24h), topMarketId: s(r.top_market_id), topQuestion: s(r.top_market_question), ...base, ...categoryHeat(base) };
+  });
+  const totals = {
+    openInterest: categories.reduce((a, x) => a + (x.openInterest ?? 0), 0),
+    volume24h: categories.reduce((a, x) => a + (x.volume24h ?? 0), 0),
+    activeMarkets: categories.reduce((a, x) => a + (x.activeMarkets ?? 0), 0),
+    traders24h: categories.reduce((a, x) => a + (x.traders24h ?? 0), 0),
+  };
+  const hottest = [...categories].filter((x) => x.weather != null && (x.volume24h ?? 0) > 100_000).sort((a, b) => b.weather! - a.weather!)[0] ?? null;
+  return { markets: rows(m?.value).map(toMarket), totals, hottest };
 }
 
 export function predictTitle(b: PredictBoard): string {
