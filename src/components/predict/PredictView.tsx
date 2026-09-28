@@ -9,6 +9,7 @@ import { Go } from '@/components/ui/Icons';
 import { MoodRing, MoodWord } from '@/components/viz/MoodRing';
 import { Card, WaveLoading, Unavailable } from '@/components/Card';
 import { InfoPopover } from '@/components/InfoPopover';
+import { LaterBody } from '@/components/LaterBody';
 import { usd, num, ago, shortAddress } from '@/lib/viz/format';
 import { heatLabel, impliedPct, categoryHeat, isMover } from '@/lib/models/predict';
 import type { PredictBoard, PmMarket, PmDetail, PmRecords } from '@/server/predict/board';
@@ -531,8 +532,8 @@ export function PredictView({ board, title, analytics, series = {} }: { board: P
                 <th className="text-right font-normal">Ends</th>
               </tr>
             </thead>
-            <tbody>
-              {board.markets.map((m) => (
+            <LaterBody items={board.markets}>
+              {(m) => (
                 <tr
                   key={m.id}
                   data-search={`${m.question} ${m.tags.join(' ')}`}
@@ -554,8 +555,8 @@ export function PredictView({ board, title, analytics, series = {} }: { board: P
                     {ends(m.endDate)}
                   </td>
                 </tr>
-              ))}
-            </tbody>
+              )}
+            </LaterBody>
           </table>
         </div>
       </Card>

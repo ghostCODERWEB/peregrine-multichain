@@ -9,6 +9,7 @@ import { ScoreRing } from '@/components/viz/ScoreRing';
 import { FlowSpark } from '@/components/viz/FlowSpark';
 import type { AlphaBoard, AlphaRow } from '@/server/alpha/board';
 import { chainName, pct, usd } from '@/lib/viz/format';
+import { LaterBody } from '@/components/LaterBody';
 
 const ringColor = (s: number) => (s >= 65 ? 'var(--brand)' : s <= 35 ? 'var(--out-3)' : 'var(--ink-2)');
 
@@ -145,8 +146,8 @@ export function AlphaView({ board }: { board: AlphaBoard }) {
                 <th className="py-2 font-normal">Why</th>
               </tr>
             </thead>
-            <tbody>
-              {rows.map((r) => (
+            <LaterBody items={rows}>
+              {(r) => (
                 <tr key={`${r.chain}:${r.tokenAddress}`} className="border-b border-border/50 hover:bg-accent/40">
                   <td className="py-1.5 pr-2">
                     <ScoreRing
@@ -183,8 +184,8 @@ export function AlphaView({ board }: { board: AlphaBoard }) {
                     <Parts row={r} />
                   </td>
                 </tr>
-              ))}
-            </tbody>
+              )}
+            </LaterBody>
           </table>
         </div>
       </Card>

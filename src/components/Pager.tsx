@@ -60,20 +60,25 @@ function apply(host: HTMLElement, opts: { resetPage?: boolean; scroll?: boolean;
   if (!host.hasAttribute('data-pager-live')) host.setAttribute('data-pager-live', '');
   all.forEach((r) => { if (r.hidden) out(r, false); });
   const items = all.filter((r) => !r.hidden);
+  // A long table holds only its first rows until someone uses it (LaterBody): count the rows still to come,
+  // so every page shows. Any use of the table renders them before the click that pages it.
+  const body = host instanceof HTMLTableElement ? host.tBodies[0] : null;
+  const later = body?.hasAttribute('data-rows-pending') && items.length === all.length ? Math.max(0, Number(body.dataset.rowsTotal) - all.length) : 0;
+  const count = items.length + later;
   const choices = sizes();
   const fallback = Number(host.dataset.page) || choices[0];
   let s = state.get(host);
   // A new set of rows (another selection, a refresh) starts again from page 1.
-  if (!s || s.first !== (items[0] ?? null) || s.count !== items.length || opts.resetPage) s = { size: s?.size ?? fallback, page: 0, first: items[0] ?? null, count: items.length };
+  if (!s || s.first !== (items[0] ?? null) || s.count !== count || opts.resetPage) s = { size: s?.size ?? fallback, page: 0, first: items[0] ?? null, count };
   state.set(host, s);
 
   let bar = barFor(host);
-  if (items.length <= choices[0] && items.length <= fallback) { items.forEach((r) => out(r, false)); bar?.remove(); return true; }
+  if (count <= choices[0] && count <= fallback) { items.forEach((r) => out(r, false)); bar?.remove(); return true; }
 
-  const size = s.size || items.length;
-  const pages = Math.max(1, Math.ceil(items.length / size));
+  const size = s.size || count;
+  const pages = Math.max(1, Math.ceil(count / size));
   s.page = Math.min(s.page, pages - 1);
-  const from = s.page * size, to = Math.min(items.length, from + size);
+  const from = s.page * size, to = Math.min(count, from + size);
   items.forEach((r, i) => out(r, i < from || i >= to));
 
   if (!bar) {
@@ -93,7 +98,7 @@ function apply(host: HTMLElement, opts: { resetPage?: boolean; scroll?: boolean;
     ? `<span class="pager-of" aria-current="page">${s.page + 1} / ${pages}</span>`
     : pageList(s.page, pages).map((p) => (p == null ? '<span class="pager-gap" aria-hidden="true">…</span>' : btn(p, String(p + 1), `aria-label="Page ${p + 1}" ${p === s!.page ? 'aria-current="page"' : ''}`))).join('');
   const html =
-    `<span class="pager-count">${from + 1}–${to} of ${items.length}</span>` +
+    `<span class="pager-count">${from + 1}–${to} of ${count}</span>` +
     (pages > 1
       ? `<span class="pager-pages">${btn(s.page - 1, '‹', `aria-label="Previous page" ${s.page === 0 ? 'disabled' : ''}`)}${numbers}${btn(s.page + 1, '›', `aria-label="Next page" ${s.page >= pages - 1 ? 'disabled' : ''}`)}</span>`
       : '') +
@@ -105,7 +110,7 @@ function apply(host: HTMLElement, opts: { resetPage?: boolean; scroll?: boolean;
     if (!b || b.disabled) return;
     const cur = state.get(host)!;
     if (b.dataset.go != null) cur.page = Number(b.dataset.go);
-    else { const first = cur.page * (cur.size || items.length); cur.size = Number(b.dataset.size); cur.page = cur.size ? Math.floor(first / cur.size) : 0; }
+    else { const first = cur.page * (cur.size || count); cur.size = Number(b.dataset.size); cur.page = cur.size ? Math.floor(first / cur.size) : 0; }
     apply(host, { scroll: true });
   };
   // Keep the reader at the top of the rows they asked for.
@@ -145,11 +150,14 @@ export function Pager() {
       if (table) setTimeout(() => apply(table, { resetPage: true }), 0);
     };
     document.addEventListener('click', onClick);
+    // A long table's later rows just arrived (LaterBody): page them before the browser paints.
+    const onRowsIn = (e: Event) => { const table = (e.target as Element).closest('table'); if (ready && table) apply(table); };
+    document.addEventListener('peregrine:rows-in', onRowsIn);
     // Crossing the phone breakpoint changes the page sizes.
     const mq = matchMedia(PHONE);
     const onBreak = () => document.querySelectorAll<HTMLElement>(SELECTOR).forEach((el) => { state.delete(el); apply(el); });
     mq.addEventListener('change', onBreak);
-    return () => { stopWaiting(); clearTimeout(retry); mo.disconnect(); document.removeEventListener('click', onClick); mq.removeEventListener('change', onBreak); };
+    return () => { stopWaiting(); clearTimeout(retry); mo.disconnect(); document.removeEventListener('click', onClick); document.removeEventListener('peregrine:rows-in', onRowsIn); mq.removeEventListener('change', onBreak); };
   }, []);
   return null;
 }

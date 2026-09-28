@@ -23,6 +23,8 @@ test('home overview layers switch views and keep map and table', async ({ page }
   // Only chains with a reading get a tile; the grid opens on the strongest and weakest.
   const measured = ((await (await page.request.get('/api/weather')).json()).chains as Array<{ cpi: number | null }>).filter((c) => c.cpi != null).length;
   const showAll = page.getByRole('button', { name: `Show all ${measured} chains` });
+  // The grid draws after the view switch; look for its "Show all" only once it is there.
+  await expect(page.locator('[aria-label="Chains by Flow Index"]:visible a').first()).toBeVisible();
   if (await showAll.isVisible()) await showAll.click();
   await expect(page.locator('[aria-label="Chains by Flow Index"]:visible a')).toHaveCount(measured);
   expect(errors).toEqual([]);

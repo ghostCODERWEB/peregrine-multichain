@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
+import { wantAllRows } from '@/components/LaterBody';
 
 /** Search and category chips for a server-rendered list. Items opt in with
  *  `data-search="…text…"` and optionally `data-group="a|b"` (any of); groups (a
@@ -20,22 +21,32 @@ export function FilterBox({ target, placeholder, groups = [], label }: { target:
     const root = document.querySelector(target);
     if (!root) return;
     const words = q.trim().toLowerCase().split(/\s+/).filter(Boolean);
-    let n = 0;
-    root.querySelectorAll<HTMLElement>('[data-search]').forEach((el) => {
-      const text = el.dataset.search!.toLowerCase();
-      const ok = words.every((w) => text.includes(w)) && (!group || (el.dataset.group ?? '').split('|').includes(group));
-      el.hidden = !ok;
-      if (ok) n++;
-    });
-    root.querySelectorAll<HTMLElement>('[data-filter-group]').forEach((g) => {
-      const any = [...g.querySelectorAll<HTMLElement>('[data-search]')].some((el) => !el.hidden);
-      g.hidden = !any;
-      if (g instanceof HTMLDetailsElement) {
-        if (words.length && any && !g.open) { g.open = true; opened.current.add(g); }
-        if (!words.length && opened.current.has(g)) { g.open = false; opened.current.delete(g); }
-      }
-    });
-    setShown(words.length || group ? n : null);
+    const apply = () => {
+      let n = 0;
+      root.querySelectorAll<HTMLElement>('[data-search]').forEach((el) => {
+        const text = el.dataset.search!.toLowerCase();
+        const ok = words.every((w) => text.includes(w)) && (!group || (el.dataset.group ?? '').split('|').includes(group));
+        el.hidden = !ok;
+        if (ok) n++;
+      });
+      root.querySelectorAll<HTMLElement>('[data-filter-group]').forEach((g) => {
+        const any = [...g.querySelectorAll<HTMLElement>('[data-search]')].some((el) => !el.hidden);
+        g.hidden = !any;
+        if (g instanceof HTMLDetailsElement) {
+          if (words.length && any && !g.open) { g.open = true; opened.current.add(g); }
+          if (!words.length && opened.current.has(g)) { g.open = false; opened.current.delete(g); }
+        }
+      });
+      setShown(words.length || group ? n : null);
+    };
+    apply();
+    if (!words.length && !group) return;
+    // A search searches every row, including a long table's rows it has not rendered yet (LaterBody).
+    wantAllRows();
+    // Rows that arrive while a search is on (a long table filling in after load) are filtered as well.
+    const mo = new MutationObserver(apply);
+    mo.observe(root, { childList: true, subtree: true });
+    return () => mo.disconnect();
   }, [q, group, target]);
 
   return (

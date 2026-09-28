@@ -13,6 +13,7 @@ import { pct, usd, num, walletName, ago } from '@/lib/viz/format';
 import type { PerpBoard, PerpCoin } from '@/server/perps/board';
 import type { CoinDetail, PerpLeaders } from '@/server/perps/detail';
 import { Go, Back, Up } from '@/components/ui/Icons';
+import { LaterBody } from '@/components/LaterBody';
 
 type Load<T> = { state: 'idle' } | { state: 'loading' } | { state: 'error'; message: string } | { state: 'ok'; data: T };
 
@@ -366,6 +367,7 @@ export function PerpsView({ board, title, mode, analytics }: { board: PerpBoard;
 
   const pickedCoin = useMemo(() => board.coins.find((c) => c.symbol === picked) ?? null, [board.coins, picked]);
   const divergent = board.coins.filter((c) => c.divergence);
+  const scored = board.coins.filter((c) => c.ppi != null);
 
   if (board.unavailable)
     return (
@@ -413,7 +415,7 @@ export function PerpsView({ board, title, mode, analytics }: { board: PerpBoard;
         </Card>
         <Card
           id="coins"
-          title={`${board.coins.filter((c) => c.ppi != null).length} coins scored`}
+          title={`${scored.length} coins scored`}
           sub="By open interest"
         >
           <FilterBox target="#perp-coins" label="Filter coins" placeholder="Search coins" groups={['Long bias', 'Neutral', 'Short bias']} />
@@ -428,10 +430,8 @@ export function PerpsView({ board, title, mode, analytics }: { board: PerpBoard;
                   <th className="text-right font-normal">OI</th>
                 </tr>
               </thead>
-              <tbody>
-                {board.coins
-                  .filter((c) => c.ppi != null)
-                  .map((c) => (
+              <LaterBody items={scored}>
+                {(c) => (
                     <tr
                       key={c.symbol}
                       data-search={`${c.symbol} ${c.symbol.replace(/^[^:]+:/, '')}${c.divergence ? ' divergent' : ''}`}
@@ -460,8 +460,8 @@ export function PerpsView({ board, title, mode, analytics }: { board: PerpBoard;
                       </td>
                       <td className="num text-right text-ink">{usd(c.openInterest)}</td>
                     </tr>
-                  ))}
-              </tbody>
+                  )}
+              </LaterBody>
             </table>
           </div>
         </Card>
