@@ -39,7 +39,12 @@ export function MobileHome({ mode, chains }: { mode: DisplayMode; chains: ChainT
   const others = allTraderOnly(chains);
   const inflow = nets.filter((n) => n.net > 0).slice(0, 3), outflow = nets.filter((n) => n.net < 0).slice(-3).reverse();
   const risk = owner ? tokenChecker(true) : null;
-  const radar = risk ? (risk.smIntoRisk.length ? risk.smIntoRisk.slice(0, 8).map((r) => ({ ...r, kind: 'buying' as const })) : risk.scored.filter((s) => s.score >= 50).slice(0, 8).map((s) => ({ chain: s.chain, address: s.address, symbol: s.symbol, score: s.score, net: 0, buyers: 0, kind: 'score' as const }))) : [];
+  // Smart Money buying into danger first, then the highest scores to fill the row (up to 8): one token with
+  // buying used to leave a single card while many high-risk tokens went unshown.
+  const buyingIn = risk ? risk.smIntoRisk.slice(0, 8).map((r) => ({ ...r, kind: 'buying' as const })) : [];
+  const seen = new Set(buyingIn.map((r) => `${r.chain}:${r.address}`));
+  const riskiest = risk ? risk.scored.filter((s) => !seen.has(`${s.chain}:${s.address}`)).sort((a, b) => b.score - a.score).map((s) => ({ chain: s.chain, address: s.address, symbol: s.symbol, score: s.score, net: 0, buyers: 0, kind: 'score' as const })) : [];
+  const radar = [...buyingIn, ...riskiest].slice(0, 8);
   const lab = owner ? cachedCopyLab() : null;
   const follow = lab?.wallets.filter((w) => w.score >= 60).slice(0, 5) ?? [];
   const pulse = marketPulse(mode).slice(0, 5);
@@ -67,7 +72,7 @@ export function MobileHome({ mode, chains }: { mode: DisplayMode; chains: ChainT
       </Link>
 
       {radar.length > 0 && (
-        <Group title={radar[0].kind === 'buying' ? 'Smart Money buying into danger' : 'Highest risk right now'} href="/token#sm-risk">
+        <Group title={radar.every((r) => r.kind === 'buying') ? 'Smart Money buying into danger' : 'Highest risk right now'} href="/token#sm-risk">
           <Rail label="Risk Radar">
             {radar.map((r) => {
               const danger = r.score >= 55;

@@ -791,6 +791,6 @@ table[data-sortable], table[data-page], .m-list, [data-paged] { scroll-margin-to
 @media (max-width: 1023px) and (hover: none) {
   .section-rail, .section-rail-track, .section-rail:not(.is-dragging) .section-rail-tick { pointer-events: none; }
   .section-rail-track { position: relative; }
-  .section-rail-track::before { content: ''; position: absolute; top: 0; bottom: 0; right: 0; width: 14px; pointer-events: auto; } /* inside the page's 16px margin: never over a card */
+  .section-rail-track::before { content: ''; position: absolute; top: 0; bottom: 0; right: 0; width: 16px; pointer-events: auto; } /* the page's whole 16px margin: as wide as it can be without covering a card */
   .section-rail.is-dragging .section-rail-track { pointer-events: auto; }
 }
