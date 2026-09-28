@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './fixtures';
 import { MessageV0, PublicKey, VersionedTransaction } from '@solana/web3.js';
 
 // M8b runs only against the explicit private trading instance. Both the wallet

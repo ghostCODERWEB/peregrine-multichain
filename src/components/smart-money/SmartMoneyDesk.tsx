@@ -182,7 +182,7 @@ export function SmartMoneyDesk({ mode }: { mode: 'owner' | 'member' }) {
         sub="Value held, 24h balance change, wallets holding, share of the cohort's holdings, and top-PnL backers. Select a row for its history."
         action={d ? <InfoPopover p={d.provenance.holdings} /> : undefined}>
         {d ? (
-          <div className="max-h-[520px] overflow-auto">
+          <div className="max-h-[520px] overflow-auto" tabIndex={0} role="region" aria-label="Smart Money holdings">
             <table data-sortable className="w-full min-w-[720px] text-left text-[12.5px]">
               <thead className="sticky top-0 bg-surface text-[11px] uppercase tracking-wider text-ink-muted">
                 <tr><th className="py-2 font-normal">Token</th><th className="font-normal">Value</th><th className="font-normal">24h</th><th className="font-normal">Wallets</th><th className="font-normal">Share</th><th className="font-normal">Backers</th><th className="font-normal">Conviction</th></tr>
@@ -211,7 +211,7 @@ export function SmartMoneyDesk({ mode }: { mode: 'owner' | 'member' }) {
           action={d ? <InfoPopover p={d.provenance.leaders} /> : undefined}>
           {followErr && <p className="mb-2 text-[12px] text-ink-2">{followErr}</p>}
           {d ? (
-            <div className="max-h-[520px] overflow-auto">
+            <div className="max-h-[520px] overflow-auto" tabIndex={0} role="region" aria-label="Smart Money leaders">
               <table data-sortable className="w-full min-w-[680px] text-left text-[12.5px]">
                 <thead className="sticky top-0 bg-surface text-[11px] uppercase tracking-wider text-ink-muted">
                   <tr><th className="py-2 font-normal">#</th><th className="font-normal">Wallet</th><th className="font-normal">PnL 30d</th><th className="font-normal">Win rate</th><th className="font-normal">Trades</th><th className="font-normal">Largest balances</th><th /></tr>

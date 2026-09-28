@@ -6,3 +6,9 @@ data
 *.log
 test-results
 playwright-report
+# Not needed to build or run the image: history, the showcase film's media, tests and their output.
+.git
+video-production
+e2e
+coverage
+.e2e-*

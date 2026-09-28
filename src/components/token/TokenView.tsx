@@ -137,7 +137,8 @@ type Row = { cols: 2 | 3; items: Array<[string, number?]> };
 const LAYOUT: Record<View, Row[]> = {
   overview: [
     { cols: 3, items: [['ask', 2], ['traders']] },
-    { cols: 2, items: [['gauges', 2]] },
+    // "Make a call" sits beside the gauges it records: the Desk sends people here to use it.
+    { cols: 3, items: [['gauges', 2], ['call']] },
     { cols: 3, items: [['sphere', 2], ['cohorts']] },
     { cols: 3, items: [['odds'], ['leverage', 2]] },
   ],
@@ -163,7 +164,7 @@ const LAYOUT: Record<View, Row[]> = {
   ],
   all: [
     { cols: 3, items: [['storm'], ['market', 2]] },
-    { cols: 3, items: [['gauges', 3]] },
+    { cols: 3, items: [['gauges', 2], ['call']] },
     { cols: 3, items: [['sphere', 2], ['cohorts']] },
     { cols: 3, items: [['odds'], ['wind'], ['traders']] },
     { cols: 2, items: [['follow', 2]] },

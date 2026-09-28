@@ -1,8 +1,11 @@
 import { NextResponse } from 'next/server';
 import { ensAddress, ensNames, ENS_NAME_RE } from '@/server/ens';
+import { allow, clientId } from '@/server/rate';
 
 /** GET ?a=0x..,0x.. → { names: { addr: name|null } }; GET ?name=vitalik.eth → { address }. Public, cached. */
 export async function GET(req: Request) {
+  // Each call fans out to public Ethereum RPCs: cap it per visitor so this server cannot be used to hammer them.
+  if (!allow('ens', clientId(req), 60)) return NextResponse.json({ error: 'Too many lookups; wait a minute.' }, { status: 429, headers: { 'Retry-After': '60' } });
   const q = new URL(req.url).searchParams;
   const name = q.get('name');
   if (name) {

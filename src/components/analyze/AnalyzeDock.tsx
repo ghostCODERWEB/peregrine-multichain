@@ -27,6 +27,9 @@ function prompts(path: string, hasSel: boolean): string[] {
 }
 
 /** The persistent "Analyze with Nansen" dock: ask about the page, or pick any chart, row, token, wallet, market or card on it. */
+/** The tab bar's Ask button (phones and tablets): the panel pours out of it and back into it. */
+const askButton = () => document.querySelector<HTMLElement>('.glass-action[aria-pressed]')?.getBoundingClientRect() ?? null;
+
 export function AnalyzeDock() {
   const { publicSite } = useSite();
   const path = usePathname() ?? '/';
@@ -38,13 +41,12 @@ export function AnalyzeDock() {
   openRef.current = open;
   // Tell the tab bar's Ask button whether the panel is showing, so it can light up.
   useEffect(() => { window.dispatchEvent(new CustomEvent('peregrine:analyze-state', { detail: open && !closing })); }, [open, closing]);
-  // The tab bar's Ask button (phones and tablets): the panel pours out of it and back into it.
-  const askButton = () => document.querySelector<HTMLElement>('.glass-action[aria-pressed]')?.getBoundingClientRect() ?? null;
   useLayoutEffect(() => {
     const el = panel.current, to = askButton();
     if (open && el && canGenie(el, to)) void genie(el, to, 'in');
   }, [open]);
-  const close = () => {
+  // Refs and state setters only, so both are stable and safe in effect dependencies.
+  const close = useCallback(() => {
     if (!openRef.current || closingRef.current) return;
     closingRef.current = true;
     setClosing(true);
@@ -52,13 +54,13 @@ export function AnalyzeDock() {
     const el = panel.current, to = askButton();
     if (el && canGenie(el, to)) void genie(el, to, 'out').then(done);
     else setTimeout(done, 200);
-  };
-  const setOpen = (v: boolean | ((o: boolean) => boolean)) => {
+  }, []);
+  const setOpen = useCallback((v: boolean | ((o: boolean) => boolean)) => {
     const now = openRef.current && !closingRef.current;
     const next = typeof v === 'function' ? v(now) : v;
     if (next === now) return;
     if (next) { if (!closingRef.current) setOpenRaw(true); } else close();
-  };
+  }, [close]);
   const [picking, setPicking] = useState(false);
   const [sels, setSels] = useState<Selection[]>([]);
   const [q, setQ] = useState('');
@@ -71,7 +73,7 @@ export function AnalyzeDock() {
     el.setAttribute('data-analyze-selected', '');
     setSels((cur) => (cur.some((x) => x.el === el) ? cur : [...cur.slice(-3), s]));
     setOpen(true);
-  }, []);
+  }, [setOpen]);
   const remove = (s: Selection) => { s.el.removeAttribute('data-analyze-selected'); setSels((cur) => cur.filter((x) => x.id !== s.id)); };
   const clearAll = useCallback(() => { setSels((cur) => { cur.forEach((s) => s.el.removeAttribute('data-analyze-selected')); return []; }); }, []);
 
@@ -89,7 +91,7 @@ export function AnalyzeDock() {
     window.addEventListener('peregrine:analyze-toggle', onToggle);
     window.addEventListener('keydown', onKey);
     return () => { window.removeEventListener('peregrine:analyze', onOpen); window.removeEventListener('peregrine:analyze-toggle', onToggle); window.removeEventListener('keydown', onKey); };
-  }, [add]);
+  }, [add, setOpen]);
 
   // Picking: highlight what is under the cursor, take it on click.
   useEffect(() => {

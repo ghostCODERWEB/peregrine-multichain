@@ -50,7 +50,33 @@ export default async function ProfilerHome() {
   }
   const buyers = [...active].filter((a) => a.net > 0).sort((a, b) => b.net - a.net).slice(0, 8);
   const sellers = [...active].filter((a) => a.net < 0).sort((a, b) => a.net - b.net).slice(0, 8);
-  if (await isPhone()) return <MobileWallets buyers={buyers} sellers={sellers} perp={perp} owner={owner} />;
+  // The research tools work at every size: phones and tablets get them below the Wallets screen, once, so the
+  // /wallet#portfolio (and #compare, #watchlist) anchors always land.
+  const watchlist = (
+    <section id="watchlist" aria-labelledby="watchlist-title" className="material scroll-mt-20 p-4 sm:p-5 xl:col-span-7">
+      <h2 id="watchlist-title" className="t-section mb-2">Watched Hyperliquid traders</h2>
+      <WatchlistView />
+    </section>
+  );
+  const tools = (
+    <>
+      <section id="compare" aria-labelledby="compare-title" className="material scroll-mt-20 p-4 sm:p-5 xl:col-span-12">
+        <h2 id="compare-title" className="t-section mb-2">Compare Hyperliquid traders</h2>
+        <Suspense><CompareView /></Suspense>
+      </section>
+      <section id="portfolio" aria-labelledby="portfolio-title" className="scroll-mt-20 xl:col-span-12">
+        <PortfolioView demo={process.env.DEMO_MODE === '1'} suggestions={owner ? suggestions() : []} embedded />
+      </section>
+    </>
+  );
+  if (await isPhone()) {
+    return (
+      <>
+        <MobileWallets buyers={buyers} sellers={sellers} perp={perp} owner={owner} />
+        <div className="mt-6 grid grid-cols-1 gap-4 [&>*]:min-w-0">{watchlist}{tools}</div>
+      </>
+    );
+  }
   const totals = owner ? (db.prepare(`SELECT COUNT(DISTINCT wallet) AS n, SUM(CASE WHEN side='buy' THEN usd_value ELSE -usd_value END) AS net FROM smart_money_trades WHERE traded_at >= ?`).get(since) as { n: number; net: number | null }) : { n: 0, net: 0 };
   const net = totals.net ?? 0;
   const clean = (l: string | null | undefined, w?: string) => (l ?? '').replace(/\s*\[[^\]]*\]\s*$/, '').replace(/\p{Extended_Pictographic}|️|‍/gu, '').replace(/\s{2,}/g, ' ').trim() || (w ? `${w.slice(0, 6)}…${w.slice(-4)}` : undefined);
@@ -70,24 +96,22 @@ export default async function ProfilerHome() {
   return (
     <>
     <div className="lg:hidden"><MobileWallets buyers={buyers} sellers={sellers} perp={perp} owner={owner} /></div>
-    <div className="space-y-5 max-lg:hidden">
-      <PageTitle title="Profiler" pill="Wallets, portfolios and Hyperliquid traders" action={<WalletJump />} />
+    {/* Below lg only the desktop extras hide; the watchlist, compare and portfolio tools show at every width. */}
+    <div className="space-y-5 max-lg:mt-6">
+      <div className="max-lg:hidden"><PageTitle title="Profiler" pill="Wallets, portfolios and Hyperliquid traders" action={<WalletJump />} /></div>
       {/* One page in research order: the market's wallets now, your traders, comparison, then a basket of wallets. */}
       <div className="grid grid-cols-1 gap-4 xl:grid-cols-12 [&>*]:min-w-0">
         {owner && (
-          <StatStrip className="rise xl:col-span-12" stats={[
+          <StatStrip className="rise max-lg:hidden xl:col-span-12" stats={[
             { label: 'Smart Money DEX net, 24h', value: usd(net, { signed: true }), tone: net >= 0 ? 'in' : 'out', note: `${totals.n} active wallets` },
             { label: 'Largest net buyer', value: buyers[0] ? usd(buyers[0].net, { signed: true }) : 'n/a', note: buyers[0] && clean(buyers[0].label, buyers[0].wallet), href: buyers[0] && `/wallet/${buyers[0].wallet}`, tone: 'in' },
             { label: 'Largest net seller', value: sellers[0] ? usd(sellers[0].net, { signed: true }) : 'n/a', note: sellers[0] && clean(sellers[0].label, sellers[0].wallet), href: sellers[0] && `/wallet/${sellers[0].wallet}`, tone: 'out' },
             { label: 'Largest SM perp position', value: perp[0] ? usd(perp[0].value) : 'n/a', note: perp[0] ? `${perp[0].side} ${perp[0].symbol}` : undefined, href: perp[0] && `/wallet/${perp[0].address}` },
           ]} />
         )}
-        <section id="watchlist" aria-labelledby="watchlist-title" className="material scroll-mt-20 p-4 sm:p-5 xl:col-span-7">
-          <h2 id="watchlist-title" className="t-section mb-2">Watched Hyperliquid traders</h2>
-          <WatchlistView />
-        </section>
+        {watchlist}
         {owner && (
-          <section className="material p-4 sm:p-5 xl:col-span-5">
+          <section className="material p-4 sm:p-5 max-lg:hidden xl:col-span-5">
             <h2 className="t-section mb-2">Largest Smart Money perp positions</h2>
             <ol className="divide-y divide-[var(--hair)]">
               {perp.slice(0, 8).map((p) => (
@@ -102,15 +126,9 @@ export default async function ProfilerHome() {
             </ol>
           </section>
         )}
-        {owner && <section className="material p-4 sm:p-5 xl:col-span-6"><h2 className="t-section mb-2">Top Smart Money buyers, 24h</h2>{list(buyers, 'in')}</section>}
-        {owner && <section className="material p-4 sm:p-5 xl:col-span-6"><h2 className="t-section mb-2">Top Smart Money sellers, 24h</h2>{list(sellers, 'out')}</section>}
-        <section id="compare" aria-labelledby="compare-title" className="material scroll-mt-20 p-4 sm:p-5 xl:col-span-12">
-          <h2 id="compare-title" className="t-section mb-2">Compare Hyperliquid traders</h2>
-          <Suspense><CompareView /></Suspense>
-        </section>
-        <section id="portfolio" aria-labelledby="portfolio-title" className="scroll-mt-20 xl:col-span-12">
-          <PortfolioView demo={process.env.DEMO_MODE === '1'} suggestions={owner ? suggestions() : []} embedded />
-        </section>
+        {owner && <section className="material p-4 sm:p-5 max-lg:hidden xl:col-span-6"><h2 className="t-section mb-2">Top Smart Money buyers, 24h</h2>{list(buyers, 'in')}</section>}
+        {owner && <section className="material p-4 sm:p-5 max-lg:hidden xl:col-span-6"><h2 className="t-section mb-2">Top Smart Money sellers, 24h</h2>{list(sellers, 'out')}</section>}
+        {tools}
       </div>
     </div>
     </>

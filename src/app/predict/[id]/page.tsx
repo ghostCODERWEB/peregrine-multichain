@@ -20,6 +20,9 @@ export default async function PredictMarketPage({ params }: { params: Promise<{ 
   const ctx = await requestContext();
   const [board, detail] = await contextScope.run(ctx, () => Promise.all([predictBoard(), marketDetail(id)]));
   const market = board.markets.find((m) => m.id === id) ?? null;
+  // Not on the board and Nansen answered every read with nothing: no such market. (If a read failed, the
+  // page still renders and says which.)
+  if (!market && !detail.errors.length && !detail.candles.length && !detail.book && !detail.holders.length && !detail.trades.length) notFound();
   // Price statistics, flow, book balance, holder concentration, top traders and related markets.
   const analytics = await contextScope.run(ctx, () => marketAnalytics(id, detail, board));
   const siblings = market?.eventTitle ? board.markets.filter((m) => m.eventTitle === market.eventTitle) : market ? [market] : [];

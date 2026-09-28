@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures';
 
 const TOKEN = '0x940181a94a35a4569e4529a3cdfb74e38fd98631';
 
@@ -33,7 +33,7 @@ test('Time Machine: hidden outcome, lock, reveal, immutable replay in Desk @mobi
   expect((await page.request.post('/api/replay', { data: { action: 'lock', id: p.id, stance: 'bull', setup: 'other' } })).status()).toBe(400);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
   await page.screenshot({ path: test.info().outputPath('time-machine.png'), fullPage: true });
-  await page.getByRole('link', { name: 'View replay in the Desk →' }).click();
+  await page.getByRole('link', { name: /^View replay in the Desk/ }).click();
   await expect(page.getByText('Time Machine replays', { exact: true })).toBeVisible();
   await expect(page.getByText('Recorded replay acceptance check', { exact: false })).toBeVisible();
   expect(errors).toEqual([]);

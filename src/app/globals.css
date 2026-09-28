@@ -144,7 +144,7 @@ code,pre { font-family:var(--font-geist-mono),monospace; }
 .pill-trade { color:#040507; background:var(--mint-2); }
 .segmented { position:relative; isolation:isolate; display:grid; grid-template-columns:repeat(var(--segments),minmax(0,1fr)); padding:3px; border-radius:12px; background:color-mix(in srgb,var(--ink-1) 6%,transparent); border:1px solid var(--hair); }
 .segmented button { transition:color var(--dur-fast) var(--ease-out); position:relative; z-index:1; min-height:30px; padding:4px 12px; font-size:12px; font-weight:700; color:var(--ink-muted); white-space:nowrap; }
-.segmented button[aria-pressed=true] { color:var(--ink-1); }
+.segmented button[aria-pressed=true], .segmented a[aria-current] { color:var(--ink-1); }
 /* Pill-shaped segments: the focus ring follows the pill, inside the track. */
 .segmented button { border-radius:999px; }
 .segmented button:focus-visible { outline:2px solid var(--mint); outline-offset:-2px; box-shadow:none; }
@@ -166,7 +166,9 @@ section[aria-labelledby] { scroll-margin-top:7rem; }
 .page-enter { animation:fade var(--dur-normal) var(--ease-out) both; }
 @supports (animation-timeline:view()) {
  @keyframes reveal { from {opacity:0;transform:translateY(28px)} to {opacity:1;transform:none} }
- main .material:not(.rise):not(.material .material) { animation:reveal linear both; animation-timeline:view(); animation-range:entry 0% entry 55%; }
+ /* A fixed distance, not a share of the panel: a tall panel ran its fade over hundreds of pixels and sat half-faded
+    (low-contrast text) while fully readable on screen. 160px in, it is fully shown. */
+ main .material:not(.rise):not(.material .material) { animation:reveal linear both; animation-timeline:view(); animation-range:entry 0px entry 160px; }
 }
 a.inset-well:hover,.inset-well:is(a,button):hover { border-color:var(--hair-2); background-color:color-mix(in srgb,var(--ink-1) 6%,transparent); }
 @keyframes pulse-dot { 50% {opacity:.35} }
@@ -408,7 +410,7 @@ html:not(.dark) .nansen-card { background: linear-gradient(180deg, color-mix(in 
 
 /* Table pager (TablePager): a compact footer under long tables. */
 .pager { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding-top: 10px; font-size: 12px; color: var(--ink-muted); }
-.pager-pages { display: inline-flex; align-items: center; gap: 4px; }
+.pager-pages { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 4px; max-width: 100%; }
 .pager-pages button { min-width: 32px; height: 32px; padding: 0 8px; border-radius: 999px; font-weight: 600; color: var(--ink-2); font-variant-numeric: tabular-nums; }
 .pager-pages button:hover:not(:disabled) { color: var(--ink-1); background: color-mix(in srgb, var(--ink-1) 8%, transparent); }
 .pager-pages button[aria-current="page"] { background: var(--mint); color: #000; }
@@ -599,8 +601,8 @@ html:not(.dark) { --lg-tint: color-mix(in srgb, #ffffff 88%, transparent); --lg-
 .m-hero-sub { font-size: 13px; color: var(--ink-muted); }
 .m-hero-bars { display: flex; align-items: flex-end; gap: 3px; height: 44px; margin: 14px 0 12px; }
 .m-hero-bars > span { flex: 1; border-radius: 3px; }
-.m-hero-chips { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; margin: 0 -18px; padding: 0 18px; }
-.m-hero-chips::-webkit-scrollbar { display: none; }
+/* Wrap rather than scroll: the chips sit inside the hero link, so a scroll area there could not take keyboard focus. */
+.m-hero-chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .m-chip { display: inline-flex; flex-shrink: 0; align-items: center; gap: 5px; height: 28px; padding: 0 10px; border-radius: 999px; background: color-mix(in srgb, var(--ink-1) 7%, transparent); font-size: 12px; font-weight: 600; color: var(--ink-2); }
 .m-chip b { font-weight: 700; font-variant-numeric: tabular-nums; }
 .m-group { display: flex; flex-direction: column; gap: 8px; }
@@ -648,6 +650,13 @@ a.m-row:active { background-color: color-mix(in srgb, var(--ink-1) 7%, transpare
   .section-rail-tick { --rail-w: 30px; height: 4px; }
   .section-rail-tick::after { inset: -7px -10px; }
   .section-rail-label { right: 64px; font-size: 15px; padding: 11px 15px; }
+  /* The rail floats over content: only a 24px strip at the screen edge takes a touch (a tap jumps to the section
+     at that height, a drag scrubs), so taps on buttons near the right edge reach them even while the rail is
+     awake after a scroll. Once a drag starts, the whole rail follows the finger. */
+  .section-rail, .section-rail-track, .section-rail:not(.is-dragging) .section-rail-tick { pointer-events: none; }
+  .section-rail-track { position: relative; }
+  .section-rail-track::before { content: ''; position: absolute; top: 0; bottom: 0; right: 0; width: 24px; pointer-events: auto; }
+  .section-rail.is-dragging .section-rail-track { pointer-events: auto; }
 }
 /* Search inside phone screens: flat iOS search field look for the Token Checker box. */
 @media (max-width: 639px) { .m-search-wrap .inset-well { height: 42px; border-radius: 12px; } .m-search-wrap input { font-size: 15px; } }
@@ -657,7 +666,8 @@ a.m-row:active { background-color: color-mix(in srgb, var(--ink-1) 7%, transpare
 
 /* ===== Tablets (iPad width): the phone screens in two columns ===== */
 @media (min-width: 768px) and (max-width: 1023px) {
-  .m-screen { display: grid; grid-template-columns: 1fr 1fr; gap: 24px 20px; max-width: 980px; margin: 0 auto; align-items: start; }
+  /* minmax(0, 1fr): a plain 1fr track grows to its widest content and pushed the page past the screen. */
+  .m-screen { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px 20px; max-width: 980px; margin: 0 auto; align-items: start; }
   .m-screen > .m-large-title, .m-screen > .m-search, .m-screen > .m-search-wrap, .m-screen > .m-hero,
   .m-screen > .m-group:has(.m-rail), .m-screen > .m-group:has(.m-grid), .m-screen > .m-group:not(:has(.m-group-head)) { grid-column: 1 / -1; }
   .m-search { margin-top: -10px; }

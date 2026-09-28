@@ -17,6 +17,7 @@ import { MobileClamp } from '@/components/MobileClamp';
 import { GuidedTour } from '@/components/GuidedTour';
 import { AnalyzeDock } from '@/components/analyze/AnalyzeDock';
 import { NavProgress } from '@/components/shell/NavProgress';
+import { PublicAttribution } from '@/components/shell/PublicAttribution';
 
 const geistSans = Manrope({ variable: '--font-geist-sans', subsets: ['latin'] });
 const geistMono = IBM_Plex_Mono({ variable: '--font-geist-mono', subsets: ['latin'], weight: ['400', '500'] });
@@ -51,7 +52,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <SiteHeader />
           <TabBar />
           <div className="pt-[68px] lg:pl-[256px] lg:pt-0">
-            <main className="mx-auto max-w-[1600px] px-4 3xl:max-w-[2000px] 3xl:px-8 pb-[104px] pt-2 lg:pb-16 lg:px-[14px] lg:pt-3"><div className="mb-2 flex items-center gap-4"><Suspense><WorkspaceBar /></Suspense><Suspense><MarketStrip /></Suspense></div>{children}</main>
+            <main className="mx-auto max-w-[1600px] px-4 3xl:max-w-[2000px] 3xl:px-8 pb-[104px] pt-2 lg:pb-16 lg:px-[14px] lg:pt-3"><div className="mb-2 flex items-center gap-4"><Suspense><WorkspaceBar /></Suspense><Suspense><MarketStrip /></Suspense></div>{children}<Suspense><PublicAttribution /></Suspense></main>
           </div>
         </Providers>
       </body>

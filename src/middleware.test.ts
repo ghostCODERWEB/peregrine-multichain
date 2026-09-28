@@ -1,6 +1,7 @@
 import { describe, it, expect, afterEach } from 'vitest';
 import { NextRequest } from 'next/server';
 import { middleware, sameOrigin, allow } from './middleware';
+import { clientId as visitor } from '@/server/rate';
 
 const req = (path: string, headers: Record<string, string> = {}, method = 'GET') =>
   new NextRequest(`https://peregrine.invalid${path}`, { headers, method });
@@ -31,10 +32,12 @@ describe('rate limit', () => {
 });
 
 describe('public-site middleware', () => {
-  it('does nothing unless TIDE_PUBLIC_SITE=1', () => {
+  it('applies no access rules unless TIDE_PUBLIC_SITE=1, but always sends security headers', () => {
     const res = middleware(req('/api/public/storm'));
     expect(res.status).toBe(200);
-    expect(res.headers.get('content-security-policy')).toBeNull();
+    expect(res.headers.get('content-security-policy')).toContain("frame-ancestors 'none'");
+    expect(res.headers.get('x-frame-options')).toBe('DENY');
+    expect(res.headers.get('strict-transport-security')).toContain('max-age=');
   });
 
   it('closes machine interfaces that could spend the key', () => {
@@ -82,5 +85,28 @@ describe('public-site middleware', () => {
     expect(h.get('x-frame-options')).toBe('DENY');
     expect(h.get('content-security-policy')).toContain("connect-src 'self'");
     expect(h.get('content-security-policy')).toContain("frame-ancestors 'none'");
+  });
+});
+
+describe('visitor', () => {
+  const req = (h: Record<string, string>) => ({ headers: new Headers(h) });
+  it('reads the address the trusted proxy appended, not the client-supplied left end', () => {
+    expect(visitor(req({ 'x-forwarded-for': '6.6.6.6, 203.0.113.9' }))).toBe('203.0.113.9');
+    expect(visitor(req({ 'x-forwarded-for': '6.6.6.6, 198.51.100.4, 10.0.0.2' }), 2)).toBe('198.51.100.4');
+  });
+  it('falls back to X-Real-IP, then a shared bucket', () => {
+    expect(visitor(req({ 'x-real-ip': '192.0.2.1' }))).toBe('192.0.2.1');
+    expect(visitor(req({}))).toBe('direct');
+  });
+  it('ignores a nonsensical hop count', () => {
+    expect(visitor(req({ 'x-forwarded-for': '6.6.6.6, 203.0.113.9' }), 0)).toBe('203.0.113.9');
+  });
+});
+
+describe('health check', () => {
+  it('answers the platform probe on a public site without an Origin', () => {
+    process.env.TIDE_PUBLIC_SITE = '1';
+    const res = middleware(req('/api/health'));
+    expect(res.status).toBe(200);
   });
 });

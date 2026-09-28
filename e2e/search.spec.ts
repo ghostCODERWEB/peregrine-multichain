@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type Page } from './fixtures';
 
 // M1 universal search, keyboard first, against the keyless demo (recorded
 // Nansen responses): ⌘K/Ctrl+K opens the omnibox, results come from

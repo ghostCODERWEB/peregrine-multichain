@@ -45,7 +45,7 @@ function Segmented<T extends string | number>({ label, items, value, name, link 
   return (
     <nav aria-label={label} className="segmented" style={{ '--segments': items.length, '--selected': items.indexOf(value) } as React.CSSProperties}>
       <span className="segmented-thumb" aria-hidden />
-      {items.map((x) => <Link prefetch={false} key={String(x)} href={link(x)} aria-pressed={x === value} className="relative z-[1] px-3 py-1 text-center text-[12px] font-bold">{name(x)}</Link>)}
+      {items.map((x) => <Link prefetch={false} key={String(x)} href={link(x)} aria-current={x === value ? 'page' : undefined} className="relative z-[1] px-3 py-1 text-center text-[12px] font-bold">{name(x)}</Link>)}
     </nav>
   );
 }

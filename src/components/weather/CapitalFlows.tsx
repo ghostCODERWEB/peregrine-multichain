@@ -365,6 +365,8 @@ export function CapitalFlows({
                     <button
                       type="button"
                       aria-pressed={on}
+                      // The arrows are icons: spell out the direction for screen readers.
+                      aria-label={`From ${chainName(f.from)} to ${chainName(f.to)}: ${usd(f.netUsd)} net, ${f.walletCount} wallet${f.walletCount === 1 ? '' : 's'}`}
                       onClick={() => setSelected(key)}
                       onMouseEnter={() => setHovered(key)}
                       onMouseLeave={() => setHovered(null)}
@@ -470,7 +472,8 @@ function Chip({ t, r, children }: { t: string; r?: Ref; children?: React.ReactNo
   const cls = 'inline-flex min-h-[26px] items-center gap-1 rounded-full border border-brand/25 bg-brand/10 px-2.5 py-1 text-ink';
   // Nansen prefixes flagged tokens with a warning emoji: show it as an icon, not raw emoji.
   const flagged = /\u26A0/.test(t);
-  const name = t.replace(/[\u26A0\uFE0F]|\p{Extended_Pictographic}/gu, '').trim();
+  // A symbol made only of emoji strips to nothing: fall back to the address, so the chip (and its link) keeps a name.
+  const name = t.replace(/[\u26A0\uFE0F]|\p{Extended_Pictographic}/gu, '').trim() || (r?.address ? shortAddress(r.address) : 'Token');
   const inner = (
     <>
       <TokenLogo symbol={name} chain={r?.chain} address={r?.address} size={14} badge={false} />

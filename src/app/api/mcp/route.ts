@@ -10,6 +10,7 @@ import { TOOLS, callTool, ToolCall } from '@/server/mcp/tools';
 export const dynamic = 'force-dynamic';
 
 const PROTOCOL = '2025-06-18';
+const MAX_BATCH = 20;
 type Rpc = { jsonrpc: '2.0'; id?: string | number | null; method: string; params?: Record<string, unknown> };
 const ok = (id: Rpc['id'], result: unknown) => ({ jsonrpc: '2.0', id: id ?? null, result });
 const err = (id: Rpc['id'], code: number, message: string) => ({ jsonrpc: '2.0', id: id ?? null, error: { code, message } });
@@ -24,10 +25,14 @@ export async function POST(req: Request) {
   if (!originAllowed(req)) return Response.json(err(null, -32000, 'Origin not allowed.'), { status: 403 });
   const ctx = contextFromMcp(req);
   if ('error' in ctx) return Response.json(err(null, -32001, ctx.error), { status: 401 });
-  if (!allow('mcp', ctx.user ? `u${ctx.user.id}` : clientId(req), 60)) return Response.json(err(null, -32002, 'Rate limited: 60 requests a minute.'), { status: 429 });
+  if (!allow('mcp', ctx.user ? `u${ctx.user.id}` : clientId(req), 120)) return Response.json(err(null, -32002, 'Rate limited: 60 requests a minute.'), { status: 429 });
 
   const body = await req.json().catch(() => null);
   const batch = Array.isArray(body) ? body : [body];
+  // A JSON-RPC batch must not multiply one request past the rate limit: batches are capped, and every
+  // tool call below also counts against it.
+  if (batch.length > MAX_BATCH) return Response.json(err(null, -32600, `Batches are limited to ${MAX_BATCH} messages.`), { status: 400 });
+  const who = ctx.user ? `u${ctx.user.id}` : clientId(req);
   const out: unknown[] = [];
   for (const m of batch as Rpc[]) {
     if (!m || m.jsonrpc !== '2.0' || typeof m.method !== 'string') { out.push(err(null, -32600, 'Invalid request.')); continue; }
@@ -53,6 +58,7 @@ export async function POST(req: Request) {
       case 'tools/call': {
         const p = ToolCall.safeParse(m.params);
         if (!p.success) { out.push(err(m.id, -32602, 'tools/call needs {name, arguments}.')); break; }
+        if (!allow('mcp-call', who, 60)) { out.push(err(m.id, -32002, 'Rate limited: 60 tool calls a minute.')); break; }
         out.push(ok(m.id, await contextScope.run(ctx, () => callTool(ctx, p.data.name, p.data.arguments ?? {}))));
         break;
       }

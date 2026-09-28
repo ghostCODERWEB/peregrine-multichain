@@ -6,6 +6,7 @@ import { TokenTimeMachine } from '@/components/history/PointInTime';
 import { getDb } from '@/server/nansen/db';
 import type { SmEvent } from '@/components/token/CandleChart';
 import { ALL_CHAIN_IDS, chainCapability } from '@/lib/registry';
+import { plausibleTokenAddress } from '@/lib/address-family';
 import { chainName, shortAddress } from '@/lib/viz/format';
 import { displayMode } from '@/server/mode';
 
@@ -23,9 +24,9 @@ export const dynamic = 'force-dynamic';
 
 export default async function TokenRoute({ params }: Params) {
   const { chain, address } = await params;
-  if (!ALL_CHAIN_IDS.includes(chain)) notFound();
-  const mode = await displayMode();
   const token = decodeURIComponent(address);
+  if (!ALL_CHAIN_IDS.includes(chain) || !plausibleTokenAddress(chain, token)) notFound();
+  const mode = await displayMode();
   // Owner view: Smart Money DEX trades in this token over 14 days, for the price chart.
   const smEvents: SmEvent[] = mode === 'owner' ? (getDb().prepare(`SELECT traded_at AS t, side, usd_value AS usd, wallet, wallet_label AS label FROM smart_money_trades WHERE chain = ? AND lower(token_address) = lower(?) AND traded_at >= ? AND usd_value >= 1000 ORDER BY usd_value DESC LIMIT 150`).all(chain, token, Date.now() - 14 * 86_400_000) as SmEvent[]) : [];
   return <TokenView chain={chain} address={decodeURIComponent(address)} tier={chainCapability(chain)!.tier} mode={mode} quickRead={<QuickRead chain={chain} address={token} mode={mode} />} smEvents={smEvents} extra={['base', 'bnb', 'ethereum', 'solana'].includes(chain) ? <TokenTimeMachine chain={chain} address={token} owner={mode === 'owner'} /> : null} />;

@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures';
 
 // D1a: an author's week (ra-agent/posts-by-user) on request, from the
 // recorded demo: reach and the breadth of tokens the account pushed.

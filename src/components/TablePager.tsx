@@ -1,12 +1,11 @@
 'use client';
 import { useEffect } from 'react';
+import { hydratedPast } from '@/lib/hydration';
 
 const SIZES = [10, 25, 50, 0]; // 0 = all
 const phone = () => window.innerWidth < 640;
 const state = new WeakMap<HTMLElement, { page: number; size: number }>();
 
-// Streamed sections arrive as HTML before React hydrates them; touching their rows early breaks hydration.
-const hydrated = (el: Element) => Object.keys(el).some((k) => k.startsWith('__reactFiber'));
 
 /** Rows the pager controls: a table's body rows, or a list's direct children. */
 const rowsOf = (el: HTMLElement): HTMLElement[] => (el instanceof HTMLTableElement ? [...(el.tBodies[0]?.rows ?? [])] : [...el.children].filter((c) => !c.matches('p, .pager')) as HTMLElement[]);
@@ -27,8 +26,12 @@ function barOf(el: HTMLElement): HTMLElement | null {
   return next?.classList.contains('pager') ? (next as HTMLElement) : null;
 }
 
+/** Where the bar goes: below the table's scroll box when it has one, else right after the list. */
+const hostOf = (el: HTMLElement): HTMLElement => (el.parentElement && el instanceof HTMLTableElement && getComputedStyle(el.parentElement).overflowX !== 'visible' ? el.parentElement : el);
+
 function apply(el: HTMLElement): boolean {
-  if (!hydrated(el)) return false;
+  // Streamed sections arrive as HTML before React hydrates them: wait until React is done with this one.
+  if (!hydratedPast(hostOf(el))) return false;
   const rows = rowsOf(el);
   // Rows a table filter hid (data-filtered) are not paged.
   const live = rows.filter((r) => !r.hasAttribute('data-filtered'));
@@ -52,9 +55,7 @@ function apply(el: HTMLElement): boolean {
     bar = document.createElement('nav');
     bar.className = 'pager';
     bar.setAttribute('aria-label', 'Pages');
-    // Place the bar below the table's scroll box when it has one.
-    const host = el.parentElement && el instanceof HTMLTableElement && getComputedStyle(el.parentElement).overflowX !== 'visible' ? el.parentElement : el;
-    host.after(bar);
+    hostOf(el).after(bar);
   }
   const sizes = [...new Set([base, ...SIZES])].sort((a, b) => (a || 1e9) - (b || 1e9)).filter((s) => s === 0 || s < live.length);
   const btn = (p: number | null, label?: string, attrs = '') => p === null

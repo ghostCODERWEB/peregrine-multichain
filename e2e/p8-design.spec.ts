@@ -1,8 +1,8 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures';
 
-test('P8 shell: 14 primary destinations, footer links, unclipped search @mobile', async ({ page }) => {
+test('P8 shell: 15 primary destinations, footer links, unclipped search @mobile', async ({ page }) => {
   await page.goto('/');
-  if (test.info().project.name === 'desktop') await expect(page.getByRole('navigation',{name:'Primary'}).getByRole('link')).toHaveCount(14);
+  if (test.info().project.name === 'desktop') await expect(page.getByRole('navigation',{name:'Primary'}).getByRole('link')).toHaveCount(15);
   else {
     await expect(page.getByRole('navigation',{name:'Quick navigation'})).toBeVisible();
     await page.getByRole('button',{name:'Open menu'}).click();
@@ -11,15 +11,18 @@ test('P8 shell: 14 primary destinations, footer links, unclipped search @mobile'
     await page.keyboard.press('Escape');
     await expect(menu).toHaveCount(0);
   }
-  await page.getByRole('button',{name:'Search tokens, wallets, entities, chains and sectors'}).click();
+  // Desktop: the header's search; phones: the dock's Search (the header one is hidden at phone width).
+  const phone = test.info().project.name === 'phone';
+  await page.getByRole('button', phone ? { name: 'Search', exact: true } : { name: 'Search tokens, wallets, entities, chains and sectors' }).click();
   const dialog=page.getByRole('dialog',{name:'Search',exact:true});
   await expect(dialog).toBeVisible();
-  const box=await dialog.boundingBox();
-  expect(box!.height).toBeGreaterThan(100);
-  await page.getByRole('combobox').fill('base');
+  const rect=await dialog.boundingBox();
+  expect(rect!.height).toBeGreaterThan(100);
+  const box = page.getByRole('combobox', { name: 'Search Peregrine' });
+  await box.fill('base');
   await expect(dialog.getByRole('option').first()).toBeVisible();
   await page.keyboard.press('Tab');
-  await expect(page.getByRole('combobox')).toBeFocused();
+  await expect(box).toBeFocused();
   await page.keyboard.press('Escape');
   await expect(dialog).toHaveCount(0);
 });
@@ -28,7 +31,10 @@ test('P8 materials: cards have no blur; reduced motion and transparency supporte
   await page.emulateMedia({ reducedMotion:'reduce' });
   await page.goto('/');
   expect(await page.locator('section.material').first().evaluate(el=>getComputedStyle(el).backdropFilter)).toBe('none');
-  expect(await page.locator('.live-dot').first().evaluate(el=>getComputedStyle(el).animationName)).toBe('none');
+  // The live dot shows only while the newest reading is fresh (recorded demo data is not): check it when present.
+  const dot = page.locator('.live-dot').first();
+  if (await dot.count()) expect(await dot.evaluate(el=>getComputedStyle(el).animationName)).toBe('none');
+  expect(await page.locator('section.material').first().evaluate(el=>getComputedStyle(el).animationName)).toBe('none');
   await page.getByRole('button',{name:'Switch to paper chart theme'}).click();
   expect(await page.locator('body').evaluate(el=>getComputedStyle(el).backgroundImage)).toBe('none');
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);

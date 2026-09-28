@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures';
 import { privateKeyToAccount, generatePrivateKey } from 'viem/accounts';
 import Database from 'better-sqlite3';
 import path from 'node:path';

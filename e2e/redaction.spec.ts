@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures';
 import Database from 'better-sqlite3';
 import path from 'node:path';
 
@@ -90,7 +90,8 @@ test('chain page: all-trader flows, trade tape and sectors withheld', async ({ p
 test('token page: every wave arrives with labels stripped', async ({ page }) => {
   // Every card on one view, so every wave is on the page.
   await page.goto('/token/base/0x9b5e262cf9bb04869ab40b19af91d2dc85761722?view=all');
-  await expect(page.getByText(/This page: \d+ Nansen calls/)).toBeVisible({ timeout: 90_000 });
+  // Every module has streamed in once the final Token Score heading lands.
+  await expect(page.getByRole('heading', { name: /Token Score: \d+ of 100/ })).toBeVisible({ timeout: 90_000 });
   assertClean('/token/base/NOCK', await page.content());
 });
 
@@ -128,7 +129,9 @@ test('coverage: ledger shown, operator sections (per-key usage, errors, jobs, pa
 
 test('wallet page: trail withheld, labels stripped', async ({ page }) => {
   await page.goto('/wallet/0xcbb811f129782ef87e19dea9d3375045219bae00');
-  await expect(page.getByText(/trail is built from Nansen smart-money DEX trades/)).toBeVisible();
+  // The Smart Money trail is owner-only: a public view does not render it at all.
+  await expect(page.locator('#scorecard')).toBeVisible({ timeout: 30_000 });
+  await expect(page.locator('#trail')).toHaveCount(0);
   await page.waitForTimeout(3000); // streamed sections
   const html = await page.content();
   assertClean('/wallet', html);
@@ -148,7 +151,7 @@ test('smart-money desk: private explanation only; its API refuses public callers
 
 test('perps: pressure board public, trader leaderboard withheld, coin detail without labels', async ({ page, request }) => {
   await page.goto('/perps');
-  await expect(page.getByRole('heading', { level: 1 })).toContainText(/Hyperliquid perps/);
+  await expect(page.locator('#perps-title')).toBeVisible(); // the headline is the market's live reading
   await expect(page.locator('section[aria-labelledby="leaders"]')).toContainText('Nansen does not allow its perp leaderboard in public views');
   await expect(page.locator('section[aria-labelledby="leaders"] table')).toHaveCount(0);
   assertClean('/perps', await page.content());
