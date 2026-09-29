@@ -139,7 +139,7 @@ export function CompareView() {
       {loaded.length > 1 && (
         <>
           <div className="grid gap-3 xl:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
-            <div className="material p-3.5"><h3 className="mb-1 text-[13px] font-bold text-ink">Equity, 30D, indexed</h3>{equity && <EChart option={equity as never} height={280} ariaLabel="Equity paths indexed to the start of the month" />}</div>
+            <div className="material p-3.5"><h3 className="mb-1 text-[13px] font-bold text-ink">Equity, 30D, indexed</h3>{<EChart option={(equity ?? null) as never} height={280} ariaLabel="Equity paths indexed to the start of the month" />}</div>
             <div className="material p-3.5">
               <h3 className="mb-2 text-[13px] font-bold text-ink">Exposure</h3>
               <ul className="space-y-3">

@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures';
 
 // L1: make a call on a token page, then find it on the Desk with its receipt.
 // Each test runs in a fresh browser context, so it gets its own anonymous desk.
@@ -14,10 +14,9 @@ test('desk: a call made on a token page lands on the Desk with its entry receipt
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto(AERO);
-  // L2: three separate gauges with their own receipts, and data-written falsifiers.
+  // L2: three separate gauges and data-written falsifiers (receipt popovers are off site-wide: SHOW_RECEIPTS).
   const gauges = page.locator('section', { has: page.getByRole('heading', { name: 'What would break this?' }) }).first();
   for (const name of ['Direction', 'Confidence', 'Coordination risk']) await expect(gauges.getByRole('group', { name: new RegExp(`^${name}: `) })).toBeVisible({ timeout: 60_000 });
-  await expect(gauges.getByRole('button', { name: 'How this is computed: Direction' })).toBeVisible();
   await expect(gauges.getByText('Three readings on purpose')).toBeVisible();
   await gauges.evaluate((el) => el.scrollIntoView({ block: 'start' }));
   await gauges.screenshot({ path: test.info().outputPath('gauges.png') });
@@ -31,10 +30,9 @@ test('desk: a call made on a token page lands on the Desk with its entry receipt
   await card.getByLabel('Thesis').fill('Flow and price disagree; wait for the flow to confirm');
   await card.getByRole('button', { name: 'Lock call' }).click();
   await expect(card.getByRole('status')).toContainText(/Saved: pass .* for 7d, from \d/);
-  await expect(card.getByRole('button', { name: /How this is computed: Entry price for this call/ })).toBeVisible();
 
   await card.screenshot({ path: test.info().outputPath('call-card.png') });
-  await card.getByRole('link', { name: 'Open the Desk →' }).click();
+  await card.getByRole('link', { name: /^Open the Desk/ }).click();
   await expect(page.getByRole('heading', { name: 'Open calls (1)' })).toBeVisible();
   const row = page.locator('li', { hasText: 'Flow and price disagree' });
   await expect(row).toContainText('pass');
@@ -42,8 +40,6 @@ test('desk: a call made on a token page lands on the Desk with its entry receipt
   await expect(row).toContainText(/due in 6d \d+h/);
   await expect(row).toContainText(/gauges then: direction [+−-]?\d+ · confidence \d+/);
   await expect(page.getByRole('heading', { name: 'Trader DNA: nothing graded yet' })).toBeVisible();
-  await row.getByRole('button', { name: /How this is computed: Entry price/ }).click();
-  await expect(page.getByText('tgm/token-ohlcv').first()).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
   await page.screenshot({ path: test.info().outputPath('desk.png'), fullPage: true });
   expect(errors).toEqual([]);

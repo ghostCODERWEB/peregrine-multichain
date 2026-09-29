@@ -40,7 +40,7 @@ export function SmFlowChart({ points }: { points: SmFlowPoint[] }) {
   if (points.length < 2) return <p className="text-[13px] text-ink-muted">The scanner has not stored enough Smart Money trades yet.</p>;
   return (
     <div>
-      {option && <EChart option={option} height={300} ariaLabel={`Smart Money DEX buys and sells per hour over ${points.length} hours`} onEvents={{ click: (e: { dataIndex: number }) => setPicked(points[e.dataIndex] ?? null) }} />}
+      {<EChart option={option ?? null} height={300} ariaLabel={`Smart Money DEX buys and sells per hour over ${points.length} hours`} onEvents={{ click: (e: { dataIndex: number }) => setPicked(points[e.dataIndex] ?? null) }} />}
       <div className="mt-1 flex flex-wrap items-center gap-3 text-[11.5px] text-ink-muted">
         <span className="flex items-center gap-1"><span className="h-2 w-3 rounded-[2px] bg-[var(--mint)]" />bought</span>
         <span className="flex items-center gap-1"><span className="h-2 w-3 rounded-[2px] bg-[var(--flare)]" />sold</span>
@@ -92,7 +92,7 @@ export function PositioningHistory({ points, onReplay }: { points: PositionPoint
   if (points.length < 2) return <p className="text-[13px] text-ink-muted">History builds with each stored snapshot (the scanner stores BTC and ETH every run).</p>;
   return (
     <div>
-      {option && <EChart option={option} height={240} ariaLabel={`Smart Money perp positioning across ${points.length} snapshots`} onEvents={canReplay ? { click: (e: { dataIndex: number }) => points[e.dataIndex] && replay.current?.(points[e.dataIndex].at) } : undefined} />}
+      {<EChart option={option ?? null} height={240} ariaLabel={`Smart Money perp positioning across ${points.length} snapshots`} onEvents={canReplay ? { click: (e: { dataIndex: number }) => points[e.dataIndex] && replay.current?.(points[e.dataIndex].at) } : undefined} />}
       <div className="mt-1 flex flex-wrap gap-3 text-[11.5px] text-ink-muted">
         <span className="flex items-center gap-1"><span className="h-0.5 w-3 bg-[var(--mint)]" />Smart Money long</span>
         <span className="flex items-center gap-1"><span className="h-0.5 w-3 bg-[var(--flare)]" />Smart Money short</span>
@@ -123,7 +123,7 @@ export function FlowIndexHistory({ series }: { series: Array<{ chain: string; po
   if (!series.length) return <p className="text-[13px] text-ink-muted">Flow Index history appears after a few scans.</p>;
   return (
     <div>
-      {option && <EChart option={option} height={260} ariaLabel={`Flow Index history for ${series.map((s) => chainName(s.chain)).join(', ')}`} onEvents={{ click: (e: { seriesIndex: number }) => series[e.seriesIndex] && router.push(`/chain/${series[e.seriesIndex].chain}`) }} />}
+      {<EChart option={option ?? null} height={260} ariaLabel={`Flow Index history for ${series.map((s) => chainName(s.chain)).join(', ')}`} onEvents={{ click: (e: { seriesIndex: number }) => series[e.seriesIndex] && router.push(`/chain/${series[e.seriesIndex].chain}`) }} />}
       <div className="mt-1 flex flex-wrap gap-3 text-[11.5px] text-ink-2">
         {series.map((s, i) => <button key={s.chain} type="button" onClick={() => router.push(`/chain/${s.chain}`)} className="flex items-center gap-1 hover:text-ink"><span className="h-0.5 w-3" style={{ background: palette[i % palette.length] }} />{chainName(s.chain)} {Math.round(s.points.at(-1)![1])}</button>)}
       </div>
@@ -268,12 +268,12 @@ export function RankBars({ rows, format = 'usd', height, label }: { rows: RankRo
     grid: { left: 8, right: 64, top: 6, bottom: 6, containLabel: true },
     tooltip: { trigger: 'item' as const, ...tip(c), formatter: (raw: unknown) => { const i = (raw as { dataIndex: number }).dataIndex; const r = [...shown].reverse()[i]; return `<b>${r.label}</b><br/>${fmt(r.value)}${r.sub ? `<br/><span style="opacity:.7">${r.sub}</span>` : ''}<br/><span style="opacity:.6">Select to open</span>`; } },
     xAxis: { type: 'value' as const, ...axis(c), axisLabel: { show: false }, splitLine: { lineStyle: { color: c.grid } } },
-    yAxis: { type: 'category' as const, data: [...shown].reverse().map((r) => r.label), axisLabel: { color: c['ink-2'], fontSize: 11, width: 130, overflow: 'truncate' as const }, axisLine: { show: false }, axisTick: { show: false } },
+    yAxis: { type: 'category' as const, data: [...shown].reverse().map((r) => r.label), axisLabel: { color: c['ink-2'], fontSize: 11, width: 130, overflow: 'truncate' as const, interval: 0 }, axisLine: { show: false }, axisTick: { show: false } }, // every row is labelled (24px each): no auto-interval pass measuring them all
     series: [{ type: 'bar' as const, barMaxWidth: 12, data: [...shown].reverse().map((r) => ({ value: r.value, itemStyle: { color: r.value >= 0 ? c.mint : c.flare, borderRadius: r.value >= 0 ? [0, 3, 3, 0] : [3, 0, 0, 3] } })),
       label: { show: true, position: 'right' as const, color: c['ink-2'], fontSize: 10.5, formatter: (raw: unknown) => fmt(Number((raw as { value: number }).value)) } }],
   }, [c, shown, fmt]);
   if (!shown.length) return <p className="text-[13px] text-ink-muted">No readings yet.</p>;
-  return option ? <EChart option={option} height={height ?? Math.max(160, shown.length * 24 + 16)} ariaLabel={label} onEvents={{ click: (e: { dataIndex: number }) => { const r = [...shown].reverse()[e.dataIndex]; if (r) router.push(r.href); } }} /> : null;
+  return <EChart option={option ?? null} height={height ?? Math.max(160, shown.length * 24 + 16)} ariaLabel={label} onEvents={{ click: (e: { dataIndex: number }) => { const r = [...shown].reverse()[e.dataIndex]; if (r) router.push(r.href); } }} />;
 }
 
 // ----------------------------------------------------------- history lines
@@ -298,7 +298,7 @@ export function HistoryLines({ series, format = 'usd', height = 260, label, zero
   if (!series.some((s) => s.points.length > 1)) return <p className="text-[13px] text-ink-muted">History builds with each scan.</p>;
   return (
     <div>
-      {option && <EChart option={option} height={height} ariaLabel={label} onEvents={{ click: (e: { seriesIndex: number }) => { const h = series[e.seriesIndex]?.href; if (h) router.push(h); } }} />}
+      {<EChart option={option ?? null} height={height} ariaLabel={label} onEvents={{ click: (e: { seriesIndex: number }) => { const h = series[e.seriesIndex]?.href; if (h) router.push(h); } }} />}
       {series.length > 1 && (
         <div className="mt-1 flex flex-wrap gap-3 text-[11.5px] text-ink-2">
           {series.map((s, i) => {
@@ -341,7 +341,7 @@ export function ProbabilityChart({ candles, height = 340 }: { candles: Array<{ t
     };
   }, [c, candles]);
   if (candles.length < 2) return <p className="text-[13px] text-ink-muted">Nansen returned no price history for this market.</p>;
-  return option ? <EChart option={option} height={height} ariaLabel={`YES probability and hourly volume over ${candles.length} hours`} /> : null;
+  return <EChart option={option ?? null} height={height} ariaLabel={`YES probability and hourly volume over ${candles.length} hours`} />;
 }
 
 /** Cumulative order-book depth around the price: bids (buy YES) left, asks right. */
@@ -364,7 +364,7 @@ export function DepthChart({ bids, asks, height = 200 }: { bids: Array<{ price: 
     };
   }, [c, bids, asks]);
   if (!bids.length && !asks.length) return <p className="text-[13px] text-ink-muted">No order book returned.</p>;
-  return option ? <EChart option={option} height={height} ariaLabel="Cumulative order book depth for YES shares" /> : null;
+  return <EChart option={option ?? null} height={height} ariaLabel="Cumulative order book depth for YES shares" />;
 }
 
 // ------------------------------------------------------------ allocation
@@ -391,5 +391,5 @@ export function AllocationTreemap({ items, height = 320 }: { items: Array<{ chai
     };
   }, [c, items]);
   if (!items.length) return <p className="text-[13px] text-ink-muted">No priced holdings.</p>;
-  return option ? <EChart option={option as never} height={height} ariaLabel="Portfolio allocation by chain and asset" onEvents={{ click: (e: { data?: { href?: string } }) => { if (e.data?.href) router.push(e.data.href); } }} /> : null;
+  return <EChart option={(option ?? null) as never} height={height} ariaLabel="Portfolio allocation by chain and asset" onEvents={{ click: (e: { data?: { href?: string } }) => { if (e.data?.href) router.push(e.data.href); } }} />;
 }

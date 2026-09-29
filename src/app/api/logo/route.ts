@@ -30,7 +30,12 @@ export async function GET(req: Request) {
 
 /** Dexscreener serves token images at whatever size is asked, and its links ask for 800px (often 100-400 KB).
  *  Logos show at 64px at most, so 128px keeps them sharp on 2x screens at a few KB. */
+// Public IPFS gateways that rate-limit hotlinked images: they answer 429 as text, which browsers refuse to draw.
+const THROTTLED_IPFS = /^https:\/\/(?:ipfs\.io|dweb\.link|cloudflare-ipfs\.com)\/ipfs\/(.+)$/;
+
 function sized(url: string): string {
+  const ipfs = url.match(THROTTLED_IPFS);
+  if (ipfs) return `https://gateway.pinata.cloud/ipfs/${ipfs[1]}`;
   if (!url.startsWith('https://cdn.dexscreener.com/')) return url;
   const u = new URL(url);
   u.searchParams.set('width', '128');

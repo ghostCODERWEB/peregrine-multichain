@@ -9,6 +9,7 @@ import { ScoreRing } from '@/components/viz/ScoreRing';
 import { FlowSpark } from '@/components/viz/FlowSpark';
 import type { AlphaBoard, AlphaRow } from '@/server/alpha/board';
 import { chainName, pct, usd } from '@/lib/viz/format';
+import { LaterBody } from '@/components/LaterBody';
 
 const ringColor = (s: number) => (s >= 65 ? 'var(--brand)' : s <= 35 ? 'var(--out-3)' : 'var(--ink-2)');
 
@@ -36,7 +37,7 @@ function Leader({ row, rank }: { row: AlphaRow; rank: number }) {
   return (
     <Link prefetch={false}
       href={`/token/${row.chain}/${encodeURIComponent(row.tokenAddress)}`}
-      className="material rise group flex gap-4 p-5 transition-colors hover:border-brand/30"
+      className="material rise group flex min-w-0 gap-4 p-5 transition-colors hover:border-brand/30"
     >
       <ScoreRing
         score={row.score}
@@ -48,11 +49,11 @@ function Leader({ row, rank }: { row: AlphaRow; rank: number }) {
       />
       <div className="min-w-0 flex-1">
         <div className="flex items-baseline justify-between gap-2">
-          <div className="flex items-center gap-2 truncate text-[15px] font-semibold sm:text-[17px] text-ink group-hover:underline">
+          <div className="flex min-w-0 items-center gap-2 truncate text-[15px] font-semibold sm:text-[17px] text-ink group-hover:underline">
             <TokenLogo symbol={row.symbol} logo={row.logo} chain={row.chain} address={row.tokenAddress} size={20} />
             {row.symbol ?? 'Token'}
           </div>
-          <span className="inline-flex items-center gap-1 text-[11px] text-ink-muted">
+          <span className="inline-flex shrink-0 items-center gap-1 whitespace-nowrap text-[11px] text-ink-muted">
             #{rank} · <ChainLogo chain={row.chain} size={12} />
             {chainName(row.chain)}
           </span>
@@ -68,7 +69,7 @@ function Leader({ row, rank }: { row: AlphaRow; rank: number }) {
         <ul className="mt-2 hidden space-y-0.5 text-[12px] text-ink-2 sm:block">
           {row.parts.slice(0, 3).map((p) => (
             <li key={p.id}>
-              <span className={`num ${p.points >= 0 ? 'text-brand' : 'text-out-3'}`}>
+              <span className={`num ${p.points >= 0 ? 'text-brand' : 'text-[var(--flare)]'}`}>
                 {p.points > 0 ? '+' : ''}
                 {p.points}
               </span>{' '}
@@ -127,7 +128,7 @@ export function AlphaView({ board }: { board: AlphaBoard }) {
                   {chainName(c)}
                 </span>
               )}{' '}
-              <span className="num text-ink-muted">{n}</span>
+              <span className={`num ${chain === c ? 'text-ink-2' : 'text-ink-muted'}`}>{n}</span>
             </button>
           ))}
         </div>
@@ -145,8 +146,8 @@ export function AlphaView({ board }: { board: AlphaBoard }) {
                 <th className="py-2 font-normal">Why</th>
               </tr>
             </thead>
-            <tbody>
-              {rows.map((r) => (
+            <LaterBody items={rows}>
+              {(r) => (
                 <tr key={`${r.chain}:${r.tokenAddress}`} className="border-b border-border/50 hover:bg-accent/40">
                   <td className="py-1.5 pr-2">
                     <ScoreRing
@@ -170,7 +171,7 @@ export function AlphaView({ board }: { board: AlphaBoard }) {
                       {chainName(r.chain)}
                     </div>
                   </td>
-                  <td className="num py-1.5 pr-2 text-right" style={{ color: (r.flowShare ?? 0) >= 0 ? 'var(--in-3)' : 'var(--out-3)' }}>
+                  <td className="num py-1.5 pr-2 text-right" style={{ color: (r.flowShare ?? 0) >= 0 ? 'var(--in-3)' : 'var(--flare)' }}>
                     {r.flowShare != null ? pct(r.flowShare, 1) : 'n/a'}
                   </td>
                   <td className="py-1.5 pr-2">
@@ -183,8 +184,8 @@ export function AlphaView({ board }: { board: AlphaBoard }) {
                     <Parts row={r} />
                   </td>
                 </tr>
-              ))}
-            </tbody>
+              )}
+            </LaterBody>
           </table>
         </div>
       </Card>

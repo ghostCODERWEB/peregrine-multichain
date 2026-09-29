@@ -3,6 +3,7 @@ import { TokenLogo } from '@/components/Logo';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { Segmented } from '@/components/ui/Segmented';
+import { useHoldHeight } from '@/components/useHoldHeight';
 import { chainName, pct, usd } from '@/lib/viz/format';
 import type { TmResult } from '@/server/history/time-machine';
 import { friendlyError } from '@/lib/friendly-error';
@@ -27,8 +28,9 @@ export function TimeMachine() {
   // eslint-disable-next-line react-hooks/exhaustive-deps -- compare whenever the date changes
   useEffect(() => { void run(); }, [then]);
   const tone = (v: number) => ({ color: v >= 0 ? 'var(--mint)' : 'var(--flare)' });
+  const held = useHoldHeight<HTMLElement>();
   return (
-    <section aria-labelledby="tm-title" className="material p-4 sm:p-5">
+    <section ref={held} aria-labelledby="tm-title" className="time-machine material p-4 sm:p-5">
       <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
         <div>
           <h2 id="tm-title" className="t-section">Time Machine: Smart Money holdings</h2>
@@ -37,13 +39,14 @@ export function TimeMachine() {
         <div className="flex flex-wrap items-center gap-2">
           <Segmented label="Compare with" value={back} options={[{ value: 7, label: '7d ago' }, { value: 30, label: '30d ago' }, { value: 90, label: '90d ago' }]} onChange={(v) => { setBack(v); setCustom(''); }} />
           <input type="date" value={custom} max={day(2)} onChange={(e) => setCustom(e.target.value)} aria-label="Custom past date" className="inset-well h-8 rounded-[8px] px-2 text-[12.5px] text-ink" />
-          <span className="num text-[12px] text-ink-muted">{busy ? 'Comparing…' : `${then} vs ${now}`}</span>
+          {/* The dates stay put while comparing (swapping them for a shorter word slid the buttons sideways). */}
+          <span className={`num text-[12px] text-ink-muted ${busy ? 'animate-pulse' : ''}`}>{then} vs {now}{busy && <span className="sr-only"> · comparing</span>}</span>
         </div>
       </div>
       {!res && <p className="text-[13px] text-ink-muted">Reading snapshots…</p>}
       {res && 'error' in res && <p role="alert" className="text-[13px] text-[var(--flare)]">{friendlyError(res.error)}</p>}
       {res && !('error' in res) && (
-        <div className="space-y-3">
+        <div aria-busy={busy} className={`space-y-3 transition-opacity duration-200 ${busy ? 'opacity-50' : ''}`}>
           {res.note && <p className="text-[12.5px] text-ink-2">{res.note}</p>}
           {!res.incomplete && <>
           <div className="grid grid-cols-3 gap-px overflow-hidden rounded-[var(--r-inner)] border border-[var(--hair)] bg-[var(--hair)]">

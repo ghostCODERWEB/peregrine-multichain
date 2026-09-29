@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { sameOrigin, fail } from '@/server/auth/http';
+import { sameOrigin, fail, failFrom } from '@/server/auth/http';
 import { contextFromRequest, contextScope } from '@/server/context';
 import { allow, clientId } from '@/server/rate';
 import { forMode } from '@/server/redact';
@@ -25,5 +25,5 @@ export async function POST(req: Request) {
   try {
     const data = await contextScope.run(ctx, () => (a.action === 'coin' ? coinDetail(a.symbol, priv) : perpLeaders()));
     return Response.json(forMode(ctx.mode, data), { headers: { 'Cache-Control': 'private, no-store' } });
-  } catch (e) { return fail((e as Error).message.slice(0, 200)); }
+  } catch (e) { return failFrom(e, 200); }
 }

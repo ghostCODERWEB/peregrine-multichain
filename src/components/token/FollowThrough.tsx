@@ -140,9 +140,9 @@ export function FollowThrough({
                       </div>
                     </td>
                     <td>
-                      {rate(x.before.perMin)} <Go /> {rate(x.after.perMin)}
+                      {rate(x.before.perMin)} <Go /><span className="sr-only">to</span> {rate(x.after.perMin)}
                       <div className="text-[11px] text-ink-muted">
-                        {x.before.buyers} <Go /> {x.after.buyers} buyers{x.after.truncated || x.before.truncated ? ' · tape cut' : ''}
+                        {x.before.buyers} <Go /><span className="sr-only">to</span> {x.after.buyers} buyers{x.after.truncated || x.before.truncated ? ' · tape cut' : ''}
                       </div>
                     </td>
                     <td>

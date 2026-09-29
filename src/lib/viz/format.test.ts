@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { walletName } from './format';
+import { spanOf, walletName } from './format';
 
 describe('walletName', () => {
   const a = '0x93ab12cd34ef56ab78cd90ef12ab34cd56ef7890';
@@ -26,5 +26,19 @@ describe('amount', () => {
     expect(amount(-0.025)).toBe('0.0250');
     expect(amount(-2_730_000)).toBe('2.73M');
     expect(amount(187)).toBe('187');
+  });
+});
+
+describe('spanOf', () => {
+  const H = 3_600_000, D = 24 * H;
+  it('names the full window once the history covers it', () => {
+    expect(spanOf([0, 7 * D], 7)).toBe('7 days');
+    expect(spanOf([0, 6.6 * D], 7)).toBe('7 days');
+  });
+  it('says what a young history really covers', () => {
+    expect(spanOf([0, 18 * H], 7)).toBe('18 hours');
+    expect(spanOf([0, 1 * H], 7)).toBe('1 hour');
+    expect(spanOf([0, 3 * D], 7)).toBe('3 days');
+    expect(spanOf([5], 7)).toBe('1 hour');
   });
 });

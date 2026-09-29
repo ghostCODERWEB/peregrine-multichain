@@ -7,9 +7,10 @@ import { AccountPanel } from '@/components/auth/AccountPanel';
 import { x402Enabled, x402Resources } from '@/server/nansen/x402';
 import { McpAccess } from '@/components/account/McpAccess';
 import { accountsEnabled } from '@/server/site';
+import { pageMeta } from '@/server/seo';
 
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'Account · Peregrine' };
+export const metadata: Metadata = pageMeta({ title: 'Account', description: 'Your Peregrine account and Nansen key.', path: '/account', noindex: true, image: '/opengraph-image' });
 
 export default async function AccountPage() {
   // No accounts on a public site (the middleware redirects too).

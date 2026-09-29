@@ -1,9 +1,9 @@
 'use client';
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
+import { afterHydration, hydratedPast } from '@/lib/hydration';
 
 const PREVIEW = 420; // px shown before "Show all"
-const hydrated = (el: Element) => Object.keys(el).some((k) => k.startsWith('__reactFiber'));
 
 /** Phones: long panels open as a preview. Each top-level panel taller than ~0.65 screens shows its first
  *  PREVIEW px under a fade, with one tap to expand. Data attributes only, so React's own markup is untouched. */
@@ -15,12 +15,27 @@ export function MobileClamp() {
     const apply = () => {
       if (!phone.matches) return;
       const limit = Math.max(540, innerHeight * 0.65);
+      // Hydration finishing changes no DOM, so no mutation would bring us back: retry until every panel is ready.
+      let pending = false;
+      // Every panel is measured before any is folded: one layout for the pass, not one per panel. Folding a
+      // panel only moves panels below it, which are already off the first screen, so the checks don't change.
+      const fold: HTMLElement[] = [];
       for (const s of document.querySelectorAll<HTMLElement>('main .material, main [data-clamp-me]')) {
-        if (s.dataset.clamp || s.parentElement?.closest('.material, [data-clamp]') || !hydrated(s)) continue;
+        if (s.dataset.clamp || s.parentElement?.closest('.material, [data-clamp]')) continue;
+        // The button goes inside the panel: only once React has finished hydrating it (see hydratedPast).
+        if (!hydratedPast(s)) { pending = true; continue; }
         // Primary content (a price chart, a scorecard) opts out with data-no-clamp.
         if (s.scrollHeight < limit || s.matches('[data-no-clamp]') || s.querySelector('[data-no-clamp]')) continue;
-        // A panel whose list is split into pages is already short: no second "Show all".
-        if (s.querySelector('[data-page], table[data-sortable]')) continue;
+        // A panel already on the first screen stays open: collapsing it after paint made everything under the reader jump.
+        if (!s.dataset.clampSeen && s.getBoundingClientRect().top < innerHeight) { s.dataset.clampSeen = 'open'; continue; }
+        if (s.dataset.clampSeen === 'open') continue;
+        // Paged tables and lists are already short; a second 'Show all' would hide their page numbers.
+        if (s.querySelector('table[data-sortable], table[data-page], .m-list, [data-paged]')) continue;
+        // Never fold a form: its submit button would end up under the fade (a call could be filled in and not locked).
+        if (s.querySelector('form, input:not([type=hidden]), select, textarea, [role=radiogroup]')) continue;
+        fold.push(s);
+      }
+      for (const s of fold) {
         s.dataset.clamp = 'closed';
         const btn = document.createElement('button');
         btn.type = 'button';
@@ -34,13 +49,16 @@ export function MobileClamp() {
         };
         s.appendChild(btn);
       }
+      if (pending) { clearTimeout(t); t = setTimeout(apply, 300); }
     };
-    const soon = () => { clearTimeout(t); t = setTimeout(apply, 500); };
-    soon();
+    // Waits for the first load to finish hydrating before adding buttons to server-rendered panels (see afterHydration).
+    let ready = false;
+    const soon = () => { if (!ready) return; clearTimeout(t); t = setTimeout(apply, 500); };
+    const stopWaiting = afterHydration(() => { ready = true; soon(); });
     const mo = new MutationObserver(soon);
     const main = document.querySelector('main');
     if (main) mo.observe(main, { childList: true, subtree: true });
-    return () => { clearTimeout(t); mo.disconnect(); };
+    return () => { stopWaiting(); clearTimeout(t); mo.disconnect(); };
   }, [path]);
   return null;
 }

@@ -8,11 +8,13 @@ import { MoodWord } from '@/components/viz/MoodRing';
 import { heatLabel, impliedPct } from '@/lib/models/predict';
 import { num, usd } from '@/lib/viz/format';
 import { Back, Go } from '@/components/ui/Icons';
+import { pageMeta } from '@/server/seo';
 
 export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }: { params: Promise<{ name: string }> }): Promise<Metadata> {
-  return { title: `${decodeURIComponent((await params).name)} markets · Peregrine` };
+  const name = decodeURIComponent((await params).name);
+  return pageMeta({ title: `${name} prediction markets`, description: `The most-traded ${name} markets on Polymarket via Nansen: implied probabilities, the day's repricings and volume against the category's weekly pace.`, path: `/predict/category/${encodeURIComponent(name)}`, image: '/predict/opengraph-image' });
 }
 
 const pts = (v: number | null) => (v == null ? 'n/a' : `${v >= 0 ? '+' : '−'}${Math.round(Math.abs(v) * 100)} pts`);

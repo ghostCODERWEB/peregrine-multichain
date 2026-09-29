@@ -34,5 +34,5 @@ export function HoldingsTrendChart({ days, symbols }: { days: HoldingsTrend['day
     },
     series: [{ name: 'Value', type: 'line' as const, data, showSymbol: false, lineStyle: { color: c['ink-1'], width: 2 }, areaStyle: { color: c['ink-1'], opacity: 0.06 }, emphasis: { disabled: true } }],
   };
-  return option ? <EChart option={option} height={220} ariaLabel={`Daily value of ${symbols.join(', ')} over 30 days`} /> : null;
+  return <EChart option={option ?? null} height={220} ariaLabel={`Daily value of ${symbols.join(', ')} over 30 days`} />;
 }

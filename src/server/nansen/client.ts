@@ -253,6 +253,9 @@ export interface CallOptions {
   schema?: ZodType<unknown>;
   /** Bypasses the response cache for this one call (still respects DEMO_MODE). */
   skipCache?: boolean;
+  /** Internal: a background refresh. Skips reading the cache but stores the fresh answer (skipCache stores
+   *  nothing, which left an expired entry expired and re-fetched on every visit). */
+  refresh?: boolean;
   /** Mirror the response into fixtures/ for DEMO_MODE. Default true. The
    *  scanner turns this off: it never runs in DEMO_MODE (its history ships
    *  as a compact export instead), and recording every scan's thousand-row
@@ -303,9 +306,11 @@ function overWebBudget(reserve = 0): boolean {
 }
 
 const revalidating = new Set<string>();
+/** How old a stored answer may be and still be shown while a fresh one is fetched. */
+const STALE_SERVE_MS = 24 * 3_600_000;
 
 export async function callNansen<T>(endpoint: string, body: unknown = {}, options: CallOptions = {}): Promise<CallResult<T>> {
-  const { method = 'POST', schema, skipCache = false } = options;
+  const { method = 'POST', schema, skipCache = false, refresh = false } = options;
   const caller = await currentCaller();
   // A member's calls use their own key, their own cache partition and
   // ledger rows, and are never recorded into published fixtures.
@@ -314,7 +319,7 @@ export async function callNansen<T>(endpoint: string, body: unknown = {}, option
   const record = (options.record ?? true) && !caller.userId && !publicSite();
   const scope = caller.userId ? `u${caller.userId}` : null;
 
-  if (!skipCache) {
+  if (!skipCache && !refresh) {
     const cached = readCache<T>(endpoint, body, scope);
     if (cached) {
       recordCall(endpoint, 0, true, caller.userId);
@@ -325,14 +330,15 @@ export async function callNansen<T>(endpoint: string, body: unknown = {}, option
       }
       return { data: cached.value, meta: { creditsCost: 0, creditsUsed: null, creditsRemaining: null, cacheHit: true } };
     }
-    // Stale-while-revalidate: a recently expired answer is served at once and refreshed in the background,
-    // so a visitor never waits on Nansen just because a cache entry crossed its TTL.
+    // Stale-while-revalidate: an expired answer (up to a day old) is served at once and refreshed in the
+    // background, so a visitor never waits on Nansen, or sees an empty section, because an entry crossed its
+    // TTL; the next view gets the fresh answer. Older than a day, the call waits for fresh data.
     const stale = fixtureMode() === 'replay' ? null : readCache<T>(endpoint, body, scope, { stale: true });
-    if (stale && Date.now() - stale.fetchedAt < Math.max(6 * ttlFor(endpoint), 30 * 60_000)) {
+    if (stale && Date.now() - stale.fetchedAt < Math.max(6 * ttlFor(endpoint), STALE_SERVE_MS)) {
       const key = `${scope ?? ''}|${cacheKey(endpoint, body, scope)}`;
       if (!revalidating.has(key)) {
         revalidating.add(key);
-        void callNansen<T>(endpoint, body, { ...options, skipCache: true }).catch(() => undefined).finally(() => revalidating.delete(key));
+        void callNansen<T>(endpoint, body, { ...options, refresh: true }).catch(() => undefined).finally(() => revalidating.delete(key));
       }
       recordCall(endpoint, 0, true, caller.userId);
       const t = callScope.getStore();
@@ -378,7 +384,7 @@ export async function callNansen<T>(endpoint: string, body: unknown = {}, option
   checkDriftLater(endpoint, method, result.data);
   if (schema) schema.parse(result.data);
 
-  if (!skipCache) writeCache(endpoint, body, result.data, scope);
+  if (!skipCache || refresh) writeCache(endpoint, body, result.data, scope);
   if (record) recordFixture(endpoint, body, result.data, options.publicSafe ?? false);
   recordCall(endpoint, result.meta.creditsCost, false, caller.userId);
   const tally = callScope.getStore();

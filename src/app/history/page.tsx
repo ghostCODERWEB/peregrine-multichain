@@ -11,9 +11,10 @@ import { displayMode } from '@/server/mode';
 import { perpChanges } from '@/server/perps/terminal';
 import { DIRECTION_TEXT } from '@/lib/perps/changes';
 import { chainName, num, usd } from '@/lib/viz/format';
+import { pageMeta } from '@/server/seo';
 
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'History · Peregrine' };
+export const metadata: Metadata = pageMeta({ title: 'History: what changed in 24 hours and 7 days', description: 'Flow Index moves, sector swings and the market as it was, from Peregrine\'s stored snapshots.', path: '/history' });
 
 const WINDOWS = { '24h': 86_400_000, '7d': 7 * 86_400_000 } as const;
 
@@ -53,8 +54,8 @@ export default async function HistoryPage({ searchParams }: { searchParams: Prom
     <div className="space-y-5">
       <PageTitle title="History" pill={`Now vs ${w} ago · from stored snapshots`} action={
         <div className="segmented" style={{ '--segments': 2, '--selected': w === '7d' ? 1 : 0 } as React.CSSProperties}><span className="segmented-thumb" aria-hidden />
-          <Link prefetch={false} href="/history" aria-pressed={w === '24h'} className="relative z-[1] px-3 py-1 text-center text-[12px] font-bold">24h</Link>
-          <Link prefetch={false} href="/history?w=7d" aria-pressed={w === '7d'} className="relative z-[1] px-3 py-1 text-center text-[12px] font-bold">7d</Link>
+          <Link prefetch={false} href="/history" aria-current={w === '24h' ? 'page' : undefined} className="relative z-[1] px-3 py-1 text-center text-[12px] font-bold">24h</Link>
+          <Link prefetch={false} href="/history?w=7d" aria-current={w === '7d' ? 'page' : undefined} className="relative z-[1] px-3 py-1 text-center text-[12px] font-bold">7d</Link>
         </div>} />
       {owner && (
         <div className="grid gap-4 md:grid-cols-2">

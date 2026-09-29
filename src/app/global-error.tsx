@@ -1,13 +1,12 @@
 'use client';
 import { useEffect } from 'react';
+import { reloadForStaleBuild } from '@/lib/stale-build';
 
 // Last resort when the root layout itself fails: plain markup, since the app's styles may not have loaded.
 export default function GlobalError({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
   useEffect(() => {
     console.error(error);
-    if (/ChunkLoadError|Loading chunk|dynamically imported module/i.test(`${error.name} ${error.message}`)) {
-      try { if (!sessionStorage.getItem('reloaded-for-build')) { sessionStorage.setItem('reloaded-for-build', '1'); location.reload(); } } catch { location.reload(); }
-    }
+    reloadForStaleBuild(error);
   }, [error]);
   return (
     <html lang="en">

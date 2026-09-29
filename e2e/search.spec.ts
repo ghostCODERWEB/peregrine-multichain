@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type Page } from './fixtures';
 
 // M1 universal search, keyboard first, against the keyless demo (recorded
 // Nansen responses): ⌘K/Ctrl+K opens the omnibox, results come from
@@ -19,7 +19,8 @@ async function openOmnibox(page: Page) {
 test('omnibox: type a name, Enter opens the top token', async ({ page }) => {
   const box = await openOmnibox(page);
   await box.fill('aerodrome');
-  await expect(page.getByRole('option').first()).toContainText('AERO · Aerodrome');
+  // The first search of a run compiles the search route on a cold dev server.
+  await expect(page.getByRole('option').first()).toContainText('AERO · Aerodrome', { timeout: 30_000 });
   await expect(page.getByRole('option').first()).toHaveAttribute('aria-selected', 'true');
   await box.press('Enter');
   // Navigation waits for the route to load (a first compile in dev can take a while).
@@ -43,7 +44,8 @@ test('omnibox: an address is recognized in the browser and opens its wallet page
   const box = await openOmnibox(page);
   await box.fill('0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045');
   await expect(page.getByText('Looks like EVM address')).toBeVisible();
-  await expect(page.getByRole('option', { name: /Wallet 0xd8dA…6045/ })).toBeVisible();
+  // Named by its ENS name when it has one (vitalik.eth · 0xd8dA…6045), else as the short address.
+  await expect(page.getByRole('option', { name: /0xd8dA…6045/ })).toBeVisible();
   await box.press('Enter');
   await expect(page).toHaveURL(/\/wallet\/0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045/, { timeout: 60_000 });
 });
@@ -61,7 +63,8 @@ test('sectors: tiles scored on the pressure scale, or a plain reason', async ({ 
   const reason = page.getByText(/Sector membership has not been built yet|No sector snapshots yet/);
   await expect(tiles.first().or(reason)).toBeVisible();
   if (await tiles.count()) {
-    await expect(page.getByRole('heading', { level: 1 })).toContainText(/rotating into|lean most toward|pressure|flow/);
-    await expect(page.getByText(/Public view: all-trader flows/)).toBeVisible();
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Sectors');
+    // A public view reads all-trader flow, and says so beside the title.
+    await expect(page.getByText(/^All traders · 24h/).first()).toBeVisible();
   }
 });

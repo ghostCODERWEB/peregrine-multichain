@@ -33,15 +33,6 @@ const NATIVE_AND_WRAPPED = new Set([
   'MON', 'WMON', 'S', 'WS', 'SEI', 'WSEI', 'HYPE', 'WHYPE', 'MNT', 'WMNT', 'IOTA', 'WIOTA', 'XPL', 'WXPL',
 ]);
 
-// Native coins of non-EVM chains and their wrapped copies. Nansen's
-// include_native_tokens:false misses the wrapped ones there (seen live: WNEAR
-// on Near), and wrapping or unwrapping then reads as a flow into or out of
-// the chain. Kept apart from NATIVE_AND_WRAPPED so trade-side logic is unchanged.
-const NON_EVM_NATIVE = new Set([
-  'NEAR', 'WNEAR', 'TRX', 'WTRX', 'TON', 'WTON', 'PTON', 'SUI', 'WSUI', 'APT', 'WAPT', 'INJ', 'WINJ',
-  'STRK', 'WSTRK', 'OM', 'WOM', 'STX', 'WSTX', 'XLM', 'ALGO', 'CHZ', 'WCHZ', 'BTC', 'CBTC', 'WCBTC',
-]);
-
 /** Tether's ₮ (e.g. "USD₮0") reads as T. */
 const norm = (symbol: string) => symbol.trim().toUpperCase().replace(/₮/g, 'T');
 
@@ -51,13 +42,6 @@ export function isStablecoin(symbol: string | null | undefined): boolean {
 
 /** Majors and their wrapped or bridged copies (WBTC, cbBTC, UBTC, UETH,
  *  WSOL…): base assets rather than tokens anyone would call alpha. */
-/** A chain's native coin or a wrapped copy of it (WETH, WSOL, WNEAR…). */
-export function isNativeOrWrapped(symbol: string | null | undefined): boolean {
-  if (!symbol) return false;
-  const s = norm(symbol);
-  return NATIVE_AND_WRAPPED.has(s) || NON_EVM_NATIVE.has(s);
-}
-
 export function isMajorOrWrapped(symbol: string | null | undefined): boolean {
   if (!symbol) return false;
   const s = norm(symbol);

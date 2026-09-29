@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { AddressLink } from '@/components/entity/AddressLink';
 import { CohortBadges } from '@/components/entity/CohortBadges';
 import { Segmented } from '@/components/ui/Segmented';
+import { useHoldHeight } from '@/components/useHoldHeight';
 import { chainName, pct, price, usd } from '@/lib/viz/format';
 
 const ago = (days: number) => new Date(Date.now() - days * 86_400_000).toISOString().slice(0, 10);
@@ -54,17 +55,22 @@ export function TokenTimeMachine({ chain, address, owner }: { chain: string; add
   // Historical reads are priced (5 to 25 credits each): nothing loads until asked.
   const [armed, setArmed] = useState(false);
   const base = `kind=token&chain=${chain}&address=${encodeURIComponent(address)}&date=${date}`;
+  // The day on screen: it stays, dimmed, while another day loads, and is swapped in place when that arrives
+  // (clearing it first collapsed the section and made the page jump under the date buttons).
+  const [shown, setShown] = useState(date);
   const loadCore = async () => {
+    const day = date;
     setBusy('core');
     const [f, t, x] = await Promise.all([get<{ flows: Flow[] }>(`${base}&part=flows`), get<{ rows: Trader[] }>(`${base}&part=traders`), get<{ rows: Trade[] }>(`${base}&part=trades`)]);
-    setFlows(f); setTraders(t); setTrades(x); setBusy(null);
+    setFlows(f); setTraders(t); setTrades(x); setShown(day); setBusy(null);
   };
   const loadOne = async (part: 'holders' | 'pnl') => {
     setBusy(part);
     if (part === 'holders') setHolders(await get(`${base}&part=holders`)); else setPnl(await get(`${base}&part=pnl`));
     setBusy(null);
   };
-  const changeDate = (d: string) => { setDate(d); setFlows(null); setTraders(null); setTrades(null); setHolders(null); setPnl(null); };
+  const changeDate = (d: string) => setDate(d);
+  const stale = armed && !!flows && shown !== date;
   // Once asked, every part of the chosen day loads, and reloads per date (point-in-time reads are cached permanently).
   useEffect(() => {
     if (!armed) return;
@@ -72,9 +78,10 @@ export function TokenTimeMachine({ chain, address, owner }: { chain: string; add
     // eslint-disable-next-line react-hooks/exhaustive-deps -- reload per date
   }, [date, armed]);
   const err = (x: { error: string }) => <p role="alert" className="text-[12.5px] text-ink-2">{friendlyError(x.error)}</p>;
+  const held = useHoldHeight<HTMLElement>();
 
   return (
-    <section aria-labelledby="tok-tm" className="material space-y-4 p-4 sm:p-5">
+    <section ref={held} aria-labelledby="tok-tm" className="time-machine material space-y-4 p-4 sm:p-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h2 id="tok-tm" className="t-section">Token Time Machine</h2>
@@ -84,9 +91,10 @@ export function TokenTimeMachine({ chain, address, owner }: { chain: string; add
       </div>
       {!armed && <LoadButton credits={owner ? 65 : 40} onClick={() => setArmed(true)} what={`Read ${date}`} />}
       {armed && !flows && <p className="text-[12.5px] text-ink-muted">Reading {date}…</p>}
+      <div aria-busy={stale} className={`space-y-4 transition-opacity duration-200 ${stale ? 'opacity-50' : ''}`}>
       {flows && ('error' in flows ? err(flows) : (
         <div>
-          <h3 className="mb-1.5 text-[12.5px] font-semibold text-ink-muted">Net flow by Nansen cohort on {date}</h3>
+          <h3 className="mb-1.5 text-[12.5px] font-semibold text-ink-muted">Net flow by Nansen cohort on {shown}{stale ? ` · reading ${date}…` : ''}</h3>
           <div className="grid grid-cols-2 gap-px overflow-hidden rounded-[var(--r-inner)] border border-[var(--hair)] bg-[var(--hair)] md:grid-cols-3 xl:grid-cols-6">
             {flows.data.flows.map((c) => (
               <div key={c.cohort} className="bg-[var(--surface-1)] px-3 py-2">
@@ -133,7 +141,7 @@ export function TokenTimeMachine({ chain, address, owner }: { chain: string; add
       ))}
       {holders && ('error' in holders ? err(holders) : (
         <div>
-          <h3 className="mb-1 text-[12.5px] font-semibold text-ink-muted">Top holders on {date}</h3>
+          <h3 className="mb-1 text-[12.5px] font-semibold text-ink-muted">Top holders on {shown}</h3>
           <ol className="max-h-[320px] divide-y divide-[var(--hair)] overflow-auto" tabIndex={0} aria-label="Historical holders">
             {holders.data.rows.map((h) => <li key={h.address} className="flex items-center gap-2 py-1.5 text-[12.5px]"><span className="min-w-0 flex-1"><AddressLink address={h.address} label={h.label} /></span><span className="num text-ink-2">{h.ownership != null ? pct(h.ownership > 1 ? h.ownership / 100 : h.ownership, 2) : 'n/a'}</span><span className="num w-20 text-right text-ink">{usd(h.valueUsd)}</span><span className="num w-24 text-right" style={tone(h.change30d)}>30d {h.change30d != null ? `${h.change30d >= 0 ? '+' : ''}${Math.round(h.change30d).toLocaleString('en-US')}` : 'n/a'}</span></li>)}
           </ol>
@@ -141,12 +149,13 @@ export function TokenTimeMachine({ chain, address, owner }: { chain: string; add
       ))}
       {pnl && ('error' in pnl ? err(pnl) : (
         <div>
-          <h3 className="mb-1 text-[12.5px] font-semibold text-ink-muted">PnL leaders, 30 days to {date}</h3>
+          <h3 className="mb-1 text-[12.5px] font-semibold text-ink-muted">PnL leaders, 30 days to {shown}</h3>
           <ol className="max-h-[320px] divide-y divide-[var(--hair)] overflow-auto" tabIndex={0} aria-label="Historical PnL leaders">
             {pnl.data.rows.map((l) => <li key={l.address} className="flex items-center gap-2 py-1.5 text-[12.5px]"><span className="min-w-0 flex-1"><AddressLink address={l.address} label={l.label} /></span><span className="num text-ink-2">{l.trades ?? 'n/a'} trades · ROI {l.roi != null ? `${Math.round(l.roi)}%` : 'n/a'}</span><span className="num w-24 text-right font-semibold" style={tone(l.pnlUsd)}>{usd(l.pnlUsd, { signed: true })}</span></li>)}
           </ol>
         </div>
       ))}
+      </div>
     </section>
   );
 }
@@ -167,25 +176,27 @@ export function WalletTimeMachine({ address, current }: { address: string; curre
   // eslint-disable-next-line react-hooks/exhaustive-deps -- reload per date and chain
   useEffect(() => { if (armed) void run(); }, [date, chain, armed]);
   const now = new Map((current?.positions ?? []).map((p) => [`${p.chain}:${p.tokenAddress.toLowerCase()}`, p]));
+  const held = useHoldHeight<HTMLElement>();
   return (
-    <section aria-labelledby="wal-tm" className="material space-y-3 p-4 sm:p-5">
+    <section ref={held} aria-labelledby="wal-tm" className="time-machine material space-y-3 p-4 sm:p-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h2 id="wal-tm" className="t-section">Wallet Time Machine</h2>
           <p className="text-[12px] text-ink-muted">Holdings and activity on a past day vs today</p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <DatePick date={date} setDate={(d) => { setDate(d); setRes(null); }} />
-          <select value={chain} onChange={(e) => { setChain(e.target.value); setRes(null); }} aria-label="Chain" className="inset-well h-8 rounded-[8px] px-2 text-[12.5px] text-ink">
+          <DatePick date={date} setDate={setDate} />
+          <select value={chain} onChange={(e) => setChain(e.target.value)} aria-label="Chain" className="inset-well h-8 rounded-[8px] px-2 text-[12.5px] text-ink">
             {['all', 'ethereum', 'base', 'bnb', 'solana', 'mantra'].map((c) => <option key={c} value={c}>{c === 'all' ? 'All supported chains' : chainName(c)}</option>)}
           </select>
-          {busy && <span className="text-[12px] text-ink-muted">Reading…</span>}
+          {/* Always in the row, shown only while reading: appearing and vanishing it moved the controls. */}
+          <span aria-live="polite" className={`text-[12px] text-ink-muted ${busy ? '' : 'invisible'}`}>Reading…</span>
         </div>
       </div>
       {!armed && <LoadButton credits={10} onClick={() => setArmed(true)} what={`Read ${date}`} />}
       {res && 'error' in res && <p role="alert" className="text-[12.5px] text-ink-2">{friendlyError(res.error)}</p>}
       {res && !('error' in res) && (
-        <>
+        <div aria-busy={busy} className={`space-y-3 transition-opacity duration-200 ${busy ? 'opacity-50' : ''}`}>
           <div className="grid grid-cols-3 gap-px overflow-hidden rounded-[var(--r-inner)] border border-[var(--hair)] bg-[var(--hair)]">
             {[['Then', res.data.date, res.data.balances.length ? usd(res.data.totalUsd) : 'n/a'], ['Now', 'today', current ? usd(current.totalUsd) : 'n/a'], ['Change', current && res.data.totalUsd ? pct(current.totalUsd / res.data.totalUsd - 1, 0) : '', current && res.data.balances.length ? usd(current.totalUsd - res.data.totalUsd, { signed: true }) : 'n/a']].map(([k, sub, v], i) => (
               <div key={k} className="bg-[var(--surface-1)] px-3.5 py-2.5"><span className="block text-[11.5px] font-semibold text-ink-muted">{k} · {sub}</span><span className="num block text-[18px] font-bold" style={i === 2 && current && res.data.balances.length ? tone(current.totalUsd - res.data.totalUsd) : undefined}>{v}</span></div>
@@ -194,8 +205,8 @@ export function WalletTimeMachine({ address, current }: { address: string; curre
           <div className="grid gap-4 lg:grid-cols-2 [&>*]:min-w-0">
             <div>
               <h3 className="mb-1 text-[12.5px] font-semibold text-ink-muted">Largest holdings then, and now</h3>
-              <ol data-page="10" className="divide-y divide-[var(--hair)]" aria-label="Holdings then and now">
-                {res.data.balances.filter((b) => (b.valueUsd ?? 0) >= 1).slice(0, 100).map((b) => {
+              <ol className="max-h-[300px] divide-y divide-[var(--hair)] overflow-auto" tabIndex={0} aria-label="Holdings then and now">
+                {res.data.balances.filter((b) => (b.valueUsd ?? 0) >= 1).slice(0, 30).map((b) => {
                   const n = now.get(`${b.chain}:${b.token.toLowerCase()}`);
                   return (
                     <li key={`${b.chain}:${b.token}`} className="flex items-center gap-2 py-1.5 text-[12.5px]">
@@ -224,7 +235,7 @@ export function WalletTimeMachine({ address, current }: { address: string; curre
             </div>
           </div>
           {res.data.errors.length > 0 && <p className="text-[11.5px] text-ink-muted">Partial: {res.data.errors.join(' · ')}</p>}
-        </>
+        </div>
       )}
     </section>
   );

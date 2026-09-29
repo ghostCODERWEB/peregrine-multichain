@@ -5,8 +5,9 @@ import { DESK_COOKIE, deskScope, deskSummary } from '@/server/desk/calls';
 import { DeskView, type DeskData } from '@/components/desk/DeskView';
 import { PageTitle } from '@/components/PageTitle';
 import { WatchlistCard } from '@/components/desk/WatchlistCard';
+import { pageMeta } from '@/server/seo';
 
-export const metadata: Metadata = { title: 'Desk · Peregrine' };
+export const metadata: Metadata = pageMeta({ title: 'Desk', description: 'Your calls, their receipts and your trader record.', path: '/desk', noindex: true, image: '/opengraph-image' });
 export const dynamic = 'force-dynamic';
 
 export default async function DeskPage() {

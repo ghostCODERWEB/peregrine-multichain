@@ -8,9 +8,10 @@ import { ChainLogo } from '@/components/Logo';
 import { NetFlowBars } from '@/components/sectors/NetFlowBars';
 import { sectorDetail, type SectorWindowReading } from '@/server/sectors/detail';
 import { displayMode, viewOf } from '@/server/mode';
-import { chainName, num, pct, usd } from '@/lib/viz/format';
+import { chainName, num, pct, spanOf, usd } from '@/lib/viz/format';
 import type { SectorMover } from '@/lib/models/sector-flows';
 import { Go } from '@/components/ui/Icons';
+import { pageMeta } from '@/server/seo';
 
 export const dynamic = 'force-dynamic';
 
@@ -18,7 +19,8 @@ const BAND = { high: 'Accumulation', neutral: 'Neutral', low: 'Distribution' } a
 const WINDOW_NAME = { '1h': 'Last hour', '24h': 'Last 24 hours', '7d': 'Last 7 days' } as const;
 
 export async function generateMetadata({ params }: { params: Promise<{ sector: string }> }): Promise<Metadata> {
-  return { title: `${decodeURIComponent((await params).sector)}, Sectors · Peregrine` };
+  const name = decodeURIComponent((await params).sector);
+  return pageMeta({ title: `${name} sector: net flow and top tokens`, description: `Net flow, volume and the tokens driving the ${name} sector across chains, with 7 days of history, from Nansen data.`, path: `/sectors/${encodeURIComponent(name)}` });
 }
 
 function MoverList({ title, rows, tone }: { title: string; rows: SectorMover[]; tone: 'in' | 'out' }) {
@@ -101,7 +103,7 @@ export default async function SectorPage({ params }: { params: Promise<{ sector:
       />
 
       <div className="grid gap-4 xl:grid-cols-3">
-        <Card id="history" title="24h net flow, last 7 days" sub="One bar per scan · up is net buying · hover a bar for its value" className="xl:col-span-2">
+        <Card id="history" title={`24h net flow, last ${spanOf(d.history.map((x) => x.t), 7)}`} sub="One bar per scan · up is net buying · hover a bar for its value" className="xl:col-span-2">
           <NetFlowBars points={d.history} label={`${name} 24h net flow`} />
         </Card>
         <Card id="members" title="Where its tokens trade" sub="Tokens in this sector per chain">

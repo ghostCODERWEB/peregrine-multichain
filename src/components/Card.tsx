@@ -1,6 +1,7 @@
 import { LockedPanel } from '@/components/ui/SurfaceKit';
 import { friendlyError } from '@/lib/friendly-error';
 import type { ReactNode } from 'react';
+import { SectionBoundary } from '@/components/SectionBoundary';
 
 /** The page section every dashboard card uses: an insight title (states
  *  the finding, not the chart type), a one-line how-to-read, then content. */
@@ -13,7 +14,7 @@ export function Card({ id, title, sub, children, className = '', action }: { id:
       </div>
       {/* One line, never a paragraph: the full sentence is on hover and in the ⓘ receipt. */}
       {sub && <p className="mt-1.5 truncate text-[13.5px] text-ink-muted" title={typeof sub === 'string' ? sub : undefined}>{sub}</p>}
-      <div className="mt-5">{children}</div>
+      <div className="mt-5"><SectionBoundary what={title}>{children}</SectionBoundary></div>
     </section>
   );
 }

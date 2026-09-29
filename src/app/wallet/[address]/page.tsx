@@ -34,6 +34,7 @@ import { walletWeatherReading } from '@/server/wallet/weather';
 import { walletRotations } from '@/server/weather/queries';
 import { ChainLogo } from '@/components/Logo';
 import { Go, Back } from '@/components/ui/Icons';
+import { pageMeta } from '@/server/seo';
 
 export const dynamic = 'force-dynamic';
 
@@ -41,7 +42,8 @@ type Params = { params: Promise<{ address: string }> };
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { address } = await params;
-  return { title: `${shortAddress(decodeURIComponent(address))} · Peregrine wallet` };
+  const a = decodeURIComponent(address);
+  return pageMeta({ title: `Wallet ${shortAddress(a)}`, description: `Trader score, holdings, PnL, counterparties and origins for ${shortAddress(a)}, from Nansen data.`, path: `/wallet/${encodeURIComponent(a)}`, noindex: true });
 }
 
 // Every address family Nansen profiles is some run of letters, digits and
@@ -94,7 +96,8 @@ export default async function WalletRoute({ params }: Params) {
 
       {/* One tile grid, ordered like a research session: who and what it holds, how it trades, who it deals with, then its history. */}
       <div className="grid grid-cols-1 gap-4 xl:grid-cols-12 [&>*]:min-w-0">
-        <Suspense fallback={<div className="h-[260px] animate-pulse rounded-[var(--r-card)] bg-ink/5 xl:col-span-12" />}>
+        {/* Placeholder sized like the scorecard it stands in for (580px stacked, 330px wide) so nothing below jumps. */}
+        <Suspense fallback={<div className="h-[580px] animate-pulse rounded-[var(--r-card)] bg-ink/5 xl:col-span-12 xl:h-[330px]" />}>
           <WalletScorecard address={address} balP={balP} pnlP={pnlP} />
         </Suspense>
         {mode === 'owner' && <div className="xl:col-span-12"><WalletQuickRead address={address} /></div>}
@@ -282,7 +285,7 @@ function RotationsCard({ address, mode }: { address: string; mode: DisplayMode }
               {chainName(r.to)}
             </span>
             <span className="min-w-0 truncate text-ink-2">
-              <span className="num" style={{ color: 'var(--out-3)' }}>
+              <span className="num" style={{ color: 'var(--flare)' }}>
                 −{usd(r.soldUsd)}
               </span>{' '}
               sold {r.soldTokens.slice(0, 3).join(', ')}

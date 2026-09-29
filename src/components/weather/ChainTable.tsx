@@ -10,7 +10,7 @@ import type { ChainTile } from '@/server/weather/bulletin';
  *  hovering or seeing color. */
 export function ChainTable({ chains }: { chains: ChainTile[] }) {
   const rows = [...chains].sort((a, b) => (b.cpi ?? -1) - (a.cpi ?? -1));
-  const win = (c: ChainTile, w: string) => c.windows.find((x) => x.window === w);
+  const win = (c: ChainTile, w: string) => c.windows?.find((x) => x.window === w);
   return (
     <div tabIndex={0} role="region" aria-label="Chains table" className="overflow-x-auto">
       <table data-sortable className="w-full min-w-[720px] text-sm">

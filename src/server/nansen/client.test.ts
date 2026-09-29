@@ -34,6 +34,23 @@ describe('callNansen', () => {
     expect((getDb().prepare('SELECT SUM(credits) AS c FROM credit_ledger').get() as { c: number }).c).toBe(5);
   });
 
+  it('serves an expired answer at once and stores the refreshed one for the next view', async () => {
+    const fetch = vi.fn()
+      .mockResolvedValueOnce(res(200, { v: 'old' }, { 'x-nansen-credits-cost': '1' }))
+      .mockResolvedValueOnce(res(200, { v: 'new' }, { 'x-nansen-credits-cost': '1' }));
+    vi.stubGlobal('fetch', fetch);
+    await callNansen('tgm/holders', { swr: 1 }, { record: false });
+    // Expired an hour ago: still well inside the window where it is shown while a fresh one is fetched.
+    getDb().prepare('UPDATE response_cache SET expires_at = ?, fetched_at = ?').run(Date.now() - 3_600_000, Date.now() - 3 * 3_600_000);
+    const served = await callNansen<{ v: string }>('tgm/holders', { swr: 1 }, { record: false });
+    expect(served.data.v).toBe('old');
+    expect(served.meta.cacheHit).toBe(true);
+    await vi.waitFor(() => expect(fetch).toHaveBeenCalledTimes(2));
+    // The background refresh wrote the fresh answer: the next view gets it without another call.
+    await vi.waitFor(async () => expect((await callNansen<{ v: string }>('tgm/holders', { swr: 1 }, { record: false })).data.v).toBe('new'));
+    expect(fetch).toHaveBeenCalledTimes(2);
+  });
+
   it('retries a 429 after Retry-After, and a 5xx with backoff', async () => {
     vi.useFakeTimers();
     const fetch = vi.fn()

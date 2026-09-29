@@ -9,7 +9,7 @@ type Perp = { symbol: string; address: string; label: string | null; side: strin
 
 /** Phones: find a wallet (address or ENS), then the wallets worth watching today. */
 export function MobileWallets({ buyers, sellers, perp, owner }: { buyers: Active[]; sellers: Active[]; perp: Perp[]; owner: boolean }) {
-  const follow = owner ? cachedCopyLab()?.wallets.filter((w) => w.score >= 60).slice(0, 60) ?? [] : [];
+  const follow = owner ? cachedCopyLab()?.wallets.filter((w) => w.score >= 60).slice(0, 5) ?? [] : [];
   const topSym = (t: string | null) => (t ?? '').split('|')[0] || null;
   const logo = (t: string | null) => { const [sym, chain, address] = (t ?? '').split('|'); return <TokenLogo symbol={sym || null} chain={chain || undefined} address={address || undefined} size={30} />; };
   return (
@@ -19,7 +19,7 @@ export function MobileWallets({ buyers, sellers, perp, owner }: { buyers: Active
 
       {follow.length > 0 && (
         <Group title="Worth copying" href="/copy">
-          <List page>
+          <List>
             {follow.map((w) => (
               <Row key={w.wallet} href={`/wallet/${w.wallet}`} leading={<span className="m-score" style={{ color: w.score >= 65 ? 'var(--mint)' : 'var(--amber)' }}>{w.score}</span>}
                 title={walletName(w.label, w.wallet)} subtitle={`${w.tokens} tokens · win ${Math.round(w.win[2] * 100)}% an hour late`} trailing={`${w.median[2] >= 0 ? '+' : ''}${(w.median[2] * 100).toFixed(0)}%`} trailingSub="1h late" tone={w.median[2] >= 0 ? 'in' : 'out'} />
@@ -30,8 +30,8 @@ export function MobileWallets({ buyers, sellers, perp, owner }: { buyers: Active
 
       {buyers.length > 0 && (
         <Group title="Buying most today" footer="Smart Money net buys on DEXs, 24h.">
-          <List page>
-            {buyers.map((a) => (
+          <List>
+            {buyers.slice(0, 6).map((a) => (
               <Row key={a.wallet} href={`/wallet/${a.wallet}`} leading={logo(a.top)}
                 title={walletName(a.label, a.wallet)} subtitle={`${a.trades} trades${topSym(a.top) ? ` · mostly ${topSym(a.top)}` : ''}`} trailing={usd(a.net, { signed: true })} tone="in" />
             ))}
@@ -41,8 +41,8 @@ export function MobileWallets({ buyers, sellers, perp, owner }: { buyers: Active
 
       {sellers.length > 0 && (
         <Group title="Selling most today">
-          <List page>
-            {sellers.map((a) => (
+          <List>
+            {sellers.slice(0, 6).map((a) => (
               <Row key={a.wallet} href={`/wallet/${a.wallet}`} leading={logo(a.top)}
                 title={walletName(a.label, a.wallet)} subtitle={`${a.trades} trades${topSym(a.top) ? ` · mostly ${topSym(a.top)}` : ''}`} trailing={usd(a.net, { signed: true })} tone="out" />
             ))}
@@ -52,8 +52,8 @@ export function MobileWallets({ buyers, sellers, perp, owner }: { buyers: Active
 
       {perp.length > 0 && (
         <Group title="Largest perp positions" footer="Smart Money on Hyperliquid, latest snapshot.">
-          <List page>
-            {perp.map((p) => (
+          <List>
+            {perp.slice(0, 6).map((p) => (
               <Row key={`${p.symbol}:${p.address}`} href={`/wallet/${p.address}`} leading={<TokenLogo symbol={p.symbol} coin={p.symbol} size={30} />}
                 title={walletName(p.label, p.address)} subtitle={<span style={{ color: p.side === 'Long' ? 'var(--mint)' : 'var(--flare)' }}>{p.side} {p.symbol}</span>} trailing={usd(p.value)} />
             ))}

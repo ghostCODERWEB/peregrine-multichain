@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures';
 
 // Analyze with Nansen: the one Ask surface on every page. Opening it, reading
 // the suggestions and closing it must never call the paid routes; only a
@@ -14,7 +14,7 @@ test('Analyze with Nansen: opens from the dock and ⌘J, suggests questions, spe
   await page.goto(TOKEN);
   const panel = page.getByRole('dialog', { name: 'Analyze with Nansen' });
   await page.getByRole('button', { name: 'Analyze with Nansen (⌘J)' }).click();
-  await expect(panel).toBeVisible();
+  await expect(panel).toBeVisible({ timeout: 30_000 }); // loads on first use (a first compile on a cold dev server)
   await expect(panel.getByText('Suggested')).toBeVisible();
   await expect(panel.getByPlaceholder('Ask about this page…')).toBeVisible();
   await panel.getByRole('button', { name: 'Close' }).click();
@@ -33,7 +33,8 @@ test('Genie Ask: the phone tab bar opens and closes the same panel with no paid 
   const ask = page.getByRole('button', { name: 'Ask about this screen' });
   await ask.click();
   const panel = page.getByRole('dialog', { name: 'Analyze with Nansen' });
-  await expect(panel).toBeVisible();
+  // The panel loads on first use: on a cold dev server that is a first compile.
+  await expect(panel).toBeVisible({ timeout: 30_000 });
   await expect(ask).toHaveAttribute('aria-pressed', 'true');
   await ask.click();
   await expect(panel).toBeHidden();

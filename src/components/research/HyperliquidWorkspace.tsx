@@ -11,6 +11,7 @@ import { pct, usd } from '@/lib/viz/format';
 import type { ClosedPosition, Position, TraderWorkspace } from '@/server/research/hyperliquid';
 import { LiqDistance, PositionChart, fmtPx } from './PositionChart';
 import { isWatched, toggleWatch } from './watchlist';
+import { activateProps } from '@/components/ui/activate';
 
 const tone = (v: number | null | undefined) => ({ color: (v ?? 0) >= 0 ? 'var(--mint)' : 'var(--flare)' });
 const sgn = (v: number | null | undefined) => (v == null ? 'n/a' : usd(v, { signed: true }));
@@ -132,7 +133,7 @@ function PositionsTable({ d, sel, onSel }: { d: TraderWorkspace; sel: unknown; o
             <thead className="sticky top-0 bg-[var(--surface-1)] text-[10.5px] uppercase tracking-wider text-ink-muted"><tr><th className="py-1.5 text-left font-normal">Market</th>{th('valueUsd', 'Notional')}<th className="text-right font-normal">Entry</th><th className="text-right font-normal">Mark</th><th className="text-right font-normal">Liq.</th>{th('distanceToLiq', 'To liq.')}{th('leverage', 'Lev.')}{th('upnlUsd', 'uPnL')}{th('roe', 'ROE')}<th className="text-right font-normal">Funding</th></tr></thead>
             <tbody>
               {P.map((p) => (
-                <tr key={p.coin} onClick={() => onSel({ kind: 'open', p })} className={`cursor-pointer border-t border-[var(--hair)] hover:bg-[var(--surface-2)] ${sel && (sel as { p: Position }).p === p ? 'bg-[color-mix(in_srgb,var(--signal)_10%,transparent)]' : ''}`}>
+                <tr key={p.coin} onClick={() => onSel({ kind: 'open', p })} {...activateProps(() => onSel({ kind: 'open', p }))} className={`cursor-pointer border-t border-[var(--hair)] hover:bg-[var(--surface-2)] ${sel && (sel as { p: Position }).p === p ? 'bg-[color-mix(in_srgb,var(--signal)_10%,transparent)]' : ''}`}>
                   <td className="py-1.5"><span className="flex items-center gap-1.5 font-semibold text-ink"><TokenLogo symbol={p.coin} coin={p.coin} size={16} />{p.coin}<span className="text-[10.5px] font-bold uppercase" style={{ color: p.side === 'long' ? 'var(--mint)' : 'var(--flare)' }}>{p.side}</span></span></td>
                   <td className="num text-right text-ink">{usd(p.valueUsd)}</td>
                   <td className="num text-right text-ink-2">{fmtPx(p.entry)}</td>
@@ -205,7 +206,7 @@ function ClosedTable({ d, onSel }: { d: TraderWorkspace; onSel: (p: ClosedPositi
           <thead className="sticky top-0 bg-[var(--surface-1)] text-[10.5px] uppercase tracking-wider text-ink-muted"><tr><th className="py-1.5 text-left font-normal">Market</th><th className="text-left font-normal">Side</th><th className="text-right font-normal">Avg entry</th><th className="text-right font-normal">Avg exit</th><th className="text-right font-normal">Max notional</th><th className="text-right font-normal">Realized</th><th className="text-right font-normal">ROI</th><th className="text-right font-normal">Duration</th><th className="text-right font-normal">Closed</th></tr></thead>
           <tbody>
             {d.closed.slice(0, 200).map((p, i) => (
-              <tr key={i} onClick={() => onSel(p)} className="cursor-pointer border-t border-[var(--hair)] hover:bg-[var(--surface-2)]">
+              <tr key={i} onClick={() => onSel(p)} {...activateProps(() => onSel(p))} className="cursor-pointer border-t border-[var(--hair)] hover:bg-[var(--surface-2)]">
                 <td className="py-1.5"><span className="flex items-center gap-1.5 font-semibold text-ink"><TokenLogo symbol={p.coin} coin={p.coin} size={15} />{p.coin}</span></td>
                 <td className="text-[10.5px] font-bold uppercase" style={{ color: p.side === 'long' ? 'var(--mint)' : 'var(--flare)' }}>{p.side}</td>
                 <td className="num text-right text-ink-2">{fmtPx(p.avgEntry)}</td><td className="num text-right text-ink-2">{fmtPx(p.avgExit)}</td>
@@ -247,7 +248,7 @@ function TraderAnalytics({ d }: { d: TraderWorkspace }) {
       hourly: { ...base, grid: { left: 36, right: 12, top: 10, bottom: 24 }, tooltip: { ...base.tooltip, trigger: 'axis' }, xAxis: { type: 'category', data: d.hourly.map((_, i) => `${i}h`), ...ax }, yAxis: { type: 'value', ...ax }, series: [{ type: 'bar', data: d.hourly, itemStyle: { color: c['ink-2'] }, barMaxWidth: 10 }] },
     };
   }, [c, d]);
-  const card = (title: string, sub: string, o: unknown, h = 220) => <div className="material min-w-0 p-3.5"><h3 className="text-[13px] font-bold text-ink">{title}</h3><p className="mb-1 text-[11px] text-ink-muted">{sub}</p>{o ? <EChart option={o as never} height={h} ariaLabel={title} /> : null}</div>;
+  const card = (title: string, sub: string, o: unknown, h = 220) => <div className="material min-w-0 p-3.5"><h3 className="text-[13px] font-bold text-ink">{title}</h3><p className="mb-1 text-[11px] text-ink-muted">{sub}</p><EChart option={(o ?? null) as never} height={h} ariaLabel={title} /></div>;
   return (
     <div className="space-y-3">
       <ul className="grid grid-cols-2 gap-px overflow-hidden rounded-[var(--r-inner)] border border-[var(--hair)] bg-[var(--hair)] sm:grid-cols-4 xl:grid-cols-8">

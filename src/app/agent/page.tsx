@@ -9,8 +9,9 @@ import { alphaBoard } from '@/server/alpha/board';
 import { chainName } from '@/lib/viz/format';
 import { accountsEnabled } from '@/server/site';
 import { PageTitle } from '@/components/PageTitle';
+import { pageMeta } from '@/server/seo';
 
-export const metadata: Metadata = { title: 'Ask · Peregrine' };
+export const metadata: Metadata = pageMeta({ title: 'Ask Nansen', description: 'Ask the Nansen research agent about any token, wallet or chain, with answers grounded in the data on the screen.', path: '/agent' });
 export const dynamic = 'force-dynamic';
 
 /** Starting questions from what TIDE sees right now (no Nansen call). */

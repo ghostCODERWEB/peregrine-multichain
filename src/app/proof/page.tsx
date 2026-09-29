@@ -7,9 +7,10 @@ import { loadBacktest } from '@/server/token/forecast';
 import { weatherMap, pressureForecast } from '@/server/weather/queries';
 import { displayMode, viewOf } from '@/server/mode';
 import { num, pct } from '@/lib/viz/format';
+import { pageMeta } from '@/server/seo';
 
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'Proof · Peregrine' };
+export const metadata: Metadata = pageMeta({ title: 'Proof: the models\' out-of-sample record', description: 'Do the models work? Peregrine\'s dump-risk scores and projections, tested out of sample and published with their errors.', path: '/proof' });
 
 type Ledger = { window: { from: string; to: string }; calls: number; cached: number; endpoints: Array<{ endpoint: string; calls: number; cached: number; credits: number }>; days: Array<{ day: string; calls: number }> };
 function ledger(): Ledger | null {
@@ -83,7 +84,7 @@ export default async function ProofPage() {
 
       <details className="material p-4 text-[12.5px] sm:p-5">
         <summary className="cursor-pointer font-semibold text-ink-2 hover:text-ink">All {L?.endpoints.length ?? 0} Nansen endpoints, by calls</summary>
-        <table className="mt-3 w-full text-left">
+        <table data-page className="mt-3 w-full text-left">
           <tbody>
             {L?.endpoints.map((e) => (
               <tr key={e.endpoint} className="border-t border-[var(--hair)]"><td className="py-1 pr-3 font-mono text-[11.5px] text-ink">{e.endpoint}</td><td className="num py-1 text-right text-ink-2">{e.calls.toLocaleString('en-US')}</td></tr>

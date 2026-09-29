@@ -9,8 +9,10 @@
 //     fetch metadata must send an Origin or Referer on this host.
 //  3. Per-visitor rate limits on /api and on the pages that fan out into
 //     many Nansen calls (token, wallet, entity, replay, chain).
-//  4. Security headers: no framing, a strict CSP (the browser only ever
-//     talks to this origin; Nansen is called server-side), no sniffing.
+//  4. Security headers, on every instance (public site or not): no framing,
+//     a strict CSP (the browser only ever talks to this origin; Nansen, ENS
+//     and wallets' RPCs are reached server-side or inside the wallet), no
+//     sniffing, HSTS.
 //
 // Headers can be forged by a script outside a browser, so (2) stops other
 // websites and casual reuse, not a determined scraper. What bounds any
@@ -18,6 +20,7 @@
 // the key itself never leaves the server.
 import { NextResponse, type NextRequest } from 'next/server';
 import { OWNER_ONLY_PATHS, SIGN_IN_PATHS } from '@/components/shell/nav';
+import { clientId as visitor } from '@/server/rate';
 
 export const config = {
   runtime: 'nodejs',
@@ -47,11 +50,6 @@ export function allow(key: string, max: number, windowMs: number, now = Date.now
   return h.n <= max;
 }
 
-/** The visitor's address as the reverse proxy in front of the site reports
- *  it (first X-Forwarded-For hop, else X-Real-IP). */
-function visitor(req: NextRequest): string {
-  return req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || req.headers.get('x-real-ip') || 'direct';
-}
 
 /** Same-origin browser fetch, or a client whose Origin/Referer is this host. */
 export function sameOrigin(req: { headers: Headers; nextUrl: { host: string } }): boolean {
@@ -96,11 +94,14 @@ const deny = (status: number, error: string, extra: Record<string, string> = {})
 
 export function middleware(req: NextRequest) {
   // Accounts off (TIDE_ACCOUNTS=off): a sign-in-free demo on the instance key; pages that need a sign-in or a wallet go home.
-  if (process.env.TIDE_ACCOUNTS === 'off' && SIGN_IN_PATHS.some((p) => req.nextUrl.pathname === p || req.nextUrl.pathname.startsWith(`${p}/`))) return NextResponse.redirect(new URL('/', req.url));
-  if (process.env.TIDE_PUBLIC_SITE !== '1') return NextResponse.next();
+  if (process.env.TIDE_ACCOUNTS === 'off' && SIGN_IN_PATHS.some((p) => req.nextUrl.pathname === p || req.nextUrl.pathname.startsWith(`${p}/`))) return secure(NextResponse.redirect(new URL('/', req.url)));
+  // Security headers on every instance; the access rules below are the public site's.
+  if (process.env.TIDE_PUBLIC_SITE !== '1') return secure(NextResponse.next());
   const path = req.nextUrl.pathname;
 
   if (path.startsWith('/api/')) {
+    // The platform's health probe sends no Origin: answered before the same-origin rule, and cheap by design.
+    if (path === '/api/health') return secure(NextResponse.next());
     if (CLOSED.some((r) => r.test(path))) return deny(404, 'Not available on this site.');
     if (!sameOrigin(req)) return deny(403, 'This API serves the Peregrine website only.');
     // Logo redirects spend no Nansen credits and are cached per token: outside the API bucket.

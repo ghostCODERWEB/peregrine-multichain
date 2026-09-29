@@ -1,7 +1,6 @@
 'use client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState } from 'react';
-import { TooltipProvider } from '@/components/ui/tooltip';
 import { SiteProvider } from '@/components/SiteContext';
 
 export function Providers({ children, publicSite = false, accounts = true }: { children: React.ReactNode; publicSite?: boolean; accounts?: boolean }) {
@@ -17,7 +16,7 @@ export function Providers({ children, publicSite = false, accounts = true }: { c
   }));
   return (
     <QueryClientProvider client={client}>
-      <SiteProvider publicSite={publicSite} accounts={accounts}><TooltipProvider>{children}</TooltipProvider></SiteProvider>
+      <SiteProvider publicSite={publicSite} accounts={accounts}>{children}</SiteProvider>
     </QueryClientProvider>
   );
 }

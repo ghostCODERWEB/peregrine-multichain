@@ -11,13 +11,14 @@ import { PageTitle } from '@/components/PageTitle';
 import { Go } from '@/components/ui/Icons';
 
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'Chain flows · Peregrine' };
+export const metadata: Metadata = pageMeta({ title: 'Chain flows: net flow and Flow Index by chain', description: 'Where capital is moving: 24-hour net flow for every chain the Nansen API covers, a 0–100 Flow Index against each chain\'s own history, and the largest moves.', path: '/flows' });
 
 // P4: Capital Flows as its own page — the animated chain-to-chain map with
 // room, a 7-day rotation timeline and a chain leaderboard. All of it is read
 // from the owner's stored smart-money trades: no Nansen call, owner view only.
 import { SpotState } from '@/components/weather/SpotState';
 import { FlowsAnalytics } from '@/components/weather/FlowsAnalytics';
+import { pageMeta } from '@/server/seo';
 
 export default async function FlowsPage() {
   const mode = await displayMode();
@@ -28,7 +29,7 @@ export default async function FlowsPage() {
   const weather = weatherMap(now, view);
   const chains = weather.map((c) => ({ chain: c.chain, cpi: c.cpi }));
   // Public view: measured per-chain net flow, the only flow data Nansen lets a public page show.
-  const netChains = weather.map((c) => ({ chain: c.chain, cpi: c.cpi, source: c.source, windows: c.windows.map((w) => ({ window: w.window, netFlowUsd: w.netFlowUsd })) }));
+  const netChains = weather.map((c) => ({ chain: c.chain, cpi: c.cpi, windows: c.windows.map((w) => ({ window: w.window, netFlowUsd: w.netFlowUsd })) }));
   const maxDay = Math.max(1, ...(history?.days ?? []).map((d) => d.netUsd));
   const maxChain = Math.max(1, ...(history?.chains ?? []).map((c) => Math.abs(c.net)));
   const weekTotal = (history?.days ?? []).reduce((s, d) => s + d.netUsd, 0);
@@ -88,7 +89,7 @@ export default async function FlowsPage() {
                         ? { left: '50%', width: `${(c.net / maxChain) * 50}%`, background: 'var(--in-3)' }
                         : { right: '50%', width: `${(-c.net / maxChain) * 50}%`, background: 'var(--out-3)' }} />
                     </span>
-                    <span className="num text-right font-extrabold" style={{ color: c.net >= 0 ? 'var(--in-3)' : 'var(--out-3)' }}>{c.net >= 0 ? '▲ +' : '▼ −'}{usd(Math.abs(c.net))}</span>
+                    <span className="num text-right font-extrabold" style={{ color: c.net >= 0 ? 'var(--in-3)' : 'var(--flare)' }}>{c.net >= 0 ? '▲ +' : '▼ −'}{usd(Math.abs(c.net))}</span>
                   </li>
                 ))}
               </ul>

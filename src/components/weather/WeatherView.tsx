@@ -12,7 +12,7 @@ import { AreaSpark } from '@/components/viz/AreaSpark';
 import { ActivityRings } from '@/components/viz/ActivityRings';
 import { FlowOrbital } from '@/components/viz/FlowOrbital';
 import { FlowMovers } from '@/components/viz/FlowMovers';
-import { netFlowMap, chainNets, otherNets } from '@/lib/viz/net-flow-map';
+import { netFlowMap, chainNets, allTraderOnly } from '@/lib/viz/net-flow-map';
 import { useSite } from '@/components/SiteContext';
 import { LockedPanel } from '@/components/ui/SurfaceKit';
 import { Segmented } from '@/components/ui/Segmented';
@@ -25,6 +25,7 @@ import { ForecastStrip } from './ForecastStrip';
 import { ChainTable } from './ChainTable';
 import { StormTicker } from './StormTicker';
 import { LayerPanel } from './LayerPanel';
+import { useCategoryLoad } from './LoadCategories';
 import type { AnchorReport } from '@/server/agents/anchor';
 import { mapHeadline } from '@/lib/insights';
 import { TimeAgo } from '@/components/TimeAgo';
@@ -34,7 +35,10 @@ import { Go, Up, Down } from '@/components/ui/Icons';
 async function fetchBulletin(): Promise<WeatherBulletin> {
   const r = await fetch('/api/weather', { cache: 'no-store' });
   if (!r.ok) throw new Error(`weather ${r.status}`);
-  return r.json();
+  // A malformed answer (a deploy mid-restart, a proxy page) throws, so the last good bulletin stays on screen.
+  const b = (await r.json()) as WeatherBulletin;
+  if (!b || !Array.isArray(b.chains)) throw new Error('weather: unexpected answer');
+  return { ...b, fronts: b.fronts ?? [], layers: b.layers ?? [], forecasts: b.forecasts ?? [], storms: b.storms ?? [], chains: b.chains.filter((c) => c && typeof c.chain === 'string').map((c) => ({ ...c, windows: Array.isArray(c.windows) ? c.windows : [], series: Array.isArray(c.series) ? c.series : [] })) };
 }
 
 export function WeatherView({
@@ -81,9 +85,9 @@ export function WeatherView({
     byNet[0] && byNet[0].net > 0 && { label: 'Largest inflow', chain: byNet[0].chain, value: usd(byNet[0].net, { signed: true }), tone: 'var(--mint)' },
     byNet.at(-1) && byNet.at(-1)!.net < 0 && { label: 'Largest outflow', chain: byNet.at(-1)!.chain, value: usd(byNet.at(-1)!.net, { signed: true }), tone: 'var(--flare)' },
   ].filter(Boolean) as Array<{ label: string; chain: string; value: string; tone: string }>;
-  // Chains read from all-trader flow only: named apart, never ranked against Smart Money totals.
-  const others = useMemo(() => otherNets(data.chains).filter((n) => Math.abs(n.net) >= 1).sort((a, b) => Math.abs(b.net) - Math.abs(a.net)), [data.chains]);
   const nets = useMemo(() => new Map([...netMap.sellers, ...netMap.buyers].map((n) => [n.chain, n.net])), [netMap]);
+  // Chains read from all traders only: named beside the Smart Money figures instead of ranked against them.
+  const others = useMemo(() => allTraderOnly(data.chains), [data.chains]);
   const riskAlerts = (cls: string) => (
     <Card id="risk-alerts" title="Risk alerts" sub="Highest Token Score across chains, last 48 hours" className={cls}>
       <StormTicker storms={data.storms} />
@@ -192,19 +196,9 @@ export function WeatherView({
                     </dd>
                   </div>
                 </dl>
-                {others.length > 0 && (
-                  <p className="seq mt-3 max-w-[520px] text-[12px] leading-relaxed text-ink-muted" style={{ '--i': 2 } as React.CSSProperties}>
-                    All traders only, not ranked above:{' '}
-                    {others.slice(0, 4).map((n, i) => (
-                      <span key={n.chain}>
-                        {i > 0 && ' · '}
-                        <Link prefetch={false} href={`/chain/${n.chain}`} className="hover:text-ink">{chainName(n.chain)}</Link>{' '}
-                        <span className="num font-semibold" style={{ color: n.net >= 0 ? 'var(--mint)' : 'var(--flare)' }}>{usd(n.net, { signed: true })}</span>
-                      </span>
-                    ))}
-                    {others.length > 4 && ` · ${others.length - 4} more in Chain flows`}
-                  </p>
-                )}
+                {others.length > 0 && <p className="seq mt-3 max-w-[520px] text-[12px] leading-relaxed text-ink-muted">All traders only, no Smart Money coverage: {others.sort((a, b) => Math.abs(b.net) - Math.abs(a.net)).map((c, i) => (
+                    <span key={c.chain}>{i ? ', ' : ''}<Link prefetch={false} href={`/chain/${c.chain}`} className="font-semibold text-ink-2 hover:underline">{chainName(c.chain)}</Link> <span className="num" style={{ color: c.net >= 0 ? 'var(--mint)' : 'var(--flare)' }}>{usd(c.net, { signed: true })}</span></span>
+                  ))}.</p>}
                 <div className="seq mt-7 flex flex-wrap gap-2" style={{ '--i': 3 } as React.CSSProperties}>
                   <Link prefetch={false} href="/flows" className="pill-button pill-primary">
                     Open Chain flows <span className="arrow" aria-hidden><Go /></span>
@@ -420,6 +414,9 @@ function LayerOverview({
     </>
   );
   const empty = !hi;
+  // A cold prediction layer is fetching itself (LoadCategories): say so, not that there is nothing.
+  const categories = useCategoryLoad();
+  const loadingLayer = empty && layer.id === 'predictions' && !layer.recorded && !!layer.unavailable && categories !== 'failed';
   const card = (r: typeof hi | null, i: number) =>
     r && (
       <section key={i} className="material p-6" aria-label={i ? 'Lowest reading' : 'Highest reading'}>
@@ -453,7 +450,7 @@ function LayerOverview({
             </>
           ) : null}
         </p>
-        <h2 className="radar-headline">{empty ? `No fresh ${layer.title.toLowerCase()} yet` : headline}</h2>
+        <h2 className={`radar-headline ${loadingLayer ? 'animate-pulse' : ''}`}>{loadingLayer ? `Loading ${layer.title.toLowerCase()}…` : empty ? `No ${layer.title.toLowerCase()} right now` : headline}</h2>
         <p className="lede mt-4 hidden sm:block">{plain}</p>
         <div className="mt-6">
           <Link prefetch={false} href={layer.href} className="pill-button pill-primary">

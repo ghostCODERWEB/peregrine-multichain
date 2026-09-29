@@ -9,6 +9,7 @@ import { isUnavailable } from '@/server/nansen/traced';
 import { displayMode } from '@/server/mode';
 import { redacted } from '@/server/redact';
 import { Back } from '@/components/ui/Icons';
+import { pageMeta } from '@/server/seo';
 
 export const dynamic = 'force-dynamic';
 
@@ -18,7 +19,8 @@ const decode = (raw: string) => decodeURIComponent(raw).trim().slice(0, 120);
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { name } = await params;
-  return { title: `${decode(name)} · Peregrine entity` };
+  const n = decode(name);
+  return pageMeta({ title: `${n}: entity wallets and flows`, description: `The wallets Nansen attributes to ${n}, their holdings and recent flows.`, path: `/entity/${encodeURIComponent(n)}`, image: '/opengraph-image' });
 }
 
 export default async function EntityRoute({ params }: Params) {

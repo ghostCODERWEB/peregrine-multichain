@@ -14,7 +14,9 @@ import next from 'next';
 
 const port = Number(process.env.PORT || 3000);
 const hostname = '0.0.0.0'; // like `next start`; Docker sets HOSTNAME to the container's name, so it is not read
-const app = next({ dev: false, hostname, port });
+// No hostname here: Next would then build every request's own URL (nextUrl) on 0.0.0.0 instead of the real Host,
+// and same-origin checks comparing Origin to it would refuse browsers that send no Sec-Fetch-Site.
+const app = next({ dev: false, port });
 const handle = app.getRequestHandler();
 
 const COMPRESSIBLE = /^(text\/|application\/(json|javascript|x-javascript|xml|manifest\+json|ld\+json)|image\/svg\+xml)/i;

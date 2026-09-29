@@ -8,9 +8,10 @@ import { publicSite, webDailyCreditCap } from '@/server/site';
 import { webCreditsToday } from '@/server/nansen/ledger';
 import { AdminPanels, LedgerCard } from '@/components/coverage/AdminPanels';
 import { chainName, num } from '@/lib/viz/format';
+import { pageMeta } from '@/server/seo';
 
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'Coverage · Peregrine' };
+export const metadata: Metadata = pageMeta({ title: 'Coverage: every chain the Nansen API covers', description: 'Which chains and data sets Peregrine reads from the Nansen API, and what each view is built from.', path: '/coverage' });
 
 const CELL: Record<CellStatus, { cls: string; label: string }> = {
   documented: { cls: 'bg-ink-2', label: 'supported (Nansen docs)' },
@@ -124,7 +125,7 @@ export default async function CoveragePage() {
           <p className="mt-2 text-[11px] text-ink-muted">Last scan <TimeAgo ts={u.scans.last} />.</p>
         </Card>
         <Card id="endpoints" title={`${u.byEndpoint.length} endpoints called, ${u.byEndpoint[0]?.endpoint ?? 'n/a'} the most`} sub="Live calls per endpoint, with credits.">
-          <ul tabIndex={0} aria-label="Scrollable list" className="max-h-[360px] space-y-1 overflow-y-auto">
+          <ul data-paged tabIndex={0} aria-label="Scrollable list" className="max-h-[360px] space-y-1 overflow-y-auto">
             {u.byEndpoint.map((e) => (
               <li key={e.endpoint} className="grid grid-cols-[minmax(0,13rem)_1fr_6rem] items-center gap-2 text-[12px]">
                 <span className="num truncate text-ink-2" title={e.endpoint}>{e.endpoint}</span>

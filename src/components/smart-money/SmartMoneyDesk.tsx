@@ -9,6 +9,7 @@ import { HoldingHistory } from './HoldingHistory';
 import type { SmDesk, SmPerps, SmDcas, SmHistory, DeskHolding, FollowedMove } from '@/server/smart-money/desk';
 import type { Provenance } from '@/lib/provenance';
 import { Go } from '@/components/ui/Icons';
+import { activateProps } from '@/components/ui/activate';
 
 type Load<T> = { state: 'loading' } | { state: 'error'; message: string } | { state: 'ok'; data: T };
 type Moves = { moves: FollowedMove[]; source: 'scanner' | 'live'; provenance: Provenance };
@@ -182,14 +183,14 @@ export function SmartMoneyDesk({ mode }: { mode: 'owner' | 'member' }) {
         sub="Value held, 24h balance change, wallets holding, share of the cohort's holdings, and top-PnL backers. Select a row for its history."
         action={d ? <InfoPopover p={d.provenance.holdings} /> : undefined}>
         {d ? (
-          <div className="max-h-[520px] overflow-auto">
+          <div className="max-h-[520px] overflow-auto" tabIndex={0} role="region" aria-label="Smart Money holdings">
             <table data-sortable className="w-full min-w-[720px] text-left text-[12.5px]">
               <thead className="sticky top-0 bg-surface text-[11px] uppercase tracking-wider text-ink-muted">
                 <tr><th className="py-2 font-normal">Token</th><th className="font-normal">Value</th><th className="font-normal">24h</th><th className="font-normal">Wallets</th><th className="font-normal">Share</th><th className="font-normal">Backers</th><th className="font-normal">Conviction</th></tr>
               </thead>
               <tbody>
                 {d.holdings.slice(0, 120).map((h) => (
-                  <tr key={h.chain + h.tokenAddress} onClick={() => pick(h)} className={`cursor-pointer border-t border-border hover:bg-raised/60 ${picked === h ? 'bg-raised' : ''}`}>
+                  <tr key={h.chain + h.tokenAddress} onClick={() => pick(h)} {...activateProps(() => pick(h))} className={`cursor-pointer border-t border-border hover:bg-raised/60 ${picked === h ? 'bg-raised' : ''}`}>
                     <td className="py-1.5"><span className="text-ink">{h.symbol}</span> <span className="text-ink-muted">{chainName(h.chain)}</span>{h.crowdedExit && <span className="ml-1.5 rounded border border-dashed px-1.5 text-[10.5px] text-ink-2" style={{ borderColor: 'var(--storm-2)' }}>crowded exit</span>}</td>
                     <td className="num text-ink">{usd(h.valueUsd)}</td>
                     <td className="num text-ink">{h.change24h == null ? 'n/a' : `${h.change24h >= 0 ? '+' : '−'}${pct(Math.abs(h.change24h), 1)}`}</td>
@@ -211,13 +212,13 @@ export function SmartMoneyDesk({ mode }: { mode: 'owner' | 'member' }) {
           action={d ? <InfoPopover p={d.provenance.leaders} /> : undefined}>
           {followErr && <p className="mb-2 text-[12px] text-ink-2">{followErr}</p>}
           {d ? (
-            <div className="max-h-[520px] overflow-auto">
+            <div className="max-h-[520px] overflow-auto" tabIndex={0} role="region" aria-label="Smart Money leaders">
               <table data-sortable className="w-full min-w-[680px] text-left text-[12.5px]">
                 <thead className="sticky top-0 bg-surface text-[11px] uppercase tracking-wider text-ink-muted">
                   <tr><th className="py-2 font-normal">#</th><th className="font-normal">Wallet</th><th className="font-normal">PnL 30d</th><th className="font-normal">Win rate</th><th className="font-normal">Trades</th><th className="font-normal">Largest balances</th><th /></tr>
                 </thead>
                 <tbody>
-                  {d.leaders.slice(0, 200).map((l) => (
+                  {d.leaders.slice(0, 50).map((l) => (
                     <tr key={l.address} className="border-t border-border align-top">
                       <td className="num py-1.5 text-ink-muted">{l.rank}</td>
                       <td className="max-w-[180px] truncate"><Link prefetch={false} href={`/wallet/${l.address}`} className="text-ink hover:underline">{walletName(l.label, l.address)}</Link></td>
@@ -321,7 +322,7 @@ function PerpPanel({ p }: { p: SmPerps }) {
       <div className="max-h-[220px] overflow-auto border-t border-border pt-2">
         <table data-sortable className="w-full min-w-[420px] text-left text-[12px]">
           <tbody>
-            {p.trades.slice(0, 100).map((t) => (
+            {p.trades.slice(0, 40).map((t) => (
               <tr key={t.tx + t.action} className="border-t border-border first:border-0">
                 <td className="num py-1 text-ink-muted">{ago(Date.parse(t.at))}</td>
                 <td className="max-w-[130px] truncate text-ink-2">{walletName(t.label, t.address)}</td>

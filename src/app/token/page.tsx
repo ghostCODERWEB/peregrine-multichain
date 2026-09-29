@@ -7,8 +7,9 @@ import { MobileTokens } from '@/components/mobile/MobileTokens';
 import { tokenChecker } from '@/server/token/checker';
 import { displayMode } from '@/server/mode';
 import { isPhone } from '@/server/device';
+import { pageMeta } from '@/server/seo';
 
-export const metadata: Metadata = { title: 'Token Checker · Peregrine' };
+export const metadata: Metadata = pageMeta({ title: 'Token Checker: dump risk for any token', description: 'Check any token before you buy: a 0–100 dump-risk score from six Nansen-derived inputs, with smart-money flow, holders and liquidity.', path: '/token' });
 
 export const dynamic = 'force-dynamic';
 

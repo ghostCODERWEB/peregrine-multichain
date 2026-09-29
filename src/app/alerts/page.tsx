@@ -5,8 +5,9 @@ import { AlertBuilder } from '@/components/alerts/AlertBuilder';
 import { displayMode } from '@/server/mode';
 import { accountsEnabled } from '@/server/site';
 import { PageTitle } from '@/components/PageTitle';
+import { pageMeta } from '@/server/seo';
 
-export const metadata: Metadata = { title: 'Alerts · Peregrine' };
+export const metadata: Metadata = pageMeta({ title: 'Alerts', description: 'Your alerts on tokens, wallets and chains.', path: '/alerts', noindex: true, image: '/opengraph-image' });
 export const dynamic = 'force-dynamic';
 
 export default async function AlertsPage() {

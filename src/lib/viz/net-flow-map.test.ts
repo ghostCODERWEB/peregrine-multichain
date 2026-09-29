@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { netFlowMap, chainNets, otherNets } from './net-flow-map';
+import { netFlowMap, chainNets, allTraderOnly } from './net-flow-map';
 
 describe('netFlowMap', () => {
   const nets = [
@@ -54,22 +54,26 @@ describe('chainNets', () => {
     ];
     expect(chainNets(chains)).toEqual([{ chain: 'base', net: -5 }]);
   });
-
-  it('ranks Smart Money chains apart from all-trader chains', () => {
+  it('compares Smart Money readings only with each other, and skips readings built from no tokens', () => {
+    const w = (net: number, tokenCount = 5) => [{ window: '24h', netFlowUsd: net, tokenCount }];
     const chains = [
-      { chain: 'solana', source: 'smart-money', windows: [{ window: '24h', netFlowUsd: 187_000 }] },
-      { chain: 'near', source: 'market-flow', windows: [{ window: '24h', netFlowUsd: -32_000_000 }] },
+      { chain: 'solana', source: 'smart-money', windows: w(187_000) },
+      { chain: 'base', source: 'smart-money', windows: w(128_000) },
+      { chain: 'avalanche', source: 'smart-money', windows: w(0, 0) },
+      { chain: 'near', source: 'market-flow', windows: w(-32_000_000) },
     ];
-    expect(chainNets(chains)).toEqual([{ chain: 'solana', net: 187_000 }]);
-    expect(otherNets(chains)).toEqual([{ chain: 'near', net: -32_000_000 }]);
+    expect(chainNets(chains)).toEqual([{ chain: 'solana', net: 187_000 }, { chain: 'base', net: 128_000 }]);
+    expect(allTraderOnly(chains)).toEqual([{ chain: 'near', net: -32_000_000 }]);
   });
-
-  it('keeps every chain when none has a Smart Money reading', () => {
-    const chains = [
-      { chain: 'near', source: 'market-flow', windows: [{ window: '24h', netFlowUsd: -3 }] },
-      { chain: 'ton', source: 'market-flow', windows: [{ window: '24h', netFlowUsd: 2 }] },
-    ];
-    expect(chainNets(chains)).toHaveLength(2);
-    expect(otherNets(chains)).toEqual([]);
+  it('uses every reading when all come from one source', () => {
+    const w = (net: number) => [{ window: '24h', netFlowUsd: net, tokenCount: 3 }];
+    const chains = [{ chain: 'near', source: 'market-flow', windows: w(-10) }, { chain: 'ton', source: 'market-flow', windows: w(4) }];
+    expect(chainNets(chains)).toEqual([{ chain: 'near', net: -10 }, { chain: 'ton', net: 4 }]);
+    expect(allTraderOnly(chains)).toEqual([]);
+  });
+  it('skips a chain that arrives without its readings instead of failing the page', () => {
+    const chains = [{ chain: 'base', windows: [{ window: '24h', netFlowUsd: 4 }] }, { chain: 'ton' } as unknown as { chain: string; windows: [] }];
+    expect(chainNets(chains)).toEqual([{ chain: 'base', net: 4 }]);
+    expect(allTraderOnly(chains)).toEqual([]);
   });
 });

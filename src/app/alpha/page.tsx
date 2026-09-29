@@ -9,9 +9,10 @@ import { PageTitle } from '@/components/PageTitle';
 import { EarlyBuys } from '@/components/discover/EarlyBuys';
 import { earlyAlphaBuys } from '@/server/alpha/early';
 import { isPhone } from '@/server/device';
+import { pageMeta } from '@/server/seo';
 
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'Alpha · Peregrine' };
+export const metadata: Metadata = pageMeta({ title: 'Alpha: tokens with strong one-way buying', description: 'Tokens across every chain with strong, persistent net buying, scored 0 to 100 with the reasons, a market map and spot-versus-perps divergences.', path: '/alpha' });
 
 export default async function AlphaPage() {
   const mode = await displayMode();

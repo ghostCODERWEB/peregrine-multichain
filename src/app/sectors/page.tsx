@@ -15,9 +15,10 @@ import { pressureClass, fillVar, onFillVar, PRESSURE_LEGEND } from '@/lib/viz/sc
 import { chainName, num, pct, usd } from '@/lib/viz/format';
 import { Go } from '@/components/ui/Icons';
 import { SectorsAnalytics } from '@/components/sectors/SectorsAnalytics';
+import { pageMeta } from '@/server/seo';
 
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'Sectors · Peregrine' };
+export const metadata: Metadata = pageMeta({ title: 'Sectors: net flow by token sector', description: 'DeFi, AI, memecoins, RWAs and more: which token sectors capital is moving into across chains, with the tokens driving each one.', path: '/sectors' });
 
 const BAND_WORD = { high: 'Accumulation', neutral: 'Neutral', low: 'Distribution' } as const;
 

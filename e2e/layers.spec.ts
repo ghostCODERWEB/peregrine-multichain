@@ -1,37 +1,38 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures';
 
-test('home radar layers preserve map and table views @mobile', async ({ page }) => {
+test('home overview layers switch views and keep map and table', async ({ page }) => {
+  // Desktop overview only: phones get the Today screen instead of the layer switch.
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
-  page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()); });
+  page.on('console', (m) => { if (m.type() === 'error' && !/No recorded fixture/.test(m.text())) errors.push(m.text()); });
   await page.goto('/');
-  if (test.info().project.name === 'phone') {
-    await page.setViewportSize({ width: 390, height: 844 });
-    await page.getByRole('button', { name: 'Switch to paper chart theme' }).click();
-  }
-  // P8: the layer switch is a segmented control with short labels; each
-  // layer panel keeps its full title as its heading.
-  for (const [button, title] of [['Perps', 'Perp flow'], ['Sectors', 'Sector flow'], ['Predictions', 'Prediction activity']]) {
-    await page.getByRole('group', { name: 'Overview views' }).getByRole('button', { name: button, exact: true }).click();
-    await expect(page.getByRole('heading', { name: title, exact: true })).toBeVisible();
-    await expect(page.getByText('Separate populations and units:', { exact: false })).toBeVisible();
+  const views = page.getByRole('group', { name: 'Overview views' });
+  // Each layer leads with its live headline; the table view lists every reading on the same 0–100 index.
+  for (const [button, column] of [['Perps', 'Open interest'], ['Sectors', '24h net flow'], ['Predictions', '24h volume']]) {
+    await views.getByRole('button', { name: button, exact: true }).click();
+    await expect(views.getByRole('button', { name: button, exact: true })).toHaveAttribute('aria-pressed', 'true');
     await page.getByRole('tab', { name: 'table', exact: true }).click();
     await expect(page.getByRole('columnheader', { name: 'Index / 100' })).toBeVisible();
+    await expect(page.getByRole('columnheader', { name: column })).toBeVisible();
     await page.getByRole('tab', { name: 'map', exact: true }).click();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
-    await page.screenshot({ path: test.info().outputPath(`${title.toLowerCase().replaceAll(' ', '-')}.png`), fullPage: true });
+    await page.screenshot({ path: test.info().outputPath(`${button.toLowerCase()}.png`), fullPage: true });
   }
   await expect(page.getByText(/Not net YES\/NO flow/)).toBeVisible();
-  await page.getByRole('group', { name: 'Overview views' }).getByRole('button', { name: 'Spot', exact: true }).click();
-  // Only chains with a reading get a tile (the table lists every chain).
+  await views.getByRole('button', { name: 'Chain flows', exact: true }).click();
+  // Only chains with a reading get a tile; the grid opens on the strongest and weakest.
   const measured = ((await (await page.request.get('/api/weather')).json()).chains as Array<{ cpi: number | null }>).filter((c) => c.cpi != null).length;
-  await expect(page.locator('[aria-label="Chains by Flow Index"] a')).toHaveCount(measured);
+  const showAll = page.getByRole('button', { name: `Show all ${measured} chains` });
+  // The grid draws after the view switch; look for its "Show all" only once it is there.
+  await expect(page.locator('[aria-label="Chains by Flow Index"]:visible a').first()).toBeVisible();
+  if (await showAll.isVisible()) await showAll.click();
+  await expect(page.locator('[aria-label="Chains by Flow Index"]:visible a')).toHaveCount(measured);
   expect(errors).toEqual([]);
 });
 
-// Live state simulated in the browser only: an expired category cache offers
-// one explicit, priced load; after it the layer refetches and fills in place.
-test('prediction layer: an expired cache offers a priced load, then fills in place @mobile', async ({ page, request }) => {
+// Live state simulated in the browser only: with the shared category cache expired, opening the layer loads it
+// once (1 credit, confirmed in the request), then the layer refetches and fills in place.
+test('prediction layer: an expired cache loads once on open, then fills in place', async ({ page, request }) => {
   const base = await (await request.get('/api/weather')).json();
   const layer = base.layers.find((l: { id: string }) => l.id === 'predictions');
   let loaded = false;
@@ -43,16 +44,17 @@ test('prediction layer: an expired cache offers a priced load, then fills in pla
   await page.clock.install();
   await page.goto('/');
   await page.getByRole('group', { name: 'Overview views' }).getByRole('button', { name: 'Predictions', exact: true }).click();
-  const load = page.getByRole('button', { name: 'Load category activity · 1 credit' });
+  // While it loads, the view says so: never that there is no activity.
+  await expect(page.getByRole('heading', { name: /^Loading prediction activity|is running/ })).toBeVisible();
+  await expect(page.getByText(/No fresh prediction activity|No prediction activity right now/)).toHaveCount(0);
+  // Opening the layer asks for the categories by itself; once they are in, the layer fills with readings.
   await expect(async () => {
     await page.clock.fastForward(61_000);
-    await expect(load).toBeVisible({ timeout: 1_000 });
+    expect(posts.length).toBeGreaterThan(0);
   }).toPass({ timeout: 15_000 });
-  await load.scrollIntoViewIfNeeded();
-  await page.screenshot({ path: test.info().outputPath('prediction-load.png') });
-  await load.click();
-  await expect(load).toHaveCount(0);
-  await expect(page.getByRole('link').filter({ hasText: layer.metric }).first()).toBeVisible();
+  await expect(page.getByText('No fresh shared category observation', { exact: false })).toHaveCount(0, { timeout: 15_000 });
+  await page.getByRole('tab', { name: 'table', exact: true }).click();
+  await expect(page.getByRole('columnheader', { name: 'Index / 100' })).toBeVisible();
   expect(posts).toEqual([{ confirmCredits: 1 }]);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
 });

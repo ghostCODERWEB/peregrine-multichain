@@ -4,7 +4,7 @@ import { walletDesk } from '@/server/wallet/desk';
 import { contextFromRequest, contextScope } from '@/server/context';
 import { callScope } from '@/server/nansen/client';
 import { forMode } from '@/server/redact';
-import { sameOrigin, fail } from '@/server/auth/http';
+import { sameOrigin, fail, failFrom } from '@/server/auth/http';
 import { allow, clientId } from '@/server/rate';
 import { ALL_CHAIN_IDS } from '@/lib/registry';
 
@@ -22,5 +22,5 @@ export async function POST(req: Request) {
     const tally = { calls: 0, credits: 0, cached: 0 };
     const data = await contextScope.run(ctx, () => callScope.run(tally, () => walletDesk(address, r.data.chain, r.data.section)));
     return Response.json({ ...forMode(ctx.mode, data), tally }, { headers: { 'Cache-Control': 'private, no-store' } });
-  } catch (e) { return fail((e as Error).message.slice(0, 240)); }
+  } catch (e) { return failFrom(e, 240); }
 }

@@ -6,8 +6,9 @@ import { SmartMoneyState } from '@/components/smart-money/SmartMoneyState';
 import { WalletOverlaps } from '@/components/smart-money/WalletOverlaps';
 import { SmartMoneyCharts } from '@/components/smart-money/SmartMoneyCharts';
 import { accountsEnabled } from '@/server/site';
+import { pageMeta } from '@/server/seo';
 
-export const metadata: Metadata = { title: 'Smart-money desk · Peregrine' };
+export const metadata: Metadata = pageMeta({ title: 'Smart-money desk', description: 'What Nansen Smart Money holds and trades: conviction, crowded exits, the PnL leaderboard, perp tilt and DCAs.', path: '/smart-money' });
 export const dynamic = 'force-dynamic';
 
 const PANELS = [

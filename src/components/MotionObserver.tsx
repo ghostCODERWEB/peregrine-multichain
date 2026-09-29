@@ -1,11 +1,9 @@
 'use client';
 import { useEffect } from 'react';
+// Touching a node React has not hydrated yet is a hydration mismatch, so motion waits for it.
+import { isHydrated as hydrated } from '@/lib/hydration';
 
 const SELECTOR = '.draw, .stagger';
-
-/** React sets a fiber reference on a node once it has hydrated it. Touching
- *  a node before that is a hydration mismatch, so motion waits for it. */
-const hydrated = (el: Element) => Object.keys(el).some((k) => k.startsWith('__reactFiber'));
 
 /** Plays each chart draw-in (`.draw`) and tile cascade (`.stagger`) once,
  *  as it enters the viewport, by setting `data-in-view`. One
@@ -17,37 +15,56 @@ export function MotionObserver() {
   useEffect(() => {
     const play = (el: Element) => {
       el.setAttribute('data-in-view', '');
-      pending.delete(el);
       io.unobserve(el);
     };
+    // The observer's first report on a node plays it if any of it is on screen (as a page opens); after that it
+    // waits until 15% has scrolled in. Positions come from the observer, never read here: reading layout inside
+    // every React commit forced extra layouts on long pages.
+    const reported = new WeakSet<Element>();
     const io = new IntersectionObserver(
-      (entries) => { for (const e of entries) if (e.isIntersecting) play(e.target); },
-      { rootMargin: '0px 0px -8% 0px', threshold: 0.15 },
+      (entries) => {
+        for (const e of entries) {
+          const first = !reported.has(e.target);
+          reported.add(e.target);
+          if (e.isIntersecting && (first || e.intersectionRatio >= 0.15)) play(e.target);
+        }
+      },
+      { rootMargin: '0px 0px -8% 0px', threshold: [0, 0.15] },
     );
-    const pending = new Set<Element>();
-    const scan = () => {
-      let waiting = false;
-      document.querySelectorAll(`:is(${SELECTOR}):not([data-in-view])`).forEach((el) => {
-        if (pending.has(el)) return;
-        if (!hydrated(el)) { waiting = true; return; }
-        pending.add(el);
-        io.observe(el);
-        // Already on screen: play now (the observer's first report can lag a moved node).
-        const r = el.getBoundingClientRect();
-        if (r.width && r.height && r.top < innerHeight * 0.92 && r.bottom > 0) play(el);
-      });
-      return waiting;
+    // Only new content is searched (a whole-document query after every DOM change was measurable on long
+    // pages); nodes React has not hydrated yet wait in `waiting` and are checked again shortly.
+    const seen = new WeakSet<Element>();
+    const roots = new Set<Element>();
+    const waiting = new Set<Element>();
+    // On the first pass (the page as it opens), what is already on screen plays at once, in the same style pass
+    // that turns motion on; later content waits for the observer's report.
+    let opening = true;
+    const take = (el: Element) => {
+      if (seen.has(el) || el.hasAttribute('data-in-view')) return;
+      if (!hydrated(el)) { waiting.add(el); return; }
+      waiting.delete(el);
+      seen.add(el);
+      if (opening) { const r = el.getBoundingClientRect(); if (r.width && r.height && r.top < innerHeight * 0.92 && r.bottom > 0) { el.setAttribute('data-in-view', ''); return; } }
+      io.observe(el);
     };
     let timer = 0;
     let until = 0;
-    const poll = () => {
+    const scan = () => {
       window.clearTimeout(timer);
-      if (scan() && Date.now() < until) timer = window.setTimeout(poll, 120);
+      for (const r of roots) { if (r.matches(SELECTOR)) take(r); r.querySelectorAll(SELECTOR).forEach(take); }
+      roots.clear();
+      [...waiting].forEach((el) => (el.isConnected ? take(el) : waiting.delete(el)));
+      if (waiting.size && Date.now() < until) timer = window.setTimeout(scan, 120);
     };
-    const kick = () => { until = Date.now() + 6000; poll(); };
-    const mo = new MutationObserver(kick);
+    const mo = new MutationObserver((records) => {
+      for (const r of records) r.addedNodes.forEach((n) => { if (n instanceof Element) roots.add(n); });
+      if (roots.size) { until = Date.now() + 6000; scan(); }
+    });
     document.documentElement.classList.add('motion-ready');
-    kick();
+    roots.add(document.body);
+    until = Date.now() + 6000;
+    scan();
+    opening = false;
     mo.observe(document.body, { childList: true, subtree: true });
     return () => { io.disconnect(); mo.disconnect(); window.clearTimeout(timer); };
   }, []);

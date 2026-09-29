@@ -112,7 +112,7 @@ export function TokenPriceChart({ chain, address, initial, events = [], onChange
         <span className="num ml-auto text-[11.5px] text-ink-muted">{range === '14D' ? '4h' : TF[range as Range]} candles · {candles.length}{busy ? ' · loading…' : ''}</span>
       </div>
       <div className="relative">
-        {option && <EChart option={option as never} height={420} ariaLabel={`Price chart, ${range}, ${style}`} onEvents={{ click: (e: { seriesName?: string; data?: { ev?: SmEvent } }) => { if (e.seriesName === 'Smart Money' && e.data?.ev) router.push(`/wallet/${e.data.ev.wallet}`); } }} />}
+        {<EChart option={(option ?? null) as never} height={420} ariaLabel={`Price chart, ${range}, ${style}`} onEvents={{ click: (e: { seriesName?: string; data?: { ev?: SmEvent } }) => { if (e.seriesName === 'Smart Money' && e.data?.ev) router.push(`/wallet/${e.data.ev.wallet}`); } }} />}
         {busy && <div className="pointer-events-none absolute inset-0 grid place-items-center rounded-[12px] bg-[color-mix(in_srgb,var(--surface-1)_45%,transparent)]"><span className="h-6 w-6 animate-spin rounded-full border-2 border-[var(--hair-2)] border-t-[#1fe0a3]" /></div>}
       </div>
       {err && <p className="mt-1 text-[12px] text-ink-muted">{err}</p>}

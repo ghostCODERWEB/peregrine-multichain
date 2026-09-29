@@ -52,5 +52,7 @@ export function SectorTreemap({ f }: { f: FlowSection }) {
       upperLabel: { show: false },
     }],
   };
-  return option ? <EChart option={option} height={260} ariaLabel="Smart-money net flow by token sector" /> : <div style={{ height: 260 }} />;
+  // As tall as the token flows beside it (a 24px row per token and its axis line), so the pair ends together.
+  const height = f.kind === 'unavailable' ? 260 : Math.max(260, (f.inflows.length + f.outflows.length) * 24 + 20);
+  return option ? <EChart option={option} height={height} ariaLabel="Smart-money net flow by token sector" /> : <div style={{ height }} />;
 }

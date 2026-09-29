@@ -23,3 +23,23 @@ export interface Provenance {
   /** Caveats a reader needs to weigh the number correctly. */
   notes?: string[];
 }
+
+/** Whether the ⓘ receipts are shown. Off for now at the owner's request: the icons are hidden everywhere
+ *  (Analyze with Nansen explains any element instead). */
+export const SHOW_RECEIPTS = false;
+
+/** Data on its way to the browser, without the receipts nobody sees: while they are off, every `provenance`
+ *  field is dropped (on the overview they were a sixth of the page's data). Unchanged when they are on. */
+export function forClient<T>(data: T): T {
+  return SHOW_RECEIPTS ? data : (strip(data) as T);
+}
+
+function strip(x: unknown): unknown {
+  if (Array.isArray(x)) return x.map(strip);
+  if (x && typeof x === 'object' && Object.getPrototypeOf(x) === Object.prototype) {
+    const out: Record<string, unknown> = {};
+    for (const [k, v] of Object.entries(x)) if (k !== 'provenance') out[k] = strip(v);
+    return out;
+  }
+  return x;
+}

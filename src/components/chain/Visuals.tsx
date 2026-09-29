@@ -10,6 +10,8 @@ import type { ChainPageData, GridTile, PeerRow } from '@/server/weather/chain-pa
 
 const BAND_RING: Record<'high' | 'neutral' | 'low', string> = { high: 'var(--in-2)', neutral: 'var(--brand)', low: 'var(--out-2)' };
 const BAND_TEXT: Record<'high' | 'neutral' | 'low', string> = { high: 'Accumulation · net buying', neutral: 'Neutral', low: 'Distribution · net selling' };
+// Text needs the accents tuned per theme for contrast; the --in-2/--out-2 fills are for lines and areas.
+const BAND_INK: Record<'high' | 'neutral' | 'low', string> = { high: 'var(--mint)', neutral: 'var(--brand)', low: 'var(--flare)' };
 
 type Metric = 'dexVolumeUsd' | 'activeAddresses' | 'txCount';
 const METRICS: Array<[Metric, string, keyof PeerRow]> = [
@@ -92,7 +94,7 @@ export function ChainHero({ d, tier, title, note }: { d: ChainPageData; tier: st
               <div className="num text-[64px] font-extrabold">{Math.round(w.cpi)}</div><AreaSpark values={w.series.map(v=>({t:v.t,value:v.cpi}))} label="Seven-day Flow Index; local trend scale" color={BAND_RING[w.band]}/>
               <div>
                 <div className="text-[11px] uppercase tracking-wider text-ink-muted">Flow Index</div>
-                <BandBadge color={BAND_RING[w.band]}>{BAND_TEXT[w.band]}</BandBadge>
+                <BandBadge color={BAND_INK[w.band]}>{BAND_TEXT[w.band]}</BandBadge>
                 {w.trend6h != null && <div className="num text-[11.5px] text-ink-2">{w.trend6h >= 0 ? '+' : ''}{num(w.trend6h, 1)} over 6 hours</div>}
               </div>
             </>
@@ -229,7 +231,7 @@ export function ChainRank({ chain, rows }: { chain: string; rows: PeerRow[] }) {
         {ordered.map(({ m, label, r }) => (
           <button key={m} role="tab" aria-selected={metric === m} onClick={() => setMetric(m)}
             className={`rounded px-2.5 py-0.5 text-[12px] ${metric === m ? 'bg-brand/15 text-ink ring-1 ring-brand/40' : 'text-ink-2 hover:text-ink'}`}>
-            {label}{r > 0 && <span className="num ml-1 text-ink-muted">#{r}</span>}
+            {label}{r > 0 && <span className={`num ml-1 ${metric === m ? 'text-ink-2' : 'text-ink-muted'}`}>#{r}</span>}
           </button>
         ))}
       </div>
@@ -239,7 +241,7 @@ export function ChainRank({ chain, rows }: { chain: string; rows: PeerRow[] }) {
           const place = i < 12 ? i + 1 : at + 1;
           return (
             <li key={r.chain} className={`grid grid-cols-[26px_92px_1fr_70px_48px] items-center gap-2 rounded-md px-1 py-[3px] text-[12px] ${me ? 'bg-brand/12 ring-1 ring-brand/40' : ''} ${i === 12 ? 'mt-2 border-t border-dashed border-border pt-2' : ''}`}>
-              <span className="num text-right text-ink-muted">{place}</span>
+              <span className={`num text-right ${me ? 'text-ink-2' : 'text-ink-muted'}`}>{place}</span>
               <Link prefetch={false} href={`/chain/${r.chain}`} className={`truncate ${me ? 'font-semibold text-ink' : 'text-ink-2 hover:text-ink'}`}>{chainName(r.chain)}</Link>
               <span className="relative h-[12px]">
                 <span className="absolute inset-y-0 left-0 rounded-r-[4px]" style={{ width: `${Math.max(0.8, (r[metric] / peak) * 100)}%`, background: me ? 'var(--brand)' : 'var(--axis)' }} />

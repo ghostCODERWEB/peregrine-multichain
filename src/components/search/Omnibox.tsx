@@ -39,10 +39,11 @@ interface Item {
  */
 const SUGGESTIONS = ['aero', 'Wintermute', 'base', 'PUMP', '/who bought $AERO last 6h'];
 
-export function Omnibox() {
+/** The full search palette. Loaded on first use by OmniboxLauncher, which opens it with autoOpen. */
+export function Omnibox({ autoOpen = false }: { autoOpen?: boolean }) {
   const router = useRouter();
   const path = usePathname();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(autoOpen);
   const [q, setQ] = useState('');
   const [recent, setRecent] = useState<RecentItem[]>([]);
   const [res, setRes] = useState<SearchResponse | null>(null);

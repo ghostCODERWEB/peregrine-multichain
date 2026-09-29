@@ -8,6 +8,7 @@ import { extract, PICKABLE, type Selection } from './extract';
 import { pageContexts } from './store';
 import { friendlyError } from '@/lib/friendly-error';
 import { canGenie, genie } from './genie';
+import { AnalyzeButton } from './AnalyzeButton';
 
 type Turn = { q: string; sels: string[]; text: string; tools: string[]; error?: string; busy: boolean };
 
@@ -27,7 +28,11 @@ function prompts(path: string, hasSel: boolean): string[] {
 }
 
 /** The persistent "Analyze with Nansen" dock: ask about the page, or pick any chart, row, token, wallet, market or card on it. */
-export function AnalyzeDock() {
+/** The tab bar's Ask button (phones and tablets): the panel pours out of it and back into it. */
+const askButton = () => document.querySelector<HTMLElement>('.glass-action[aria-pressed]')?.getBoundingClientRect() ?? null;
+
+/** The full panel. Loaded on first use by AnalyzeLauncher, which passes what opened it (and the picked element, if any). */
+export function AnalyzeDock({ initial }: { initial?: { el: HTMLElement | null } }) {
   const { publicSite } = useSite();
   const path = usePathname() ?? '/';
   const [open, setOpenRaw] = useState(false);
@@ -38,13 +43,12 @@ export function AnalyzeDock() {
   openRef.current = open;
   // Tell the tab bar's Ask button whether the panel is showing, so it can light up.
   useEffect(() => { window.dispatchEvent(new CustomEvent('peregrine:analyze-state', { detail: open && !closing })); }, [open, closing]);
-  // The tab bar's Ask button (phones and tablets): the panel pours out of it and back into it.
-  const askButton = () => document.querySelector<HTMLElement>('.glass-action[aria-pressed]')?.getBoundingClientRect() ?? null;
   useLayoutEffect(() => {
     const el = panel.current, to = askButton();
     if (open && el && canGenie(el, to)) void genie(el, to, 'in');
   }, [open]);
-  const close = () => {
+  // Refs and state setters only, so both are stable and safe in effect dependencies.
+  const close = useCallback(() => {
     if (!openRef.current || closingRef.current) return;
     closingRef.current = true;
     setClosing(true);
@@ -52,13 +56,13 @@ export function AnalyzeDock() {
     const el = panel.current, to = askButton();
     if (el && canGenie(el, to)) void genie(el, to, 'out').then(done);
     else setTimeout(done, 200);
-  };
-  const setOpen = (v: boolean | ((o: boolean) => boolean)) => {
+  }, []);
+  const setOpen = useCallback((v: boolean | ((o: boolean) => boolean)) => {
     const now = openRef.current && !closingRef.current;
     const next = typeof v === 'function' ? v(now) : v;
     if (next === now) return;
     if (next) { if (!closingRef.current) setOpenRaw(true); } else close();
-  };
+  }, [close]);
   const [picking, setPicking] = useState(false);
   const [sels, setSels] = useState<Selection[]>([]);
   const [q, setQ] = useState('');
@@ -71,9 +75,17 @@ export function AnalyzeDock() {
     el.setAttribute('data-analyze-selected', '');
     setSels((cur) => (cur.some((x) => x.el === el) ? cur : [...cur.slice(-3), s]));
     setOpen(true);
-  }, []);
+  }, [setOpen]);
   const remove = (s: Selection) => { s.el.removeAttribute('data-analyze-selected'); setSels((cur) => cur.filter((x) => x.id !== s.id)); };
   const clearAll = useCallback(() => { setSels((cur) => { cur.forEach((s) => s.el.removeAttribute('data-analyze-selected')); return []; }); }, []);
+
+  // Opened by the launcher: open now, with the element that asked for it.
+  const started = useRef(false);
+  useEffect(() => {
+    if (!initial || started.current) return;
+    started.current = true;
+    if (initial.el) void add(initial.el); else setOpen(true);
+  }, [initial, add, setOpen]);
 
   // A new page: its elements are gone.
   useEffect(() => { clearAll(); setPicking(false); }, [path, clearAll]);
@@ -89,7 +101,7 @@ export function AnalyzeDock() {
     window.addEventListener('peregrine:analyze-toggle', onToggle);
     window.addEventListener('keydown', onKey);
     return () => { window.removeEventListener('peregrine:analyze', onOpen); window.removeEventListener('peregrine:analyze-toggle', onToggle); window.removeEventListener('keydown', onKey); };
-  }, [add]);
+  }, [add, setOpen]);
 
   // Picking: highlight what is under the cursor, take it on click.
   useEffect(() => {
@@ -177,13 +189,7 @@ export function AnalyzeDock() {
         </div>
       )}
 
-      {!open && (
-        <button type="button" data-analyze-dock onClick={() => setOpen(true)} aria-label="Analyze with Nansen (⌘J)"
-          className="fixed bottom-[calc(env(safe-area-inset-bottom,0px)+84px)] right-3 z-50 inline-flex items-center gap-2 rounded-full border border-[color-mix(in_srgb,#1fe0a3_45%,var(--hair))] bg-[var(--surface-2)] p-3 text-[13px] sm:px-4 sm:py-2.5 font-bold text-ink analyze-glow transition-transform hover:-translate-y-0.5 lg:bottom-6 lg:right-6">
-          <Sparkles className="analyze-glow-icon h-4 w-4 text-[#1fe0a3]" aria-hidden /><span className="hidden sm:inline">Analyze with Nansen</span>
-          <span className="kbd !hidden lg:!inline">⌘J</span>
-        </button>
-      )}
+      {!open && <AnalyzeButton onClick={() => setOpen(true)} />}
 
       {open && (
         <div ref={panel} data-analyze-dock role="dialog" aria-label="Analyze with Nansen"

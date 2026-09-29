@@ -4,8 +4,9 @@ import { predictBoard, predictTitle } from '@/server/predict/board';
 import { PredictView } from '@/components/predict/PredictView';
 import { PredictAnalytics } from '@/components/predict/PredictAnalytics';
 import { predictOverview } from '@/server/predict/overview';
+import { pageMeta } from '@/server/seo';
 
-export const metadata: Metadata = { title: 'Prediction markets · Peregrine' };
+export const metadata: Metadata = pageMeta({ title: 'Prediction markets: Polymarket flows by category', description: 'Polymarket via Nansen: each category\'s activity against its weekly pace, the biggest repricings, the busiest events and the traders behind them.', path: '/predict' });
 export const dynamic = 'force-dynamic';
 
 export default async function PredictPage() {

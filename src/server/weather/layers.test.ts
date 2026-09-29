@@ -40,10 +40,12 @@ describe('home weather layers', () => {
     expect(p.recorded).toBe(false);
     expect(p.description).toContain('says nothing about which outcome is favoured');
   });
-  it('does not serve expired predictions as fresh', () => {
+  it('shows expired predictions with their real age, never as fresh', () => {
     writeCache('prediction-market/categories', body, raw);
-    getDb().prepare('UPDATE response_cache SET expires_at = 1').run();
-    expect(weatherLayers('public')[2]).toMatchObject({ readings: [], at: null });
+    // Stored long ago and expired: the view shows the last known board stamped with when it was fetched, so
+    // the page reads "updated …h ago" instead of claiming there is no activity.
+    getDb().prepare('UPDATE response_cache SET expires_at = 1, fetched_at = 1000').run();
+    expect(weatherLayers('public')[2]).toMatchObject({ at: 1000, unavailable: null, readings: [{ name: 'Politics', score: 50, value: 10 }] });
   });
   it('marks fixture replay as recorded rather than assigning a fresh timestamp', () => {
     vi.mocked(fixtureMode).mockReturnValue('replay');

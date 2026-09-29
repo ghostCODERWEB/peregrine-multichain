@@ -1,0 +1,526 @@
+{
+ "generatedAt": "2026-09-26T21:19:55.171Z",
+ "window": {
+  "from": "2026-09-22T20:58:42.059Z",
+  "to": "2026-09-26T19:50:14.170Z"
+ },
+ "calls": 7903,
+ "cached": 12888,
+ "credits": 23107,
+ "endpoints": [
+  {
+   "endpoint": "token-screener",
+   "calls": 1860,
+   "cached": 142,
+   "credits": 1860
+  },
+  {
+   "endpoint": "profiler/address/related-wallets",
+   "calls": 770,
+   "cached": 3323,
+   "credits": 770
+  },
+  {
+   "endpoint": "tgm/flow-intelligence",
+   "calls": 574,
+   "cached": 229,
+   "credits": 574
+  },
+  {
+   "endpoint": "profiler/address/first-funder",
+   "calls": 405,
+   "cached": 2828,
+   "credits": 405
+  },
+  {
+   "endpoint": "account",
+   "calls": 375,
+   "cached": 0,
+   "credits": 0
+  },
+  {
+   "endpoint": "tgm/token-ohlcv",
+   "calls": 331,
+   "cached": 228,
+   "credits": 331
+  },
+  {
+   "endpoint": "tgm/who-bought-sold",
+   "calls": 268,
+   "cached": 104,
+   "credits": 268
+  },
+  {
+   "endpoint": "profiler/address/current-balance",
+   "calls": 243,
+   "cached": 339,
+   "credits": 243
+  },
+  {
+   "endpoint": "search/general",
+   "calls": 242,
+   "cached": 47,
+   "credits": 0
+  },
+  {
+   "endpoint": "prediction-market/ohlcv",
+   "calls": 217,
+   "cached": 1303,
+   "credits": 217
+  },
+  {
+   "endpoint": "tgm/transfers",
+   "calls": 180,
+   "cached": 84,
+   "credits": 180
+  },
+  {
+   "endpoint": "tgm/perp-positions",
+   "calls": 162,
+   "cached": 223,
+   "credits": 810
+  },
+  {
+   "endpoint": "tgm/holders",
+   "calls": 141,
+   "cached": 57,
+   "credits": 705
+  },
+  {
+   "endpoint": "prediction-market/trades-by-market",
+   "calls": 133,
+   "cached": 485,
+   "credits": 133
+  },
+  {
+   "endpoint": "smart-money/dex-trades",
+   "calls": 129,
+   "cached": 1,
+   "credits": 645
+  },
+  {
+   "endpoint": "prediction-market/address-summary",
+   "calls": 106,
+   "cached": 458,
+   "credits": 106
+  },
+  {
+   "endpoint": "tgm/token-information",
+   "calls": 103,
+   "cached": 100,
+   "credits": 103
+  },
+  {
+   "endpoint": "tgm/dex-trades",
+   "calls": 97,
+   "cached": 44,
+   "credits": 97
+  },
+  {
+   "endpoint": "tgm/flows",
+   "calls": 95,
+   "cached": 45,
+   "credits": 95
+  },
+  {
+   "endpoint": "tgm/indicators",
+   "calls": 91,
+   "cached": 112,
+   "credits": 455
+  },
+  {
+   "endpoint": "profiler/address/pnl-summary",
+   "calls": 82,
+   "cached": 190,
+   "credits": 82
+  },
+  {
+   "endpoint": "perp-screener",
+   "calls": 75,
+   "cached": 1,
+   "credits": 75
+  },
+  {
+   "endpoint": "profiler/address/transactions",
+   "calls": 74,
+   "cached": 156,
+   "credits": 74
+  },
+  {
+   "endpoint": "ra-agent/posts-by-token",
+   "calls": 61,
+   "cached": 60,
+   "credits": 305
+  },
+  {
+   "endpoint": "tgm/pnl-leaderboard",
+   "calls": 56,
+   "cached": 21,
+   "credits": 280
+  },
+  {
+   "endpoint": "tgm/position-intelligence",
+   "calls": 55,
+   "cached": 10,
+   "credits": 55
+  },
+  {
+   "endpoint": "prediction-market/top-holders",
+   "calls": 53,
+   "cached": 71,
+   "credits": 265
+  },
+  {
+   "endpoint": "prediction-market/categories",
+   "calls": 51,
+   "cached": 230,
+   "credits": 51
+  },
+  {
+   "endpoint": "v1beta1/token-screener/historical",
+   "calls": 49,
+   "cached": 123,
+   "credits": 245
+  },
+  {
+   "endpoint": "prediction-market/market-screener",
+   "calls": 48,
+   "cached": 214,
+   "credits": 48
+  },
+  {
+   "endpoint": "smart-money/perp-trades",
+   "calls": 46,
+   "cached": 59,
+   "credits": 230
+  },
+  {
+   "endpoint": "prediction-market/event-screener",
+   "calls": 44,
+   "cached": 211,
+   "credits": 44
+  },
+  {
+   "endpoint": "profiler/perp-positions",
+   "calls": 43,
+   "cached": 27,
+   "credits": 43
+  },
+  {
+   "endpoint": "profiler/perp-pnl-summary",
+   "calls": 43,
+   "cached": 25,
+   "credits": 43
+  },
+  {
+   "endpoint": "profiler/address/counterparties",
+   "calls": 42,
+   "cached": 229,
+   "credits": 210
+  },
+  {
+   "endpoint": "prediction-market/orderbook",
+   "calls": 41,
+   "cached": 26,
+   "credits": 41
+  },
+  {
+   "endpoint": "agent/fast",
+   "calls": 40,
+   "cached": 0,
+   "credits": 8000
+  },
+  {
+   "endpoint": "tgm/perp-trades",
+   "calls": 31,
+   "cached": 49,
+   "credits": 31
+  },
+  {
+   "endpoint": "smart-money/netflow",
+   "calls": 31,
+   "cached": 35,
+   "credits": 155
+  },
+  {
+   "endpoint": "chains/chain-rank",
+   "calls": 30,
+   "cached": 416,
+   "credits": 30
+  },
+  {
+   "endpoint": "perp-leaderboard",
+   "calls": 27,
+   "cached": 49,
+   "credits": 135
+  },
+  {
+   "endpoint": "tgm/jup-dca",
+   "calls": 25,
+   "cached": 9,
+   "credits": 25
+  },
+  {
+   "endpoint": "smart-money/holdings",
+   "calls": 21,
+   "cached": 20,
+   "credits": 105
+  },
+  {
+   "endpoint": "prediction-market/pnl-by-market",
+   "calls": 21,
+   "cached": 42,
+   "credits": 105
+  },
+  {
+   "endpoint": "prediction-market/trades-by-address",
+   "calls": 20,
+   "cached": 14,
+   "credits": 20
+  },
+  {
+   "endpoint": "prediction-market/pnl-by-address",
+   "calls": 20,
+   "cached": 14,
+   "credits": 20
+  },
+  {
+   "endpoint": "smart-money/dcas",
+   "calls": 19,
+   "cached": 19,
+   "credits": 95
+  },
+  {
+   "endpoint": "profiler/address/counterparties/batch",
+   "calls": 17,
+   "cached": 13,
+   "credits": 85
+  },
+  {
+   "endpoint": "smart-money/pnl-leaderboard",
+   "calls": 16,
+   "cached": 23,
+   "credits": 80
+  },
+  {
+   "endpoint": "profiler/address/labels",
+   "calls": 16,
+   "cached": 13,
+   "credits": 1600
+  },
+  {
+   "endpoint": "points/leaderboard",
+   "calls": 15,
+   "cached": 0,
+   "credits": 0
+  },
+  {
+   "endpoint": "profiler/perp-trades",
+   "calls": 14,
+   "cached": 3,
+   "credits": 14
+  },
+  {
+   "endpoint": "profiler/address/pnl",
+   "calls": 12,
+   "cached": 11,
+   "credits": 12
+  },
+  {
+   "endpoint": "v1beta1/tgm/historical-who-bought-sold",
+   "calls": 11,
+   "cached": 20,
+   "credits": 55
+  },
+  {
+   "endpoint": "v1beta1/tgm/historical-top-holders",
+   "calls": 11,
+   "cached": 17,
+   "credits": 275
+  },
+  {
+   "endpoint": "v1beta1/tgm/historical-token-flow-summary",
+   "calls": 11,
+   "cached": 19,
+   "credits": 55
+  },
+  {
+   "endpoint": "smart-alert/list",
+   "calls": 10,
+   "cached": 1,
+   "credits": 0
+  },
+  {
+   "endpoint": "tgm/perp-pnl-leaderboard",
+   "calls": 9,
+   "cached": 7,
+   "credits": 45
+  },
+  {
+   "endpoint": "profiler/address/historical-balances",
+   "calls": 9,
+   "cached": 34,
+   "credits": 9
+  },
+  {
+   "endpoint": "v1beta1/profiler/address/historical-token-balances",
+   "calls": 8,
+   "cached": 27,
+   "credits": 40
+  },
+  {
+   "endpoint": "v1beta1/tgm/historical-token-quant-scores",
+   "calls": 7,
+   "cached": 5,
+   "credits": 175
+  },
+  {
+   "endpoint": "v1beta1/tgm/historical-token-ohlcv",
+   "calls": 7,
+   "cached": 7,
+   "credits": 35
+  },
+  {
+   "endpoint": "v1beta1/profiler/address/historical-transactions",
+   "calls": 7,
+   "cached": 26,
+   "credits": 35
+  },
+  {
+   "endpoint": "prediction-market/position-detail",
+   "calls": 7,
+   "cached": 3,
+   "credits": 35
+  },
+  {
+   "endpoint": "v1beta1/tgm/historical-pnl-leaderboard",
+   "calls": 5,
+   "cached": 15,
+   "credits": 125
+  },
+  {
+   "endpoint": "v1beta1/tgm/historical-dex-trades",
+   "calls": 5,
+   "cached": 18,
+   "credits": 25
+  },
+  {
+   "endpoint": "trade/quote",
+   "calls": 5,
+   "cached": 0,
+   "credits": 0
+  },
+  {
+   "endpoint": "smart-money/historical-holdings",
+   "calls": 5,
+   "cached": 1,
+   "credits": 5
+  },
+  {
+   "endpoint": "search/entity-name",
+   "calls": 5,
+   "cached": 38,
+   "credits": 0
+  },
+  {
+   "endpoint": "search/token-sectors",
+   "calls": 4,
+   "cached": 30,
+   "credits": 0
+  },
+  {
+   "endpoint": "v1beta1/smart-money/historical-token-balances",
+   "calls": 3,
+   "cached": 41,
+   "credits": 75
+  },
+  {
+   "endpoint": "v1beta1/profiler/historical-transaction-lookup",
+   "calls": 2,
+   "cached": 0,
+   "credits": 10
+  },
+  {
+   "endpoint": "points/tier",
+   "calls": 2,
+   "cached": 0,
+   "credits": 0
+  },
+  {
+   "endpoint": "agent/expert",
+   "calls": 2,
+   "cached": 0,
+   "credits": 1500
+  },
+  {
+   "endpoint": "transaction-with-token-transfer-lookup",
+   "calls": 1,
+   "cached": 1,
+   "credits": 1
+  },
+  {
+   "endpoint": "trade/prepare",
+   "calls": 1,
+   "cached": 0,
+   "credits": 0
+  },
+  {
+   "endpoint": "ra-agent/posts-by-user",
+   "calls": 1,
+   "cached": 0,
+   "credits": 5
+  },
+  {
+   "endpoint": "profiler/dex-trades",
+   "calls": 1,
+   "cached": 1,
+   "credits": 1
+  },
+  {
+   "endpoint": "portfolio/defi-holdings",
+   "calls": 1,
+   "cached": 1,
+   "credits": 1
+  },
+  {
+   "endpoint": "perp/order",
+   "calls": 1,
+   "cached": 0,
+   "credits": 0
+  },
+  {
+   "endpoint": "perp/meta",
+   "calls": 1,
+   "cached": 41,
+   "credits": 0
+  },
+  {
+   "endpoint": "perp/builder-fee",
+   "calls": 1,
+   "cached": 0,
+   "credits": 0
+  }
+ ],
+ "days": [
+  {
+   "day": "2026-09-22",
+   "calls": 214
+  },
+  {
+   "day": "2026-09-23",
+   "calls": 1321
+  },
+  {
+   "day": "2026-09-24",
+   "calls": 1499
+  },
+  {
+   "day": "2026-09-25",
+   "calls": 1107
+  },
+  {
+   "day": "2026-09-26",
+   "calls": 3762
+  }
+ ]
+}

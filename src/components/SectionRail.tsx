@@ -1,5 +1,5 @@
 'use client';
-import { useCallback, useEffect, useRef, useState, type CSSProperties } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
 type Mark = { el: HTMLElement; title: string };
@@ -41,7 +41,10 @@ export function SectionRail() {
   // Which section is in view, and wake the rail while the page scrolls.
   useEffect(() => {
     if (marks.length < 3) return;
-    const onScroll = () => {
+    // Measured at most once per frame: scroll events can outnumber frames, and each pass reads every section's position.
+    let frame = 0;
+    const measure = () => {
+      frame = 0;
       const y = innerHeight * 0.3;
       let i = 0;
       marks.forEach((m, k) => { if (m.el.getBoundingClientRect().top <= y) i = k; });
@@ -50,9 +53,10 @@ export function SectionRail() {
       clearTimeout(sleep.current);
       sleep.current = setTimeout(() => setAwake(false), 1400);
     };
-    onScroll();
+    const onScroll = () => { if (!frame) frame = requestAnimationFrame(measure); };
+    measure();
     addEventListener('scroll', onScroll, { passive: true });
-    return () => removeEventListener('scroll', onScroll);
+    return () => { removeEventListener('scroll', onScroll); cancelAnimationFrame(frame); };
   }, [marks]);
 
   const indexAt = useCallback((clientY: number) => {
@@ -92,7 +96,7 @@ export function SectionRail() {
           const d = Math.abs(i - shown);
           return (
             <button key={i} type="button" tabIndex={-1} aria-label={m.title} aria-current={i === active ? 'true' : undefined}
-              className="section-rail-tick" style={{ '--w': d === 0 ? 1 : d === 1 ? 0.64 : 0.41, opacity: d === 0 ? 1 : d === 1 ? 0.6 : 0.35 } as CSSProperties}
+              className="section-rail-tick" style={{ width: d === 0 ? 22 : d === 1 ? 14 : 9, opacity: d === 0 ? 1 : d === 1 ? 0.6 : 0.35 }}
               onClick={(e) => { e.preventDefault(); go(i, true); }} />
           );
         })}

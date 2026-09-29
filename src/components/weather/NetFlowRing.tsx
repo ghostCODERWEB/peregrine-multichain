@@ -7,15 +7,13 @@ import Link from 'next/link';
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { ChainBadge, ChainLogo, chainLogoSrc, SvgChainLogo } from '@/components/Logo';
 import { flowLayout } from '@/lib/viz/flow-layout';
-import { netFlowMap, chainNets, otherNets } from '@/lib/viz/net-flow-map';
+import { netFlowMap, chainNets } from '@/lib/viz/net-flow-map';
 import { chainName, num, usd } from '@/lib/viz/format';
 import { Go } from '@/components/ui/Icons';
 
 export interface NetFlowChain {
   chain: string;
   cpi: number | null;
-  /** Which flow a reading measures; Smart Money and all-trader totals are never ranked together. */
-  source?: string | null;
   windows: Array<{ window: string; netFlowUsd: number }>;
 }
 
@@ -48,7 +46,7 @@ export function NetFlowRing({ chains }: { chains: NetFlowChain[] }) {
     return (
       <section aria-labelledby="netflow-title" className="material p-6">
         <h2 id="netflow-title" className="text-[19px] font-bold">
-          {chains.some((c) => c.source === 'smart-money') ? 'Smart Money net flow' : 'Market-wide net flow'}
+          Market-wide net flow
         </h2>
         <p className="mt-2 text-sm text-ink-muted">
           Not enough measured net flow on both sides yet: the map needs chains gaining and chains losing net flow in the last 24 hours.
@@ -63,7 +61,7 @@ export function NetFlowRing({ chains }: { chains: NetFlowChain[] }) {
   return (
     <section aria-labelledby="netflow-title" className="material p-4 sm:p-5">
       <h2 id="netflow-title" className="sr-only">
-        {chains.some((c) => c.source === 'smart-money') ? 'Smart Money' : 'Market-wide'} net flow between chains, 24 hours
+        Market-wide net flow between chains, 24 hours
       </h2>
       <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_360px]">
         <div ref={wrap} className="min-w-0">
@@ -300,14 +298,12 @@ export function NetFlowBoard({ chains }: { chains: NetFlowChain[] }) {
     .sort((a, b) => b.net - a.net);
   const rows = [...nets.slice(0, 6), ...nets.slice(6).slice(-6)].filter((r, i, all) => all.findIndex((x) => x.chain === r.chain) === i);
   const max = Math.max(1, ...rows.map((r) => Math.abs(r.net)));
-  const sm = chains.some((c) => c.source === 'smart-money');
-  const others = otherNets(chains).filter((n) => n.net !== 0).sort((a, b) => b.net - a.net);
   return (
     <section aria-labelledby="netflow-board" className="material p-5 sm:p-6">
       <h2 id="netflow-board" className="t-section">
         {rows[0] ? `${chainName(rows[0].chain)} drew the most net flow in 24 hours` : 'Chains by net flow'}
       </h2>
-      <p className="mt-1 text-[13.5px] text-ink-muted">{sm ? 'Smart Money net flow' : 'Market-wide net flow, all traders,'} measured per chain. The largest six each way.</p>
+      <p className="mt-1 text-[13.5px] text-ink-muted">Market-wide net flow, all traders, measured per chain. The largest six each way.</p>
       <ul className="mt-3 divide-y divide-[var(--hair)]" aria-label="Chains by 24h net flow">
         {rows.map((r, i) => (
           <li key={r.chain} className="grid h-12 grid-cols-[18px_minmax(0,140px)_minmax(0,1fr)_90px] items-center gap-3 text-[14px]">
@@ -327,30 +323,13 @@ export function NetFlowBoard({ chains }: { chains: NetFlowChain[] }) {
                 }
               />
             </span>
-            <span className="num text-right font-extrabold" style={{ color: r.net >= 0 ? 'var(--in-3)' : 'var(--out-3)' }}>
+            <span className="num text-right font-extrabold" style={{ color: r.net >= 0 ? 'var(--in-3)' : 'var(--flare)' }}>
               {r.net >= 0 ? '+' : '−'}
               {usd(Math.abs(r.net))}
             </span>
           </li>
         ))}
       </ul>
-      {others.length > 0 && (
-        <div className="mt-4 border-t border-[var(--hair)] pt-3">
-          <h3 className="text-[12.5px] font-bold text-ink-muted">All traders only · not ranked above</h3>
-          <p className="mt-0.5 text-[12px] text-ink-muted">No Smart Money labels on these chains, so their figure is every trader&rsquo;s net flow and is far larger by nature.</p>
-          <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1.5 text-[13px]" aria-label="All-trader net flow, 24h">
-            {others.map((r) => (
-              <li key={r.chain}>
-                <Link prefetch={false} href={`/chain/${r.chain}`} className="inline-flex items-center gap-1.5 hover:underline">
-                  <ChainLogo chain={r.chain} size={16} />
-                  {chainName(r.chain)}
-                  <b className="num" style={{ color: r.net >= 0 ? 'var(--in-3)' : 'var(--out-3)' }}>{usd(r.net, { signed: true })}</b>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
     </section>
   );
 }
