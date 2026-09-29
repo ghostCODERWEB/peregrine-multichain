@@ -20,7 +20,7 @@ const VERDICT: Record<Verdict, { word: string; color: string; line: string }> = 
   low: { word: 'Low', color: 'var(--mint)', line: 'No strong rug signals in Nansen’s data right now.' },
   moderate: { word: 'Moderate', color: 'var(--amber)', line: 'Some warning signs: size positions carefully.' },
   high: { word: 'High', color: 'var(--flare)', line: 'Several rug signals line up in Nansen’s data.' },
-  critical: { word: 'Critical', color: 'var(--flare)', line: 'The Token Score model sees this token near its worst readings.' },
+  critical: { word: 'Critical', color: 'var(--flare)', line: 'The Risk Score model sees this token near its worst readings.' },
   unknown: { word: 'Unknown', color: 'var(--ink-muted)', line: 'Nansen returned too little data to grade this token.' },
   stablecoin: { word: 'Stablecoin', color: 'var(--signal)', line: 'Nansen classifies this token as a stablecoin; rug checks don’t apply.' },
 };
@@ -74,7 +74,7 @@ export function RugReportView({ chain, address }: { chain: string; address: stri
           </div>
           {report?.score != null && (
             <div className="justify-self-center text-center">
-              <ScoreRing score={report.score} size={150} stroke={12} color={v!.color} label="Token Score" sublabel="Token Score" />
+              <ScoreRing score={report.score} size={150} stroke={12} color={v!.color} label="Risk Score" sublabel="higher = riskier" />
               <div className="mt-2 text-[12px] text-ink-muted">7-day model{report.confidence != null ? ` · confidence ${Math.round(report.confidence * 100)}%` : ''}</div>
             </div>
           )}

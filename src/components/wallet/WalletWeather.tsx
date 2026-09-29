@@ -98,7 +98,7 @@ export async function WalletWeather({ p }: { p: Promise<Wave<WalletWeatherReadin
               tone="var(--brand)"
             />
             <EvidenceBar
-              label="Token Score"
+              label="Risk Score"
               value={w.storm.score == null ? null : w.storm.score / 100}
               detail={stormDetail}
               tone="var(--storm-3)"

@@ -309,7 +309,7 @@ export function TokenView({
       <Card
         id="storm"
         className={cls}
-        title={ok(s.storm) ? `Token Score: ${Math.round(s.storm.result.score)} of 100` : 'Token Score'}
+        title={ok(s.storm) ? `Risk Score: ${Math.round(s.storm.result.score)} of 100` : 'Risk Score'}
         sub="Dump risk from six Nansen-derived inputs"
       >
         {ok(s.storm) ? (
@@ -318,11 +318,11 @@ export function TokenView({
           <Unavailable text={s.storm.unavailable} />
         ) : pending(s.storm) ? (
           // As tall as the finished dial (503px at every width), so the page does not jump when it arrives.
-          <WaveLoading what="the Token Score inputs" height={503} />
+          <WaveLoading what="the Risk Score inputs" height={503} />
         ) : null}
         {s.candidates && (
           <div className="mt-3 border-t border-border pt-2">
-            <div className="text-[11px] text-ink-muted">Token Score v2 candidates · not yet in the score</div>
+            <div className="text-[11px] text-ink-muted">Risk Score v2 candidates · not yet in the score</div>
             <ul className="mt-1 flex flex-wrap gap-2">
               {s.candidates.map((c) => (
                 <li

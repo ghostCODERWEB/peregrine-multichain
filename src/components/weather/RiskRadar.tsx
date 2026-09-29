@@ -19,14 +19,14 @@ export function RiskRadar({ mode }: { mode: DisplayMode }) {
     <section aria-labelledby="risk-radar" className="material p-4 sm:p-5 xl:col-span-12" style={{ boxShadow: 'inset 3px 0 0 var(--flare)' }}>
       <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
         <h2 id="risk-radar" className="t-section flex items-center gap-2"><ShieldAlert size={18} style={{ color: 'var(--flare)' }} aria-hidden />Risk Radar: Smart Money buying into danger</h2>
-        <span className="text-[12px] text-ink-muted">Net Smart Money buys, 24h, into tokens with a Token Score of 50+</span>
+        <span className="text-[12px] text-ink-muted">Net Smart Money buys, 24h, into tokens with a Risk Score of 50+</span>
       </div>
       {rows.length ? (
         <ul className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
           {rows.map((r) => {
             const b = band(r.score);
             const href = `/token/${r.chain}/${encodeURIComponent(r.address)}`;
-            const share = `https://x.com/intent/post?text=${encodeURIComponent(`Smart Money bought ${usd(r.net)} of $${r.symbol} on ${chainName(r.chain)} in 24h, while its Token Score reads ${Math.round(r.score)}/100 (${b.word}). Flagged by Peregrine on @nansen_ai data.`)}&url=${encodeURIComponent(`${SITE}${href}`)}`;
+            const share = `https://x.com/intent/post?text=${encodeURIComponent(`Smart Money bought ${usd(r.net)} of $${r.symbol} on ${chainName(r.chain)} in 24h, while its Risk Score reads ${Math.round(r.score)}/100 (${b.word}). Flagged by Peregrine on @nansen_ai data.`)}&url=${encodeURIComponent(`${SITE}${href}`)}`;
             return (
               <li key={`${r.chain}:${r.address}`} className="inset-well flex items-center gap-3 rounded-[14px] p-3">
                 <TokenLogo symbol={r.symbol} chain={r.chain} address={r.address} size={30} />
@@ -47,7 +47,7 @@ export function RiskRadar({ mode }: { mode: DisplayMode }) {
         </ul>
       ) : (
         <div className="text-[12.5px] text-ink-2">
-          <p>No Smart Money net buying into High-risk tokens in the last 24 hours.{fallback.length ? ' Highest Token Scores right now:' : ''}</p>
+          <p>No Smart Money net buying into High-risk tokens in the last 24 hours.{fallback.length ? ' Highest Risk Scores right now:' : ''}</p>
           {fallback.length > 0 && (
             <ul className="mt-2 flex flex-wrap gap-2">
               {fallback.map((s) => <li key={`${s.chain}:${s.address}`}><Link prefetch={false} href={`/token/${s.chain}/${encodeURIComponent(s.address)}`} className="inset-well inline-flex items-center gap-2 rounded-full px-3 py-1.5 hover:underline"><TokenLogo symbol={s.symbol} chain={s.chain} address={s.address} size={16} /><span className="font-semibold text-ink">{s.symbol}</span><span className="num font-bold" style={{ color: band(s.score).color }}>{Math.round(s.score)}</span></Link></li>)}

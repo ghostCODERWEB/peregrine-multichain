@@ -5,7 +5,7 @@ import { ArrowRight, X } from 'lucide-react';
 
 type Step = { title: string; body: string; href: string; cta: string };
 const STEPS: Step[] = [
-  { title: 'Every token gets a risk score', body: 'Token Score is half Nansen’s own risk indicators, half Peregrine’s model of holders, insiders, liquidity and sell pressure.', href: '/token', cta: 'Open Token Checker' },
+  { title: 'Every token gets a risk score', body: 'Risk Score runs from 0 (safest) to 100 (riskiest): half Nansen’s own risk indicators, half Peregrine’s model of holders, insiders, liquidity and sell pressure.', href: '/token', cta: 'Open Token Checker' },
   { title: 'Smart Money buying into danger', body: 'When Smart Money wallets buy tokens that score High or Critical, Peregrine flags it. That is the signal to look at first.', href: '/token#sm-risk', cta: 'See who is buying risk' },
   { title: 'Can you actually copy them?', body: 'Copy Lab replays every Smart Money buy against Nansen price candles: what you would make entering 15 minutes, 1 hour or 6 hours late. Only a few wallets stay profitable to follow.', href: '/copy', cta: 'Open Copy Lab' },
   { title: 'The wallet behind the move', body: 'Open any wallet on one page: holdings, realized PnL, counterparties, who funded it, and its ENS name.', href: '/wallet', cta: 'Open the Profiler' },

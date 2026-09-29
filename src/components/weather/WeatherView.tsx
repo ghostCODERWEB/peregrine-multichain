@@ -89,7 +89,7 @@ export function WeatherView({
   // Chains read from all traders only: named beside the Smart Money figures instead of ranked against them.
   const others = useMemo(() => allTraderOnly(data.chains), [data.chains]);
   const riskAlerts = (cls: string) => (
-    <Card id="risk-alerts" title="Risk alerts" sub="Highest Token Score across chains, last 48 hours" className={cls}>
+    <Card id="risk-alerts" title="Risk alerts" sub="Highest Risk Score across chains, last 48 hours" className={cls}>
       <StormTicker storms={data.storms} />
     </Card>
   );

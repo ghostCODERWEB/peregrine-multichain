@@ -51,7 +51,7 @@ export function VerdictCard({ chain, address, ready }: { chain: string; address:
         </div>
         <div className="text-right">
           <p className="num text-[26px] font-extrabold leading-none text-ink">{Math.round(v.score)}<span className="text-[13px] font-semibold text-ink-muted">/100</span></p>
-          <p className="num mt-1 text-[11px] text-ink-muted">Nansen {v.nansen != null ? Math.round(v.nansen) : 'n/a'} · Peregrine {v.peregrine != null ? Math.round(v.peregrine) : 'n/a'}</p>
+          <p className="num mt-1 text-[11px] text-ink-muted">Nansen risk {v.nansen != null ? Math.round(v.nansen) : 'n/a'} · Peregrine risk {v.peregrine != null ? Math.round(v.peregrine) : 'n/a'}</p>
         </div>
       </div>
       <ul className="mt-3 grid gap-1.5 sm:grid-cols-2">

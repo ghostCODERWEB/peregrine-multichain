@@ -12,12 +12,12 @@ export function StormTicker({ storms }: { storms: StormTick[] }) {
   if (!storms.length) {
     return (
       <p className="text-sm text-ink-2">
-        No Token Score scores yet. The scanner sweeps the tokens smart money is dumping hardest every 12 hours, and every token page opened adds one.
+        No Risk Scores yet. The scanner sweeps the tokens smart money is dumping hardest every 12 hours, and every token page opened adds one.
       </p>
     );
   }
   return (
-    <ul className="stagger grid grid-cols-[repeat(auto-fill,minmax(210px,1fr))] gap-2" aria-label="Highest Token Score, last 48 hours">
+    <ul className="stagger grid grid-cols-[repeat(auto-fill,minmax(210px,1fr))] gap-2" aria-label="Highest Risk Score, last 48 hours">
       {storms.slice(0, 8).map((s) => {
         return (
           <li key={`${s.chain}:${s.tokenAddress}`}>
