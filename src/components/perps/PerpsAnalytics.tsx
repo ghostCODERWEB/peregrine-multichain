@@ -2,6 +2,7 @@ import { TokenLogo } from '@/components/Logo';
 import Link from 'next/link';
 import { Card } from '@/components/Card';
 import { HistoryLines, RankBars } from '@/components/charts/IntelCharts';
+import { RankList } from '@/components/charts/RankList';
 import { InsightPanel } from '@/components/pulse/MarketPulse';
 import { perpsAnalytics } from '@/server/insights';
 import type { DisplayMode } from '@/server/mode';
@@ -10,8 +11,8 @@ import { spanOf, usd } from '@/lib/viz/format';
 /** The Perps page's analytical overview: insights with a Nansen brief, then OI, price and funding movers and the Smart Money book. */
 export function PerpsAnalytics({ mode }: { mode: DisplayMode }) {
   const a = perpsAnalytics(mode);
-  // As long as the ranked charts beside it (14 rows each); the pulse above still totals the whole book.
-  const book = a.smBook.slice(0, 14);
+  // Every coin, paged like the two lists beside it, so the three cards end together on every page.
+  const book = a.smBook;
   const maxBook = Math.max(1, ...book.map((b) => b.long + b.short));
   return (
     <div className="space-y-4">
@@ -26,14 +27,14 @@ export function PerpsAnalytics({ mode }: { mode: DisplayMode }) {
       </div>
       <div className="grid gap-4 xl:grid-cols-3">
         <Card id="perps-price-movers" title="Price movers, 24h" sub="Coins over $5M OI">
-          <RankBars rows={a.priceMovers} format="pct" label="Largest 24h price moves" />
+          <RankList rows={a.priceMovers} coins label="Largest 24h price moves" />
         </Card>
         <Card id="perps-funding" title="Funding extremes, yearly" sub="Positive: longs pay · coins over $20M OI">
-          <RankBars rows={a.funding} format="pct" label="Most extreme annualized funding" />
+          <RankList rows={a.funding} coins label="Most extreme annualized funding" />
         </Card>
         {a.smBook.length > 0 ? (
           <Card id="perps-sm-book" title="Smart Money book by coin" sub="Observed long and short exposure">
-            <ul className="space-y-2">
+            <ul data-paged aria-label="Smart Money book by coin" className="space-y-2">
               {book.map((b) => (
                 <li key={b.symbol} data-analyze={JSON.stringify({ kind: 'perp', label: `${b.symbol} Smart Money book`, href: `/perps/${b.symbol}`, longUsd: Math.round(b.long), shortUsd: Math.round(b.short) })}>
                   <Link prefetch={false} href={`/perps/${encodeURIComponent(b.symbol)}`} className="group grid grid-cols-[84px_minmax(0,1fr)_auto] items-center gap-2 text-[12px]">

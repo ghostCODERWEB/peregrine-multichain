@@ -44,8 +44,8 @@ export function perpsAnalytics(mode: DisplayMode, now = Date.now()): PerpsAnalyt
   const oiCh = coins.filter((c) => prevOi.get(c.symbol)).map((c) => ({ c, ch: (c.openInterest ?? 0) / prevOi.get(c.symbol)! - 1 }));
   const href = (s: string) => `/perps/${encodeURIComponent(s)}`;
   const oiMovers = [...oiCh].sort((a, b) => Math.abs(b.ch) - Math.abs(a.ch)).slice(0, 14).map(({ c, ch }) => ({ label: c.symbol, value: ch * 100, href: href(c.symbol), sub: usd(c.openInterest) }));
-  const priceMovers = coins.filter((c) => c.change24h != null).sort((a, b) => Math.abs(b.change24h!) - Math.abs(a.change24h!)).slice(0, 14).map((c) => ({ label: c.symbol, value: c.change24h! * 100, href: href(c.symbol), sub: usd(c.openInterest) }));
-  const funding = coins.filter((c) => c.fundingApr != null && (c.openInterest ?? 0) >= 20e6).sort((a, b) => Math.abs(b.fundingApr!) - Math.abs(a.fundingApr!)).slice(0, 14).map((c) => ({ label: c.symbol, value: c.fundingApr! * 100, href: href(c.symbol), sub: usd(c.openInterest) }));
+  const priceMovers = coins.filter((c) => c.change24h != null).sort((a, b) => Math.abs(b.change24h!) - Math.abs(a.change24h!)).map((c) => ({ label: c.symbol, value: c.change24h! * 100, href: href(c.symbol), sub: usd(c.openInterest) }));
+  const funding = coins.filter((c) => c.fundingApr != null && (c.openInterest ?? 0) >= 20e6).sort((a, b) => Math.abs(b.fundingApr!) - Math.abs(a.fundingApr!)).map((c) => ({ label: c.symbol, value: c.fundingApr! * 100, href: href(c.symbol), sub: usd(c.openInterest) }));
   const oiHistory = (db.prepare("SELECT snapshot_at AS t, SUM(open_interest) AS oi FROM perp_snapshots WHERE source = 'all' AND snapshot_at >= ? GROUP BY snapshot_at ORDER BY snapshot_at").all(now - 7 * D) as Array<{ t: number; oi: number }>).map((r) => [r.t, r.oi] as [number, number]);
   const smBook = mode === 'owner' ? board.coins.filter((c) => c.sm && c.sm.longsUsd + c.sm.shortsUsd > 0).sort((a, b) => (b.sm!.longsUsd + b.sm!.shortsUsd) - (a.sm!.longsUsd + a.sm!.shortsUsd)).map((c) => ({ symbol: c.symbol, long: c.sm!.longsUsd, short: c.sm!.shortsUsd })) : [];
 
