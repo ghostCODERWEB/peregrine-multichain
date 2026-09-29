@@ -10,8 +10,10 @@ It reads Nansen's labeled onchain data, stores it, runs its own tested models on
 </div>
 
 > [!IMPORTANT]
-> **Buildathon submission snapshot: [`submission-2026-09-27`](https://github.com/ghostCODERWEB/peregrine-multichain/releases/tag/submission-2026-09-27)**<br/>
-> This README shows the current app, including UI fixes made after the deadline. The tag above is the frozen submission reviewers should judge. Every usage number and test result below is from the submission.
+> **Buildathon submission: [`submission-2026-09-27`](https://github.com/ghostCODERWEB/peregrine-multichain/releases/tag/submission-2026-09-27)**, the frozen entry as of 27 September 2026.
+>
+> - **Screenshots and GIFs** show the current app, which includes the latest UI and README fixes, reviewed with the Nansen team before merging. The few captions marked *Recorded from the live app on 27 September 2026* are from submission day.
+> - **Numbers** (Nansen API calls, API coverage, backtest results, test counts) were measured at the submission and are not updated.
 
 <div align="center">
 
@@ -29,7 +31,7 @@ It reads Nansen's labeled onchain data, stores it, runs its own tested models on
 
 <img src="docs/readme/gifs/overview.gif" width="100%" alt="The Overview: 'Buying Ton. Selling Near.' over a live net-flow ring whose arcs draw in and carry particles from the chains losing money to the chains gaining it, with Flow Index sparklines for the top inflow and outflow chains" />
 
-Peregrine started as a list of things I would love Nansen to do next. It opens with **six features Nansen does not have yet**, then walks through **every page** of the terminal, the **phone app**, **how the AI works**, the **proof** that it is real and tested, and **how it is built**.
+This README opens with Peregrine's **six headline features**, then walks through **every page** of the terminal, the **phone app**, **how the AI works**, the **proof** that it is real and tested, and **how it is built**.
 
 ### At a glance
 
@@ -43,7 +45,7 @@ Peregrine started as a list of things I would love Nansen to do next. It opens w
 
 ## Contents
 
-1. **[Six features Nansen doesn't have yet](#six-features-nansen-doesnt-have-yet):** [Copy Lab](#1-copy-lab) · [Ask about anything on screen](#2-ask-about-anything-on-screen) · [Cascades](#3-cascades) · [Flow Index](#4-flow-index) · [Token Verdict](#5-token-verdict) · [Section rail](#6-section-rail)
+1. **[Headline features](#headline-features):** [Copy Lab](#1-copy-lab) · [Ask about anything on screen](#2-ask-about-anything-on-screen) · [Cascades](#3-cascades) · [Flow Index](#4-flow-index) · [Token Verdict](#5-token-verdict) · [Section rail](#6-section-rail)
 2. **[A tour of every page](#a-tour-of-every-page):** [Overview](#overview) · [Alpha](#alpha) · [Chain flows and chain pages](#chain-flows-and-chain-pages) · [Sectors](#sectors) · [Perps](#perps) · [Prediction markets](#prediction-markets) · [Token pages](#token-pages) · [Profiler and portfolio](#profiler-and-portfolio) · [Smart Money desk](#smart-money-desk) · [History](#history) · [Everything else](#everything-else)
 3. **[The phone app](#the-phone-app)**
 4. **[How the AI works](#how-the-ai-works)**
@@ -54,7 +56,7 @@ Peregrine started as a list of things I would love Nansen to do next. It opens w
 
 ---
 
-## Six features Nansen doesn't have yet
+## Headline features
 
 ### 1. Copy Lab
 
@@ -463,8 +465,6 @@ flowchart LR
 
 - **Every chart names its sources.** An info popover lists the Nansen calls behind each chart, and research results cite their evidence.
 - **Streaming pages.** Token pages arrive section by section as each server-sent wave lands, with placeholders the exact size of what replaces them, so nothing shifts.
-- **One failing section never blanks a page.** Every card has its own error boundary that retries once, with a Retry that refetches from the server.
-- **Performance.** After the submission: 44% less JavaScript, no layout shift, no idle CPU use, and long tables render their later rows only when used.
 - **Share cards.** Every section has its own link preview, and a shared token link previews its verdict, score dial and sub-scores.
 - **Keyboard.** ⌘K search across tokens, wallets and ENS names; ⌘J Analyze; table rows work from the keyboard.
 - **A guided tour** on first visit, and plain-language empty states that say why data is missing instead of showing a blank.
