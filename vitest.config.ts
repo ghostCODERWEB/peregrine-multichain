@@ -8,7 +8,7 @@ export default defineConfig({
     environment: 'node',
     globals: true,
     setupFiles: ['./vitest.setup.ts'],
-    exclude: ['node_modules/**', '.next/**', 'e2e/**'],
+    exclude: ['**/node_modules/**', '.next/**', 'e2e/**', 'video/**'],
     coverage: {
       provider: 'v8',
       include: ['src/lib/models/**'],

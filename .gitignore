@@ -62,3 +62,6 @@ data/*.log
 /coverage/
 /.score-build.log
 docs/screenshots/.frames/
+
+# README capture output (scripts/readme-assets/capture.mjs)
+docs/readme/.capture/
