@@ -4,7 +4,6 @@ import type { ReactNode } from 'react';
 import { PageTitle } from '@/components/PageTitle';
 import { MobileCopyLab } from '@/components/mobile/MobileCopyLab';
 import { StatStrip } from '@/components/StatStrip';
-import { SegmentedLinks } from '@/components/SegmentedLinks';
 import { AddressLink } from '@/components/entity/AddressLink';
 import { TokenLogo } from '@/components/Logo';
 import { TimeAgo } from '@/components/TimeAgo';
@@ -43,13 +42,21 @@ const median = (xs: number[]) => { if (!xs.length) return null; const s = [...xs
 const href = (m: Market, tf: Timeframe, who: Who) => `/copy?${new URLSearchParams({ ...(m !== 'all' ? { m } : {}), ...(tf !== 30 ? { tf: String(tf) } : {}), ...(who !== 'all' ? { who } : {}) })}`.replace(/\?$/, '');
 const settle = async <T,>(p: Promise<T>): Promise<T | Un> => { try { return await p; } catch (e) { return { unavailable: (e as Error)?.message ?? 'Nansen could not be read.' }; } };
 
+function Segmented<T extends string | number>({ label, items, value, name, link }: { label: string; items: readonly T[]; value: T; name: (x: T) => string; link: (x: T) => string }) {
+  return (
+    <nav aria-label={label} className="segmented" style={{ '--segments': items.length, '--selected': items.indexOf(value) } as React.CSSProperties}>
+      <span className="segmented-thumb" aria-hidden />
+      {items.map((x) => <Link prefetch={false} key={String(x)} href={link(x)} aria-current={x === value ? 'page' : undefined} className="relative z-[1] px-3 py-1 text-center text-[12px] font-bold">{name(x)}</Link>)}
+    </nav>
+  );
+}
 const ScoreBar = ({ score, title }: { score: number; title?: string }) => (
   <span className="flex items-center gap-2" title={title}><span className="num w-7 font-bold" style={{ color: scoreColor(score) }}>{score}</span><span className="h-1.5 w-16 overflow-hidden rounded-full bg-[var(--hair)]"><span className="block h-full rounded-full" style={{ width: `${score}%`, background: scoreColor(score) }} /></span></span>
 );
 const Chip = ({ text, color }: { text: string; color: string }) => <span className="shrink-0 rounded-full px-1.5 py-px text-[10px] font-bold" style={{ color, background: `color-mix(in srgb, ${color} 14%, transparent)` }}>{text}</span>;
-const Section = ({ id, title, sub, action, className = '', children }: { id: string; title: string; sub?: ReactNode; action?: ReactNode; className?: string; children: ReactNode }) => (
+const Section = ({ id, title, sub, className = '', children }: { id: string; title: string; sub?: ReactNode; className?: string; children: ReactNode }) => (
   <section className={`material p-4 sm:p-5 ${className}`} aria-labelledby={id}>
-    <div className="mb-2 flex flex-wrap items-center justify-between gap-2"><div className="flex min-w-0 flex-wrap items-baseline gap-x-3 gap-y-1"><h2 id={id} className="t-section">{title}</h2>{sub && <span className="text-[12px] text-ink-muted">{sub}</span>}</div>{action}</div>
+    <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2"><h2 id={id} className="t-section">{title}</h2>{sub && <span className="text-[12px] text-ink-muted">{sub}</span>}</div>
     {children}
   </section>
 );
@@ -108,13 +115,11 @@ export default async function CopyLabPage({ searchParams }: { searchParams: Prom
   const lab = cachedCopyLab();
   const cohorts = want('cohorts') ? await settle(cohortFlows(spot && !un(spot) ? spot.consensus.filter((c) => c.chain && c.token).slice(0, 4) : [])) : null;
 
-  // The header row is the same width on every tab: the timeframe control keeps its place (hidden where it
-  // doesn't apply) and the Spot-only trader type filter sits on the Spot table, so switching tabs never
-  // shifts the row or wraps it onto a second line.
   const controls = (
     <div className="flex flex-wrap items-center gap-2">
-      <SegmentedLinks label="Market" selected={MARKETS.indexOf(m)} items={MARKETS.map((x) => ({ key: x, name: MARKET_LABEL[x], href: href(x, tf, who) }))} />
-      <SegmentedLinks label="Timeframe" hidden={m !== 'spot' && m !== 'all'} selected={TIMEFRAMES.indexOf(tf)} items={TIMEFRAMES.map((x) => ({ key: String(x), name: `${x}D`, href: href(m, x, who) }))} />
+      <Segmented label="Market" items={MARKETS} value={m} name={(x) => MARKET_LABEL[x]} link={(x) => href(x, tf, who)} />
+      {m === 'spot' && <Segmented label="Trader type" items={WHO} value={who} name={(x) => WHO_LABEL[x]} link={(x) => href(m, tf, x)} />}
+      {(m === 'spot' || m === 'all') && <Segmented label="Timeframe" items={TIMEFRAMES} value={tf} name={(x) => `${x}D`} link={(x) => href(m, x, who)} />}
     </div>
   );
 
@@ -204,8 +209,7 @@ function SpotView({ board, tf, who, lab }: { board: Leaders; tf: Timeframe; who:
         { label: 'Buying in the last 24h', value: String(buyingNow), note: 'leaders seen on the Smart Money tape', tone: buyingNow ? 'in' : undefined },
       ]} />
 
-      <Section id="leaders" title="Spot traders to follow" sub={`Nansen Smart Money PnL, ${tf} days, ranked by copy score · ${shown.length} of ${leaders.length} shown`} className="xl:col-span-12"
-        action={<SegmentedLinks label="Trader type" selected={WHO.indexOf(who)} items={WHO.map((x) => ({ key: x, name: WHO_LABEL[x], href: `${href('spot', tf, x)}#leaders` }))} />}>
+      <Section id="leaders" title="Spot traders to follow" sub={`Nansen Smart Money PnL, ${tf} days, ranked by copy score · ${shown.length} of ${leaders.length} shown`} className="xl:col-span-12">
         {shown.length ? (
           <div className="overflow-x-auto" tabIndex={0} role="region" aria-label="Spot traders to follow">
             <table data-sortable className="w-full min-w-[1080px] text-left text-[12.5px]">
