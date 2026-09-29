@@ -28,11 +28,11 @@ export function TokenCheckerView({ d }: { d: CheckerData }) {
     <div className="grid grid-cols-1 gap-4 xl:grid-cols-12 [&>*]:min-w-0">
       <section aria-labelledby="scored" className="material p-4 sm:p-5 xl:col-span-9">
         <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
-          <h2 id="scored" className="t-section">Token Scores, last 7 days</h2>
+          <h2 id="scored" className="t-section">Risk Scores, last 7 days <span className="text-[11px] font-normal text-ink-muted">0 safest, 100 riskiest</span></h2>
         </div>
-        <div className="overflow-x-auto" tabIndex={0} role="region" aria-label="Token scores">
+        <div className="overflow-x-auto" tabIndex={0} role="region" aria-label="Risk scores">
           <table data-sortable className="w-full min-w-[980px] text-left text-[12.5px]">
-            <thead className="text-[11px] uppercase tracking-wider text-ink-muted"><tr><th className="py-2 font-normal">Token</th><th className="font-normal">Token Score</th><th className="text-right font-normal">Nansen</th><th className="text-right font-normal">Peregrine</th>{COLS.map(([, l]) => <th key={l} className="text-center font-normal">{l}</th>)}<th className="text-right font-normal">Market cap</th><th className="text-right font-normal">Scored</th></tr></thead>
+            <thead className="text-[11px] uppercase tracking-wider text-ink-muted"><tr><th className="py-2 font-normal">Token</th><th className="font-normal">Risk Score</th><th className="text-right font-normal">Nansen</th><th className="text-right font-normal">Peregrine</th>{COLS.map(([, l]) => <th key={l} className="text-center font-normal">{l}</th>)}<th className="text-right font-normal">Market cap</th><th className="text-right font-normal">Scored</th></tr></thead>
             <tbody>
               {d.scored.map((s) => (
                 <tr key={`${s.chain}:${s.address}`} className="border-t border-[var(--hair)] hover:bg-[var(--surface-2)]">

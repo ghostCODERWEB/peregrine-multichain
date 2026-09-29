@@ -482,7 +482,7 @@ export function SpotTrade({ initialToken }: { initialToken: string }) {
         ) : (
           <>
             <div className="flex justify-between">
-              <span className="text-ink-2">Token Score</span>
+              <span className="text-ink-2">Risk Score</span>
               <span className="num text-ink">{signals.storm ? `${signals.storm.score} · ${signals.storm.band}` : 'not computed'}</span>
             </div>
             <div className="flex justify-between">

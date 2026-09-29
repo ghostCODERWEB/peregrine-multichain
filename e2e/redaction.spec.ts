@@ -99,7 +99,7 @@ test('token page: every wave arrives with labels stripped', async ({ page }) => 
   // Every card on one view, so every wave is on the page.
   await page.goto('/token/base/0x9b5e262cf9bb04869ab40b19af91d2dc85761722?view=all');
   // Every module has streamed in once the final Token Score heading lands.
-  await expect(page.getByRole('heading', { name: /Token Score: \d+ of 100/ })).toBeVisible({ timeout: 90_000 });
+  await expect(page.getByRole('heading', { name: /Risk Score: \d+ of 100/ })).toBeVisible({ timeout: 90_000 });
   assertClean('/token/base/NOCK', await page.content());
 });
 

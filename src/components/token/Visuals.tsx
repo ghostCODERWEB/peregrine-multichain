@@ -108,15 +108,15 @@ export function TokenHero({ chain, address, tier, h, m, storm, done, title, chil
         <div className="min-w-0 space-y-4">
           {children ?? (storm ? (
             <>
-              <ScoreRing score={storm.result.score} size={112} stroke={9} color={STORM_RING[storm.result.band]} label="Token Score" sublabel="of 100" />
+              <ScoreRing score={storm.result.score} size={112} stroke={9} color={STORM_RING[storm.result.band]} label="Risk Score" sublabel="of 100" />
               <div>
-                <div className="text-[11px] uppercase tracking-wider text-ink-muted">Token Score{storm.final ? '' : ' · provisional'}</div>
+                <div className="text-[11px] uppercase tracking-wider text-ink-muted">Risk Score · higher is riskier{storm.final ? '' : ' · provisional'}</div>
                 <div className="text-[15px] font-semibold text-ink">{STORM_LABEL[storm.result.band]}</div>
                 <div className="text-[11.5px] text-ink-2">{pct(storm.result.confidence, 0)} of the model&apos;s inputs present</div>
               </div>
             </>
           ) : (
-            <div className="py-6 text-[12.5px] text-ink-2">Token Score lands once holders, flows and liquidity are in.</div>
+            <div className="py-6 text-[12.5px] text-ink-2">Risk Score lands once holders, flows and liquidity are in.</div>
           ))}
           <div className="material p-5"><h2 className="text-[19px] font-bold">DEX activity · 24h</h2><p className="mt-1 text-xs text-ink-muted">All traders, not only smart money.</p>          {buyShare != null && (
             <div className="mt-3">

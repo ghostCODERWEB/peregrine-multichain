@@ -16,7 +16,7 @@ export function MobileTokens({ d }: { d: CheckerData }) {
   const risky = d.smIntoRisk.slice(0, 8);
   return (
     <div className="m-screen">
-      <LargeTitle title="Tokens" caption={`${RUG_CHAINS.length} networks · Token Score`} />
+      <LargeTitle title="Tokens" caption={`${RUG_CHAINS.length} networks · Risk Score`} />
       <div className="m-search-wrap"><RugSearch chains={RUG_CHAINS} autoFocus={false} placeholder="Name, symbol or address" /></div>
 
       {risky.length > 0 && (
@@ -38,7 +38,7 @@ export function MobileTokens({ d }: { d: CheckerData }) {
       )}
 
       {d.scored.length > 0 && (
-        <Group title="Token Scores" footer="50% Nansen risk indicators, 50% Peregrine's model. Tap a token for its verdict.">
+        <Group title="Risk Scores" footer="50% Nansen risk indicators, 50% Peregrine's model. Tap a token for its verdict.">
           <List>
             {d.scored.slice(0, 12).map((s) => (
               <Row key={`${s.chain}:${s.address}`} href={href(s)} leading={<TokenLogo symbol={s.symbol} chain={s.chain} address={s.address} size={30} />}

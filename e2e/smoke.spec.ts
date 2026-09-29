@@ -75,7 +75,7 @@ test('chain page: Tier A with every module, and an unsupported chain says so', a
 test('token page: waves stream in and the Token Score lands @mobile', async ({ page }) => {
   const w = await watch(page);
   await page.goto(`${TOKEN}?view=all`);
-  await expect(page.getByRole('heading', { name: /Token Score: \d+ of 100/ })).toBeVisible({ timeout: 60_000 });
+  await expect(page.getByRole('heading', { name: /Risk Score: \d+ of 100/ })).toBeVisible({ timeout: 60_000 });
   await expect(page.locator('svg[aria-label^="Cohort flows"]')).toBeVisible();
   await expect(page.locator('svg[aria-label^="Cohort flows"] path')).toHaveCount(24); // 6 segments × 4 windows
   await expect(page.locator('#odds')).toBeVisible();
@@ -87,7 +87,7 @@ test('token page: waves stream in and the Token Score lands @mobile', async ({ p
   await expect(page.locator('section[aria-labelledby="river"]')).toBeVisible();
   await expect(page.getByRole('heading', { name: /Social heat \d+|Social pulse/ })).toBeVisible();
   await expect(page.locator('section[aria-labelledby="pnlboard"]')).toContainText('Nansen does not allow its PnL leaderboard in public views');
-  await expect(page.getByText(/Token Score v2 candidates/)).toBeVisible();
+  await expect(page.getByText(/Risk Score v2 candidates/)).toBeVisible();
   // V3 visuals: the holder sphere, cohort bars and the liquidation ladder
   // (or Nansen's plain reason there is none).
   await expect(page.locator('svg[aria-label^="Holder constellation"]')).toBeVisible();
