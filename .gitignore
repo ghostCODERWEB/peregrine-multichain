@@ -62,3 +62,6 @@ data/*.log
 /coverage/
 /.score-build.log
 docs/screenshots/.frames/
+
+# README capture frames (scripts/readme-assets/capture.ts)
+/.readme-frames/

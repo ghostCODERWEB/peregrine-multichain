@@ -224,17 +224,18 @@ def api_coverage():
     save(fig, 'api-coverage')
 
 
-# Headline tiles for the top of the README. The test count is not in the data export: pass TESTS from `pnpm test`.
+# Headline tiles for the top of the README: the submission state (tag submission-2026-09-27).
+# The test count is not in the data export: 667 is the count at the submission tag; pass TESTS to override.
 def stat_tiles():
     L, cv, b, ch = load('ledger'), load('coverage'), load('backtest'), load('chains')
-    tests = os.environ.get('TESTS', '671')
+    tests = os.environ.get('TESTS', '667')
     tiles = [
         (f'{L["calls"]:,}', 'Nansen API calls', f'{L["calls"] / 1000:.1f}× the 1,000 required'),
         (f'{cv["covered"] / cv["documented"]:.1%}', 'of the documented Nansen API', f'{cv["covered"]}/{cv["documented"]} endpoints, +{len(cv["beyondDocs"])} beyond the docs'),
         (f'{L["cached"]:,}', 'requests served from cache', 'at zero credits'),
         (f'{b["storm"]["fitted"]["auc"]:.2f}', 'AUC, dump-risk model', 'on a week it never saw'),
         (f'{len(ch["chains"])}', 'chains supported', f'{len(ch["tokenCheckerNetworks"])} networks in token search'),
-        (tests, 'unit and integration tests', 'vitest, all passing'),
+        (tests, 'unit and integration tests', 'vitest, at submission'),
     ]
     fig = plt.figure(figsize=(10, 3.3))
     cols, rows, gap = 3, 2, 0.018

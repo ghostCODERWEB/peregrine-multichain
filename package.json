@@ -22,7 +22,7 @@
     "backtest": "tsx scripts/backtest.ts",
     "export-demo": "tsx scripts/export-demo-history.ts",
     "dev:demo": "DEMO_MODE=1 NANSEN_API_KEY= TIDE_DB_PATH=./data/demo.db NEXT_DIST_DIR=.next-demo next dev --turbopack -p 3300",
-    "screenshots": "tsx scripts/showcase.ts && python3 scripts/make-gifs.py",
+    "screenshots": "tsx scripts/readme-assets/capture.ts && python3 scripts/readme-assets/make-gifs.py",
     "fetch-docs": "tsx scripts/fetch-docs.ts",
     "gen-api": "tsx scripts/gen-api.ts",
     "validate-api": "tsx scripts/validate-endpoints.ts",
