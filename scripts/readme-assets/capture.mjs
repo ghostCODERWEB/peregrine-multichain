@@ -92,6 +92,30 @@ const CLIPS = {
   'perps-pager': [DESK, '/perps', async (p) => { await toSel(p, '#perps-price-movers'); const bars = p.locator('.pager'); const n = await bars.count(); for (let k = 0; k < 3; k++) for (let i = 0; i < Math.min(n, 4); i++) { const nx = bars.nth(i).getByRole('button', { name: 'Next page' }); if (await nx.isVisible().catch(() => false) && await nx.isEnabled().catch(() => false)) { await nx.click(); await p.waitForTimeout(650); } } await p.waitForTimeout(1200); }],
   // Perps coin terminal: liquidation radar and positioning.
   'perps-coin': [DESK, '/perps/BTC', async (p) => { await p.waitForTimeout(2500); await glide(p, 800, 50, 25); await p.waitForTimeout(2500); await glide(p, 700, 45, 25); await p.waitForTimeout(2000); }],
+  // Section rail: sweep down the rail (each section's label shows), jump to one, then back up.
+  'section-rail': [DESK, AERO, async (p) => {
+    await p.waitForTimeout(1500);
+    const track = p.locator('.section-rail-track');
+    const box = await track.boundingBox();
+    const x = box.x + box.width / 2;
+    await p.mouse.move(x - 160, box.y + 10, { steps: 10 }); await p.mouse.move(x, box.y + 6, { steps: 12 });
+    for (let y = box.y + 6; y < box.y + box.height - 6; y += 6) { await p.mouse.move(x, y); await p.waitForTimeout(45); }
+    const ticks = track.locator('.section-rail-tick'); const n = await ticks.count();
+    await ticks.nth(Math.floor(n * 0.7)).hover(); await p.waitForTimeout(700); await ticks.nth(Math.floor(n * 0.7)).click(); await p.waitForTimeout(1800);
+    await ticks.nth(Math.floor(n * 0.35)).hover(); await p.waitForTimeout(700); await ticks.nth(Math.floor(n * 0.35)).click(); await p.waitForTimeout(1800);
+    await ticks.nth(0).hover(); await p.waitForTimeout(600); await ticks.nth(0).click(); await p.waitForTimeout(1500);
+  }],
+  // Holders: the top holders in 3D, dragged around, then a wallet hovered to isolate its links.
+  'holders-3d': [DESK, AERO, async (p) => {
+    const sphere = p.locator('[aria-label^="Holder constellation"]').first();
+    await sphere.evaluate((e) => { (e.closest('section') ?? e).scrollIntoView({ block: 'start' }); scrollBy(0, -12); }); await p.waitForTimeout(2200);
+    const b = await sphere.boundingBox(); const cx = b.x + b.width / 2, cy = b.y + b.height / 2;
+    await p.mouse.move(cx - 150, cy, { steps: 8 }); await p.mouse.down();
+    await p.mouse.move(cx + 170, cy + 40, { steps: 60 }); await p.mouse.move(cx - 60, cy - 70, { steps: 50 }); await p.mouse.up(); await p.waitForTimeout(900);
+    await p.mouse.move(cx - 100, cy + 60, { steps: 8 }); await p.mouse.down(); await p.mouse.move(cx + 120, cy - 20, { steps: 55 }); await p.mouse.up(); await p.waitForTimeout(1200);
+    const dot = p.locator('[aria-label^="Holder constellation"] circle').nth(3);
+    if (await dot.count()) { await dot.hover({ force: true }).catch(() => {}); await p.waitForTimeout(1800); }
+  }],
   // Phone: tab bar lens between tabs.
   'phone-tabs': [PHONE, '/', async (p) => { await p.waitForTimeout(1500); for (const t of ['Tokens', 'Copy', 'Wallets', 'Today']) { await p.getByRole('link', { name: t, exact: true }).last().click().catch(() => {}); await p.waitForTimeout(2200); } }],
   // Phone: numbered pager with the liquid lens.

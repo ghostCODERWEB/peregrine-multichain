@@ -21,6 +21,21 @@ const ALLOWED_HOSTS = [
   'discord.com',
   'hooks.slack.com', // Slack webhook format check for Smart Alert destinations: Nansen posts there; TIDE never calls it
   'invalid',         // RFC 2606 reserved TLD: cross-origin test fixtures that can never resolve
+  'test',            // RFC 2606 reserved TLD (images.test): logo resolver test fixtures, never fetched
+  'app.internal',    // cookie test fixture URL, never fetched
+  // Standards identifiers, never fetched.
+  'www.w3.org',      // the SVG namespace in the letter-badge logo
+  'schema.org',      // JSON-LD @context in the page head
+  // Outbound links a person clicks; never fetched by Peregrine.
+  'polymarket.com', 'app.hyperliquid.xyz', 'nsn.ai',
+  // Token and protocol logos: pictures only, never used for any number (README, Data sources).
+  'api.dexscreener.com', 'cdn.dexscreener.com', 'lite-api.jup.ag', 'api.coingecko.com', 'coin-images.coingecko.com',
+  'assets.coincap.io', 'financialmodelingprep.com', 'icons.llamao.fi', 'gateway.pinata.cloud',
+  // ENS name resolution for wallet search (README, Data sources).
+  'ethereum-rpc.publicnode.com', '1rpc.io', 'eth.merkle.io', 'api.ensideas.com',
+  // Hyperliquid's public info API: full fill history and candles in perps wallet research, next to Nansen's
+  // positions (README, Data sources).
+  'api.hyperliquid.xyz',
 ];
 
 // Requires an explicit http(s):// prefix. A bare `a.b.c` pattern (matching

@@ -163,7 +163,7 @@ def roc():
         for t in leg.get_texts():
             t.set_color(INK)
     frame(fig, 'Tested on a week the models never saw',
-          f'Trained on earlier weeks, tested on {bt["storm"]["test"]["anchor"]} · {bt["samples"]} token-weeks, {bt["tokens"]} tokens, Nansen point-in-time data',
+          f'Trained on earlier weeks, tested on a later week · {bt["samples"]} token-weeks, {bt["tokens"]} tokens, Nansen point-in-time data',
           'fixtures/backtest-results.json (scripts/backtest.ts)')
     save(fig, 'model-roc')
 

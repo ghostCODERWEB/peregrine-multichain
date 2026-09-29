@@ -9,7 +9,7 @@ It reads Nansen's labeled data, runs its own tested models on it, and shows ever
 
 ### [Submission release: `submission-2026-09-27`](https://github.com/ghostCODERWEB/peregrine-multichain/releases/tag/submission-2026-09-27)
 
-The exact code submitted to the **Nansen Meridian Buildathon** on 27 September 2026.
+The exact code submitted to the **Nansen Meridian Buildathon**.
 
 [![Submission release](https://img.shields.io/badge/submission-release%202026--09--27-00FFA7?style=flat-square&labelColor=0d1114)](https://github.com/ghostCODERWEB/peregrine-multichain/releases/tag/submission-2026-09-27)
 [![Live app](https://img.shields.io/badge/live-latest%20build-00FFA7?style=flat-square&labelColor=0d1114)](https://peregrine-submission.up.railway.app)
@@ -24,126 +24,71 @@ The exact code submitted to the **Nansen Meridian Buildathon** on 27 September 2
 
 <img src="docs/readme/numbers.png" alt="Peregrine in numbers: 16,903 Nansen API calls, 23,475 more served from cache, 82 Nansen endpoints, 38 chains, AUC 0.84, 45,329 Smart Money trades for Cascades, 684 tests, 35 pages" />
 
-<img src="docs/readme/gifs/overview-tour.gif" alt="The Overview: where Smart Money is moving across every chain, then Risk Radar and Market Pulse" />
-
-> **Every image and GIF in this README was captured on 29 September 2026 from the live build, running on the production database.** Nothing is mocked. The only edit is cutting the first page load from each GIF. [How they were made ↓](#how-this-readme-was-made)
-
 ## Contents
 
 1. [What it answers](#what-it-answers)
-2. [The features, most important first](#the-features-most-important-first)
-   1. [Overview: where money is moving](#1-overview-where-money-is-moving)
-   2. [Analyze with Nansen: ask about anything on screen](#2-analyze-with-nansen-ask-about-anything-on-screen)
-   3. [Token Score, Verdict and Token Checker](#3-token-score-verdict-and-token-checker)
-   4. [Alpha: the first Smart Money buys](#4-alpha-the-first-smart-money-buys)
-   5. [Copy Lab: who is worth following](#5-copy-lab-who-is-worth-following)
-   6. [Cascades: who moves Smart Money](#6-cascades-who-moves-smart-money)
-   7. [Perps: Hyperliquid, coin by coin](#7-perps-hyperliquid-coin-by-coin)
-   8. [Predictions: Polymarket through Nansen](#8-predictions-polymarket-through-nansen)
-   9. [Chain flows and chain pages](#9-chain-flows-and-chain-pages)
-   10. [Smart Money desk](#10-smart-money-desk)
-   11. [Wallet Profiler](#11-wallet-profiler)
-   12. [Sectors](#12-sectors)
-   13. [Research Desk](#13-research-desk)
-   14. [History and Time Machine](#14-history-and-time-machine)
-   15. [Proof and Coverage](#15-proof-and-coverage)
-   16. [The phone app](#16-the-phone-app)
-   17. [Share previews and SEO](#17-share-previews-and-seo)
-   18. [Built to hold up](#18-built-to-hold-up)
+2. [Six things Nansen doesn't have yet](#six-things-nansen-doesnt-have-yet)
+   1. [Copy Lab](#1-copy-lab)
+   2. [Ask about anything on screen](#2-ask-about-anything-on-screen)
+   3. [Cascades](#3-cascades)
+   4. [Flow Index](#4-flow-index)
+   5. [Token Verdict](#5-token-verdict)
+   6. [Section rail](#6-section-rail)
+3. [Upgrades to pages Nansen already has](#upgrades-to-pages-nansen-already-has)
+   7. [Holders and insider clusters](#7-holders-and-insider-clusters)
+   8. [Perps](#8-perps)
+   9. [Alpha](#9-alpha)
+   10. [Prediction markets](#10-prediction-markets)
+   11. [Sectors](#11-sectors)
+   12. [Chain pages](#12-chain-pages)
+   13. [Smart Money timeline](#13-smart-money-timeline)
+   14. [Profiler](#14-profiler)
+4. [And more](#and-more)
+   15. [Token Checker](#15-token-checker)
+   16. [Research Desk](#16-research-desk)
+   17. [History and Time Machine](#17-history-and-time-machine)
+   18. [Share previews and SEO](#18-share-previews-and-seo)
    19. [Everything else](#19-everything-else)
-3. [How the models work](#how-the-models-work)
-4. [Proof: real usage and tested models](#proof-real-usage-and-tested-models)
-5. [How much of the Nansen API Peregrine uses](#how-much-of-the-nansen-api-peregrine-uses)
-6. [Architecture](#architecture)
-7. [Project structure](#project-structure)
-8. [What changed since the submission](#what-changed-since-the-submission)
-9. [Data sources and limits](#data-sources-and-limits)
-10. [Run it yourself](#run-it-yourself)
-11. [How this README was made](#how-this-readme-was-made)
+5. [Project proof](#project-proof)
+   - [Proof page](#proof-page)
+   - [On the phone](#on-the-phone)
+   - [Under the hood](#under-the-hood)
+6. [How the models work](#how-the-models-work)
+7. [Proof: real usage and tested models](#proof-real-usage-and-tested-models)
+8. [How much of the Nansen API Peregrine uses](#how-much-of-the-nansen-api-peregrine-uses)
+9. [Architecture](#architecture)
+10. [Project structure](#project-structure)
+11. [What changed since the submission](#what-changed-since-the-submission)
+12. [Data sources and limits](#data-sources-and-limits)
+13. [Run it yourself](#run-it-yourself)
+14. [How this README was made](#how-this-readme-was-made)
 
 ## What it answers
 
 | Question | Where Peregrine answers it |
 |---|---|
-| **Where is money moving right now, and on which chain?** | **Overview** and **Chain flows**: net flow for every chain the Nansen API covers, and a 0–100 Flow Index against each chain's own history |
-| **What matters on this screen, and why?** | **Analyze with Nansen**: point at any chart, token or card and ask. The answer cites its numbers |
-| **Is this token about to dump?** | **Token Score and Verdict**: 50% Nansen risk indicators, 50% Peregrine's model, plus fitted 7-day dump and breakout odds |
-| **What is Smart Money buying first?** | **Alpha**: first Smart Money buys, sorted by net bought. One click opens the token, one more opens the wallet |
-| **Who is worth following?** | **Copy Lab**: the most profitable traders in spot, perps and prediction markets, ranked by a copy score |
+| **Who is worth following, and could I actually copy them?** | **Copy Lab**: spot, perp and prediction-market traders on one board, ranked by a copy score |
+| **What matters on this screen, and why?** | **Ask about anything on screen**: point at any chart, token or card and ask. The answer cites its numbers |
 | **Who moves Smart Money?** | **Cascades**: which labeled wallets enter tokens *before* other Smart Money, tested against chance |
-| **Where is the leverage?** | **Perps**: Hyperliquid open interest, funding, the Smart Money book and a liquidation radar per coin |
-| **What is the crowd betting on?** | **Predictions**: Polymarket categories running hot, repricings and the traders behind them |
+| **Where is money moving, chain by chain?** | **Flow Index**: every chain scored 0–100 against its own history, so a small chain and Ethereum sit side by side |
+| **Is this token about to dump?** | **Token Verdict**: 50% Nansen risk indicators, 50% Peregrine's model, one line of reasons, and 7-day dump and breakout odds |
+| **Who really holds it?** | **Holders and insider clusters**: the top holders in 3D, grouped by shared funder, relation or deployer |
+| **Where is the leverage?** | **Perps**: Hyperliquid open interest, funding, the Smart Money book, a liquidation radar and a pressure score per coin |
+| **What is Smart Money buying first?** | **Alpha**: first Smart Money buys, sorted by how much went in |
 | **What is the full story?** | **Research Desk**: a research plan that gathers numbered evidence and writes a cited report |
 | **Does any of this work?** | **Proof**: every Nansen call counted, and the models tested on a week they never saw |
 
-## The features, most important first
+## Six things Nansen doesn't have yet
 
-### 1. Overview: where money is moving
+These are the features Nansen doesn't offer today, in the order they matter most.
 
-<img src="docs/readme/shots/overview.jpg" alt="Overview: Buying Robinhood, selling BNB Chain, with the net flow map, top inflow and outflow, and Risk Radar" />
-
-The Overview opens with a one-line verdict ("Buying Robinhood. Selling BNB Chain.") from Smart Money net flow over 24 hours. Under it:
-
-- **Net flow map.** The chains that bought and sold the most, with the flow drawn from sellers to buyers.
-- **Flow Index cards.** Top inflow and top outflow, each with a 0–100 Flow Index and its recent history.
-- **Risk Radar.** Flags Smart Money buying into tokens that score 50 or more on the Token Score.
-- **Market Pulse.** The day's signals: Smart Money net flow, unusual activity, accumulation, the largest trade, perps and funding, next to a one-paragraph read from Nansen's agent.
-
-The view tabs switch the whole hero between **Chain flows, Perps, Predictions and Sectors**. When a layer's data is older than its refresh window, it loads the latest by itself and shows the last known board with its real age in the meantime. It never shows an empty "no data" state.
-
-<img src="docs/readme/shots/overview-predictions-layer.jpg" alt="Overview on the Predictions layer: Rugby is running hot, category heat gauges" />
-
-### 2. Analyze with Nansen: ask about anything on screen
-
-<img src="docs/readme/gifs/analyze-desktop.gif" alt="Analyze with Nansen on desktop: select two charts from the page, they land as chips, then type a question" />
-
-**⌘J** opens the Analyze panel on any page. **Select from page** highlights whatever is under the cursor: a chart, a token, a row, a wallet, a market or a card. Each click lands as a chip. The question then goes to Nansen's agent together with the numbers behind those chips, and the answer cites them. **Analyze this page** does the same for the whole screen.
-
-<table><tr>
-<td width="30%" valign="top"><img src="docs/readme/gifs/analyze-phone.gif" alt="Analyze on the phone: the panel grows out of the tab bar button" /></td>
-<td valign="top">
-
-**On the phone**, Ask grows out of the tab bar button (the "genie" animation) and folds back into it. It reads the page you are on and offers three starting questions built from what is on screen: *What matters most right now? Where is Smart Money rotating, and into what? What is the biggest risk on the board today?*
-
-</td>
-</tr></table>
-
-### 3. Token Score, Verdict and Token Checker
-
-<img src="docs/readme/shots/token-verdict.jpg" alt="Token page for Aerodrome: candles with Smart Money overlay, Token Score 26 of 100 with its inputs" />
-
-Every token page opens with its price (candles, line or area; 1H to 1Y; MA20, MA50 and a Smart Money overlay) and the **Token Score**: a 0–100 dump-risk score, **half Nansen's risk indicators and half Peregrine's model**, with every input shown. Concentration, cohort shear, exit liquidity, sell pressure, insider clusters and Nansen risk each have their own bar.
-
-The page goes on to cover:
-
-- **Verdict:** the level, both halves of the score, up to four reasons that each cite a number, and a one-sentence read from Nansen's agent.
-- **7-day odds** of a 50% dump and a 30% breakout, from two fitted models, each with its out-of-sample record.
-- **DEX activity and a quick read:** net flow, buy against sell volume, and who is on each side.
-- **Top buyers and sellers** over 7 days, on one shared USD scale.
-- **Insider clusters:** linked top holders as bubbles sized by share of supply, with the shared first funder at the centre.
-- **Make a call:** record a view on the token. It is graded at its horizon against Nansen candles, and the grade lands on the Desk.
-
-<img src="docs/readme/shots/token-insiders.jpg" alt="Insider clusters: 8 of the top 25 holders sit in insider clusters; fresh wallets against top PnL wallets" />
-
-<img src="docs/readme/gifs/token-checker.gif" alt="Token Checker: type aero, results appear across networks, open Aerodrome and its score resolves" />
-
-**Token Checker** searches by name, symbol or address across 25 networks, with results as you type. Wallets can be found by ENS name. Its home page ranks **Token Scores from the last 7 days**, split into the Nansen and Peregrine halves with every input as a heat cell. It also shows the score distribution and which risky tokens Smart Money is buying.
-
-<img src="docs/readme/shots/token-checker.jpg" alt="Token Checker: Token Scores for the last 7 days with each input, score distribution and Smart Money buying risk" />
-
-### 4. Alpha: the first Smart Money buys
-
-<img src="docs/readme/gifs/alpha-to-token.gif" alt="Alpha: early alpha buys, open a token, its Token Score resolves" />
-
-**Early alpha buys** are the tokens Smart Money started buying first. Each card shows Smart Money buyers, net bought, market cap, the largest buyer and the price change, and the list can be filtered by chain and buyer count. One click opens the token with its Verdict and Token Score; one more opens the wallet that bought it. Below the cards, a **market map** plots tokens by Smart Money flow against price, next to alpha scores and spot-against-perps divergences.
-
-<img src="docs/readme/shots/alpha.jpg" alt="Alpha: early alpha buy cards across chains" />
-
-### 5. Copy Lab: who is worth following
+### 1. Copy Lab
 
 <img src="docs/readme/gifs/copy-lab.gif" alt="Copy Lab: the board re-ranks for Perps, Predictions and Spot" />
 
-Copy Lab ranks the most profitable traders straight from Nansen, so it works on the first day without waiting for history to build up:
+A PnL leaderboard tells you who made money. It doesn't tell you whether you could have made that money by following them. Copy Lab answers that.
+
+It ranks **215 traders on one board**: Smart Money spot traders, Hyperliquid perp traders and Polymarket winners. Each one gets a **copy score from 0 to 100**. The score goes up when profit repeats across 7, 30 and 90 days, when it has actually been taken, and when it comes from many different tokens or markets. It goes down for one lucky trade, for bots trading more than 30 times a day, and for heavy leverage. **99 of the 215 score 65 or higher.** Every row also shows what the trader holds right now, so you can act on it.
 
 | Tab | Source | Ranked by |
 |---|---|---|
@@ -153,117 +98,218 @@ Copy Lab ranks the most profitable traders straight from Nansen, so it works on 
 | **Predictions** | Winners of the busiest Polymarket markets, then each one's lifetime record | Lifetime profit, win rate and markets traded |
 | **KOLs and cohorts** | Nansen cohort flows: Public Figures, Top PnL traders, Smart Traders, whales, fresh wallets | What each group is buying and selling in 24 hours |
 
-The **copy score** (0 to 100) rewards profit that repeats across windows, is realized rather than on paper, and comes from many tokens or markets. It marks down a single lucky trade, bots trading more than 30 times a day, and high leverage (`src/lib/models/copy-score.ts`). A second study, **If you see the trade late**, replays Smart Money buys against Nansen's 15-minute candles to show how much of the edge survives entering 15 minutes, 1 hour or 6 hours late.
+**If you see the trade late**, a study on the same page, replays Smart Money buys against Nansen's 15-minute candles. It shows how much of the edge is still there if you only notice the trade 15 minutes, an hour or six hours later. The model is in `src/lib/models/copy-score.ts`.
 
-<img src="docs/readme/shots/copy-lab.jpg" alt="Copy Lab: best to follow in every market, with copy scores" />
+> **What it adds to Nansen:** a copy score next to PnL on every leaderboard.
 
-### 6. Cascades: who moves Smart Money
+<img src="docs/readme/shots/copy-lab.jpg" alt="Copy Lab: 215 traders scored, best to follow in every market" />
+
+### 2. Ask about anything on screen
+
+<img src="docs/readme/gifs/analyze-desktop.gif" alt="Ask on desktop: select two charts from the page, they land as chips, then type a question" />
+
+Most AI chat means copying numbers into a text box. Here you just point.
+
+On desktop, press **⌘J** and use **Select from page**. It highlights whatever is under the cursor, whether a chart, a token, a row, a wallet, a market or a card, and each click turns it into a chip in your question. The question goes to Nansen's agent API along with the numbers behind those chips, and the answer quotes the exact numbers it used. **Analyze this page** does the same for the whole screen.
+
+<table><tr>
+<td width="30%" valign="top"><img src="docs/readme/gifs/analyze-phone.gif" alt="Ask on the phone: the panel grows out of the tab bar button" /></td>
+<td valign="top">
+
+**On the phone**, Ask grows out of the tab bar (the "genie" animation) and already knows which page you are looking at. It offers three starting questions built from what is on screen: *What matters most right now? Where is Smart Money rotating, and into what? What is the biggest risk on the board today?*
+
+</td>
+</tr></table>
+
+> **What it adds to Nansen:** Nansen AI that can see the screen you are on.
+
+### 3. Cascades
 
 <img src="docs/readme/gifs/cascades.gif" alt="Cascades: the leadership map, the evidence panel and the cascade replay" />
 
-**The question:** which labeled Smart Money wallets consistently buy tokens *before* other Smart Money wallets, and who follows whom?
+Smart Money labels treat every wallet the same. But some wallets keep buying first, and others keep following them. Cascades finds the leaders, then checks whether the pattern is real or just luck.
 
-- **Leadership map.** Places each wallet by its average entry rank.
-- **Evidence panel.** Shows a wallet's episodes, how often it was first, and its typical lead.
-- **Replay.** Drops one token's Smart Money buyers onto a timeline in the order they entered.
+For each token, Peregrine takes every Smart Money wallet's first buy within a 72-hour window as one **episode**. Each wallet's average position in the queue is then tested against random order. On the live site:
 
-**The live result on 29 September 2026:**
 - 13,016 Smart Money buys form **340 episodes**, and **473 wallets** have enough episodes to test.
-- 19 wallets enter first at p < 0.05, but **none survives the 10% false-discovery correction**.
-- **17 consistent followers** and **16 "enters before" links**.
+- **19 wallets** come in first more often than chance would explain.
+- Once the test corrects for checking hundreds of wallets at once, **none of them survive**, and the page says so plainly. An honest empty result beats a list that is always full.
+- **17 wallets** consistently arrive late.
+- In **16 pairs**, one wallet reliably buys before the other.
 
-The page says this plainly: a strict test that can come back empty is the point. [How it works ↓](#smart-money-cascades)
+The **leadership map** places each wallet by its average entry rank. The **evidence panel** shows its episodes, how often it came first and its typical lead. The **replay** shows who came in first, second and third on any token, and how many hours ahead they were. [How the test works ↓](#smart-money-cascades)
+
+> **What it adds to Nansen:** a badge for wallets that lead Smart Money, and an alert when one of them buys.
 
 <img src="docs/readme/shots/cascades.jpg" alt="Cascades: 340 episodes, 473 wallets tested, leadership map and evidence" />
 
-### 7. Perps: Hyperliquid, coin by coin
+### 4. Flow Index
+
+<img src="docs/readme/shots/overview.jpg" alt="Overview: Buying Robinhood, selling BNB Chain, with the net flow map, Flow Index cards and Risk Radar" />
+
+$10M of Smart Money inflow means nothing on Ethereum and a lot on a small chain. So instead of comparing chains with each other, the **Flow Index compares each chain with its own history**.
+
+- **The scale.** Every chain gets a number from 0 to 100. Above 65 means Smart Money is accumulating more than usual; below 35 means it is leaving.
+- **The inputs.** Smart Money net flow and volume, scored against the chain's own recent past, so one big whale can't throw it off.
+- **One screen.** All 38 chains fit on one screen, and the Overview sums them up in one sentence: "Buying Robinhood. Selling BNB Chain."
+- **Forecasts.** Peregrine also forecasts each chain's next reading. The median error on the live Proof page is 7.0%.
+
+The **Overview** shows:
+- the net flow map, drawn from sellers to buyers;
+- Flow Index cards for the top inflow and outflow;
+- **Risk Radar**, which flags Smart Money buying into tokens with a Token Score of 50 or more;
+- **Market Pulse**, the day's signals next to a one-paragraph read from Nansen's agent.
+
+Its view tabs switch the whole hero between chain flows, perps, predictions and sectors. When a layer's data is older than its refresh window, it loads the latest by itself and shows the last known board, with its real age, while it waits.
+
+<img src="docs/readme/gifs/overview-tour.gif" alt="The Overview: the net flow map, Flow Index cards, Risk Radar and Market Pulse" />
+
+**Chain flows** puts every chain side by side:
+- DEX volume, buy/sell imbalance, Smart Money DEX net, the top Smart Money buy and sell, and the fastest-growing chain;
+- net flow by chain;
+- Flow Index history and the biggest 6-hour moves;
+- **rotations**: capital moving chain to chain through the same wallets within 12 hours.
+
+<img src="docs/readme/shots/chain-flows.jpg" alt="Chain flows: net flow by chain, Flow Index history and the chain flow pulse" />
+
+> **What it adds to Nansen:** Nansen already shows Smart Money flows by chain. This scores that flow against each chain's own history, so a small chain and Ethereum can sit side by side.
+
+### 5. Token Verdict
+
+<img src="docs/readme/shots/token-verdict.jpg" alt="Token page for Aerodrome: candles with Smart Money overlay, Token Score 26 of 100 with its inputs" />
+
+Every token gets a **Token Score from 0 to 100**:
+- **Half from Nansen's own risk indicators.**
+- **Half from Peregrine's model:** holder concentration, linked insider wallets, exit liquidity, sell pressure and cohort shear, each with its own bar.
+
+On top sits a **one-line verdict with up to four reasons, each backed by a number**, and a one-sentence read from Nansen's agent. Next to it are **7-day odds of a 50% dump and a 30% breakout** from two fitted models. On a week they never saw, both scored an **AUC of 0.84** ([proof ↓](#proof-real-usage-and-tested-models)).
+
+The rest of the token page covers:
+- price, as candles, line or area from 1H to 1Y, with MA20, MA50 and a Smart Money overlay;
+- DEX activity and a quick read;
+- the top buyers and sellers over 7 days;
+- **Make a call**: record a view that is graded at its horizon against Nansen candles.
+
+> **What it adds to Nansen:** Nansen already has risk indicators and a distribution score. This turns them into one sentence, with dump and breakout odds, at the top of every token page.
+
+### 6. Section rail
+
+<img src="docs/readme/gifs/section-rail.gif" alt="Section rail: sweep down the rail, each section's label shows, click to jump" />
+
+Every page has a thin rail on the right. Hover or drag along it and a label shows which section you will land on and how far down it is ("4/9"); click or let go to jump there. Long pages never feel long. On the phone, the rail is a wider grab strip you drag with your thumb.
+
+> **What it adds to Nansen:** a rail like this on long dashboards.
+
+## Upgrades to pages Nansen already has
+
+Nansen already has pages for most of these. Each one here is an upgrade.
+
+### 7. Holders and insider clusters
+
+<img src="docs/readme/gifs/holders-3d.gif" alt="Holders in 3D: drag to rotate the constellation, hover a wallet to isolate its links" />
+
+The top holders float in 3D, and you can drag them around. Wallets that share a first funder, a relation or a deployer are grouped into **insider clusters**, each labeled with the share of supply it holds ("8 of the top 25 holders sit in insider clusters"). Hover a wallet to isolate its links. Next to it: what fresh wallets are buying against the top PnL wallets.
+
+<img src="docs/readme/shots/token-insiders.jpg" alt="Insider clusters: 8 of the top 25 holders sit in insider clusters" />
+
+### 8. Perps
 
 <img src="docs/readme/shots/perps.jpg" alt="Perps: perps pulse, crowding map and every coin scored" />
 
-Hyperliquid through Nansen. The page shows:
+Hyperliquid through Nansen:
+- open interest and funding;
+- the Smart Money book;
+- a **crowding map** of funding against Smart Money's long/short skew, which rings the coins where the crowd and Smart Money disagree;
+- a **Perp Flow Index for every coin**, a pressure score built the same way as the chains' Flow Index.
 
-- **Perps pulse** and the market's one-line read ("Perps are balanced…").
-- A **crowding map** of yearly funding against the Smart Money long/short skew. It flags coins where the crowd and Smart Money disagree.
-- **Every coin scored** with a 0–100 Perp Flow Index, filterable by bias.
-- Open interest history, and the biggest open interest movers.
-- **Price movers, funding extremes and the Smart Money book by coin.** Every coin, paged together so the three cards stay level on every page.
+Price movers, funding extremes and the Smart Money book by coin page together, so the three cards stay level on every page:
 
 <img src="docs/readme/gifs/perps-pager.gif" alt="Perps: price movers, funding extremes and the Smart Money book page together, with the liquid page bubble" />
 
 Each coin has its own terminal:
-
-- **Market brief:** statements derived from observed positions. Select any statement to see its records.
-- **Positioning history:** Smart Money long and short, and the whole book's long share, snapshot by snapshot. Select a point to replay it.
-- **Liquidation Cascade Radar:** where the book's liquidations stack up, filterable to Smart Money only.
-- **Holders, the crowd against Smart Money, and funding.**
+- a **market brief** of statements derived from observed positions;
+- **positioning history** you can replay snapshot by snapshot;
+- a **Liquidation Cascade Radar** you can filter to Smart Money only;
+- holders, the crowd against Smart Money, and funding.
 
 <img src="docs/readme/gifs/perps-coin.gif" alt="BTC perp terminal: market brief, positioning history and the liquidation radar" />
 
-<img src="docs/readme/shots/perps-coin.jpg" alt="BTC perp terminal" />
+<img src="docs/readme/shots/perps-coin.jpg" alt="BTC perp terminal: market brief and positioning history" />
 
-### 8. Predictions: Polymarket through Nansen
+> **What it adds to Nansen:** a pressure score per coin, and an alert when Smart Money buys spot but shorts the same coin on perps (Peregrine already flags these spot-against-perps divergences).
 
-<img src="docs/readme/shots/predictions.jpg" alt="Predictions: Tennis is trading at 6.3x a normal day, heat gauge, prediction pulse" />
+### 9. Alpha
 
-Each Polymarket category's activity is measured against its own weekly pace: "Tennis is trading at 6.3× a normal day", with a 0–100 heat gauge. The page then shows:
+<img src="docs/readme/gifs/alpha-to-token.gif" alt="Alpha: early alpha buys, open a token, its Token Score resolves" />
 
-- The biggest repricings and the largest trades.
-- Trending markets.
-- Category pages.
-- A full page per market: price history, order book, top holders valued at today's price, and whether skilled money agrees with the price.
+The first tokens Smart Money has started buying, sorted by how much went in. Each card shows the Smart Money buyers, net bought, market cap, the largest buyer and the price change. You can filter by chain and by buyer count. One click opens the token and its verdict; one more opens the wallet that bought it. Below the cards: a **market map** of Smart Money flow against price, alpha scores, and spot-against-perps divergences.
 
-### 9. Chain flows and chain pages
+<img src="docs/readme/shots/alpha.jpg" alt="Alpha: early alpha buy cards across chains" />
 
-<img src="docs/readme/shots/chain-flows.jpg" alt="Chain flows: DEX volume, buy and sell imbalance, chain flow pulse, net flow by chain and Flow Index" />
+### 10. Prediction markets
 
-**Chain flows** covers every chain the Nansen API supports:
+<img src="docs/readme/shots/predictions.jpg" alt="Predictions: a category trading at several times its normal day, heat gauge, prediction pulse" />
 
-- **Summary strip:** DEX volume, buy/sell imbalance, Smart Money DEX net, the top Smart Money buy and sell, and the fastest-growing chain.
-- **Chain flow pulse.**
-- **Net flow by chain.**
-- **Flow Index history**, and the biggest Flow Index moves over 6 hours.
-- **Rotations:** capital moving chain to chain through the same wallets within 12 hours.
+Polymarket through Nansen, sorted by what is moving. Each category is measured against its own weekly pace ("Tennis is trading at 6.3× a normal day"), with a 0–100 heat gauge, the biggest repricings, the largest trades and trending markets.
 
-<img src="docs/readme/shots/chain.jpg" alt="Solana chain page: Flow Index 26, distribution, and a heatmap of the most-traded tokens" />
+Every market gets a full page:
+- price history and the order book;
+- top holders valued at today's price;
+- whether skilled money agrees with the price.
 
-Every chain has its own page. It shows:
+The best prediction traders also show up in Copy Lab. The Overview has a Predictions view too:
 
-- The chain's **Flow Index** and a plain reading ("distribution: smart money net selling").
-- A flow gauge with 1h and 7d readings, and a 24h projection.
-- Where the chain ranks among 24 chains by DEX volume, active addresses and transactions.
-- A heatmap of its most-traded tokens.
-- Token flows beside a sector treemap, sized to end level with each other.
+<img src="docs/readme/shots/overview-predictions-layer.jpg" alt="Overview on the Predictions view: the category running hottest, with heat gauges" />
 
-### 10. Smart Money desk
-
-<img src="docs/readme/shots/smart-money.jpg" alt="Smart Money desk: timeline of Smart Money trades, hourly DEX flow" />
-
-The page covers:
-
-- **What Smart Money holds and trades:** a live timeline of spot and perp trades, and hourly DEX flow.
-- **Conviction and crowded exits.**
-- The **PnL leaderboard**, perp tilt and Jupiter DCAs.
-- A **wallet network** that groups wallets by the positions they share across markets.
-
-### 11. Wallet Profiler
-
-<img src="docs/readme/shots/profiler.jpg" alt="Wallet Profiler: trader score, spot/perps/predictions, quick read, allocation and chains" />
-
-Profile any wallet or ENS name. The page shows:
-
-- A **trader score** for spot, Hyperliquid perps and Polymarket, each with its own record.
-- A quick read of what the wallet does, plus net worth, concentration and realized PnL.
-- An allocation treemap, holdings by chain, holdings, PnL attribution, counterparties and the first funder.
-- **Time Machine**, and the wallet's role in Cascades.
-- Wallets can be compared side by side and saved to a watchlist.
-
-### 12. Sectors
+### 11. Sectors
 
 <img src="docs/readme/shots/sectors.jpg" alt="Sectors: top inflow and outflow sectors, sector pulse, net flow by sector over 2 days" />
 
-The page shows which token sectors capital is moving into across chains: DeFi, AI, memecoins, RWAs and more. It includes a sector pulse, net flow by sector over 24 hours and over 2 days, and a page per sector with the tokens driving it.
+Which themes Smart Money is moving into and out of (DeFi, AI, memecoins, RWAs and more), and how that changed over the week. There is a sector pulse, net flow by sector over 24 hours and over 2 days, and a page per sector with the tokens driving it.
 
-### 13. Research Desk
+### 12. Chain pages
+
+<img src="docs/readme/shots/chain.jpg" alt="Solana chain page: Flow Index, distribution, and a heatmap of the most-traded tokens" />
+
+A page for every chain:
+- its **Flow Index** and a plain reading ("distribution: smart money net selling");
+- a flow gauge with 1h and 7d readings, and a 24h projection;
+- where it ranks among 24 chains by DEX volume, active addresses and transactions;
+- a **heatmap of its busiest tokens**;
+- token flows beside a sector map.
+
+### 13. Smart Money timeline
+
+<img src="docs/readme/shots/smart-money.jpg" alt="Smart Money: timeline of the day's Smart Money trades, hourly DEX flow" />
+
+Every large Smart Money move of the day in one feed, spot and perps together, with hourly DEX flow underneath. The same page covers:
+- conviction and crowded exits;
+- the PnL leaderboard, perp tilt and Jupiter DCAs;
+- a **wallet network** that groups wallets by the positions they share across markets.
+
+### 14. Profiler
+
+<img src="docs/readme/shots/profiler.jpg" alt="Profiler: trader score, spot/perps/predictions, quick read, allocation and chains" />
+
+Open any wallet or ENS name to get:
+- **one trader score across spot, perps and prediction markets**, each with its own record;
+- holdings, an allocation treemap and PnL attribution;
+- counterparties and **who funded it first**;
+- a Time Machine view, and the wallet's role in Cascades.
+
+Wallets can be compared side by side and saved to a watchlist.
+
+## And more
+
+### 15. Token Checker
+
+<img src="docs/readme/gifs/token-checker.gif" alt="Token Checker: type aero, results appear across networks, open Aerodrome and its score resolves" />
+
+Search by name, symbol or address across **25 networks**, with results as you type. Wallets can be found by ENS name. The home page ranks the **Token Scores of the last 7 days**, split into the Nansen and Peregrine halves with every input as a heat cell, next to the score distribution and the risky tokens Smart Money is buying.
+
+<img src="docs/readme/shots/token-checker.jpg" alt="Token Checker: Token Scores for the last 7 days with each input, score distribution and Smart Money buying risk" />
+
+### 16. Research Desk
 
 <img src="docs/readme/shots/research-desk.jpg" alt="Ask: Research Desk with four modes and saved reports" />
 
@@ -274,68 +320,24 @@ Everything Peregrine knows about a token or wallet, gathered into one cited repo
 - **A cited report:** verdict, reasons and what to watch. Tap a citation to highlight its evidence. Saved reports can be reopened.
 - **Nansen Expert:** a second tab that asks Nansen's expert agent directly.
 
-### 14. History and Time Machine
+### 17. History and Time Machine
 
 <img src="docs/readme/shots/history.jpg" alt="History: BTC and ETH Smart Money positioning, Flow Index for the chains that moved most, largest moves" />
 
-**History** compares now with 24 hours and 7 days ago, from Peregrine's stored snapshots:
+**History** compares the market now with 24 hours and 7 days ago, from Peregrine's stored snapshots. It shows Smart Money perp positioning on BTC and ETH, the Flow Index for the chains that moved most, and the largest Flow Index moves and sector swings.
 
-- Smart Money perp positioning on BTC and ETH.
-- The Flow Index for the chains that moved most.
-- The largest Flow Index moves and sector net-flow swings.
+**Time Machine** replays a token from a past moment: make a call with the outcome hidden, then reveal what happened.
 
-**Time Machine** replays a token from a past moment. You make a call with the outcome hidden, then reveal what happened.
-
-### 15. Proof and Coverage
-
-<img src="docs/readme/shots/proof.jpg" alt="Proof: 7,903 Nansen API calls during the buildathon, models tested on a week they never saw" />
-
-**Proof** counts every Nansen call made during the buildathon, and tests the models on a week they never saw ([numbers below](#proof-real-usage-and-tested-models)). **Coverage** shows which Nansen data sets serve each of the 38 chains, what each view is built from, and live API usage.
-
-<img src="docs/readme/shots/coverage.jpg" alt="Coverage: 38 chains, which Nansen data sets serve each one" />
-
-### 16. The phone app
-
-The phone version is its own app, not a shrunk desktop.
-
-<table><tr>
-<td width="33%" valign="top"><img src="docs/readme/gifs/phone-tabs.gif" alt="Liquid Glass tab bar: the lens glides between Today, Tokens, Copy and Wallets" /><br/><sub><b>Liquid Glass tab bar.</b> Today, Tokens, Copy and Wallets, plus Ask and Search. A glass lens glides to the active tab.</sub></td>
-<td width="33%" valign="top"><img src="docs/readme/gifs/phone-pager.gif" alt="Numbered pages with the liquid bubble on the phone" /><br/><sub><b>Numbered pages.</b> Long lists page in tens, with the same liquid bubble as the tab bar, and the bar stays under your finger.</sub></td>
-<td width="33%" valign="top"><img src="docs/readme/gifs/phone-scroll.gif" alt="Scrolling with the collapsing title and the section rail" /><br/><sub><b>Scrolling.</b> Large titles collapse, the tab bar shrinks, and a section rail on the right jumps between sections.</sub></td>
-</tr></table>
-
-<table><tr>
-<td><img src="docs/readme/shots/phone-today.jpg" alt="Today" /><br/><sub>Today</sub></td>
-<td><img src="docs/readme/shots/phone-tokens.jpg" alt="Tokens" /><br/><sub>Tokens</sub></td>
-<td><img src="docs/readme/shots/phone-token.jpg" alt="Token page" /><br/><sub>Token</sub></td>
-<td><img src="docs/readme/shots/phone-wallet.jpg" alt="Wallet" /><br/><sub>Wallet</sub></td>
-</tr><tr>
-<td><img src="docs/readme/shots/phone-copy.jpg" alt="Copy Lab" /><br/><sub>Copy Lab</sub></td>
-<td><img src="docs/readme/shots/phone-perps.jpg" alt="Perps" /><br/><sub>Perps</sub></td>
-<td><img src="docs/readme/shots/phone-predict.jpg" alt="Predictions" /><br/><sub>Predictions</sub></td>
-<td></td>
-</tr></table>
-
-### 17. Share previews and SEO
+### 18. Share previews and SEO
 
 <img src="docs/readme/share-cards.jpg" alt="Share cards for Overview, Perps, Chain flows, a token, Predictions and Cascades" />
 
-Every section has its own **share card** (22 of them). Each is written from the page's own data at the moment of sharing: "Buying Base. Selling Near.", "AERO on Base: Low risk, 26 of 100", "Tennis is trading at 6.4× a normal day". They render at 1200×630 in the app's typeface.
+Every section has its own **share card**, 22 in all. Each one is written from the page's own data at the moment of sharing ("Buying Base. Selling Near.", "AERO on Base: Low risk, 26 of 100") and rendered at 1200×630 in the app's typeface.
 
-Every page has full metadata, a canonical URL and structured data. The sitemap is built from what is stored today (about 190 URLs across chains, sectors, perps, markets and tokens), next to a robots file and a web app manifest.
-
-### 18. Built to hold up
-
-Details that don't make a screenshot but show on every visit:
-
-- **No blank waits.** Nansen answers are cached per endpoint. A recently expired answer is served at once and refreshed in the background (stale-while-revalidate, up to 24 hours), so a page never goes empty while it reloads.
-- **One failing section never blanks the page.** Every card has its own error boundary, which retries once by itself and then offers *Try again*; the rest of the page stays. The Overview ignores a malformed refresh and keeps the last good data. The page-level *Retry* refetches from the server instead of re-rendering the same data.
-- **Live changes ease in.** A figure that updates fades from soft to sharp, and new rows settle in, instead of snapping.
-- **Controls stay under the finger.** Pressing a pager, a date range or a filter never moves the page, even when a shorter page makes the document shorter near its end.
-- **Long lists page themselves.** 15 rows per desktop page and 10 per phone page, with a rows-per-page choice. Later rows render only when used, which keeps pages light.
-- **Keyboard and screen readers.** Every clickable row opens with Enter or Space, focus stays on the pager through a page change, and charts carry text labels.
-- **Stale builds heal.** A tab opened before a redeploy reloads once for the new build instead of breaking.
-- **Locked down in public.** Security headers on every response (strict CSP, HSTS, no framing). On the public site, the API answers only this site's own pages, visitors are rate-limited, and owner-only tools (keys, MCP, x402, trading, the paid expert agent) are switched off. A per-visitor daily credit cap applies.
+Every page also has:
+- full metadata, a canonical URL and structured data;
+- a place in the sitemap, which is built from what is stored now: about 190 URLs across chains, sectors, perps, markets and tokens;
+- a robots file and a web app manifest alongside.
 
 ### 19. Everything else
 
@@ -351,6 +353,62 @@ Details that don't make a screenshot but show on every visit:
 | **Trade** | Nansen trading-API quotes for spot and Hyperliquid, off by default and never run by the test suite |
 | **Guided tour** | Five steps for first-time visitors, one tap each |
 | **Light theme** | The whole app in a paper theme, with its own chart palette |
+
+## Project proof
+
+Peregrine is more than its features: the build itself is transparent, tested and complete.
+
+### Proof page
+
+<img src="docs/readme/shots/proof.jpg" alt="Proof: every Nansen call counted, models tested on a week they never saw" />
+
+Every Nansen call Peregrine made during the buildathon is logged on the Proof page. It used **74 of the 80 documented endpoints**. The model tests are there too, including their weak spots ([numbers ↓](#proof-real-usage-and-tested-models)). **Coverage** shows which Nansen data sets serve each of the 38 chains, and what each view is built from.
+
+<img src="docs/readme/shots/coverage.jpg" alt="Coverage: 38 chains, which Nansen data sets serve each one" />
+
+### On the phone
+
+The phone version is its own app, not a squeezed desktop. It has:
+- a glass tab bar and large titles;
+- swipeable cards and numbered pages;
+- a section rail you drag to jump anywhere on the page.
+
+<table><tr>
+<td width="33%" valign="top"><img src="docs/readme/gifs/phone-tabs.gif" alt="Liquid Glass tab bar: the lens glides between Today, Tokens, Copy and Wallets" /><br/><sub><b>Liquid Glass tab bar.</b> Today, Tokens, Copy and Wallets, plus Ask and Search. A glass lens glides to the active tab.</sub></td>
+<td width="33%" valign="top"><img src="docs/readme/gifs/phone-pager.gif" alt="Numbered pages with the liquid bubble on the phone" /><br/><sub><b>Numbered pages.</b> Long lists page in tens, with the same liquid bubble as the tab bar, and the bar stays under your finger.</sub></td>
+<td width="33%" valign="top"><img src="docs/readme/gifs/phone-scroll.gif" alt="Scrolling with the collapsing title and the section rail" /><br/><sub><b>Scrolling.</b> Large titles collapse, the tab bar shrinks, and the section rail jumps between sections.</sub></td>
+</tr></table>
+
+<table><tr>
+<td><img src="docs/readme/shots/phone-today.jpg" alt="Today" /><br/><sub>Today</sub></td>
+<td><img src="docs/readme/shots/phone-tokens.jpg" alt="Tokens" /><br/><sub>Tokens</sub></td>
+<td><img src="docs/readme/shots/phone-token.jpg" alt="Token page" /><br/><sub>Token</sub></td>
+<td><img src="docs/readme/shots/phone-wallet.jpg" alt="Wallet" /><br/><sub>Wallet</sub></td>
+</tr><tr>
+<td><img src="docs/readme/shots/phone-copy.jpg" alt="Copy Lab" /><br/><sub>Copy Lab</sub></td>
+<td><img src="docs/readme/shots/phone-perps.jpg" alt="Perps" /><br/><sub>Perps</sub></td>
+<td><img src="docs/readme/shots/phone-predict.jpg" alt="Predictions" /><br/><sub>Predictions</sub></td>
+<td></td>
+</tr></table>
+
+### Under the hood
+
+A background worker reads Nansen every 30 minutes and stores what it finds, so most page views cost no credits: **23,475 requests** have been answered from that cache. The app is built with Next.js and SQLite, and **684 unit and integration tests** and **77 end-to-end tests** pass.
+
+Details that don't make a screenshot but show on every visit:
+
+- **No blank waits.** Nansen answers are cached per endpoint. A recently expired answer is served at once and refreshed in the background (stale-while-revalidate, up to 24 hours), so a page never goes empty while it reloads.
+- **One failing section never blanks the page.** Every card has its own error boundary. It retries once by itself, then offers *Try again*, while the rest of the page stays up. The Overview ignores a malformed refresh and keeps the last good data. The page-level *Retry* refetches from the server instead of re-rendering the same data.
+- **Live changes ease in.** A figure that updates fades from soft to sharp, and new rows settle in instead of snapping.
+- **Controls stay under the finger.** Pressing a pager, a date range or a filter never moves the page, even when a shorter page makes the document shorter near its end.
+- **Long lists page themselves.** 15 rows per page on desktop and 10 on the phone, with a rows-per-page choice. Later rows render only when used.
+- **Keyboard and screen readers.** Every clickable row opens with Enter or Space, focus stays on the pager through a page change, and charts carry text labels.
+- **Stale builds heal.** A tab opened before a redeploy reloads once for the new build instead of breaking.
+- **Locked down in public.** Every response carries security headers (strict CSP, HSTS, no framing). On the public site:
+  - the API answers only this site's own pages;
+  - visitors are rate-limited;
+  - owner-only tools (keys, MCP, x402, trading, the paid expert agent) are switched off;
+  - a per-visitor daily credit cap applies.
 
 ## How the models work
 
@@ -436,8 +494,8 @@ All of them are pure functions with unit tests in `src/lib/models/`:
 
 <img src="docs/readme/calls-per-day.png" alt="16,903 Nansen API calls in eight days" />
 
-- **16,903 Nansen API calls from 22 to 29 September 2026:**
-  - 7,903 in the Proof page's buildathon ledger (22–26 September, `fixtures/proof-ledger.json`).
+- **16,903 Nansen API calls:**
+  - 7,903 in the Proof page's buildathon ledger (`fixtures/proof-ledger.json`).
   - 9,000 in the live database after that window.
 - **23,475 more requests were answered from the cache.** A background worker scans Nansen every 30 minutes and stores what it reads, so a page view costs no credits. **58%** of all data requests were free.
 
@@ -450,10 +508,10 @@ All of them are pure functions with unit tests in `src/lib/models/`:
 | Dump odds (fitted model) | ≥ 50% drawdown within 7 days | **AUC 0.84** (Token Score's hand-set weights: 0.71) | `fixtures/backtest-results.json` |
 | Breakout odds (fitted model) | ≥ 30% run-up within 7 days | **AUC 0.84** (hand-set weights: 0.78) | `fixtures/backtest-results.json` |
 | Volatility cone | price inside the 80% band after 1 day | **83%** of 754 token-days (target 80%) | `fixtures/backtest-results.json` |
-| Flow projections | next Flow Index reading per chain | **7.0%** median error, 27 chains | live, [Proof page](https://peregrine-submission.up.railway.app/proof), 29 Sep 2026 |
+| Flow projections | next Flow Index reading per chain | **7.0%** median error, 27 chains | live, [Proof page](https://peregrine-submission.up.railway.app/proof) |
 
 **How the models were tested:**
-- **Training and test data.** Trained on three earlier weeks (576 token-weeks) and tested on the week of 8 September 2026 (178 token-weeks), which they never saw, using Nansen point-in-time data.
+- **Training and test data.** Trained on three earlier weeks (576 token-weeks) and tested on a later week (178 token-weeks) that they never saw, using Nansen point-in-time data.
 - **Small dump sample.** The dump test has only 8 events, so its AUC interval runs from 0.67 to 1.00. The Proof page says so too.
 
 ## How much of the Nansen API Peregrine uses
@@ -634,7 +692,7 @@ flowchart LR
 
 ## Project structure
 
-The numbers below were counted from the repository on 29 September 2026:
+The numbers below were counted from the repository:
 - **632 files in `src`**: 35 pages, 56 API routes, 22 share-card routes, 181 components, and about 59,000 lines of TypeScript.
 - **103 unit and integration test files** with 684 tests.
 - **19 end-to-end specs.**
@@ -754,7 +812,7 @@ The submitted code is the [`submission-2026-09-27` release](https://github.com/g
   - Hyperliquid's public info API, used in perps wallet research for full fill history and candles, next to Nansen's positions.
 
   `pnpm assert-nansen-only` lists every such host.
-- **Call counts:** the 16,903 figure is the Proof page ledger (22–26 September) plus the live database after that window (to 29 September). The two don't overlap.
+- **Call counts:** the 16,903 figure is the Proof page ledger (the buildathon window) plus the live database after that window. The two don't overlap.
 - **Model limits:** the dump test has 8 events. Cascades links are not corrected for multiple testing. Labels change over time.
 
 ## Run it yourself
@@ -776,7 +834,7 @@ pnpm verify                       # Nansen-only check, types, tests and a produc
 ## How this README was made
 
 - **Screenshots and GIFs:** `scripts/readme-assets/capture.mjs` drives a real browser through the live build: desktop at 1440×900, phone as an iPhone 14 Pro. It saves stills and records each interaction. `scripts/readme-assets/clip-to-gif.sh` turns a recording into a GIF. The only edit is cutting the first page load.
-- **Numbers** come from the live database and this repository on 29 September 2026. The buildathon charts in `docs/readme/charts/` are redrawn from `docs/readme/data/` by `scripts/readme-assets/charts.py`.
+- **Numbers** come from the live database and this repository. The buildathon charts in `docs/readme/charts/` are redrawn from `docs/readme/data/` by `scripts/readme-assets/charts.py`.
 
 ```bash
 BASE=https://peregrine-submission.up.railway.app node scripts/readme-assets/capture.mjs shots   # stills

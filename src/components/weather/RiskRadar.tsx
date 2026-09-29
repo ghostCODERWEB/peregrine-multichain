@@ -4,8 +4,8 @@ import { TokenLogo } from '@/components/Logo';
 import { tokenChecker } from '@/server/token/checker';
 import { chainName, usd } from '@/lib/viz/format';
 import type { DisplayMode } from '@/server/mode';
+import { siteUrl } from '@/server/seo';
 
-const SITE = (process.env.SITE_URL || 'https://peregrine-nansen.up.railway.app').replace(/\/+$/, '');
 const band = (s: number) => (s >= 55 ? { word: 'Danger', color: 'var(--flare)' } : { word: 'Watch', color: 'var(--amber)' });
 
 /** Risk Radar: Smart Money net buying, in the last 24h, into tokens whose Token Score reads 50 or more.
@@ -26,7 +26,7 @@ export function RiskRadar({ mode }: { mode: DisplayMode }) {
           {rows.map((r) => {
             const b = band(r.score);
             const href = `/token/${r.chain}/${encodeURIComponent(r.address)}`;
-            const share = `https://x.com/intent/post?text=${encodeURIComponent(`Smart Money bought ${usd(r.net)} of $${r.symbol} on ${chainName(r.chain)} in 24h, while its Token Score reads ${Math.round(r.score)}/100 (${b.word}). Flagged by Peregrine on @nansen_ai data.`)}&url=${encodeURIComponent(`${SITE}${href}`)}`;
+            const share = `https://x.com/intent/post?text=${encodeURIComponent(`Smart Money bought ${usd(r.net)} of $${r.symbol} on ${chainName(r.chain)} in 24h, while its Token Score reads ${Math.round(r.score)}/100 (${b.word}). Flagged by Peregrine on @nansen_ai data.`)}&url=${encodeURIComponent(`${siteUrl()}${href}`)}`;
             return (
               <li key={`${r.chain}:${r.address}`} className="inset-well flex items-center gap-3 rounded-[14px] p-3">
                 <TokenLogo symbol={r.symbol} chain={r.chain} address={r.address} size={30} />
